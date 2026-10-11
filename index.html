@@ -75,15 +75,15 @@
   .box.day.on { background: var(--sel-bg); }
   .box.day a { text-decoration: none; }
   .pmeta { font-size: 15px; color: var(--muted); margin: 0 0 4px; }
-  .found { display: flex; justify-content: space-between; align-items: baseline; margin: 6px 4px 0; }
-  .found b { font-size: 20px; }
-  .found span { color: var(--muted); font-size: 15px; }
   html.phone .fazit-box { width: 100%; }
   /* Wetter auf dem iPhone 40 px breit, damit alle sieben ohne Wischen nebeneinander passen (bewusste Abweichung) */
   html.phone #wx button { width: 40px; min-width: 40px; }
 
   .qrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
   .dlg-body.preview { margin: 0; padding: 24px; background: #fff; color: #000; color-scheme: light; }
+  /* iPhone: die Vorschau zeigt die Seite in voller Breite (wie die Ausgabe), seitlich wischen statt Wörter zu zerreißen */
+  html.phone .dlg-body.preview { overflow: auto; padding: 16px; }
+  html.phone .dlg-body.preview .rt { width: 960px; }
 
   #printout { display: none; }
   @media print {
@@ -113,8 +113,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.1.0';
-const APP_BUILT = '10.10.2026 um 14:04';
+const APP_VERSION = '3.2.0';
+const APP_BUILT = '11.10.2026 um 10:08';
 
 const app = document.getElementById('app');
 const side = document.getElementById('side');
@@ -296,13 +296,13 @@ function quarterOf(trip, iso) {
   return { name: '', place: '', noMap: false };
 }
 
-// Sichtbare Tabellenspalten; "Tag" und "Programm" werden immer angezeigt.
+// Sichtbare Tabellenspalten; "Tag" und "Verlauf" werden immer angezeigt.
 const cols = trip => ({ mood: trip.moodColumn !== false, food: Boolean(trip.foodColumn), quarter: trip.quarterColumn !== false });
 const colCount = trip => { const c = cols(trip); return 2 + c.mood + c.food + c.quarter; };
 const headCells = trip => { const c = cols(trip);
-  return `<th>Tag</th><th>Programm</th>${c.mood ? '<th>🙂☹️😉</th>' : ''}${c.food ? '<th>🍽️🍷☕️</th>' : ''}${c.quarter ? '<th>😴💤</th>' : ''}`; };
+  return `<th>Tag</th><th>Verlauf</th>${c.mood ? '<th>🙂☹️😉</th>' : ''}${c.food ? '<th>🍽️🍷☕️</th>' : ''}${c.quarter ? '<th>😴💤</th>' : ''}`; };
 
-// Erfasst: Wetter, Programm oder eine sichtbare Spalte (Essen zählt nicht); ausgeblendete Spalten zählen nicht.
+// Erfasst: Wetter, Verlauf oder eine sichtbare Spalte (Essen zählt nicht); ausgeblendete Spalten zählen nicht.
 function isRecorded(trip, iso) {
   const e = rawEntry(trip, iso);
   const c = cols(trip);
@@ -335,7 +335,7 @@ function splitLines(text) {
   return (text || '').split('\n').map(l => l.trim()).filter(Boolean);
 }
 
-// Programm: bei mehreren Zeilen jede mit ▫️, bei einer Zeile ohne Zeichen.
+// Verlauf: bei mehreren Zeilen jede mit ▫️, bei einer Zeile ohne Zeichen.
 function programItems(text) {
   const lines = splitLines(text).map(l => l.replace(/^(▫️|▫|-|•)\s*/u, ''));
   return lines.map(t => ({ m: lines.length > 1 ? '▫️' : '', t }));
@@ -578,11 +578,7 @@ function render({ scrollToGap = false } = {}) {
           <button type="button" id="mainMore" aria-label="Mehr">${ic('ellipsis')}</button>
         </span></span>
       </div>
-      ${searchOpen ? `<div class="nb2">
-        <span class="searchbox active">${ic('search')}<input type="search" id="search" placeholder="Suchen" value="${esc(searchTerm)}" autocomplete="off" enterkeyhint="search">${term ? `
-          <span class="smeta"><span class="scount" id="scount"></span><button type="button" class="sclear" id="sclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
-        <span class="navgrp"><button type="button" id="sprev" aria-label="Voriger Treffer" ${term ? '' : 'disabled'}>${ic('chevron-up')}</button><button type="button" id="snext" aria-label="Nächster Treffer" ${term ? '' : 'disabled'}>${ic('chevron-down')}</button></span>
-      </div>` : ''}
+      ${searchOpen ? searchRowHtml(term) : ''}
     </div>
     <h1>Reiselogbuch – ${esc(trip.title)}</h1>
     <dl class="meta">
@@ -619,12 +615,43 @@ function render({ scrollToGap = false } = {}) {
 
   fab.hidden = false;
   const bar = app.querySelector('#bar');
-  bar.classList.toggle('line', scrollY > 4);
+  updateBar();
   document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
   bindSideToggle(app);
 
   app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
   app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
+  bindSearch(term);
+  markOpener();
+  app.querySelectorAll('tbody tr').forEach(tr => tr.onclick = () => openDayDialog(trip, tr.dataset.day));
+  bindTripEnd(trip);
+
+  if (scrollToGap) {
+    const row = app.querySelector('tr.gap');
+    if (row) row.scrollIntoView({ block: 'center' });
+  }
+}
+
+function progressText(trip) {
+  const today = todayISO();
+  const days = tripDays(trip);
+  const recorded = days.filter(d => isRecorded(trip, d)).length;
+  let progress;
+  if (today < trip.start) progress = `Reise beginnt in ${Math.round((parseISO(trip.start) - parseISO(today)) / 864e5)} Tagen`;
+  else if (today > trip.end) progress = `Reise beendet · ${days.length} Tage`;
+  else progress = `Tag ${days.indexOf(today) + 1} von ${days.length}`;
+  return progress + ` · ${recorded} erfasst`;
+}
+
+// Suche (iPad und iPhone gleich): Suchzeile unter der Kopfzeile mit Trefferanzeige ‚3 von 57‘, ⓧ und ⌃ ⌄;
+// gezeigt werden nur passende Tage, die Treffer sind gelb, der aktuelle hellorange.
+const searchRowHtml = term => `<div class="nb2">
+    <span class="searchbox active">${ic('search')}<input type="search" id="search" placeholder="Suchen" value="${esc(searchTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${term ? `
+      <span class="smeta"><span class="scount" id="scount"></span><button type="button" class="sclear" id="sclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
+    <span class="navgrp"><button type="button" id="sprev" aria-label="Voriger Treffer" ${term ? '' : 'disabled'}>${ic('chevron-up')}</button><button type="button" id="snext" aria-label="Nächster Treffer" ${term ? '' : 'disabled'}>${ic('chevron-down')}</button></span>
+  </div>`;
+
+function bindSearch(term) {
   app.querySelector('#searchBtn').onclick = () => {
     searchOpen = !searchOpen;
     if (!searchOpen) { searchTerm = ''; searchIndex = 0; }
@@ -656,25 +683,6 @@ function render({ scrollToGap = false } = {}) {
     app.querySelector('#snext').onclick = () => stepHit(1);
     showHit(false);
   }
-  markOpener();
-  app.querySelectorAll('tbody tr').forEach(tr => tr.onclick = () => openDayDialog(trip, tr.dataset.day));
-  bindTripEnd(trip);
-
-  if (scrollToGap) {
-    const row = app.querySelector('tr.gap');
-    if (row) row.scrollIntoView({ block: 'center' });
-  }
-}
-
-function progressText(trip) {
-  const today = todayISO();
-  const days = tripDays(trip);
-  const recorded = days.filter(d => isRecorded(trip, d)).length;
-  let progress;
-  if (today < trip.start) progress = `Reise beginnt in ${Math.round((parseISO(trip.start) - parseISO(today)) / 864e5)} Tagen`;
-  else if (today > trip.end) progress = `Reise beendet · ${days.length} Tage`;
-  else progress = `Tag ${days.indexOf(today) + 1} von ${days.length}`;
-  return progress + ` · ${recorded} erfasst`;
 }
 
 // Fazit und Gesamtkosten (iPad und iPhone).
@@ -722,79 +730,55 @@ function renderPhone({ scrollToGap = false } = {}) {
   const trip = getTrip(currentTripId);
   if (phoneList || !trip) return renderPhoneList();
   emptyPrompted = false;
-  const transport = transportText(trip);
-  app.innerHTML = `
-    <div class="pnav" id="bar">
-      <button type="button" class="round" id="back" aria-label="Reiselogbücher">${ic('chevron-left')}</button>
-      <span class="spacer"></span>
-      <span class="grp">
-        <button type="button" id="shareBtn" aria-label="Ausgabe">${ic('share')}</button>
-        <button type="button" id="mainMore" aria-label="Mehr">${ic('ellipsis')}</button>
-      </span>
-    </div>
-    <h1 class="ltitle">${esc(trip.title)}</h1>
-    <div id="phead" data-meta="${esc(`${trip.participants} · ${fullDate(trip.start)} - ${fullDate(trip.end)}`)}" data-transport="${esc(transport)}"></div>
-    <div id="pdays"></div>
-    <div id="prest">
-      ${fazitHtml(trip)}
-      ${phoneStaysHtml(trip)}
-      <h2>Statistik</h2>
-      <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
-    </div>
-    <div class="bbar">
-      <span class="searchbox active">${ic('search')}<input type="search" id="search" placeholder="Suchen" value="${esc(searchTerm)}" autocomplete="off" enterkeyhint="search">
-        <span class="smeta"><button type="button" class="sclear" id="sclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span></span>
-      <button type="button" class="round" id="searchEnd" aria-label="Suche beenden">${ic('x')}</button>
-    </div>`;
-  const bar = app.querySelector('#bar');
-  bar.classList.toggle('line', scrollY > 4);
-  app.querySelector('#back').onclick = () => { phoneList = true; searchOpen = false; searchTerm = ''; render(); window.scrollTo(0, 0); };
-  app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
-  app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
-  bindTripEnd(trip);
-
-  // Suche wie in Notizen: Feld unten, beim Tippen werden nur die passenden Tage gezeigt; rundes x beendet die Suche.
-  const search = app.querySelector('#search');
-  search.onfocus = () => { if (!searchOpen) { searchOpen = true; fillPhoneDays(trip); } };
-  search.oninput = () => { searchTerm = search.value; fillPhoneDays(trip); };
-  search.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); search.blur(); } };
-  app.querySelector('#sclear').onclick = () => { searchTerm = ''; search.value = ''; fillPhoneDays(trip); search.focus(); };
-  app.querySelector('#searchEnd').onclick = () => { searchOpen = false; searchTerm = ''; search.value = ''; search.blur(); fillPhoneDays(trip); };
-  fillPhoneDays(trip);
-  markOpener();
-  if (scrollToGap) app.querySelector('.box.gap')?.scrollIntoView({ block: 'center' });
-}
-
-// Kästen der Tage (und Kopf darüber) neu füllen, ohne die Suchleiste anzufassen – die Tastatur bleibt offen.
-function fillPhoneDays(trip) {
   const today = todayISO();
   const gap = firstGap(trip);
   const term = searchTerm.trim().toLocaleLowerCase('de');
   const c = cols(trip);
   const visible = tripDays(trip).filter(iso => term ? matchesSearch(trip, iso, term) : !db.settings.hideEmpty || isRecorded(trip, iso));
-  const line = (k, v) => v ? `<div class="kv"><span class="k">${k}</span><span class="v">${v}</span></div>` : '';
-  const head = app.querySelector('#phead');
-  head.innerHTML = term
-    ? `<div class="found"><b>Tage</b><span>${visible.length} gefunden</span></div>`
-    : `<p class="pmeta">${head.dataset.meta}${head.dataset.transport ? `<br>${head.dataset.transport}` : ''}</p><p class="progress">${progressText(trip)}</p>`;
-  app.querySelector('#pdays').innerHTML = visible.map(iso => {
+  const transport = transportText(trip);
+  // Felder eines Tages; ‚Verlauf‘ als Wort in normaler Schrift, die anderen mit den Spalten-Emojis.
+  const line = (k, v, word) => v ? `<div class="kv"><span class="k ${word ? 'word' : ''}">${k}</span><span class="v">${v}</span></div>` : '';
+  const boxes = visible.map(iso => {
     const e = rawEntry(trip, iso);
     const q = quarterOf(trip, iso);
     const tags = (iso === today ? '<span class="tag today">heute</span>' : '')
       + (!isRecorded(trip, iso) && iso < today ? '<span class="tag miss">fehlt</span>' : '');
     return `<div class="box day ${iso === gap && !term ? 'gap' : ''}" data-day="${iso}" role="button" tabindex="0">
       <div class="h">${dayLabel(iso)}${tags}${e.weather ? `<span class="wx">${esc(e.weather)}</span>` : '<span class="wx empty">☀️🌤🌦🌧</span>'}</div>
-      ${line('Programm', e.program ? linesHtml(programItems(e.program), term) : '')}
+      ${line('Verlauf', e.program ? linesHtml(programItems(e.program), term) : '', true)}
       ${c.mood ? line('🙂☹️😉', e.comment ? linesHtml(commentItems(e.comment), term) : '') : ''}
       ${c.food ? line('🍽️🍷☕️', e.food ? foodHtml(foodItems(e.food, q.place), term, true) : '') : ''}
       ${c.quarter ? line('😴💤', quarterHtml(q, term, true)) : ''}
     </div>`;
-  }).join('') || `<div class="empty-note">${term ? 'Keine Treffer.' : 'Noch keine Tage erfasst.'}</div>`;
-  app.querySelector('#prest').hidden = Boolean(term);
-  app.querySelector('#sclear').hidden = !term;
-  app.querySelector('#searchEnd').hidden = !searchOpen;
+  }).join('');
+  app.innerHTML = `
+    <div class="pnav" id="bar">
+      <span><button type="button" class="round" id="back" aria-label="Reiselogbücher">${ic('chevron-left')}</button></span>
+      <span class="pnav-title">${esc(trip.title)}</span>
+      <span class="r"><span class="grp">
+        <button type="button" id="shareBtn" aria-label="Ausgabe">${ic('share')}</button>
+        <button type="button" id="searchBtn" class="${searchOpen ? 'on' : ''}" aria-label="Suchen">${ic('search')}</button>
+        <button type="button" id="mainMore" aria-label="Mehr">${ic('ellipsis')}</button>
+      </span></span>
+      ${searchOpen ? searchRowHtml(term) : ''}
+    </div>
+    <h1 class="ltitle">${esc(trip.title)}</h1>
+    <p class="pmeta">${esc(`${trip.participants} · ${fullDate(trip.start)} - ${fullDate(trip.end)}`)}${transport ? `<br>${esc(transport)}` : ''}</p>
+    <p class="progress">${progressText(trip)}</p>
+    <div id="pdays">${boxes || `<div class="empty-note">${term ? 'Keine Treffer.' : 'Noch keine Tage erfasst.'}</div>`}</div>
+    ${fazitHtml(trip)}
+    ${phoneStaysHtml(trip)}
+    <h2>Statistik</h2>
+    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>`;
+  app.querySelector('#back').onclick = () => { phoneList = true; searchOpen = false; searchTerm = ''; window.scrollTo(0, 0); render(); };
+  app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
+  app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
+  bindSearch(term);
+  bindTripEnd(trip);
   app.querySelectorAll('#pdays [data-day]').forEach(b => b.onclick = () => openDayDialog(trip, b.dataset.day));
   markOpener();
+  if (scrollToGap) app.querySelector('.box.gap')?.scrollIntoView({ block: 'center' });
+  updateBar();
 }
 
 // Quartierliste als Liste: Quartier mit Maps-Link, darunter Zeitraum und Nächte.
@@ -804,23 +788,29 @@ function phoneStaysHtml(trip) {
     <small>${shortDate(st.firstNight)} - ${fullDate(addDays(st.lastNight, 1))} · ${st.nights} ${st.nights === 1 ? 'Nacht' : 'Nächte'}</small></span></div>`).join('')}</div>` : '';
 }
 
-// Startliste ‚Reiselogbücher‘: großer Titel mit Anzahl, Liste, Backup-Hinweis; rechts unten ‚plus‘.
+// Startliste ‚Reiselogbücher‘: oben die Kapsel [plus | ellipsis] wie auf dem iPad, großer Titel mit Anzahl,
+// jedes Reiselogbuch als eigene Kachel (das zuletzt geöffnete blau), Backup-Hinweis fest am unteren Rand.
 function renderPhoneList() {
   searchOpen = false;
   const today = todayISO();
   const trips = [...db.trips].sort((a, b) => b.start.localeCompare(a.start));
   const n = trips.length;
   app.innerHTML = `
-    <div class="pnav" id="bar"><span class="spacer"></span><button type="button" class="round" id="homeMore" aria-label="Mehr">${ic('ellipsis')}</button></div>
+    <div class="pnav" id="bar">
+      <span></span>
+      <span class="pnav-title">Reiselogbücher</span>
+      <span class="r"><span class="grp">
+        <button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button>
+        <button type="button" id="homeMore" aria-label="Mehr">${ic('ellipsis')}</button>
+      </span></span>
+    </div>
     <h1 class="ltitle">Reiselogbücher</h1>
     <div class="lcount">${n ? `${n} Reiselogb${n === 1 ? 'uch' : 'ücher'}` : 'Noch kein Reiselogbuch angelegt.'}</div>
-    ${n ? `<div class="ilist">${trips.map(t => `<button type="button" class="irow" data-id="${t.id}">
+    ${n ? `<div class="ilist tiles">${trips.map(t => `<button type="button" class="irow ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small></span>${ic('chevron-right')}</button>`).join('')}</div>`
-      : '<div class="emptymain" style="margin-top:60px">Mit ‚plus‘ unten rechts ein neues Reiselogbuch anlegen.</div>'}
-    ${n && !backedUpToday() ? `<div class="bhint"><div>${lastBackupText()}</div>
-      <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div>` : ''}
-    <div class="bbar"><button type="button" class="round" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button></div>`;
-  app.querySelector('#bar').classList.toggle('line', scrollY > 4);
+      : '<div class="emptymain" style="margin-top:60px">Mit ‚plus‘ oben rechts ein neues Reiselogbuch anlegen.</div>'}
+    ${n && !backedUpToday() ? `<div class="bbar"><div class="bnote"><div>${lastBackupText()}</div>
+      <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div></div>` : ''}`;
   app.querySelector('#homeMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#homeMore'));
   app.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
   app.querySelector('#hintBackup')?.addEventListener('click', () => saveBackup('#hintBackup'));
@@ -830,12 +820,14 @@ function renderPhoneList() {
     () => { window.scrollTo(0, 0); showTrip(b.dataset.id); }));
   held.forEach(sel => app.querySelector(sel)?.classList.add('on'));
   markOpener();
+  updateBar();
   if (!n && !emptyPrompted && !dlg.open) { emptyPrompted = true; openTripDialog(null); }
 }
 
 // Treffer-Navigation der Suche: jeder markierte Begriff in der Tabelle ist ein Treffer; der aktuelle ist hellorange.
+const hitMarks = () => [...app.querySelectorAll('table.days:not(.static) mark, #pdays mark')];
 function showHit(scroll) {
-  const marks = [...app.querySelectorAll('table.days:not(.static) mark')];
+  const marks = hitMarks();
   const n = marks.length;
   if (searchIndex >= n) searchIndex = Math.max(0, n - 1);
   marks.forEach((m, i) => m.classList.toggle('cur', i === searchIndex));
@@ -851,7 +843,7 @@ function showHit(scroll) {
 
 // Treffer direkt unter die Suchzeile (und den Tabellenkopf) rollen, mit einer halben Zeile Abstand.
 function scrollUnderBar(el) {
-  const row = el.closest('tr') || el;
+  const row = el.closest('tr, .kv') || el;
   const bar = document.getElementById('bar');
   const head = app.querySelector('table.days:not(.static) thead');
   const offset = (bar?.offsetHeight || 0) + (head?.offsetHeight || 0) + 12;
@@ -860,7 +852,7 @@ function scrollUnderBar(el) {
 }
 
 function stepHit(dir) {
-  const n = app.querySelectorAll('table.days:not(.static) mark').length;
+  const n = hitMarks().length;
   const next = searchIndex + dir;
   if (next < 0 || next >= n) return;
   searchIndex = next;
@@ -1068,24 +1060,44 @@ function mountMoodRow(row, ta, onReset, kind = 'mood') {
 }
 
 // Diktieren über die Web Speech API; liefert eine Funktion zum Stoppen.
+// Jede Störung wird gemeldet (Fehlersuche Spracheingabe, 3.2.0), damit klar ist, woran es liegt.
+const MIC_ERRORS = {
+  'not-allowed': 'Der Zugriff auf das Mikrofon ist nicht erlaubt. Einstellungen → Safari → Mikrofon → ‚Erlauben‘.',
+  'service-not-allowed': 'iOS lässt die Spracheingabe hier nicht zu. Bitte prüfen: Einstellungen → Allgemein → Tastaturen → ‚Diktierfunktion‘ ein. Sonst die Mikrofon-Taste der Tastatur verwenden.',
+  'audio-capture': 'Kein Mikrofon gefunden oder es wird gerade von einer anderen App benutzt.',
+  'network': 'Für die Spracheingabe ist eine Internetverbindung nötig.',
+  'no-speech': 'Es wurde nichts gehört. Bitte noch einmal tippen und sprechen.',
+  'language-not-supported': 'Deutsch wird für die Spracheingabe nicht unterstützt.',
+};
 function mountMics() {
   let recognition = null;
   dlg.querySelectorAll('[data-mic]').forEach(b => b.onclick = () => {
-    if (recognition) { recognition.stop(); return; }
+    if (recognition) { recognition.manual = true; recognition.stop(); return; }
     const ta = dlg.querySelector('#' + b.dataset.mic);
-    recognition = new SpeechRec();
-    recognition.lang = 'de-DE';
-    recognition.interimResults = false;
-    recognition.onresult = ev => {
-      const text = Array.from(ev.results, r => r[0].transcript).join(' ').trim();
-      if (text) insertAtCursor(ta, text + ' ', false);
-    };
-    recognition.onerror = ev => {
-      if (ev.error === 'not-allowed') inform('Diktieren', 'Bitte den Mikrofon-Zugriff erlauben oder die Mikrofon-Taste der Tastatur verwenden.');
-    };
-    recognition.onend = () => { b.setAttribute('aria-pressed', 'false'); recognition = null; };
-    b.setAttribute('aria-pressed', 'true');
-    recognition.start();
+    let heard = false, failed = false, rec = null;
+    const fail = text => { failed = true; inform('Diktieren', esc(text)); };
+    try {
+      recognition = rec = new SpeechRec();
+      recognition.lang = 'de-DE';
+      recognition.interimResults = false;
+      recognition.onresult = ev => {
+        heard = true;
+        const text = Array.from(ev.results, r => r[0].transcript).join(' ').trim();
+        if (text) insertAtCursor(ta, text + ' ', false);
+      };
+      recognition.onerror = ev => { if (ev.error !== 'aborted') fail(MIC_ERRORS[ev.error] || `Die Spracheingabe meldet den Fehler ‚${ev.error}‘.`); };
+      recognition.onend = () => {
+        b.setAttribute('aria-pressed', 'false');
+        recognition = null;
+        if (!heard && !failed && !rec.manual) fail('Die Spracheingabe hat beendet, ohne Text zu liefern. Bitte die Mikrofon-Taste der Tastatur verwenden.');
+      };
+      b.setAttribute('aria-pressed', 'true');
+      recognition.start();
+    } catch (e) {
+      b.setAttribute('aria-pressed', 'false');
+      recognition = null;
+      fail(`Die Spracheingabe lässt sich nicht starten (${e.name || e.message}).`);
+    }
   });
   return () => recognition?.stop();
 }
@@ -1100,10 +1112,10 @@ function openTripDialog(trip) {
       ${dlgHead(isNew ? 'Neues Reiselogbuch' : 'Einstellungen')}
       <div class="dlg-body">
         <div class="step"><label for="fTitle">Reisetitel</label>
-          <input type="text" id="fTitle" value="${esc(t.title)}" placeholder="z. B. Australien">
+          <input type="text" id="fTitle" autocapitalize="sentences" autocorrect="on" spellcheck="true" value="${esc(t.title)}" placeholder="z. B. Australien">
           <div class="warn" id="titleWarn" hidden></div></div>
         <div class="step"><label for="fPeople">Reiseteilnehmer</label>
-          <input type="text" id="fPeople" value="${esc(t.participants)}" placeholder="z. B. Gerhild & Arnold">
+          <input type="text" id="fPeople" autocapitalize="sentences" autocorrect="on" spellcheck="true" value="${esc(t.participants)}" placeholder="z. B. Gerhild & Arnold">
           <div class="warn" id="peopleWarn" hidden></div></div>
         <div class="step"><label>Reisezeitraum</label>
           <div class="dates">
@@ -1119,7 +1131,7 @@ function openTripDialog(trip) {
           <div class="warn" id="transportWarn" hidden style="margin-top:2px"></div>
         </div>
         <div class="step"><label>Konfiguration Tabellenspalten</label>
-          <div class="hint" style="margin:0 0 6px">Die Spalten ‚Tag‘ und ‚Programm‘ werden immer angezeigt.</div>
+          <div class="hint" style="margin:0 0 6px">Die Spalten ‚Tag‘ und ‚Verlauf‘ werden immer angezeigt.</div>
           <div class="swlist">
             <label class="check sw"><input type="checkbox" id="fMood" ${t.moodColumn !== false ? 'checked' : ''}> Spalte 🙂☹️😉 ‚Wie war was?‘</label>
             <label class="check sw"><input type="checkbox" id="fFood" ${t.foodColumn ? 'checked' : ''}> Spalte 🍽️🍷☕️ ‚Essen und Trinken‘</label>
@@ -1267,29 +1279,29 @@ function openDayDialog(trip, iso) {
           </div>
         </div>
         <div class="step">
-          <div class="step-head"><label for="fProgram"><span class="step-num">2</span>Programm</label>${micButton('fProgram')}</div>
+          <div class="step-head"><label for="fProgram"><span class="step-num">2</span>Verlauf</label>${micButton('fProgram')}</div>
           <div class="chips" id="suggest">
             ${PROGRAM_SUGGESTIONS.map((s, i) => `<button type="button" data-s="${i}">${esc(s.label)}</button>`).join('')}
           </div>
-          <textarea id="fProgram" placeholder="Was habt ihr gemacht? Eine Zeile pro Punkt.">${esc(e.program || '')}</textarea>
+          <textarea id="fProgram" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Wie ist der Tag verlaufen? Eine Zeile pro Punkt.">${esc(e.program || '')}</textarea>
         </div>
         <div class="step" ${c.mood ? '' : 'hidden'}>
           <div class="step-head"><label for="fComment"><span class="step-num">${c.mood ? nextNo() : ''}</span>Wie war was?</label>${micButton('fComment')}</div>
           <div class="emoji-row" id="moods"></div>
-          <textarea id="fComment" placeholder="Smiley antippen, dann ein paar Worte dazu.">${esc(e.comment || '')}</textarea>
+          <textarea id="fComment" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Smiley antippen, dann ein paar Worte dazu.">${esc(e.comment || '')}</textarea>
           <div class="hint">${MOOD_HINT}</div>
         </div>
         ${trip.foodColumn ? `<div class="step">
           <div class="step-head"><label for="fFoodText"><span class="step-num">${nextNo()}</span>Essen und Trinken</label><label class="check chip head-check"><input type="checkbox" id="noLink"> keinen Google-Maps Link</label>${micButton('fFoodText')}</div>
           <div class="emoji-row" id="foodMoods"></div>
-          <textarea id="fFoodText" placeholder="Eine Zeile pro Lokal: Smileys, Name – Kommentar">${esc(e.food || '')}</textarea>
+          <textarea id="fFoodText" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Eine Zeile pro Lokal: Smileys, Name – Kommentar">${esc(e.food || '')}</textarea>
           <div class="hint">Format: ‚🕛😋 Hard Rock Café – Steak war super‘. Der Name wird zum Link in Google Maps (mit dem Ort des Quartiers). ‚keinen Google-Maps Link‘ gilt für die Zeile, in der du gerade schreibst (markiert mit ⊘).</div>
         </div>` : ''}
         <div class="step" ${c.quarter ? '' : 'hidden'}>
           <div class="step-head"><label for="fQuarter"><span class="step-num">${c.quarter ? nextNo() : ''}</span>Quartier</label>${isFirst ? '' : `<label class="check chip head-check"><input type="checkbox" id="fSame" ${same ? 'checked' : ''}> Quartier wie Vortag</label>`}<label class="check chip head-check"><input type="checkbox" id="fNoMap" ${e.noMap && !same ? 'checked' : ''}> keinen Google-Maps Link</label></div>
-          <div class="qrow"><input type="text" id="fQuarter" list="quarterList" placeholder="z. B. Oaks Townsville Hotel">
+          <div class="qrow"><input type="text" id="fQuarter" autocapitalize="sentences" autocorrect="on" spellcheck="true" list="quarterList" placeholder="z. B. Oaks Townsville Hotel">
           <datalist id="quarterList">${knownQuarters.map(q => `<option value="${esc(q)}">`).join('')}</datalist>
-          <input type="text" id="fPlace" placeholder="Ort für Google Maps, z. B. Cairns, Australien"></div>
+          <input type="text" id="fPlace" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Ort für Google Maps, z. B. Cairns, Australien"></div>
           <div class="hint" id="qHint"></div>
         </div>
         ${micHint()}
@@ -1423,7 +1435,7 @@ function openFazitDialog(trip) {
         <div class="step">
           <div class="step-head"><label for="fFazit">Was bleibt von dieser Reise?</label>${micButton('fFazit')}</div>
           <div class="emoji-row" id="moods"></div>
-          <textarea id="fFazit" rows="8" placeholder="Smiley antippen, dann ein paar Worte dazu.">${esc(original)}</textarea>
+          <textarea id="fFazit" autocapitalize="sentences" autocorrect="on" spellcheck="true" rows="8" placeholder="Smiley antippen, dann ein paar Worte dazu.">${esc(original)}</textarea>
           <div class="hint">${MOOD_HINT}</div>
         </div>
         ${micHint()}
@@ -1757,11 +1769,14 @@ importFile.onchange = async () => {
     if (!Array.isArray(data.trips)) throw new Error('Kein Reiselogbuch-Backup.');
     const n = data.trips.length;
     const yes = await confirmPop(document.querySelector(importAnchor),
-      `Backup mit ${n} Reiselogbu${n === 1 ? 'ch' : 'chern'} laden? Die aktuellen Daten auf diesem ${isPhone() ? 'iPhone' : 'iPad'} werden ersetzt.`,
+      `Backup mit ${n} Reiselogb${n === 1 ? 'uch' : 'üchern'} laden?<br>Die aktuellen Daten auf diesem ${isPhone() ? 'iPhone' : 'iPad'} werden ersetzt.`,
       { label: 'Ersetzen', icon: 'folder-open' });
     if (!yes) return release(importAnchor);
     release(importAnchor);
+    // Das letzte Backup gilt je Gerät: der Zeitpunkt aus der Datei (z. B. vom iPad) wird nicht übernommen.
+    const lastBackup = db.settings.lastBackup;
     db = normalize(data);
+    db.settings.lastBackup = lastBackup;
     save();
     applyTheme();
     if (dlg.open) dlg.close();
@@ -1799,8 +1814,7 @@ window.addEventListener('resize', () => {
   if (bar) document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
   if (!side.hidden) document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
 });
-// Beim Scrollen bekommt die Kopfzeile eine Haarlinie.
-window.addEventListener('scroll', () => document.getElementById('bar')?.classList.toggle('line', scrollY > 4), { passive: true });
+// Beim Scrollen bekommt die Kopfzeile eine Haarlinie, auf dem iPhone wandert der große Titel in die Leiste (ui.js, updateBar).
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});

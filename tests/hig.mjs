@@ -16,7 +16,8 @@ const trips = [
 
 // Bewusste Abweichung (Reiselogbuch, 09.10.2026): Essen-Links in der Tabelle (iPhone: in den Kästen) bleiben so eng
 // wie der Text – sonst trifft man beim Antippen eines Tages zu leicht einen Link.
-const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] });
+// Links in der Vorschau gehören zum ausgegebenen Dokument (HTML/PDF), nicht zur Bedienung der App.
+const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] });
 const { measure, note } = hig;
 
 const browser = await chromium.launch();
@@ -76,16 +77,21 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
   await p.click('#mainMore'); await p.waitForTimeout(150); await stays('#mainMore', 'Mehr-Menü'); await M('Mehr-Menü');
   await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await p.waitForTimeout(150); await M('Untermenü Darstellung'); await away();
   await p.click('#shareBtn'); await p.waitForTimeout(150); await stays('#shareBtn', 'Teilen-Menü'); await M('Teilen-Menü'); await away();
-  await p.click('#search'); await p.keyboard.type('Oper'); await p.waitForTimeout(300); await M('Suche');
-  await p.click('#searchEnd'); await p.waitForTimeout(200);
+  await p.click('#searchBtn'); await p.waitForTimeout(150); await p.fill('#search', 'Oper'); await p.waitForTimeout(700); await M('Suche');
+  await p.click('#searchBtn'); await p.waitForTimeout(200);
+  await p.evaluate(() => window.scrollTo(0, 600)); await p.waitForTimeout(150); await M('Titel in der Leiste'); await p.evaluate(() => window.scrollTo(0, 0));
   const dialog = async (open, s, opener) => {
     await open(); await p.waitForTimeout(350);
     if (opener) await stays(opener, s);
     await M(s);
+    // Fenster: kein Fokus-Rahmen am x, Seite dahinter gesperrt (AppDesign 4.2.0)
+    if (await p.evaluate(() => document.activeElement?.id === 'dlgX')) note('Fenster', 'x hat beim Öffnen den Fokus (blauer Rahmen)', `${s} (${tag})`);
+    if (!(await p.evaluate(() => document.documentElement.classList.contains('locked')))) note('Fenster', 'Seite dahinter nicht gesperrt', `${s} (${tag})`);
     await p.click('#dlgX'); await p.waitForTimeout(200);
     if (await p.locator('.pop').count()) { await p.locator('.pop button').first().click(); await p.waitForTimeout(200); }
   };
   await dialog(async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); }, 'Fenster Einstellungen', '#mainMore');
+  await dialog(async () => { await p.click('#shareBtn'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); }, 'Fenster Vorschau', '#shareBtn');
   await dialog(() => p.locator('#pdays [data-day="2026-08-24"]').click(), 'Fenster Tag', '#pdays [data-day="2026-08-24"]');
   await dialog(async () => { await p.locator('#fazit').scrollIntoViewIfNeeded(); await p.click('#fazit'); }, 'Fenster Fazit', '#fazit');
   await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);

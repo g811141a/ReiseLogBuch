@@ -13,6 +13,51 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.2.0 – 11.10.2026 (Nebenversion)
+
+Reiselogbuch 3.2.0 · AppDesign 4.2.0 (Designrichtlinie allgemein 4.2.0) · Designrichtlinie Reiselogbuch 3.2.0 · Zusammenarbeit allgemein 1.12.5
+
+Sammelversion aus der Prüfung von 3.1.0 (P-15):
+
+- T-32: **‚Verlauf‘** statt ‚Programm‘ überall (Tabelle, Tageserfassung, Ausgabe, Einstellungen).
+  iPhone: in den Tageskacheln als Wort in normaler Schrift; Felder durch Linien getrennt
+  (waagrecht und senkrecht).
+- T-34: Suche auf dem iPhone wie am iPad (`search` in der Kapsel, Suchzeile mit ‚1 von 4‘, ⌃ ⌄).
+- T-25: iPhone – großer Titel wandert beim Hochschieben in die Leiste (wie Notizen).
+- T-27/T-35: iPhone-Startliste mit Kapsel [plus | ellipsis] oben, jedes Reiselogbuch als Kachel
+  (zuletzt geöffnetes blau), Backup-Hinweis fest unten als gelbe Kachel mit blauem Knopf – am
+  iPad in der Seitenleiste ebenso fest unten und gelb.
+- T-28: Wischen in Fenstern, Menüs und Sprechblasen bewegt die Seite dahinter nicht mehr.
+- T-33: x beim Öffnen eines Fensters ohne blauen Rahmen.
+- T-36: Vorschau auf dem iPhone – Kapsel [PDF | share] vollständig, Seite in voller Breite
+  (seitlich wischen) statt zerrissener Wörter.
+- T-26: Backup-Abfrage ‚Backup mit 3 Reiselogbüchern laden?‘ mit Zeilenumbruch.
+- T-30: ‚Letztes Backup erstellt am …‘ gilt je Gerät (wird beim Laden nicht übernommen).
+- T-29: Textfelder mit Großbuchstaben am Satzanfang, Autokorrektur und Rechtschreibprüfung.
+- T-31: Spracheingabe – jede Störung wird mit Ursache und Abhilfe gemeldet (Fehlersuche).
+
+Prüfliste P-16 (iPad und iPhone, jeweils hell und dunkel):
+
+1. iPad: Spalte, Tageserfassung, Ausgabe und Einstellungen heißen ‚Verlauf‘ statt ‚Programm‘.
+2. iPad: Backup-Hinweis in der Seitenleiste gelb mit blauem Knopf, fest unten (bei vielen
+   Reiselogbüchern laufen sie dahinter durch).
+3. iPad und iPhone: Backup laden – ‚Backup mit n Reiselogbüchern laden?‘, danach neue Zeile;
+   nach dem Laden zeigt ‚Letztes Backup erstellt am …‘ weiter das Backup dieses Geräts.
+4. iPad und iPhone: In Einstellungen, Tageserfassung und Fazit nach oben/unten wischen – nur das
+   Fenster bewegt sich, die Seite dahinter nicht; ebenso bei offenem Menü und Sprechblase.
+5. iPad und iPhone: Beim Öffnen eines Fensters ist das x nicht blau umrandet.
+6. iPad und iPhone: Mikrofon antippen – entweder wird diktiert oder eine Meldung nennt die
+   Ursache (bitte den Text der Meldung mitteilen).
+7. iPhone: Tageserfassung – die Tastatur beginnt mit einem Großbuchstaben.
+8. iPhone: Startliste – Kapsel [plus | ellipsis] oben, Kacheln, das zuletzt geöffnete blau,
+   Backup-Hinweis gelb fest unten.
+9. iPhone: Startliste und Reiselogbuch hochschieben – der Titel steht klein in der Leiste, die
+   Leiste bleibt oben.
+10. iPhone: Tageskacheln mit ‚Verlauf‘ in normaler Schrift und Linien waagrecht und senkrecht.
+11. iPhone: Suche wie am iPad – ‚1 von n‘, ⌃ ⌄ springen zu den Treffern, ⓧ leert, search schließt.
+12. iPhone: Teilen → Vorschau – Kapsel [PDF | share] vollständig, die Seite lässt sich seitlich
+    wischen; hoch und quer.
+
 ## 3.1.0 – 10.10.2026 (Nebenversion)
 
 Reiselogbuch 3.1.0 · AppDesign 4.1.0 (Designrichtlinie allgemein 4.1.0) · Designrichtlinie Reiselogbuch 3.1.0 · Zusammenarbeit allgemein 1.12.5

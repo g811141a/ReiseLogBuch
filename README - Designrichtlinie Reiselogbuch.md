@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.1.0** · Stand 10.10.2026
+**Version 3.2.0** · Stand 11.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.1.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.2.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -22,7 +22,8 @@
 - Seitenleiste: „Reiselogbücher“; Fenster „Neues Reiselogbuch“ (über plus) und
   „Einstellungen“ (Mehr-Menü); Menüpunkt „Reiselogbuch löschen“.
 - Überschrift in App und Ausgabe: „Reiselogbuch – <Titel>“.
-- Erfassungsschritte: „Wetter“, „Programm“, „Wie war was?“, „Essen und Trinken“, „Quartier“.
+- Spalte und Erfassungsschritt **‚Verlauf‘** (bis 3.1.0 ‚Programm‘) – passt auch zu Tagen, an denen man
+  nur fährt. Erfassungsschritte: „Wetter“, „Verlauf“, „Wie war was?“, „Essen und Trinken“, „Quartier“.
 - Options-Kapseln (Tageserfassung): „Quartier wie Vortag“, „keinen Google-Maps Link“; Schalter (Bearbeiten):
   „Quartierliste in der Ausgabe“.
 - Blättern in der Tageserfassung: chevron-left / chevron-right (Vortag / Folgetag, nur Icon).
@@ -40,7 +41,7 @@
 
 Emojis als Inhalt: Wetter ☀️ 🌤 🌦 🌧 ☁️ ⛈ ❄️ · Reisemittel 🚗 🚆 🚲 ✈️ 🚙 🚢 🚐 🚶 ·
 📍 vor Maps-Links (nur Zeichen, verlinkt ist nur der Name; Ort nach Komma) ·
-▫️ vor mehreren Programmpunkten · ⊘ am Zeilenanfang = ohne Maps-Link ·
+▫️ vor mehreren Punkten im Verlauf · ⊘ am Zeilenanfang = ohne Maps-Link ·
 Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinken), 😴💤 (Quartier).
 
 ## 3. Hauptansicht — Ausprägung
@@ -53,12 +54,12 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 - **Kopfzeile** (Komponente): Titel der Reise; Kapsel [share | search | ellipsis].
   - share → Menü: Vorschau · HTML · PDF (jeweils mit grauem Hinweis), Strich, darunter
     ‚N erfasste Tage · Dateiname: …‘. Anführungszeichen in der App immer ‚…‘.
-  - search → Suchzeile; die Suche durchsucht Programm und die sichtbaren Spalten.
+  - search → Suchzeile; die Suche durchsucht den Verlauf und die sichtbaren Spalten.
   - ellipsis → Mehr-Menü: Alle Tage / Nur erfasste Tage · Einstellungen · Darstellung › ·
     Reiselogbuch löschen (rot, Sprechblase mit Tipp zum Backup).
 - Darunter: Überschrift, Reiseteilnehmer, Reisezeitraum, Reisemittel und
   Fortschrittsanzeige („Tag 42 von 80 · 38 erfasst“).
-- Tagestabelle: Tag · Programm · sichtbare konfigurierte Spalten. Die erste Lücke ist
+- Tagestabelle: Tag · Verlauf · sichtbare konfigurierte Spalten. Die erste Lücke ist
   gelb markiert, vergangene leere Tage tragen „fehlt“ (Farbe `--warn`).
 - Darunter: Fazit (Kasten passt sich dem Inhalt an), Gesamtkosten (Betragsfeld 150 px,
   „[ 4.850,00 ] €“), Quartierliste (nur mit Spalte Quartier), Statistik (Reisetage · Quartiere ·
@@ -68,25 +69,29 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 - **Start** im laufenden (sonst zuletzt beendeten, sonst nächsten) Reiselogbuch, gesprungen wird
   zum ersten offenen Tag – wie auf dem iPad. Runder `chevron-left` führt zur Startliste.
-- **Startliste ‚Reiselogbücher‘:** großer Titel, darunter ‚3 Reiselogbücher‘; Liste wie die
-  Seitenleiste (Titel · Zeitraum · Zustand, ›); darunter der Backup-Hinweis; rechts oben
-  `ellipsis` (Menü wie in der Seitenleiste: Backup erstellen · Backup laden · Strich ·
-  Versionszeile · Satz zum Speicher), rechts unten runder `plus` (Neues Reiselogbuch). Langes
-  Drücken auf ein Reiselogbuch: Einstellungen · Reiselogbuch löschen. Leer: ‚Mit ‚plus‘ unten
-  rechts ein neues Reiselogbuch anlegen.‘
-- **Reiselogbuch:** Kopf mit rundem `chevron-left` und Kapsel [`share` | `ellipsis`] (Menüs wie
-  auf dem iPad); großer Titel (nur der Reisetitel); grau ‚Teilnehmer · Zeitraum‘ und die
-  Reisemittel, darunter die Fortschrittsanzeige.
+- **Startliste ‚Reiselogbücher‘:** oben die Kapsel [`plus` | `ellipsis`] wie am iPad (ellipsis:
+  Backup erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher); großer Titel,
+  darunter ‚3 Reiselogbücher‘; jedes Reiselogbuch als eigene Kachel (Titel · Zeitraum · Zustand,
+  ›), das zuletzt geöffnete blau. Backup-Hinweis fest am unteren Rand: gelbe Kachel ‚Letztes
+  Backup erstellt am …‘ mit blauem Knopf ‚Backup erstellen‘ (nur, wenn heute noch keins erstellt
+  wurde); die Kacheln laufen dahinter durch. Langes Drücken: Einstellungen · Reiselogbuch
+  löschen. Leer: ‚Mit ‚plus‘ oben rechts ein neues Reiselogbuch anlegen.‘
+- **Reiselogbuch:** Kopf mit rundem `chevron-left` und Kapsel [`share` | `search` | `ellipsis`]
+  (Menüs und Suche wie auf dem iPad); großer Titel (nur der Reisetitel); grau ‚Teilnehmer ·
+  Zeitraum‘ und die Reisemittel, darunter die Fortschrittsanzeige. Beim Hochschieben steht der
+  Titel klein in der Leiste.
 - **Tage als Kästen:** Kopf ‚Mo, 24.08.‘ mit ‚heute‘/‚fehlt‘ und Wetter rechts (leer: blasse
-  Platzhalter); Zeilen ‚Programm‘ als Wort, sonst die Spalten-Emojis 🙂☹️😉 · 🍽️🍷☕️ · 😴💤 –
-  nur sichtbare Spalten und nur mit Inhalt. Erster offener Tag gelb mit blauem Rand links; der
-  angetippte Kasten bleibt blau, solange die Tageserfassung offen ist.
+  Platzhalter); Felder ‚Verlauf‘ (als Wort in normaler Schrift), dann die Spalten-Emojis
+  🙂☹️😉 · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt; zwischen den Feldern
+  waagrechte Linien, zwischen Bezeichnung und Inhalt eine senkrechte. Erster offener Tag gelb
+  mit blauem Rand links; der angetippte Kasten bleibt blau, solange die Tageserfassung offen ist.
 - Darunter Fazit (volle Breite), Gesamtkosten, Quartierliste als Liste (Quartier mit Maps-Link,
   darunter ‚24.08. - 25.08.2026 · 1 Nacht‘), Statistik.
-- **Suche unten** wie in Notizen: beim Tippen nur passende Tage, oben ‚Tage · 2 gefunden‘,
-  Treffer gelb; ⓧ im Feld leert, rundes `x` daneben beendet die Suche.
+- **Suche** wie am iPad: `search` öffnet unter der Leiste die Suchzeile mit ‚1 von 4‘, ⓧ und
+  ⌃ ⌄; nur passende Tage, Treffer gelb, der aktuelle hellorange.
 - **Tageserfassung** bildschirmfüllend, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘;
   Wetter-Symbole 40 px breit, damit alle sieben ohne Wischen passen.
+- **Vorschau** in voller Seitenbreite, seitlich wischen (die Wörter bleiben ganz).
 - Abfragen als Sprechblase an der Schaltfläche wie auf dem iPad; ‚Backup laden‘ nennt das Gerät
   (‚… auf diesem iPhone werden ersetzt.‘). Nach dem Löschen geht es zur Startliste.
 
@@ -97,7 +102,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 - Schritte je nach sichtbaren Spalten (2 bis 5).
 - Eingeschaltet (blau getönt mit Haarlinie): gewählte Wetter-Symbole und das Mikrofon während
   der Aufnahme (pulsiert zusätzlich).
-- Programm: Vorschläge als Chips zum Antippen („Weiterfahrt nach …“, „Rundgang durch …“,
+- Verlauf: Vorschläge als Chips zum Antippen („Weiterfahrt nach …“, „Rundgang durch …“,
   „Besichtigung …“, „Freetour …“); „…“ ist nur Platzhalter und wird nicht übernommen.
 - Smiley-Leisten bei „Wie war was?“, „Essen und Trinken“ (eigener Satz:
   🕗 🕙 🕛 🕒 🕕 😋 👌 👍 😕 🤮 👎 ⭐️ 🍕 🍔 🥩 🍷 🍺 ☕️) und im Fazit.
@@ -107,6 +112,10 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
   untereinander; Link „📍 In Google Maps prüfen“.
 
 ## 5. Abfragen — Ausprägung der Sprechblasen
+
+- Backup laden: ‚Backup mit 3 Reiselogbüchern laden?‘, neue Zeile, ‚Die aktuellen Daten auf
+  diesem iPad (iPhone) werden ersetzt.‘ ‚Letztes Backup erstellt am …‘ gilt je Gerät und wird
+  beim Laden nicht aus der Datei übernommen.
 
 - Reiselogbuch löschen (am ellipsis der Kopfzeile) · Backup laden („Ersetzen“, am ellipsis der
   Seitenleiste) · Smiley entfernen (am Smiley) · Smileys zurücksetzen (am rotate-ccw) ·
@@ -126,7 +135,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
     „…“ (…). Bitte korrigieren.“ – erscheint auch, sobald ein Titel eingegeben wurde
     (das vorgeschlagene Datum kann sich mit einer anderen Reise überschneiden)
   - „Bitte mindestens ein Reisemittel wählen.“
-- Konfiguration Tabellenspalten: Hinweis „Die Spalten „Tag“ und „Programm“ werden immer
+- Konfiguration Tabellenspalten: Hinweis „Die Spalten ‚Tag‘ und ‚Verlauf‘ werden immer
   angezeigt.“; Schalter in Tabellenreihenfolge „Spalte 🙂☹️😉 ‚Wie war was?‘“,
   „Spalte 🍽️🍷☕️ ‚Essen und Trinken‘“, „Spalte 😴💤 ‚Quartier‘“ (einfache
   Anführungszeichen), beim Anlegen alle eingeschaltet; Hinweis „Ausgeblendete Spalten fehlen in Tabelle, Tageserfassung und
@@ -155,6 +164,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.2.0 | 11.10.2026 | Neben | ‚Verlauf‘ statt ‚Programm‘; iPhone: Kapseln und Suche wie am iPad, Titel in der Leiste, Kacheln, Backup-Hinweis fest unten und gelb (auch Seitenleiste), Linien im Tageskasten, Vorschau in Seitenbreite; Backup-Abfrage mit Umbruch |
 | 3.1.0 | 10.10.2026 | Neben | iPhone-Ansicht (Abschnitt 3a, allgemein 15.17); Mehr-Menü ‚Alle Tage‘/‚Nur erfasste Tage‘ mit Icons |
 | 3.0.0 | 09.10.2026 | Haupt | Gemeinsame Bausteine aus AppDesign 4.0.0 (design.css, ui.js); Aussehen unverändert |
 | 2.4.0 | 09.10.2026 | Neben | Angepasst an allgemein 3.6.1 (Menüs ohne Linien zwischen Punkten, Suchfeld ohne blauen Rahmen); bewusste Abweichung Essen-Links |

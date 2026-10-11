@@ -24,21 +24,32 @@ check(await p.evaluate(() => document.documentElement.classList.contains('phone'
 check(await p.locator('.ltitle').textContent() === 'Australien', 'Start nicht im laufenden Reiselogbuch');
 check(await p.locator('#side').isHidden(), 'Seitenleiste sichtbar');
 check(await p.locator('#pdays .box.gap').count() === 1, 'erster offener Tag nicht markiert');
-check(await p.locator('#searchEnd').isHidden() && await p.locator('#sclear').isHidden(), 'Such-x sichtbar ohne Suche');
+check(await p.locator('.pnav .grp #searchBtn').count() === 1, 'search fehlt in der Kapsel');
 
-// Suche unten: Feld behält den Fokus, Kästen gefiltert, x beendet
-await p.click('#search'); await p.keyboard.type('Rocks'); await p.waitForTimeout(150);
+// Suche wie am iPad: Suchzeile unter der Leiste, ‚1 von n‘, ⌃ ⌄, ⓧ; search schließt
+await p.click('#searchBtn'); await p.waitForTimeout(150);
+check(await p.evaluate(() => document.activeElement?.id === 'search'), 'Suchfeld hat keinen Fokus');
+await p.locator('#search').pressSequentially('Rocks'); await p.waitForTimeout(700);
 check(await p.locator('#pdays .box').count() === 1, 'Suche filtert nicht');
 check(await p.evaluate(() => document.activeElement?.id === 'search'), 'Suchfeld verliert den Fokus');
-check((await p.locator('.found span').textContent()) === '1 gefunden', 'Anzahl der Treffer fehlt');
-check(await p.locator('#prest').isHidden(), 'Fazit beim Suchen sichtbar');
+check((await p.locator('#scount').textContent()) === '1 von 1', 'Trefferanzeige fehlt');
 await p.click('#sclear'); check(await p.locator('#search').inputValue() === '', 'ⓧ leert nicht');
-await p.click('#searchEnd'); await p.waitForTimeout(150);
-check(await p.locator('#searchEnd').isHidden(), 'Suche nicht beendet');
+await p.click('#searchBtn'); await p.waitForTimeout(150);
+check(await p.locator('#search').count() === 0, 'Suche nicht beendet');
+
+// Großer Titel wandert beim Hochschieben in die Leiste
+await p.evaluate(() => window.scrollTo(0, 0)); await p.waitForTimeout(100);
+check(!(await p.locator('.pnav').evaluate(e => e.classList.contains('titled'))), 'Titel zu früh in der Leiste');
+await p.evaluate(() => window.scrollTo(0, 500)); await p.waitForTimeout(100);
+check(await p.locator('.pnav').evaluate(e => e.classList.contains('titled')), 'Titel wandert nicht in die Leiste');
+await p.evaluate(() => window.scrollTo(0, 0)); await p.waitForTimeout(100);
+check((await p.locator('#pdays .box .k.word').first().textContent()) === 'Verlauf', 'Begriff Verlauf fehlt');
 await p.screenshot({ path: OUT + 'iphone-1-reiselogbuch.png' });
 
 // Tag erfassen: bildschirmfüllend, kurzer Titel, Kasten bleibt blau, Speichern mit Häkchen, Blättern
 await p.locator('#pdays [data-day="2026-08-25"]').click(); await p.waitForTimeout(300);
+check(await p.evaluate(() => document.activeElement?.id !== 'dlgX'), 'x hat den Fokus');
+check(await p.evaluate(() => document.documentElement.classList.contains('locked')), 'Seite hinter dem Fenster nicht gesperrt');
 const box = await p.locator('#dlg').boundingBox();
 check(Math.round(box.width) === 393 && Math.round(box.height) === 852, `Fenster nicht bildschirmfüllend: ${JSON.stringify(box)}`);
 check((await p.locator('#dlg h3').textContent()) === 'Di, 25.08.2026', 'Titel nicht kurz');
@@ -63,6 +74,10 @@ check(await p.locator('#pdays .box').count() === 3, 'Nur erfasste Tage filtert n
 await p.click('#back'); await p.waitForTimeout(200);
 check((await p.locator('.ltitle').textContent()) === 'Reiselogbücher', 'Startliste fehlt');
 check((await p.locator('.lcount').textContent()) === '2 Reiselogbücher', 'Anzahl falsch');
+check(await p.locator('.irow.current').textContent().then(t => t.includes('Australien')), 'zuletzt geöffnetes nicht blau');
+check(await p.locator('.pnav .grp #newTrip').count() === 1, 'plus nicht in der Kapsel oben');
+check(await p.locator('.bbar .bnote').count() === 1, 'Backup-Hinweis unten fehlt');
+check(!(await p.evaluate(() => document.documentElement.classList.contains('locked'))), 'Seite nach dem Schließen noch gesperrt');
 await p.screenshot({ path: OUT + 'iphone-2-startliste.png' });
 const row = p.locator('.irow', { hasText: 'Toskana' });
 const rb = await row.boundingBox();
@@ -94,5 +109,16 @@ check(!(await p.evaluate(() => document.documentElement.classList.contains('phon
 await p.setViewportSize({ width: 852, height: 393 }); await p.waitForTimeout(300);
 check(await p.locator('#pdays').count() === 1, 'iPhone quer nicht kompakt');
 await p.screenshot({ path: OUT + 'iphone-3-quer.png' });
+// Backup laden: Text mit ‚Reiselogbüchern‘ und Zeilenumbruch; ‚Letztes Backup‘ bleibt das dieses Geräts
+await p.setViewportSize({ width: 393, height: 852 }); await p.waitForTimeout(200);
+await p.evaluate(() => { db.settings.lastBackup = new Date('2026-08-20T10:00:00').getTime(); save(); phoneList = true; render(); });
+const other = { settings: { lastBackup: new Date('2026-08-01T09:00:00').getTime() }, trips };
+await p.click('#homeMore'); await p.waitForTimeout(150);
+const [chooser] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
+await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(other)) }); await p.waitForTimeout(300);
+const popText = await p.locator('.pop p').innerHTML();
+check(popText.includes('mit 2 Reiselogbüchern laden?<br>'), `Text der Abfrage: ${popText}`);
+await p.locator('.pop button', { hasText: 'Ersetzen' }).click(); await p.waitForTimeout(300);
+check((await db()).settings.lastBackup === new Date('2026-08-20T10:00:00').getTime(), 'Letztes Backup vom anderen Gerät übernommen');
 console.log('ERR', JSON.stringify(errors));
 await b.close();

@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 10.10.2026, Version 3.1.0)
+# Reiselogbuch – Prompt (Stand 11.10.2026, Version 3.2.0)
 
-Reiselogbuch 3.1.0 · AppDesign 4.1.0 (Designrichtlinie allgemein 4.1.0) · Designrichtlinie Reiselogbuch 3.1.0 · Zusammenarbeit allgemein 1.12.5
+Reiselogbuch 3.2.0 · AppDesign 4.2.0 (Designrichtlinie allgemein 4.2.0) · Designrichtlinie Reiselogbuch 3.2.0 · Zusammenarbeit allgemein 1.12.5
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -17,7 +17,7 @@ Ein Tagebuch in Tabellenform, genau wie in meinem Beispiel:
   Reisezeitraum:    24.08.2026 - 11.11.2026
   Reisemittel:      ✈️ Flugzeug, 🚗 PKW
 
-  | Tag             | Programm            | 🙂☹️😉              | 😴💤 (Quartier)            |
+  | Tag             | Verlauf             | 🙂☹️😉              | 😴💤 (Quartier)            |
   | Mo, 24.08. 🌤   | Anreise nach Wien   | ☹️ Kurzer Kommentar | Prize by Radisson, Wien    |
 
   Fazit
@@ -71,26 +71,30 @@ RAHMEN
     Breite ein, ellipsis öffnet das Mehr-Menü: "Alle Tage" (list-chevrons-up-down) /
     "Nur erfasste Tage" (fold-vertical) – Häkchen vorne, dann Icon und Text ·
     "Einstellungen" · "Darstellung ›" · "Reiselogbuch löschen" (rot).
-  - iPhone (hoch und quer, auch sehr schmale Fenster; AppDesign html.phone) – wie
-    Notizen auf dem iPhone, eine Seite nach der anderen statt Seitenleiste:
+  - iPhone (hoch und quer, auch sehr schmale Fenster; AppDesign html.phone) – eine Seite
+    nach der anderen statt Seitenleiste, Bedienung sonst wie am iPad:
     - Start wie auf dem iPad im laufenden Reiselogbuch beim ersten offenen Tag.
       Oben links runder chevron-left zur Startliste, rechts die Kapsel
-      [share | ellipsis] mit denselben Menüs wie auf dem iPad.
+      [share | search | ellipsis] mit denselben Menüs und derselben Suche wie auf dem iPad
+      (Suchzeile darunter mit "1 von 4", ⓧ und ⌃ ⌄).
     - Großer Titel (Reisetitel), darunter grau "Teilnehmer · Zeitraum", die
-      Reisemittel und die Fortschrittsanzeige. Die Tage stehen als Kästen
-      untereinander: Kopf "Mo, 24.08." mit "heute"/"fehlt" und dem Wetter rechts,
-      darunter die Zeilen "Programm" (als Wort) und 🙂☹️😉 · 🍽️🍷☕️ · 😴💤 (nur
-      sichtbare Spalten mit Inhalt). Erster offener Tag gelb mit blauem Rand.
+      Reisemittel und die Fortschrittsanzeige; beim Hochschieben steht der Titel klein
+      in der Leiste (wie Notizen). Die Tage stehen als Kästen untereinander: Kopf
+      "Mo, 24.08." mit "heute"/"fehlt" und dem Wetter rechts, darunter die Felder
+      "Verlauf" (als Wort, normale Schrift) und 🙂☹️😉 · 🍽️🍷☕️ · 😴💤 (nur sichtbare
+      Spalten mit Inhalt), getrennt durch Linien (waagrecht zwischen den Feldern,
+      senkrecht zwischen Bezeichnung und Inhalt). Erster offener Tag gelb mit blauem Rand.
       Antippen öffnet die Tageserfassung (bildschirmfüllend, Titel kurz
       "Di, 25.08.2026", Wetter-Symbole 40 px). Darunter Fazit, Gesamtkosten,
-      Quartierliste als Liste und Statistik.
-    - Suche unten wie in Notizen: beim Tippen nur passende Tage, oben "Tage ·
-      2 gefunden", Treffer gelb; ⓧ leert, rundes x daneben beendet die Suche.
-    - Startliste "Reiselogbücher": großer Titel, darunter "3 Reiselogbücher",
-      Liste wie die Seitenleiste mit ›, darunter der Backup-Hinweis; oben rechts
-      ellipsis (Menü der Seitenleiste), unten rechts runder plus (Neues
-      Reiselogbuch); langes Drücken: Einstellungen · Reiselogbuch löschen. Nach
-      dem Löschen eines Reiselogbuchs geht es zur Startliste.
+      Quartierliste als Liste und Statistik. Die Vorschau zeigt die Seite in voller
+      Breite (seitlich wischen).
+    - Startliste "Reiselogbücher": oben die Kapsel [plus | ellipsis] wie am iPad, großer
+      Titel, darunter "3 Reiselogbücher"; jedes Reiselogbuch als eigene Kachel, das
+      zuletzt geöffnete blau; der Backup-Hinweis steht fest unten als gelbe Kachel mit
+      blauem Knopf (die Kacheln laufen dahinter durch); langes Drücken: Einstellungen ·
+      Reiselogbuch löschen. Nach dem Löschen eines Reiselogbuchs geht es zur Startliste.
+  - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
+    Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen
     schließt. Die Schaltfläche, von der ein Menü, eine Abfrage oder ein
     Fenster kommt, ist so lange blau getönt.
@@ -193,7 +197,7 @@ REISEN
 - Option "Quartierliste in der Ausgabe": beim Anlegen der Reise
   wählbar und nachträglich änderbar.
 - Block "Konfiguration Tabellenspalten" (unter Reisemittel) mit Hinweis
-  "Die Spalten „Tag“ und „Programm“ werden immer angezeigt." und den
+  "Die Spalten ‚Tag‘ und ‚Verlauf‘ werden immer angezeigt." und den
   Schaltern in Tabellenreihenfolge: "Spalte 🙂☹️😉 ‚Wie war was?‘",
   "Spalte 🍽️🍷☕️ ‚Essen und Trinken‘", "Spalte 😴💤 ‚Quartier‘". Beim Anlegen
   alle drei eingeschaltet (bestehende Reiselogbücher: Wie war was? und
@@ -203,7 +207,7 @@ REISEN
   - Quartier aus: "Quartierliste in der Ausgabe" ausgegraut, keine
     Quartierliste in App und Ausgabe, Statistik ohne Anzahl der Quartiere.
   - Wie war was? aus: Statistik zählt nur die Smileys des Fazits.
-  - Erfasst ist ein Tag, wenn Wetter, Programm oder eine sichtbare Spalte
+  - Erfasst ist ein Tag, wenn Wetter, Verlauf oder eine sichtbare Spalte
     (außer Essen) ausgefüllt ist.
 - Reisezeiträume dürfen sich nicht überschneiden (Hinweis "Wähle einen
   Zeitraum, der sich nicht mit ‚…‘ (…) überschneidet.", Speichern erst nach
@@ -225,7 +229,7 @@ HAUPTANSICHT (TABELLE)
   eines Reiselogbuchs und beim Start gilt immer "Alle Tage".
 - Dezente Fortschrittsanzeige, z. B. "Tag 42 von 80 · 38 erfasst".
 - Vergangene Tage ohne Eintrag werden dezent markiert.
-- Suche über die Einträge (Programm und sichtbare Spalten), nur innerhalb
+- Suche über die Einträge (Verlauf und sichtbare Spalten), nur innerhalb
   der aktuellen Reise. Treffer werden im Text gelb hinterlegt. Suchfeld als
   schwebende Kapsel in der zweiten Zeile über die volle Breite, rechtsbündig
   „3 von 57“ (bzw. „0“)
@@ -265,7 +269,7 @@ ERFASSUNG – wenig eingeben, in ganz einfachen Schritten
   saubere Formatierung erfolgt in Tabelle, HTML und PDF.
 - Schritte (je nach sichtbaren Spalten 2 bis 5, fortlaufend nummeriert):
   1. Wetter: Symbole antippen, auch mehrere: ☀️ 🌤 🌦 🌧 ☁️ ⛈ ❄️
-  2. Programm: eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle
+  2. Verlauf (bis 3.1.0 "Programm"): eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle
      und Ausgabe ▫️ davor.
      Vorschläge zum Antippen: "Weiterfahrt nach …", "Rundgang durch …",
      "Besichtigung …", "Freetour …". Angetippt wird der Text als neue

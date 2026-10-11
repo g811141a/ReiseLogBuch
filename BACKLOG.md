@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 11.10.2026** · Aktuelle Version: Reiselogbuch 3.1.0 · AppDesign 4.1.0
+**Stand 11.10.2026** · Aktuelle Version: Reiselogbuch 3.2.0 · AppDesign 4.2.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -18,30 +18,19 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.2.0 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.3.0 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-25 | 2 | iPhone: Beim Hochschieben wandert der große Titel in die fest stehende Leiste (17 pt halbfett, Mitte) und bleibt dort, bis man wieder ganz nach unten zieht (wie Notizen) – Muster M320-2/4 | allgemein | 11.10.2026 |
-| T-26 | 2 | Backup-Abfrage: ‚Backup mit 3 Reiselogbüchern laden?‘ (statt ‚Reiselogbuchern‘), danach Zeilenumbruch – iPad und iPhone | Reiselogbuch | 11.10.2026 |
-| T-27 | 2 | iPhone-Startliste: plus wie am iPad in der Kapsel [`plus` \| `ellipsis`] oben – Muster M320-1 | allgemein | 11.10.2026 |
-| T-28 | 1 | Fehler: Wischen in Fenstern, Menüs und Sprechblasen bewegt die Seite dahinter – künftig wirkt jedes Wischen und Tippen nur im Vordergrund | allgemein | 11.10.2026 |
-| T-29 | 2 | Tastatur: Textfelder beginnen mit Großbuchstaben, Autokorrektur und Rechtschreibprüfung wie am iPad | Reiselogbuch | 11.10.2026 |
-| T-30 | 1 | Fehler: ‚Letztes Backup erstellt am …‘ zeigte nach ‚Backup laden‘ den Zeitpunkt des anderen Geräts – gilt jetzt je Gerät | Reiselogbuch | 11.10.2026 |
-| T-31 | 2 | Spracheingabe (iPad und iPhone) geht nicht: Fehlersuche – jede Störung wird mit Ursache und Abhilfe gemeldet; Mikrofon-Knöpfe bleiben | Reiselogbuch | 11.10.2026 |
-| T-32 | 2 | Tageskacheln (iPhone): Felder durch Linien getrennt, waagrecht und senkrecht zwischen Bezeichnung und Inhalt (allgemein) · Begriff ‚Verlauf‘ statt ‚Programm‘ überall (Tabelle, Tageserfassung, Ausgabe, Einstellungen), auf dem iPhone in normaler Schrift – Muster M320-3b, M320-6, M320-8 | allgemein / Reiselogbuch | 11.10.2026 |
-| T-33 | 1 | Fehler: x beim Öffnen eines Fensters blau umrandet (P-15/5 und /10) – kein Fokus-Rahmen mehr | allgemein | 11.10.2026 |
-| T-34 | 2 | Suche auf dem iPhone wie am iPad: `search` in der Kapsel, Suchzeile darunter mit ‚1 von 4‘, ⓧ und ⌃ ⌄ – Muster M320-5 | allgemein | 11.10.2026 |
-| T-35 | 2 | Startliste (iPhone): jedes Reiselogbuch als eigene Kachel, das zuletzt geöffnete blau · Backup-Hinweis fest am unteren Rand, gelb mit blau gefülltem Knopf, die Kacheln laufen dahinter durch · am iPad in der Seitenleiste ebenso fest unten und gelb – Muster M320-1a, M320-7 | allgemein | 11.10.2026 |
-| T-36 | 1 | Fehler: Kapsel [PDF \| share] in der Vorschau auf dem iPhone zusammengedrückt (P-15/10) | allgemein | 11.10.2026 |
+| – | – | zurzeit nichts | – | – |
 
-**12 Punkte bereit** · gebaut wird erst nach „Ja“
+**0 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-15 | 1 | Version 3.1.0 geprüft (11.10.2026): 1–3, 6, 8, 11 ok · 4 → T-32 · 5 und 10 → T-33, T-36 · 7 → T-34 · 9 → T-35 · 12 erklärt; die Punkte kommen mit 3.2.0 erneut in die Prüfliste | geprüft |
+| P-16 | 1 | Version 3.2.0 (T-25 bis T-36) – Prüfliste 1–12 in der Antwort zu 3.2.0 bzw. im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -63,6 +52,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-25 | Reiselogbuch 3.2.0: T-25 bis T-36 (Verlauf, iPhone wie iPad, Titel in der Leiste, Kacheln, Backup-Hinweis, nur Vordergrund reagiert, Fehlerbehebungen) | Reiselogbuch 3.2.0 · AppDesign 4.2.0 | 11.10.2026 |
+| E-24 | Geprüft: P-15 Version 3.1.0 – 1–3, 6, 8, 11 ok; Rest → T-32 bis T-36 | Reiselogbuch 3.1.0 | 11.10.2026 |
 | E-23 | Reiselogbuch 3.1.0: T-02 iPhone-Ansicht (AppDesign 4.1.0), T-24 Icons bei ‚Alle Tage‘/‚Nur erfasste Tage‘ | Reiselogbuch 3.1.0 · AppDesign 4.1.0 | 10.10.2026 |
 | E-22 | Auf dem iPad geprüft und ok: P-14 Reiselogbuch 3.0.0 mit AppDesign 4.0.0 (auch offline) | Reiselogbuch 3.0.0 | 09.10.2026 |
 | E-21 | Reiselogbuch 3.0.0: T-23 gemeinsame Bausteine aus dem Design-Repo AppDesign 4.0.0 (S-01, S-02) | Reiselogbuch 3.0.0 · AppDesign 4.0.0 | 09.10.2026 |
