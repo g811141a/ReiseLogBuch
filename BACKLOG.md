@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 11.10.2026** · Aktuelle Version: Reiselogbuch 3.4.0 · AppDesign 4.4.0
+**Stand 11.10.2026** · Aktuelle Version: Reiselogbuch 3.5.0 · AppDesign 4.5.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -18,7 +18,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.5.0 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.6.0 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-18 | 1 | Version 3.4.0 (T-46 bis T-50) – Prüfliste 1–5 im CHANGELOG | prüfen |
+| P-19 | 1 | Version 3.5.0 (T-51, T-52) – Prüfliste 1–3 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-31 | Reiselogbuch 3.5.0: T-51 Vorschau am iPad in Seitenbreite, T-52 Leisten bewegen sich nie | Reiselogbuch 3.5.0 · AppDesign 4.5.0 | 11.10.2026 |
+| E-30 | Geprüft: P-18 Version 3.4.0 – 1–3, 5 ok; 4 → T-52 | Reiselogbuch 3.4.0 | 11.10.2026 |
 | E-29 | Reiselogbuch 3.4.0: T-46 Titel in der Leiste, T-47 Bezeichnungen auf dem iPhone, T-48 Backup-Kachel immer, T-49 Anzahl unter dem Titel, T-50 Großschreibung nach Vorschlägen | Reiselogbuch 3.4.0 · AppDesign 4.4.0 | 11.10.2026 |
 | E-28 | Geprüft: P-17 Version 3.3.0 – 1–3, 6, 8, 9 ok; 4, 5, 7 → T-48 bis T-50 | Reiselogbuch 3.3.0 | 11.10.2026 |
 | E-27 | Reiselogbuch 3.3.0: T-37 kein Zoom durch Doppeltippen, T-38 Bezeichnung bleibt beim Feld, T-39 gelb ohne blauen Rand, T-40/T-43 Startliste = Seitenleiste mit Kacheln, T-41 Mikrofon-Knöpfe entfernt, T-42 Großbuchstabe am Zeilenanfang, T-44 ‚Verlauf‘ halbfett, T-45 senkrechte Kapsel | Reiselogbuch 3.3.0 · AppDesign 4.3.0 | 11.10.2026 |

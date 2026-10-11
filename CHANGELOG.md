@@ -13,6 +13,26 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.5.0 – 11.10.2026 (Nebenversion)
+
+Reiselogbuch 3.5.0 · AppDesign 4.5.0 (Designrichtlinie allgemein 4.5.0) · Designrichtlinie Reiselogbuch 3.5.0 · Zusammenarbeit allgemein 1.12.5
+
+Aus der Prüfung von 3.4.0 (P-18):
+
+- T-51: Vorschau am iPad wie am iPhone in voller Seitenbreite – im Hochformat ragt nichts mehr
+  über die Tabelle hinaus, man wischt seitlich.
+- T-52: Leisten bewegen sich nie – die Seite federt beim Wischen nicht nach; die Leiste der
+  iPhone-Startliste steht fest (P-18/4).
+
+Prüfliste P-19 (iPad und iPhone, jeweils hell und dunkel):
+
+1. iPad hoch und quer: Vorschau – die Seite in voller Breite, alles innerhalb der Tabelle; im
+   Hochformat lässt sie sich seitlich wischen.
+2. iPhone: Startliste nach oben und unten wischen – die Leiste mit ‚Reiselogbücher‘ bleibt stehen,
+   auch wenn nur wenige Reiselogbücher da sind.
+3. iPad und iPhone: Reiselogbuch nach oben und unten wischen – die Leiste bleibt stehen, die Seite
+   federt am Rand nicht nach.
+
 ## 3.4.0 – 11.10.2026 (Nebenversion)
 
 Reiselogbuch 3.4.0 · AppDesign 4.4.0 (Designrichtlinie allgemein 4.4.0) · Designrichtlinie Reiselogbuch 3.4.0 · Zusammenarbeit allgemein 1.12.5

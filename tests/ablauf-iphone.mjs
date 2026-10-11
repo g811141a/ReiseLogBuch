@@ -82,6 +82,11 @@ check(await p.locator('#pdays .box').count() === 3, 'Nur erfasste Tage filtert n
 await p.click('#back'); await p.waitForTimeout(200);
 check((await p.locator('.pnav-head').evaluate(e => e.firstChild.textContent)) === 'Reiselogbücher', 'Startliste fehlt (Titel links in der Leiste)');
 check(await p.locator('.ilist.tiles .irow').count() === 2, 'Kacheln fehlen');
+// Leiste steht fest, die Seite federt nicht nach
+await p.evaluate(() => { const f = document.createElement('div'); f.id = 'filler'; f.style.height = '2000px'; app.append(f); window.scrollTo(0, 600); }); await p.waitForTimeout(150);
+check(await p.locator('.pnav').evaluate(e => Math.round(e.getBoundingClientRect().top)) === 0, 'Leiste bewegt sich beim Wischen');
+check(await p.evaluate(() => getComputedStyle(document.documentElement).overscrollBehaviorY) === 'none', 'Seite federt nach');
+await p.evaluate(() => { document.getElementById('filler').remove(); window.scrollTo(0, 0); });
 check(await p.locator('.irow.current').textContent().then(t => t.includes('Australien')), 'zuletzt geöffnetes nicht blau');
 check(await p.locator('.pnav .grp #newTrip').count() === 1, 'plus nicht in der Kapsel oben');
 check(await p.locator('.bbar .bnote').count() === 1, 'Backup-Hinweis unten fehlt');

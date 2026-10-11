@@ -85,9 +85,11 @@
 
   .qrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
   .dlg-body.preview { margin: 0; padding: 24px; background: #fff; color: #000; color-scheme: light; }
-  /* iPhone: die Vorschau zeigt die Seite in voller Breite (wie die Ausgabe), seitlich wischen statt Wörter zu zerreißen */
-  html.phone .dlg-body.preview { overflow: auto; padding: 16px; }
-  html.phone .dlg-body.preview .rt { width: 960px; }
+  /* Vorschau in voller Seitenbreite (wie die Ausgabe) – ist das Fenster schmaler (iPad hoch, iPhone),
+     wischt man seitlich, statt dass Wörter zerreißen oder Inhalte über die Tabelle hinausragen */
+  .dlg-body.preview { overflow: auto; }
+  .dlg-body.preview .rt { min-width: 960px; }
+  html.phone .dlg-body.preview { padding: 16px; }
 
   #printout { display: none; }
   @media print {
@@ -117,8 +119,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.4.0';
-const APP_BUILT = '11.10.2026 um 15:41';
+const APP_VERSION = '3.5.0';
+const APP_BUILT = '11.10.2026 um 16:13';
 
 const app = document.getElementById('app');
 const side = document.getElementById('side');
