@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 10.10.2026** · Aktuelle Version: Reiselogbuch 3.1.0 · AppDesign 4.1.0
+**Stand 11.10.2026** · Aktuelle Version: Reiselogbuch 3.1.0 · AppDesign 4.1.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,21 +22,32 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-25 | 2 | iPhone: Beim Hochschieben wandert der große Titel in die fest stehende Leiste (17 pt halbfett, Mitte) und bleibt dort, bis man wieder ganz nach unten zieht (wie Notizen) – Muster M320-2/4 | allgemein | 11.10.2026 |
+| T-26 | 2 | Backup-Abfrage: ‚Backup mit 3 Reiselogbüchern laden?‘ (statt ‚Reiselogbuchern‘), danach Zeilenumbruch – iPad und iPhone | Reiselogbuch | 11.10.2026 |
+| T-27 | 2 | iPhone-Startliste: plus wie am iPad in der Kapsel [`plus` \| `ellipsis`] oben – Muster M320-1 | allgemein | 11.10.2026 |
+| T-28 | 1 | Fehler: Wischen in Fenstern, Menüs und Sprechblasen bewegt die Seite dahinter – künftig wirkt jedes Wischen und Tippen nur im Vordergrund | allgemein | 11.10.2026 |
+| T-29 | 2 | Tastatur: Textfelder beginnen mit Großbuchstaben, Autokorrektur und Rechtschreibprüfung wie am iPad | Reiselogbuch | 11.10.2026 |
+| T-30 | 1 | Fehler: ‚Letztes Backup erstellt am …‘ zeigte nach ‚Backup laden‘ den Zeitpunkt des anderen Geräts – gilt jetzt je Gerät | Reiselogbuch | 11.10.2026 |
+| T-31 | 2 | Spracheingabe (iPad und iPhone) geht nicht: Fehlersuche – jede Störung wird mit Ursache und Abhilfe gemeldet; Mikrofon-Knöpfe bleiben | Reiselogbuch | 11.10.2026 |
+| T-32 | 2 | Tageskacheln (iPhone): Felder durch Linien getrennt, waagrecht und senkrecht zwischen Bezeichnung und Inhalt (allgemein) · Begriff ‚Verlauf‘ statt ‚Programm‘ überall (Tabelle, Tageserfassung, Ausgabe, Einstellungen), auf dem iPhone in normaler Schrift – Muster M320-3b, M320-6, M320-8 | allgemein / Reiselogbuch | 11.10.2026 |
+| T-33 | 1 | Fehler: x beim Öffnen eines Fensters blau umrandet (P-15/5 und /10) – kein Fokus-Rahmen mehr | allgemein | 11.10.2026 |
+| T-34 | 2 | Suche auf dem iPhone wie am iPad: `search` in der Kapsel, Suchzeile darunter mit ‚1 von 4‘, ⓧ und ⌃ ⌄ – Muster M320-5 | allgemein | 11.10.2026 |
+| T-35 | 2 | Startliste (iPhone): jedes Reiselogbuch als eigene Kachel, das zuletzt geöffnete blau · Backup-Hinweis fest am unteren Rand, gelb mit blau gefülltem Knopf, die Kacheln laufen dahinter durch · am iPad in der Seitenleiste ebenso fest unten und gelb – Muster M320-1a, M320-7 | allgemein | 11.10.2026 |
+| T-36 | 1 | Fehler: Kapsel [PDF \| share] in der Vorschau auf dem iPhone zusammengedrückt (P-15/10) | allgemein | 11.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**12 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-15 | 1 | Version 3.1.0 (T-02 iPhone-Ansicht, T-24 Icons im Mehr-Menü) – Prüfliste 1–12 in der Antwort zu 3.1.0 bzw. im CHANGELOG | prüfen |
+| P-15 | 1 | Version 3.1.0 geprüft (11.10.2026): 1–3, 6, 8, 11 ok · 4 → T-32 · 5 und 10 → T-33, T-36 · 7 → T-34 · 9 → T-35 · 12 erklärt; die Punkte kommen mit 3.2.0 erneut in die Prüfliste | geprüft |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-03 | 2 | Daten zwischen iPad und iPhone abgleichen über eine Datei in iCloud Drive (kostenlos; Mac vorhanden, kein Entwicklerkonto). Geklärt 10.10.2026: abwechselnd arbeiten · gleicher Tag auf beiden Geräten geändert → neuere Änderung gilt · gelöschte Reiselogbücher werden beim Abgleich auch gelöscht · Start über ‚Backup laden‘, danach Auswahl ‚Abgleichen‘ oder ‚Ersetzen‘. iPhone-Ansicht seit 3.1.0 vorhanden; als Nächstes Muster | allgemein | geklärt, Muster folgt |
+| T-03 | 2 | Daten zwischen iPad und iPhone abgleichen über eine Datei in iCloud Drive (kostenlos; Mac vorhanden, kein Entwicklerkonto). Geklärt 10.10.2026: abwechselnd arbeiten · gleicher Tag auf beiden Geräten geändert → neuere Änderung gilt · gelöschte Reiselogbücher werden beim Abgleich auch gelöscht · Start über ‚Backup laden‘, danach Auswahl ‚Abgleichen‘ oder ‚Ersetzen‘. Dazu (11.10.2026): je Reiselogbuch ‚zuletzt geändert am … auf iPad/iPhone‘ anzeigen; beim Laden zeigen, ob das Backup älter oder neuer ist als die Daten auf dem Gerät. iPhone-Ansicht seit 3.1.0 vorhanden; als Nächstes Muster | allgemein | geklärt, Muster folgt |
 | T-05 | 2 | Bestehende (alte) Reiselogbücher aufbereiten und importierbar machen: Dateien (Word/PDF/Excel/HTML/Fotos) auslesen, Unklarheiten nachfragen, Vorschau zeigen, Datei erstellen; Überschneidungen prüfen. Offen: Form der Unterlagen, Anzahl, Weg (a: in aktuelles Backup einfügen · b: neue Funktion „Reiselogbuch importieren“, die hinzufügt statt ersetzt) | Reiselogbuch | offen |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
