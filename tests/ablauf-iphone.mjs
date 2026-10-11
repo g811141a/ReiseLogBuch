@@ -80,20 +80,23 @@ check(await p.locator('#pdays .box').count() === 3, 'Nur erfasste Tage filtert n
 
 // Zurück zur Startliste, Kontextmenü, Einstellungen
 await p.click('#back'); await p.waitForTimeout(200);
-check((await p.locator('.pnav-head').evaluate(e => e.firstChild.textContent)) === 'Reiselogbücher', 'Startliste fehlt (Titel links in der Leiste)');
-check(await p.locator('.ilist.tiles .irow').count() === 2, 'Kacheln fehlen');
-// Leiste steht fest, die Seite federt nicht nach
-await p.evaluate(() => { const f = document.createElement('div'); f.id = 'filler'; f.style.height = '2000px'; app.append(f); window.scrollTo(0, 600); }); await p.waitForTimeout(150);
-check(await p.locator('.pnav').evaluate(e => Math.round(e.getBoundingClientRect().top)) === 0, 'Leiste bewegt sich beim Wischen');
+// Startliste = derselbe Baustein wie die Seitenleiste am iPad (R-36)
+check((await p.locator('#side.page .side-head h2').textContent()) === 'Reiselogbücher', 'Startliste fehlt (Seitenleiste als ganze Seite)');
+check(await p.locator('#side.page .side-list .side-row').count() === 2, 'Kacheln fehlen');
+check(!(await p.locator('#sideHide').isVisible()), 'Seitenleisten-Knopf auf dem iPhone sichtbar');
+// Kopf steht fest, die Kacheln laufen unter der Backup-Kachel durch (wie am iPad)
+await p.evaluate(() => { const l = document.querySelector('#side .side-list'); const f = document.createElement('div'); f.id = 'filler'; f.style.height = '2000px'; l.append(f); l.scrollTop = 600; }); await p.waitForTimeout(150);
+check(await p.locator('#side .side-head').evaluate(e => Math.round(e.getBoundingClientRect().top)) === 0, 'Kopf der Startliste bewegt sich beim Wischen');
+check(await p.evaluate(() => document.querySelector('#side .side-list').getBoundingClientRect().bottom >= document.querySelector('#side .side-foot').getBoundingClientRect().bottom - 2), 'Kacheln verschwinden nicht hinter der Backup-Kachel');
 check(await p.evaluate(() => getComputedStyle(document.documentElement).overscrollBehaviorY) === 'none', 'Seite federt nach');
-await p.evaluate(() => { document.getElementById('filler').remove(); window.scrollTo(0, 0); });
-check(await p.locator('.irow.current').textContent().then(t => t.includes('Australien')), 'zuletzt geöffnetes nicht blau');
-check(await p.locator('.pnav .grp #newTrip').count() === 1, 'plus nicht in der Kapsel oben');
-check(await p.locator('.bbar .bnote').count() === 1, 'Backup-Hinweis unten fehlt');
-check((await p.locator('.pnav-head small').textContent()) === '2 Reiselogbücher', 'Anzahl unter dem Titel fehlt');
+await p.evaluate(() => { document.getElementById('filler').remove(); document.querySelector('#side .side-list').scrollTop = 0; });
+check(await p.locator('.side-row.current').textContent().then(t => t.includes('Australien')), 'zuletzt geöffnetes nicht blau');
+check(await p.locator('#side .side-head .grp #newTrip').count() === 1, 'plus nicht in der Kapsel oben');
+check(await p.locator('#side .side-foot .bhint').count() === 1, 'Backup-Kachel unten fehlt');
+check((await p.locator('#side .side-head small').textContent()) === '2 Reiselogbücher', 'Anzahl unter dem Titel fehlt');
 check(!(await p.evaluate(() => document.documentElement.classList.contains('locked'))), 'Seite nach dem Schließen noch gesperrt');
 await p.screenshot({ path: OUT + 'iphone-2-startliste.png' });
-const row = p.locator('.irow', { hasText: 'Toskana' });
+const row = p.locator('.side-row', { hasText: 'Toskana' });
 const rb = await row.boundingBox();
 await p.mouse.move(rb.x + 40, rb.y + 20); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); await p.waitForTimeout(150);
 check(await p.locator('.menu .mi', { hasText: 'Einstellungen' }).count() === 1, 'Kontextmenü fehlt');
@@ -110,7 +113,7 @@ await row.click(); await p.waitForTimeout(250);
 check((await p.locator('.pnav-title').textContent()) === 'Toskana', 'Öffnen aus der Liste geht nicht');
 await p.click('#mainMore'); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(200);
 await p.locator('.pop button', { hasText: 'Reiselogbuch löschen' }).click(); await p.waitForTimeout(250);
-check((await p.locator('.pnav-head').evaluate(e => e.firstChild.textContent)) === 'Reiselogbücher', 'Nach dem Löschen nicht in der Startliste');
+check((await p.locator('#side.page .side-head h2').textContent()) === 'Reiselogbücher', 'Nach dem Löschen nicht in der Startliste');
 check((await db()).trips.length === 1, 'nicht gelöscht');
 
 // Neues Reiselogbuch über plus
@@ -131,7 +134,7 @@ await p.screenshot({ path: OUT + 'iphone-3-quer.png' });
 await p.setViewportSize({ width: 393, height: 852 }); await p.waitForTimeout(200);
 await p.evaluate(() => { db.settings.lastBackup = new Date('2026-08-20T10:00:00').getTime(); save(); phoneList = true; render(); });
 const other = { settings: { lastBackup: new Date('2026-08-01T09:00:00').getTime() }, trips };
-await p.click('#homeMore'); await p.waitForTimeout(150);
+await p.click('#sideMore'); await p.waitForTimeout(150);
 const [chooser] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
 await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(other)) }); await p.waitForTimeout(300);
 const popText = await p.locator('.pop p').innerHTML();

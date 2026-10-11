@@ -8,9 +8,12 @@ import { chromium } from 'playwright';
 import { createCheck } from '../../AppDesign/tests/hig.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
+const long = 'a'.repeat(100); // R-37: zu lange Wörter müssen im Wort umbrechen
 const trips = [
   { id: 'a', title: 'Australien', participants: 'Anna, Ben', start: '2026-08-24', end: '2026-09-05', transport: ['flug', 'leihwagen'], quarterList: true, foodColumn: true, moodColumn: true, quarterColumn: true, fazit: 'Schön',
-    days: { '2026-08-24': { weather: '☀️', program: 'Ankunft Sydney\nOper', mood: '🙂 super', food: '🍽️ Fischmarkt – gut\n😋 Harrys Café – Pie', quarter: 'Hotel Rocks', place: 'Sydney' } } },
+    days: { '2026-08-24': { weather: '☀️', program: 'Ankunft Sydney\nOper', mood: '🙂 super', food: '🍽️ Fischmarkt – gut\n😋 Harrys Café – Pie', quarter: 'Hotel Rocks', place: 'Sydney' },
+      '2026-08-25': { program: 'Anreise ' + long, comment: '😉 ' + long, food: '😋 ' + long, quarter: long, place: 'Wien' } } },
+  { id: 'c', title: 'Rundreise ' + 'b'.repeat(60), participants: long, start: '2024-05-03', end: '2024-05-17', transport: ['pkw'], days: {} },
   { id: 'b', title: 'Toskana', participants: 'Anna', start: '2027-05-03', end: '2027-05-17', transport: ['pkw'], days: {} },
 ];
 
@@ -35,6 +38,7 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[1180, 820], [820,
   const stays = (sel, s) => hig.stays(p, sel, `${s} (${tag})`);
 
   await M('Start');
+  if (w > h) await hig.shape(p, '#side', 'Seitenleiste / Startliste', 'iPad', ['#sideHide']);
   await p.click('#sideMore'); await p.waitForTimeout(150); await stays('#sideMore', 'Menü Seitenleiste'); await M('Menü Seitenleiste'); await away();
   await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(250);
   await M('Hauptansicht');
@@ -97,8 +101,11 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
   await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);
   await M('Sprechblase Löschen'); await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
   await p.click('#back'); await p.waitForTimeout(250); await M('Startliste');
-  await p.click('#homeMore'); await p.waitForTimeout(150); await stays('#homeMore', 'Menü Startliste'); await M('Menü Startliste'); await away();
-  await dialog(() => p.click('#newTrip'), 'Fenster Neues Reiselogbuch', '#newTrip');
+  await hig.shape(p, '#side', 'Seitenleiste / Startliste', `iPhone ${w > h ? 'quer' : 'hoch'}`, ['#sideHide']);
+  try {
+    await p.click('#sideMore', { timeout: 3000 }); await p.waitForTimeout(150); await stays('#sideMore', 'Menü Startliste'); await M('Menü Startliste'); await away();
+    await dialog(() => p.click('#newTrip', { timeout: 3000 }), 'Fenster Neues Reiselogbuch', '#newTrip');
+  } catch (e) { note('Ablauf', 'Startliste nicht bedienbar (Mehr/plus fehlen)', tag); }
   for (const e of errors) note('Skriptfehler', e, tag);
   await p.close();
 }

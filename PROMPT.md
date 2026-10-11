@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 11.10.2026, Version 3.6.0)
+# Reiselogbuch – Prompt (Stand 12.10.2026, Version 3.7.0)
 
-Reiselogbuch 3.6.0 · AppDesign 4.6.0 (Designrichtlinie allgemein 4.6.0) · Designrichtlinie Reiselogbuch 3.6.0 · Zusammenarbeit allgemein 1.13.0
+Reiselogbuch 3.7.0 · AppDesign 4.7.0 (Designrichtlinie allgemein 4.7.0) · Designrichtlinie Reiselogbuch 3.7.0 · Zusammenarbeit allgemein 1.13.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -108,6 +108,10 @@ RAHMEN
   - Seit 3.6.0: Auch am iPad steht die Kopfzeile fest; in der Seitenleiste scrollen nur die
     Kacheln, Kopf und Backup-Kachel bewegen sich nie. Es gilt der Regelkatalog der
     Designrichtlinie allgemein (R-01 bis R-35); das Prüfskript prüft ihn bei jeder Version.
+  - Seit 3.7.0: Die Startliste am iPhone ist dieselbe Seitenleiste wie am iPad, als ganze Seite
+    (ein Baustein, R-36); die Kacheln laufen auf beiden Geräten hinter der Backup-Kachel durch.
+    Zu lange Wörter brechen in Zellen, Kästen und Kacheln im Wort um (R-37); die Suche markiert
+    auch Teile solcher Wörter.
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen
@@ -237,7 +241,7 @@ HAUPTANSICHT (TABELLE)
   (die erste Lücke, auch wenn spätere Tage schon erfasst sind) und
   markiert diese Zeile.
 - Die Kopfzeile bleibt beim Scrollen stehen, der Tabellenkopf direkt
-  darunter. In der Tabelle wird nur zwischen ganzen Wörtern umgebrochen.
+  darunter. In der Tabelle wird zwischen ganzen Wörtern umgebrochen; ein zu langes Wort bricht im Wort um (R-37).
 - Unten rechts übereinander die Schaltflächen ⬆️ (nach oben) und ⬇️ (ans
   Ende), im gleichen Aussehen wie die Dunkel-Schaltfläche, ohne Schatten.
 - Filter im Mehr-Menü: "Alle Tage" bzw. "Nur erfasste Tage"; beim Öffnen

@@ -46,8 +46,9 @@
   .ln + .ln { margin-top: 2px; }
   .ln .m { flex: none; }
   .ln .t { min-width: 0; overflow-wrap: anywhere; }
-  /* In der Tagestabelle nur zwischen ganzen Wörtern umbrechen (die Spalte wird so breit wie das längste Wort). */
-  table.days .ln .t { overflow-wrap: normal; }
+  /* In der Tagestabelle zwischen ganzen Wörtern umbrechen (die Spalte wird so breit wie das längste Wort);
+     ein zu langes Wort, das nicht in die Spalte passt, bricht im Wort um (R-37). */
+  table.days .ln .t { overflow-wrap: break-word; }
   mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1px; }
   mark.cur { background: var(--mark-cur); color: var(--mark-cur-ink); }
 
@@ -119,8 +120,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.6.0';
-const APP_BUILT = '11.10.2026 um 16:36';
+const APP_VERSION = '3.7.0';
+const APP_BUILT = '12.10.2026 um 00:12';
 
 const app = document.getElementById('app');
 const side = document.getElementById('side');
@@ -423,9 +424,10 @@ function toggleNoLink(ta) {
 
 // Optional werden Suchtreffer im (bereits maskierten) Text gelb markiert.
 function highlight(text, term) {
-  const safe = esc(text);
+  const safe = esc(breakable(text)); // zu lange Wörter dürfen im Wort umbrechen (R-37)
   if (!term) return safe;
-  const pattern = esc(term).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // Zwischen den Zeichen darf eine unsichtbare Umbruchstelle stehen (lange Wörter, R-37)
+  const pattern = (esc(term).match(/&[a-z0-9#]+;|./gsu) || []).map(ch => ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('\u200B?');
   return safe.replace(new RegExp(pattern, 'gi'), m => `<mark>${m}</mark>`);
 }
 
@@ -726,13 +728,18 @@ const fazitHtml = trip => `<h2>Fazit</h2>
 let phoneList = false;   // iPhone: Startliste statt eines Reiselogbuchs
 
 function renderPhone({ scrollToGap = false } = {}) {
-  side.hidden = true;
-  side.classList.remove('over');
-  document.body.classList.remove('docked');
-  document.querySelector('.side-shade')?.remove();
   fab.hidden = true;
   const trip = getTrip(currentTripId);
-  if (phoneList || !trip) return renderPhoneList();
+  // Startliste = Seitenleiste als ganze Seite (derselbe Baustein wie am iPad, R-36)
+  if (phoneList || !trip) {
+    searchOpen = false;
+    app.innerHTML = '';
+    renderSide();
+    if (!db.trips.length && !emptyPrompted && !dlg.open) { emptyPrompted = true; openTripDialog(null); }
+    return;
+  }
+  side.hidden = true;
+  side.classList.remove('page');
   emptyPrompted = false;
   const today = todayISO();
   const gap = firstGap(trip);
@@ -795,40 +802,6 @@ function phoneStaysHtml(trip) {
     <small>${shortDate(st.firstNight)} - ${fullDate(addDays(st.lastNight, 1))} · ${st.nights} ${st.nights === 1 ? 'Nacht' : 'Nächte'}</small></span></div>`).join('')}</div>` : '';
 }
 
-// Startliste ‚Reiselogbücher‘ wie die Seitenleiste am iPad: Leiste mit Titel links und Kapsel [plus | ellipsis] bleibt
-// oben stehen, jedes Reiselogbuch als eigene Kachel (das zuletzt geöffnete blau), Backup-Hinweis fest am unteren Rand.
-function renderPhoneList() {
-  searchOpen = false;
-  const today = todayISO();
-  const trips = [...db.trips].sort((a, b) => b.start.localeCompare(a.start));
-  const n = trips.length;
-  app.innerHTML = `
-    <div class="pnav" id="bar">
-      <h1 class="pnav-head">Reiselogbücher<small>${tripCount(n)}</small></h1>
-      <span></span>
-      <span class="r"><span class="grp">
-        <button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button>
-        <button type="button" id="homeMore" aria-label="Mehr">${ic('ellipsis')}</button>
-      </span></span>
-    </div>
-    ${n ? '' : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}
-    ${n ? `<div class="ilist tiles">${trips.map(t => `<button type="button" class="irow ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
-        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small></span>${ic('chevron-right')}</button>`).join('')}</div>`
-      : '<div class="emptymain" style="margin-top:60px">Mit ‚plus‘ oben rechts ein neues Reiselogbuch anlegen.</div>'}
-    ${n ? `<div class="bbar"><div class="bnote ${backedUpToday() ? 'ok' : ''}"><div>${lastBackupText()}</div>
-      <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div></div>` : ''}`;
-  app.querySelector('#homeMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#homeMore'));
-  app.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
-  app.querySelector('#hintBackup')?.addEventListener('click', () => saveBackup('#hintBackup'));
-  // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Einstellungen · Reiselogbuch löschen).
-  app.querySelectorAll('.irow[data-id]').forEach(b => onLongPress(b,
-    () => tripContextMenu(b, getTrip(b.dataset.id)),
-    () => { window.scrollTo(0, 0); showTrip(b.dataset.id); }));
-  held.forEach(sel => app.querySelector(sel)?.classList.add('on'));
-  markOpener();
-  updateBar();
-  if (!n && !emptyPrompted && !dlg.open) { emptyPrompted = true; openTripDialog(null); }
-}
 
 // Treffer-Navigation der Suche: jeder markierte Begriff in der Tabelle ist ein Treffer; der aktuelle ist hellorange.
 const hitMarks = () => [...app.querySelectorAll('table.days:not(.static) mark, #pdays mark')];
@@ -923,15 +896,18 @@ function lastBackupText() {
 }
 
 function renderSide() {
-  if (isPhone()) return;
-  const show = sideVisible();
+  // iPhone: die Seitenleiste ist die Startliste und füllt den Bildschirm (.page); im Reiselogbuch ist sie aus.
+  const page = isPhone();
+  if (page && !(phoneList || !getTrip(currentTripId))) { side.hidden = true; side.classList.remove('page'); return; }
+  const show = page || sideVisible();
   const wide = isWide();
   side.hidden = !show;
-  side.classList.toggle('over', show && !wide);
-  document.body.classList.toggle('docked', show && wide);
+  side.classList.toggle('page', page);
+  side.classList.toggle('over', show && !wide && !page);
+  document.body.classList.toggle('docked', show && wide && !page);
   document.querySelector('.side-shade')?.remove();
   if (!show) return;
-  if (!wide) {
+  if (!wide && !page) {
     const shade = document.createElement('div');
     shade.className = 'side-shade';
     shade.onclick = () => { sideOverlay = false; render(); };
@@ -947,8 +923,8 @@ function renderSide() {
     <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small></span>${ic('chevron-right')}</button>`).join('')
       : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}</div>
-    ${trips.length ? `<div class="bhint ${backedUpToday() ? 'ok' : ''}"><div>${lastBackupText()}</div>
-      <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div>` : ''}`;
+    ${trips.length ? `<div class="side-foot"><div class="bhint ${backedUpToday() ? 'ok' : ''}"><div>${lastBackupText()}</div>
+      <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div></div>` : ''}`;
   side.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
   side.querySelector('#sideMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
   side.querySelector('#sideHide').onclick = toggleSide;
@@ -958,7 +934,7 @@ function renderSide() {
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Öffnen · Einstellungen · Reiselogbuch löschen).
   side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
     () => tripContextMenu(b, getTrip(b.dataset.id)),
-    () => { sideOverlay = false; showTrip(b.dataset.id); }));
+    () => { sideOverlay = false; if (isPhone()) window.scrollTo(0, 0); showTrip(b.dataset.id); }));
   document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
 }
 
@@ -993,7 +969,7 @@ function openMainMenu(anchor, trip) {
 function tripContextMenu(row, trip) {
   if (!trip) return;
   openMenu(row, [
-    { icon: 'settings', label: 'Einstellungen', act: () => { setOpener(`${row.closest('#side') ? '#side .side-row' : '#app .irow'}[data-id="${trip.id}"]`); openTripDialog(trip); } },
+    { icon: 'settings', label: 'Einstellungen', act: () => { setOpener(`#side .side-row[data-id="${trip.id}"]`); openTripDialog(trip); } },
     'sep',
     { icon: 'trash', label: 'Reiselogbuch löschen', red: true, act: () => { row.classList.add('on'); deleteTrip(trip, row); } },
   ], 'beside');
