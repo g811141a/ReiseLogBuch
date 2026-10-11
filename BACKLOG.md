@@ -23,7 +23,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
 | T-53 | 1 | Fehler (P-19/3): Am iPad federn Kopfzeile und Backup-Kachel beim Wischen – Kopfzeile fest positioniert, in der Seitenleiste scrollen nur die Kacheln (Kopf und Backup-Kachel stehen fest). Umgesetzt und getestet auf den Zweigen `vorbereitung-3.6.0` (ReiseLogBuch) und `vorbereitung-4.5.1` (AppDesign), noch nicht veröffentlicht | allgemein | 11.10.2026 |
-| T-54 | 1 | Regelkatalog: alle allgemeinen Regeln nummeriert (R-01 bis R-21, Designrichtlinie allgemein Abschnitt 17); das Prüfskript prüft alle automatisch prüfbaren Regeln in jeder Ansicht (hätte P-19/3 gefunden); Geräte-Regeln in die Prüfliste, wenn betroffen; Zusammenarbeit allgemein 1.13.0. Vorbereitet auf `vorbereitung-4.5.1` (AppDesign, wird 4.6.0) | allgemein | 11.10.2026 |
+| T-54 | 1 | Regelkatalog: alle allgemeinen Regeln aus dem ganzen Chat nummeriert (R-01 bis R-35, Designrichtlinie allgemein Abschnitt 17); das Prüfskript prüft die 27 automatisch prüfbaren Regeln in jeder Ansicht (hätte P-19/3 gefunden; Gegenprobe mit absichtlich eingebauten Fehlern); Geräte-Regeln in die Prüfliste, wenn betroffen; Zusammenarbeit allgemein 1.13.0. Vorbereitet auf `vorbereitung-4.5.1` (AppDesign, wird 4.6.0) | allgemein | 11.10.2026 |
 
 
 **2 Punkte bereit** · gebaut wird erst nach „Ja“
