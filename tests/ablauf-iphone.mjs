@@ -21,7 +21,7 @@ await p.reload(); await p.waitForTimeout(300);
 const db = () => p.evaluate(() => JSON.parse(localStorage.getItem('reiselogbuch.v1')));
 
 check(await p.evaluate(() => document.documentElement.classList.contains('phone')), 'html.phone fehlt');
-check(await p.locator('.ltitle').textContent() === 'Australien', 'Start nicht im laufenden Reiselogbuch');
+check(await p.locator('.pnav-title').textContent() === 'Australien', 'Start nicht im laufenden Reiselogbuch');
 check(await p.locator('#side').isHidden(), 'Seitenleiste sichtbar');
 check(await p.locator('#pdays .box.gap').count() === 1, 'erster offener Tag nicht markiert');
 check(await p.locator('.pnav .grp #searchBtn').count() === 1, 'search fehlt in der Kapsel');
@@ -39,9 +39,9 @@ check(await p.locator('#search').count() === 0, 'Suche nicht beendet');
 
 // Großer Titel wandert beim Hochschieben in die Leiste
 await p.evaluate(() => window.scrollTo(0, 0)); await p.waitForTimeout(100);
-check(!(await p.locator('.pnav').evaluate(e => e.classList.contains('titled'))), 'Titel zu früh in der Leiste');
-await p.evaluate(() => window.scrollTo(0, 500)); await p.waitForTimeout(100);
-check(await p.locator('.pnav').evaluate(e => e.classList.contains('titled')), 'Titel wandert nicht in die Leiste');
+check(await p.locator('.pnav').evaluate(e => e.classList.contains('titled')), 'Name des Reiselogbuchs nicht in der Leiste');
+check(await p.locator('.ltitle').count() === 0, 'großer Titel noch da');
+check(await p.locator('.meta.trip dt').first().textContent() === 'Reiseteilnehmer:', 'Bezeichnungen fehlen');
 await p.evaluate(() => window.scrollTo(0, 0)); await p.waitForTimeout(100);
 check((await p.locator('#pdays .box .k.word').first().textContent()) === 'Verlauf', 'Begriff Verlauf fehlt');
 await p.screenshot({ path: OUT + 'iphone-1-reiselogbuch.png' });
@@ -60,6 +60,9 @@ check(await p.locator('#dlg .mic').count() === 0, 'Mikrofon-Knopf noch da');
 await p.locator('#moods [data-m]').first().click(); await p.keyboard.type('nett. sehr gut');
 check((await p.locator('#fComment').inputValue()).endsWith('Nett. Sehr gut'), `Großschreibung: ${await p.locator('#fComment').inputValue()}`);
 await p.fill('#fComment', '');
+// Nach einem Vorschlag beginnt das nächste Wort groß (‚Freetour Sydney‘)
+await p.fill('#fProgram', ''); await p.locator('#suggest button', { hasText: 'Freetour' }).click(); await p.keyboard.type('sydney');
+check((await p.locator('#fProgram').inputValue()) === 'Freetour Sydney', `Vorschlag: ${await p.locator('#fProgram').inputValue()}`);
 await p.fill('#fProgram', 'Hafenrundfahrt');
 await p.locator('[data-nav="1"]').click(); await p.waitForTimeout(300);
 check((await db()).trips[0].days['2026-08-25']?.program === 'Hafenrundfahrt', 'Blättern speichert nicht');
@@ -77,11 +80,12 @@ check(await p.locator('#pdays .box').count() === 3, 'Nur erfasste Tage filtert n
 
 // Zurück zur Startliste, Kontextmenü, Einstellungen
 await p.click('#back'); await p.waitForTimeout(200);
-check((await p.locator('.pnav-head').textContent()) === 'Reiselogbücher', 'Startliste fehlt (Titel links in der Leiste)');
+check((await p.locator('.pnav-head').evaluate(e => e.firstChild.textContent)) === 'Reiselogbücher', 'Startliste fehlt (Titel links in der Leiste)');
 check(await p.locator('.ilist.tiles .irow').count() === 2, 'Kacheln fehlen');
 check(await p.locator('.irow.current').textContent().then(t => t.includes('Australien')), 'zuletzt geöffnetes nicht blau');
 check(await p.locator('.pnav .grp #newTrip').count() === 1, 'plus nicht in der Kapsel oben');
 check(await p.locator('.bbar .bnote').count() === 1, 'Backup-Hinweis unten fehlt');
+check((await p.locator('.pnav-head small').textContent()) === '2 Reiselogbücher', 'Anzahl unter dem Titel fehlt');
 check(!(await p.evaluate(() => document.documentElement.classList.contains('locked'))), 'Seite nach dem Schließen noch gesperrt');
 await p.screenshot({ path: OUT + 'iphone-2-startliste.png' });
 const row = p.locator('.irow', { hasText: 'Toskana' });
@@ -98,10 +102,10 @@ await p.click('#dlgX'); await p.waitForTimeout(200);
 
 // Reiselogbuch öffnen und löschen → zurück zur Startliste
 await row.click(); await p.waitForTimeout(250);
-check((await p.locator('.ltitle').textContent()) === 'Toskana', 'Öffnen aus der Liste geht nicht');
+check((await p.locator('.pnav-title').textContent()) === 'Toskana', 'Öffnen aus der Liste geht nicht');
 await p.click('#mainMore'); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(200);
 await p.locator('.pop button', { hasText: 'Reiselogbuch löschen' }).click(); await p.waitForTimeout(250);
-check((await p.locator('.pnav-head').textContent()) === 'Reiselogbücher', 'Nach dem Löschen nicht in der Startliste');
+check((await p.locator('.pnav-head').evaluate(e => e.firstChild.textContent)) === 'Reiselogbücher', 'Nach dem Löschen nicht in der Startliste');
 check((await db()).trips.length === 1, 'nicht gelöscht');
 
 // Neues Reiselogbuch über plus
@@ -110,7 +114,7 @@ await p.fill('#fTitle', 'Island'); await p.fill('#fPeople', 'Anna');
 await p.fill('#fStart', '2027-07-01'); await p.fill('#fEnd', '2027-07-10');
 await p.locator('#transport button').first().click();
 await p.click('#dlgOk'); await p.waitForTimeout(300);
-check((await p.locator('.ltitle').textContent()) === 'Island', 'Neues Reiselogbuch nicht geöffnet');
+check((await p.locator('.pnav-title').textContent()) === 'Island', 'Neues Reiselogbuch nicht geöffnet');
 
 // Wechsel iPhone → iPad hoch → iPhone quer
 await p.setViewportSize({ width: 820, height: 1180 }); await p.waitForTimeout(300);

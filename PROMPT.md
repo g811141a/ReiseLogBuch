@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 11.10.2026, Version 3.3.0)
+# Reiselogbuch – Prompt (Stand 11.10.2026, Version 3.4.0)
 
-Reiselogbuch 3.3.0 · AppDesign 4.3.0 (Designrichtlinie allgemein 4.3.0) · Designrichtlinie Reiselogbuch 3.3.0 · Zusammenarbeit allgemein 1.12.5
+Reiselogbuch 3.4.0 · AppDesign 4.4.0 (Designrichtlinie allgemein 4.4.0) · Designrichtlinie Reiselogbuch 3.4.0 · Zusammenarbeit allgemein 1.12.5
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -95,6 +95,13 @@ RAHMEN
       mit "Reiselogbücher" links und [plus | ellipsis], ohne großen Titel und Anzahl); der Backup-Hinweis steht fest unten als gelbe Kachel mit
       blauem Knopf (die Kacheln laufen dahinter durch); langes Drücken: Einstellungen ·
       Reiselogbuch löschen. Nach dem Löschen eines Reiselogbuchs geht es zur Startliste.
+  - Seit 3.4.0: Der Titel des Reiselogbuchs steht auf iPad und iPhone in der Leiste; die
+    Überschrift "Reiselogbuch – <Titel>" gibt es nur noch in der Ausgabe. Auf dem iPhone stehen
+    darunter "Reiseteilnehmer:", "Reisezeitraum:", "Reisemittel:" (Wert jeweils in der nächsten
+    Zeile, Reisemittel in einer Zeile zum Wischen). Unter "Reiselogbücher" (Seitenleiste und
+    Startliste) klein und grau die Anzahl. Die Backup-Kachel steht immer unten – gelb mit blauem
+    Knopf, solange heute noch kein Backup erstellt wurde, sonst weiß. Nach einem Vorschlag im
+    Verlauf beginnt das nächste Wort groß.
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen

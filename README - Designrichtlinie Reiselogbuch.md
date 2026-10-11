@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.3.0** · Stand 11.10.2026
+**Version 3.4.0** · Stand 11.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.3.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.4.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -21,7 +21,8 @@
 - App-Name „Reiselogbuch“; der Begriff „Reisetagebuch“ kommt nicht vor.
 - Seitenleiste: „Reiselogbücher“; Fenster „Neues Reiselogbuch“ (über plus) und
   „Einstellungen“ (Mehr-Menü); Menüpunkt „Reiselogbuch löschen“.
-- Überschrift in App und Ausgabe: „Reiselogbuch – <Titel>“.
+- Überschrift „Reiselogbuch – <Titel>“ nur in der Ausgabe; in der App steht der Titel des
+  Reiselogbuchs in der Leiste (iPad und iPhone).
 - Spalte und Erfassungsschritt **‚Verlauf‘** (bis 3.1.0 ‚Programm‘) – passt auch zu Tagen, an denen man
   nur fährt. Erfassungsschritte: „Wetter“, „Verlauf“, „Wie war was?“, „Essen und Trinken“, „Quartier“.
 - Options-Kapseln (Tageserfassung): „Quartier wie Vortag“, „keinen Google-Maps Link“; Schalter (Bearbeiten):
@@ -46,10 +47,10 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 ## 3. Hauptansicht — Ausprägung
 
-- **Seitenleiste** (Komponente): Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst; je
-  Kachel Titel · „TT.MM.JJJJ - TT.MM.JJJJ · läuft gerade / beendet / geplant“ und ›. Fest unten (nur
-  wenn heute noch kein Backup erstellt wurde) die gelbe Kachel „Letztes Backup erstellt am …“ mit
-  blauem Knopf „Backup erstellen“. Mehr-Menü: Backup erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher.
+- **Seitenleiste** (Komponente): unter ‚Reiselogbücher‘ klein und grau die Anzahl; Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst; je
+  Kachel Titel · „TT.MM.JJJJ - TT.MM.JJJJ · läuft gerade / beendet / geplant“ und ›. Fest unten immer
+  die Backup-Kachel „Letztes Backup erstellt am …“ mit „Backup erstellen“ – gelb mit blauem Knopf,
+  solange heute noch kein Backup erstellt wurde, sonst weiß. Mehr-Menü: Backup erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher.
   Langes Drücken auf ein Reiselogbuch: Einstellungen · Reiselogbuch löschen.
 - **Kopfzeile** (Komponente): Titel der Reise; Kapsel [share | search | ellipsis].
   - share → Menü: Vorschau · HTML · PDF (jeweils mit grauem Hinweis), Strich, darunter
@@ -57,8 +58,8 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
   - search → Suchzeile; die Suche durchsucht den Verlauf und die sichtbaren Spalten.
   - ellipsis → Mehr-Menü: Alle Tage / Nur erfasste Tage · Einstellungen · Darstellung › ·
     Reiselogbuch löschen (rot, Sprechblase mit Tipp zum Backup).
-- Darunter: Überschrift, Reiseteilnehmer, Reisezeitraum, Reisemittel und
-  Fortschrittsanzeige („Tag 42 von 80 · 38 erfasst“).
+- Darunter (ohne Überschrift – der Titel steht in der Kopfzeile): Reiseteilnehmer,
+  Reisezeitraum, Reisemittel und Fortschrittsanzeige („Tag 42 von 80 · 38 erfasst“).
 - Tagestabelle: Tag · Verlauf · sichtbare konfigurierte Spalten. Die erste Lücke ist
   gelb markiert (ohne blauen Rand), vergangene leere Tage tragen „fehlt“ (Farbe `--warn`).
 - Darunter: Fazit (Kasten passt sich dem Inhalt an), Gesamtkosten (Betragsfeld 150 px,
@@ -70,17 +71,16 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 - **Start** im laufenden (sonst zuletzt beendeten, sonst nächsten) Reiselogbuch, gesprungen wird
   zum ersten offenen Tag – wie auf dem iPad. Runder `chevron-left` führt zur Startliste.
 - **Startliste ‚Reiselogbücher‘ = Seitenleiste:** fest stehende Leiste mit ‚Reiselogbücher‘ links
-  und der Kapsel [`plus` | `ellipsis`] rechts (ellipsis: Backup erstellen · Backup laden · Strich ·
-  Versionszeile · Satz zum Speicher); ohne großen Titel und ohne Anzahl; jedes Reiselogbuch als
-  eigene Kachel (Titel · Zeitraum · Zustand, ›), das zuletzt geöffnete blau. Backup-Hinweis fest am unteren Rand: gelbe Kachel ‚Letztes
-  Backup erstellt am …‘ mit blauem Knopf ‚Backup erstellen‘ (nur, wenn heute noch keins erstellt
-  wurde); die Kacheln laufen dahinter durch. Langes Drücken: Einstellungen · Reiselogbuch
+  (darunter klein und grau die Anzahl) und der Kapsel [`plus` | `ellipsis`] rechts (ellipsis: Backup
+  erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher); ohne großen Titel; jedes Reiselogbuch als
+  eigene Kachel (Titel · Zeitraum · Zustand, ›), das zuletzt geöffnete blau. Backup-Kachel immer fest am unteren Rand (gelb mit blauem Knopf,
+  solange heute noch kein Backup erstellt wurde, sonst weiß); die Kacheln laufen dahinter durch. Langes Drücken: Einstellungen · Reiselogbuch
   löschen. Leer: ‚Noch kein Reiselogbuch angelegt.‘ und ‚Mit ‚plus‘ oben rechts ein neues
   Reiselogbuch anlegen.‘
 - **Reiselogbuch:** Kopf mit rundem `chevron-left` und Kapsel [`share` | `search` | `ellipsis`]
-  (Menüs und Suche wie auf dem iPad); großer Titel (nur der Reisetitel); grau ‚Teilnehmer ·
-  Zeitraum‘ und die Reisemittel, darunter die Fortschrittsanzeige. Beim Hochschieben steht der
-  Titel klein in der Leiste.
+  (Menüs und Suche wie auf dem iPad); der Reisetitel steht in der Mitte der Leiste. Darunter wie am
+  iPad ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ – nach dem Doppelpunkt eine neue Zeile;
+  die Reisemittel in einer Zeile, bei Bedarf seitlich wischen; dann die Fortschrittsanzeige.
 - **Tage als Kästen:** Kopf ‚Mo, 24.08.‘ mit ‚heute‘/‚fehlt‘ und Wetter rechts (leer: blasse
   Platzhalter); Felder ‚Verlauf‘ (als Wort, normale Größe, halbfett), dann die Spalten-Emojis
   🙂☹️😉 · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt; zwischen den Feldern
@@ -104,7 +104,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 - Eingeschaltet (blau getönt mit Haarlinie): gewählte Wetter-Symbole.
 - Diktieren über die Mikrofon-Taste der Tastatur (Hinweis unten im Fenster); keine eigenen
   Mikrofon-Knöpfe. Der erste Buchstabe jeder Zeile wird groß (auch nach einem Smiley).
-- Verlauf: Vorschläge als Chips zum Antippen („Weiterfahrt nach …“, „Rundgang durch …“,
+- Verlauf: nach einem Vorschlag beginnt das nächste Wort groß (‚Freetour Sydney‘). Vorschläge als Chips zum Antippen („Weiterfahrt nach …“, „Rundgang durch …“,
   „Besichtigung …“, „Freetour …“); „…“ ist nur Platzhalter und wird nicht übernommen.
 - Smiley-Leisten bei „Wie war was?“, „Essen und Trinken“ (eigener Satz:
   🕗 🕙 🕛 🕒 🕕 😋 👌 👍 😕 🤮 👎 ⭐️ 🍕 🍔 🥩 🍷 🍺 ☕️) und im Fazit.
@@ -166,6 +166,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.4.0 | 11.10.2026 | Neben | Titel des Reiselogbuchs in der Leiste statt Überschrift (iPad und iPhone); iPhone mit Bezeichnungen wie am iPad; Anzahl unter ‚Reiselogbücher‘; Backup-Kachel immer sichtbar; Großschreibung nach Vorschlägen |
 | 3.3.0 | 11.10.2026 | Neben | Startliste und Seitenleiste gleich (Kacheln, gelbe Backup-Kachel, Titel links in der Leiste); erster offener Tag ohne blauen Rand; ‚Verlauf‘ halbfett; Mikrofon-Knöpfe entfernt; Großbuchstabe am Zeilenanfang; Zeitraum mit ‚Bis‘ unter ‚Von‘ auf dem iPhone |
 | 3.2.0 | 11.10.2026 | Neben | ‚Verlauf‘ statt ‚Programm‘; iPhone: Kapseln und Suche wie am iPad, Titel in der Leiste, Kacheln, Backup-Hinweis fest unten und gelb (auch Seitenleiste), Linien im Tageskasten, Vorschau in Seitenbreite; Backup-Abfrage mit Umbruch |
 | 3.1.0 | 10.10.2026 | Neben | iPhone-Ansicht (Abschnitt 3a, allgemein 15.17); Mehr-Menü ‚Alle Tage‘/‚Nur erfasste Tage‘ mit Icons |

@@ -13,6 +13,33 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.4.0 – 11.10.2026 (Nebenversion)
+
+Reiselogbuch 3.4.0 · AppDesign 4.4.0 (Designrichtlinie allgemein 4.4.0) · Designrichtlinie Reiselogbuch 3.4.0 · Zusammenarbeit allgemein 1.12.5
+
+Sammelversion aus der Prüfung von 3.3.0 (P-17):
+
+- T-46: Der Titel des Reiselogbuchs steht auf iPad und iPhone in der Leiste; die Überschrift
+  über den Reiseteilnehmern entfällt (in der Ausgabe bleibt sie).
+- T-47: iPhone – ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ wie am iPad, Wert in der
+  nächsten Zeile; Reisemittel in einer Zeile, seitlich wischen.
+- T-48: Backup-Kachel immer sichtbar – gelb mit blauem Knopf, solange heute noch kein Backup
+  erstellt wurde, sonst weiß (P-17/4: sie fehlte, weil heute schon gesichert war).
+- T-49: Unter ‚Reiselogbücher‘ klein und grau die Anzahl (Seitenleiste und iPhone-Startliste).
+- T-50: Großschreibung schon vor der Eingabe; nach einem Vorschlag (z. B. ‚Freetour …‘) beginnt
+  das nächste Wort groß.
+
+Prüfliste P-18 (iPad und iPhone, jeweils hell und dunkel):
+
+1. iPad und iPhone: Der Name des Reiselogbuchs steht in der Leiste, darunter direkt die
+   Reiseteilnehmer (ohne Überschrift); in Vorschau/Ausgabe steht die Überschrift weiterhin.
+2. iPhone: ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ mit dem Wert in der nächsten
+   Zeile; viele Reisemittel lassen sich seitlich wischen.
+3. iPad und iPhone: Backup-Kachel immer unten – gelb, solange heute noch kein Backup erstellt
+   wurde; nach ‚Backup erstellen‘ weiß.
+4. iPad und iPhone: Unter ‚Reiselogbücher‘ klein und grau die Anzahl.
+5. iPad und iPhone: Verlauf – erster Buchstabe groß; nach ‚Freetour …‘ beginnt der Ort groß.
+
 ## 3.3.0 – 11.10.2026 (Nebenversion)
 
 Reiselogbuch 3.3.0 · AppDesign 4.3.0 (Designrichtlinie allgemein 4.3.0) · Designrichtlinie Reiselogbuch 3.3.0 · Zusammenarbeit allgemein 1.12.5

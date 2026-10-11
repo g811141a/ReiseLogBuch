@@ -74,7 +74,11 @@
   .box.day.gap { background: var(--focus); }
   .box.day.on { background: var(--sel-bg); }
   .box.day a { text-decoration: none; }
-  .pmeta { font-size: 15px; color: var(--muted); margin: 0 0 4px; }
+  /* iPhone: Bezeichnung mit Doppelpunkt, darunter der Wert; Reisemittel in einer Zeile, seitlich wischen */
+  html.phone .meta.trip { display: block; margin-top: 8px; }
+  html.phone .meta.trip dd { margin: 0 0 6px; }
+  html.phone .meta.trip dd.swipe { white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
+  html.phone .meta.trip dd.swipe::-webkit-scrollbar { display: none; }
   html.phone .fazit-box { width: 100%; }
   /* Wetter auf dem iPhone 40 px breit, damit alle sieben ohne Wischen nebeneinander passen (bewusste Abweichung) */
   html.phone #wx button { width: 40px; min-width: 40px; }
@@ -113,8 +117,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.3.0';
-const APP_BUILT = '11.10.2026 um 11:35';
+const APP_VERSION = '3.4.0';
+const APP_BUILT = '11.10.2026 um 15:41';
 
 const app = document.getElementById('app');
 const side = document.getElementById('side');
@@ -579,8 +583,7 @@ function render({ scrollToGap = false } = {}) {
       </div>
       ${searchOpen ? searchRowHtml(term) : ''}
     </div>
-    <h1>Reiselogbuch – ${esc(trip.title)}</h1>
-    <dl class="meta">
+    <dl class="meta trip">
       <dt>Reiseteilnehmer:</dt><dd>${esc(trip.participants)}</dd>
       <dt>Reisezeitraum:</dt><dd>${fullDate(trip.start)} - ${fullDate(trip.end)}</dd>
       ${transport ? `<dt>Reisemittel:</dt><dd>${esc(transport)}</dd>` : ''}
@@ -761,8 +764,11 @@ function renderPhone({ scrollToGap = false } = {}) {
       </span></span>
       ${searchOpen ? searchRowHtml(term) : ''}
     </div>
-    <h1 class="ltitle">${esc(trip.title)}</h1>
-    <p class="pmeta">${esc(`${trip.participants} · ${fullDate(trip.start)} - ${fullDate(trip.end)}`)}${transport ? `<br>${esc(transport)}` : ''}</p>
+    <dl class="meta trip">
+      <dt>Reiseteilnehmer:</dt><dd>${esc(trip.participants)}</dd>
+      <dt>Reisezeitraum:</dt><dd>${fullDate(trip.start)} - ${fullDate(trip.end)}</dd>
+      ${transport ? `<dt>Reisemittel:</dt><dd class="swipe">${esc(transport)}</dd>` : ''}
+    </dl>
     <p class="progress">${progressText(trip)}</p>
     <div id="pdays">${boxes || `<div class="empty-note">${term ? 'Keine Treffer.' : 'Noch keine Tage erfasst.'}</div>`}</div>
     ${fazitHtml(trip)}
@@ -796,7 +802,7 @@ function renderPhoneList() {
   const n = trips.length;
   app.innerHTML = `
     <div class="pnav" id="bar">
-      <h1 class="pnav-head">Reiselogbücher</h1>
+      <h1 class="pnav-head">Reiselogbücher<small>${tripCount(n)}</small></h1>
       <span></span>
       <span class="r"><span class="grp">
         <button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button>
@@ -807,7 +813,7 @@ function renderPhoneList() {
     ${n ? `<div class="ilist tiles">${trips.map(t => `<button type="button" class="irow ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small></span>${ic('chevron-right')}</button>`).join('')}</div>`
       : '<div class="emptymain" style="margin-top:60px">Mit ‚plus‘ oben rechts ein neues Reiselogbuch anlegen.</div>'}
-    ${n && !backedUpToday() ? `<div class="bbar"><div class="bnote"><div>${lastBackupText()}</div>
+    ${n ? `<div class="bbar"><div class="bnote ${backedUpToday() ? 'ok' : ''}"><div>${lastBackupText()}</div>
       <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div></div>` : ''}`;
   app.querySelector('#homeMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#homeMore'));
   app.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
@@ -895,6 +901,9 @@ function toggleSide() {
 }
 const bindSideToggle = root => root.querySelectorAll('[data-side-toggle]').forEach(b => b.onclick = toggleSide);
 
+// Anzahl unter dem Titel der Seitenleiste bzw. Startliste: ‚3 Reiselogbücher‘.
+const tripCount = n => n ? `${n} Reiselogb${n === 1 ? 'uch' : 'ücher'}` : '';
+
 function tripState(t, today) {
   return t.start <= today && today <= t.end ? 'läuft gerade' : t.end < today ? 'beendet' : 'geplant';
 }
@@ -929,14 +938,14 @@ function renderSide() {
   const today = todayISO();
   const trips = [...db.trips].sort((a, b) => b.start.localeCompare(a.start));
   side.innerHTML = `
-    <div class="side-head"><h2>Reiselogbücher</h2>
+    <div class="side-head"><div class="ttl"><h2>Reiselogbücher</h2><small>${tripCount(trips.length)}</small></div>
       <span class="grp"><button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button><button type="button" id="sideMore" aria-label="Mehr">${ic('ellipsis')}</button></span>
       <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
     </div>
     ${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small></span>${ic('chevron-right')}</button>`).join('')
       : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}
-    ${trips.length && !backedUpToday() ? `<div class="bhint"><div>${lastBackupText()}</div>
+    ${trips.length ? `<div class="bhint ${backedUpToday() ? 'ok' : ''}"><div>${lastBackupText()}</div>
       <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div>` : ''}`;
   side.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
   side.querySelector('#sideMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
@@ -1286,6 +1295,7 @@ function openDayDialog(trip, iso) {
   // Schritt 2: Vorschläge als neue Zeile einfügen
   dlg.querySelectorAll('#suggest button').forEach(b => b.onclick = () => {
     insertAtCursor(fProgram, PROGRAM_SUGGESTIONS[b.dataset.s].text, true);
+    capNext(fProgram); // nach ‚Weiterfahrt nach …‘ beginnt der Ort groß
   });
 
   // Schritt 3: Smiley-Schnellauswahl
