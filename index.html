@@ -944,9 +944,9 @@ function renderSide() {
       <span class="grp"><button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button><button type="button" id="sideMore" aria-label="Mehr">${ic('ellipsis')}</button></span>
       <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
     </div>
-    ${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
+    <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small></span>${ic('chevron-right')}</button>`).join('')
-      : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}
+      : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}</div>
     ${trips.length ? `<div class="bhint ${backedUpToday() ? 'ok' : ''}"><div>${lastBackupText()}</div>
       <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div>` : ''}`;
   side.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
