@@ -30,7 +30,7 @@
   table.days tbody tr { cursor: pointer; }
   table.days tbody tr.alt { background: var(--zebra); }
   @media (hover: hover) { table.days tbody tr:hover { background: var(--row-hover); } }
-  table.days tbody tr.gap { background: var(--focus); box-shadow: inset 4px 0 0 var(--accent); }
+  table.days tbody tr.gap { background: var(--focus); }
   table.days tbody tr.on { background: var(--sel-bg); }
   td.day { white-space: nowrap; width: 1%; }
   td.day .wx { display: block; font-size: 18px; }
@@ -71,7 +71,7 @@
   .box.day .h { display: flex; align-items: center; gap: 4px; font-weight: 600; }
   .box.day .h .wx { margin-left: auto; font-size: 18px; font-weight: 400; }
   .box.day .wx.empty { opacity: .25; }
-  .box.day.gap { background: var(--focus); box-shadow: inset 4px 0 0 var(--accent), var(--table-shadow); }
+  .box.day.gap { background: var(--focus); }
   .box.day.on { background: var(--sel-bg); }
   .box.day a { text-decoration: none; }
   .pmeta { font-size: 15px; color: var(--muted); margin: 0 0 4px; }
@@ -113,8 +113,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.2.0';
-const APP_BUILT = '11.10.2026 um 10:08';
+const APP_VERSION = '3.3.0';
+const APP_BUILT = '11.10.2026 um 11:35';
 
 const app = document.getElementById('app');
 const side = document.getElementById('side');
@@ -151,7 +151,6 @@ const PROGRAM_SUGGESTIONS = [
   { label: 'Freetour …', text: 'Freetour ' },
 ];
 const AUTOSAVE_MS = 10000;
-const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 // Gemeinsame Bausteine (Icons, Menüs, Sprechblasen, Fenster, Darstellung …) kommen aus AppDesign (ui.js).
 // Haken für ui.js: beim Öffnen eines Fensters das automatische Speichern des vorigen beenden.
@@ -788,8 +787,8 @@ function phoneStaysHtml(trip) {
     <small>${shortDate(st.firstNight)} - ${fullDate(addDays(st.lastNight, 1))} · ${st.nights} ${st.nights === 1 ? 'Nacht' : 'Nächte'}</small></span></div>`).join('')}</div>` : '';
 }
 
-// Startliste ‚Reiselogbücher‘: oben die Kapsel [plus | ellipsis] wie auf dem iPad, großer Titel mit Anzahl,
-// jedes Reiselogbuch als eigene Kachel (das zuletzt geöffnete blau), Backup-Hinweis fest am unteren Rand.
+// Startliste ‚Reiselogbücher‘ wie die Seitenleiste am iPad: Leiste mit Titel links und Kapsel [plus | ellipsis] bleibt
+// oben stehen, jedes Reiselogbuch als eigene Kachel (das zuletzt geöffnete blau), Backup-Hinweis fest am unteren Rand.
 function renderPhoneList() {
   searchOpen = false;
   const today = todayISO();
@@ -797,15 +796,14 @@ function renderPhoneList() {
   const n = trips.length;
   app.innerHTML = `
     <div class="pnav" id="bar">
+      <h1 class="pnav-head">Reiselogbücher</h1>
       <span></span>
-      <span class="pnav-title">Reiselogbücher</span>
       <span class="r"><span class="grp">
         <button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button>
         <button type="button" id="homeMore" aria-label="Mehr">${ic('ellipsis')}</button>
       </span></span>
     </div>
-    <h1 class="ltitle">Reiselogbücher</h1>
-    <div class="lcount">${n ? `${n} Reiselogb${n === 1 ? 'uch' : 'ücher'}` : 'Noch kein Reiselogbuch angelegt.'}</div>
+    ${n ? '' : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}
     ${n ? `<div class="ilist tiles">${trips.map(t => `<button type="button" class="irow ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small></span>${ic('chevron-right')}</button>`).join('')}</div>`
       : '<div class="emptymain" style="margin-top:60px">Mit ‚plus‘ oben rechts ein neues Reiselogbuch anlegen.</div>'}
@@ -936,7 +934,7 @@ function renderSide() {
       <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
     </div>
     ${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
-        <b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small></button>`).join('')
+        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small></span>${ic('chevron-right')}</button>`).join('')
       : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}
     ${trips.length && !backedUpToday() ? `<div class="bhint"><div>${lastBackupText()}</div>
       <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div>` : ''}`;
@@ -1022,8 +1020,8 @@ document.getElementById('toEnd').onclick = () => window.scrollTo({ top: document
 
 
 const MOOD_HINT = 'Leiste nach links/rechts wischen für weitere Smileys. Lange drücken entfernt einen Smiley aus der Leiste. ↺ stellt die Standard-Smileys wieder her. Weitere Smileys über die Emoji-Taste der Tastatur.';
-const micButton = id => SpeechRec ? `<button type="button" class="mic" data-mic="${id}" aria-pressed="false" aria-label="Diktieren">${ic('mic')}</button>` : '';
-const micHint = () => SpeechRec ? '' : '<div class="hint" style="margin-top:12px">🎤 Zum Diktieren die Mikrofon-Taste auf der Tastatur verwenden.</div>';
+// Diktieren über die Mikrofon-Taste der Tastatur (iOS liefert Web-Apps vom Home-Bildschirm keine eigene Spracheingabe).
+const micHint = () => '<div class="hint" style="margin-top:12px">🎤 Zum Diktieren die Mikrofon-Taste auf der Tastatur verwenden.</div>';
 
 
 // Smiley-Schnellauswahl: Antippen fügt ein, lange drücken entfernt, ↺ setzt zurück.
@@ -1059,49 +1057,6 @@ function mountMoodRow(row, ta, onReset, kind = 'mood') {
   draw();
 }
 
-// Diktieren über die Web Speech API; liefert eine Funktion zum Stoppen.
-// Jede Störung wird gemeldet (Fehlersuche Spracheingabe, 3.2.0), damit klar ist, woran es liegt.
-const MIC_ERRORS = {
-  'not-allowed': 'Der Zugriff auf das Mikrofon ist nicht erlaubt. Einstellungen → Safari → Mikrofon → ‚Erlauben‘.',
-  'service-not-allowed': 'iOS lässt die Spracheingabe hier nicht zu. Bitte prüfen: Einstellungen → Allgemein → Tastaturen → ‚Diktierfunktion‘ ein. Sonst die Mikrofon-Taste der Tastatur verwenden.',
-  'audio-capture': 'Kein Mikrofon gefunden oder es wird gerade von einer anderen App benutzt.',
-  'network': 'Für die Spracheingabe ist eine Internetverbindung nötig.',
-  'no-speech': 'Es wurde nichts gehört. Bitte noch einmal tippen und sprechen.',
-  'language-not-supported': 'Deutsch wird für die Spracheingabe nicht unterstützt.',
-};
-function mountMics() {
-  let recognition = null;
-  dlg.querySelectorAll('[data-mic]').forEach(b => b.onclick = () => {
-    if (recognition) { recognition.manual = true; recognition.stop(); return; }
-    const ta = dlg.querySelector('#' + b.dataset.mic);
-    let heard = false, failed = false, rec = null;
-    const fail = text => { failed = true; inform('Diktieren', esc(text)); };
-    try {
-      recognition = rec = new SpeechRec();
-      recognition.lang = 'de-DE';
-      recognition.interimResults = false;
-      recognition.onresult = ev => {
-        heard = true;
-        const text = Array.from(ev.results, r => r[0].transcript).join(' ').trim();
-        if (text) insertAtCursor(ta, text + ' ', false);
-      };
-      recognition.onerror = ev => { if (ev.error !== 'aborted') fail(MIC_ERRORS[ev.error] || `Die Spracheingabe meldet den Fehler ‚${ev.error}‘.`); };
-      recognition.onend = () => {
-        b.setAttribute('aria-pressed', 'false');
-        recognition = null;
-        if (!heard && !failed && !rec.manual) fail('Die Spracheingabe hat beendet, ohne Text zu liefern. Bitte die Mikrofon-Taste der Tastatur verwenden.');
-      };
-      b.setAttribute('aria-pressed', 'true');
-      recognition.start();
-    } catch (e) {
-      b.setAttribute('aria-pressed', 'false');
-      recognition = null;
-      fail(`Die Spracheingabe lässt sich nicht starten (${e.name || e.message}).`);
-    }
-  });
-  return () => recognition?.stop();
-}
-
 // Reise anlegen oder bearbeiten; überschneidende Zeiträume werden verhindert.
 function openTripDialog(trip) {
   const isNew = !trip;
@@ -1119,8 +1074,8 @@ function openTripDialog(trip) {
           <div class="warn" id="peopleWarn" hidden></div></div>
         <div class="step"><label>Reisezeitraum</label>
           <div class="dates">
-            <span class="dl">Von</span>${dateBox('fStart', t.start, 'Von')}
-            <span class="dl">Bis</span>${dateBox('fEnd', t.end, 'Bis')}
+            <span class="pair"><span class="dl">Von</span>${dateBox('fStart', t.start, 'Von')}</span>
+            <span class="pair"><span class="dl">Bis</span>${dateBox('fEnd', t.end, 'Bis')}</span>
           </div>
           <div class="warn" id="tripWarn" hidden></div>
         </div>
@@ -1279,20 +1234,20 @@ function openDayDialog(trip, iso) {
           </div>
         </div>
         <div class="step">
-          <div class="step-head"><label for="fProgram"><span class="step-num">2</span>Verlauf</label>${micButton('fProgram')}</div>
+          <div class="step-head"><label for="fProgram"><span class="step-num">2</span>Verlauf</label></div>
           <div class="chips" id="suggest">
             ${PROGRAM_SUGGESTIONS.map((s, i) => `<button type="button" data-s="${i}">${esc(s.label)}</button>`).join('')}
           </div>
           <textarea id="fProgram" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Wie ist der Tag verlaufen? Eine Zeile pro Punkt.">${esc(e.program || '')}</textarea>
         </div>
         <div class="step" ${c.mood ? '' : 'hidden'}>
-          <div class="step-head"><label for="fComment"><span class="step-num">${c.mood ? nextNo() : ''}</span>Wie war was?</label>${micButton('fComment')}</div>
+          <div class="step-head"><label for="fComment"><span class="step-num">${c.mood ? nextNo() : ''}</span>Wie war was?</label></div>
           <div class="emoji-row" id="moods"></div>
           <textarea id="fComment" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Smiley antippen, dann ein paar Worte dazu.">${esc(e.comment || '')}</textarea>
           <div class="hint">${MOOD_HINT}</div>
         </div>
         ${trip.foodColumn ? `<div class="step">
-          <div class="step-head"><label for="fFoodText"><span class="step-num">${nextNo()}</span>Essen und Trinken</label><label class="check chip head-check"><input type="checkbox" id="noLink"> keinen Google-Maps Link</label>${micButton('fFoodText')}</div>
+          <div class="step-head"><label for="fFoodText"><span class="step-num">${nextNo()}</span>Essen und Trinken</label><label class="check chip head-check"><input type="checkbox" id="noLink"> keinen Google-Maps Link</label></div>
           <div class="emoji-row" id="foodMoods"></div>
           <textarea id="fFoodText" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Eine Zeile pro Lokal: Smileys, Name – Kommentar">${esc(e.food || '')}</textarea>
           <div class="hint">Format: ‚🕛😋 Hard Rock Café – Steak war super‘. Der Name wird zum Link in Google Maps (mit dem Ort des Quartiers). ‚keinen Google-Maps Link‘ gilt für die Zeile, in der du gerade schreibst (markiert mit ⊘).</div>
@@ -1367,7 +1322,6 @@ function openDayDialog(trip, iso) {
   if (fSame) fSame.onchange = updateQuarter;
   updateQuarter();
 
-  const stopMic = mountMics();
 
   const collect = () => {
     const useSame = Boolean(fSame?.checked);
@@ -1412,14 +1366,12 @@ function openDayDialog(trip, iso) {
   dlgDirty = () => JSON.stringify(collect()) !== initialDay;
 
   dlg.querySelectorAll('[data-nav]').forEach(b => b.onclick = () => {
-    stopMic();
     persist();
     render();
     openDayDialog(trip, days[idx + Number(b.dataset.nav)]);
   });
   dlg.onclose = () => {
     clearInterval(autosaveTimer);
-    stopMic();
     if (dlg.returnValue === 'ok') persist(); else restore();
     render();
   };
@@ -1433,7 +1385,7 @@ function openFazitDialog(trip) {
       ${dlgHead('Fazit')}
       <div class="dlg-body">
         <div class="step">
-          <div class="step-head"><label for="fFazit">Was bleibt von dieser Reise?</label>${micButton('fFazit')}</div>
+          <div class="step-head"><label for="fFazit">Was bleibt von dieser Reise?</label></div>
           <div class="emoji-row" id="moods"></div>
           <textarea id="fFazit" autocapitalize="sentences" autocorrect="on" spellcheck="true" rows="8" placeholder="Smiley antippen, dann ein paar Worte dazu.">${esc(original)}</textarea>
           <div class="hint">${MOOD_HINT}</div>
@@ -1447,7 +1399,6 @@ function openFazitDialog(trip) {
   dlgDirty = () => ta.value.trim() !== original.trim();
   let lastSaved = original;
   mountMoodRow(dlg.querySelector('#moods'), ta, () => { lastSaved = ta.value.trim(); });
-  const stopMic = mountMics();
 
   const persist = () => {
     const value = ta.value.trim();
@@ -1466,7 +1417,6 @@ function openFazitDialog(trip) {
   autosaveTimer = setInterval(persist, AUTOSAVE_MS);
   dlg.onclose = () => {
     clearInterval(autosaveTimer);
-    stopMic();
     if (dlg.returnValue === 'ok') persist(); else restore();
     render();
   };

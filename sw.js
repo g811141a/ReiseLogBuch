@@ -1,6 +1,6 @@
 // Offline-Cache: App-Dateien zuerst aus dem Netz holen, ohne Netz aus dem Cache.
 // "no-cache" fragt immer bei GitHub nach (umgeht den 10-Minuten-Zwischenspeicher), eine neue Version ist sofort da.
-const CACHE = 'reiselogbuch-3.2.0';
+const CACHE = 'reiselogbuch-3.3.0';
 // Ab 3.0.0 kommen die gemeinsamen Bausteine aus AppDesign (gleiche Adresse g811141a.github.io) – auch offline.
 const FILES = ['./', 'index.html', 'manifest.json', 'icon-180.png', 'icon-512.png', '../AppDesign/v4/design.css', '../AppDesign/v4/ui.js'];
 

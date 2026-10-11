@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.2.0** · Stand 11.10.2026
+**Version 3.3.0** · Stand 11.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.2.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.3.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -46,10 +46,10 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 ## 3. Hauptansicht — Ausprägung
 
-- **Seitenleiste** (Komponente): Reiselogbücher, zuletzt beginnende Reise zuerst; je Eintrag
-  Titel · „TT.MM.JJJJ - TT.MM.JJJJ · läuft gerade / beendet / geplant“. Unten (nur wenn
-  heute noch kein Backup erstellt wurde) „Letztes Backup erstellt am …“ mit „Backup
-  erstellen“. Mehr-Menü: Backup erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher.
+- **Seitenleiste** (Komponente): Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst; je
+  Kachel Titel · „TT.MM.JJJJ - TT.MM.JJJJ · läuft gerade / beendet / geplant“ und ›. Fest unten (nur
+  wenn heute noch kein Backup erstellt wurde) die gelbe Kachel „Letztes Backup erstellt am …“ mit
+  blauem Knopf „Backup erstellen“. Mehr-Menü: Backup erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher.
   Langes Drücken auf ein Reiselogbuch: Einstellungen · Reiselogbuch löschen.
 - **Kopfzeile** (Komponente): Titel der Reise; Kapsel [share | search | ellipsis].
   - share → Menü: Vorschau · HTML · PDF (jeweils mit grauem Hinweis), Strich, darunter
@@ -60,7 +60,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 - Darunter: Überschrift, Reiseteilnehmer, Reisezeitraum, Reisemittel und
   Fortschrittsanzeige („Tag 42 von 80 · 38 erfasst“).
 - Tagestabelle: Tag · Verlauf · sichtbare konfigurierte Spalten. Die erste Lücke ist
-  gelb markiert, vergangene leere Tage tragen „fehlt“ (Farbe `--warn`).
+  gelb markiert (ohne blauen Rand), vergangene leere Tage tragen „fehlt“ (Farbe `--warn`).
 - Darunter: Fazit (Kasten passt sich dem Inhalt an), Gesamtkosten (Betragsfeld 150 px,
   „[ 4.850,00 ] €“), Quartierliste (nur mit Spalte Quartier), Statistik (Reisetage · Quartiere ·
   Nächte · Wetter · Smileys).
@@ -69,22 +69,23 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 - **Start** im laufenden (sonst zuletzt beendeten, sonst nächsten) Reiselogbuch, gesprungen wird
   zum ersten offenen Tag – wie auf dem iPad. Runder `chevron-left` führt zur Startliste.
-- **Startliste ‚Reiselogbücher‘:** oben die Kapsel [`plus` | `ellipsis`] wie am iPad (ellipsis:
-  Backup erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher); großer Titel,
-  darunter ‚3 Reiselogbücher‘; jedes Reiselogbuch als eigene Kachel (Titel · Zeitraum · Zustand,
-  ›), das zuletzt geöffnete blau. Backup-Hinweis fest am unteren Rand: gelbe Kachel ‚Letztes
+- **Startliste ‚Reiselogbücher‘ = Seitenleiste:** fest stehende Leiste mit ‚Reiselogbücher‘ links
+  und der Kapsel [`plus` | `ellipsis`] rechts (ellipsis: Backup erstellen · Backup laden · Strich ·
+  Versionszeile · Satz zum Speicher); ohne großen Titel und ohne Anzahl; jedes Reiselogbuch als
+  eigene Kachel (Titel · Zeitraum · Zustand, ›), das zuletzt geöffnete blau. Backup-Hinweis fest am unteren Rand: gelbe Kachel ‚Letztes
   Backup erstellt am …‘ mit blauem Knopf ‚Backup erstellen‘ (nur, wenn heute noch keins erstellt
   wurde); die Kacheln laufen dahinter durch. Langes Drücken: Einstellungen · Reiselogbuch
-  löschen. Leer: ‚Mit ‚plus‘ oben rechts ein neues Reiselogbuch anlegen.‘
+  löschen. Leer: ‚Noch kein Reiselogbuch angelegt.‘ und ‚Mit ‚plus‘ oben rechts ein neues
+  Reiselogbuch anlegen.‘
 - **Reiselogbuch:** Kopf mit rundem `chevron-left` und Kapsel [`share` | `search` | `ellipsis`]
   (Menüs und Suche wie auf dem iPad); großer Titel (nur der Reisetitel); grau ‚Teilnehmer ·
   Zeitraum‘ und die Reisemittel, darunter die Fortschrittsanzeige. Beim Hochschieben steht der
   Titel klein in der Leiste.
 - **Tage als Kästen:** Kopf ‚Mo, 24.08.‘ mit ‚heute‘/‚fehlt‘ und Wetter rechts (leer: blasse
-  Platzhalter); Felder ‚Verlauf‘ (als Wort in normaler Schrift), dann die Spalten-Emojis
+  Platzhalter); Felder ‚Verlauf‘ (als Wort, normale Größe, halbfett), dann die Spalten-Emojis
   🙂☹️😉 · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt; zwischen den Feldern
   waagrechte Linien, zwischen Bezeichnung und Inhalt eine senkrechte. Erster offener Tag gelb
-  mit blauem Rand links; der angetippte Kasten bleibt blau, solange die Tageserfassung offen ist.
+  (ohne blauen Rand); der angetippte Kasten bleibt blau, solange die Tageserfassung offen ist.
 - Darunter Fazit (volle Breite), Gesamtkosten, Quartierliste als Liste (Quartier mit Maps-Link,
   darunter ‚24.08. - 25.08.2026 · 1 Nacht‘), Statistik.
 - **Suche** wie am iPad: `search` öffnet unter der Leiste die Suchzeile mit ‚1 von 4‘, ⓧ und
@@ -100,8 +101,9 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 - Kopfzeile: x · Wochentag mit vollem Datum („Sonntag, 04.10.2026“), darunter
   „Automatisch gespeichert um hh:mm“ · Kapsel [chevron-left | chevron-right] · Häkchen.
 - Schritte je nach sichtbaren Spalten (2 bis 5).
-- Eingeschaltet (blau getönt mit Haarlinie): gewählte Wetter-Symbole und das Mikrofon während
-  der Aufnahme (pulsiert zusätzlich).
+- Eingeschaltet (blau getönt mit Haarlinie): gewählte Wetter-Symbole.
+- Diktieren über die Mikrofon-Taste der Tastatur (Hinweis unten im Fenster); keine eigenen
+  Mikrofon-Knöpfe. Der erste Buchstabe jeder Zeile wird groß (auch nach einem Smiley).
 - Verlauf: Vorschläge als Chips zum Antippen („Weiterfahrt nach …“, „Rundgang durch …“,
   „Besichtigung …“, „Freetour …“); „…“ ist nur Platzhalter und wird nicht übernommen.
 - Smiley-Leisten bei „Wie war was?“, „Essen und Trinken“ (eigener Satz:
@@ -164,6 +166,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.3.0 | 11.10.2026 | Neben | Startliste und Seitenleiste gleich (Kacheln, gelbe Backup-Kachel, Titel links in der Leiste); erster offener Tag ohne blauen Rand; ‚Verlauf‘ halbfett; Mikrofon-Knöpfe entfernt; Großbuchstabe am Zeilenanfang; Zeitraum mit ‚Bis‘ unter ‚Von‘ auf dem iPhone |
 | 3.2.0 | 11.10.2026 | Neben | ‚Verlauf‘ statt ‚Programm‘; iPhone: Kapseln und Suche wie am iPad, Titel in der Leiste, Kacheln, Backup-Hinweis fest unten und gelb (auch Seitenleiste), Linien im Tageskasten, Vorschau in Seitenbreite; Backup-Abfrage mit Umbruch |
 | 3.1.0 | 10.10.2026 | Neben | iPhone-Ansicht (Abschnitt 3a, allgemein 15.17); Mehr-Menü ‚Alle Tage‘/‚Nur erfasste Tage‘ mit Icons |
 | 3.0.0 | 09.10.2026 | Haupt | Gemeinsame Bausteine aus AppDesign 4.0.0 (design.css, ui.js); Aussehen unverändert |

@@ -13,6 +13,36 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.3.0 – 11.10.2026 (Nebenversion)
+
+Reiselogbuch 3.3.0 · AppDesign 4.3.0 (Designrichtlinie allgemein 4.3.0) · Designrichtlinie Reiselogbuch 3.3.0 · Zusammenarbeit allgemein 1.12.5
+
+Sammelversion aus der Prüfung von 3.2.0 (P-16):
+
+- T-37: Doppeltippen (z. B. auf ein Reisemittel) vergrößert die Ansicht nicht mehr.
+- T-38: Reisezeitraum – ‚Bis‘ mit Datum steht auf dem iPhone unter ‚Von‘ (Bezeichnung bleibt beim Feld).
+- T-39: Erster offener Tag gelb ohne blauen Rand (Tabelle und Kacheln).
+- T-40/T-43: Startliste (iPhone) und Seitenleiste (iPad) gleich – Titel links in der fest
+  stehenden Leiste, Reiselogbücher als Kacheln, gelbe Backup-Kachel fest unten.
+- T-41: Eigene Mikrofon-Knöpfe entfernt; Diktieren über die Mikrofon-Taste der Tastatur.
+- T-42: Der erste Buchstabe jeder Zeile wird groß – auch nach einem Smiley, auf iPad und iPhone.
+- T-44: ‚Verlauf‘ in den Tageskacheln halbfett.
+- T-45: Nach oben / Ans Ende in einer senkrechten Kapsel.
+
+Prüfliste P-17 (iPad und iPhone, jeweils hell und dunkel):
+
+1. iPad und iPhone: Doppeltippen auf ein Reisemittel (Einstellungen) oder einen Smiley vergrößert nichts.
+2. iPhone: Einstellungen – ‚Bis‘ mit Datum steht unter ‚Von‘.
+3. iPad und iPhone: Erster offener Tag gelb, ohne blauen Rand.
+4. iPad: Seitenleiste mit Kacheln, Kopf bleibt stehen, die Kacheln lassen sich nach oben wischen;
+   gelbe Backup-Kachel fest unten.
+5. iPhone: Startliste gleich wie die Seitenleiste – ‚Reiselogbücher‘ links in der Leiste, Leiste
+   bewegt sich beim Wischen nicht.
+6. iPad und iPhone: Keine Mikrofon-Knöpfe mehr; Diktieren mit der Mikrofon-Taste der Tastatur.
+7. iPad und iPhone: Tageserfassung – erster Buchstabe groß, auch nach einem Smiley und nach ‚.‘.
+8. iPhone: ‚Verlauf‘ in den Kacheln halbfett.
+9. iPad: Nach oben / Ans Ende in einer senkrechten Kapsel.
+
 ## 3.2.0 – 11.10.2026 (Nebenversion)
 
 Reiselogbuch 3.2.0 · AppDesign 4.2.0 (Designrichtlinie allgemein 4.2.0) · Designrichtlinie Reiselogbuch 3.2.0 · Zusammenarbeit allgemein 1.12.5

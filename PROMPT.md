@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 11.10.2026, Version 3.2.0)
+# Reiselogbuch – Prompt (Stand 11.10.2026, Version 3.3.0)
 
-Reiselogbuch 3.2.0 · AppDesign 4.2.0 (Designrichtlinie allgemein 4.2.0) · Designrichtlinie Reiselogbuch 3.2.0 · Zusammenarbeit allgemein 1.12.5
+Reiselogbuch 3.3.0 · AppDesign 4.3.0 (Designrichtlinie allgemein 4.3.0) · Designrichtlinie Reiselogbuch 3.3.0 · Zusammenarbeit allgemein 1.12.5
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -42,9 +42,9 @@ RAHMEN
 - Aufbau wie Apple-Apps:
   - Links die Seitenleiste "Reiselogbücher": Überschrift linksbündig,
     daneben die Kapsel [plus | ellipsis] und rechts die runde Schaltfläche
-    panel-left zum Ausblenden. Darunter alle Reiselogbücher (zuletzt
-    beginnende zuerst): Titel fett, darunter grau "TT.MM.JJJJ - TT.MM.JJJJ ·
-    läuft gerade/beendet/geplant"; das geöffnete ist blau gefüllt. Antippen
+    panel-left zum Ausblenden; der Kopf bleibt stehen. Darunter alle Reiselogbücher als
+    Kacheln (zuletzt beginnende zuerst): Titel fett, darunter grau "TT.MM.JJJJ - TT.MM.JJJJ ·
+    läuft gerade/beendet/geplant", rechts ›; das geöffnete ist blau gefüllt. Antippen
     öffnet es. Die Seitenleiste schwebt wie in Safari (runde Ecken, Schatten wie die
     Schaltflächen, Abstand zum Rand, unten nur 4 px). Beim Start ist sie immer
     eingeblendet, die laufende Reise ist geöffnet. Quer steht sie fest links
@@ -61,9 +61,9 @@ RAHMEN
   - Langes Drücken auf ein Reiselogbuch in der Seitenleiste öffnet ein Menü:
     Einstellungen · Reiselogbuch löschen (rot, mit Abfrage) – ohne "Öffnen",
     weil kurzes Tippen öffnet.
-  - Wurde heute noch kein Backup erstellt, steht unten in der Seitenleiste
-    dezent "Letztes Backup erstellt am …" (bzw. "Noch kein Backup erstellt.")
-    und die Schaltfläche "Backup erstellen".
+  - Wurde heute noch kein Backup erstellt, steht unten in der Seitenleiste fest
+    eine gelbe Kachel "Letztes Backup erstellt am …" (bzw. "Noch kein Backup erstellt.")
+    mit blauem Knopf "Backup erstellen".
   - Kopfzeile des Inhalts (bleibt beim Scrollen stehen, keine Glas-Leiste):
     Titel der Reise in der Mitte, rechts die Kapsel [share | search |
     ellipsis]. share öffnet das Teilen-Menü (Vorschau · HTML · PDF), search
@@ -83,14 +83,16 @@ RAHMEN
       "Mo, 24.08." mit "heute"/"fehlt" und dem Wetter rechts, darunter die Felder
       "Verlauf" (als Wort, normale Schrift) und 🙂☹️😉 · 🍽️🍷☕️ · 😴💤 (nur sichtbare
       Spalten mit Inhalt), getrennt durch Linien (waagrecht zwischen den Feldern,
-      senkrecht zwischen Bezeichnung und Inhalt). Erster offener Tag gelb mit blauem Rand.
+      senkrecht zwischen Bezeichnung und Inhalt; "Verlauf" halbfett). Erster offener Tag gelb
+      (ohne blauen Rand – auch in der iPad-Tabelle).
       Antippen öffnet die Tageserfassung (bildschirmfüllend, Titel kurz
       "Di, 25.08.2026", Wetter-Symbole 40 px). Darunter Fazit, Gesamtkosten,
       Quartierliste als Liste und Statistik. Die Vorschau zeigt die Seite in voller
       Breite (seitlich wischen).
     - Startliste "Reiselogbücher": oben die Kapsel [plus | ellipsis] wie am iPad, großer
       Titel, darunter "3 Reiselogbücher"; jedes Reiselogbuch als eigene Kachel, das
-      zuletzt geöffnete blau; der Backup-Hinweis steht fest unten als gelbe Kachel mit
+      zuletzt geöffnete blau (seit 3.3.0 wie die Seitenleiste am iPad: fest stehende Leiste
+      mit "Reiselogbücher" links und [plus | ellipsis], ohne großen Titel und Anzahl); der Backup-Hinweis steht fest unten als gelbe Kachel mit
       blauem Knopf (die Kacheln laufen dahinter durch); langes Drücken: Einstellungen ·
       Reiselogbuch löschen. Nach dem Löschen eines Reiselogbuchs geht es zur Startliste.
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
@@ -163,7 +165,7 @@ RAHMEN
   Schließen x (rund) · Löschen/
   Entfernen/Verwerfen trash · Weiter bearbeiten pencil · Backup sichern save
   · Backup laden folder-open · Vorschau eye · HTML file-code · PDF file-text
-  · Nach oben/Ans Ende arrow-up-to-line/arrow-down-to-line · Diktieren mic ·
+  · Nach oben/Ans Ende arrow-up-to-line/arrow-down-to-line (in einer senkrechten Kapsel) ·
   Vortag/Folgetag chevron-left/chevron-right (nur Icon, als Kapsel) ·
   Treffer chevron-up/chevron-down · Smileys zurücksetzen rotate-ccw
 - Begriffe: Seitenleiste "Reiselogbücher", Fenster "Neues Reiselogbuch" und
@@ -322,8 +324,12 @@ ERFASSUNG – wenig eingeben, in ganz einfachen Schritten
   hinter Smileys steht; steht er hinter Text, beginnt eine neue Zeile.
   Alle führenden Smileys stehen in Tabelle und Ausgabe zusammen vorne,
   der Text rückt daneben ein.
-- Diktieren: eigenes 🎤-Symbol an den Textfeldern, wenn das iPad es
-  unterstützt; sonst ein Hinweis auf die Mikrofon-Taste der Tastatur.
+- Diktieren über die Mikrofon-Taste der Tastatur (Hinweis im Fenster); keine eigenen
+  Mikrofon-Knöpfe, weil iOS Web-Apps vom Home-Bildschirm keine Spracherkennung liefert.
+- Textfelder: der erste Buchstabe jeder Zeile (und nach . ! ?) wird automatisch groß, auch
+  nach einem Smiley. Doppeltippen vergrößert die Ansicht nicht.
+- Reisezeitraum: "Von" mit Datum und "Bis" mit Datum bleiben jeweils zusammen; reicht der
+  Platz nicht (iPhone), steht "Bis" mit seinem Datum unter "Von".
 - Automatisches Speichern alle 10 Sekunden während der Erfassung.
 - Mit der Kapsel [chevron-left | chevron-right] rechts oben (neben dem
   Häkchen) direkt zum Vortag bzw. Folgetag blättern; unter dem Datum steht
@@ -342,7 +348,7 @@ QUARTIER-SPALTE
 ABSCHLUSS
 - Fazit: Antippen öffnet eine eigene Erfassungsmaske wie "Wie war was?"
   (Smiley-Schnellauswahl mit gemeinsamer Häufigkeits-Sortierung, lange
-  drücken/Reset, 🎤 Diktieren, automatisches Speichern alle 10 Sekunden).
+  drücken/Reset, automatisches Speichern alle 10 Sekunden).
   Darstellung in App und Ausgabe mit hängendem Einzug.
 - Unter Fazit und Gesamtkosten zeigt auch die App die Quartierliste und
   danach die Statistik (Quartierliste in der App immer, in der Ausgabe nur

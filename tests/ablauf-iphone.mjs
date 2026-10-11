@@ -55,6 +55,11 @@ check(Math.round(box.width) === 393 && Math.round(box.height) === 852, `Fenster 
 check((await p.locator('#dlg h3').textContent()) === 'Di, 25.08.2026', 'Titel nicht kurz');
 check(await p.locator('#pdays [data-day="2026-08-25"]').evaluate(e => e.classList.contains('on')), 'Kasten nicht blau');
 await p.locator('#wx button').nth(1).click();
+check(await p.locator('#dlg .mic').count() === 0, 'Mikrofon-Knopf noch da');
+// Großschreibung durch die App: erster Buchstabe der Zeile, auch nach einem Smiley
+await p.locator('#moods [data-m]').first().click(); await p.keyboard.type('nett. sehr gut');
+check((await p.locator('#fComment').inputValue()).endsWith('Nett. Sehr gut'), `Großschreibung: ${await p.locator('#fComment').inputValue()}`);
+await p.fill('#fComment', '');
 await p.fill('#fProgram', 'Hafenrundfahrt');
 await p.locator('[data-nav="1"]').click(); await p.waitForTimeout(300);
 check((await db()).trips[0].days['2026-08-25']?.program === 'Hafenrundfahrt', 'Blättern speichert nicht');
@@ -72,8 +77,8 @@ check(await p.locator('#pdays .box').count() === 3, 'Nur erfasste Tage filtert n
 
 // Zurück zur Startliste, Kontextmenü, Einstellungen
 await p.click('#back'); await p.waitForTimeout(200);
-check((await p.locator('.ltitle').textContent()) === 'Reiselogbücher', 'Startliste fehlt');
-check((await p.locator('.lcount').textContent()) === '2 Reiselogbücher', 'Anzahl falsch');
+check((await p.locator('.pnav-head').textContent()) === 'Reiselogbücher', 'Startliste fehlt (Titel links in der Leiste)');
+check(await p.locator('.ilist.tiles .irow').count() === 2, 'Kacheln fehlen');
 check(await p.locator('.irow.current').textContent().then(t => t.includes('Australien')), 'zuletzt geöffnetes nicht blau');
 check(await p.locator('.pnav .grp #newTrip').count() === 1, 'plus nicht in der Kapsel oben');
 check(await p.locator('.bbar .bnote').count() === 1, 'Backup-Hinweis unten fehlt');
@@ -85,6 +90,10 @@ await p.mouse.move(rb.x + 40, rb.y + 20); await p.mouse.down(); await p.waitForT
 check(await p.locator('.menu .mi', { hasText: 'Einstellungen' }).count() === 1, 'Kontextmenü fehlt');
 await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); await p.waitForTimeout(300);
 check(await row.evaluate(e => e.classList.contains('on')), 'Zeile nicht blau bei Einstellungen');
+// Bezeichnung gehört zum Feld: ‚Bis‘ steht mit seinem Datum unter ‚Von‘
+const [von, bis] = await p.locator('.dates .pair').evaluateAll(els => els.map(e => e.getBoundingClientRect().top));
+check(bis > von + 20, 'Bis nicht unter Von');
+check(await p.evaluate(() => getComputedStyle(document.querySelector('#transport button')).touchAction) === 'manipulation', 'Doppeltippen kann zoomen');
 await p.click('#dlgX'); await p.waitForTimeout(200);
 
 // Reiselogbuch öffnen und löschen → zurück zur Startliste
@@ -92,7 +101,7 @@ await row.click(); await p.waitForTimeout(250);
 check((await p.locator('.ltitle').textContent()) === 'Toskana', 'Öffnen aus der Liste geht nicht');
 await p.click('#mainMore'); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(200);
 await p.locator('.pop button', { hasText: 'Reiselogbuch löschen' }).click(); await p.waitForTimeout(250);
-check((await p.locator('.ltitle').textContent()) === 'Reiselogbücher', 'Nach dem Löschen nicht in der Startliste');
+check((await p.locator('.pnav-head').textContent()) === 'Reiselogbücher', 'Nach dem Löschen nicht in der Startliste');
 check((await db()).trips.length === 1, 'nicht gelöscht');
 
 // Neues Reiselogbuch über plus
