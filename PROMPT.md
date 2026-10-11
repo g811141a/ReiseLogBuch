@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 11.10.2026, Version 3.5.0)
+# Reiselogbuch – Prompt (Stand 11.10.2026, Version 3.6.0)
 
-Reiselogbuch 3.5.0 · AppDesign 4.5.0 (Designrichtlinie allgemein 4.5.0) · Designrichtlinie Reiselogbuch 3.5.0 · Zusammenarbeit allgemein 1.12.5
+Reiselogbuch 3.6.0 · AppDesign 4.6.0 (Designrichtlinie allgemein 4.6.0) · Designrichtlinie Reiselogbuch 3.6.0 · Zusammenarbeit allgemein 1.13.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -105,6 +105,9 @@ RAHMEN
   - Seit 3.5.0: Leisten bewegen sich nie – die Seite federt beim Wischen nicht nach, die Leiste
     der iPhone-Startliste steht fest. Die Vorschau zeigt auf iPad und iPhone die Seite in voller
     Breite; ist das Fenster schmaler (iPad hoch, iPhone), wischt man seitlich.
+  - Seit 3.6.0: Auch am iPad steht die Kopfzeile fest; in der Seitenleiste scrollen nur die
+    Kacheln, Kopf und Backup-Kachel bewegen sich nie. Es gilt der Regelkatalog der
+    Designrichtlinie allgemein (R-01 bis R-35); das Prüfskript prüft ihn bei jeder Version.
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen

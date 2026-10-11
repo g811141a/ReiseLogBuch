@@ -13,6 +13,27 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.6.0 – 11.10.2026 (Nebenversion)
+
+Reiselogbuch 3.6.0 · AppDesign 4.6.0 (Designrichtlinie allgemein 4.6.0) · Designrichtlinie Reiselogbuch 3.6.0 · Zusammenarbeit allgemein 1.13.0
+
+Sammelversion:
+
+- T-53 (P-19/3): Am iPad stehen Kopfzeile und Backup-Kachel fest – die Kopfzeile ist fest
+  positioniert, in der Seitenleiste scrollen nur die Kacheln.
+- T-54: Regelkatalog R-01 bis R-35 (AppDesign); das Prüfskript prüft jetzt auch alle
+  automatisch prüfbaren Regeln (29) in jeder Ansicht – es hätte den Fehler aus P-19/3 gefunden.
+
+Prüfliste P-20 (iPad und iPhone, jeweils hell und dunkel) – mit den betroffenen Geräte-Regeln:
+
+1. iPad quer: Tabelle nach oben und unten wischen, auch über den Rand hinaus – die Kopfzeile
+   bleibt stehen, nichts federt (R-05).
+2. iPad quer und hoch: In der Seitenleiste die Kacheln wischen – Kopf ‚Reiselogbücher‘ und
+   Backup-Kachel bleiben stehen (R-05).
+3. iPad hoch: Seitenleiste ein- und ausblenden, Reiselogbuch wählen – alles wie bisher.
+4. iPad: Tageserfassung mit offener Tastatur – Kopfzeile und Fenster-Kopf bleiben sichtbar (R-28).
+5. iPhone: Startliste und Reiselogbuch wischen – die Leiste bleibt stehen (R-05).
+
 ## 3.5.0 – 11.10.2026 (Nebenversion)
 
 Reiselogbuch 3.5.0 · AppDesign 4.5.0 (Designrichtlinie allgemein 4.5.0) · Designrichtlinie Reiselogbuch 3.5.0 · Zusammenarbeit allgemein 1.12.5

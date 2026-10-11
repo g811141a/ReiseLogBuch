@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 11.10.2026** · Aktuelle Version: Reiselogbuch 3.5.0 · AppDesign 4.5.0
+**Stand 11.10.2026** · Aktuelle Version: Reiselogbuch 3.6.0 · AppDesign 4.6.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -18,21 +18,19 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.6.0 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.7.0 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-53 | 1 | Fehler (P-19/3): Am iPad federn Kopfzeile und Backup-Kachel beim Wischen – Kopfzeile fest positioniert, in der Seitenleiste scrollen nur die Kacheln (Kopf und Backup-Kachel stehen fest). Umgesetzt und getestet auf den Zweigen `vorbereitung-3.6.0` (ReiseLogBuch) und `vorbereitung-4.5.1` (AppDesign), noch nicht veröffentlicht | allgemein | 11.10.2026 |
-| T-54 | 1 | Regelkatalog: alle allgemeinen Regeln aus dem ganzen Chat nummeriert (R-01 bis R-35, Designrichtlinie allgemein Abschnitt 17); das Prüfskript prüft die 29 automatisch prüfbaren Regeln in jeder Ansicht (hätte P-19/3 gefunden; Gegenprobe mit absichtlich eingebauten Fehlern); Geräte-Regeln in die Prüfliste, wenn betroffen; Zusammenarbeit allgemein 1.13.0. Vorbereitet auf `vorbereitung-4.5.1` (AppDesign, wird 4.6.0) | allgemein | 11.10.2026 |
+| – | – | zurzeit nichts | – | – |
 
-
-**2 Punkte bereit** · gebaut wird erst nach „Ja“
+**0 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-19 | 1 | Version 3.5.0 geprüft (11.10.2026): 1, 2 ok; 3 am iPhone ok, am iPad federn Kopfzeile und Backup-Kachel → T-53 | geprüft |
+| P-20 | 1 | Version 3.6.0 (T-53, T-54) – Prüfliste 1–5 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -54,6 +52,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-33 | Reiselogbuch 3.6.0: T-53 Kopfzeile und Backup-Kachel am iPad fest, T-54 Regelkatalog R-01 bis R-35 mit Regel-Prüfung | Reiselogbuch 3.6.0 · AppDesign 4.6.0 | 11.10.2026 |
+| E-32 | Geprüft: P-19 Version 3.5.0 – 1, 2 ok; 3 am iPhone ok, am iPad → T-53 | Reiselogbuch 3.5.0 | 11.10.2026 |
 | E-31 | Reiselogbuch 3.5.0: T-51 Vorschau am iPad in Seitenbreite, T-52 Leisten bewegen sich nie | Reiselogbuch 3.5.0 · AppDesign 4.5.0 | 11.10.2026 |
 | E-30 | Geprüft: P-18 Version 3.4.0 – 1–3, 5 ok; 4 → T-52 | Reiselogbuch 3.4.0 | 11.10.2026 |
 | E-29 | Reiselogbuch 3.4.0: T-46 Titel in der Leiste, T-47 Bezeichnungen auf dem iPhone, T-48 Backup-Kachel immer, T-49 Anzahl unter dem Titel, T-50 Großschreibung nach Vorschlägen | Reiselogbuch 3.4.0 · AppDesign 4.4.0 | 11.10.2026 |
