@@ -12,7 +12,7 @@ const long = 'a'.repeat(100); // R-37: zu lange Wörter müssen im Wort umbreche
 const trips = [
   { id: 'a', title: 'Australien', participants: 'Anna, Ben', start: '2026-08-24', end: '2026-09-05', transport: ['flug', 'leihwagen'], quarterList: true, foodColumn: true, moodColumn: true, quarterColumn: true, fazit: 'Schön',
     days: { '2026-08-24': { weather: '☀️', program: 'Ankunft Sydney\nOper', mood: '🙂 super', food: '🍽️ Fischmarkt – gut\n😋 Harrys Café – Pie', quarter: 'Hotel Rocks', place: 'Sydney' },
-      '2026-08-25': { program: 'Anreise ' + long, mood: '😉 ' + long, food: '😋 ' + long, quarter: long, place: 'Wien' } } },
+      '2026-08-25': { program: 'Anreise ' + long, comment: '😉 ' + long, food: '😋 ' + long, quarter: long, place: 'Wien' } } },
   { id: 'c', title: 'Rundreise ' + 'b'.repeat(60), participants: long, start: '2024-05-03', end: '2024-05-17', transport: ['pkw'], days: {} },
   { id: 'b', title: 'Toskana', participants: 'Anna', start: '2027-05-03', end: '2027-05-17', transport: ['pkw'], days: {} },
 ];

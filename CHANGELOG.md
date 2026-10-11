@@ -13,6 +13,30 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.7.0 – 12.10.2026 (Nebenversion)
+
+Reiselogbuch 3.7.0 · AppDesign 4.7.0 (Designrichtlinie allgemein 4.7.0) · Designrichtlinie Reiselogbuch 3.7.0 · Zusammenarbeit allgemein 1.13.0
+
+Sammelversion:
+
+- T-55 (P-20/2): Die Startliste am iPhone ist jetzt dieselbe Seitenleiste wie am iPad (ein
+  Baustein). Die Reisekacheln verschwinden auf beiden Geräten nach unten hinter der
+  Backup-Kachel – keine starre Begrenzung mehr am iPad. Neue Regel R-36 mit Gerätevergleich.
+- T-56 (P-20/3): Zu lange Wörter (z. B. 100 × ‚a‘) brechen in der Tabelle, in den Kästen und
+  Kacheln im Wort um und laufen in der nächsten Zeile weiter. Neue Regel R-37; das Prüfskript
+  prüft mit 100 × ‚a‘ in allen Spalten.
+
+Prüfliste P-21 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
+
+1. iPad quer: In der Seitenleiste die Kacheln wischen – sie verschwinden nach unten hinter der
+   Backup-Kachel, Kopf und Backup-Kachel bleiben stehen, nichts federt (R-36, R-05).
+2. iPhone hoch und quer: Startliste – sieht aus und verhält sich wie die Seitenleiste am iPad
+   (Kopf, Kacheln, Backup-Kachel, plus und ellipsis) (R-36).
+3. In einem Tag in jede Spalte 100 × ‚a‘ schreiben – auf iPad (quer und hoch) und iPhone bricht
+   das Wort im Wort um, nichts ragt in die Nachbarspalte oder über den Rand (R-37).
+4. Langer Name eines Reiselogbuchs (z. B. 60 × ‚b‘) – die Kachel bricht im Wort um (R-37).
+5. Suche nach ‚aaa‘ – die Treffer im langen Wort werden markiert.
+
 ## 3.6.0 – 11.10.2026 (Nebenversion)
 
 Reiselogbuch 3.6.0 · AppDesign 4.6.0 (Designrichtlinie allgemein 4.6.0) · Designrichtlinie Reiselogbuch 3.6.0 · Zusammenarbeit allgemein 1.13.0

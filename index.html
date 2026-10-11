@@ -46,8 +46,9 @@
   .ln + .ln { margin-top: 2px; }
   .ln .m { flex: none; }
   .ln .t { min-width: 0; overflow-wrap: anywhere; }
-  /* In der Tagestabelle nur zwischen ganzen Wörtern umbrechen (die Spalte wird so breit wie das längste Wort). */
-  table.days .ln .t { overflow-wrap: normal; }
+  /* In der Tagestabelle zwischen ganzen Wörtern umbrechen (die Spalte wird so breit wie das längste Wort);
+     ein zu langes Wort, das nicht in die Spalte passt, bricht im Wort um (R-37). */
+  table.days .ln .t { overflow-wrap: break-word; }
   mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1px; }
   mark.cur { background: var(--mark-cur); color: var(--mark-cur-ink); }
 
@@ -119,8 +120,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.6.0';
-const APP_BUILT = '11.10.2026 um 16:36';
+const APP_VERSION = '3.7.0';
+const APP_BUILT = '12.10.2026 um 00:12';
 
 const app = document.getElementById('app');
 const side = document.getElementById('side');
@@ -425,7 +426,8 @@ function toggleNoLink(ta) {
 function highlight(text, term) {
   const safe = esc(breakable(text)); // zu lange Wörter dürfen im Wort umbrechen (R-37)
   if (!term) return safe;
-  const pattern = esc(term).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // Zwischen den Zeichen darf eine unsichtbare Umbruchstelle stehen (lange Wörter, R-37)
+  const pattern = (esc(term).match(/&[a-z0-9#]+;|./gsu) || []).map(ch => ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('\u200B?');
   return safe.replace(new RegExp(pattern, 'gi'), m => `<mark>${m}</mark>`);
 }
 

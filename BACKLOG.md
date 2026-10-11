@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 11.10.2026** · Aktuelle Version: Reiselogbuch 3.6.0 · AppDesign 4.6.0
+**Stand 12.10.2026** · Aktuelle Version: Reiselogbuch 3.7.0 · AppDesign 4.7.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -18,20 +18,19 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.7.0 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.8.0 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-55 | 1 | Startliste am iPhone = Seitenleiste am iPad (ein Baustein): Kacheln laufen auf beiden unter der Backup-Kachel durch (aus P-20 Punkt 2) – neue Regel R-36 mit Gerätevergleich | allgemein | Muster 11.10.2026 |
-| T-56 | 1 | Zu lange Wörter brechen in Zellen, Kästen und Kacheln im Wort um (aus P-20 Punkt 3) – neue Regel R-37, Testdaten mit 100 × ‚a‘ | allgemein | Muster 11.10.2026 |
+| – | – | zurzeit nichts | – | – |
 
-**2 Punkte – Muster zur Freigabe** · gebaut wird erst nach „Ja“
+**0 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-20 | 1 | Version 3.6.0 (T-53, T-54) – Prüfliste 1–5 im CHANGELOG | prüfen |
+| P-21 | 1 | Version 3.7.0 (T-55, T-56) – Prüfliste 1–5 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -53,6 +52,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-35 | Reiselogbuch 3.7.0: T-55 Startliste = Seitenleiste (R-36), T-56 lange Wörter brechen im Wort um (R-37) | Reiselogbuch 3.7.0 · AppDesign 4.7.0 | 12.10.2026 |
+| E-34 | Geprüft: P-20 Version 3.6.0 – 1, 4, 5 ok; 2 am iPhone ok, am iPad → T-55; 3 → T-56 | Reiselogbuch 3.6.0 | 12.10.2026 |
 | E-33 | Reiselogbuch 3.6.0: T-53 Kopfzeile und Backup-Kachel am iPad fest, T-54 Regelkatalog R-01 bis R-35 mit Regel-Prüfung | Reiselogbuch 3.6.0 · AppDesign 4.6.0 | 11.10.2026 |
 | E-32 | Geprüft: P-19 Version 3.5.0 – 1, 2 ok; 3 am iPhone ok, am iPad → T-53 | Reiselogbuch 3.5.0 | 11.10.2026 |
 | E-31 | Reiselogbuch 3.5.0: T-51 Vorschau am iPad in Seitenbreite, T-52 Leisten bewegen sich nie | Reiselogbuch 3.5.0 · AppDesign 4.5.0 | 11.10.2026 |

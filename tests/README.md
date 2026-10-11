@@ -30,6 +30,6 @@ Claude lässt das Skript bei jeder Version laufen und nennt das Ergebnis im Appl
 | `ablauf-iphone.mjs` | iPhone-Ansicht: Startliste, Suche unten, Tag erfassen, Kontextmenü, Löschen, Wechsel iPhone ↔ iPad |
 | `tastatur.mjs` | Fenster und Kopfzeilen bei sichtbarer Tastatur |
 | `pixelvergleich.mjs` | 40 Ansichten pixelgenau gegen eine ältere Fassung (`_alt.html`) |
-| `hig.mjs` | HIG- und Regel-Prüfung (mit `AppDesign/tests/hig.mjs`, Regelkatalog R-01 bis R-35) |
+| `hig.mjs` | HIG- und Regel-Prüfung (mit `AppDesign/tests/hig.mjs`, Regelkatalog R-01 bis R-37, Gerätevergleich iPad ↔ iPhone, Testdaten mit 100 × ‚a‘) |
 
 Bildschirmfotos landen in `tests/out/` (nicht hochgeladen).
