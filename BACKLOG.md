@@ -22,9 +22,10 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-55 | 1 | Startliste am iPhone = Seitenleiste am iPad (ein Baustein): Kacheln laufen auf beiden unter der Backup-Kachel durch (aus P-20 Punkt 2) – neue Regel R-36 mit Gerätevergleich | allgemein | Muster 11.10.2026 |
+| T-56 | 1 | Zu lange Wörter brechen in Zellen, Kästen und Kacheln im Wort um (aus P-20 Punkt 3) – neue Regel R-37, Testdaten mit 100 × ‚a‘ | allgemein | Muster 11.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**2 Punkte – Muster zur Freigabe** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
