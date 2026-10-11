@@ -22,15 +22,15 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-53 | 1 | Fehler (P-19/3): Am iPad federn Kopfzeile und Backup-Kachel beim Wischen – Kopfzeile fest positioniert, in der Seitenleiste scrollen nur die Kacheln (Kopf und Backup-Kachel stehen fest). Umgesetzt und getestet auf den Zweigen `vorbereitung-3.6.0` (ReiseLogBuch) und `vorbereitung-4.5.1` (AppDesign), noch nicht veröffentlicht | allgemein | 11.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**1 Punkt bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-19 | 1 | Version 3.5.0 (T-51, T-52) – Prüfliste 1–3 im CHANGELOG | prüfen |
+| P-19 | 1 | Version 3.5.0 geprüft (11.10.2026): 1, 2 ok; 3 am iPhone ok, am iPad federn Kopfzeile und Backup-Kachel → T-53 | geprüft |
 
 ## 2. Weitere Themen (in Klärung)
 
