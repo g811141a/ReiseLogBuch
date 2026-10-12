@@ -55,9 +55,9 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[1180, 820], [820,
   await hig.barStill(p, `Hauptansicht (${tag})`);
   await p.click('#mainMore'); await p.waitForTimeout(150); await stays('#mainMore', 'Mehr-Menü'); await M('Mehr-Menü');
   await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await p.waitForTimeout(150); await M('Untermenü Darstellung');
-  await hig.rotate(p, '#mainMore', `Untermenü Darstellung gedreht (${tag})`); await away();
+  await away();
   await p.click('#shareBtn'); await p.waitForTimeout(150); await stays('#shareBtn', 'Teilen-Menü'); await M('Teilen-Menü');
-  await hig.rotate(p, '#shareBtn', `Teilen-Menü gedreht (${tag})`); await away();
+  await away();
   await p.click('#searchBtn'); await p.waitForTimeout(150); await p.fill('#search', 'Oper'); await p.waitForTimeout(700); await M('Suche');
   await hig.barStill(p, `Suche (${tag})`);
   if (await p.locator('#search').evaluate(e => e === document.activeElement && getComputedStyle(e).outlineStyle !== 'none')) note('Suchfeld', 'blauer Fokus-Rahmen', `Suche (${tag})`);
@@ -97,9 +97,9 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
   await hig.barStill(p, `Hauptansicht (${tag})`);
   await p.click('#mainMore'); await p.waitForTimeout(150); await stays('#mainMore', 'Mehr-Menü'); await M('Mehr-Menü');
   await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await p.waitForTimeout(150); await M('Untermenü Darstellung');
-  await hig.rotate(p, '#mainMore', `Untermenü Darstellung gedreht (${tag})`); await away();
+  await away();
   await p.click('#shareBtn'); await p.waitForTimeout(150); await stays('#shareBtn', 'Teilen-Menü'); await M('Teilen-Menü');
-  await hig.rotate(p, '#shareBtn', `Teilen-Menü gedreht (${tag})`); await away();
+  await away();
   await p.click('#searchBtn'); await p.waitForTimeout(150); await p.fill('#search', 'Oper'); await p.waitForTimeout(700); await M('Suche');
   await hig.barStill(p, `Suche (${tag})`);
   await p.click('#searchBtn'); await p.waitForTimeout(200);

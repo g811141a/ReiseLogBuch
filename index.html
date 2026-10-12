@@ -1908,8 +1908,11 @@ let wasWide = isWide();
 let wasPhone = isPhone();
 window.addEventListener('resize', () => {
   placeDialogs();
-  if (isPhone() !== wasPhone) { wasPhone = isPhone(); wasWide = isWide(); sideOverlay = false; render(); return; }
-  if (isWide() !== wasWide) { wasWide = isWide(); sideOverlay = false; render(); return; }
+  // R-40: Ist ein Menü oder eine Abfrage aus der Seitenleiste offen, bleibt sie beim Drehen sichtbar
+  // (hoch darübergelegt) – das Menü bleibt an seiner Schaltfläche.
+  const keepSide = Boolean(document.querySelector('#side .on')) && Boolean(document.querySelector('.menu, .pop'));
+  if (isPhone() !== wasPhone) { wasPhone = isPhone(); wasWide = isWide(); sideOverlay = keepSide; render(); return; }
+  if (isWide() !== wasWide) { wasWide = isWide(); sideOverlay = keepSide; render(); return; }
   const bar = document.getElementById('bar');
   if (bar) document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
   if (!side.hidden) document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
