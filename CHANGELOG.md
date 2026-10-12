@@ -13,6 +13,36 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.10.0 – 12.10.2026 (Nebenversion)
+
+Reiselogbuch 3.10.0 · AppDesign 4.10.0 (Designrichtlinie allgemein 4.10.0) · Designrichtlinie Reiselogbuch 3.10.0 · Zusammenarbeit allgemein 1.13.0
+
+Sammelversion:
+
+- T-63: Menüs und Untermenüs werden beim Drehen neu ausgerichtet – unter ihrer Schaltfläche, ganz sichtbar;
+  die Seitenleiste bleibt dabei sichtbar (neue allgemeine Regel R-40, automatische Drehprüfung).
+- T-65: iPhone – das Kontextmenü einer Reise steht linksbündig unter der Kachel, über ‚Backup erstellen‘;
+  die Liste rückt dafür nötigenfalls nach oben.
+- T-64: Abgleich je Feld (auch am selben Tag und in den Kopfdaten); hier Gelöschtes bleibt gelöscht, mit Hinweis
+  ‚im Backup noch vorhanden‘; Hinweis, wenn drüben Gelöschtes hier weiter geändert wurde.
+- T-66: Abgleich als allgemeine Regeln R-41 bis R-44 mit gemeinsamem Baustein und allgemeiner Prüfung; die Tabelle
+  der Anwendungsfälle steht in der Designrichtlinie allgemein, Abschnitt 15.18.
+- T-67: ‚Backup laden‘ besser lesbar – je eine Kachel für Abgleichen und Ersetzen mit Erklärung; Backup erstellen
+  und laden als allgemeiner Standard R-45, R-46 (Abschnitt 15.19) mit allgemeiner Prüfung.
+
+Prüfliste P-25 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
+
+1. Mehr-Menü (…) öffnen, ‚Darstellung‘ antippen (Untermenü), dann drehen – Menü steht unter ‚…‘, Untermenü
+   daneben, beides ganz sichtbar; zurückdrehen ebenso (R-40). Ebenso Teilen-Menü und Menü der Seitenleiste.
+2. iPad quer: Menü der Seitenleiste offen, auf hoch drehen – die Seitenleiste bleibt, das Menü bleibt an ‚…‘.
+3. iPhone: lange auf eine untere Reise drücken – Menü linksbündig unter der Kachel, ganz über ‚Backup erstellen‘.
+4. ‚Backup erstellen‘ – kleines Fenster ‚Backup‘ mit ✅, die Backup-Kachel wird weiß (R-45).
+5. ‚Backup laden‘ – oben ‚Backup vom …‘, darunter je eine Kachel Abgleichen und Ersetzen mit Erklärung in
+   derselben Schrift, darunter Abbrechen; iPhone quer: Kacheln nebeneinander (R-46).
+6. Abgleich nach der Tabelle (Designrichtlinie allgemein 15.18), z. B. Fälle 2, 3, 8, 12 – Ergebnis und Hinweise
+   wie beschrieben (R-42, R-43, R-44).
+7. Eine falsche Datei laden (z. B. ein Foto) – kleines Fenster ‚Backup laden‘ mit ⚠️ und Grund.
+
 ## 3.9.1 – 12.10.2026 (Korrektur)
 
 Reiselogbuch 3.9.1 · AppDesign 4.9.1 (Designrichtlinie allgemein 4.9.1) · Designrichtlinie Reiselogbuch 3.9.1 · Zusammenarbeit allgemein 1.13.0
