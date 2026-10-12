@@ -22,9 +22,10 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-63 | 1 | Neue Regel R-40: Menü, Untermenü und Sprechblase werden beim Drehen (quer ↔ hoch) neu ausgerichtet – Menü unter der Schaltfläche, Untermenü neben seinem Eintrag, ganz sichtbar; Prüfung im Skript, Gegenprobe gemacht | allgemein | 12.10.2026 |
+| T-64 | 1 | Abgleich (P-24/4): je Feld gilt das Neuere (auch am selben Tag und in den Kopfdaten); hier Gelöschtes bleibt gelöscht, mit Hinweis ‚im Backup noch vorhanden‘; Hinweis, wenn drüben Gelöschtes hier weiter geändert wurde; Tabelle der Anwendungsfälle in der Designrichtlinie Reiselogbuch; Ablauf-Test mit 17 Fällen | allgemein | 12.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**2 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
