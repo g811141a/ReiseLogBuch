@@ -25,8 +25,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 | T-63 | 1 | Neue allgemeine Regel R-40: Menü, Untermenü und Sprechblase werden beim Drehen (hoch ↔ quer) neu ausgerichtet – Menü unter der aufrufenden Schaltfläche, Untermenü neben seinem Eintrag, vollständig sichtbar; Seitenleiste bleibt dabei sichtbar. Automatische Prüfung im gemeinsamen Prüfskript: jede Ansicht mit offenem Menü wird gedreht (jede App, ohne eigenen Aufruf); Gegenprobe gemacht | allgemein | 12.10.2026 |
 | T-64 | 1 | Abgleich (P-24/4): je Feld gilt das Neuere (auch am selben Tag und in den Kopfdaten); hier Gelöschtes bleibt gelöscht, mit Hinweis ‚im Backup noch vorhanden‘; Hinweis, wenn drüben Gelöschtes hier weiter geändert wurde; Tabelle der Anwendungsfälle in der Designrichtlinie Reiselogbuch; Ablauf-Test mit 17 Fällen | allgemein | 12.10.2026 |
 | T-65 | 1 | iPhone: Kontextmenü einer Reise (lange drücken) stand über der Kachel – jetzt linksbündig darunter, ganz sichtbar über der Backup-Kachel; die Liste rückt dafür nötigenfalls nach oben (R-40); Ablauf-Test für oberste und unterste Kachel, Gegenprobe gemacht | allgemein | 12.10.2026 |
+| T-66 | 1 | Abgleich als allgemeine Regel: R-41 (Backup mit Zeitpunkt/Gerät, Abfrage), R-42 (je Feld das Neuere), R-43 (Gelöschtes mit Hinweisen), R-44 (Ergebnisfenster, ‚geändert am‘); gemeinsamer Baustein `createSync` in AppDesign, Fall-Tabelle in der Designrichtlinie allgemein 15.18; allgemeine automatische Prüfung `AppDesign/tests/abgleich.mjs` (alle Fälle, beide Richtungen, jede App); Gegenprobe gemacht | allgemein | 12.10.2026 |
 
-**3 Punkte bereit** · gebaut wird erst nach „Ja“
+**4 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 

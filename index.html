@@ -167,105 +167,12 @@ function onDialogOpen() { clearInterval(autosaveTimer); }
 
 /* ---------- Speicher ---------- */
 
-// Abgleich zwischen iPad und iPhone (T-03): jede Änderung bekommt Zeitpunkt und Gerät – seit 3.10.0 je Feld:
-// metaAt = { Feld: Zeitpunkt } für die Kopfdaten (Titel, Teilnehmer, Zeitraum, Fazit …), dayAt = { Tag: { Feld:
-// Zeitpunkt } } für die Tage; dazu changedAt/changedOn für ‚geändert am … · Gerät‘ in der Kachel. (3.9.x speicherte
-// je Reiselogbuch bzw. Tag nur einen Zeitpunkt – der gilt dann für alle Felder.) Gelöschte Reiselogbücher merkt sich
-// die App in db.deleted, damit sie beim Abgleich auch drüben verschwinden.
-// Erkannt wird jede Änderung beim Speichern durch Vergleich mit dem zuletzt gespeicherten Stand.
-const STAMP_KEYS = ['days', 'dayAt', 'metaAt', 'changedAt', 'changedOn', 'outputCounter'];
-const metaKeys = t => Object.keys(t).filter(k => !STAMP_KEYS.includes(k));
-const metaOf = t => JSON.stringify(metaKeys(t).sort().map(k => [k, t[k]]));
-const fieldsOf = obj => Object.fromEntries(Object.entries(obj || {}).map(([k, v]) => [k, JSON.stringify(v)]));
-function snapshot(data) {
-  return new Map(data.trips.map(t => [t.id, { meta: fieldsOf(Object.fromEntries(metaKeys(t).map(k => [k, t[k]]))),
-    days: Object.fromEntries(Object.entries(t.days).map(([iso, d]) => [iso, fieldsOf(d)])) }]));
-}
-// Zeitpunkt eines Felds (auch aus 3.9.x, wo es nur einen Zeitpunkt je Tag bzw. je Reiselogbuch gab).
-const metaTime = (t, k) => typeof t.metaAt === 'number' ? t.metaAt : t.metaAt?.[k] || 0;
-const dayTime = (t, iso, k) => { const a = t.dayAt?.[iso]; return typeof a === 'number' ? a : a?.[k] || 0; };
-function stampChanges() {
-  const now = Date.now(), on = deviceName(), next = snapshot(db);
-  for (const t of db.trips) {
-    const before = lastSnap.get(t.id), after = next.get(t.id);
-    t.dayAt ||= {};
-    if (typeof t.metaAt !== 'object' || !t.metaAt) t.metaAt = {};
-    let changed = false;
-    for (const k of new Set([...Object.keys(before?.meta || {}), ...Object.keys(after.meta)])) {
-      if (!before || before.meta[k] !== after.meta[k]) { t.metaAt[k] = now; changed = true; }
-    }
-    for (const iso of new Set([...Object.keys(before?.days || {}), ...Object.keys(after.days)])) {
-      const b = before?.days[iso] || {}, a = after.days[iso] || {};
-      for (const k of new Set([...Object.keys(b), ...Object.keys(a)])) {
-        if (b[k] !== a[k]) { if (typeof t.dayAt[iso] !== 'object' || !t.dayAt[iso]) t.dayAt[iso] = {}; t.dayAt[iso][k] = now; changed = true; }
-      }
-    }
-    if (changed) { t.changedAt = now; t.changedOn = on; }
-  }
-  for (const id of lastSnap.keys()) if (!next.has(id)) db.deleted = [...db.deleted.filter(x => x.id !== id), { id, at: now, on }];
-  lastSnap = next;
-}
-// Letzte Änderung eines Datenbestands (Reiselogbuch geändert oder gelöscht).
-function latestChange(data) {
-  return Math.max(0, ...data.trips.map(t => t.changedAt || 0), ...(data.deleted || []).map(x => x.at || 0));
-}
-function whenText(ms) {
-  const d = new Date(ms);
-  return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()} um ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
-
-// Abgleichen: je Feld gilt die neuere Fassung – in den Kopfdaten (Titel, Teilnehmer, Zeitraum, Fazit …) und in jedem
-// Tag (Wetter, Verlauf, Wie war was?, Essen, Quartier …). Gleich alt (z. B. beide ohne Zeitpunkt): das Vorhandene
-// hier bleibt, Fehlendes kommt dazu. Ein gelöschtes Reiselogbuch bleibt gelöscht, wenn es danach nicht mehr geändert
-// wurde; wurde es danach noch geändert, bleibt bzw. kommt es wieder. Einstellungen und Smiley-Listen bleiben die dieses Geräts.
-function mergeFields(l, r, timeL, timeR) {
-  const out = {}, at = {};
-  let fromR = false;
-  for (const k of new Set([...Object.keys(l || {}), ...Object.keys(r || {})])) {
-    const la = timeL(k), ra = timeR(k);
-    const useR = ra > la || (ra === la && l?.[k] === undefined && r?.[k] !== undefined);
-    const v = useR ? r?.[k] : l?.[k];
-    if (v !== undefined) out[k] = structuredClone(v);
-    if (Math.max(la, ra)) at[k] = useR ? ra : la;
-    if (useR && JSON.stringify(l?.[k] ?? null) !== JSON.stringify(r?.[k] ?? null)) fromR = true;
-  }
-  return { out, at, fromR };
-}
-function mergeData(local, remote) {
-  const stats = { updated: [], added: [], removed: [], keptDeleted: [], keptChanged: [], same: 0 };
-  const del = new Map();
-  for (const x of [...local.deleted, ...remote.deleted]) if (!del.has(x.id) || del.get(x.id).at < x.at) del.set(x.id, x);
-  const L = new Map(local.trips.map(t => [t.id, t])), R = new Map(remote.trips.map(t => [t.id, t]));
-  const metaObj = t => Object.fromEntries(metaKeys(t).map(k => [k, t[k]]));
-  const trips = [];
-  for (const id of new Set([...L.keys(), ...R.keys()])) {
-    const l = L.get(id), r = R.get(id), gone = del.get(id);
-    if (l && r) {
-      const meta = mergeFields(metaObj(l), metaObj(r), k => metaTime(l, k), k => metaTime(r, k));
-      const t = { id, ...meta.out, metaAt: meta.at, days: {}, dayAt: {} };
-      let days = 0;
-      for (const iso of new Set([...Object.keys(l.days), ...Object.keys(r.days), ...Object.keys(l.dayAt), ...Object.keys(r.dayAt)])) {
-        const d = mergeFields(l.days[iso], r.days[iso], k => dayTime(l, iso, k), k => dayTime(r, iso, k));
-        if (Object.keys(d.out).length) t.days[iso] = d.out;
-        if (Object.keys(d.at).length) t.dayAt[iso] = d.at;
-        if (d.fromR) days++;
-      }
-      const newer = (r.changedAt || 0) > (l.changedAt || 0) ? r : l;
-      t.changedAt = newer.changedAt; t.changedOn = newer.changedOn;
-      t.outputCounter = Math.max(l.outputCounter || 0, r.outputCounter || 0);
-      trips.push(t);
-      if (days || meta.fromR) stats.updated.push({ title: t.title, days }); else stats.same++;
-    } else if (l) {
-      if (gone && gone.at > (l.changedAt || 0)) stats.removed.push(l.title);
-      else { trips.push(l); stats.same++; if (gone) stats.keptChanged.push(l.title); }
-    } else if (gone && gone.at >= (r.changedAt || 0)) {
-      stats.keptDeleted.push({ title: r.title, at: gone.at });   // hier gelöscht, im Backup noch vorhanden
-    } else {
-      trips.push(structuredClone(r)); stats.added.push(r.title);
-    }
-  }
-  return { data: { ...local, trips, deleted: [...del.values()] }, stats };
-}
+// Abgleich zwischen iPad und iPhone (T-03, Regeln R-41 bis R-44): gemeinsamer Baustein createSync aus AppDesign (ui.js).
+// Je Feld Zeitpunkt und Gerät – Kopfdaten (metaAt) und Tage (dayAt); gelöschte Reiselogbücher in db.deleted.
+const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields: ['outputCounter'],
+  nouns: ['Reiselogbuch', 'Reiselogbücher', 'Reiselogbüchern'] });
+const snapshot = sync.snapshot, latestChange = sync.latest, mergeData = sync.merge;
+function stampChanges() { lastSnap = sync.stamp(db, lastSnap); }
 
 function normalize(data) {
   data.trips ||= [];
@@ -1030,8 +937,7 @@ function renderSide() {
       <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
     </div>
     <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
-        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${t.changedAt
-          ? `<small class="chg">geändert am ${whenText(t.changedAt)}${t.changedOn ? ' · ' + esc(t.changedOn) : ''}</small>` : ''}</span>${ic('chevron-right')}</button>`).join('')
+        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
       : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}</div>
     ${trips.length ? `<div class="side-foot"><div class="bhint ${backedUpToday() ? 'ok' : ''}"><div>${lastBackupText()}</div>
       <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div></div>` : ''}`;
@@ -1829,23 +1735,7 @@ function downloadFile(name, content, type) {
 
 /* ---------- Backup ---------- */
 
-// Ergebnis des Abgleichs als kleines Fenster (Muster T-03).
-function mergeText({ updated, added, removed, keptDeleted, keptChanged, same }, savedAt, savedOn) {
-  const books = n => `${n} Reiselogb${n === 1 ? 'uch' : 'ücher'}`;
-  const head = `✅ Abgeglichen mit dem Backup vom ${whenText(savedAt)}${savedOn ? ` (${esc(savedOn)})` : ''}.`;
-  // Hinweis: hier gelöscht, im Backup aber noch vorhanden – bleibt gelöscht (zurück nur mit ‚Ersetzen‘).
-  const notes = [];
-  if (keptDeleted.length) notes.push(`ℹ️ <b>Hier gelöscht, im Backup noch vorhanden:</b> ${keptDeleted.map(k => `${esc(k.title)} (gelöscht am ${whenText(k.at)})`).join(', ')} – ${keptDeleted.length === 1 ? 'bleibt' : 'bleiben'} gelöscht. Zurückholen nur mit ‚Backup laden‘ → ‚Ersetzen‘ (ersetzt alle Daten auf diesem Gerät).`);
-  if (keptChanged.length) notes.push(`ℹ️ <b>Drüben gelöscht, hier danach noch geändert:</b> ${keptChanged.map(esc).join(', ')} – ${keptChanged.length === 1 ? 'bleibt' : 'bleiben'} erhalten.`);
-  const tail = notes.length ? `<br><br>${notes.join('<br><br>')}` : '';
-  if (!updated.length && !added.length && !removed.length) return `${head}<br><br>Alles war schon auf dem gleichen Stand.${tail}`;
-  const rows = [];
-  if (updated.length) rows.push(`<b>Aktualisiert:</b> ${updated.map(u => esc(u.title) + (u.days ? ` (${u.days} ${u.days === 1 ? 'Tag' : 'Tage'})` : '')).join(', ')}`);
-  if (added.length) rows.push(`<b>Neu:</b> ${added.map(esc).join(', ')}`);
-  if (removed.length) rows.push(`<b>Gelöscht:</b> ${removed.map(esc).join(', ')}`);
-  if (same) rows.push(`<b>Unverändert:</b> ${books(same)}`);
-  return `${head}<br><br>${rows.join('<br>')}${tail}`;
-}
+const mergeText = (stats, savedAt, savedOn) => sync.resultText(stats, savedAt, savedOn);
 
 importFile.addEventListener('cancel', () => release(importAnchor));
 importFile.onchange = async () => {
@@ -1858,13 +1748,8 @@ importFile.onchange = async () => {
     const savedAt = data.savedAt || file.lastModified, savedOn = data.savedOn;
     delete data.savedAt; delete data.savedOn;
     normalize(data);
-    const n = data.trips.length, here = deviceName();
-    // Abfrage wie im Muster T-03: Zeitpunkt und Gerät des Backups, neuer oder älter als die Daten hier.
-    const mine = latestChange(db), theirs = latestChange(data) || savedAt;
-    const cmp = !mine ? '' : `<br>Es ist <b>${theirs > mine ? 'neuer' : theirs < mine ? 'älter' : 'gleich alt'}</b> ${theirs === mine ? 'wie' : 'als'} die Daten auf diesem ${here} (zuletzt geändert am ${whenText(mine)}).`;
-    const choice = await choosePop(document.querySelector(importAnchor),
-      `Backup vom <b>${whenText(savedAt)}</b>${savedOn ? ` (${esc(savedOn)})` : ''} mit ${n} Reiselogb${n === 1 ? 'uch' : 'üchern'}.${cmp}<br><br><small>Abgleichen: je Reiselogbuch und Tag gilt die neuere Fassung, gelöschte Reiselogbücher werden auch hier gelöscht.<br>Ersetzen: alle Daten auf diesem ${here} werden durch das Backup ersetzt.</small>`,
-      [{ label: 'Abgleichen', cls: 'primary', value: 'merge' }, { label: 'Ersetzen', cls: 'danger-text', value: 'replace' }, { label: 'Abbrechen', value: null }]);
+    // Abfrage (R-41): Zeitpunkt und Gerät des Backups, neuer oder älter – Abgleichen · Ersetzen · Abbrechen.
+    const choice = await choosePop(document.querySelector(importAnchor), sync.question(db, data, savedAt, savedOn), sync.choices);
     if (!choice) return release(importAnchor);
     // Das letzte Backup gilt je Gerät: der Zeitpunkt aus der Datei (z. B. vom iPad) wird nicht übernommen.
     const lastBackup = db.settings.lastBackup;

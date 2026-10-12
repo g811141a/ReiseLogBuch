@@ -162,34 +162,9 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 | Maps-Links der Lokale in der Spalte ‚Essen und Trinken‘ nur so hoch wie der Text (ca. 19 px) – auf dem iPhone auch in den Tageskästen | mehr Zeilenabstand in der Tabelle nicht gewünscht; im Kasten würde eine größere Fläche das Antippen des Tages behindern; das HIG-Prüfskript zählt es nicht | 09.10.2026 · iPhone 10.10.2026 |
 | Wetter-Symbole in der Tageserfassung auf dem iPhone 40 px breit (in der Kapsel, über dem Minimum von 28 pt) | alle sieben passen ohne Wischen | 10.10.2026 |
 
-## Abgleich zwischen iPad und iPhone (seit 3.9.0, je Feld seit 3.10.0)
+## Abgleich zwischen iPad und iPhone
 
-Grundsatz: **Je Feld gilt die neuere Änderung**; ein gelöschtes Reiselogbuch bleibt gelöscht, solange es danach nicht mehr geändert wurde. Einstellungen bleiben je Gerät.
-
-| Nr. | Anwendungsfall | iPhone lädt das Backup vom iPad → ‚Abgleichen‘ | iPad lädt das Backup vom iPhone → ‚Abgleichen‘ |
-|---|---|---|---|
-| 1 | Reiselogbuch nur auf dem iPad neu angelegt | kommt dazu – Meldung ‚Neu: …‘ | bleibt – ‚Alles war schon auf dem gleichen Stand‘ |
-| 2 | Auf dem iPad gelöscht, auf dem iPhone seitdem nicht geändert | wird gelöscht – ‚Gelöscht: …‘ | bleibt gelöscht – Hinweis ‚Hier gelöscht, im Backup noch vorhanden: … (gelöscht am …) – bleibt gelöscht. Zurückholen nur mit Ersetzen‘ |
-| 3 | Auf dem iPad gelöscht, auf dem iPhone **danach** noch geändert | bleibt erhalten – Hinweis ‚Drüben gelöscht, hier danach noch geändert: … – bleibt erhalten‘ | kommt mit den Änderungen vom iPhone zurück – ‚Neu: …‘ |
-| 4 | Auf dem iPad gelöscht, auf dem iPhone **vorher** geändert | wird gelöscht – ‚Gelöscht: …‘ | bleibt gelöscht – Hinweis wie Fall 2 |
-| 5 | Auf beiden Geräten gelöscht | bleibt weg, keine Meldung dazu | bleibt weg, keine Meldung dazu |
-| 6 | Nur auf dem iPad einen Tag erfasst oder geändert | Tag wird übernommen – ‚Aktualisiert: … (1 Tag)‘ | bleibt – ‚Alles war schon auf dem gleichen Stand‘ |
-| 7 | Verschiedene Tage auf iPad und iPhone geändert | beide Tage sind da – der Tag vom iPad wird übernommen | beide Tage sind da – der Tag vom iPhone wird übernommen |
-| 8 | Gleicher Tag, verschiedene Felder (iPad: Wetter, iPhone: Verlauf) | beides bleibt – Wetter vom iPad kommt dazu | beides bleibt – Verlauf vom iPhone kommt dazu |
-| 9 | Gleicher Tag, gleiches Feld auf beiden geändert (iPhone später) | die neuere Fassung (iPhone) bleibt | die neuere Fassung (iPhone) wird übernommen |
-| 10 | Feld auf dem iPad geleert (z. B. Wetter gelöscht), iPhone unverändert | Feld wird auch hier geleert, der Rest des Tags bleibt | bleibt leer |
-| 11 | Feld auf dem iPad geleert, auf dem iPhone **danach** neu eingetragen | der neue Eintrag bleibt | der neue Eintrag wird übernommen |
-| 12 | Kopfdaten: Titel auf dem iPad, Fazit auf dem iPhone geändert | beides bleibt – neuer Titel kommt dazu | beides bleibt – Fazit kommt dazu |
-| 13 | Kopfdaten: gleiches Feld (z. B. Titel) auf beiden geändert | das Neuere gilt (je Feld: Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Kosten …) | wie links |
-| 14 | Auf beiden Geräten ein neues Reiselogbuch mit gleichem Namen angelegt | beide bleiben (zwei Einträge gleichen Namens – es sind verschiedene Reiselogbücher) | wie links |
-| 15 | Nichts geändert bzw. dasselbe Backup noch einmal geladen | ‚Alles war schon auf dem gleichen Stand‘ | wie links |
-| 16 | Daten noch ohne Zeitpunkt (vor dem Update nicht mehr geändert, oder Backup älter als 3.9.0) | Vorhandenes hier bleibt, Fehlendes (Reiselogbücher, Tage, Felder) kommt dazu; unterschiedliche Werte bleiben je Gerät verschieden | wie links – Tipp: nach dem Update einmal auf einem Gerät ‚Ersetzen‘, dann starten beide gleich |
-| 17 | Dateinummer für PDF/HTML (Exportzähler) auf beiden verschieden | der höhere Zähler gilt | wie links |
-| 18 | Einstellungen (Darstellung, Smiley-Leiste, ‚Letztes Backup‘) | bleiben die des iPhones | bleiben die des iPads |
-| 19 | ‚Ersetzen‘ statt ‚Abgleichen‘ | alle Daten des iPhones werden durch das Backup ersetzt – auch hier Gelöschtes kommt zurück, hier Geändertes geht verloren; ‚Letztes Backup‘ bleibt | wie links, für das iPad |
-| 20 | ‚Abbrechen‘ oder daneben tippen | nichts ändert sich | wie links |
-
-Fälle 1–17 prüft der Ablauf-Test `tests/ablauf-abgleich-faelle.mjs` bei jeder Version automatisch (beide Richtungen).
+Es gelten die allgemeinen Regeln R-41 bis R-44 und die Fall-Tabelle der Designrichtlinie allgemein (Abschnitt 15.18). Ausprägung im Reiselogbuch: Einträge = Reiselogbücher, Unterdaten = Tage (Felder Wetter, Verlauf, Wie war was?, Essen, Quartier …), Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Kosten; Zähler ohne Zeitpunkt = Dateinummer für PDF/HTML.
 
 ---
 
