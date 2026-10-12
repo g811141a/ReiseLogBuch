@@ -22,15 +22,17 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-57 | 1 | Fehler (P-21/3, 5): Reihen von Smileys ohne Leerzeichen ragten über die Zelle hinaus, lange Wörter wurden zu 1 Zeichen breiten Spalten gequetscht, die Suche sah dadurch falsch aus – mehr als drei Smileys am Zeilenanfang sind jetzt Text und brechen um, Umbruch nach ganzen Zeichen, Spaltenköpfe in einer Zeile; Test mit Smiley-Reihen (R-37) | allgemein | Muster 12.10.2026 |
+| T-58 | 1 | Fehler (P-21/2): Seitenleiste sprang nach dem Wählen eines weiter unten liegenden Reiselogbuchs nach oben – sie behält ihre Position, der gewählte Eintrag bleibt sichtbar (iPad und iPhone, Ablauf-Test) | allgemein | Muster 12.10.2026 |
+| T-59 | 1 | Fehler (iPhone): Bei offener Suche zitterte die Leiste beim Wischen – wie bei Apple schließt Wischen die Tastatur (R-05, Ablauf-Test) | allgemein | Muster 12.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**3 Punkte – Muster zur Freigabe**
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-21 | 1 | Version 3.7.0 (T-55, T-56) – Prüfliste 1–5 im CHANGELOG | prüfen |
+| P-21 | 1 | Version 3.7.0 geprüft (12.10.2026): 1, 4 ok; 2 → T-58; 3, 5 → T-57; dazu iPhone-Suche → T-59 | geprüft |
 
 ## 2. Weitere Themen (in Klärung)
 
