@@ -13,6 +13,35 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.9.0 – 12.10.2026 (Nebenversion)
+
+Reiselogbuch 3.9.0 · AppDesign 4.9.0 (Designrichtlinie allgemein 4.9.0) · Designrichtlinie Reiselogbuch 3.9.0 · Zusammenarbeit allgemein 1.13.0
+
+- T-03: Abgleich zwischen iPad und iPhone über ein Backup (z. B. in iCloud Drive). Jede Änderung
+  bekommt Zeitpunkt und Gerät – je Reiselogbuch und je Tag; gelöschte Reiselogbücher werden gemerkt.
+  ‚Backup laden‘ zeigt Zeitpunkt und Gerät des Backups und ob es neuer oder älter ist als die Daten
+  hier, und fragt: **Abgleichen** · **Ersetzen** · **Abbrechen**. Abgleichen nimmt je Reiselogbuch
+  und Tag die neuere Fassung, Gelöschtes wird auch hier gelöscht, Neues kommt dazu; das Ergebnis
+  steht im kleinen Fenster. Jede Kachel zeigt ‚geändert am … · iPad/iPhone‘.
+- Hinweis: Reiselogbücher, die seit dem Update noch nicht geändert wurden, haben noch keinen
+  Zeitpunkt – beim ersten Abgleich bleibt dort das Vorhandene, Fehlendes kommt dazu.
+
+So geht der Abgleich: auf dem einen Gerät ‚Backup erstellen‘ → ‚In Dateien sichern‘ → iCloud Drive;
+auf dem anderen ‚Backup laden‘ → die Datei in iCloud Drive wählen → ‚Abgleichen‘.
+
+Prüfliste P-24 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
+
+1. Auf dem iPad einen Tag ändern – die Kachel zeigt ‚geändert am … · iPad‘ (gleich am iPhone: ‚· iPhone‘).
+2. iPad: ‚Backup erstellen‘ → ‚In Dateien sichern‘ → iCloud Drive.
+3. iPhone: einen anderen Tag ändern, dann ‚Backup laden‘ → die Datei vom iPad wählen – die Abfrage
+   nennt Zeitpunkt und Gerät des Backups und ‚älter‘; Knöpfe Abgleichen (blau) · Ersetzen (rot) ·
+   Abbrechen (R-38).
+4. ‚Abgleichen‘ – das Fenster nennt Aktualisiert · Neu · Gelöscht · Unverändert; beide Änderungen
+   sind jetzt auf dem iPhone.
+5. Umgekehrt (iPhone → iPad) – danach sind beide Geräte gleich; ein gelöschtes Reiselogbuch ist auf
+   beiden weg.
+6. ‚Ersetzen‘ ersetzt wie bisher alles; ‚Abbrechen‘ ändert nichts.
+
 ## 3.8.1 – 12.10.2026 (Korrektur)
 
 Reiselogbuch 3.8.1 · AppDesign 4.8.1 (Designrichtlinie allgemein 4.8.1) · Designrichtlinie Reiselogbuch 3.8.1 · Zusammenarbeit allgemein 1.13.0

@@ -27,6 +27,7 @@ Claude lässt das Skript bei jeder Version laufen und nennt das Ergebnis im Appl
 | `ablauf-fenster.mjs` | Fenster (Tag, Einstellungen, Fazit), Häkchen und ‚Änderungen verwerfen‘ |
 | `ablauf-seitenleiste-kontextmenue.mjs` | Seitenleiste, langes Drücken, Löschen-Abfrage |
 | `ablauf-seitenleiste-position.mjs` | Seitenleiste/Startliste behält ihre Position, gewählter Eintrag sichtbar; iPhone: erstes Wischen bei offener Suche schließt nur die Tastatur, die Seite bleibt stehen (R-05) |
+| `ablauf-abgleich.mjs` | Abgleich iPad ↔ iPhone über ein Backup: neuere Fassung je Tag, gelöschte und neue Reiselogbücher, Abfrage und Ergebnis (T-03) |
 | `ablauf-markierung-menues.mjs` | blaue Markierung bleibt, Menüs mit Strich und Speicher-Satz |
 | `ablauf-iphone.mjs` | iPhone-Ansicht: Startliste, Suche unten, Tag erfassen, Kontextmenü, Löschen, Wechsel iPhone ↔ iPad |
 | `tastatur.mjs` | Fenster und Kopfzeilen bei sichtbarer Tastatur |

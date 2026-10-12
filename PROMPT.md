@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 12.10.2026, Version 3.8.1)
+# Reiselogbuch – Prompt (Stand 12.10.2026, Version 3.9.0)
 
-Reiselogbuch 3.8.1 · AppDesign 4.8.1 (Designrichtlinie allgemein 4.8.1) · Designrichtlinie Reiselogbuch 3.8.1 · Zusammenarbeit allgemein 1.13.0
+Reiselogbuch 3.9.0 · AppDesign 4.9.0 (Designrichtlinie allgemein 4.9.0) · Designrichtlinie Reiselogbuch 3.9.0 · Zusammenarbeit allgemein 1.13.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -117,6 +117,13 @@ RAHMEN
     Position, der gewählte Eintrag bleibt sichtbar. iPhone: Wischen bei offener Suche schließt die Tastatur.
   - Seit 3.8.1: Eine Symbolleiste – mit oder ohne Suchzeile – bewegt sich beim Wischen keinen
     Millimeter (R-05). Bei offener Tastatur der Suche schließt das erste Wischen nur die Tastatur.
+  - Seit 3.9.0: Abgleich zwischen iPad und iPhone (T-03). Jede Änderung bekommt Zeitpunkt und Gerät
+    (je Reiselogbuch und je Tag), gelöschte Reiselogbücher werden gemerkt. ‚Backup laden‘ zeigt
+    Zeitpunkt und Gerät des Backups und ob es neuer oder älter ist und fragt: Abgleichen (je
+    Reiselogbuch und Tag gilt die neuere Fassung, Gelöschtes wird auch hier gelöscht) · Ersetzen ·
+    Abbrechen. Das Ergebnis steht im kleinen Fenster. Jede Kachel zeigt ‚geändert am … · Gerät‘.
+    Weg: auf dem einen Gerät ‚Backup erstellen‘ → ‚In Dateien sichern‘ → iCloud Drive; auf dem
+    anderen ‚Backup laden‘ → die Datei in iCloud Drive wählen → Abgleichen.
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen

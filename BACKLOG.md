@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 12.10.2026** · Aktuelle Version: Reiselogbuch 3.8.1 · AppDesign 4.8.1
+**Stand 12.10.2026** · Aktuelle Version: Reiselogbuch 3.9.0 · AppDesign 4.9.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -18,19 +18,19 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.9.0 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.10.0 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-03 | 1 | Abgleich iPad ↔ iPhone über ein Backup (iCloud Drive): ‚Backup laden‘ zeigt Zeitpunkt und Gerät des Backups und ob es neuer oder älter ist; Auswahl Abgleichen · Ersetzen · Abbrechen; Abgleichen nimmt je Reiselogbuch und Tag die neuere Fassung, Gelöschtes wird auch hier gelöscht; Ergebnis im kleinen Fenster; jede Kachel zeigt ‚geändert am … · Gerät‘. Muster freigegeben 12.10.2026; Ablauf-Test mit zwei Geräten, Gegenprobe gemacht | allgemein | 12.10.2026 |
+| – | – | zurzeit nichts | – | – |
 
-**1 Punkt bereit** · gebaut wird erst nach „Ja“
+**0 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-24 | 1 | Version 3.9.0 (T-03) – Prüfliste 1–6 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-41 | Reiselogbuch 3.9.0: T-03 Abgleich iPad ↔ iPhone über ein Backup, ‚geändert am … · Gerät‘ in jeder Kachel | Reiselogbuch 3.9.0 · AppDesign 4.9.0 | 12.10.2026 |
 | E-40 | Geprüft: P-23 Version 3.8.1 – 1–4 ok | Reiselogbuch 3.8.1 | 12.10.2026 |
 | E-39 | Reiselogbuch 3.8.1: T-60 Symbolleiste mit oder ohne Suchzeile bewegt sich keinen Millimeter (R-05) | Reiselogbuch 3.8.1 · AppDesign 4.8.1 | 12.10.2026 |
 | E-38 | Geprüft: P-22 Version 3.8.0 – 1–4 ok (5 → T-60) | Reiselogbuch 3.8.0 | 12.10.2026 |
