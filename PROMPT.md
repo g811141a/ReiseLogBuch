@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 12.10.2026, Version 3.7.0)
+# Reiselogbuch – Prompt (Stand 12.10.2026, Version 3.8.0)
 
-Reiselogbuch 3.7.0 · AppDesign 4.7.0 (Designrichtlinie allgemein 4.7.0) · Designrichtlinie Reiselogbuch 3.7.0 · Zusammenarbeit allgemein 1.13.0
+Reiselogbuch 3.8.0 · AppDesign 4.8.0 (Designrichtlinie allgemein 4.8.0) · Designrichtlinie Reiselogbuch 3.8.0 · Zusammenarbeit allgemein 1.13.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -112,6 +112,9 @@ RAHMEN
     (ein Baustein, R-36); die Kacheln laufen auf beiden Geräten hinter der Backup-Kachel durch.
     Zu lange Wörter brechen in Zellen, Kästen und Kacheln im Wort um (R-37); die Suche markiert
     auch Teile solcher Wörter.
+  - Seit 3.8.0: Reihen von Smileys ohne Leerzeichen brechen um – höchstens drei Smileys am
+    Zeilenanfang werden zum Zeichen, eine längere Reihe ist Text. Die Seitenleiste behält ihre
+    Position, der gewählte Eintrag bleibt sichtbar. iPhone: Wischen bei offener Suche schließt die Tastatur.
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen

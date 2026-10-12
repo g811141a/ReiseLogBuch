@@ -26,6 +26,7 @@ Claude lässt das Skript bei jeder Version laufen und nennt das Ergebnis im Appl
 | `ablauf-suche-tabelle.mjs` | Suche, Trefferanzeige und Springen in der Tabelle |
 | `ablauf-fenster.mjs` | Fenster (Tag, Einstellungen, Fazit), Häkchen und ‚Änderungen verwerfen‘ |
 | `ablauf-seitenleiste-kontextmenue.mjs` | Seitenleiste, langes Drücken, Löschen-Abfrage |
+| `ablauf-seitenleiste-position.mjs` | Seitenleiste/Startliste behält ihre Position, gewählter Eintrag sichtbar; iPhone: Wischen schließt die Tastatur der Suche |
 | `ablauf-markierung-menues.mjs` | blaue Markierung bleibt, Menüs mit Strich und Speicher-Satz |
 | `ablauf-iphone.mjs` | iPhone-Ansicht: Startliste, Suche unten, Tag erfassen, Kontextmenü, Löschen, Wechsel iPhone ↔ iPad |
 | `tastatur.mjs` | Fenster und Kopfzeilen bei sichtbarer Tastatur |

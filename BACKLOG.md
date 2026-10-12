@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 12.10.2026** · Aktuelle Version: Reiselogbuch 3.7.0 · AppDesign 4.7.0
+**Stand 12.10.2026** · Aktuelle Version: Reiselogbuch 3.8.0 · AppDesign 4.8.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -18,21 +18,19 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.8.0 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.9.0 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-57 | 1 | Fehler (P-21/3, 5): Reihen von Smileys ohne Leerzeichen ragten über die Zelle hinaus, lange Wörter wurden zu 1 Zeichen breiten Spalten gequetscht, die Suche sah dadurch falsch aus – mehr als drei Smileys am Zeilenanfang sind jetzt Text und brechen um, Umbruch nach ganzen Zeichen, Spaltenköpfe in einer Zeile; Test mit Smiley-Reihen (R-37) | allgemein | Muster 12.10.2026 |
-| T-58 | 1 | Fehler (P-21/2): Seitenleiste sprang nach dem Wählen eines weiter unten liegenden Reiselogbuchs nach oben – sie behält ihre Position, der gewählte Eintrag bleibt sichtbar (iPad und iPhone, Ablauf-Test) | allgemein | Muster 12.10.2026 |
-| T-59 | 1 | Fehler (iPhone): Bei offener Suche zitterte die Leiste beim Wischen – wie bei Apple schließt Wischen die Tastatur (R-05, Ablauf-Test) | allgemein | Muster 12.10.2026 |
+| – | – | zurzeit nichts | – | – |
 
-**3 Punkte – Muster zur Freigabe**
+**0 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-21 | 1 | Version 3.7.0 geprüft (12.10.2026): 1, 4 ok; 2 → T-58; 3, 5 → T-57; dazu iPhone-Suche → T-59 | geprüft |
+| P-22 | 1 | Version 3.8.0 (T-57 bis T-59) – Prüfliste 1–5 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -54,6 +52,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-37 | Reiselogbuch 3.8.0: T-57 Smiley-Reihen und lange Wörter brechen um, T-58 Seitenleiste behält Position, T-59 Tastatur der Suche schließt beim Wischen | Reiselogbuch 3.8.0 · AppDesign 4.8.0 | 12.10.2026 |
+| E-36 | Geprüft: P-21 Version 3.7.0 – 1, 4 ok; 2 → T-58; 3, 5 → T-57; iPhone-Suche → T-59 | Reiselogbuch 3.7.0 | 12.10.2026 |
 | E-35 | Reiselogbuch 3.7.0: T-55 Startliste = Seitenleiste (R-36), T-56 lange Wörter brechen im Wort um (R-37) | Reiselogbuch 3.7.0 · AppDesign 4.7.0 | 12.10.2026 |
 | E-34 | Geprüft: P-20 Version 3.6.0 – 1, 4, 5 ok; 2 am iPhone ok, am iPad → T-55; 3 → T-56 | Reiselogbuch 3.6.0 | 12.10.2026 |
 | E-33 | Reiselogbuch 3.6.0: T-53 Kopfzeile und Backup-Kachel am iPad fest, T-54 Regelkatalog R-01 bis R-35 mit Regel-Prüfung | Reiselogbuch 3.6.0 · AppDesign 4.6.0 | 11.10.2026 |
