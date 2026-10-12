@@ -55,7 +55,7 @@ check((await iphone.locator('#side .side-row', { hasText: 'Toskana neu' }).locat
 await iphone.click('#sideMore'); await iphone.waitForTimeout(150);
 const [chooser] = await Promise.all([iphone.waitForEvent('filechooser'), iphone.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
 await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(fromIpad) }); await iphone.waitForTimeout(300);
-const ask = await iphone.locator('.pop p').innerHTML();
+const ask = await iphone.locator('.pop > p').innerHTML();
 check(ask.includes('Backup vom <b>12.10.2026 um 11:00</b> (iPad) mit 3 Reiselogbüchern.'), `Abfrage: ${ask}`);
 check(ask.includes('Es ist <b>älter</b> als die Daten auf diesem iPhone (zuletzt geändert am 12.10.2026 um 12:00)'), `Vergleich: ${ask}`);
 await iphone.locator('.pop button', { hasText: 'Abgleichen' }).click(); await iphone.waitForTimeout(400);

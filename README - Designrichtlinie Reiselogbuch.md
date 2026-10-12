@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.9.1** · Stand 12.10.2026
+**Version 3.10.0** · Stand 12.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.9.1)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.10.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -162,10 +162,17 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 | Maps-Links der Lokale in der Spalte ‚Essen und Trinken‘ nur so hoch wie der Text (ca. 19 px) – auf dem iPhone auch in den Tageskästen | mehr Zeilenabstand in der Tabelle nicht gewünscht; im Kasten würde eine größere Fläche das Antippen des Tages behindern; das HIG-Prüfskript zählt es nicht | 09.10.2026 · iPhone 10.10.2026 |
 | Wetter-Symbole in der Tageserfassung auf dem iPhone 40 px breit (in der Kapsel, über dem Minimum von 28 pt) | alle sieben passen ohne Wischen | 10.10.2026 |
 
+## Abgleich zwischen iPad und iPhone
+
+Es gelten die allgemeinen Regeln R-41 bis R-44 und die Fall-Tabelle der Designrichtlinie allgemein (Abschnitt 15.18). Ausprägung im Reiselogbuch: Einträge = Reiselogbücher, Unterdaten = Tage (Felder Wetter, Verlauf, Wie war was?, Essen, Quartier …), Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Kosten; Zähler ohne Zeitpunkt = Dateinummer für PDF/HTML.
+
+---
+
 ## Versionsgeschichte
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.10.0 | 12.10.2026 | Neben | Angepasst an allgemein 4.10.0: R-40 (Drehen, Kontextmenü am iPhone), Abgleich je Feld nach R-41 bis R-44, Backup nach R-45/R-46 über die gemeinsamen Bausteine |
 | 3.9.1 | 12.10.2026 | Korrektur | Angepasst an allgemein 4.9.1: Abfrage ‚Backup laden‘ passt am iPhone quer auf den Bildschirm, Fenster ‚Tag‘ am iPad hoch nicht mehr zu tief (R-39) |
 | 3.9.0 | 12.10.2026 | Neben | Angepasst an allgemein 4.9.0: Backup laden mit Abgleichen · Ersetzen · Abbrechen (T-03), Kachelzeile ‚geändert am … · Gerät‘ |
 | 3.8.1 | 12.10.2026 | Korrektur | Angepasst an allgemein 4.8.1: Symbolleiste mit oder ohne Suchzeile bewegt sich beim Wischen keinen Millimeter (R-05) |

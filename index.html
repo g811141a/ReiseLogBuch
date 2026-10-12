@@ -122,8 +122,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.9.1';
-const APP_BUILT = '12.10.2026 um 15:10';
+const APP_VERSION = '3.10.0';
+const APP_BUILT = '12.10.2026 um 16:50';
 
 const app = document.getElementById('app');
 const side = document.getElementById('side');
@@ -167,77 +167,12 @@ function onDialogOpen() { clearInterval(autosaveTimer); }
 
 /* ---------- Speicher ---------- */
 
-// Abgleich zwischen iPad und iPhone (T-03): jede Änderung bekommt Zeitpunkt und Gerät – je Reiselogbuch für die
-// Kopfdaten (metaAt) und je Tag (dayAt), dazu changedAt/changedOn für ‚geändert am … · Gerät‘ in der Kachel.
-// Gelöschte Reiselogbücher merkt sich die App in db.deleted, damit sie beim Abgleich auch drüben verschwinden.
-// Erkannt wird jede Änderung beim Speichern durch Vergleich mit dem zuletzt gespeicherten Stand.
-const STAMP_KEYS = ['days', 'dayAt', 'metaAt', 'changedAt', 'changedOn', 'outputCounter'];
-const metaOf = t => JSON.stringify(Object.keys(t).filter(k => !STAMP_KEYS.includes(k)).sort().map(k => [k, t[k]]));
-function snapshot(data) {
-  return new Map(data.trips.map(t => [t.id, { meta: metaOf(t),
-    days: Object.fromEntries(Object.entries(t.days).map(([iso, d]) => [iso, JSON.stringify(d)])) }]));
-}
-function stampChanges() {
-  const now = Date.now(), on = deviceName(), next = snapshot(db);
-  for (const t of db.trips) {
-    const before = lastSnap.get(t.id), after = next.get(t.id);
-    t.dayAt ||= {};
-    let changed = false;
-    if (!before || before.meta !== after.meta) { t.metaAt = now; changed = true; }
-    for (const iso of new Set([...Object.keys(before?.days || {}), ...Object.keys(after.days)])) {
-      if (before?.days[iso] !== after.days[iso]) { t.dayAt[iso] = now; changed = true; }
-    }
-    if (changed) { t.changedAt = now; t.changedOn = on; }
-  }
-  for (const id of lastSnap.keys()) if (!next.has(id)) db.deleted = [...db.deleted.filter(x => x.id !== id), { id, at: now, on }];
-  lastSnap = next;
-}
-// Letzte Änderung eines Datenbestands (Reiselogbuch geändert oder gelöscht).
-function latestChange(data) {
-  return Math.max(0, ...data.trips.map(t => t.changedAt || 0), ...(data.deleted || []).map(x => x.at || 0));
-}
-function whenText(ms) {
-  const d = new Date(ms);
-  return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()} um ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
-
-// Abgleichen: je Reiselogbuch gelten die neueren Kopfdaten, je Tag die neuere Fassung; ein gelöschtes Reiselogbuch
-// bleibt gelöscht, wenn es danach nicht mehr geändert wurde. Ohne Zeitpunkt (ältere Backups) bleibt das hier
-// Vorhandene, Fehlendes kommt dazu. Einstellungen und Smiley-Listen bleiben die dieses Geräts.
-function mergeData(local, remote) {
-  const stats = { updated: [], added: [], removed: [], same: 0 };
-  const del = new Map();
-  for (const x of [...local.deleted, ...remote.deleted]) if (!del.has(x.id) || del.get(x.id).at < x.at) del.set(x.id, x);
-  const L = new Map(local.trips.map(t => [t.id, t])), R = new Map(remote.trips.map(t => [t.id, t]));
-  const trips = [];
-  for (const id of new Set([...L.keys(), ...R.keys()])) {
-    const l = L.get(id), r = R.get(id), gone = del.get(id);
-    if (l && r) {
-      const metaR = (r.metaAt || 0) > (l.metaAt || 0);
-      const t = structuredClone(metaR ? r : l);
-      t.days = {}; t.dayAt = {};
-      let days = 0;
-      for (const iso of new Set([...Object.keys(l.days), ...Object.keys(r.days), ...Object.keys(l.dayAt), ...Object.keys(r.dayAt)])) {
-        const la = l.dayAt[iso] || 0, ra = r.dayAt[iso] || 0;
-        const useR = ra > la || (ra === la && !l.days[iso] && Boolean(r.days[iso]));
-        const src = useR ? r : l;
-        if (src.days[iso]) t.days[iso] = structuredClone(src.days[iso]);
-        if (src.dayAt[iso]) t.dayAt[iso] = src.dayAt[iso];
-        if (useR && JSON.stringify(l.days[iso] ?? null) !== JSON.stringify(r.days[iso] ?? null)) days++;
-      }
-      const newer = (r.changedAt || 0) > (l.changedAt || 0) ? r : l;
-      t.changedAt = newer.changedAt; t.changedOn = newer.changedOn;
-      t.outputCounter = Math.max(l.outputCounter || 0, r.outputCounter || 0);
-      trips.push(t);
-      if (days || (metaR && metaOf(l) !== metaOf(r))) stats.updated.push({ title: t.title, days }); else stats.same++;
-    } else if (l) {
-      if (gone && gone.at > (l.changedAt || 0)) stats.removed.push(l.title); else { trips.push(l); stats.same++; }
-    } else if (!(gone && gone.at >= (r.changedAt || 0))) {
-      trips.push(structuredClone(r)); stats.added.push(r.title);
-    }
-  }
-  return { data: { ...local, trips, deleted: [...del.values()] }, stats };
-}
+// Abgleich zwischen iPad und iPhone (T-03, Regeln R-41 bis R-44): gemeinsamer Baustein createSync aus AppDesign (ui.js).
+// Je Feld Zeitpunkt und Gerät – Kopfdaten (metaAt) und Tage (dayAt); gelöschte Reiselogbücher in db.deleted.
+const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields: ['outputCounter'],
+  nouns: ['Reiselogbuch', 'Reiselogbücher', 'Reiselogbüchern'] });
+const snapshot = sync.snapshot, latestChange = sync.latest, mergeData = sync.merge;
+function stampChanges() { lastSnap = sync.stamp(db, lastSnap); }
 
 function normalize(data) {
   data.trips ||= [];
@@ -965,16 +900,8 @@ function tripState(t, today) {
 }
 
 // Backup: einmal am Tag erstellen; Datum und Uhrzeit des letzten Backups.
-function backedUpToday() {
-  const last = db.settings.lastBackup;
-  return Boolean(last) && new Date(last).toDateString() === new Date().toDateString();
-}
-function lastBackupText() {
-  const last = db.settings.lastBackup;
-  if (!last) return 'Noch kein Backup erstellt.';
-  const d = new Date(last);
-  return `Letztes Backup erstellt am ${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()} um ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
+function backedUpToday() { return backupToday(db.settings.lastBackup); }
+function lastBackupText() { return backupLastText(db.settings.lastBackup); }
 
 function renderSide() {
   // iPhone: die Seitenleiste ist die Startliste und füllt den Bildschirm (.page); im Reiselogbuch ist sie aus.
@@ -1002,11 +929,9 @@ function renderSide() {
       <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
     </div>
     <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
-        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${t.changedAt
-          ? `<small class="chg">geändert am ${whenText(t.changedAt)}${t.changedOn ? ' · ' + esc(t.changedOn) : ''}</small>` : ''}</span>${ic('chevron-right')}</button>`).join('')
+        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
       : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}</div>
-    ${trips.length ? `<div class="side-foot"><div class="bhint ${backedUpToday() ? 'ok' : ''}"><div>${lastBackupText()}</div>
-      <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div></div>` : ''}`;
+    ${trips.length ? backupTileHtml(db.settings.lastBackup) : ''}`;
   side.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
   side.querySelector('#sideMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
   side.querySelector('#sideHide').onclick = toggleSide;
@@ -1044,8 +969,8 @@ function keepSideScroll() {
 // Menü der Seitenleiste (iPhone: der Startliste): Backup und technische Informationen.
 let importAnchor = '#sideMore'; // Schaltfläche, von der ‚Backup laden‘ kommt
 const backupMenuItems = sel => [
-  { icon: 'save', label: 'Backup erstellen', sub: lastBackupText(), disabled: !db.trips.length, act: () => saveBackup(sel) },
-  { icon: 'folder-open', label: 'Backup laden', act: () => { importAnchor = sel; hold(sel); importFile.click(); } },
+  ...backupMenuEntries({ last: db.settings.lastBackup, disabled: !db.trips.length, onSave: () => saveBackup(sel),
+    onLoad: () => { importAnchor = sel; hold(sel); importFile.click(); } }),
   'line',
   { note: `Reiselogbuch · Version ${APP_VERSION} · erstellt am ${APP_BUILT}` },
   { note: storagePersistent ? `Die Daten bleiben in Safari gespeichert, solange das Reiselogbuch auf dem Home-Bildschirm nicht entfernt wird.`
@@ -1659,11 +1584,7 @@ function outputDocument(trip, version, stamp) {
 <body>${outputBody(trip, version, stamp)}</body></html>`;
 }
 
-function backupFile() {
-  // Zeitpunkt und Gerät des Backups stehen mit in der Datei (für die Abfrage beim Laden auf dem anderen Gerät).
-  return { name: `Ω Backup Reiselogbuch ${nowStamp().file}.json`, type: 'json',
-    content: JSON.stringify({ ...db, savedAt: Date.now(), savedOn: deviceName() }, null, 2) };
-}
+function backupFile() { return backupFileOf('Reiselogbuch', db); }
 
 // Vorschau der Ausgabe in der App, immer hell; zeigt die Nummer der nächsten Datei, ohne den Zähler zu erhöhen.
 function openPreview(trip) {
@@ -1714,21 +1635,13 @@ function exportPdf(trip) {
   setTimeout(() => window.print(), 50);
 }
 
-const RESULT_TEXT = {
-  shared: name => `Teilen-Menü abgeschlossen für <b>${esc(name)}</b>.<div class="hint">Wenn du ‚In Dateien sichern‘ gewählt hast, liegt die Datei im gewählten Ordner.</div>`,
-  downloaded: name => `<b>${esc(name)}</b> wird geladen.<div class="hint">Du findest die Datei in der Dateien-App unter ‚Downloads‘.</div>`,
-  aborted: name => `Teilen-Menü abgebrochen – <b>${esc(name)}</b> wurde nicht gespeichert.`,
-  error: name => `<b>${esc(name)}</b> konnte nicht übergeben werden.`,
-  print: name => `Drucken-Menü geöffnet für <b>${esc(name)}</b>.<div class="hint">Dort über ‚Teilen‘ → ‚In Dateien sichern‘ als PDF ablegen.</div>`,
-};
-
 function showOutputResult(title, name, result) {
   const remind = !backedUpToday() && result !== 'aborted' && result !== 'error';
   openDialog(`
     <form method="dialog">
       ${dlgHead(esc(title), { check: false })}
       <div class="dlg-body">
-        <div class="step">${result === 'aborted' || result === 'error' ? '⚠️' : '✅'} ${RESULT_TEXT[result](name)}</div>
+        <div class="step">${shareResultText(result, name)}</div>
         ${remind ? backupReminderHtml() : ''}
       </div>
     </form>`);
@@ -1766,53 +1679,17 @@ async function saveBackup(anchor) {
     save();
     if (isPhone()) render(); else renderSide();
   }
-  const text = `${result === 'aborted' || result === 'error' ? '⚠️' : '✅'} ${RESULT_TEXT[result](file.name)}`;
+  const text = shareResultText(result, file.name);
   if (!dlg.querySelector('#reminder')) await inform('Backup', text);
   release(anchor);
   return text;
 }
 
-const MIME = { json: 'application/json', html: 'text/html' };
 
-async function shareFiles(files) {
-  const list = files.map(f => new File([f.content], f.name, { type: MIME[f.type] || 'application/octet-stream' }));
-  if (navigator.canShare && navigator.canShare({ files: list })) {
-    try {
-      await navigator.share({ files: list });
-      return 'shared';
-    } catch (e) {
-      return e.name === 'AbortError' ? 'aborted' : 'error';
-    }
-  }
-  files.forEach(f => downloadFile(f.name, f.content, MIME[f.type]));
-  return 'downloaded';
-}
-
-function downloadFile(name, content, type) {
-  const blob = new Blob([content], { type });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = name;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-}
 
 /* ---------- Backup ---------- */
 
-// Ergebnis des Abgleichs als kleines Fenster (Muster T-03).
-function mergeText({ updated, added, removed, same }, savedAt, savedOn) {
-  const books = n => `${n} Reiselogb${n === 1 ? 'uch' : 'ücher'}`;
-  const head = `✅ Abgeglichen mit dem Backup vom ${whenText(savedAt)}${savedOn ? ` (${esc(savedOn)})` : ''}.`;
-  if (!updated.length && !added.length && !removed.length) return `${head}<br><br>Alles war schon auf dem gleichen Stand.`;
-  const rows = [];
-  if (updated.length) rows.push(`<b>Aktualisiert:</b> ${updated.map(u => esc(u.title) + (u.days ? ` (${u.days} ${u.days === 1 ? 'Tag' : 'Tage'})` : '')).join(', ')}`);
-  if (added.length) rows.push(`<b>Neu:</b> ${added.map(esc).join(', ')}`);
-  if (removed.length) rows.push(`<b>Gelöscht:</b> ${removed.map(esc).join(', ')}`);
-  if (same) rows.push(`<b>Unverändert:</b> ${books(same)}`);
-  return `${head}<br><br>${rows.join('<br>')}`;
-}
+const mergeText = (stats, savedAt, savedOn) => sync.resultText(stats, savedAt, savedOn);
 
 importFile.addEventListener('cancel', () => release(importAnchor));
 importFile.onchange = async () => {
@@ -1820,18 +1697,10 @@ importFile.onchange = async () => {
   importFile.value = '';
   if (!file) return release(importAnchor);
   try {
-    const data = JSON.parse(await file.text());
-    if (!Array.isArray(data.trips)) throw new Error('Kein Reiselogbuch-Backup.');
-    const savedAt = data.savedAt || file.lastModified, savedOn = data.savedOn;
-    delete data.savedAt; delete data.savedOn;
+    const { data, savedAt, savedOn } = await readBackup(file, 'trips');
     normalize(data);
-    const n = data.trips.length, here = deviceName();
-    // Abfrage wie im Muster T-03: Zeitpunkt und Gerät des Backups, neuer oder älter als die Daten hier.
-    const mine = latestChange(db), theirs = latestChange(data) || savedAt;
-    const cmp = !mine ? '' : `<br>Es ist <b>${theirs > mine ? 'neuer' : theirs < mine ? 'älter' : 'gleich alt'}</b> ${theirs === mine ? 'wie' : 'als'} die Daten auf diesem ${here} (zuletzt geändert am ${whenText(mine)}).`;
-    const choice = await choosePop(document.querySelector(importAnchor),
-      `Backup vom <b>${whenText(savedAt)}</b>${savedOn ? ` (${esc(savedOn)})` : ''} mit ${n} Reiselogb${n === 1 ? 'uch' : 'üchern'}.${cmp}<br><br><small>Abgleichen: je Reiselogbuch und Tag gilt die neuere Fassung, gelöschte Reiselogbücher werden auch hier gelöscht.<br>Ersetzen: alle Daten auf diesem ${here} werden durch das Backup ersetzt.</small>`,
-      [{ label: 'Abgleichen', cls: 'primary', value: 'merge' }, { label: 'Ersetzen', cls: 'danger-text', value: 'replace' }, { label: 'Abbrechen', value: null }]);
+    // Abfrage (R-41): Zeitpunkt und Gerät des Backups, neuer oder älter – Abgleichen · Ersetzen · Abbrechen.
+    const choice = await sync.ask(document.querySelector(importAnchor), db, data, savedAt, savedOn);
     if (!choice) return release(importAnchor);
     // Das letzte Backup gilt je Gerät: der Zeitpunkt aus der Datei (z. B. vom iPad) wird nicht übernommen.
     const lastBackup = db.settings.lastBackup;
@@ -1849,7 +1718,7 @@ importFile.onchange = async () => {
     if (stats) await inform('Abgleichen', mergeText(stats, savedAt, savedOn));
     release(importAnchor);
   } catch (e) {
-    await inform('Backup laden', 'Die Datei konnte nicht gelesen werden: ' + esc(e.message));
+    await inform('Backup laden', '⚠️ Die Datei konnte nicht gelesen werden. ' + esc(e.message));
     release(importAnchor);
   }
 };
@@ -1875,8 +1744,11 @@ let wasWide = isWide();
 let wasPhone = isPhone();
 window.addEventListener('resize', () => {
   placeDialogs();
-  if (isPhone() !== wasPhone) { wasPhone = isPhone(); wasWide = isWide(); sideOverlay = false; render(); return; }
-  if (isWide() !== wasWide) { wasWide = isWide(); sideOverlay = false; render(); return; }
+  // R-40: Ist ein Menü oder eine Abfrage aus der Seitenleiste offen, bleibt sie beim Drehen sichtbar
+  // (hoch darübergelegt) – das Menü bleibt an seiner Schaltfläche.
+  const keepSide = Boolean(document.querySelector('#side .on')) && Boolean(document.querySelector('.menu, .pop'));
+  if (isPhone() !== wasPhone) { wasPhone = isPhone(); wasWide = isWide(); sideOverlay = keepSide; render(); return; }
+  if (isWide() !== wasWide) { wasWide = isWide(); sideOverlay = keepSide; render(); return; }
   const bar = document.getElementById('bar');
   if (bar) document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
   if (!side.hidden) document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');

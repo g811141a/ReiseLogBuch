@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 12.10.2026** · Aktuelle Version: Reiselogbuch 3.9.1 · AppDesign 4.9.1
+**Stand 12.10.2026** · Aktuelle Version: Reiselogbuch 3.10.0 · AppDesign 4.10.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -18,7 +18,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.10.0 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.11.0 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
@@ -30,7 +30,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-24 | 1 | Version 3.9.0/3.9.1 (T-03, T-62) – Prüfliste 1–7 im CHANGELOG | prüfen |
+| P-24 | 1 | Version 3.9.0/3.9.1 (T-03, T-62) – Prüfliste 1–7; 4 rückgemeldet → T-64, übrige offen | prüfen |
+| P-25 | 1 | Version 3.10.0 (T-63 bis T-67) – Prüfliste 1–7 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-43 | Reiselogbuch 3.10.0: T-63 Drehen (R-40), T-64 Abgleich je Feld, T-65 Kontextmenü iPhone, T-66 Abgleich allgemein (R-41–R-44), T-67 Backup als Standard (R-45, R-46) | Reiselogbuch 3.10.0 · AppDesign 4.10.0 | 12.10.2026 |
 | E-42 | Reiselogbuch 3.9.1: T-62 Abfrage und Fenster passen immer auf den Bildschirm (R-39) | Reiselogbuch 3.9.1 · AppDesign 4.9.1 | 12.10.2026 |
 | E-41 | Reiselogbuch 3.9.0: T-03 Abgleich iPad ↔ iPhone über ein Backup, ‚geändert am … · Gerät‘ in jeder Kachel | Reiselogbuch 3.9.0 · AppDesign 4.9.0 | 12.10.2026 |
 | E-40 | Geprüft: P-23 Version 3.8.1 – 1–4 ok | Reiselogbuch 3.8.1 | 12.10.2026 |

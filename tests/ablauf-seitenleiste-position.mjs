@@ -34,6 +34,32 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   check(await visible(p), `${dev}: gewählter Eintrag nach dem Öffnen nicht mehr sichtbar (Liste nach oben gesprungen)`);
   await p.close();
 }
+// iPhone: Kontextmenü (lange drücken) linksbündig unter der Kachel, ganz sichtbar über der Backup-Kachel (R-40) –
+// für die oberste und die unterste sichtbare Kachel; die Liste rückt dafür nötigenfalls nach oben.
+{
+  const p = await b.newPage({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
+  await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
+  await p.goto(APP);
+  await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: {}, trips: t })), trips);
+  await p.reload(); await p.waitForTimeout(300); await p.click('#back'); await p.waitForTimeout(250);
+  for (const which of ['oberste', 'unterste']) {
+    const id = await p.evaluate(w => { const t = document.querySelector('#side .bhint').getBoundingClientRect().top, lt = document.querySelector('#side .side-list').getBoundingClientRect().top;
+      const rows = [...document.querySelectorAll('#side .side-row')].filter(r => { const b = r.getBoundingClientRect(); return b.top >= lt - 1 && b.bottom <= t; });
+      return (w === 'oberste' ? rows[0] : rows[rows.length - 1]).dataset.id; }, which);
+    const row = p.locator(`#side .side-row[data-id="${id}"]`), rb = await row.boundingBox();
+    await p.mouse.move(rb.x + 40, rb.y + 20); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); await p.waitForTimeout(250);
+    const g = await p.evaluate(id => { const r = document.querySelector(`#side .side-row[data-id="${id}"]`).getBoundingClientRect(), m = document.querySelector('.menu').getBoundingClientRect(),
+      t = document.querySelector('#side .bhint').getBoundingClientRect(), l = document.querySelector('#side .side-list').getBoundingClientRect();
+      return { below: m.top >= r.bottom - 1, left: Math.abs(m.left - r.left) < 2, aboveTile: m.bottom <= t.top + 1, rowVisible: r.top >= l.top - 1, inView: m.top >= 0 && m.bottom <= innerHeight }; }, id);
+    check(g.below, `iPhone: Kontextmenü (${which} Kachel) nicht unter der Kachel`);
+    check(g.left, `iPhone: Kontextmenü (${which} Kachel) nicht linksbündig`);
+    check(g.aboveTile && g.inView, `iPhone: Kontextmenü (${which} Kachel) nicht ganz über der Backup-Kachel sichtbar`);
+    check(g.rowVisible, `iPhone: Kachel (${which}) nach dem Verschieben nicht mehr sichtbar`);
+    if (which === 'unterste') await p.screenshot({ path: new URL('out/iphone-kontextmenue-unten.png', import.meta.url).pathname });
+    await p.mouse.click(380, 840); await p.waitForTimeout(200);
+  }
+  await p.close();
+}
 // iPhone: Suche offen, Inhalt wischen → Tastatur schließt (Suchfeld verliert den Fokus), Leiste bleibt stehen
 {
   const p = await b.newPage({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
