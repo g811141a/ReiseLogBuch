@@ -18,19 +18,19 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.9.0 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.8.1 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-60 | 1 | Regel R-05 verschärft: eine Symbolleiste – mit oder ohne Suchzeile – bewegt sich beim Wischen keinen Millimeter (auch am Rand, bei offener und beim Schließen der Tastatur). Bei offener Tastatur schließt das erste Wischen nur die Tastatur, die Seite bleibt stehen. Prüfskript misst die Lage jeder Leiste beim Scrollen (≥ 0,5 px = Fehler); Ablauf-Test prüft das erste Wischen; Gegenprobe gemacht. Ersetzt Prüfpunkt P-22/5 | allgemein | 12.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**1 Punkt bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-22 | 1 | Version 3.8.0 (T-57 bis T-59) – Prüfliste 1–5 im CHANGELOG | prüfen |
+| P-22 | 1 | Version 3.8.0 (T-57 bis T-59) – Prüfliste 1–4 im CHANGELOG (5 wird durch T-60 ersetzt) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 

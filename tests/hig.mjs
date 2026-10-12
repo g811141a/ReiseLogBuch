@@ -46,10 +46,12 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[1180, 820], [820,
   await p.click('#sideMore'); await p.waitForTimeout(150); await stays('#sideMore', 'Menü Seitenleiste'); await M('Menü Seitenleiste'); await away();
   await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(250);
   await M('Hauptansicht');
+  await hig.barStill(p, `Hauptansicht (${tag})`);
   await p.click('#mainMore'); await p.waitForTimeout(150); await stays('#mainMore', 'Mehr-Menü'); await M('Mehr-Menü');
   await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await p.waitForTimeout(150); await M('Untermenü Darstellung'); await away();
   await p.click('#shareBtn'); await p.waitForTimeout(150); await stays('#shareBtn', 'Teilen-Menü'); await M('Teilen-Menü'); await away();
   await p.click('#searchBtn'); await p.waitForTimeout(150); await p.fill('#search', 'Oper'); await p.waitForTimeout(700); await M('Suche');
+  await hig.barStill(p, `Suche (${tag})`);
   if (await p.locator('#search').evaluate(e => e === document.activeElement && getComputedStyle(e).outlineStyle !== 'none')) note('Suchfeld', 'blauer Fokus-Rahmen', `Suche (${tag})`);
   await p.click('#searchBtn').catch(() => {}); await p.waitForTimeout(150);
   const dialog = async (open, s, opener) => {
@@ -84,10 +86,12 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
   const stays = (sel, s) => hig.stays(p, sel, `${s} (${tag})`);
   try {
   await M('Hauptansicht');
+  await hig.barStill(p, `Hauptansicht (${tag})`);
   await p.click('#mainMore'); await p.waitForTimeout(150); await stays('#mainMore', 'Mehr-Menü'); await M('Mehr-Menü');
   await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await p.waitForTimeout(150); await M('Untermenü Darstellung'); await away();
   await p.click('#shareBtn'); await p.waitForTimeout(150); await stays('#shareBtn', 'Teilen-Menü'); await M('Teilen-Menü'); await away();
   await p.click('#searchBtn'); await p.waitForTimeout(150); await p.fill('#search', 'Oper'); await p.waitForTimeout(700); await M('Suche');
+  await hig.barStill(p, `Suche (${tag})`);
   await p.click('#searchBtn'); await p.waitForTimeout(200);
   await p.evaluate(() => window.scrollTo(0, 600)); await p.waitForTimeout(150); await M('Titel in der Leiste'); await p.evaluate(() => window.scrollTo(0, 0));
   const dialog = async (open, s, opener) => {
@@ -107,6 +111,7 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
   await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);
   await M('Sprechblase Löschen'); await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
   await p.click('#back'); await p.waitForTimeout(250); await M('Startliste');
+  await hig.barStill(p, `Startliste (${tag})`);
   await hig.shape(p, '#side', 'Seitenleiste / Startliste', `iPhone ${w > h ? 'quer' : 'hoch'}`, ['#sideHide']);
   try {
     await p.click('#sideMore', { timeout: 3000 }); await p.waitForTimeout(150); await stays('#sideMore', 'Menü Startliste'); await M('Menü Startliste'); await away();

@@ -1,5 +1,5 @@
 // Ablauf-Test: Seitenleiste (iPad) bzw. Startliste (iPhone) behält ihre Position, der gewählte Eintrag bleibt sichtbar
-// (P-21/2); auf dem iPhone schließt Wischen bei offener Suche die Tastatur (P-21/1, R-05).
+// (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-05).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import { chromium } from 'playwright';
 
@@ -44,9 +44,10 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   await p.click('#searchBtn'); await p.waitForTimeout(150); await p.fill('#search', 'Stadt'); await p.waitForTimeout(300);
   check(await p.evaluate(() => document.activeElement?.id === 'search'), 'iPhone: Suchfeld hat keinen Fokus');
   const top0 = await p.locator('.pnav').evaluate(e => e.getBoundingClientRect().top);
-  await p.evaluate(() => { const t = document.querySelector('#pdays') || document.getElementById('app'); const touch = new Touch({ identifier: 1, target: t, clientX: 200, clientY: 500 });
-    t.dispatchEvent(new TouchEvent('touchmove', { bubbles: true, touches: [touch], changedTouches: [touch] })); });
+  const blocked = await p.evaluate(() => { const t = document.querySelector('#pdays') || document.getElementById('app'); const touch = new Touch({ identifier: 1, target: t, clientX: 200, clientY: 500 });
+    return !t.dispatchEvent(new TouchEvent('touchmove', { bubbles: true, cancelable: true, touches: [touch], changedTouches: [touch] })); });
   await p.waitForTimeout(100);
+  check(blocked, 'iPhone: erstes Wischen bei offener Tastatur bewegt die Seite (R-05)');
   check(await p.evaluate(() => document.activeElement?.id !== 'search'), 'iPhone: Wischen bei offener Suche schließt die Tastatur nicht');
   check(await p.locator('.pnav').evaluate(e => e.getBoundingClientRect().top) === top0, 'iPhone: Leiste bewegt sich');
   await p.close();
