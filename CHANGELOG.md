@@ -13,6 +13,19 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.9.1 – 12.10.2026 (Korrektur)
+
+Reiselogbuch 3.9.1 · AppDesign 4.9.1 (Designrichtlinie allgemein 4.9.1) · Designrichtlinie Reiselogbuch 3.9.1 · Zusammenarbeit allgemein 1.13.0
+
+- T-62: Am iPhone quer war die Abfrage ‚Backup laden‘ höher als der Bildschirm (‚Abbrechen‘ nicht
+  erreichbar) – jetzt breiter mit Knöpfen nebeneinander, sie passt ganz auf den Bildschirm. Am iPad
+  hoch ragte das Fenster ‚Tag‘ 10 px über den unteren Rand – behoben. Neue Regel R-39 mit Prüfung.
+
+Prüfliste: weiter P-24 (bei Version 3.9.0) – dazu Punkt 7:
+
+7. iPhone quer: ‚Backup laden‘ – die Abfrage ist ganz zu sehen, alle drei Knöpfe erreichbar (R-39);
+   iPad hoch: Fenster ‚Tag‘ öffnen – es endet über dem unteren Rand.
+
 ## 3.9.0 – 12.10.2026 (Nebenversion)
 
 Reiselogbuch 3.9.0 · AppDesign 4.9.0 (Designrichtlinie allgemein 4.9.0) · Designrichtlinie Reiselogbuch 3.9.0 · Zusammenarbeit allgemein 1.13.0

@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 12.10.2026, Version 3.9.0)
+# Reiselogbuch – Prompt (Stand 12.10.2026, Version 3.9.1)
 
-Reiselogbuch 3.9.0 · AppDesign 4.9.0 (Designrichtlinie allgemein 4.9.0) · Designrichtlinie Reiselogbuch 3.9.0 · Zusammenarbeit allgemein 1.13.0
+Reiselogbuch 3.9.1 · AppDesign 4.9.1 (Designrichtlinie allgemein 4.9.1) · Designrichtlinie Reiselogbuch 3.9.1 · Zusammenarbeit allgemein 1.13.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -124,6 +124,7 @@ RAHMEN
     Abbrechen. Das Ergebnis steht im kleinen Fenster. Jede Kachel zeigt ‚geändert am … · Gerät‘.
     Weg: auf dem einen Gerät ‚Backup erstellen‘ → ‚In Dateien sichern‘ → iCloud Drive; auf dem
     anderen ‚Backup laden‘ → die Datei in iCloud Drive wählen → Abgleichen.
+  - Seit 3.9.1: Menüs, Sprechblasen und Fenster passen immer ganz auf den Bildschirm (R-39).
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen
