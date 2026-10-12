@@ -44,6 +44,12 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[1180, 820], [820,
   await M('Start');
   if (w > h) await hig.shape(p, '#side', 'Seitenleiste / Startliste', 'iPad', ['#sideHide']);
   await p.click('#sideMore'); await p.waitForTimeout(150); await stays('#sideMore', 'Menü Seitenleiste'); await M('Menü Seitenleiste'); await away();
+  // Abfrage beim Laden eines Backups (T-03): Abgleichen · Ersetzen · Abbrechen
+  await p.click('#sideMore'); await p.waitForTimeout(150);
+  const [chooser] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
+  await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: {}, trips, savedAt: Date.now(), savedOn: 'iPhone' })) });
+  await p.waitForTimeout(300); await stays('#sideMore', 'Abfrage Backup laden'); await M('Abfrage Backup laden');
+  await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
   await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(250);
   await M('Hauptansicht');
   await hig.barStill(p, `Hauptansicht (${tag})`);
