@@ -137,9 +137,9 @@ const other = { settings: { lastBackup: new Date('2026-08-01T09:00:00').getTime(
 await p.click('#sideMore'); await p.waitForTimeout(150);
 const [chooser] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
 await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(other)) }); await p.waitForTimeout(300);
-const popText = await p.locator('.pop p').innerHTML();
+const popText = await p.locator('.pop > p').innerHTML();
 check(popText.includes('mit 2 Reiselogbüchern.') && popText.includes('Es ist <b>'), `Text der Abfrage: ${popText}`);
-check((await p.locator('.pop .btns button').allTextContents()).join('|') === 'Abgleichen|Ersetzen|Abbrechen', 'Knöpfe der Abfrage');
+check((await p.locator('.pop button').allTextContents()).join('|') === 'Abgleichen|Ersetzen|Abbrechen' && await p.locator('.pop .tile').count() === 2, 'Knöpfe bzw. Kacheln der Abfrage');
 await p.locator('.pop button', { hasText: 'Ersetzen' }).click(); await p.waitForTimeout(300);
 check((await db()).settings.lastBackup === new Date('2026-08-20T10:00:00').getTime(), 'Letztes Backup vom anderen Gerät übernommen');
 console.log('ERR', JSON.stringify(errors));

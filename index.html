@@ -900,16 +900,8 @@ function tripState(t, today) {
 }
 
 // Backup: einmal am Tag erstellen; Datum und Uhrzeit des letzten Backups.
-function backedUpToday() {
-  const last = db.settings.lastBackup;
-  return Boolean(last) && new Date(last).toDateString() === new Date().toDateString();
-}
-function lastBackupText() {
-  const last = db.settings.lastBackup;
-  if (!last) return 'Noch kein Backup erstellt.';
-  const d = new Date(last);
-  return `Letztes Backup erstellt am ${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()} um ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
+function backedUpToday() { return backupToday(db.settings.lastBackup); }
+function lastBackupText() { return backupLastText(db.settings.lastBackup); }
 
 function renderSide() {
   // iPhone: die Seitenleiste ist die Startliste und füllt den Bildschirm (.page); im Reiselogbuch ist sie aus.
@@ -939,8 +931,7 @@ function renderSide() {
     <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
       : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}</div>
-    ${trips.length ? `<div class="side-foot"><div class="bhint ${backedUpToday() ? 'ok' : ''}"><div>${lastBackupText()}</div>
-      <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div></div>` : ''}`;
+    ${trips.length ? backupTileHtml(db.settings.lastBackup) : ''}`;
   side.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
   side.querySelector('#sideMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
   side.querySelector('#sideHide').onclick = toggleSide;
@@ -978,8 +969,8 @@ function keepSideScroll() {
 // Menü der Seitenleiste (iPhone: der Startliste): Backup und technische Informationen.
 let importAnchor = '#sideMore'; // Schaltfläche, von der ‚Backup laden‘ kommt
 const backupMenuItems = sel => [
-  { icon: 'save', label: 'Backup erstellen', sub: lastBackupText(), disabled: !db.trips.length, act: () => saveBackup(sel) },
-  { icon: 'folder-open', label: 'Backup laden', act: () => { importAnchor = sel; hold(sel); importFile.click(); } },
+  ...backupMenuEntries({ last: db.settings.lastBackup, disabled: !db.trips.length, onSave: () => saveBackup(sel),
+    onLoad: () => { importAnchor = sel; hold(sel); importFile.click(); } }),
   'line',
   { note: `Reiselogbuch · Version ${APP_VERSION} · erstellt am ${APP_BUILT}` },
   { note: storagePersistent ? `Die Daten bleiben in Safari gespeichert, solange das Reiselogbuch auf dem Home-Bildschirm nicht entfernt wird.`
@@ -1593,11 +1584,7 @@ function outputDocument(trip, version, stamp) {
 <body>${outputBody(trip, version, stamp)}</body></html>`;
 }
 
-function backupFile() {
-  // Zeitpunkt und Gerät des Backups stehen mit in der Datei (für die Abfrage beim Laden auf dem anderen Gerät).
-  return { name: `Ω Backup Reiselogbuch ${nowStamp().file}.json`, type: 'json',
-    content: JSON.stringify({ ...db, savedAt: Date.now(), savedOn: deviceName() }, null, 2) };
-}
+function backupFile() { return backupFileOf('Reiselogbuch', db); }
 
 // Vorschau der Ausgabe in der App, immer hell; zeigt die Nummer der nächsten Datei, ohne den Zähler zu erhöhen.
 function openPreview(trip) {
@@ -1648,21 +1635,13 @@ function exportPdf(trip) {
   setTimeout(() => window.print(), 50);
 }
 
-const RESULT_TEXT = {
-  shared: name => `Teilen-Menü abgeschlossen für <b>${esc(name)}</b>.<div class="hint">Wenn du ‚In Dateien sichern‘ gewählt hast, liegt die Datei im gewählten Ordner.</div>`,
-  downloaded: name => `<b>${esc(name)}</b> wird geladen.<div class="hint">Du findest die Datei in der Dateien-App unter ‚Downloads‘.</div>`,
-  aborted: name => `Teilen-Menü abgebrochen – <b>${esc(name)}</b> wurde nicht gespeichert.`,
-  error: name => `<b>${esc(name)}</b> konnte nicht übergeben werden.`,
-  print: name => `Drucken-Menü geöffnet für <b>${esc(name)}</b>.<div class="hint">Dort über ‚Teilen‘ → ‚In Dateien sichern‘ als PDF ablegen.</div>`,
-};
-
 function showOutputResult(title, name, result) {
   const remind = !backedUpToday() && result !== 'aborted' && result !== 'error';
   openDialog(`
     <form method="dialog">
       ${dlgHead(esc(title), { check: false })}
       <div class="dlg-body">
-        <div class="step">${result === 'aborted' || result === 'error' ? '⚠️' : '✅'} ${RESULT_TEXT[result](name)}</div>
+        <div class="step">${shareResultText(result, name)}</div>
         ${remind ? backupReminderHtml() : ''}
       </div>
     </form>`);
@@ -1700,38 +1679,13 @@ async function saveBackup(anchor) {
     save();
     if (isPhone()) render(); else renderSide();
   }
-  const text = `${result === 'aborted' || result === 'error' ? '⚠️' : '✅'} ${RESULT_TEXT[result](file.name)}`;
+  const text = shareResultText(result, file.name);
   if (!dlg.querySelector('#reminder')) await inform('Backup', text);
   release(anchor);
   return text;
 }
 
-const MIME = { json: 'application/json', html: 'text/html' };
 
-async function shareFiles(files) {
-  const list = files.map(f => new File([f.content], f.name, { type: MIME[f.type] || 'application/octet-stream' }));
-  if (navigator.canShare && navigator.canShare({ files: list })) {
-    try {
-      await navigator.share({ files: list });
-      return 'shared';
-    } catch (e) {
-      return e.name === 'AbortError' ? 'aborted' : 'error';
-    }
-  }
-  files.forEach(f => downloadFile(f.name, f.content, MIME[f.type]));
-  return 'downloaded';
-}
-
-function downloadFile(name, content, type) {
-  const blob = new Blob([content], { type });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = name;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-}
 
 /* ---------- Backup ---------- */
 
@@ -1743,13 +1697,10 @@ importFile.onchange = async () => {
   importFile.value = '';
   if (!file) return release(importAnchor);
   try {
-    const data = JSON.parse(await file.text());
-    if (!Array.isArray(data.trips)) throw new Error('Kein Reiselogbuch-Backup.');
-    const savedAt = data.savedAt || file.lastModified, savedOn = data.savedOn;
-    delete data.savedAt; delete data.savedOn;
+    const { data, savedAt, savedOn } = await readBackup(file, 'trips');
     normalize(data);
     // Abfrage (R-41): Zeitpunkt und Gerät des Backups, neuer oder älter – Abgleichen · Ersetzen · Abbrechen.
-    const choice = await choosePop(document.querySelector(importAnchor), sync.question(db, data, savedAt, savedOn), sync.choices);
+    const choice = await sync.ask(document.querySelector(importAnchor), db, data, savedAt, savedOn);
     if (!choice) return release(importAnchor);
     // Das letzte Backup gilt je Gerät: der Zeitpunkt aus der Datei (z. B. vom iPad) wird nicht übernommen.
     const lastBackup = db.settings.lastBackup;
@@ -1767,7 +1718,7 @@ importFile.onchange = async () => {
     if (stats) await inform('Abgleichen', mergeText(stats, savedAt, savedOn));
     release(importAnchor);
   } catch (e) {
-    await inform('Backup laden', 'Die Datei konnte nicht gelesen werden: ' + esc(e.message));
+    await inform('Backup laden', '⚠️ Die Datei konnte nicht gelesen werden. ' + esc(e.message));
     release(importAnchor);
   }
 };
