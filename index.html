@@ -167,12 +167,85 @@ function onDialogOpen() { clearInterval(autosaveTimer); }
 
 /* ---------- Speicher ---------- */
 
+// Abgleich zwischen iPad und iPhone (T-03): jede Änderung bekommt Zeitpunkt und Gerät – je Reiselogbuch für die
+// Kopfdaten (metaAt) und je Tag (dayAt), dazu changedAt/changedOn für ‚geändert am … · Gerät‘ in der Kachel.
+// Gelöschte Reiselogbücher merkt sich die App in db.deleted, damit sie beim Abgleich auch drüben verschwinden.
+// Erkannt wird jede Änderung beim Speichern durch Vergleich mit dem zuletzt gespeicherten Stand.
+const STAMP_KEYS = ['days', 'dayAt', 'metaAt', 'changedAt', 'changedOn', 'outputCounter'];
+const metaOf = t => JSON.stringify(Object.keys(t).filter(k => !STAMP_KEYS.includes(k)).sort().map(k => [k, t[k]]));
+function snapshot(data) {
+  return new Map(data.trips.map(t => [t.id, { meta: metaOf(t),
+    days: Object.fromEntries(Object.entries(t.days).map(([iso, d]) => [iso, JSON.stringify(d)])) }]));
+}
+function stampChanges() {
+  const now = Date.now(), on = deviceName(), next = snapshot(db);
+  for (const t of db.trips) {
+    const before = lastSnap.get(t.id), after = next.get(t.id);
+    t.dayAt ||= {};
+    let changed = false;
+    if (!before || before.meta !== after.meta) { t.metaAt = now; changed = true; }
+    for (const iso of new Set([...Object.keys(before?.days || {}), ...Object.keys(after.days)])) {
+      if (before?.days[iso] !== after.days[iso]) { t.dayAt[iso] = now; changed = true; }
+    }
+    if (changed) { t.changedAt = now; t.changedOn = on; }
+  }
+  for (const id of lastSnap.keys()) if (!next.has(id)) db.deleted = [...db.deleted.filter(x => x.id !== id), { id, at: now, on }];
+  lastSnap = next;
+}
+// Letzte Änderung eines Datenbestands (Reiselogbuch geändert oder gelöscht).
+function latestChange(data) {
+  return Math.max(0, ...data.trips.map(t => t.changedAt || 0), ...(data.deleted || []).map(x => x.at || 0));
+}
+function whenText(ms) {
+  const d = new Date(ms);
+  return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()} um ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+// Abgleichen: je Reiselogbuch gelten die neueren Kopfdaten, je Tag die neuere Fassung; ein gelöschtes Reiselogbuch
+// bleibt gelöscht, wenn es danach nicht mehr geändert wurde. Ohne Zeitpunkt (ältere Backups) bleibt das hier
+// Vorhandene, Fehlendes kommt dazu. Einstellungen und Smiley-Listen bleiben die dieses Geräts.
+function mergeData(local, remote) {
+  const stats = { updated: [], added: [], removed: [], same: 0 };
+  const del = new Map();
+  for (const x of [...local.deleted, ...remote.deleted]) if (!del.has(x.id) || del.get(x.id).at < x.at) del.set(x.id, x);
+  const L = new Map(local.trips.map(t => [t.id, t])), R = new Map(remote.trips.map(t => [t.id, t]));
+  const trips = [];
+  for (const id of new Set([...L.keys(), ...R.keys()])) {
+    const l = L.get(id), r = R.get(id), gone = del.get(id);
+    if (l && r) {
+      const metaR = (r.metaAt || 0) > (l.metaAt || 0);
+      const t = structuredClone(metaR ? r : l);
+      t.days = {}; t.dayAt = {};
+      let days = 0;
+      for (const iso of new Set([...Object.keys(l.days), ...Object.keys(r.days), ...Object.keys(l.dayAt), ...Object.keys(r.dayAt)])) {
+        const la = l.dayAt[iso] || 0, ra = r.dayAt[iso] || 0;
+        const useR = ra > la || (ra === la && !l.days[iso] && Boolean(r.days[iso]));
+        const src = useR ? r : l;
+        if (src.days[iso]) t.days[iso] = structuredClone(src.days[iso]);
+        if (src.dayAt[iso]) t.dayAt[iso] = src.dayAt[iso];
+        if (useR && JSON.stringify(l.days[iso] ?? null) !== JSON.stringify(r.days[iso] ?? null)) days++;
+      }
+      const newer = (r.changedAt || 0) > (l.changedAt || 0) ? r : l;
+      t.changedAt = newer.changedAt; t.changedOn = newer.changedOn;
+      t.outputCounter = Math.max(l.outputCounter || 0, r.outputCounter || 0);
+      trips.push(t);
+      if (days || (metaR && metaOf(l) !== metaOf(r))) stats.updated.push({ title: t.title, days }); else stats.same++;
+    } else if (l) {
+      if (gone && gone.at > (l.changedAt || 0)) stats.removed.push(l.title); else { trips.push(l); stats.same++; }
+    } else if (!(gone && gone.at >= (r.changedAt || 0))) {
+      trips.push(structuredClone(r)); stats.added.push(r.title);
+    }
+  }
+  return { data: { ...local, trips, deleted: [...del.values()] }, stats };
+}
+
 function normalize(data) {
   data.trips ||= [];
   data.moodUsage ||= {};
   data.hiddenMoods ||= [];
   data.foodUsage ||= {};
   data.hiddenFood ||= [];
+  data.deleted ||= [];
   // Darstellung: 'auto' folgt dem iPad (Voreinstellung), 'light'/'dark' übersteuern. Das alte Feld 'theme' entfällt.
   data.settings = { appearance: 'auto', hideEmpty: false, ...(data.settings || {}) };
   delete data.settings.theme;
@@ -185,6 +258,7 @@ function normalize(data) {
     t.moodColumn ??= true;
     t.quarterColumn ??= true;
     t.outputCounter ||= 0;
+    t.dayAt ||= {};
   }
   return data;
 }
@@ -198,6 +272,7 @@ function load() {
 }
 
 function save() {
+  stampChanges();
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
     return true;
@@ -208,6 +283,7 @@ function save() {
 }
 
 let db = load();
+let lastSnap = snapshot(db);
 let currentTripId = null;
 let searchTerm = '';
 let searchIndex = 0;
@@ -926,7 +1002,8 @@ function renderSide() {
       <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
     </div>
     <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
-        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small></span>${ic('chevron-right')}</button>`).join('')
+        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${t.changedAt
+          ? `<small class="chg">geändert am ${whenText(t.changedAt)}${t.changedOn ? ' · ' + esc(t.changedOn) : ''}</small>` : ''}</span>${ic('chevron-right')}</button>`).join('')
       : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}</div>
     ${trips.length ? `<div class="side-foot"><div class="bhint ${backedUpToday() ? 'ok' : ''}"><div>${lastBackupText()}</div>
       <button type="button" id="hintBackup">${ic('save')}Backup erstellen</button></div></div>` : ''}`;
@@ -1583,7 +1660,9 @@ function outputDocument(trip, version, stamp) {
 }
 
 function backupFile() {
-  return { name: `Ω Backup Reiselogbuch ${nowStamp().file}.json`, type: 'json', content: JSON.stringify(db, null, 2) };
+  // Zeitpunkt und Gerät des Backups stehen mit in der Datei (für die Abfrage beim Laden auf dem anderen Gerät).
+  return { name: `Ω Backup Reiselogbuch ${nowStamp().file}.json`, type: 'json',
+    content: JSON.stringify({ ...db, savedAt: Date.now(), savedOn: deviceName() }, null, 2) };
 }
 
 // Vorschau der Ausgabe in der App, immer hell; zeigt die Nummer der nächsten Datei, ohne den Zähler zu erhöhen.
@@ -1722,6 +1801,19 @@ function downloadFile(name, content, type) {
 
 /* ---------- Backup ---------- */
 
+// Ergebnis des Abgleichs als kleines Fenster (Muster T-03).
+function mergeText({ updated, added, removed, same }, savedAt, savedOn) {
+  const books = n => `${n} Reiselogb${n === 1 ? 'uch' : 'ücher'}`;
+  const head = `✅ Abgeglichen mit dem Backup vom ${whenText(savedAt)}${savedOn ? ` (${esc(savedOn)})` : ''}.`;
+  if (!updated.length && !added.length && !removed.length) return `${head}<br><br>Alles war schon auf dem gleichen Stand.`;
+  const rows = [];
+  if (updated.length) rows.push(`<b>Aktualisiert:</b> ${updated.map(u => esc(u.title) + (u.days ? ` (${u.days} ${u.days === 1 ? 'Tag' : 'Tage'})` : '')).join(', ')}`);
+  if (added.length) rows.push(`<b>Neu:</b> ${added.map(esc).join(', ')}`);
+  if (removed.length) rows.push(`<b>Gelöscht:</b> ${removed.map(esc).join(', ')}`);
+  if (same) rows.push(`<b>Unverändert:</b> ${books(same)}`);
+  return `${head}<br><br>${rows.join('<br>')}`;
+}
+
 importFile.addEventListener('cancel', () => release(importAnchor));
 importFile.onchange = async () => {
   const file = importFile.files[0];
@@ -1730,20 +1822,32 @@ importFile.onchange = async () => {
   try {
     const data = JSON.parse(await file.text());
     if (!Array.isArray(data.trips)) throw new Error('Kein Reiselogbuch-Backup.');
-    const n = data.trips.length;
-    const yes = await confirmPop(document.querySelector(importAnchor),
-      `Backup mit ${n} Reiselogb${n === 1 ? 'uch' : 'üchern'} laden?<br>Die aktuellen Daten auf diesem ${isPhone() ? 'iPhone' : 'iPad'} werden ersetzt.`,
-      { label: 'Ersetzen', icon: 'folder-open' });
-    if (!yes) return release(importAnchor);
-    release(importAnchor);
+    const savedAt = data.savedAt || file.lastModified, savedOn = data.savedOn;
+    delete data.savedAt; delete data.savedOn;
+    normalize(data);
+    const n = data.trips.length, here = deviceName();
+    // Abfrage wie im Muster T-03: Zeitpunkt und Gerät des Backups, neuer oder älter als die Daten hier.
+    const mine = latestChange(db), theirs = latestChange(data) || savedAt;
+    const cmp = !mine ? '' : `<br>Es ist <b>${theirs > mine ? 'neuer' : theirs < mine ? 'älter' : 'gleich alt'}</b> ${theirs === mine ? 'wie' : 'als'} die Daten auf diesem ${here} (zuletzt geändert am ${whenText(mine)}).`;
+    const choice = await choosePop(document.querySelector(importAnchor),
+      `Backup vom <b>${whenText(savedAt)}</b>${savedOn ? ` (${esc(savedOn)})` : ''} mit ${n} Reiselogb${n === 1 ? 'uch' : 'üchern'}.${cmp}<br><br><small>Abgleichen: je Reiselogbuch und Tag gilt die neuere Fassung, gelöschte Reiselogbücher werden auch hier gelöscht.<br>Ersetzen: alle Daten auf diesem ${here} werden durch das Backup ersetzt.</small>`,
+      [{ label: 'Abgleichen', cls: 'primary', value: 'merge' }, { label: 'Ersetzen', cls: 'danger-text', value: 'replace' }, { label: 'Abbrechen', value: null }]);
+    if (!choice) return release(importAnchor);
     // Das letzte Backup gilt je Gerät: der Zeitpunkt aus der Datei (z. B. vom iPad) wird nicht übernommen.
     const lastBackup = db.settings.lastBackup;
-    db = normalize(data);
+    let stats = null;
+    if (choice === 'merge') ({ data: db, stats } = mergeData(db, data));
+    else db = data;
+    db = normalize(db);
     db.settings.lastBackup = lastBackup;
+    lastSnap = snapshot(db);   // übernommene Änderungen behalten Zeitpunkt und Gerät von drüben
     save();
     applyTheme();
     if (dlg.open) dlg.close();
-    showTrip(pickStartTrip()?.id);
+    // Abgleichen bleibt in der aktuellen Ansicht; Ersetzen beginnt wie beim Start.
+    if (choice === 'merge' && getTrip(currentTripId)) render(); else showTrip(pickStartTrip()?.id);
+    if (stats) await inform('Abgleichen', mergeText(stats, savedAt, savedOn));
+    release(importAnchor);
   } catch (e) {
     await inform('Backup laden', 'Die Datei konnte nicht gelesen werden: ' + esc(e.message));
     release(importAnchor);

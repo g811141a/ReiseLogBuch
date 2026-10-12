@@ -22,9 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-03 | 1 | Abgleich iPad ↔ iPhone über ein Backup (iCloud Drive): ‚Backup laden‘ zeigt Zeitpunkt und Gerät des Backups und ob es neuer oder älter ist; Auswahl Abgleichen · Ersetzen · Abbrechen; Abgleichen nimmt je Reiselogbuch und Tag die neuere Fassung, Gelöschtes wird auch hier gelöscht; Ergebnis im kleinen Fenster; jede Kachel zeigt ‚geändert am … · Gerät‘. Muster freigegeben 12.10.2026; Ablauf-Test mit zwei Geräten, Gegenprobe gemacht | allgemein | 12.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**1 Punkt bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
@@ -36,7 +36,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-03 | 2 | Daten zwischen iPad und iPhone abgleichen über eine Datei in iCloud Drive (kostenlos; Mac vorhanden, kein Entwicklerkonto). Geklärt 10.10.2026: abwechselnd arbeiten · gleicher Tag auf beiden Geräten geändert → neuere Änderung gilt · gelöschte Reiselogbücher werden beim Abgleich auch gelöscht · Start über ‚Backup laden‘, danach Auswahl ‚Abgleichen‘ oder ‚Ersetzen‘. Dazu (11.10.2026): je Reiselogbuch ‚zuletzt geändert am … auf iPad/iPhone‘ anzeigen; beim Laden zeigen, ob das Backup älter oder neuer ist als die Daten auf dem Gerät. iPhone-Ansicht seit 3.1.0 vorhanden; als Nächstes Muster | allgemein | geklärt, Muster folgt |
 | T-05 | 2 | Bestehende (alte) Reiselogbücher aufbereiten und importierbar machen: Dateien (Word/PDF/Excel/HTML/Fotos) auslesen, Unklarheiten nachfragen, Vorschau zeigen, Datei erstellen; Überschneidungen prüfen. Offen: Form der Unterlagen, Anzahl, Weg (a: in aktuelles Backup einfügen · b: neue Funktion „Reiselogbuch importieren“, die hinzufügt statt ersetzt) | Reiselogbuch | offen |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
