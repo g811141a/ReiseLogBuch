@@ -18,13 +18,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.10.0 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.9.1 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-62 | 1 | Fehler nach 3.9.0: am iPhone quer war die Abfrage ‚Backup laden‘ höher als der Bildschirm (‚Abbrechen‘ unerreichbar); am iPad hoch ragte das Fenster ‚Tag‘ 10 px über den unteren Rand. Neue Regel R-39 (Menü, Sprechblase, Fenster passen immer ganz auf den Bildschirm, sonst scrollt der Inhalt darin) mit Prüfung im Skript; Gegenprobe gemacht | allgemein | 12.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**1 Punkt bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 

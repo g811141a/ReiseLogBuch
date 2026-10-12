@@ -117,6 +117,13 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
   await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);
   await M('Sprechblase Löschen'); await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
   await p.click('#back'); await p.waitForTimeout(250); await M('Startliste');
+  // Abfrage beim Laden eines Backups (T-03), auch iPhone quer: muss ganz auf den Bildschirm passen (R-39)
+  await p.evaluate(() => db.trips.forEach(t => { t.changedAt = Date.now(); t.changedOn = 'iPhone'; }));   // mit Vergleich ‚neuer/älter‘ wie im Alltag
+  await p.click('#sideMore'); await p.waitForTimeout(150);
+  const [chooser] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
+  await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: {}, trips, savedAt: Date.now(), savedOn: 'iPad' })) });
+  await p.waitForTimeout(300); await M('Abfrage Backup laden');
+  await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
   await hig.barStill(p, `Startliste (${tag})`);
   await hig.shape(p, '#side', 'Seitenleiste / Startliste', `iPhone ${w > h ? 'quer' : 'hoch'}`, ['#sideHide']);
   try {
