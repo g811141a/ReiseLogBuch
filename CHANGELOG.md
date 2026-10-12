@@ -13,6 +13,24 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.8.1 – 12.10.2026 (Korrektur)
+
+Reiselogbuch 3.8.1 · AppDesign 4.8.1 (Designrichtlinie allgemein 4.8.1) · Designrichtlinie Reiselogbuch 3.8.1 · Zusammenarbeit allgemein 1.13.0
+
+- T-60: Regel R-05 verschärft – eine Symbolleiste, mit oder ohne Suchzeile, bewegt sich beim
+  Wischen keinen Millimeter. Ist die Tastatur der Suche offen, schließt das erste Wischen nur die
+  Tastatur, die Seite bleibt dabei stehen; das nächste Wischen scrollt. Das Prüfskript misst die
+  Lage jeder Leiste beim Scrollen (iPad und iPhone, mit und ohne Suchzeile).
+
+Prüfliste P-23 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – ersetzt P-22/5:
+
+1. Ohne Suche: Reiselogbuch langsam, schnell und über den Rand hinaus wischen – die Leiste bewegt
+   sich keinen Millimeter (R-05).
+2. Mit offener Suche (Tastatur offen): wischen – das erste Wischen schließt nur die Tastatur, Leiste
+   und Suchzeile bewegen sich keinen Millimeter, auch nicht beim Schließen der Tastatur (R-05).
+3. Mit offener Suche (Tastatur zu): wischen, auch über den Rand – Leiste und Suchzeile stehen still.
+4. Seitenleiste (iPad) bzw. Startliste (iPhone) wischen – Kopf und Backup-Kachel stehen still.
+
 ## 3.8.0 – 12.10.2026 (Nebenversion)
 
 Reiselogbuch 3.8.0 · AppDesign 4.8.0 (Designrichtlinie allgemein 4.8.0) · Designrichtlinie Reiselogbuch 3.8.0 · Zusammenarbeit allgemein 1.13.0
