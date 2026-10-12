@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 12.10.2026** · Aktuelle Version: Reiselogbuch 3.8.0 · AppDesign 4.8.0
+**Stand 12.10.2026** · Aktuelle Version: Reiselogbuch 3.8.1 · AppDesign 4.8.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -18,19 +18,19 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.8.1 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.9.0 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-60 | 1 | Regel R-05 verschärft: eine Symbolleiste – mit oder ohne Suchzeile – bewegt sich beim Wischen keinen Millimeter (auch am Rand, bei offener und beim Schließen der Tastatur). Bei offener Tastatur schließt das erste Wischen nur die Tastatur, die Seite bleibt stehen. Prüfskript misst die Lage jeder Leiste beim Scrollen (≥ 0,5 px = Fehler); Ablauf-Test prüft das erste Wischen; Gegenprobe gemacht. Ersetzt Prüfpunkt P-22/5 | allgemein | 12.10.2026 |
+| – | – | zurzeit nichts | – | – |
 
-**1 Punkt bereit** · gebaut wird erst nach „Ja“
+**0 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-22 | 1 | Version 3.8.0 geprüft (12.10.2026): 1–4 ok; 5 wird durch T-60 ersetzt | geprüft |
+| P-23 | 1 | Version 3.8.1 (T-60) – Prüfliste 1–4 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-39 | Reiselogbuch 3.8.1: T-60 Symbolleiste mit oder ohne Suchzeile bewegt sich keinen Millimeter (R-05) | Reiselogbuch 3.8.1 · AppDesign 4.8.1 | 12.10.2026 |
 | E-38 | Geprüft: P-22 Version 3.8.0 – 1–4 ok (5 → T-60) | Reiselogbuch 3.8.0 | 12.10.2026 |
 | E-37 | Reiselogbuch 3.8.0: T-57 Smiley-Reihen und lange Wörter brechen um, T-58 Seitenleiste behält Position, T-59 Tastatur der Suche schließt beim Wischen | Reiselogbuch 3.8.0 · AppDesign 4.8.0 | 12.10.2026 |
 | E-36 | Geprüft: P-21 Version 3.7.0 – 1, 4 ok; 2 → T-58; 3, 5 → T-57; iPhone-Suche → T-59 | Reiselogbuch 3.7.0 | 12.10.2026 |

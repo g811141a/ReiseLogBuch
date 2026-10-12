@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.8.0** · Stand 12.10.2026
+**Version 3.8.1** · Stand 12.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.8.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.8.1)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -166,6 +166,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.8.1 | 12.10.2026 | Korrektur | Angepasst an allgemein 4.8.1: Symbolleiste mit oder ohne Suchzeile bewegt sich beim Wischen keinen Millimeter (R-05) |
 | 3.8.0 | 12.10.2026 | Neben | Angepasst an allgemein 4.8.0: Smiley-Reihen brechen in Tabelle und Kästen um (mehr als drei Smileys am Zeilenanfang sind Text), Spaltenköpfe in einer Zeile; Seitenleiste behält ihre Position; iPhone: Wischen schließt die Tastatur der Suche |
 | 3.7.0 | 12.10.2026 | Neben | Angepasst an allgemein 4.7.0: Startliste am iPhone = Seitenleiste als ganze Seite (R-36), Kacheln laufen auch am iPad hinter der Backup-Kachel durch; zu lange Wörter brechen in der Tagestabelle im Wort um (R-37) |
 | 3.6.0 | 11.10.2026 | Neben | Angepasst an allgemein 4.6.0: Kopfzeile am iPad fest, in der Seitenleiste scrollen nur die Kacheln; Regelkatalog R-01 bis R-35 gilt |
