@@ -49,6 +49,8 @@
   /* In der Tagestabelle zwischen ganzen Wörtern umbrechen (die Spalte wird so breit wie das längste Wort);
      ein zu langes Wort, das nicht in die Spalte passt, bricht im Wort um (R-37). */
   table.days .ln .t { overflow-wrap: break-word; }
+  /* Spaltenköpfe (Smileys) bleiben in einer Zeile – die Spalte wird mindestens so breit. */
+  table.days th { white-space: nowrap; }
   mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1px; }
   mark.cur { background: var(--mark-cur); color: var(--mark-cur-ink); }
 
@@ -120,8 +122,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.7.0';
-const APP_BUILT = '12.10.2026 um 00:12';
+const APP_VERSION = '3.8.0';
+const APP_BUILT = '12.10.2026 um 13:37';
 
 const app = document.getElementById('app');
 const side = document.getElementById('side');
@@ -348,6 +350,9 @@ function programItems(text) {
 }
 
 // Führende Smileys (auch mehrere) einer Zeile abtrennen: "🕛 😋 Text" → { m: "🕛😋", t: "Text" }.
+// Höchstens drei werden zum Zeichen; eine längere Reihe ist Inhalt: die ganze Zeile ist dann Text und bricht
+// am Rand der Zelle um (R-37).
+const MAX_MARKS = 3;
 function splitLeadingEmojis(line) {
   const g = graphemes(line);
   const marks = [];
@@ -357,7 +362,7 @@ function splitLeadingEmojis(line) {
     i++;
   }
   const rest = g.slice(i).join('').trim();
-  return marks.length && rest ? { m: marks.join(''), t: rest } : { m: '', t: line };
+  return marks.length && marks.length <= MAX_MARKS && rest ? { m: marks.join(''), t: rest } : { m: '', t: line };
 }
 
 // Kommentar: führende Smileys werden zum Zeichen, der Text rückt daneben ein.
@@ -936,6 +941,26 @@ function renderSide() {
     () => tripContextMenu(b, getTrip(b.dataset.id)),
     () => { sideOverlay = false; if (isPhone()) window.scrollTo(0, 0); showTrip(b.dataset.id); }));
   document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
+  keepSideScroll();
+}
+
+// Die Liste der Seitenleiste (iPhone: Startliste) behält beim Neuaufbau ihre Position; der gewählte Eintrag
+// bleibt sichtbar – auch wenn er erst durch Wischen sichtbar wurde (nicht unter Kopf oder Backup-Kachel).
+let sideScroll = 0;
+function keepSideScroll() {
+  const list = side.querySelector('.side-list');
+  if (!list) return;
+  list.scrollTop = sideScroll;
+  const cur = list.querySelector('.side-row.current');
+  if (cur) {
+    const lr = list.getBoundingClientRect(), r = cur.getBoundingClientRect();
+    const tile = side.querySelector('.side-foot .bhint')?.getBoundingClientRect();
+    const bottom = Math.min(lr.bottom, tile ? tile.top : lr.bottom);
+    if (r.top < lr.top + 6) list.scrollTop += r.top - lr.top - 6;
+    else if (r.bottom > bottom - 6) list.scrollTop += r.bottom - bottom + 6;
+  }
+  sideScroll = list.scrollTop;
+  list.addEventListener('scroll', () => { sideScroll = list.scrollTop; }, { passive: true });
 }
 
 

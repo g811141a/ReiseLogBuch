@@ -13,6 +13,32 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.8.0 – 12.10.2026 (Nebenversion)
+
+Reiselogbuch 3.8.0 · AppDesign 4.8.0 (Designrichtlinie allgemein 4.8.0) · Designrichtlinie Reiselogbuch 3.8.0 · Zusammenarbeit allgemein 1.13.0
+
+Sammelversion:
+
+- T-57 (P-21/3, 5): Reihen von Smileys ohne Leerzeichen ragen nicht mehr über die Zelle hinaus –
+  mehr als drei Smileys am Zeilenanfang sind Text und brechen am Rand um; lange Wörter werden nicht
+  mehr zu einer schmalen Spalte gequetscht, die Suche markiert dort richtig. Spaltenköpfe bleiben
+  in einer Zeile. Das Prüfskript prüft jetzt auch mit Smiley-Reihen wie in deinem Reiselogbuch.
+- T-58 (P-21/2): Die Seitenleiste behält ihre Position – ein weiter unten gewähltes Reiselogbuch
+  bleibt nach dem Öffnen sichtbar (iPad und iPhone).
+- T-59: iPhone – Wischen bei offener Suche schließt die Tastatur (wie Apple); die Leiste mit der
+  Suchzeile zittert nicht mehr.
+
+Prüfliste P-22 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
+
+1. Tag mit langen Smiley-Reihen ohne Leerzeichen (wie im Bildschirmfoto) in Wie war was? und
+   Essen – alles bricht am Rand der Spalte um, nichts ragt in die Nachbarspalte (R-37).
+2. 100 × ‚a‘ in einer Spalte – bricht am Rand um, keine schmale Buchstabensäule (R-37).
+3. Suche nach ‚aaa‘ – die Treffer sind gelb markiert, die Darstellung bleibt wie ohne Suche.
+4. iPad: In der Seitenleiste nach oben wischen, ein unteres Reiselogbuch wählen – es bleibt
+   sichtbar und blau (iPhone: nach ‚zurück‘ ebenso).
+5. iPhone: Suche öffnen, etwas eingeben, dann das Reiselogbuch wischen – die Tastatur schließt,
+   Leiste und Suchzeile stehen still (R-05).
+
 ## 3.7.0 – 12.10.2026 (Nebenversion)
 
 Reiselogbuch 3.7.0 · AppDesign 4.7.0 (Designrichtlinie allgemein 4.7.0) · Designrichtlinie Reiselogbuch 3.7.0 · Zusammenarbeit allgemein 1.13.0
