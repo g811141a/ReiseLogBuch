@@ -50,6 +50,15 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[1180, 820], [820,
   await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: {}, trips, savedAt: Date.now(), savedOn: 'iPhone' })) });
   await p.waitForTimeout(300); await stays('#sideMore', 'Abfrage Backup laden'); await M('Abfrage Backup laden');
   await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
+  // R-44 (seit 3.11.0): Abgleichen mit einem neuen Reiselogbuch im Backup – kurzes Fenster mit Schaltfläche, dann der Abgleichbericht
+  await p.click('#sideMore'); await p.waitForTimeout(150);
+  const [ch2] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
+  await ch2.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: {}, savedAt: Date.now(), savedOn: 'iPhone',
+    trips: [...trips, { id: 'hig-neu', title: 'Kreta', participants: 'A', start: '2027-05-01', end: '2027-05-03', transport: ['pkw'], days: { '2027-05-01': { program: 'Anreise' } }, changedAt: Date.now(), changedOn: 'iPhone' }] })) });
+  await p.waitForTimeout(300); await p.locator('.pop button', { hasText: 'Abgleichen' }).click(); await p.waitForTimeout(400);
+  await M('Abgleichen Ergebnis');
+  await p.click('#msg [data-act]'); await p.waitForTimeout(400); await M('Abgleichbericht');
+  await p.click('#dlgX'); await p.waitForTimeout(250);
   await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(250);
   await M('Hauptansicht');
   await hig.barStill(p, `Hauptansicht (${tag})`);

@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/v4/design.css">
+<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.11.0">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -115,15 +115,26 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/v4/ui.js"></script>
+<script src="../AppDesign/v4/ui.js?v=4.11.0"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.10.1';
-const APP_BUILT = '13.10.2026 um 14:54';
+const APP_VERSION = '3.11.0';
+const APP_BUILT = '13.10.2026 um 17:02';
+// R-48: benötigte AppDesign-Fassung (gleich wie ?v= bei ui.js und design.css oben und in sw.js). Ist eine andere geladen
+// (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
+const AD_NEEDED = '4.11.0';
+const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
+  css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
+setTimeout(() => {
+  const { js, css } = adLoaded();
+  if (js !== AD_NEEDED || css !== AD_NEEDED) inform('Neue Version wird geladen',
+    `⚠️ Reiselogbuch ${APP_VERSION} braucht AppDesign ${AD_NEEDED}, geladen ist ${js === css ? js : `${js} / ${css}`}.<br><br>` +
+    'Bitte die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und nach ein paar Minuten neu öffnen.');
+});
 
 const app = document.getElementById('app');
 const side = document.getElementById('side');
@@ -170,7 +181,12 @@ function onDialogOpen() { clearInterval(autosaveTimer); }
 // Abgleich zwischen iPad und iPhone (T-03, Regeln R-41 bis R-44): gemeinsamer Baustein createSync aus AppDesign (ui.js).
 // Je Feld Zeitpunkt und Gerät – Kopfdaten (metaAt) und Tage (dayAt); gelöschte Reiselogbücher in db.deleted.
 const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields: ['outputCounter'],
-  nouns: ['Reiselogbuch', 'Reiselogbücher', 'Reiselogbüchern'] });
+  nouns: ['Reiselogbuch', 'Reiselogbücher', 'Reiselogbüchern'], app: 'Reiselogbuch',
+  // Namen der Felder für die Tabelle der Änderungen nach dem Abgleich (R-44).
+  labels: { title: 'Reisetitel', participants: 'Reiseteilnehmer', start: 'Beginn', end: 'Ende', transport: 'Verkehrsmittel',
+    quarterList: 'Quartierliste', foodColumn: 'Spalte Essen', moodColumn: 'Spalte Wie war was?', quarterColumn: 'Spalte Quartier',
+    fazit: 'Fazit', kosten: 'Gesamtkosten', weather: 'Wetter', program: 'Verlauf', comment: 'Wie war was?', food: 'Essen und Trinken',
+    sameQuarter: 'Quartier wie Vortag', quarter: 'Quartier', place: 'Ort', noMap: 'Google-Maps-Link' } });
 const snapshot = sync.snapshot, latestChange = sync.latest, mergeData = sync.merge;
 function stampChanges() { lastSnap = sync.stamp(db, lastSnap); }
 
@@ -225,7 +241,9 @@ let searchIndex = 0;
 let autosaveTimer = null;
 let searchOpen = false;
 let searchJump = null;     // Zeitgeber für den Sprung zum ersten Treffer    // Suchzeile unter der Kopfzeile eingeblendet
-let sideOverlay = false;   // Hochformat: Seitenleiste über den Inhalt gelegt
+// R-47 (seit 3.11.0): ein einziger Zustand für quer und hoch – sichtbar bleibt beim Drehen sichtbar (quer fest links,
+// hoch über den Inhalt gelegt), ausgeblendet bleibt ausgeblendet. Nur Tippen ändert ihn, nie das Drehen.
+let sideOpen = true;
 let emptyPrompted = false; // Ohne Reiselogbuch öffnet sich "Neues Reiselogbuch" einmal von selbst
 let storagePersistent = false; // Safari löscht dauerhaften Speicher nicht von selbst (z. B. bei knappem Speicher)
 
@@ -882,12 +900,12 @@ function showTrip(id) {
 // Quer (breiter Bildschirm) steht die Seitenleiste fest links und lässt sich aus- und einblenden;
 // im Hochformat wird sie über den Inhalt gelegt und schließt sich nach der Auswahl wieder.
 const isWide = () => window.innerWidth >= 1100;
-const sideVisible = () => isWide() ? db.settings.sidebar !== false : sideOverlay;
+const sideVisible = () => sideOpen;
 const sideToggleHtml = () => sideVisible() && isWide() ? ''
   : `<button type="button" class="round" data-side-toggle aria-label="Seitenleiste einblenden">${ic('panel-left')}</button>`;
 
 function toggleSide() {
-  if (isWide()) { db.settings.sidebar = !sideVisible(); save(); } else sideOverlay = !sideOverlay;
+  sideOpen = !sideOpen;
   render();
 }
 const bindSideToggle = root => root.querySelectorAll('[data-side-toggle]').forEach(b => b.onclick = toggleSide);
@@ -918,7 +936,7 @@ function renderSide() {
   if (!wide && !page) {
     const shade = document.createElement('div');
     shade.className = 'side-shade';
-    shade.onclick = () => { sideOverlay = false; render(); };
+    shade.onclick = () => { sideOpen = false; render(); };
     side.before(shade);
   }
   const today = todayISO();
@@ -941,7 +959,7 @@ function renderSide() {
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Öffnen · Einstellungen · Reiselogbuch löschen).
   side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
     () => tripContextMenu(b, getTrip(b.dataset.id)),
-    () => { sideOverlay = false; if (isPhone()) window.scrollTo(0, 0); showTrip(b.dataset.id); }));
+    () => { if (!isWide()) sideOpen = false; if (isPhone()) window.scrollTo(0, 0); showTrip(b.dataset.id); }));
   document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
   keepSideScroll();
 }
@@ -972,7 +990,7 @@ const backupMenuItems = sel => [
   ...backupMenuEntries({ last: db.settings.lastBackup, disabled: !db.trips.length, onSave: () => saveBackup(sel),
     onLoad: () => { importAnchor = sel; hold(sel); importFile.click(); } }),
   'line',
-  { note: `Reiselogbuch · Version ${APP_VERSION} · erstellt am ${APP_BUILT}` },
+  { note: `Reiselogbuch · Version ${APP_VERSION} · erstellt am ${APP_BUILT} · AppDesign ${adLoaded().js}` },
   { note: storagePersistent ? `Die Daten bleiben in Safari gespeichert, solange das Reiselogbuch auf dem Home-Bildschirm nicht entfernt wird.`
     : 'Safari kann die Daten bei Speichermangel löschen – bitte regelmäßig ein Backup erstellen.' },
 ];
@@ -1689,7 +1707,6 @@ async function saveBackup(anchor) {
 
 /* ---------- Backup ---------- */
 
-const mergeText = (stats, savedAt, savedOn) => sync.resultText(stats, savedAt, savedOn);
 
 importFile.addEventListener('cancel', () => release(importAnchor));
 importFile.onchange = async () => {
@@ -1715,7 +1732,8 @@ importFile.onchange = async () => {
     if (dlg.open) dlg.close();
     // Abgleichen bleibt in der aktuellen Ansicht; Ersetzen beginnt wie beim Start.
     if (choice === 'merge' && getTrip(currentTripId)) render(); else showTrip(pickStartTrip()?.id);
-    if (stats) await inform('Abgleichen', mergeText(stats, savedAt, savedOn));
+    // R-44: Ergebnis mit Tabelle der Änderungen auf diesem Gerät (breites Fenster).
+    if (stats) await sync.showResult(stats, savedAt, savedOn);
     release(importAnchor);
   } catch (e) {
     await inform('Backup laden', '⚠️ Die Datei konnte nicht gelesen werden. ' + esc(e.message));
@@ -1736,23 +1754,17 @@ if (navigator.storage?.persist) {
     .catch(() => {});
 }
 // Beim Start ist die Seitenleiste immer eingeblendet (im Hochformat über den Inhalt gelegt).
-db.settings.sidebar = true;
-sideOverlay = !isWide();
+sideOpen = true;
 showTrip(pickStartTrip()?.id);
 // Wechsel quer/hoch: Seitenleiste fest oder darübergelegt; sonst nur Höhen und Breiten nachführen.
 let wasWide = isWide();
 let wasPhone = isPhone();
 window.addEventListener('resize', () => {
   placeDialogs();
-  // R-40: Ist ein Menü oder eine Abfrage aus der Seitenleiste offen, bleibt sie beim Drehen sichtbar
-  // (hoch darübergelegt) – das Menü bleibt an seiner Schaltfläche.
-  const keepSide = Boolean(document.querySelector('#side .on')) && Boolean(document.querySelector('.menu, .pop'));
-  // R-47: Die Seitenleiste behält beim Drehen ihren Zustand – sichtbar bleibt sichtbar (quer fest, hoch darübergelegt),
-  // ausgeblendet bleibt ausgeblendet.
-  const wasVisible = (wasWide ? db.settings.sidebar !== false : sideOverlay) || keepSide;
-  const keep = () => { if (isWide()) db.settings.sidebar = wasVisible; else sideOverlay = wasVisible; };
-  if (isPhone() !== wasPhone) { wasPhone = isPhone(); wasWide = isWide(); keep(); render(); return; }
-  if (isWide() !== wasWide) { wasWide = isWide(); keep(); render(); return; }
+  // R-40: Ist ein Menü oder eine Abfrage aus der Seitenleiste offen, bleibt sie in jedem Fall sichtbar.
+  if (document.querySelector('#side .on') && document.querySelector('.menu, .pop')) sideOpen = true;
+  // Wechsel fest ↔ darübergelegt bzw. iPad- ↔ iPhone-Aufbau: neu aufbauen; der Zustand sideOpen bleibt (R-47).
+  if (isPhone() !== wasPhone || isWide() !== wasWide) { wasPhone = isPhone(); wasWide = isWide(); render(); return; }
   const bar = document.getElementById('bar');
   if (bar) document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
   if (!side.hidden) document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');

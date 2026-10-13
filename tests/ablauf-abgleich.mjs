@@ -59,8 +59,12 @@ const ask = await iphone.locator('.pop > p').innerHTML();
 check(ask.includes('Backup vom <b>12.10.2026 um 11:00</b> (iPad) mit 3 Reiselogbüchern.'), `Abfrage: ${ask}`);
 check(ask.includes('Es ist <b>älter</b> als die Daten auf diesem iPhone (zuletzt geändert am 12.10.2026 um 12:00)'), `Vergleich: ${ask}`);
 await iphone.locator('.pop button', { hasText: 'Abgleichen' }).click(); await iphone.waitForTimeout(400);
-const result = await iphone.locator('#msg .msg-text').innerHTML();
-check(result.includes('<b>Aktualisiert:</b> Island (1 Tag)') && result.includes('<b>Neu:</b> Kreta') && result.includes('<b>Gelöscht:</b> Malta') && result.includes('<b>Unverändert:</b> 1 Reiselogbuch'), `Ergebnis: ${result}`);
+// R-44: kurzes Fenster mit Schaltfläche; die Einzelheiten stehen im Abgleichbericht (Vorschau).
+check(await iphone.locator('#msg[open] [data-act]', { hasText: 'Abgleichbericht anzeigen' }).count() === 1, 'Schaltfläche ‚Abgleichbericht anzeigen‘ fehlt');
+await iphone.click('#msg [data-act]'); await iphone.waitForTimeout(400);
+const result = await iphone.locator('#dlg .sync-report').innerHTML();
+check(['updated" data-title="Island', 'added" data-title="Kreta', 'removed" data-title="Malta'].every(x => result.includes(`<tbody data-kind="${x}">`)) && result.includes('1 Reiselogbuch ist unverändert.'), `Bericht: ${result.slice(0, 400)}`);
+await iphone.click('#dlgX'); await iphone.waitForTimeout(200);
 const merged = await iphone.evaluate(() => db);
 const x = merged.trips.find(t => t.id === 'x');
 check(x.days['2026-07-01']?.program === 'A2', 'neuerer Tag vom iPad nicht übernommen');
@@ -70,12 +74,11 @@ check(!merged.trips.some(t => t.id === 'z'), 'gelöschtes Reiselogbuch nicht gel
 check(merged.trips.some(t => t.id === 'k'), 'neues Reiselogbuch fehlt');
 check(merged.trips.find(t => t.id === 'k')?.changedOn === 'iPad', 'Gerät des neuen Reiselogbuchs nicht übernommen');
 // Gleiches Backup noch einmal: alles schon gleich
-await iphone.locator('#msg [data-x]').click(); await iphone.waitForTimeout(200);
 await iphone.click('#sideMore'); await iphone.waitForTimeout(150);
 const [ch2] = await Promise.all([iphone.waitForEvent('filechooser'), iphone.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
 await ch2.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(fromIpad) }); await iphone.waitForTimeout(300);
 await iphone.locator('.pop button', { hasText: 'Abgleichen' }).click(); await iphone.waitForTimeout(400);
-check((await iphone.locator('#msg .msg-text').innerHTML()).includes('Alles war schon auf dem gleichen Stand.'), 'zweiter Abgleich ändert etwas');
+{ const h = await iphone.locator('#msg .msg-text').innerHTML(); check(!h.includes('Änderungen auf diesem') && /Alles war schon auf dem gleichen Stand|hat sich nichts geändert/.test(h), 'zweiter Abgleich ändert etwas'); }
 check((await iphone.evaluate(() => db.trips.length)) === 3, 'zweiter Abgleich: Anzahl falsch');
 // iPad gleicht mit dem iPhone ab → beide gleich
 await iphone.locator('#msg [data-x]').click(); await iphone.waitForTimeout(200);

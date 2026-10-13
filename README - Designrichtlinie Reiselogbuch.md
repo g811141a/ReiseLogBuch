@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.10.1** · Stand 13.10.2026
+**Version 3.11.0** · Stand 13.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.10.1)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.11.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -164,7 +164,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 ## Abgleich zwischen iPad und iPhone
 
-Es gelten die allgemeinen Regeln R-41 bis R-44 und die Fall-Tabelle der Designrichtlinie allgemein (Abschnitt 15.18). Ausprägung im Reiselogbuch: Einträge = Reiselogbücher, Unterdaten = Tage (Felder Wetter, Verlauf, Wie war was?, Essen, Quartier …), Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Kosten; Zähler ohne Zeitpunkt = Dateinummer für PDF/HTML.
+Es gelten die allgemeinen Regeln R-41 bis R-44 und die Fall-Tabelle der Designrichtlinie allgemein (Abschnitt 15.18). Ausprägung im Reiselogbuch: Einträge = Reiselogbücher, Unterdaten = Tage (Felder Wetter, Verlauf, Wie war was?, Essen, Quartier …), Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Kosten; Zähler ohne Zeitpunkt = Dateinummer für PDF/HTML. Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Verkehrsmittel, Spalten, Fazit, Gesamtkosten; je Tag Wetter, Verlauf, Wie war was?, Essen und Trinken, Quartier, Ort, Quartier wie Vortag, Google-Maps-Link.
 
 ---
 
@@ -172,6 +172,7 @@ Es gelten die allgemeinen Regeln R-41 bis R-44 und die Fall-Tabelle der Designri
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.11.0 | 13.10.2026 | Neben | Angepasst an allgemein 4.11.0: Abgleichbericht (R-44), Versionskopplung mit AppDesign (R-48), Seitenleiste mit einem Zustand (R-47), Kontextmenü des letzten Eintrags (R-40) |
 | 3.10.1 | 13.10.2026 | Korrektur | Angepasst an allgemein 4.10.1: Seitenleiste beim Drehen (R-47), Kontextmenü über der Backup-Kachel, Abgleich ohne leere Felder, Gerätenamen in den Hinweisen |
 | 3.10.0 | 12.10.2026 | Neben | Angepasst an allgemein 4.10.0: R-40 (Drehen, Kontextmenü am iPhone), Abgleich je Feld nach R-41 bis R-44, Backup nach R-45/R-46 über die gemeinsamen Bausteine |
 | 3.9.1 | 12.10.2026 | Korrektur | Angepasst an allgemein 4.9.1: Abfrage ‚Backup laden‘ passt am iPhone quer auf den Bildschirm, Fenster ‚Tag‘ am iPad hoch nicht mehr zu tief (R-39) |

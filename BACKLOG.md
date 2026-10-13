@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.10.1 · AppDesign 4.10.1
+**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.11.0 · AppDesign 4.11.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-26 | 1 | Version 3.10.1 (T-68 bis T-71) – P-26/1 bis P-26/9 Schritt für Schritt im CHANGELOG 3.10.1 | prüfen |
+| P-27 | 1 | Version 3.11.0 (T-73 bis T-76) – P-27/0 bis P-27/9 Schritt für Schritt im CHANGELOG 3.11.0 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-47 | Reiselogbuch 3.11.0: T-73 Versionskopplung mit AppDesign (R-48), T-74 Seitenleiste mit einem Zustand (R-47), T-75 Kontextmenü des letzten Eintrags (R-40), T-76 Abgleichbericht (R-44, Muster 3) | Reiselogbuch 3.11.0 · AppDesign 4.11.0 | 13.10.2026 |
+| E-46 | Geprüft: P-26 – 2, 3, 5 ok; 1, 4, 6, 7, 9 nicht ok (auf dem Gerät lief noch die alte AppDesign-Fassung bzw. irreführende Meldung) → T-73 bis T-75; 8 neuer Wunsch → T-76 | Reiselogbuch 3.10.1 | 13.10.2026 |
 | E-45 | Reiselogbuch 3.10.1: T-68 Seitenleiste beim Drehen (R-47), T-69 Kontextmenü über der Backup-Kachel, T-70 Gerätenamen in Hinweisen, T-71 leere Felder beim Abgleich, T-72 Prüfpunkte Schritt für Schritt | Reiselogbuch 3.10.1 · AppDesign 4.10.1 | 13.10.2026 |
 | E-44 | Geprüft: P-24 alles in Ordnung; P-25 – 4, 6, 14, 15, 16 → T-68 bis T-71, übrige in Ordnung | Reiselogbuch 3.10.0 | 13.10.2026 |
 | E-43 | Reiselogbuch 3.10.0: T-63 Drehen (R-40), T-64 Abgleich je Feld, T-65 Kontextmenü iPhone, T-66 Abgleich allgemein (R-41–R-44), T-67 Backup als Standard (R-45, R-46) | Reiselogbuch 3.10.0 · AppDesign 4.10.0 | 12.10.2026 |
