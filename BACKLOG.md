@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 12.10.2026** · Aktuelle Version: Reiselogbuch 3.10.0 · AppDesign 4.10.0
+**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.10.1 · AppDesign 4.10.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -18,24 +18,19 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.10.1 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.11.0 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-68 | 1 | P-25/4: Am iPad verschwand die Seitenleiste beim Drehen auf hoch – sie behält jetzt ihren Zustand (neue Regel R-47, automatische Prüfung in jeder App) | allgemein | 13.10.2026 |
-| T-69 | 1 | P-25/6: Kontextmenü am iPhone bei 8–9 Reisen abgeschnitten bzw. hinter der Backup-Kachel – Liste bekommt unten Platz und rückt nach oben; am iPad endet das Menü über der Backup-Kachel (R-40 ergänzt, allgemeine Prüfung `tests/kontextmenue.mjs`) | allgemein | 13.10.2026 |
-| T-70 | 1 | P-25/14: Hinweise nennen die Geräte beim Namen (‚Auf dem iPad gelöscht, auf diesem iPhone danach noch geändert‘ bzw. ‚Auf diesem iPad gelöscht, im Backup vom iPhone noch vorhanden‘) | allgemein | 13.10.2026 |
-| T-71 | 1 | P-25/15–16: Leere Felder aus dem Fenster ‚Tag‘ überschrieben beim Abgleich Felder vom anderen Gerät (z. B. Wetter) – leere Felder zählen nicht mehr als Änderung (R-42 ergänzt); neuer Ablauf-Test über die echte Oberfläche (Fälle 8, 9, 9a–9c) und Fall 8b in der allgemeinen Prüfung | allgemein | 13.10.2026 |
-| T-72 | 1 | Zusammenarbeit allgemein 1.14.0: am Ende jeder Umsetzung alle offenen Prüfpunkte einzeln Schritt für Schritt ausgeben | allgemein | 13.10.2026 |
+| – | – | zurzeit nichts | – | – |
 
-**5 Punkte bereit** · gebaut wird erst nach „Ja“
+**0 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-24 | 1 | Version 3.9.0/3.9.1 geprüft (13.10.2026): alle in Ordnung | geprüft |
-| P-25 | 1 | Version 3.10.0 geprüft (13.10.2026): 4 → T-68, 6 → T-69, 14 → T-70, 15/16 → T-71; übrige in Ordnung | geprüft |
+| P-26 | 1 | Version 3.10.1 (T-68 bis T-71) – P-26/1 bis P-26/9 Schritt für Schritt im CHANGELOG 3.10.1 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -56,6 +51,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-45 | Reiselogbuch 3.10.1: T-68 Seitenleiste beim Drehen (R-47), T-69 Kontextmenü über der Backup-Kachel, T-70 Gerätenamen in Hinweisen, T-71 leere Felder beim Abgleich, T-72 Prüfpunkte Schritt für Schritt | Reiselogbuch 3.10.1 · AppDesign 4.10.1 | 13.10.2026 |
+| E-44 | Geprüft: P-24 alles in Ordnung; P-25 – 4, 6, 14, 15, 16 → T-68 bis T-71, übrige in Ordnung | Reiselogbuch 3.10.0 | 13.10.2026 |
 | E-43 | Reiselogbuch 3.10.0: T-63 Drehen (R-40), T-64 Abgleich je Feld, T-65 Kontextmenü iPhone, T-66 Abgleich allgemein (R-41–R-44), T-67 Backup als Standard (R-45, R-46) | Reiselogbuch 3.10.0 · AppDesign 4.10.0 | 12.10.2026 |
 | E-42 | Reiselogbuch 3.9.1: T-62 Abfrage und Fenster passen immer auf den Bildschirm (R-39) | Reiselogbuch 3.9.1 · AppDesign 4.9.1 | 12.10.2026 |
 | E-41 | Reiselogbuch 3.9.0: T-03 Abgleich iPad ↔ iPhone über ein Backup, ‚geändert am … · Gerät‘ in jeder Kachel | Reiselogbuch 3.9.0 · AppDesign 4.9.0 | 12.10.2026 |

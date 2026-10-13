@@ -31,6 +31,8 @@ Claude lässt das Skript bei jeder Version laufen und nennt das Ergebnis im Appl
 | `ablauf-abgleich-faelle.mjs` | alle Anwendungsfälle des Abgleichs mit den Daten des Reiselogbuchs |
 | `abgleich-regeln.mjs` | allgemeine Abgleich-Prüfung (`AppDesign/tests/abgleich.mjs`, R-41 bis R-44) |
 | `backup-regeln.mjs` | allgemeine Backup-Prüfung (`AppDesign/tests/backup.mjs`, R-45, R-46) – iPad und iPhone, hell und dunkel |
+| `ablauf-abgleich-ui.mjs` | Abgleich über die echte Oberfläche (Fenster ‚Tag‘, Backup erstellen/laden), Fälle 8, 9, 9a–9c |
+| `kontextmenue-regeln.mjs` | allgemeine Kontextmenü-Prüfung (`AppDesign/tests/kontextmenue.mjs`, R-40) – 3 bis 12 Reisen, iPad und iPhone |
 | `ablauf-markierung-menues.mjs` | blaue Markierung bleibt, Menüs mit Strich und Speicher-Satz |
 | `ablauf-iphone.mjs` | iPhone-Ansicht: Startliste, Suche unten, Tag erfassen, Kontextmenü, Löschen, Wechsel iPhone ↔ iPad |
 | `tastatur.mjs` | Fenster und Kopfzeilen bei sichtbarer Tastatur |
