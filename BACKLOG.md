@@ -26,8 +26,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 | T-69 | 1 | P-25/6: Kontextmenü am iPhone bei 8–9 Reisen abgeschnitten bzw. hinter der Backup-Kachel – Liste bekommt unten Platz und rückt nach oben; am iPad endet das Menü über der Backup-Kachel (R-40 ergänzt, allgemeine Prüfung `tests/kontextmenue.mjs`) | allgemein | 13.10.2026 |
 | T-70 | 1 | P-25/14: Hinweise nennen die Geräte beim Namen (‚Auf dem iPad gelöscht, auf diesem iPhone danach noch geändert‘ bzw. ‚Auf diesem iPad gelöscht, im Backup vom iPhone noch vorhanden‘) | allgemein | 13.10.2026 |
 | T-71 | 1 | P-25/15–16: Leere Felder aus dem Fenster ‚Tag‘ überschrieben beim Abgleich Felder vom anderen Gerät (z. B. Wetter) – leere Felder zählen nicht mehr als Änderung (R-42 ergänzt); neuer Ablauf-Test über die echte Oberfläche (Fälle 8, 9, 9a–9c) und Fall 8b in der allgemeinen Prüfung | allgemein | 13.10.2026 |
+| T-72 | 1 | Zusammenarbeit allgemein 1.14.0: am Ende jeder Umsetzung alle offenen Prüfpunkte einzeln Schritt für Schritt ausgeben | allgemein | 13.10.2026 |
 
-**4 Punkte bereit** · gebaut wird erst nach „Ja“
+**5 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
