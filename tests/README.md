@@ -33,6 +33,7 @@ Claude lässt das Skript bei jeder Version laufen und nennt das Ergebnis im Appl
 | `backup-regeln.mjs` | allgemeine Backup-Prüfung (`AppDesign/tests/backup.mjs`, R-45, R-46) – iPad und iPhone, hell und dunkel |
 | `ablauf-abgleich-ui.mjs` | Abgleich über die echte Oberfläche (Fenster ‚Tag‘, Backup erstellen/laden), Fälle 8, 9, 9a–9c |
 | `version-regeln.mjs` | Versionskopplung mit AppDesign (`AppDesign/tests/version.mjs`, R-48): `?v=` in index.html und sw.js, Hinweis bei älterer Fassung |
+| `doku-regeln.mjs` | Doku-Prüfung (`AppDesign/tests/doku.mjs`, R-49, R-50): README ‚Verwendete Versionen‘, Prüfliste beginnt mit /0 |
 | `kontextmenue-regeln.mjs` | allgemeine Kontextmenü-Prüfung (`AppDesign/tests/kontextmenue.mjs`, R-40) – 3 bis 12 Reisen, iPad und iPhone |
 | `ablauf-markierung-menues.mjs` | blaue Markierung bleibt, Menüs mit Strich und Speicher-Satz |
 | `ablauf-iphone.mjs` | iPhone-Ansicht: Startliste, Suche unten, Tag erfassen, Kontextmenü, Löschen, Wechsel iPhone ↔ iPad |

@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.11.0 · AppDesign 4.11.0
+**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.11.1 · AppDesign 4.11.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-27 | 1 | Version 3.11.0 (T-73 bis T-76) – P-27/0 bis P-27/9 Schritt für Schritt im CHANGELOG 3.11.0 | prüfen |
+| P-28 | 1 | Version 3.11.1 (T-77) – P-28/0 und P-28/1 Schritt für Schritt im CHANGELOG 3.11.1; zuerst P-28/0 | prüfen |
+| P-27 | 1 | Version 3.11.0 (T-73 bis T-76) – P-27/1 bis P-27/9 Schritt für Schritt im CHANGELOG 3.11.0 (mit Version 3.11.1 prüfen) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-48 | Reiselogbuch 3.11.1: T-77 Vorbeugen gegen P-26/6, 7, 9 – README ‚Verwendete Versionen‘ (R-49), Prüfliste mit /0 und Meldung je Gerät (R-50), ‚fertig‘ erst nach Pages (Zusammenarbeit 1.15.0) | Reiselogbuch 3.11.1 · AppDesign 4.11.1 | 13.10.2026 |
 | E-47 | Reiselogbuch 3.11.0: T-73 Versionskopplung mit AppDesign (R-48), T-74 Seitenleiste mit einem Zustand (R-47), T-75 Kontextmenü des letzten Eintrags (R-40), T-76 Abgleichbericht (R-44, Muster 3) | Reiselogbuch 3.11.0 · AppDesign 4.11.0 | 13.10.2026 |
 | E-46 | Geprüft: P-26 – 2, 3, 5 ok; 1, 4, 6, 7, 9 nicht ok (auf dem Gerät lief noch die alte AppDesign-Fassung bzw. irreführende Meldung) → T-73 bis T-75; 8 neuer Wunsch → T-76 | Reiselogbuch 3.10.1 | 13.10.2026 |
 | E-45 | Reiselogbuch 3.10.1: T-68 Seitenleiste beim Drehen (R-47), T-69 Kontextmenü über der Backup-Kachel, T-70 Gerätenamen in Hinweisen, T-71 leere Felder beim Abgleich, T-72 Prüfpunkte Schritt für Schritt | Reiselogbuch 3.10.1 · AppDesign 4.10.1 | 13.10.2026 |

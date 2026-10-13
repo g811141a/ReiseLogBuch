@@ -13,6 +13,36 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.11.1 – 13.10.2026 (Korrektur)
+
+Reiselogbuch 3.11.1 · AppDesign 4.11.1 (Designrichtlinie allgemein 4.11.1) · Designrichtlinie Reiselogbuch 3.11.1 · Zusammenarbeit allgemein 1.15.0
+
+- T-77 (Vorbeugen gegen P-26/6, 7, 9):
+  - Die README zeigt ganz oben ‚Verwendete Versionen‘ mit Links zu allen allgemeinen Regelwerken (R-49).
+  - Jede Prüfliste beginnt mit /0 ‚Version prüfen‘, und jeder Schritt nennt die Meldung je Gerät (R-50).
+  - ‚Fertig‘ gibt es erst nach den erfolgreichen Pages-Läufen beider Repos (Zusammenarbeit allgemein 1.15.0).
+- Neue Prüfung `tests/doku-regeln.mjs` (R-49, R-50). Die App selbst ist unverändert, nur auf AppDesign 4.11.1 umgestellt.
+
+Prüfliste P-28 (Schritt für Schritt, Zusammenarbeit allgemein 1.15.0). Danach die offenen Prüfpunkte P-27/1 bis P-27/9
+aus 3.11.0 mit dieser Version prüfen.
+
+**P-28/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.11.1 · erstellt am … · AppDesign 4.11.1‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.11.1‘ und ‚AppDesign 4.11.1‘.
+6. Erscheint beim Start das Fenster ‚Neue Version wird geladen‘ oder steht eine andere Version da: App ganz schließen,
+   ein paar Minuten warten, neu öffnen; erst weiter prüfen, wenn beide Versionen stimmen.
+
+**P-28/1 – Versionen auf GitHub nachsehen**
+1. Im Browser https://github.com/g811141a/ReiseLogBuch öffnen.
+2. Erwartet: Unter der Dateiliste steht die README mit dem Abschnitt ‚Verwendete Versionen‘: Reiselogbuch 3.11.1,
+   AppDesign 4.11.1, Designrichtlinie allgemein 4.11.1, Designrichtlinie Reiselogbuch 3.11.1, Zusammenarbeit allgemein
+   1.15.0.
+3. Auf den Link ‚README - Designrichtlinie allgemein.md‘ tippen.
+4. Erwartet: Die Richtlinie öffnet sich und nennt oben ‚Version 4.11.1‘.
+
 ## 3.11.0 – 13.10.2026 (Nebenversion)
 
 Reiselogbuch 3.11.0 · AppDesign 4.11.0 (Designrichtlinie allgemein 4.11.0) · Designrichtlinie Reiselogbuch 3.11.0 · Zusammenarbeit allgemein 1.14.0
