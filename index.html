@@ -122,8 +122,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.10.0';
-const APP_BUILT = '12.10.2026 um 16:50';
+const APP_VERSION = '3.10.1';
+const APP_BUILT = '13.10.2026 um 14:54';
 
 const app = document.getElementById('app');
 const side = document.getElementById('side');
@@ -1747,8 +1747,12 @@ window.addEventListener('resize', () => {
   // R-40: Ist ein Menü oder eine Abfrage aus der Seitenleiste offen, bleibt sie beim Drehen sichtbar
   // (hoch darübergelegt) – das Menü bleibt an seiner Schaltfläche.
   const keepSide = Boolean(document.querySelector('#side .on')) && Boolean(document.querySelector('.menu, .pop'));
-  if (isPhone() !== wasPhone) { wasPhone = isPhone(); wasWide = isWide(); sideOverlay = keepSide; render(); return; }
-  if (isWide() !== wasWide) { wasWide = isWide(); sideOverlay = keepSide; render(); return; }
+  // R-47: Die Seitenleiste behält beim Drehen ihren Zustand – sichtbar bleibt sichtbar (quer fest, hoch darübergelegt),
+  // ausgeblendet bleibt ausgeblendet.
+  const wasVisible = (wasWide ? db.settings.sidebar !== false : sideOverlay) || keepSide;
+  const keep = () => { if (isWide()) db.settings.sidebar = wasVisible; else sideOverlay = wasVisible; };
+  if (isPhone() !== wasPhone) { wasPhone = isPhone(); wasWide = isWide(); keep(); render(); return; }
+  if (isWide() !== wasWide) { wasWide = isWide(); keep(); render(); return; }
   const bar = document.getElementById('bar');
   if (bar) document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
   if (!side.hidden) document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');

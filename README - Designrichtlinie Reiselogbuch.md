@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.10.0** · Stand 12.10.2026
+**Version 3.10.1** · Stand 13.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.10.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.10.1)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -172,6 +172,7 @@ Es gelten die allgemeinen Regeln R-41 bis R-44 und die Fall-Tabelle der Designri
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.10.1 | 13.10.2026 | Korrektur | Angepasst an allgemein 4.10.1: Seitenleiste beim Drehen (R-47), Kontextmenü über der Backup-Kachel, Abgleich ohne leere Felder, Gerätenamen in den Hinweisen |
 | 3.10.0 | 12.10.2026 | Neben | Angepasst an allgemein 4.10.0: R-40 (Drehen, Kontextmenü am iPhone), Abgleich je Feld nach R-41 bis R-44, Backup nach R-45/R-46 über die gemeinsamen Bausteine |
 | 3.9.1 | 12.10.2026 | Korrektur | Angepasst an allgemein 4.9.1: Abfrage ‚Backup laden‘ passt am iPhone quer auf den Bildschirm, Fenster ‚Tag‘ am iPad hoch nicht mehr zu tief (R-39) |
 | 3.9.0 | 12.10.2026 | Neben | Angepasst an allgemein 4.9.0: Backup laden mit Abgleichen · Ersetzen · Abbrechen (T-03), Kachelzeile ‚geändert am … · Gerät‘ |

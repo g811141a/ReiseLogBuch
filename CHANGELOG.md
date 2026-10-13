@@ -13,6 +13,84 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.10.1 – 13.10.2026 (Korrektur)
+
+Reiselogbuch 3.10.1 · AppDesign 4.10.1 (Designrichtlinie allgemein 4.10.1) · Designrichtlinie Reiselogbuch 3.10.1 · Zusammenarbeit allgemein 1.14.0
+
+- T-68 (P-25/4): Am iPad behält die Seitenleiste beim Drehen ihren Zustand (neue Regel R-47).
+- T-69 (P-25/6): Das Kontextmenü einer Reise ist am iPhone nie mehr abgeschnitten oder hinter der Backup-Kachel;
+  am iPad endet es über der Backup-Kachel.
+- T-70 (P-25/14): Die Hinweise beim Abgleich nennen iPad bzw. iPhone beim Namen.
+- T-71 (P-25/15, 16): Leere Felder aus dem Fenster ‚Tag‘ überschreiben beim Abgleich nichts mehr (z. B. das Wetter
+  vom anderen Gerät).
+- T-72: Zusammenarbeit allgemein 1.14.0 – Prüfpunkte am Ende jeder Umsetzung Schritt für Schritt.
+
+Prüfliste P-26 (Schritt für Schritt, Zusammenarbeit allgemein 1.14.0):
+
+**P-26/1 – iPad: sichtbare Seitenleiste bleibt beim Drehen**
+1. iPad quer halten, die Seitenleiste ist links sichtbar.
+2. iPad auf hoch drehen.
+3. Erwartet: Die Seitenleiste bleibt sichtbar (über den Inhalt gelegt).
+4. Zurück auf quer drehen.
+5. Erwartet: Die Seitenleiste ist weiter sichtbar (fest links).
+
+**P-26/2 – iPad: ausgeblendete Seitenleiste bleibt ausgeblendet**
+1. iPad quer halten, die Seitenleiste mit dem Knopf ▯ (Seitenleiste) ausblenden.
+2. iPad auf hoch drehen.
+3. Erwartet: Die Seitenleiste bleibt ausgeblendet.
+4. Zurück auf quer drehen.
+5. Erwartet: Die Seitenleiste ist weiter ausgeblendet.
+
+**P-26/3 – iPhone hoch: Kontextmenü der untersten Reise**
+1. iPhone hoch halten, Startliste ‚Reiselogbücher‘ öffnen.
+2. Lange auf die unterste vollständig sichtbare Reise (direkt über ‚Backup erstellen‘) drücken.
+3. Erwartet: Die Liste rückt etwas nach oben; das Menü steht linksbündig unter der Reise.
+4. Erwartet: ‚Einstellungen‘ und ‚Reiselogbuch löschen‘ sind beide ganz zu sehen, das Menü endet über der Kachel ‚Backup erstellen‘.
+5. Daneben tippen – das Menü schließt sich.
+
+**P-26/4 – iPhone quer: Kontextmenü der untersten Reise**
+1. iPhone quer halten, Startliste ‚Reiselogbücher‘ öffnen.
+2. Lange auf die unterste vollständig sichtbare Reise drücken.
+3. Erwartet: Das Menü steht linksbündig unter der Reise, beide Punkte ganz zu sehen, über der Kachel ‚Backup erstellen‘.
+
+**P-26/5 – iPad: Kontextmenü der untersten Reise**
+1. iPad quer, Seitenleiste sichtbar.
+2. Lange auf die unterste vollständig sichtbare Reise drücken.
+3. Erwartet: Das Menü steht neben der Reise, ist ganz zu sehen und endet über der Kachel ‚Backup erstellen‘.
+4. Dasselbe am iPad hoch (Seitenleiste eingeblendet) wiederholen – gleiches Ergebnis.
+
+**P-26/6 – Abgleich: auf dem iPad gelöscht, auf dem iPhone danach geändert**
+1. Gleichen Stand herstellen: iPad ‚Backup erstellen‘ → In Dateien sichern (iCloud Drive); iPhone ‚Backup laden‘ → diese Datei → ‚Ersetzen‘.
+2. iPad: ein Reiselogbuch (z. B. ‚Test A‘) lange drücken → ‚Reiselogbuch löschen‘.
+3. iPad: ‚Backup erstellen‘ → In Dateien sichern.
+4. iPhone: danach in ‚Test A‘ etwas ändern (z. B. einen Tag erfassen).
+5. iPhone: ‚Backup laden‘ → die Datei vom iPad → ‚Abgleichen‘.
+6. Erwartet: ‚Test A‘ bleibt auf dem iPhone; das Fenster zeigt ‚ℹ️ Auf dem iPad gelöscht, auf diesem iPhone danach noch geändert: Test A – bleibt erhalten.‘
+
+**P-26/7 – Abgleich: auf diesem Gerät gelöscht, im Backup noch vorhanden**
+1. Gleichen Stand herstellen: iPad ‚Backup erstellen‘ → In Dateien sichern; iPhone ‚Backup laden‘ → diese Datei → ‚Ersetzen‘.
+2. iPhone: ein Reiselogbuch (z. B. ‚Test B‘) lange drücken → ‚Reiselogbuch löschen‘.
+3. iPad: ‚Backup erstellen‘ → In Dateien sichern (‚Test B‘ ist darin noch vorhanden).
+4. iPhone: ‚Backup laden‘ → die Datei vom iPad → ‚Abgleichen‘.
+5. Erwartet: ‚Test B‘ bleibt auf dem iPhone gelöscht; das Fenster zeigt ‚ℹ️ Auf diesem iPhone gelöscht, im Backup vom iPad noch vorhanden: Test B (gelöscht am …) – bleibt gelöscht.‘
+
+**P-26/8 – Abgleich: gleicher Tag, verschiedene Felder (Tag neu)**
+1. Gleichen Stand herstellen: iPad ‚Backup erstellen‘ → In Dateien sichern; iPhone ‚Backup laden‘ → diese Datei → ‚Ersetzen‘.
+2. Einen Tag ohne Einträge wählen (z. B. einen künftigen Tag).
+3. iPad: diesen Tag antippen, nur das Wetter ☀️ wählen, ✓; dann ‚Backup erstellen‘ → In Dateien sichern.
+4. iPhone: denselben Tag antippen, nur einen Verlauf schreiben (z. B. ‚Stadtrundgang‘), ✓; dann ‚Backup erstellen‘ → In Dateien sichern.
+5. iPhone: ‚Backup laden‘ → die Datei vom iPad → ‚Abgleichen‘.
+6. iPad: ‚Backup laden‘ → die Datei vom iPhone → ‚Abgleichen‘.
+7. Erwartet auf beiden Geräten: Der Tag hat das Wetter ☀️ **und** den Verlauf ‚Stadtrundgang‘.
+
+**P-26/9 – Abgleich: gleicher Tag, gleiches Feld**
+1. Gleichen Stand herstellen: iPad ‚Backup erstellen‘ → In Dateien sichern; iPhone ‚Backup laden‘ → diese Datei → ‚Ersetzen‘.
+2. iPad: einen Tag antippen, den Verlauf auf ‚Version iPad‘ ändern, ✓; ‚Backup erstellen‘ → In Dateien sichern.
+3. iPhone (danach): denselben Tag antippen, den Verlauf auf ‚Version iPhone‘ ändern, ✓; ‚Backup erstellen‘ → In Dateien sichern.
+4. iPhone: ‚Backup laden‘ → die Datei vom iPad → ‚Abgleichen‘.
+5. iPad: ‚Backup laden‘ → die Datei vom iPhone → ‚Abgleichen‘.
+6. Erwartet auf beiden Geräten: Der Verlauf lautet ‚Version iPhone‘ (die neuere Änderung).
+
 ## 3.10.0 – 12.10.2026 (Nebenversion)
 
 Reiselogbuch 3.10.0 · AppDesign 4.10.0 (Designrichtlinie allgemein 4.10.0) · Designrichtlinie Reiselogbuch 3.10.0 · Zusammenarbeit allgemein 1.13.0
