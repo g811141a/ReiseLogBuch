@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 13.10.2026, Version 3.10.1)
+# Reiselogbuch – Prompt (Stand 13.10.2026, Version 3.11.0)
 
-Reiselogbuch 3.10.1 · AppDesign 4.10.1 (Designrichtlinie allgemein 4.10.1) · Designrichtlinie Reiselogbuch 3.10.1 · Zusammenarbeit allgemein 1.14.0
+Reiselogbuch 3.11.0 · AppDesign 4.11.0 (Designrichtlinie allgemein 4.11.0) · Designrichtlinie Reiselogbuch 3.11.0 · Zusammenarbeit allgemein 1.14.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -132,6 +132,12 @@ RAHMEN
   - Seit 3.10.1: Die Seitenleiste behält beim Drehen ihren Zustand (R-47); das Kontextmenü einer Reise ist nie
     abgeschnitten und steht nie über der Backup-Kachel; leere Felder überschreiben beim Abgleich nichts; die Hinweise
     nennen iPad bzw. iPhone beim Namen.
+  - Seit 3.11.0: Nach dem Abgleichen ein kleines Fenster ohne Einzelheiten; gibt es etwas zu berichten, öffnet
+    ‚Abgleichbericht anzeigen‘ den Bericht als Vorschau wie die Ausgabe (teilbar als HTML): Tabelle der Änderungen
+    (Reiselogbuch · Tag · Feld · Neu · Vorher · Vom Gerät · Geändert am), Anzahl unveränderter Reiselogbücher, Tabelle
+    ‚Auf diesem … neuer als im Backup – bleibt so‘, Hinweise (R-44). Ohne Änderung nur ‚Alles war schon auf dem gleichen
+    Stand.‘. Die App lädt AppDesign mit Versionsnummer und meldet beim Start eine falsche Fassung; die Versionszeile nennt
+    ‚AppDesign 4.11.0‘ (R-48). Die Seitenleiste hat einen Zustand für quer und hoch (R-47).
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen

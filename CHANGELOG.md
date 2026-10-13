@@ -13,6 +13,122 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.11.0 – 13.10.2026 (Nebenversion)
+
+Reiselogbuch 3.11.0 · AppDesign 4.11.0 (Designrichtlinie allgemein 4.11.0) · Designrichtlinie Reiselogbuch 3.11.0 · Zusammenarbeit allgemein 1.14.0
+
+- T-73 (P-26/6, P-26/7): Auf dem Gerät lief beim Test noch die alte AppDesign-Fassung (Hinweise mit ‚drüben‘). Neu (R-48):
+  Die App lädt `ui.js` und `design.css` mit der Versionsnummer (`?v=4.11.0`) und meldet beim Start ‚Neue Version wird
+  geladen‘, wenn eine andere Fassung geladen ist. Die Versionszeile im Mehr-Menü nennt jetzt auch ‚AppDesign 4.11.0‘.
+- T-74 (P-26/1): Die Seitenleiste hat einen einzigen Zustand für quer und hoch. Nur Tippen ändert ihn, Drehen nie – auch
+  nicht die Zwischengrößen, die iOS beim Drehen meldet (R-47).
+- T-75 (P-26/4): Das Kontextmenü des letzten Eintrags wird nach dem Loslassen noch einmal ausgerichtet. Rückt die Liste
+  trotzdem nicht, steht es über der Kachel, nie hinter ‚Backup erstellen‘ (R-40). Der Platz unter der Liste verschwindet
+  beim Schließen wieder.
+- T-76 (P-26/8, P-26/9): Ergebnis des Abgleichs neu (R-44):
+  - Ein kleines Fenster ‚Abgleichen‘ ohne Einzelheiten zeigt die Schaltfläche ‚Abgleichbericht anzeigen‘.
+  - Der Abgleichbericht ist eine Vorschau wie die Ausgabe und lässt sich als HTML teilen. Er enthält die Tabelle der
+    Änderungen (Reiselogbuch · Tag · Feld · Neu · Vorher · Vom Gerät · Geändert am). Darunter stehen die Anzahl der
+    unveränderten Reiselogbücher, die Tabelle ‚Auf diesem … neuer als im Backup – bleibt so‘ und die Hinweise.
+  - Ohne Änderung erscheint nur ‚Alles war schon auf dem gleichen Stand.‘ ohne Schaltfläche.
+  - Ist dieses Gerät neuer, heißt es ‚hat sich nichts geändert‘, nicht mehr ‚gleicher Stand‘.
+- Neue Prüfung `tests/version-regeln.mjs` (R-48). Das Prüfskript misst jetzt auch das Ergebnisfenster und den
+  Abgleichbericht.
+
+Prüfliste P-27 (Schritt für Schritt, Zusammenarbeit allgemein 1.14.0). **Vorher auf beiden Geräten die App ganz schließen
+(vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.**
+
+**P-27/0 – richtige Version auf beiden Geräten**
+1. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+2. Erwartet: unten grau ‚Reiselogbuch · Version 3.11.0 · erstellt am … · AppDesign 4.11.0‘.
+3. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr) → gleiche Zeile mit 3.11.0 und AppDesign 4.11.0.
+4. Erscheint beim Start stattdessen das Fenster ‚Neue Version wird geladen‘: App ganz schließen, ein paar Minuten warten,
+   neu öffnen und erst dann weiter prüfen.
+
+**P-27/1 – iPad: sichtbare Seitenleiste bleibt beim Drehen**
+1. iPad quer halten, die Seitenleiste ist links sichtbar.
+2. iPad auf hoch drehen.
+3. Erwartet: Die Seitenleiste bleibt sichtbar (über den Inhalt gelegt, dahinter abgedunkelt).
+4. Zurück auf quer drehen.
+5. Erwartet: Die Seitenleiste ist weiter sichtbar (fest links).
+6. Noch zweimal schnell hin und her drehen – sie bleibt jedes Mal sichtbar.
+
+**P-27/2 – iPhone quer: Kontextmenü des letzten Eintrags**
+1. iPhone quer halten, Startliste ‚Reiselogbücher‘ öffnen.
+2. Die Liste ganz nach unten wischen, bis der letzte Eintrag direkt über ‚Backup erstellen‘ steht.
+3. Lange auf diesen letzten Eintrag drücken und loslassen.
+4. Erwartet: ‚Einstellungen‘ und ‚Reiselogbuch löschen‘ sind beide ganz zu sehen, linksbündig unter der Reise (oder,
+   wenn die Liste nicht weiter rücken kann, über ihr) – nie hinter der Kachel ‚Backup erstellen‘.
+5. Daneben tippen – das Menü schließt sich, unter der Liste bleibt kein leerer Platz.
+
+**P-27/3 – iPhone hoch: Kontextmenü des letzten Eintrags**
+1. iPhone hoch halten, Startliste ‚Reiselogbücher‘, ganz nach unten wischen.
+2. Lange auf den letzten Eintrag drücken und loslassen.
+3. Erwartet: wie P-27/2 – beide Punkte ganz zu sehen, über der Kachel ‚Backup erstellen‘.
+
+**P-27/4 – Abgleich: auf dem iPad gelöscht, auf dem iPhone danach geändert**
+1. Gleichen Stand herstellen: iPad ‚Backup erstellen‘ → In Dateien sichern (iCloud Drive); iPhone ‚Backup laden‘ →
+   diese Datei → ‚Ersetzen‘.
+2. iPad: ein Reiselogbuch (z. B. ‚Test A‘) lange drücken → ‚Reiselogbuch löschen‘.
+3. iPad: ‚Backup erstellen‘ → In Dateien sichern.
+4. iPhone: danach in ‚Test A‘ etwas ändern (z. B. einen Tag erfassen).
+5. iPhone: ‚Backup laden‘ → die Datei vom iPad → ‚Abgleichen‘.
+6. Erwartet im Fenster ‚Abgleichen‘: ‚✅ Abgeglichen mit dem Backup vom iPad (…)‘, darunter ‚Auf diesem iPhone hat sich
+   nichts geändert – Hinweise im Abgleichbericht.‘ und die Schaltfläche ‚Abgleichbericht anzeigen‘ – kein ‚drüben‘.
+7. ‚Abgleichbericht anzeigen‘ tippen.
+8. Erwartet unter ‚Hinweise‘: ‚ℹ️ Auf dem iPad gelöscht, auf diesem iPhone danach noch geändert: Test A – bleibt
+   erhalten.‘ ‚Test A‘ ist in der Liste noch da.
+
+**P-27/5 – Abgleich: auf diesem iPhone gelöscht, im Backup noch vorhanden**
+1. Gleichen Stand herstellen wie in P-27/4, Schritt 1.
+2. iPhone: ein Reiselogbuch (z. B. ‚Test B‘) lange drücken → ‚Reiselogbuch löschen‘.
+3. iPad: ‚Backup erstellen‘ → In Dateien sichern (‚Test B‘ ist darin noch vorhanden).
+4. iPhone: ‚Backup laden‘ → die Datei vom iPad → ‚Abgleichen‘.
+5. Erwartet im Fenster: ‚Auf diesem iPhone hat sich nichts geändert – Hinweise im Abgleichbericht.‘ mit der Schaltfläche.
+6. ‚Abgleichbericht anzeigen‘ tippen.
+7. Erwartet unter ‚Hinweise‘: ‚ℹ️ Auf diesem iPhone gelöscht, im Backup vom iPad noch vorhanden: Test B (gelöscht am …) –
+   bleibt gelöscht. …‘ ‚Test B‘ bleibt auf dem iPhone gelöscht.
+
+**P-27/6 – Abgleich: gleicher Tag, verschiedene Felder**
+1. Gleichen Stand herstellen wie in P-27/4, Schritt 1.
+2. Einen Tag ohne Einträge wählen (z. B. einen künftigen Tag).
+3. iPad: diesen Tag antippen, nur das Wetter ☀️ wählen, ✓; dann ‚Backup erstellen‘ → In Dateien sichern.
+4. iPhone: denselben Tag antippen, nur einen Verlauf schreiben (z. B. ‚Stadtrundgang‘), ✓; dann ‚Backup erstellen‘ →
+   In Dateien sichern.
+5. iPhone: ‚Backup laden‘ → die Datei vom iPad → ‚Abgleichen‘ → ‚Abgleichbericht anzeigen‘.
+6. Erwartet im Bericht unter ‚Änderungen auf diesem iPhone‘: eine Zeile mit dem Reiselogbuch, dem Tag, Feld ‚Wetter‘,
+   Neu ‚☀️‘, Vorher ‚–‘, Vom Gerät ‚iPad‘ und dem Zeitpunkt; unter ‚Auf diesem iPhone neuer als im Backup‘ der ‚Verlauf‘.
+7. iPad: ‚Backup laden‘ → die Datei vom iPhone → ‚Abgleichen‘.
+8. Erwartet auf beiden Geräten: Der Tag hat das Wetter ☀️ **und** den Verlauf ‚Stadtrundgang‘.
+
+**P-27/7 – Abgleich: gleicher Tag, gleiches Feld**
+1. Gleichen Stand herstellen wie in P-27/4, Schritt 1.
+2. iPad: einen Tag antippen, den Verlauf auf ‚Version iPad‘ ändern, ✓; ‚Backup erstellen‘ → In Dateien sichern.
+3. iPhone (danach): denselben Tag antippen, den Verlauf auf ‚Version iPhone‘ ändern, ✓; ‚Backup erstellen‘ → In Dateien
+   sichern.
+4. iPhone: ‚Backup laden‘ → die Datei vom iPad → ‚Abgleichen‘.
+5. Erwartet im Fenster: ‚Auf diesem iPhone hat sich nichts geändert – Hinweise im Abgleichbericht.‘ (nicht ‚Alles war
+   schon auf dem gleichen Stand‘); im Bericht unter ‚Auf diesem iPhone neuer als im Backup – bleibt so‘: Feld ‚Verlauf‘,
+   ‚Version iPhone‘, im Backup ‚Version iPad‘.
+6. iPad: ‚Backup laden‘ → die Datei vom iPhone → ‚Abgleichen‘ → ‚Abgleichbericht anzeigen‘.
+7. Erwartet: unter ‚Änderungen auf diesem iPad‘ Feld ‚Verlauf‘, Neu ‚Version iPhone‘, Vorher ‚Version iPad‘, Vom Gerät
+   ‚iPhone‘; auf beiden Geräten lautet der Verlauf jetzt ‚Version iPhone‘.
+
+**P-27/8 – Abgleichbericht: Aussehen und Teilen (iPad quer, iPad hoch, iPhone hoch, iPhone quer)**
+1. Einen Abgleich mit Änderungen machen (z. B. P-27/6) und ‚Abgleichbericht anzeigen‘ tippen.
+2. Erwartet: großes Fenster ‚Abgleichbericht‘, weiß wie die Vorschau der Ausgabe (auch im Dunkelmodus); Kopf
+   ‚Abgeglichen am · Backup · Ergebnis‘; Tabellen mit grauem Kopf und halbfetten Spaltenköpfen; unveränderte
+   Reiselogbücher nicht in der Tabelle, nur ‚n Reiselogbücher sind unverändert.‘ darunter.
+3. iPhone hoch: die Tabelle seitlich wischen – alle Spalten erreichbar, nichts abgeschnitten.
+4. Oben rechts Teilen tippen → ‚In Dateien sichern‘.
+5. Erwartet: Fenster mit ✅ und Dateiname ‚Abgleichbericht Reiselogbuch JJJJ.MM.TT hh.mm.html‘.
+6. Die Prüfung in hell und dunkel und in beiden Lagen wiederholen.
+
+**P-27/9 – Abgleich ohne Änderung**
+1. Gleichen Stand herstellen wie in P-27/4, Schritt 1, danach nichts ändern.
+2. iPhone: ‚Backup laden‘ → dieselbe Datei → ‚Abgleichen‘.
+3. Erwartet: Fenster ‚Abgleichen‘ mit ‚Alles war schon auf dem gleichen Stand.‘ und **ohne** Schaltfläche.
+
 ## 3.10.1 – 13.10.2026 (Korrektur)
 
 Reiselogbuch 3.10.1 · AppDesign 4.10.1 (Designrichtlinie allgemein 4.10.1) · Designrichtlinie Reiselogbuch 3.10.1 · Zusammenarbeit allgemein 1.14.0
