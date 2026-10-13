@@ -22,9 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-78 | 1 | Drehen (iPad und iPhone, quer ↔ hoch): oben bleibt derselbe Tag stehen. Nachgestellt am iPhone (Tag 8 → Tag 16); Ursache: Safari hat keinen Scroll-Anker, die App merkt sich den obersten Tag beim Drehen nicht. Als allgemeine Regel mit automatischer Prüfung (Safari nachgebildet) | Reiselogbuch | 13.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**1 Punkt bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
