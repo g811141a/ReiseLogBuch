@@ -19,7 +19,7 @@ const at = (p, t) => p.clock.setFixedTime(new Date(`2026-10-12T${t}:00`));
 const op = (p, fn) => p.evaluate(fn);
 // Ergebnis eines Abgleichs ohne Zustand zu ändern: { trips, stats, text }
 const mergeWith = (p, backup) => p.evaluate(c => { const d = JSON.parse(c); const savedAt = d.savedAt, savedOn = d.savedOn; delete d.savedAt; delete d.savedOn;
-  const { data, stats } = mergeData(structuredClone(db), normalize(d)); return { trips: data.trips, stats, text: mergeText(stats, savedAt, savedOn) }; }, backup);
+  const { data, stats } = mergeData(structuredClone(db), normalize(d)); return { trips: data.trips, stats, text: sync.resultText(stats, savedAt, savedOn) }; }, backup);
 
 async function fall(nr, name, onIpad, onIphone, expect, { legacy = false } = {}) {
   const ipad = await device(1180, 820), iphone = await device(393, 852);
@@ -48,11 +48,11 @@ const del = id => new Function(`db.trips = db.trips.filter(t => t.id !== '${id}'
 await fall(1, 'nur auf dem iPad neu angelegt', [['10:00', add('n', 'Kreta')]], [],
   { iphone: r => T(r, 'n') && has(r, '<b>Neu:</b> Kreta') ? '' : 'Kreta nicht dazugekommen', ipad: r => T(r, 'n') && has(r, 'Alles war schon') ? '' : 'Kreta verloren oder Meldung falsch' });
 await fall(2, 'auf dem iPad gelöscht, iPhone unverändert', [['10:00', del('y')]], [],
-  { iphone: r => !T(r, 'y') && has(r, '<b>Gelöscht:</b> Toskana') ? '' : 'Toskana nicht gelöscht', ipad: r => !T(r, 'y') && has(r, 'Hier gelöscht, im Backup noch vorhanden:</b> Toskana') ? '' : 'Toskana zurück oder Hinweis fehlt' });
+  { iphone: r => !T(r, 'y') && has(r, '<b>Gelöscht:</b> Toskana') ? '' : 'Toskana nicht gelöscht', ipad: r => !T(r, 'y') && has(r, 'Auf diesem iPad gelöscht, im Backup vom iPhone noch vorhanden:</b> Toskana') ? '' : 'Toskana zurück oder Hinweis fehlt' });
 await fall(3, 'auf dem iPad gelöscht, auf dem iPhone danach geändert', [['10:00', del('y')]], [['11:00', meta('y', 'fazit', 'Schön')]],
-  { iphone: r => T(r, 'y') && has(r, 'Drüben gelöscht, hier danach noch geändert:</b> Toskana') ? '' : 'Toskana weg oder Hinweis fehlt', ipad: r => T(r, 'y')?.fazit === 'Schön' && has(r, '<b>Neu:</b> Toskana') ? '' : 'Toskana nicht zurückgekommen' });
+  { iphone: r => T(r, 'y') && has(r, 'Auf dem iPad gelöscht, auf diesem iPhone danach noch geändert:</b> Toskana') ? '' : 'Toskana weg oder Hinweis fehlt', ipad: r => T(r, 'y')?.fazit === 'Schön' && has(r, '<b>Neu:</b> Toskana') ? '' : 'Toskana nicht zurückgekommen' });
 await fall(4, 'auf dem iPad gelöscht, auf dem iPhone vorher geändert', [['11:00', del('y')]], [['10:00', meta('y', 'fazit', 'Schön')]],
-  { iphone: r => !T(r, 'y') && has(r, '<b>Gelöscht:</b> Toskana') ? '' : 'Toskana nicht gelöscht', ipad: r => !T(r, 'y') && has(r, 'Hier gelöscht, im Backup noch vorhanden') ? '' : 'Toskana zurück oder Hinweis fehlt' });
+  { iphone: r => !T(r, 'y') && has(r, '<b>Gelöscht:</b> Toskana') ? '' : 'Toskana nicht gelöscht', ipad: r => !T(r, 'y') && has(r, 'Auf diesem iPad gelöscht, im Backup vom iPhone noch vorhanden') ? '' : 'Toskana zurück oder Hinweis fehlt' });
 await fall(5, 'auf beiden Geräten gelöscht', [['10:00', del('y')]], [['11:00', del('y')]],
   { iphone: r => !T(r, 'y') && !has(r, 'Toskana') ? '' : 'Toskana taucht auf', ipad: r => !T(r, 'y') && !has(r, 'Toskana') ? '' : 'Toskana taucht auf' });
 await fall(6, 'nur auf dem iPad einen Tag erfasst', [['10:00', edit('x', '2026-07-02', 'program', 'Golden Circle')]], [],

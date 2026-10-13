@@ -18,20 +18,23 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 ---
 
-## 0. Nächste Version 3.11.0 – gesammelt, noch nicht gebaut
+## 0. Nächste Version 3.10.1 – gesammelt, noch nicht gebaut
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-68 | 1 | P-25/4: Am iPad verschwand die Seitenleiste beim Drehen auf hoch – sie behält jetzt ihren Zustand (neue Regel R-47, automatische Prüfung in jeder App) | allgemein | 13.10.2026 |
+| T-69 | 1 | P-25/6: Kontextmenü am iPhone bei 8–9 Reisen abgeschnitten bzw. hinter der Backup-Kachel – Liste bekommt unten Platz und rückt nach oben; am iPad endet das Menü über der Backup-Kachel (R-40 ergänzt, allgemeine Prüfung `tests/kontextmenue.mjs`) | allgemein | 13.10.2026 |
+| T-70 | 1 | P-25/14: Hinweise nennen die Geräte beim Namen (‚Auf dem iPad gelöscht, auf diesem iPhone danach noch geändert‘ bzw. ‚Auf diesem iPad gelöscht, im Backup vom iPhone noch vorhanden‘) | allgemein | 13.10.2026 |
+| T-71 | 1 | P-25/15–16: Leere Felder aus dem Fenster ‚Tag‘ überschrieben beim Abgleich Felder vom anderen Gerät (z. B. Wetter) – leere Felder zählen nicht mehr als Änderung (R-42 ergänzt); neuer Ablauf-Test über die echte Oberfläche (Fälle 8, 9, 9a–9c) und Fall 8b in der allgemeinen Prüfung | allgemein | 13.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**4 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-24 | 1 | Version 3.9.0/3.9.1 (T-03, T-62) – Prüfliste 1–7; 4 rückgemeldet → T-64, übrige offen | prüfen |
-| P-25 | 1 | Version 3.10.0 (T-63 bis T-67) – Prüfliste 1–7 im CHANGELOG | prüfen |
+| P-24 | 1 | Version 3.9.0/3.9.1 geprüft (13.10.2026): alle in Ordnung | geprüft |
+| P-25 | 1 | Version 3.10.0 geprüft (13.10.2026): 4 → T-68, 6 → T-69, 14 → T-70, 15/16 → T-71; übrige in Ordnung | geprüft |
 
 ## 2. Weitere Themen (in Klärung)
 
