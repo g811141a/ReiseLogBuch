@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 14.10.2026** · Aktuelle Version: Reiselogbuch 3.12.0 · AppDesign 4.13.0
+**Stand 14.10.2026** · Aktuelle Version: Reiselogbuch 3.13.0 · AppDesign 4.14.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-36 | 1 | Reiselogbuch 3.13.0 mit AppDesign 4.14.0 (feste Fassung): Prüfliste P-36/0 bis /3 im CHANGELOG – Version, unverändertes Aussehen iPad und iPhone (hell/dunkel), offline | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-63 | Reiselogbuch 3.13.0: A-05 Version B – lädt die feste AppDesign-Fassung `fassung/4.14.0/`, Prüfskripte mit den Prüfungen dieser Fassung, Versionen mit dem Veröffentlichungs-Skript | Reiselogbuch 3.13.0 | 14.10.2026 |
 | E-62 | Geprüft: P-35 alles in Ordnung (Version, kurzer Quartiername neben dem Namen antippen) | Reiselogbuch 3.12.0 | 14.10.2026 |
 | E-61 | Reiselogbuch 3.12.0: A-05 Version A – alle Prüfskripte melden Fehler, Grundregeln nach jedem Schritt, parallel in Chromium und WebKit (`tests/alle.mjs`); Quartier-Link mit unsichtbarer Antippfläche 44 px (R-3.1) | Reiselogbuch 3.12.0 | 14.10.2026 |
 | E-60 | Geprüft: P-34 alles in Ordnung | Reiselogbuch 3.11.7 | 14.10.2026 |

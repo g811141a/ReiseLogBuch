@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.12.0** · Stand 14.10.2026
+**Version 3.13.0** · Stand 14.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.13.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.14.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -167,6 +167,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.13.0 | 14.10.2026 | Neben | Angepasst an allgemein 4.14.0 (feste AppDesign-Fassung, A-05 Version B); keine eigene Änderung |
 | 3.12.0 | 14.10.2026 | Neben | Ausprägung R-3.1: Maps-Link des Quartiers mit unsichtbarer Antippfläche von mindestens 44 px (Fund A-05: ‚Hotel‘ war 42 px breit); angepasst an allgemein 4.13.0 |
 | 3.11.7 | 14.10.2026 | Korrektur | A-02 Schritt 3: Wiederholungen allgemeiner Regeln durch Verweise ersetzt (Backup-Kachel R-9.1, Suche R-2.3, Vorschau R-6.4, Abfragen R-4.3, Diktieren und Großbuchstaben R-5.2, Anführungszeichen, Häkchen im Menü); alter Text ‚Backup laden … ersetzt‘ gestrichen (R-9.2); Feldnamen des Abgleichberichts wie in der App (‚Reisemittel‘ statt ‚Verkehrsmittel‘); angepasst an allgemein 4.12.2 |
 | 3.11.6 | 14.10.2026 | Korrektur | ‚Gesamtausgaben‘ statt ‚Gesamtkosten‘; Ausgabe mit festen Spaltenanteilen 28 : 28 : 22 : 22; angepasst an allgemein 4.12.1 |
