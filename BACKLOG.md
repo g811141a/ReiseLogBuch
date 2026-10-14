@@ -36,6 +36,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| T-84 | 2 | iPhone: Beim Neustart der App steht das iPhone in der **Startliste ‚Reiselogbücher‘**, nicht im ersten offenen Tag einer Reise. iPad bleibt wie es ist (die laufende bzw. erste offene Reise wird geöffnet). Entschieden: nur Reiselogbuch, keine allgemeine Regel (14.10.2026). Vor dem Bau: Fall-Liste (iPhone hoch/quer, Neustart vs. Zurückkehren aus dem Hintergrund, leere Liste, Wechsel iPad ↔ iPhone) | Reiselogbuch | offen |
 | T-05 | 2 | Bestehende (alte) Reiselogbücher aufbereiten und importierbar machen: Dateien (Word/PDF/Excel/HTML/Fotos) auslesen, Unklarheiten nachfragen, Vorschau zeigen, Datei erstellen; Überschneidungen prüfen. Offen: Form der Unterlagen, Anzahl, Weg (a: in aktuelles Backup einfügen · b: neue Funktion „Reiselogbuch importieren“, die hinzufügt statt ersetzt) | Reiselogbuch | offen |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
