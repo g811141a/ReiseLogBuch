@@ -13,6 +13,37 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.11.3 – 14.10.2026 (Korrektur)
+
+Reiselogbuch 3.11.3 · AppDesign 4.11.3 (Designrichtlinie allgemein 4.11.3) · Designrichtlinie Reiselogbuch 3.11.3 · Zusammenarbeit allgemein 1.16.0
+
+- T-81 (P-29/3): Der Abgleichbericht wich von der Tabelle der HTML-Ausgabe ab (dickere Linie zwischen den
+  Reiselogbüchern, keine grauen Zeilen, Kopf nur halbfett). Jetzt verwenden Ausgabe und Bericht dieselbe Mustertabelle aus
+  AppDesign (neue Regel R-52); die Prüfung vergleicht jede Tabelle Eigenschaft für Eigenschaft mit ihr. Jede zweite Zeile ist
+  über die ganze Breite grau; Reiselogbuch, Tag, Gerät und Zeitpunkt stehen nur in der ersten Zeile ihrer Gruppe.
+
+Prüfliste P-30 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0).
+
+**P-30/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.11.3 · erstellt am … · AppDesign 4.11.3‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.11.3‘ und ‚AppDesign 4.11.3‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-30/1 – Abgleichbericht: Tabelle wie die HTML-Ausgabe**
+1. iPad: in zwei Reiselogbüchern je einen Tag ändern, ✓; ‚Backup erstellen‘ → ‚In Dateien sichern‘.
+2. iPhone: ‚Backup laden‘ → diese Datei → ‚Abgleichen‘.
+3. Erwartet im Fenster: ‚Auf diesem iPhone hat sich etwas geändert – Einzelheiten im Abgleichbericht.‘
+4. ‚Abgleichbericht anzeigen‘ tippen.
+5. Erwartet: Die Linie zwischen den beiden Reiselogbüchern ist genauso dünn wie alle anderen Linien; der Kopf ist grau
+   mit fetter Schrift; jede zweite Zeile ist über die ganze Breite leicht grau (keine halb graue Zeile); Reiselogbuch und
+   Tag stehen nur in der ersten Zeile ihrer Gruppe.
+6. Zum Vergleich ein Reiselogbuch öffnen → Teilen → ‚Vorschau‘.
+7. Erwartet: Schrift, Kopf, Linien, Abstände und graue Zeilen sehen in beiden Tabellen gleich aus.
+8. Am iPad hoch und quer und am iPhone quer wiederholen. Erwartet: ebenso.
+
 ## 3.11.2 – 14.10.2026 (Korrektur)
 
 Reiselogbuch 3.11.2 · AppDesign 4.11.2 (Designrichtlinie allgemein 4.11.2) · Designrichtlinie Reiselogbuch 3.11.2 · Zusammenarbeit allgemein 1.16.0

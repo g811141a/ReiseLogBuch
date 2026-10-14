@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.11.2 · AppDesign 4.11.2
+**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.11.3 · AppDesign 4.11.3
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,8 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-28 | 1 | Version 3.11.1 (T-77) – P-28/1 Schritt für Schritt im CHANGELOG 3.11.1 (P-28/0 geht in P-29/0 auf) | prüfen |
-| P-29 | 1 | Version 3.11.2 (T-78 bis T-80) – P-29/0 bis P-29/4 Schritt für Schritt im CHANGELOG 3.11.2; zuerst P-29/0 | prüfen |
+| P-30 | 1 | Version 3.11.3 (T-81) – P-30/0 und P-30/1 Schritt für Schritt im CHANGELOG 3.11.3; zuerst P-30/0 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +51,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-52 | Reiselogbuch 3.11.3: T-81 Abgleichbericht-Tabelle = Mustertabelle der Ausgabe (gemeinsamer Baustein, R-52) | Reiselogbuch 3.11.3 · AppDesign 4.11.3 | 14.10.2026 |
+| E-51 | Geprüft: P-28 ok; P-29 – 0, 1, 2, 4 ok; 3 nicht ok (Tabelle wich von der HTML-Ausgabe ab → T-81) | Reiselogbuch 3.11.2 | 14.10.2026 |
 | E-50 | Reiselogbuch 3.11.2: T-78 oberster Tag bleibt beim Drehen (R-51), T-79 Abgleichbericht ohne überragende Zellen (R-37 überall geprüft), T-80 PDF im Abgleichbericht | Reiselogbuch 3.11.2 · AppDesign 4.11.2 | 14.10.2026 |
 | E-49 | Geprüft: P-27 – 1 bis 7 und 9 ok; 8 nicht ok (Zellen ragen über, iPhone und iPad hoch → T-79; PDF fehlt → T-80) | Reiselogbuch 3.11.0 | 14.10.2026 |
 | E-48 | Reiselogbuch 3.11.1: T-77 Vorbeugen gegen P-26/6, 7, 9 – README ‚Verwendete Versionen‘ (R-49), Prüfliste mit /0 und Meldung je Gerät (R-50), ‚fertig‘ erst nach Pages (Zusammenarbeit 1.15.0) | Reiselogbuch 3.11.1 · AppDesign 4.11.1 | 13.10.2026 |
