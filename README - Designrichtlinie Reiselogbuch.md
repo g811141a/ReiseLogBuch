@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.11.6** · Stand 14.10.2026
+**Version 3.11.7** · Stand 14.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.12.1)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.12.2)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -29,7 +29,7 @@
   „Quartierliste in der Ausgabe“.
 - Blättern in der Tageserfassung: chevron-left / chevron-right (Vortag / Folgetag, nur Icon).
 - Filter im Mehr-Menü: ‚Alle Tage‘ (`list-chevrons-up-down`) / ‚Nur erfasste Tage‘ (`fold-vertical`) –
-  Häkchen vor der Auswahl, dann Icon und Text.
+  Häkchen vor der Auswahl (15.6).
 - Leer: „Noch kein Reiselogbuch angelegt.“ (Seitenleiste) bzw. zusätzlich „Mit „plus“ in der
   Seitenleiste ein neues anlegen.“ (Inhalt).
 
@@ -48,13 +48,12 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 ## 3. Hauptansicht — Ausprägung
 
 - **Seitenleiste** (Komponente): unter ‚Reiselogbücher‘ klein und grau die Anzahl; Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst; je
-  Kachel Titel · „TT.MM.JJJJ - TT.MM.JJJJ · läuft gerade / beendet / geplant“ und ›. Fest unten immer
-  die Backup-Kachel „Letztes Backup erstellt am …“ mit „Backup erstellen“ – gelb mit blauem Knopf,
-  solange heute noch kein Backup erstellt wurde, sonst weiß. Mehr-Menü: Backup erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher.
+  Kachel Titel · „TT.MM.JJJJ - TT.MM.JJJJ · läuft gerade / beendet / geplant“ und ›. Fest unten die
+  Backup-Kachel (R-9.1). Mehr-Menü: Backup erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher.
   Langes Drücken auf ein Reiselogbuch: Einstellungen · Reiselogbuch löschen.
 - **Kopfzeile** (Komponente): Titel der Reise; Kapsel [share | search | ellipsis].
   - share → Menü: Vorschau · HTML · PDF (jeweils mit grauem Hinweis), Strich, darunter
-    ‚N erfasste Tage · Dateiname: …‘. Anführungszeichen in der App immer ‚…‘.
+    ‚N erfasste Tage · Dateiname: …‘.
   - search → Suchzeile; die Suche durchsucht den Verlauf und die sichtbaren Spalten.
   - ellipsis → Mehr-Menü: Alle Tage / Nur erfasste Tage · Einstellungen · Darstellung › ·
     Reiselogbuch löschen (rot, Sprechblase mit Tipp zum Backup).
@@ -73,12 +72,11 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 - **Startliste ‚Reiselogbücher‘ = Seitenleiste:** fest stehende Leiste mit ‚Reiselogbücher‘ links
   (darunter klein und grau die Anzahl) und der Kapsel [`plus` | `ellipsis`] rechts (ellipsis: Backup
   erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher); ohne großen Titel; jedes Reiselogbuch als
-  eigene Kachel (Titel · Zeitraum · Zustand, ›), das zuletzt geöffnete blau. Backup-Kachel immer fest am unteren Rand (gelb mit blauem Knopf,
-  solange heute noch kein Backup erstellt wurde, sonst weiß); die Kacheln laufen dahinter durch. Langes Drücken: Einstellungen · Reiselogbuch
+  eigene Kachel (Titel · Zeitraum · Zustand, ›), das zuletzt geöffnete blau; Backup-Kachel fest am unteren Rand (R-7.1, R-9.1). Langes Drücken: Einstellungen · Reiselogbuch
   löschen. Leer: ‚Noch kein Reiselogbuch angelegt.‘ und ‚Mit ‚plus‘ oben rechts ein neues
   Reiselogbuch anlegen.‘
 - **Reiselogbuch:** Kopf mit rundem `chevron-left` und Kapsel [`share` | `search` | `ellipsis`]
-  (Menüs und Suche wie auf dem iPad); der Reisetitel steht in der Mitte der Leiste. Darunter wie am
+  (R-1.1); der Reisetitel steht in der Mitte der Leiste. Darunter wie am
   iPad ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ – nach dem Doppelpunkt eine neue Zeile;
   die Reisemittel in einer Zeile, bei Bedarf seitlich wischen; dann die Fortschrittsanzeige.
 - **Tage als Kästen:** Kopf ‚Mo, 24.08.‘ mit ‚heute‘/‚fehlt‘ und Wetter rechts (leer: blasse
@@ -88,13 +86,10 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
   (ohne blauen Rand); der angetippte Kasten bleibt blau, solange die Tageserfassung offen ist.
 - Darunter Fazit (volle Breite), Gesamtausgaben, Quartierliste als Liste (Quartier mit Maps-Link,
   darunter ‚24.08. - 25.08.2026 · 1 Nacht‘), Statistik.
-- **Suche** wie am iPad: `search` öffnet unter der Leiste die Suchzeile mit ‚1 von 4‘, ⓧ und
-  ⌃ ⌄; nur passende Tage, Treffer gelb, der aktuelle hellorange.
+- **Suche** wie am iPad (15.17, R-2.3): es bleiben nur Tage mit Treffern.
 - **Tageserfassung** bildschirmfüllend, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘;
   Wetter-Symbole 40 px breit, damit alle sieben ohne Wischen passen.
-- **Vorschau** in voller Seitenbreite, seitlich wischen (die Wörter bleiben ganz) – seit 3.5.0 auch am iPad.
-- Abfragen als Sprechblase an der Schaltfläche wie auf dem iPad; ‚Backup laden‘ nennt das Gerät
-  (‚… auf diesem iPhone werden ersetzt.‘). Nach dem Löschen geht es zur Startliste.
+- Nach dem Löschen eines Reiselogbuchs geht es zur Startliste. (Vorschau R-6.4, Abfragen R-4.3, Backup laden R-9.2.)
 
 ## 4. Tageserfassung — Ausprägung des Erfassungsfensters
 
@@ -102,9 +97,9 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
   „Automatisch gespeichert um hh:mm“ · Kapsel [chevron-left | chevron-right] · Häkchen.
 - Schritte je nach sichtbaren Spalten (2 bis 5).
 - Eingeschaltet (blau getönt mit Haarlinie): gewählte Wetter-Symbole.
-- Diktieren über die Mikrofon-Taste der Tastatur (Hinweis unten im Fenster); keine eigenen
-  Mikrofon-Knöpfe. Der erste Buchstabe jeder Zeile wird groß (auch nach einem Smiley).
-- Verlauf: nach einem Vorschlag beginnt das nächste Wort groß (‚Freetour Sydney‘). Vorschläge als Chips zum Antippen („Weiterfahrt nach …“, „Rundgang durch …“,
+- Diktieren und Großbuchstaben nach R-5.2, Hinweis zum Diktieren unten im Fenster; groß wird auch der erste Buchstabe nach
+  einem Smiley.
+- Verlauf: Vorschläge als Chips zum Antippen („Weiterfahrt nach …“, „Rundgang durch …“,
   „Besichtigung …“, „Freetour …“); „…“ ist nur Platzhalter und wird nicht übernommen.
 - Smiley-Leisten bei „Wie war was?“, „Essen und Trinken“ (eigener Satz:
   🕗 🕙 🕛 🕒 🕕 😋 👌 👍 😕 🤮 👎 ⭐️ 🍕 🍔 🥩 🍷 🍺 ☕️) und im Fazit.
@@ -115,10 +110,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 ## 5. Abfragen — Ausprägung der Sprechblasen
 
-- Backup laden: ‚Backup mit 3 Reiselogbüchern laden?‘, neue Zeile, ‚Die aktuellen Daten auf
-  diesem iPad (iPhone) werden ersetzt.‘ ‚Letztes Backup erstellt am …‘ gilt je Gerät und wird
-  beim Laden nicht aus der Datei übernommen.
-
+- Backup laden: Abfrage mit den Kacheln Abgleichen und Ersetzen nach R-9.2 (allgemein 15.19).
 - Reiselogbuch löschen (am ellipsis der Kopfzeile) · Backup laden („Ersetzen“, am ellipsis der
   Seitenleiste) · Smiley entfernen (am Smiley) · Smileys zurücksetzen (am rotate-ccw) ·
   Änderungen verwerfen (am x). Rote Schaltflächen: „Reiselogbuch löschen“, „Ersetzen“,
@@ -167,7 +159,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 ## Abgleich zwischen iPad und iPhone
 
-Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Designrichtlinie allgemein (Abschnitt 15.18). Ausprägung im Reiselogbuch: Einträge = Reiselogbücher, Unterdaten = Tage (Felder Wetter, Verlauf, Wie war was?, Essen, Quartier …), Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Kosten; Zähler ohne Zeitpunkt = Dateinummer für PDF/HTML. Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Verkehrsmittel, Spalten, Fazit, Gesamtausgaben; je Tag Wetter, Verlauf, Wie war was?, Essen und Trinken, Quartier, Ort, Quartier wie Vortag, Google-Maps-Link.
+Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Designrichtlinie allgemein (Abschnitt 15.18). Ausprägung im Reiselogbuch: Einträge = Reiselogbücher, Unterdaten = Tage (Felder Wetter, Verlauf, Wie war was?, Essen, Quartier …), Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Kosten; Zähler ohne Zeitpunkt = Dateinummer für PDF/HTML. Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Reisemittel, Quartierliste, Spalte Essen, Spalte Wie war was?, Spalte Quartier, Fazit, Gesamtausgaben; je Tag Wetter, Verlauf, Wie war was?, Essen und Trinken, Quartier, Ort, Quartier wie Vortag, Google-Maps-Link.
 
 ---
 
@@ -175,6 +167,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.11.7 | 14.10.2026 | Korrektur | A-02 Schritt 3: Wiederholungen allgemeiner Regeln durch Verweise ersetzt (Backup-Kachel R-9.1, Suche R-2.3, Vorschau R-6.4, Abfragen R-4.3, Diktieren und Großbuchstaben R-5.2, Anführungszeichen, Häkchen im Menü); alter Text ‚Backup laden … ersetzt‘ gestrichen (R-9.2); Feldnamen des Abgleichberichts wie in der App (‚Reisemittel‘ statt ‚Verkehrsmittel‘); angepasst an allgemein 4.12.2 |
 | 3.11.6 | 14.10.2026 | Korrektur | ‚Gesamtausgaben‘ statt ‚Gesamtkosten‘; Ausgabe mit festen Spaltenanteilen 28 : 28 : 22 : 22; angepasst an allgemein 4.12.1 |
 | 3.11.5 | 14.10.2026 | Korrektur | Angepasst an allgemein 4.12.0: Verweise auf den neuen Regelkatalog (R-<Thema>.<Nr>) |
 | 3.11.4 | 14.10.2026 | Korrektur | Angepasst an allgemein 4.11.4: im Abgleichbericht ist jedes Reiselogbuch eine Tabellenzeile, ganz weiß oder ganz grau (R-52) |

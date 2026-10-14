@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 14.10.2026** · Aktuelle Version: Reiselogbuch 3.11.6 · AppDesign 4.12.1
+**Stand 14.10.2026** · Aktuelle Version: Reiselogbuch 3.11.7 · AppDesign 4.12.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -13,7 +13,7 @@ Status: **bereit** (fertig geklärt, kommt in die nächste Version) · **offen**
 **prüfen** (auf dem iPad testen) · **später** (Idee, noch nicht dran)
 
 Weg eines Punktes: 2. in Klärung → 0. Nächste Version → 1. Prüfen → Erledigt. Gebaut wird
-gesammelt – Claude fragt erst, wenn ein größeres Thema fertig ist oder etwa 5 Punkte bereit
+gesammelt – Claude fragt erst, wenn ein Thema fertig ist oder 2–3 zusammengehörige Punkte (höchstens 2 Themen) bereit
 sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 6.
 
 ---
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-34 | 1 | Reiselogbuch 3.11.7 (AppDesign 4.12.2, A-02 Schritte 3 und 4) – Prüfliste im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-59 | Reiselogbuch 3.11.7: A-02 Schritte 3 und 4 – Richtlinie mit Verweisen, PROMPT und CLAUDE.md nachgeführt, Vorschau-Prüfung auch iPad hoch und iPhone quer | Reiselogbuch 3.11.7 | 14.10.2026 |
 | E-58 | Geprüft: P-33 alles in Ordnung | Reiselogbuch 3.11.6 | 14.10.2026 |
 | E-57 | Reiselogbuch 3.11.6: Korrekturen aus P-32 (Reisemittel mit Namen im Abgleichbericht, Seitenleiste bei offener Tastatur, feste Spaltenanteile der Ausgabe) und ‚Gesamtausgaben‘ – je mit geschärfter Prüfung | Reiselogbuch 3.11.6 · AppDesign 4.12.1 | 14.10.2026 |
 | E-56 | Geprüft: P-32 – 0 und 3 ok; 1 (Reisemittel klein im Bericht), 2 (Seitenleiste rückt bei der Suche), 4 (letzte Spalte der Vorschau gequetscht) nicht ok → 3.11.6 | Reiselogbuch 3.11.5 | 14.10.2026 |
