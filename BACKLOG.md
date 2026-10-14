@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.11.3 · AppDesign 4.11.3
+**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.11.4 · AppDesign 4.11.4
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-30 | 1 | Version 3.11.3 (T-81) – P-30/0 und P-30/1 Schritt für Schritt im CHANGELOG 3.11.3; zuerst P-30/0 | prüfen |
+| P-31 | 1 | Version 3.11.4 (T-82) – P-31/0 und P-31/1 Schritt für Schritt im CHANGELOG 3.11.4; zuerst P-31/0 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-53 | Reiselogbuch 3.11.4: T-82 Zebra je Tabellenzeile – zusammengefasste erste Spalte gilt als eine Zeile (R-52); Fehler in 3.11.3 vom Nutzer vor dem Test gefunden | Reiselogbuch 3.11.4 · AppDesign 4.11.4 | 14.10.2026 |
 | E-52 | Reiselogbuch 3.11.3: T-81 Abgleichbericht-Tabelle = Mustertabelle der Ausgabe (gemeinsamer Baustein, R-52) | Reiselogbuch 3.11.3 · AppDesign 4.11.3 | 14.10.2026 |
 | E-51 | Geprüft: P-28 ok; P-29 – 0, 1, 2, 4 ok; 3 nicht ok (Tabelle wich von der HTML-Ausgabe ab → T-81) | Reiselogbuch 3.11.2 | 14.10.2026 |
 | E-50 | Reiselogbuch 3.11.2: T-78 oberster Tag bleibt beim Drehen (R-51), T-79 Abgleichbericht ohne überragende Zellen (R-37 überall geprüft), T-80 PDF im Abgleichbericht | Reiselogbuch 3.11.2 · AppDesign 4.11.2 | 14.10.2026 |
