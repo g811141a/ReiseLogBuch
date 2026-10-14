@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-33 | 1 | Reiselogbuch 3.11.6 mit AppDesign 4.12.1: /0 Version, /1 Reisemittel mit Namen im Abgleichbericht, /2 iPad: Seitenleiste bleibt bei der Suche stehen, /3 Spalten der Vorschau 28 : 28 : 22 : 22, /4 ‚Gesamtausgaben‘ – Schritte im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-58 | Geprüft: P-33 alles in Ordnung | Reiselogbuch 3.11.6 | 14.10.2026 |
 | E-57 | Reiselogbuch 3.11.6: Korrekturen aus P-32 (Reisemittel mit Namen im Abgleichbericht, Seitenleiste bei offener Tastatur, feste Spaltenanteile der Ausgabe) und ‚Gesamtausgaben‘ – je mit geschärfter Prüfung | Reiselogbuch 3.11.6 · AppDesign 4.12.1 | 14.10.2026 |
 | E-56 | Geprüft: P-32 – 0 und 3 ok; 1 (Reisemittel klein im Bericht), 2 (Seitenleiste rückt bei der Suche), 4 (letzte Spalte der Vorschau gequetscht) nicht ok → 3.11.6 | Reiselogbuch 3.11.5 | 14.10.2026 |
 | E-55 | Reiselogbuch 3.11.5: T-83 Feldname ‚Reisemittel‘ im Abgleichbericht (R-10.1, mit Prüfung); Prüfskripte auf den neuen Regelkatalog (AppDesign 4.12.0, A-02a) | Reiselogbuch 3.11.5 · AppDesign 4.12.0 | 14.10.2026 |
