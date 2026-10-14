@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.11.5** · Stand 14.10.2026
+**Version 3.11.6** · Stand 14.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.12.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.12.1)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -62,7 +62,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
   Reisezeitraum, Reisemittel und Fortschrittsanzeige („Tag 42 von 80 · 38 erfasst“).
 - Tagestabelle: Tag · Verlauf · sichtbare konfigurierte Spalten. Die erste Lücke ist
   gelb markiert (ohne blauen Rand), vergangene leere Tage tragen „fehlt“ (Farbe `--warn`).
-- Darunter: Fazit (Kasten passt sich dem Inhalt an), Gesamtkosten (Betragsfeld 150 px,
+- Darunter: Fazit (Kasten passt sich dem Inhalt an), Gesamtausgaben (Betragsfeld 150 px,
   „[ 4.850,00 ] €“), Quartierliste (nur mit Spalte Quartier), Statistik (Reisetage · Quartiere ·
   Nächte · Wetter · Smileys).
 
@@ -86,7 +86,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
   🙂☹️😉 · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt; zwischen den Feldern
   waagrechte Linien, zwischen Bezeichnung und Inhalt eine senkrechte. Erster offener Tag gelb
   (ohne blauen Rand); der angetippte Kasten bleibt blau, solange die Tageserfassung offen ist.
-- Darunter Fazit (volle Breite), Gesamtkosten, Quartierliste als Liste (Quartier mit Maps-Link,
+- Darunter Fazit (volle Breite), Gesamtausgaben, Quartierliste als Liste (Quartier mit Maps-Link,
   darunter ‚24.08. - 25.08.2026 · 1 Nacht‘), Statistik.
 - **Suche** wie am iPad: `search` öffnet unter der Leiste die Suchzeile mit ‚1 von 4‘, ⓧ und
   ⌃ ⌄; nur passende Tage, Treffer gelb, der aktuelle hellorange.
@@ -148,8 +148,11 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 - Kein eigenes Fenster „Ausgabe“ mehr: Teilen-Menü in der Kopfzeile (Abschnitt 3).
 - Inhalt: Überschrift, Reisedaten, Tagestabelle (nur erfasste Tage, ohne
-  Wetter-Platzhalter; Wetter in der Spalte „Tag“ unter dem Datum), danach Fazit · Gesamtkosten · Quartierliste (falls aktiviert) ·
+  Wetter-Platzhalter; Wetter in der Spalte „Tag“ unter dem Datum), danach Fazit · Gesamtausgaben · Quartierliste (falls aktiviert) ·
   Statistik · Zeile „Ausgabe V… erstellt am …“.
+- Tagestabelle mit festen Spaltenanteilen (seit 3.11.6): ‚Tag‘ so schmal wie das Datum, Verlauf und ‚Wie war was?‘ je 28,
+  Essen und Quartier je 22 – unabhängig von der Textmenge, die letzten beiden Spalten gleich breit; fehlt eine Spalte,
+  teilen sich die übrigen den Platz im selben Verhältnis (gilt nur für das Reiselogbuch, nicht allgemein).
 - Dateinamen: „Reiselogbuch <Titel> JJJJ.MM.TT-JJJJ.MM.TT V001“ und
   „Ω Backup Reiselogbuch JJJJ.MM.TT hh.mm.json“.
 
@@ -164,7 +167,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 ## Abgleich zwischen iPad und iPhone
 
-Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Designrichtlinie allgemein (Abschnitt 15.18). Ausprägung im Reiselogbuch: Einträge = Reiselogbücher, Unterdaten = Tage (Felder Wetter, Verlauf, Wie war was?, Essen, Quartier …), Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Kosten; Zähler ohne Zeitpunkt = Dateinummer für PDF/HTML. Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Verkehrsmittel, Spalten, Fazit, Gesamtkosten; je Tag Wetter, Verlauf, Wie war was?, Essen und Trinken, Quartier, Ort, Quartier wie Vortag, Google-Maps-Link.
+Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Designrichtlinie allgemein (Abschnitt 15.18). Ausprägung im Reiselogbuch: Einträge = Reiselogbücher, Unterdaten = Tage (Felder Wetter, Verlauf, Wie war was?, Essen, Quartier …), Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Kosten; Zähler ohne Zeitpunkt = Dateinummer für PDF/HTML. Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Verkehrsmittel, Spalten, Fazit, Gesamtausgaben; je Tag Wetter, Verlauf, Wie war was?, Essen und Trinken, Quartier, Ort, Quartier wie Vortag, Google-Maps-Link.
 
 ---
 
@@ -172,6 +175,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.11.6 | 14.10.2026 | Korrektur | ‚Gesamtausgaben‘ statt ‚Gesamtkosten‘; Ausgabe mit festen Spaltenanteilen 28 : 28 : 22 : 22; angepasst an allgemein 4.12.1 |
 | 3.11.5 | 14.10.2026 | Korrektur | Angepasst an allgemein 4.12.0: Verweise auf den neuen Regelkatalog (R-<Thema>.<Nr>) |
 | 3.11.4 | 14.10.2026 | Korrektur | Angepasst an allgemein 4.11.4: im Abgleichbericht ist jedes Reiselogbuch eine Tabellenzeile, ganz weiß oder ganz grau (R-52) |
 | 3.11.3 | 14.10.2026 | Korrektur | Angepasst an allgemein 4.11.3: Abgleichbericht-Tabelle wie die HTML-Ausgabe (R-52) |

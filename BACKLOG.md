@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 14.10.2026** · Aktuelle Version: Reiselogbuch 3.11.5 · AppDesign 4.12.0
+**Stand 14.10.2026** · Aktuelle Version: Reiselogbuch 3.11.6 · AppDesign 4.12.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-32 | 1 | Reiselogbuch 3.11.5 mit AppDesign 4.12.0: /0 Version, /1 ‚Reisemittel‘ im Abgleichbericht (T-83), /2 Suche, /3 Fenster-Kopfzeile und Fehlermeldung, /4 Vorschau – Schritte im CHANGELOG | prüfen |
+| P-33 | 1 | Reiselogbuch 3.11.6 mit AppDesign 4.12.1: /0 Version, /1 Reisemittel mit Namen im Abgleichbericht, /2 iPad: Seitenleiste bleibt bei der Suche stehen, /3 Spalten der Vorschau 28 : 28 : 22 : 22, /4 ‚Gesamtausgaben‘ – Schritte im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-57 | Reiselogbuch 3.11.6: Korrekturen aus P-32 (Reisemittel mit Namen im Abgleichbericht, Seitenleiste bei offener Tastatur, feste Spaltenanteile der Ausgabe) und ‚Gesamtausgaben‘ – je mit geschärfter Prüfung | Reiselogbuch 3.11.6 · AppDesign 4.12.1 | 14.10.2026 |
+| E-56 | Geprüft: P-32 – 0 und 3 ok; 1 (Reisemittel klein im Bericht), 2 (Seitenleiste rückt bei der Suche), 4 (letzte Spalte der Vorschau gequetscht) nicht ok → 3.11.6 | Reiselogbuch 3.11.5 | 14.10.2026 |
 | E-55 | Reiselogbuch 3.11.5: T-83 Feldname ‚Reisemittel‘ im Abgleichbericht (R-10.1, mit Prüfung); Prüfskripte auf den neuen Regelkatalog (AppDesign 4.12.0, A-02a) | Reiselogbuch 3.11.5 · AppDesign 4.12.0 | 14.10.2026 |
 | E-54 | Geprüft: P-31 alles in Ordnung | Reiselogbuch 3.11.4 | 14.10.2026 |
 | E-53 | Reiselogbuch 3.11.4: T-82 Zebra je Tabellenzeile – zusammengefasste erste Spalte gilt als eine Zeile (R-52); Fehler in 3.11.3 vom Nutzer vor dem Test gefunden | Reiselogbuch 3.11.4 · AppDesign 4.11.4 | 14.10.2026 |

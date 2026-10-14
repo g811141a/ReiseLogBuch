@@ -1,4 +1,4 @@
-# Reiselogbuch – Prompt (Stand 14.10.2026, Version 3.11.5)
+# Reiselogbuch – Prompt (Stand 14.10.2026, Version 3.11.6)
 
 Reiselogbuch 3.11.4 · AppDesign 4.11.4 (Designrichtlinie allgemein 4.11.4) · Designrichtlinie Reiselogbuch 3.11.4 · Zusammenarbeit allgemein 2.0.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
@@ -21,7 +21,7 @@ Ein Tagebuch in Tabellenform, genau wie in meinem Beispiel:
   | Mo, 24.08. 🌤   | Anreise nach Wien   | ☹️ Kurzer Kommentar | Prize by Radisson, Wien    |
 
   Fazit
-  Gesamtkosten: 0,00 €
+  Gesamtausgaben: 0,00 €
 
 RAHMEN
 - Läuft nur auf dem iPad, nur ich nutze es (kein Teilen, kein Login).
@@ -86,7 +86,7 @@ RAHMEN
       senkrecht zwischen Bezeichnung und Inhalt; "Verlauf" halbfett). Erster offener Tag gelb
       (ohne blauen Rand – auch in der iPad-Tabelle).
       Antippen öffnet die Tageserfassung (bildschirmfüllend, Titel kurz
-      "Di, 25.08.2026", Wetter-Symbole 40 px). Darunter Fazit, Gesamtkosten,
+      "Di, 25.08.2026", Wetter-Symbole 40 px). Darunter Fazit, Gesamtausgaben,
       Quartierliste als Liste und Statistik. Die Vorschau zeigt die Seite in voller
       Breite (seitlich wischen).
     - Startliste "Reiselogbücher": oben die Kapsel [plus | ellipsis] wie am iPad, großer
@@ -143,6 +143,11 @@ RAHMEN
   - Seit 3.11.3: Die Tabellen des Abgleichberichts sehen aus wie die der HTML-Ausgabe – überall gleich starke Linien (R-6.2).
   - Seit 3.11.4: Im Abgleichbericht ist jedes Reiselogbuch eine Tabellenzeile (Name in der ersten Spalte zusammengefasst),
     ganz weiß oder ganz grau, im Wechsel (R-6.2).
+  - Seit 3.11.5: Im Abgleichbericht heißt das Feld ‚Reisemittel‘ wie im Fenster (R-10.1).
+  - Seit 3.11.6: Der Abgleichbericht zeigt die Reisemittel mit Symbol und Namen (‚✈️ Flugzeug, 🚗 PKW‘) wie in der App. Die
+    Tagestabelle der Ausgabe hat feste Spaltenanteile (Verlauf und ‚Wie war was?‘ je 28, Essen und Quartier je 22, ‚Tag‘ so
+    schmal wie das Datum). ‚Gesamtausgaben‘ statt ‚Gesamtkosten‘. Am iPad bleibt die Seitenleiste beim Sprung zum ersten
+    Treffer der Suche bei offener Tastatur an ihrem Platz (R-2.1).
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen
@@ -398,11 +403,11 @@ ABSCHLUSS
   (Smiley-Schnellauswahl mit gemeinsamer Häufigkeits-Sortierung, lange
   drücken/Reset, automatisches Speichern alle 10 Sekunden).
   Darstellung in App und Ausgabe mit hängendem Einzug.
-- Unter Fazit und Gesamtkosten zeigt auch die App die Quartierliste und
+- Unter Fazit und Gesamtausgaben zeigt auch die App die Quartierliste und
   danach die Statistik (Quartierliste in der App immer, in der Ausgabe nur
   mit Häkchen).
 - Der Fazit-Kasten in der App passt sich in der Breite dem Inhalt an.
-- Ein Feld "Gesamtkosten" in Euro, rechtsbündig, € rechts neben dem Feld,
+- Ein Feld "Gesamtausgaben" in Euro, rechtsbündig, € rechts neben dem Feld,
   immer mit zwei Nachkommastellen (Komma für Cent), mindestens so breit, dass
   "100.000,00" passt, bei längeren Beträgen wächst es mit. Der Tausenderpunkt
   erscheint schon beim Tippen ("4.850"); fehlen beim Verlassen des Feldes die
@@ -431,7 +436,7 @@ AUSGABE
 - Hängender Einzug bei Aufzählungen und Smiley-Zeilen.
 - Reihenfolge am Ende:
   1. Fazit
-  2. Gesamtkosten
+  2. Gesamtausgaben
   3. Quartierliste (Quartier, Zeitraum, Anzahl Nächte, Maps-Link),
      falls bei der Reise aktiviert
   4. Statistik: Reisetage gesamt und davon erfasst, Anzahl der
