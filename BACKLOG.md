@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.11.4 · AppDesign 4.11.4
+**Stand 14.10.2026** · Aktuelle Version: Reiselogbuch 3.11.4 · AppDesign 4.11.4
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,9 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts | – | – |
+| T-83 | 2 | Abgleichbericht: Feldname ‚Verkehrsmittel‘ → ‚Reisemittel‘ wie überall in der App (R-24; gefunden in A-02, W-8) | Reiselogbuch | 14.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**1 Punkt bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
