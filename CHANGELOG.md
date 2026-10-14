@@ -19,7 +19,8 @@ Reiselogbuch 3.11.3 · AppDesign 4.11.3 (Designrichtlinie allgemein 4.11.3) · D
 
 - T-81 (P-29/3): Der Abgleichbericht wich von der Tabelle der HTML-Ausgabe ab (dickere Linie zwischen den
   Reiselogbüchern, keine grauen Zeilen, Kopf nur halbfett). Jetzt verwenden Ausgabe und Bericht dieselbe Mustertabelle aus
-  AppDesign (neue Regel R-52); die Prüfung vergleicht jede Tabelle Eigenschaft für Eigenschaft mit ihr.
+  AppDesign (neue Regel R-52); die Prüfung vergleicht jede Tabelle Eigenschaft für Eigenschaft mit ihr. Jede zweite Zeile ist
+  über die ganze Breite grau; Reiselogbuch, Tag, Gerät und Zeitpunkt stehen nur in der ersten Zeile ihrer Gruppe.
 
 Prüfliste P-30 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0).
 
@@ -37,7 +38,8 @@ Prüfliste P-30 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0).
 3. Erwartet im Fenster: ‚Auf diesem iPhone hat sich etwas geändert – Einzelheiten im Abgleichbericht.‘
 4. ‚Abgleichbericht anzeigen‘ tippen.
 5. Erwartet: Die Linie zwischen den beiden Reiselogbüchern ist genauso dünn wie alle anderen Linien; der Kopf ist grau
-   mit fetter Schrift; jede zweite Zeile ist leicht grau.
+   mit fetter Schrift; jede zweite Zeile ist über die ganze Breite leicht grau (keine halb graue Zeile); Reiselogbuch und
+   Tag stehen nur in der ersten Zeile ihrer Gruppe.
 6. Zum Vergleich ein Reiselogbuch öffnen → Teilen → ‚Vorschau‘.
 7. Erwartet: Schrift, Kopf, Linien, Abstände und graue Zeilen sehen in beiden Tabellen gleich aus.
 8. Am iPad hoch und quer und am iPhone quer wiederholen. Erwartet: ebenso.
