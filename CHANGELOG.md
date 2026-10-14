@@ -13,6 +13,57 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.13.2 – 14.10.2026 (Korrektur)
+
+Reiselogbuch 3.13.2 · AppDesign 4.14.2 (Designrichtlinie allgemein 4.14.2) · Designrichtlinie Reiselogbuch 3.13.2 · Zusammenarbeit allgemein 2.3.2
+
+Korrektur zu P-37 (ok bis auf /2 und /3; Auswertung `AppDesign/arbeit/P-37 Rückmeldung.md`).
+
+- **Quartier-Kopf (P-37/2, R-5.1 ergänzt, allgemeine Regel):** ‚Quartier wie Vortag‘ und ‚keinen Google-Maps Link‘ bilden eine
+  Gruppe. iPhone quer: beide stehen jetzt in der Zeile der Überschrift ‚Quartier‘ (vorher brach ‚keinen Google-Maps Link‘
+  allein um). iPhone hoch: Die Gruppe steht wie bisher unter der Überschrift. Am ersten Tag passt die einzelne Schaltfläche
+  neben ‚Quartier‘ und steht jetzt dort. Ebenso bei ‚Essen und Trinken‘. Ursache: allgemeine Regel in `design.css`
+  (Überschrift mindestens 60 % breit), schon vor 3.13. Warum übersehen: keine Regel dafür, und die Prüfungen öffneten am
+  iPhone nur den ersten Tag (dort gibt es ‚wie Vortag‘ nicht) – jetzt auch einen Folgetag.
+- **Offline-Start (P-37/3, neue Regel R-1.5):** Das iPad zeigte ohne Netz eine weiße Seite. Nachgebaut: Antwortet das Netz
+  nicht sofort mit einem Fehler, sondern hängt (wie ein schlechtes oder gerade abgeschaltetes WLAN), wartete der Service
+  Worker unbegrenzt auf das Netz – weiße Seite, in Chromium und WebKit. Jetzt: höchstens 3 s, dann aus dem Speicher; die
+  feste Fassung zuerst aus dem Speicher; ohne Netz unter anderer Adresse geöffnet die gespeicherte App; beim Einrichten alle
+  Dateien frisch. Warum übersehen: die Prüfungen luden die App als Datei, ohne Service Worker – offline wurde nur am Gerät
+  geprüft. Neu: `tests/offline-regeln.mjs` (eigener Webserver, echter Service Worker, iPad und iPhone; erst rot, dann grün).
+- **Feste Fassung 4.14.2** (mit dem Skript `vorbereiten`); Designrichtlinie Reiselogbuch 3.13.2 (nur Version).
+- **Neu im Backlog von AppDesign:** A-06 Offline-Hinweis (Prio 1, allgemeine Regel, zuerst Muster).
+
+Prüfliste P-38 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
+
+**P-38/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.13.2 · erstellt am … · AppDesign 4.14.2‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.13.2‘ und ‚AppDesign 4.14.2‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-38/1 – Quartier-Kopf im iPhone-Querformat**
+1. iPhone quer, hell: ein Reiselogbuch öffnen und einen Tag öffnen, der **nicht** der erste Tag ist.
+2. Zum Schritt ‚Quartier‘ scrollen.
+3. Erwartet: ‚Quartier wie Vortag‘ und ‚keinen Google-Maps Link‘ stehen nebeneinander rechts in der Zeile der Überschrift ‚Quartier‘.
+4. iPhone hochkant drehen.
+5. Erwartet: Beide Schaltflächen stehen unter der Überschrift, untereinander, linksbündig – keine allein neben der Überschrift.
+
+**P-38/2 – Offline auf dem iPad**
+1. iPad: die App nach P-38/0 einmal geöffnet haben (mit Netz), dann ganz schließen.
+2. Flugmodus einschalten (Kontrollzentrum → Flugzeug), WLAN aus.
+3. App öffnen und höchstens 5 Sekunden warten.
+4. Erwartet: Die App erscheint mit den Reiselogbüchern, keine weiße Seite; Versionszeile im Mehr-Menü ‚Version 3.13.2‘ und ‚AppDesign 4.14.2‘.
+5. Ein Reiselogbuch öffnen. Erwartet: Tabelle und Tage wie online.
+6. Flugmodus ausschalten.
+
+**P-38/3 – Offline auf dem iPhone**
+1. iPhone: wie P-38/2, Schritte 1–3.
+2. Erwartet: Die App erscheint innerhalb von 5 Sekunden mit der Startliste; Versionszeile ‚Version 3.13.2‘ und ‚AppDesign 4.14.2‘.
+3. Flugmodus ausschalten.
+
 ## 3.13.1 – 14.10.2026 (Korrektur)
 
 Reiselogbuch 3.13.1 · AppDesign 4.14.1 (Designrichtlinie allgemein 4.14.1) · Designrichtlinie Reiselogbuch 3.13.1 · Zusammenarbeit allgemein 2.3.2

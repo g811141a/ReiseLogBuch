@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.14.1/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.14.2/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.14.1/ui.js"></script>
+<script src="../AppDesign/fassung/4.14.2/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.13.1';
-const APP_BUILT = '14.10.2026 um 23:08';
+const APP_VERSION = '3.13.2';
+const APP_BUILT = '15.10.2026 um 00:09';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.14.1';
+const AD_NEEDED = '4.14.2';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -1289,13 +1289,13 @@ function openDayDialog(trip, iso) {
           <div class="hint">${MOOD_HINT}</div>
         </div>
         ${trip.foodColumn ? `<div class="step">
-          <div class="step-head"><label for="fFoodText"><span class="step-num">${nextNo()}</span>Essen und Trinken</label><label class="check chip head-check"><input type="checkbox" id="noLink"> keinen Google-Maps Link</label></div>
+          <div class="step-head"><label for="fFoodText"><span class="step-num">${nextNo()}</span>Essen und Trinken</label><span class="head-checks"><label class="check chip head-check"><input type="checkbox" id="noLink"> keinen Google-Maps Link</label></span></div>
           <div class="emoji-row" id="foodMoods"></div>
           <textarea id="fFoodText" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Eine Zeile pro Lokal: Smileys, Name – Kommentar">${esc(e.food || '')}</textarea>
           <div class="hint">Format: ‚🕛😋 Hard Rock Café – Steak war super‘. Der Name wird zum Link in Google Maps (mit dem Ort des Quartiers). ‚keinen Google-Maps Link‘ gilt für die Zeile, in der du gerade schreibst (markiert mit ⊘).</div>
         </div>` : ''}
         <div class="step" ${c.quarter ? '' : 'hidden'}>
-          <div class="step-head"><label for="fQuarter"><span class="step-num">${c.quarter ? nextNo() : ''}</span>Quartier</label>${isFirst ? '' : `<label class="check chip head-check"><input type="checkbox" id="fSame" ${same ? 'checked' : ''}> Quartier wie Vortag</label>`}<label class="check chip head-check"><input type="checkbox" id="fNoMap" ${e.noMap && !same ? 'checked' : ''}> keinen Google-Maps Link</label></div>
+          <div class="step-head"><label for="fQuarter"><span class="step-num">${c.quarter ? nextNo() : ''}</span>Quartier</label><span class="head-checks">${isFirst ? '' : `<label class="check chip head-check"><input type="checkbox" id="fSame" ${same ? 'checked' : ''}> Quartier wie Vortag</label>`}<label class="check chip head-check"><input type="checkbox" id="fNoMap" ${e.noMap && !same ? 'checked' : ''}> keinen Google-Maps Link</label></span></div>
           <div class="qrow"><input type="text" id="fQuarter" autocapitalize="sentences" autocorrect="on" spellcheck="true" list="quarterList" placeholder="z. B. Oaks Townsville Hotel">
           <datalist id="quarterList">${knownQuarters.map(q => `<option value="${esc(q)}">`).join('')}</datalist>
           <input type="text" id="fPlace" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Ort für Google Maps, z. B. Cairns, Australien"></div>
