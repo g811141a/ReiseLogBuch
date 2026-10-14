@@ -13,6 +13,57 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.13.1 – 14.10.2026 (Korrektur)
+
+Reiselogbuch 3.13.1 · AppDesign 4.14.1 (Designrichtlinie allgemein 4.14.1) · Designrichtlinie Reiselogbuch 3.13.1 · Zusammenarbeit allgemein 2.3.2
+
+Korrektur zu 3.13.0 (Fund `AppDesign/arbeit/A-05 Fund Markierung.md`, Entscheidung a). Die App sieht unverändert aus.
+
+- **README ‚Verwendete Versionen‘:** Die Links auf Designrichtlinie allgemein, Zusammenarbeit und Bausteine zeigten auf die
+  Git-Markierung `v4.14.0`, die es auf GitHub nicht gibt (aus der Cloud gesperrt) – Fehlerseite. Jetzt zeigen sie auf
+  `main/fassung/4.14.1/…`; die Fassung enthält seit AppDesign 4.14.1 auch den Text der Richtlinien. Warum übersehen: der
+  Selbsttest lud in ein lokales Schein-Repo hoch, das Markierungen annimmt.
+- **Feste Fassung 4.14.1:** `index.html`, `sw.js` und alle Prüfskripte auf `fassung/4.14.1/` (mit dem Skript `vorbereiten`).
+- Designrichtlinie Reiselogbuch 3.13.1 (nur Version).
+
+Prüfliste P-37 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2) – **ersetzt P-36** (noch nicht geprüft). Kein sichtbarer
+Unterschied erwartet.
+
+**P-37/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.13.1 · erstellt am … · AppDesign 4.14.1‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.13.1‘ und ‚AppDesign 4.14.1‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-37/1 – App sieht unverändert aus (iPad)**
+1. iPad quer, hell: App öffnen, ein Reiselogbuch mit mehreren Tagen öffnen.
+2. Seitenleiste, Kopfzeile mit Kapsel, Tabelle und Mehr-Menü ansehen; dann iPad hochkant drehen.
+3. Mehr-Menü → Darstellung ‚Dunkel‘ wählen und dasselbe ansehen, danach wieder ‚Automatisch‘.
+4. Erwartet: alles sieht aus wie in 3.12.0 (Schrift, Farben, Schaltflächen, Abstände), hell und dunkel, quer und hoch.
+5. Erwartet: beim Start kein Fenster ‚Neue Version wird geladen‘.
+
+**P-37/2 – App sieht unverändert aus (iPhone)**
+1. iPhone hoch, hell: App öffnen, Startliste ‚Reiselogbücher‘ ansehen, ein Reiselogbuch öffnen, einen Tag öffnen.
+2. Darstellung ‚Dunkel‘ wählen und dasselbe ansehen, danach wieder ‚Automatisch‘.
+3. Erwartet: alles sieht aus wie in 3.12.0, hell und dunkel; kein Fenster ‚Neue Version wird geladen‘.
+
+**P-37/3 – Offline mit der eigenen Fassung (iPad oder iPhone)**
+1. Die App nach P-37/0 einmal geöffnet haben, dann ganz schließen.
+2. Flugmodus einschalten (Kontrollzentrum → Flugzeug), WLAN aus.
+3. App öffnen, ein Reiselogbuch öffnen und das Mehr-Menü der Seitenleiste bzw. Startliste ansehen.
+4. Erwartet: die App startet normal und sieht aus wie online; die Versionszeile nennt ‚Version 3.13.1‘ und ‚AppDesign 4.14.1‘;
+   kein Fenster ‚Neue Version wird geladen‘.
+5. Flugmodus wieder ausschalten.
+
+**P-37/4 – Links in der README (Safari)**
+1. In Safari github.com/g811141a/ReiseLogBuch öffnen und zur Tabelle ‚Verwendete Versionen‘ scrollen.
+2. In der Zeile ‚Designrichtlinie allgemein‘ auf den Link tippen.
+3. Erwartet: die Designrichtlinie öffnet sich, oben ‚**Version 4.14.1**‘, der Pfad oben nennt `fassung/4.14.1` – keine Fehlerseite.
+4. Zurück, in der Zeile ‚Zusammenarbeit allgemein‘ auf den Link tippen.
+5. Erwartet: die Zusammenarbeit öffnet sich mit ‚**Version 2.3.2**‘, ebenfalls aus `fassung/4.14.1`.
+
 ## 3.13.0 – 14.10.2026 (Neben)
 
 Reiselogbuch 3.13.0 · AppDesign 4.14.0 (Designrichtlinie allgemein 4.14.0) · Designrichtlinie Reiselogbuch 3.13.0 · Zusammenarbeit allgemein 2.3.2
