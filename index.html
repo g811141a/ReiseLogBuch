@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.11.1">
+<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.11.2">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -115,18 +115,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/v4/ui.js?v=4.11.1"></script>
+<script src="../AppDesign/v4/ui.js?v=4.11.2"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.11.1';
-const APP_BUILT = '13.10.2026 um 23:09';
+const APP_VERSION = '3.11.2';
+const APP_BUILT = '14.10.2026 um 02:30';
 // R-48: benötigte AppDesign-Fassung (gleich wie ?v= bei ui.js und design.css oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.11.1';
+const AD_NEEDED = '4.11.2';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {

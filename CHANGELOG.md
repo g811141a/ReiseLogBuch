@@ -13,6 +13,61 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.11.2 – 14.10.2026 (Korrektur)
+
+Reiselogbuch 3.11.2 · AppDesign 4.11.2 (Designrichtlinie allgemein 4.11.2) · Designrichtlinie Reiselogbuch 3.11.2 · Zusammenarbeit allgemein 1.16.0
+
+- T-79 (P-27/8): Im Abgleichbericht ragten Datum und Uhrzeit in die Nachbarzellen (iPhone, iPad hoch). Jetzt bricht jede
+  Zelle um. Warum die Prüfung es übersah: R-37 prüfte nur Tabellen der App-Seite, nicht in Fenstern und Vorschauen – jetzt
+  jede Zelle überall, auch nach seitlichem Wischen.
+- T-80 (P-27/8): Der Abgleichbericht hat oben rechts die Kapsel wie die Vorschau der Ausgabe: PDF und Teilen.
+- T-78: Beim Drehen (quer ↔ hoch) bleibt oben derselbe Tag stehen – iPad und iPhone (neue Regel R-51, Baustein in
+  AppDesign). Die Prüfung bildet jetzt Safari nach, das keinen Scroll-Anker kennt.
+
+Prüfliste P-29 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0).
+
+**P-29/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.11.2 · erstellt am … · AppDesign 4.11.2‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.11.2‘ und ‚AppDesign 4.11.2‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-29/1 – iPad: oberster Tag bleibt beim Drehen**
+1. iPad quer halten, ein Reiselogbuch mit vielen erfassten Tagen öffnen.
+2. Nach unten wischen, bis z. B. der 10. Tag ganz oben unter der Leiste steht.
+3. Auf hoch drehen.
+4. Erwartet: Oben steht weiter derselbe Tag.
+5. Zurück auf quer drehen.
+6. Erwartet: Oben steht weiter derselbe Tag.
+
+**P-29/2 – iPhone: oberster Tag bleibt beim Drehen**
+1. iPhone hoch halten, dasselbe Reiselogbuch öffnen.
+2. Nach unten wischen, bis z. B. der 10. Tag ganz oben unter der Leiste steht.
+3. Auf quer drehen.
+4. Erwartet: Oben steht weiter derselbe Tag.
+5. Zurück auf hoch drehen.
+6. Erwartet: Oben steht weiter derselbe Tag.
+
+**P-29/3 – Abgleichbericht: keine Zelle ragt über (iPhone hoch und quer, iPad hoch und quer)**
+1. iPad: in einem Tag den Verlauf ändern, ✓; ‚Backup erstellen‘ → ‚In Dateien sichern‘.
+2. iPhone: ‚Backup laden‘ → diese Datei → ‚Abgleichen‘.
+3. Erwartet im Fenster: ‚Auf diesem iPhone hat sich etwas geändert – Einzelheiten im Abgleichbericht.‘
+4. ‚Abgleichbericht anzeigen‘ tippen und die Tabelle bis ganz nach rechts wischen.
+5. Erwartet: Datum, Uhrzeit und Texte stehen vollständig in ihrer Zelle, lange Inhalte brechen in die nächste Zeile um;
+   nichts ragt in eine Nachbarzelle.
+6. iPhone quer drehen. Erwartet: ebenso.
+7. Am iPad (hoch und quer) einen Abgleich mit der Datei vom iPhone machen und den Bericht öffnen. Erwartet: ebenso.
+
+**P-29/4 – Abgleichbericht: PDF**
+1. Den Abgleichbericht öffnen (wie in P-29/3, Schritte 1 bis 4).
+2. Erwartet: Oben rechts eine Kapsel mit ‚PDF‘ und dem Teilen-Symbol – wie bei der Vorschau der Ausgabe.
+3. ‚PDF‘ tippen.
+4. Erwartet: Das Drucken-Menü öffnet sich mit dem Bericht; darüber das Fenster ‚Abgleichbericht‘ mit ✅ ‚Drucken-Menü
+   geöffnet für Abgleichbericht Reiselogbuch JJJJ.MM.TT hh.mm.pdf‘.
+5. Im Drucken-Menü ‚Teilen‘ → ‚In Dateien sichern‘. Erwartet: Die PDF-Datei zeigt den Bericht ohne Fenster und Leisten.
+
 ## 3.11.1 – 13.10.2026 (Korrektur)
 
 Reiselogbuch 3.11.1 · AppDesign 4.11.1 (Designrichtlinie allgemein 4.11.1) · Designrichtlinie Reiselogbuch 3.11.1 · Zusammenarbeit allgemein 1.15.0

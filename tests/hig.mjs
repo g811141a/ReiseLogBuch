@@ -58,6 +58,7 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[1180, 820], [820,
   await p.waitForTimeout(300); await p.locator('.pop button', { hasText: 'Abgleichen' }).click(); await p.waitForTimeout(400);
   await M('Abgleichen Ergebnis');
   await p.click('#msg [data-act]'); await p.waitForTimeout(400); await M('Abgleichbericht');
+  await p.evaluate(() => { const b = document.querySelector('#dlg .dlg-body'); b.scrollLeft = b.scrollWidth; }); await p.waitForTimeout(200); await M('Abgleichbericht rechts');
   await p.click('#dlgX'); await p.waitForTimeout(250);
   await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(250);
   await M('Hauptansicht');
@@ -143,6 +144,17 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
     await p.click('#sideMore', { timeout: 3000 }); await p.waitForTimeout(150); await stays('#sideMore', 'Menü Startliste'); await M('Menü Startliste'); await away();
     await dialog(() => p.click('#newTrip', { timeout: 3000 }), 'Fenster Neues Reiselogbuch', '#newTrip');
   } catch (e) { note('Ablauf', 'Startliste nicht bedienbar (Mehr/plus fehlen)', tag); }
+  // R-44 (seit 3.11.2 auch am iPhone): Ergebnisfenster und Abgleichbericht, links und ganz nach rechts gewischt
+  await p.click('#sideMore'); await p.waitForTimeout(150);
+  const [ch2] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
+  await ch2.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: {}, savedAt: Date.now(), savedOn: 'iPad',
+    trips: [...trips.map(t => ({ ...t, days: { ...t.days, '2026-08-24': { program: 'Geändert am iPad', weather: '🌤' } }, metaAt: {}, dayAt: { '2026-08-24': { program: Date.now() + 9e5, weather: Date.now() + 9e5 } }, changedAt: Date.now() + 9e5, changedOn: 'iPad' })),
+      { id: 'hig-neu', title: 'Kreta', participants: 'A', start: '2027-05-01', end: '2027-05-03', transport: ['pkw'], days: { '2027-05-01': { program: 'Anreise' } }, changedAt: Date.now() + 9e5, changedOn: 'iPad' }] })) });
+  await p.waitForTimeout(300); await p.locator('.pop button', { hasText: 'Abgleichen' }).click(); await p.waitForTimeout(400);
+  await M('Abgleichen Ergebnis');
+  await p.click('#msg [data-act]'); await p.waitForTimeout(400); await M('Abgleichbericht');
+  await p.evaluate(() => { const b = document.querySelector('#dlg .dlg-body'); b.scrollLeft = b.scrollWidth; }); await p.waitForTimeout(200); await M('Abgleichbericht rechts');
+  await p.click('#dlgX'); await p.waitForTimeout(250);
   } catch (e) { note('Ablauf', `bricht ab: ${e.message.split('\n')[0]}`, tag); }
   for (const e of errors) note('Skriptfehler', e, tag);
   await p.close();
