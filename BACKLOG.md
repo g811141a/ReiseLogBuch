@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-34 | 1 | Reiselogbuch 3.11.7 (AppDesign 4.12.2, A-02 Schritte 3 und 4) – Prüfliste im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-60 | Geprüft: P-34 alles in Ordnung | Reiselogbuch 3.11.7 | 14.10.2026 |
 | E-59 | Reiselogbuch 3.11.7: A-02 Schritte 3 und 4 – Richtlinie mit Verweisen, PROMPT und CLAUDE.md nachgeführt, Vorschau-Prüfung auch iPad hoch und iPhone quer | Reiselogbuch 3.11.7 | 14.10.2026 |
 | E-58 | Geprüft: P-33 alles in Ordnung | Reiselogbuch 3.11.6 | 14.10.2026 |
 | E-57 | Reiselogbuch 3.11.6: Korrekturen aus P-32 (Reisemittel mit Namen im Abgleichbericht, Seitenleiste bei offener Tastatur, feste Spaltenanteile der Ausgabe) und ‚Gesamtausgaben‘ – je mit geschärfter Prüfung | Reiselogbuch 3.11.6 · AppDesign 4.12.1 | 14.10.2026 |
