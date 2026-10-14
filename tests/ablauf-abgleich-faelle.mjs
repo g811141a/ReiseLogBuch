@@ -2,11 +2,15 @@
 // Je Fall: gemeinsamer Ausgangsstand (09:00), dann Änderungen auf iPad und iPhone zu festen Zeiten; danach wird in beide
 // Richtungen abgeglichen (iPhone lädt das Backup vom iPad, iPad lädt das Backup vom iPhone) und das Ergebnis geprüft.
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich-faelle.mjs
-import { chromium } from 'playwright';
+import * as pw from 'playwright';
+import { pruefung } from '../../AppDesign/tests/pruefe.mjs';
+// Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
+const t = pruefung('ablauf-abgleich-faelle', pw, { out: new URL('out/', import.meta.url) });
+// Reine Datenprüfung über mergeWith (keine Bedienung) – deshalb ohne Grundregeln.
 
 const APP = new URL('../index.html', import.meta.url).href;
-const errors = [];
-const b = await chromium.launch();
+const errors = { push: (...m) => m.forEach(x => t.fehler('', x)) };   // Meldungen werden Fehler (pruefe.mjs)
+const b = await t.browser();
 const base = [
   { id: 'x', title: 'Island', participants: 'Anna', start: '2026-07-01', end: '2026-07-05', transport: ['flug'], days: { '2026-07-01': { weather: '☀️', program: 'Reykjavík' } } },
   { id: 'y', title: 'Toskana', participants: 'Anna', start: '2025-05-01', end: '2025-05-05', transport: ['pkw'], days: {} },
@@ -80,5 +84,4 @@ await fall(16, 'ohne Zeitpunkte (vor dem Update): verschiedene Werte', [['10:00'
   { iphone: r => T(r, 'x').days['2026-07-01'].program === 'alt iPhone' && T(r, 'x').days['2026-07-04']?.program === 'nur iPad' ? '' : 'eigener Wert überschrieben oder Fehlendes nicht dazu', ipad: r => T(r, 'x').days['2026-07-01'].program === 'alt iPad' ? '' : 'eigener Wert überschrieben' }, { legacy: true });
 await fall(17, 'Exportzähler', [['10:00', () => { getTrip('x').outputCounter = 5; save(); }]], [['11:00', () => { getTrip('x').outputCounter = 3; save(); }]],
   { iphone: r => T(r, 'x').outputCounter === 5 ? '' : 'höherer Zähler nicht übernommen', ipad: r => T(r, 'x').outputCounter === 5 ? '' : 'höherer Zähler verloren' });
-console.log('ERR', JSON.stringify(errors, null, 1));
-await b.close();
+await t.ende(b);

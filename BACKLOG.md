@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 14.10.2026** · Aktuelle Version: Reiselogbuch 3.11.7 · AppDesign 4.12.2
+**Stand 14.10.2026** · Aktuelle Version: Reiselogbuch 3.12.0 · AppDesign 4.13.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-35 | 1 | Reiselogbuch 3.12.0 / AppDesign 4.13.0 (A-05 Version A): /0 Version prüfen, /1 kurzen Quartiernamen neben dem Namen antippen öffnet Maps (Prüfliste im CHANGELOG) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-61 | Reiselogbuch 3.12.0: A-05 Version A – alle Prüfskripte melden Fehler, Grundregeln nach jedem Schritt, parallel in Chromium und WebKit (`tests/alle.mjs`); Quartier-Link mit unsichtbarer Antippfläche 44 px (R-3.1) | Reiselogbuch 3.12.0 | 14.10.2026 |
 | E-60 | Geprüft: P-34 alles in Ordnung | Reiselogbuch 3.11.7 | 14.10.2026 |
 | E-59 | Reiselogbuch 3.11.7: A-02 Schritte 3 und 4 – Richtlinie mit Verweisen, PROMPT und CLAUDE.md nachgeführt, Vorschau-Prüfung auch iPad hoch und iPhone quer | Reiselogbuch 3.11.7 | 14.10.2026 |
 | E-58 | Geprüft: P-33 alles in Ordnung | Reiselogbuch 3.11.6 | 14.10.2026 |

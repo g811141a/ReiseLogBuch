@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.12.2">
+<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.13.0">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -67,7 +67,10 @@
   table.days.static td.quarter a, table.days.static a { text-decoration: none; }
   td a { text-decoration: none; }
   /* Maps-Links: Antippfläche unsichtbar auf 44 px Höhe vergrößert (Innenabstand eines Inline-Links ändert das Layout nicht) */
-  .ln.q a, #qHint a { padding: 12px 0; }
+  .ln.q a, #qHint a { padding: 12px 0; position: relative; }
+  /* R-3.1 (seit 3.12.0, Fund A-05): kurze Quartiernamen (‚Hotel‘) gaben eine Antippfläche unter 44 px. Wie iOS wird die Fläche
+     unsichtbar auf mindestens 44 px verbreitert – Schrift und Abstände bleiben gleich. */
+  .ln.q a::after, #qHint a::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: max(100%, 44px); transform: translateX(-50%); }
 
   /* iPhone: Tage als Kästen (AppDesign .box) – Kopf mit Datum, Hinweisen und Wetter */
   .box.day { cursor: pointer; }
@@ -115,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/v4/ui.js?v=4.12.2"></script>
+<script src="../AppDesign/v4/ui.js?v=4.13.0"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.11.7';
-const APP_BUILT = '14.10.2026 um 12:58';
+const APP_VERSION = '3.12.0';
+const APP_BUILT = '14.10.2026 um 15:31';
 // R-10.3: benötigte AppDesign-Fassung (gleich wie ?v= bei ui.js und design.css oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.12.2';
+const AD_NEEDED = '4.13.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {

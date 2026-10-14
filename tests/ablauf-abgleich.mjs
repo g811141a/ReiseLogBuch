@@ -2,12 +2,17 @@
 // iPad ändert einen Tag, löscht ein Reiselogbuch und legt eines an; das iPhone ändert inzwischen einen anderen Tag
 // und einen Titel. Nach ‚Abgleichen‘ muss je Tag die neuere Fassung gelten, gelöschte verschwinden, neue dazukommen.
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich.mjs
-import { chromium } from 'playwright';
+import * as pw from 'playwright';
+import { pruefung } from '../../AppDesign/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/tests/hig.mjs';
+// Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
+const t = pruefung('ablauf-abgleich', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
+const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
 
 const APP = new URL('../index.html', import.meta.url).href;
-const errors = [];
+const errors = { push: (...m) => m.forEach(x => t.fehler('', x)) };   // Meldungen werden Fehler (pruefe.mjs)
 const check = (ok, text) => { if (!ok) errors.push(text); };
-const b = await chromium.launch();
+const b = await t.browser();
 const device = async (w, h) => {
   const ctx = await b.newContext({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700 });
   const p = await ctx.newPage();
@@ -87,6 +92,7 @@ await ch2.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffe
 await iphone.locator('.pop button', { hasText: 'Abgleichen' }).click(); await iphone.waitForTimeout(400);
 { const h = await iphone.locator('#msg .msg-text').innerHTML(); check(!h.includes('Änderungen auf diesem') && /Alles war schon auf dem gleichen Stand|hat sich nichts geändert/.test(h), 'zweiter Abgleich ändert etwas'); }
 check((await iphone.evaluate(() => db.trips.length)) === 3, 'zweiter Abgleich: Anzahl falsch');
+t.ort = 'iPhone hoch'; await G(iphone, 'Ergebnis zweiter Abgleich');
 // iPad gleicht mit dem iPhone ab → beide gleich
 await iphone.locator('#msg [data-x]').click(); await iphone.waitForTimeout(200);
 const fromIphone = await iphone.evaluate(() => backupFile().content);
@@ -97,5 +103,5 @@ await ch3.setFiles({ name: 'c.json', mimeType: 'application/json', buffer: Buffe
 await ipad.locator('.pop button', { hasText: 'Abgleichen' }).click(); await ipad.waitForTimeout(400);
 const norm = d => JSON.stringify(d.trips.map(t => [t.id, t.title, t.days]).sort());
 check(norm(await ipad.evaluate(() => db)) === norm(await iphone.evaluate(() => db)), 'iPad und iPhone nach beiden Abgleichen nicht gleich');
-console.log('ERR', JSON.stringify(errors));
-await b.close();
+t.ort = 'iPad quer'; await G(ipad, 'Ergebnis Abgleich');
+await t.ende(b);

@@ -1,7 +1,6 @@
 #!/bin/sh
-# Alle Tests des Reiselogbuchs nacheinander (im Repo-Ordner: sh tests/alle.sh). AppDesign muss neben dem Repo liegen.
+# Alle Tests des Reiselogbuchs (im Repo-Ordner: sh tests/alle.sh). Seit 3.12.0 nur noch ein Aufruf von tests/alle.mjs:
+# parallel, schnellste zuerst, Chromium und WebKit, Abbruch beim ersten Fehler, Rückgabewert 1 bei Fehlern (A-05).
+# Weitere Schalter werden durchgereicht, z. B. sh tests/alle.sh --alle. AppDesign muss neben dem Repo liegen.
 cd "$(dirname "$0")/.." || exit 1
-for t in ablauf-gesamt ablauf-suche-tabelle ablauf-fenster ablauf-seitenleiste-kontextmenue ablauf-seitenleiste-position ablauf-abgleich ablauf-abgleich-faelle abgleich-regeln ablauf-abgleich-ui backup-regeln kontextmenue-regeln version-regeln doku-regeln ablauf-markierung-menues ablauf-iphone tastatur regeln-ablauf; do
-  echo "== $t"; node "tests/$t.mjs" 2>&1 | grep -iE "^err|errors|err2|error" | head -5
-done
-echo "== HIG-Prüfung"; node tests/hig.mjs
+exec node tests/alle.mjs "$@"

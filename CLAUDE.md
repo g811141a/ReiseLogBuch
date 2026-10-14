@@ -1,6 +1,6 @@
 # Reiselogbuch – Hinweise für Claude
 
-**Version 3.0.0** · Stand 14.10.2026
+**Version 3.1.0** · Stand 14.10.2026
 
 ## Zuerst lesen
 
@@ -35,8 +35,10 @@ erst Prüfpunkte dann Neues, Zeit und Token am Ende jeder Antwort (Abschnitt 2).
 - Bedienung: Seitenleiste `#side` (`renderSide`), Kopfzeile `.nb` mit Kapsel, Menüs `openMenu` (Untermenüs über
   `submenu`), Sprechblasen `confirmPop`, Fenster-Kopfzeile `dlgHead` (Häkchen blau über `dlgDirty`), gedrückte
   Schaltflächen `.on`; Seitenleiste ein/aus `settings.sidebar`; Darstellung `settings.appearance`; Abgleich `createSync`.
-- Prüfen: im Ordner `tests` einmalig `npm install playwright`, dann im Repo-Ordner `sh tests/alle.sh` (alle Ablauf-Tests,
-  Regel- und HIG-Prüfung; siehe `tests/README.md`).
+- Prüfen: im Ordner `tests` einmalig `npm install playwright` (WebKit kommt über das Setup-Skript der Umgebung, sonst
+  `npx playwright install webkit` und `npx playwright install-deps webkit`), dann im Repo-Ordner `node tests/alle.mjs`
+  (oder `sh tests/alle.sh`): alle Prüfungen parallel in Chromium und WebKit, Abbruch beim ersten Fehler, `--alle` zeigt
+  alle roten; Gegenprobe `--gegenprobe` (siehe `tests/README.md`, AppDesign `tests/README.md`).
 
 ---
 
@@ -44,6 +46,7 @@ erst Prüfpunkte dann Neues, Zeit und Token am Ende jeder Antwort (Abschnitt 2).
 
 | Version | Datum | Inhalt |
 |---|---|---|
+| 3.1.0 | 14.10.2026 | Prüfen mit `node tests/alle.mjs` (A-05 Version A: parallel, Chromium und WebKit) |
 | 3.0.0 | 14.10.2026 | Neu gefasst (A-02 Schritt 4): zuerst UEBERGABE.md, Regeln nur als Verweis auf AppDesign (ohne ‚etwa 5 Punkte‘, Antwortzeile und ‚Gesamt‘ in der Zeitzeile), Einbindung mit `?v=`, Prüfung mit `sh tests/alle.sh` |
 | 2.1.0 | 10.10.2026 | Pflicht: Zeitmessung je Aktion |
 | 2.0.0 | 09.10.2026 | Allgemeine Regeln und Bausteine im Design-Repo AppDesign |

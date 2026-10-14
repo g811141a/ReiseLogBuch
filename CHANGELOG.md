@@ -13,6 +13,45 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.12.0 – 14.10.2026 (Neben)
+
+Reiselogbuch 3.12.0 · AppDesign 4.13.0 (Designrichtlinie allgemein 4.13.0) · Designrichtlinie Reiselogbuch 3.12.0 · Zusammenarbeit allgemein 2.3.1
+
+A-05 Version A – Prüfungen 2.0 (Fall-Liste `AppDesign/arbeit/A-05 Fall-Liste.md`). Sichtbar ändert sich nichts; neu ist nur
+eine unsichtbare, größere Antippfläche an kurzen Quartiernamen.
+
+- **Quartier-Link (R-3.1, Fund der neuen Grundregeln):** Der Maps-Link eines Quartiers war nur so breit wie sein Name –
+  ‚Hotel‘ 42 px statt mindestens 44. Jetzt ist die Antippfläche unsichtbar mindestens 44 px breit (wie iOS); Schrift und
+  Abstände bleiben gleich. Warum übersehen: `hig.mjs` prüfte nur mit langen Quartiernamen; erst die Grundregeln nach jedem
+  Schritt der Ablauf-Tests laufen auch mit ‚Hotel‘.
+- **Alle 19 Prüfskripte melden Fehler** mit Sollwert und Rückgabewert (vorher gaben 6 nur Werte aus und konnten nie rot
+  werden, `alle.sh` meldete immer 0); Grundregeln nach jedem Schritt; jeder Test in Chromium und WebKit.
+- **`tests/alle.mjs` (neu):** alle Prüfungen parallel, schnellste zuerst, Abbruch beim ersten Fehler; `alle.sh` ruft es auf.
+  Dauer: 40 Läufe (Chromium + WebKit) in etwa 4 min, vorher 9 min 15 s nur Chromium.
+- **`tastatur.mjs`:** Tastatur wie Safari über den sichtbaren Bereich nachgebildet – vorher schaltete das verkleinerte
+  Fenster die App in die iPhone-Ansicht, geprüft wurde also die falsche Ansicht; jetzt iPad quer und hoch, iPhone hoch.
+- **Gegenproben:** `node tests/alle.mjs --gegenprobe` (40 Läufe rot) und `--gegenprobe grundregeln` (24 Läufe rot) – jeder
+  Test kann rot werden.
+- **CLAUDE.md 3.1.0**, Designrichtlinie Reiselogbuch 3.12.0 (Ausprägung R-3.1 Maps-Link).
+
+Prüfliste P-35 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.1). Bis auf P-35/1 kein sichtbarer Unterschied erwartet.
+
+**P-35/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.12.0 · erstellt am … · AppDesign 4.13.0‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.12.0‘ und ‚AppDesign 4.13.0‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-35/1 – Kurzen Quartiernamen antippen (iPad)**
+1. iPad quer, hell: ein Reiselogbuch öffnen und einen Tag mit einem kurzen Quartiernamen suchen (sonst im Fenster des Tages
+   bei ‚Quartier‘ z. B. ‚Hotel‘ eintragen, Ort z. B. ‚Wien‘, Häkchen).
+2. In der Tabelle in der Spalte Quartier knapp **neben** den unterstrichenen bzw. blauen Namen tippen (etwa eine
+   Fingerkuppe rechts davon, noch vor dem Komma bzw. dem Ort).
+3. Erwartet: Google Maps öffnet sich mit dem Quartier – wie beim Tippen direkt auf den Namen.
+4. Erwartet: Der Name sieht aus wie vorher (gleiche Schrift, kein zusätzlicher Abstand vor dem Komma).
+
 ## 3.11.7 – 14.10.2026 (Korrektur)
 
 Reiselogbuch 3.11.7 · AppDesign 4.12.2 (Designrichtlinie allgemein 4.12.2) · Designrichtlinie Reiselogbuch 3.11.7 · Zusammenarbeit allgemein 2.2.0
