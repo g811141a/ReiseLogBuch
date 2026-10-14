@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 14.10.2026** · Aktuelle Version: Reiselogbuch 3.13.1 · AppDesign 4.14.1
+**Stand 15.10.2026** · Aktuelle Version: Reiselogbuch 3.13.2 · AppDesign 4.14.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-37 | 1 | Reiselogbuch 3.13.1 mit AppDesign 4.14.1 (feste Fassung mit Richtlinien-Text): Prüfliste P-37/0 bis /4 im CHANGELOG – Version, unverändertes Aussehen iPad und iPhone (hell/dunkel), offline, README-Links; ersetzt P-36 | prüfen |
+| P-38 | 1 | Reiselogbuch 3.13.2 mit AppDesign 4.14.2: Prüfliste P-38/0 bis /3 im CHANGELOG – Version, Quartier-Kopf iPhone quer und hoch, offline iPad und iPhone | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-65 | Reiselogbuch 3.13.2: Quartier-Kopf als Gruppe (iPhone quer in einer Zeile), Offline-Start mit Frist 3 s (iPad weiße Seite), Prüfung `offline-regeln.mjs` | Reiselogbuch 3.13.2 | 14.10.2026 |
 | E-64 | Reiselogbuch 3.13.1: README-Links auf den Richtlinien-Text in `fassung/4.14.1/` statt auf eine Git-Markierung (Korrektur) | Reiselogbuch 3.13.1 | 14.10.2026 |
 | E-63 | Reiselogbuch 3.13.0: A-05 Version B – lädt die feste AppDesign-Fassung `fassung/4.14.0/`, Prüfskripte mit den Prüfungen dieser Fassung, Versionen mit dem Veröffentlichungs-Skript | Reiselogbuch 3.13.0 | 14.10.2026 |
 | E-62 | Geprüft: P-35 alles in Ordnung (Version, kurzer Quartiername neben dem Namen antippen) | Reiselogbuch 3.12.0 | 14.10.2026 |
