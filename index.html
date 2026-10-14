@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.11.2">
+<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.11.3">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -115,18 +115,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/v4/ui.js?v=4.11.2"></script>
+<script src="../AppDesign/v4/ui.js?v=4.11.3"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.11.2';
+const APP_VERSION = '3.11.3';
 const APP_BUILT = '14.10.2026 um 02:30';
 // R-48: benötigte AppDesign-Fassung (gleich wie ?v= bei ui.js und design.css oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.11.2';
+const AD_NEEDED = '4.11.3';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -1465,25 +1465,9 @@ function outputName(trip, version) {
 }
 
 // Alle Regeln gelten nur innerhalb von .rt, damit sie beim Drucken nicht in die App durchschlagen.
-const OUTPUT_CSS = `
+// Schrift und Tabellen aus der Mustertabelle der Ausgabe in AppDesign (outputCss, R-52); hier nur, was dazukommt.
+const OUTPUT_CSS = outputCss('.rt') + `
   body { font: 11pt/1.4 -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #000; background: #fff; margin: 24px; }
-  .rt, .rt * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .rt { font: 11pt/1.4 -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #000; }
-  .rt h1 { font-size: 20pt; margin: 0 0 8px; }
-  .rt h2 { font-size: 14pt; margin: 20px 0 6px; break-after: avoid; page-break-after: avoid; }
-  .rt table { border-collapse: collapse; }
-  .rt .meta td { border: none; padding: 1px 16px 1px 0; vertical-align: top; }
-  .rt table.grid { width: 100%; margin-top: 12px; table-layout: auto; }
-  .rt table.grid.fit { width: auto; }
-  .rt table.grid th, .rt table.grid td { border: 1px solid #999; padding: 6px 8px; vertical-align: top; text-align: left; }
-  .rt table.grid th { background: #d9d9d9; border-color: #a5a5a5; }
-  .rt table.grid tr > :first-child { border-left-color: #a5a5a5; }
-  .rt table.grid tr > :last-child { border-right-color: #a5a5a5; }
-  .rt table.grid tbody tr:last-child td { border-bottom-color: #a5a5a5; }
-  .rt table.grid tbody tr:nth-child(even) { background: #f5f5f5; }
-  .rt table.grid td.nw { white-space: nowrap; }
-  .rt table.grid td.num, .rt table.grid th.num { text-align: right; white-space: nowrap; }
-  .rt table.grid tr { break-inside: avoid; }
   .rt .ln { display: flex; gap: .35em; }
   .rt .ln + .ln { margin-top: 2px; }
   .rt .ln .m { flex: none; }
@@ -1492,7 +1476,6 @@ const OUTPUT_CSS = `
   .rt a { color: #1a5fb4; }
   .rt a.m { text-decoration: none; }
   .rt p { white-space: pre-line; }
-  .rt .created { margin-top: 28px; font-size: 9pt; color: #777; }
   @media print { body { margin: 0; } }
 `;
 
