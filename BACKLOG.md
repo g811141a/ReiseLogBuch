@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.11.1 · AppDesign 4.11.1
+**Stand 13.10.2026** · Aktuelle Version: Reiselogbuch 3.11.2 · AppDesign 4.11.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,16 +22,16 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-78 | 1 | Drehen (iPad und iPhone, quer ↔ hoch): oben bleibt derselbe Tag stehen. Nachgestellt am iPhone (Tag 8 → Tag 16); Ursache: Safari hat keinen Scroll-Anker, die App merkt sich den obersten Tag beim Drehen nicht. Als allgemeine Regel mit automatischer Prüfung (Safari nachgebildet) | Reiselogbuch | 13.10.2026 |
+| – | – | zurzeit nichts | – | – |
 
-**1 Punkt bereit** · gebaut wird erst nach „Ja“
+**0 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-28 | 1 | Version 3.11.1 (T-77) – P-28/0 und P-28/1 Schritt für Schritt im CHANGELOG 3.11.1; zuerst P-28/0 | prüfen |
-| P-27 | 1 | Version 3.11.0 (T-73 bis T-76) – P-27/1 bis P-27/9 Schritt für Schritt im CHANGELOG 3.11.0 (mit Version 3.11.1 prüfen) | prüfen |
+| P-28 | 1 | Version 3.11.1 (T-77) – P-28/1 Schritt für Schritt im CHANGELOG 3.11.1 (P-28/0 geht in P-29/0 auf) | prüfen |
+| P-29 | 1 | Version 3.11.2 (T-78 bis T-80) – P-29/0 bis P-29/4 Schritt für Schritt im CHANGELOG 3.11.2; zuerst P-29/0 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-50 | Reiselogbuch 3.11.2: T-78 oberster Tag bleibt beim Drehen (R-51), T-79 Abgleichbericht ohne überragende Zellen (R-37 überall geprüft), T-80 PDF im Abgleichbericht | Reiselogbuch 3.11.2 · AppDesign 4.11.2 | 14.10.2026 |
+| E-49 | Geprüft: P-27 – 1 bis 7 und 9 ok; 8 nicht ok (Zellen ragen über, iPhone und iPad hoch → T-79; PDF fehlt → T-80) | Reiselogbuch 3.11.0 | 14.10.2026 |
 | E-48 | Reiselogbuch 3.11.1: T-77 Vorbeugen gegen P-26/6, 7, 9 – README ‚Verwendete Versionen‘ (R-49), Prüfliste mit /0 und Meldung je Gerät (R-50), ‚fertig‘ erst nach Pages (Zusammenarbeit 1.15.0) | Reiselogbuch 3.11.1 · AppDesign 4.11.1 | 13.10.2026 |
 | E-47 | Reiselogbuch 3.11.0: T-73 Versionskopplung mit AppDesign (R-48), T-74 Seitenleiste mit einem Zustand (R-47), T-75 Kontextmenü des letzten Eintrags (R-40), T-76 Abgleichbericht (R-44, Muster 3) | Reiselogbuch 3.11.0 · AppDesign 4.11.0 | 13.10.2026 |
 | E-46 | Geprüft: P-26 – 2, 3, 5 ok; 1, 4, 6, 7, 9 nicht ok (auf dem Gerät lief noch die alte AppDesign-Fassung bzw. irreführende Meldung) → T-73 bis T-75; 8 neuer Wunsch → T-76 | Reiselogbuch 3.10.1 | 13.10.2026 |

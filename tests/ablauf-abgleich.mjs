@@ -64,6 +64,13 @@ check(await iphone.locator('#msg[open] [data-act]', { hasText: 'Abgleichbericht 
 await iphone.click('#msg [data-act]'); await iphone.waitForTimeout(400);
 const result = await iphone.locator('#dlg .sync-report').innerHTML();
 check(['updated" data-title="Island', 'added" data-title="Kreta', 'removed" data-title="Malta'].every(x => result.includes(`<tbody data-kind="${x}">`)) && result.includes('1 Reiselogbuch ist unverändert.'), `Bericht: ${result.slice(0, 400)}`);
+// T-80: Kapsel oben rechts wie die Vorschau der Ausgabe – PDF und Teilen; PDF füllt #printout und öffnet das Drucken-Menü.
+check(await iphone.locator('#dlg .grp #repPdf', { hasText: 'PDF' }).count() === 1 && await iphone.locator('#dlg .grp #repShare').count() === 1, 'Kapsel mit PDF und Teilen fehlt');
+await iphone.evaluate(() => { window.__printed = 0; window.print = () => { window.__printed++; }; });
+await iphone.click('#repPdf'); await iphone.waitForTimeout(300);
+check(await iphone.evaluate(() => window.__printed === 1 && !!document.querySelector('#printout .sync-report')), 'PDF: Drucken-Menü nicht geöffnet oder Bericht nicht im Druckbereich');
+check((await iphone.locator('#msg[open] .msg-text').textContent()).includes('Drucken-Menü geöffnet für Abgleichbericht Reiselogbuch'), 'PDF: Meldung fehlt');
+await iphone.click('#msg [data-x]'); await iphone.waitForTimeout(200);
 await iphone.click('#dlgX'); await iphone.waitForTimeout(200);
 const merged = await iphone.evaluate(() => db);
 const x = merged.trips.find(t => t.id === 'x');
