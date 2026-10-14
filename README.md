@@ -12,10 +12,10 @@ im Mehr-Menü der Seitenleiste).
 
 | Teil | Version | Datei |
 |---|---|---|
-| Reiselogbuch | 3.11.5 | [CHANGELOG.md](https://github.com/g811141a/ReiseLogBuch/blob/main/CHANGELOG.md) |
-| AppDesign | 4.12.0 | [CHANGELOG.md (AppDesign)](https://github.com/g811141a/AppDesign/blob/main/CHANGELOG.md) · Bausteine [v4/ui.js](https://github.com/g811141a/AppDesign/blob/main/v4/ui.js), [v4/design.css](https://github.com/g811141a/AppDesign/blob/main/v4/design.css) |
-| Designrichtlinie allgemein | 4.12.0 | [README - Designrichtlinie allgemein.md](https://github.com/g811141a/AppDesign/blob/main/README%20-%20Designrichtlinie%20allgemein.md) |
-| Designrichtlinie Reiselogbuch | 3.11.5 | [README - Designrichtlinie Reiselogbuch.md](https://github.com/g811141a/ReiseLogBuch/blob/main/README%20-%20Designrichtlinie%20Reiselogbuch.md) |
+| Reiselogbuch | 3.11.6 | [CHANGELOG.md](https://github.com/g811141a/ReiseLogBuch/blob/main/CHANGELOG.md) |
+| AppDesign | 4.12.1 | [CHANGELOG.md (AppDesign)](https://github.com/g811141a/AppDesign/blob/main/CHANGELOG.md) · Bausteine [v4/ui.js](https://github.com/g811141a/AppDesign/blob/main/v4/ui.js), [v4/design.css](https://github.com/g811141a/AppDesign/blob/main/v4/design.css) |
+| Designrichtlinie allgemein | 4.12.1 | [README - Designrichtlinie allgemein.md](https://github.com/g811141a/AppDesign/blob/main/README%20-%20Designrichtlinie%20allgemein.md) |
+| Designrichtlinie Reiselogbuch | 3.11.6 | [README - Designrichtlinie Reiselogbuch.md](https://github.com/g811141a/ReiseLogBuch/blob/main/README%20-%20Designrichtlinie%20Reiselogbuch.md) |
 | Zusammenarbeit allgemein | 2.1.1 | [README - Zusammenarbeit allgemein.md](https://github.com/g811141a/AppDesign/blob/main/README%20-%20Zusammenarbeit%20allgemein.md) |
 
 ## Dateien

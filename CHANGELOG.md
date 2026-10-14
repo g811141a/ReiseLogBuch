@@ -13,6 +13,69 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.11.6 – 14.10.2026 (Korrektur)
+
+Reiselogbuch 3.11.6 · AppDesign 4.12.1 (Designrichtlinie allgemein 4.12.1) · Designrichtlinie Reiselogbuch 3.11.6 · Zusammenarbeit allgemein 2.1.1
+
+Korrekturen aus P-32 (1, 2, 4 nicht ok; 0 und 3 ok) und eine neue Bezeichnung:
+
+- **P-32/1 – Reisemittel im Abgleichbericht:** ‚Neu‘ und ‚Vorher‘ zeigen die Reisemittel jetzt mit Symbol und Namen wie in der
+  App (‚✈️ Flugzeug, 🚆 Zug‘). Bisher stand dort der gespeicherte Wert, also die internen Kürzel (‚flug, pkw‘). Warum die
+  Prüfung es übersah: Sie verglich in 3.11.5 nur die Feldnamen, nicht die Werte. Jetzt prüft sie auch die Werte; sie
+  meldete den Fehler, dann behoben.
+- **P-32/2 – Seitenleiste bei der Suche (iPad):** Bei offener Tastatur verschiebt Safari den sichtbaren Bereich, wenn die
+  Seite zum ersten Treffer weit nach unten springt. Die Kopfzeile ging mit, die Seitenleiste nicht – sie rückte nach oben.
+  Jetzt wandert sie mit (AppDesign 4.12.1). Warum die Prüfung es übersah: Die Tastatur war nur durch ein kleineres Fenster
+  nachgebildet; Chrome verschiebt den sichtbaren Bereich nie. Die Prüfung bildet jetzt die Verschiebung von Safari nach;
+  sie meldete den Fehler (iPad und iPhone-Startliste), dann behoben.
+- **P-32/4 – Spalten der Ausgabe:** Die Tagestabelle (Vorschau, HTML, PDF) hat feste Anteile – Verlauf und ‚Wie war was?‘
+  je 28, Essen und Quartier je 22, ‚Tag‘ so schmal wie das Datum (Variante c). Die Breite hängt nicht mehr von der
+  Textmenge ab; die letzten beiden Spalten sind immer gleich breit. Neue Prüfung der Anteile (erst rot, dann grün).
+- **‚Gesamtausgaben‘** statt ‚Gesamtkosten‘ – in der App (iPad und iPhone), in Ausgabe und Vorschau und als Feldname im
+  Abgleichbericht.
+
+Prüfliste P-33 (Schritt für Schritt, Zusammenarbeit allgemein 2.1.1). Sie ersetzt P-32.
+
+**P-33/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.11.6 · erstellt am … · AppDesign 4.12.1‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.11.6‘ und ‚AppDesign 4.12.1‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-33/1 – Reisemittel im Abgleichbericht mit Namen**
+1. iPad quer, hell: ein Reiselogbuch öffnen → ‚…‘ (Mehr) → ‚Einstellungen‘ → bei ‚Reisemittel‘ ‚Zug‘ antippen → Häkchen.
+2. iPad: Seitenleiste ‚…‘ → ‚Backup erstellen‘ → ‚In Dateien sichern‘.
+3. Erwartet am iPad: kleines Fenster ‚Backup‘ mit ‚✅‘.
+4. iPhone hoch: Startliste ‚…‘ → ‚Backup laden‘ → diese Datei → ‚Abgleichen‘.
+5. Erwartet am iPhone: ‚Auf diesem iPhone hat sich etwas geändert – Einzelheiten im Abgleichbericht.‘
+6. ‚Abgleichbericht anzeigen‘ tippen.
+7. Erwartet am iPhone: Zeile ‚Reisemittel‘ – in ‚Neu‘ die Reisemittel mit Symbol und Großbuchstaben (z. B. ‚✈️ Flugzeug,
+   🚆 Zug‘), in ‚Vorher‘ ebenso (z. B. ‚✈️ Flugzeug‘); keine Kürzel wie ‚flug‘.
+8. Danach am iPad ‚Zug‘ wieder abwählen, wenn es nicht gewünscht ist.
+
+**P-33/2 – iPad: Seitenleiste bleibt bei der Suche stehen**
+1. iPad quer, hell, Seitenleiste sichtbar: ein Reiselogbuch mit vielen Tagen öffnen.
+2. Lupe antippen und ein Wort eingeben, das nur weit unten vorkommt; die Tastatur bleibt offen; kurz warten.
+3. Erwartet: die Seite springt zum ersten Treffer; die Seitenleiste bleibt an ihrem Platz (oben mit dem gleichen Abstand
+   wie vorher), Kopfzeile und Suchzeile ebenso.
+4. Mit ⌄ zum nächsten Treffer. Erwartet: ebenso.
+5. iPad hoch mit eingeblendeter Seitenleiste wiederholen. Erwartet: ebenso.
+
+**P-33/3 – Spalten der Vorschau**
+1. iPad quer, hell: ein Reiselogbuch mit viel Text in allen Spalten öffnen → Teilen (Icon) → ‚Vorschau‘.
+2. Erwartet: ‚Tag‘ so schmal wie das Datum; ‚Verlauf‘ und 🙂☹️😉 gleich breit; 🍽️🍷☕️ und 😴💤 gleich breit und etwas
+   schmaler – die letzte Spalte ist nicht mehr zusammengequetscht.
+3. ‚PDF‘ tippen. Erwartet: im PDF dieselbe Aufteilung.
+4. iPhone hoch: Vorschau öffnen und seitlich wischen. Erwartet: dieselbe Aufteilung.
+
+**P-33/4 – ‚Gesamtausgaben‘**
+1. iPad quer: ein Reiselogbuch öffnen und nach unten wischen.
+2. Erwartet: unter dem Fazit die Überschrift ‚Gesamtausgaben‘ (nicht ‚Gesamtkosten‘), darunter das Betragsfeld.
+3. Teilen → ‚Vorschau‘. Erwartet: in der Vorschau ebenfalls ‚Gesamtausgaben‘.
+4. iPhone hoch: ein Reiselogbuch öffnen und nach unten wischen. Erwartet: ‚Gesamtausgaben‘.
+
 ## 3.11.5 – 14.10.2026 (Korrektur)
 
 Reiselogbuch 3.11.5 · AppDesign 4.12.0 (Designrichtlinie allgemein 4.12.0) · Designrichtlinie Reiselogbuch 3.11.5 · Zusammenarbeit allgemein 2.1.1

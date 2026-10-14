@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.12.0">
+<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.12.1">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -115,18 +115,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/v4/ui.js?v=4.12.0"></script>
+<script src="../AppDesign/v4/ui.js?v=4.12.1"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.11.5';
-const APP_BUILT = '14.10.2026 um 11:08';
+const APP_VERSION = '3.11.6';
+const APP_BUILT = '14.10.2026 um 12:19';
 // R-10.3: benötigte AppDesign-Fassung (gleich wie ?v= bei ui.js und design.css oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.12.0';
+const AD_NEEDED = '4.12.1';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -182,11 +182,13 @@ function onDialogOpen() { clearInterval(autosaveTimer); }
 // Je Feld Zeitpunkt und Gerät – Kopfdaten (metaAt) und Tage (dayAt); gelöschte Reiselogbücher in db.deleted.
 const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields: ['outputCounter'],
   nouns: ['Reiselogbuch', 'Reiselogbücher', 'Reiselogbüchern'], app: 'Reiselogbuch',
-  // Namen der Felder für die Tabelle der Änderungen nach dem Abgleich (R-9.4) – wie im Fenster (R-9.1.1).
+  // Namen der Felder für die Tabelle der Änderungen nach dem Abgleich (R-9.4) – wie im Fenster (R-10.1).
   labels: { title: 'Reisetitel', participants: 'Reiseteilnehmer', start: 'Beginn', end: 'Ende', transport: 'Reisemittel',
     quarterList: 'Quartierliste', foodColumn: 'Spalte Essen', moodColumn: 'Spalte Wie war was?', quarterColumn: 'Spalte Quartier',
-    fazit: 'Fazit', kosten: 'Gesamtkosten', weather: 'Wetter', program: 'Verlauf', comment: 'Wie war was?', food: 'Essen und Trinken',
-    sameQuarter: 'Quartier wie Vortag', quarter: 'Quartier', place: 'Ort', noMap: 'Google-Maps-Link' } });
+    fazit: 'Fazit', kosten: 'Gesamtausgaben', weather: 'Wetter', program: 'Verlauf', comment: 'Wie war was?', food: 'Essen und Trinken',
+    sameQuarter: 'Quartier wie Vortag', quarter: 'Quartier', place: 'Ort', noMap: 'Google-Maps-Link' },
+  // Seit 3.11.6: Werte wie in der App – Reisemittel mit Symbol und Namen statt der gespeicherten Kürzel (R-10.1).
+  values: { transport: ids => TRANSPORT.filter(x => ids.includes(x.id)).map(x => `${x.icon} ${x.name}`).join(', ') } });
 const snapshot = sync.snapshot, latestChange = sync.latest, mergeData = sync.merge;
 function stampChanges() { lastSnap = sync.stamp(db, lastSnap); }
 
@@ -336,6 +338,11 @@ function quarterOf(trip, iso) {
 // Sichtbare Tabellenspalten; "Tag" und "Verlauf" werden immer angezeigt.
 const cols = trip => ({ mood: trip.moodColumn !== false, food: Boolean(trip.foodColumn), quarter: trip.quarterColumn !== false });
 const colCount = trip => { const c = cols(trip); return 2 + c.mood + c.food + c.quarter; };
+// Seit 3.11.6: Spalten der Ausgabe mit festen Anteilen (Verlauf und ‚Wie war was?‘ je 28, Essen und Quartier je 22) – die Breite
+// hängt nicht von der Textmenge ab, die letzten beiden Spalten sind gleich breit; ‚Tag‘ ist so schmal wie das Datum.
+// Fehlt eine Spalte, teilen sich die übrigen den Platz im selben Verhältnis.
+const outCols = trip => { const c = cols(trip), w = [28, c.mood && 28, c.food && 22, c.quarter && 22].filter(Boolean), sum = w.reduce((a, x) => a + x, 0);
+  return `<colgroup><col>${w.map(x => `<col style="width:${(x / sum * 100).toFixed(2)}%">`).join('')}</colgroup>`; };
 const headCells = trip => { const c = cols(trip);
   return `<th>Tag</th><th>Verlauf</th>${c.mood ? '<th>🙂☹️😉</th>' : ''}${c.food ? '<th>🍽️🍷☕️</th>' : ''}${c.quarter ? '<th>😴💤</th>' : ''}`; };
 
@@ -725,7 +732,7 @@ function bindSearch(term) {
   }
 }
 
-// Fazit und Gesamtkosten (iPad und iPhone).
+// Fazit und Gesamtausgaben (iPad und iPhone).
 function bindTripEnd(trip) {
   app.querySelector('#fazit').onclick = () => { setOpener('#fazit'); openFazitDialog(trip); };
   // Betrag: Tausenderpunkt beim Tippen, Komma für Cent (höchstens zwei Stellen); beim Verlassen wird ",00" ergänzt.
@@ -749,7 +756,7 @@ const fazitHtml = trip => `<h2>Fazit</h2>
     <button type="button" class="fazit-box" id="fazit">${trip.fazit
       ? linesHtml(commentItems(trip.fazit))
       : `<span class="muted" style="display:inline-flex;gap:6px;align-items:center">${ic('pencil')}Antippen, um das Fazit zu schreiben.</span>`}</button>
-    <h2>Gesamtkosten</h2>
+    <h2>Gesamtausgaben</h2>
     <div class="kosten">
       <input type="text" id="kosten" inputmode="decimal" placeholder="0,00" value="${trip.kosten == null ? '' : money(trip.kosten)}">
       <span>€</span>
@@ -1548,12 +1555,13 @@ function outputBody(trip, version, stamp) {
       ${transport ? `<tr><td><b>Reisemittel:</b></td><td>${esc(transport)}</td></tr>` : ''}
     </table>
     <table class="grid">
+      ${outCols(trip)}
       <thead><tr>${headCells(trip)}</tr></thead>
       <tbody>${rows || `<tr><td colspan="${colCount(trip)}">Noch keine Tage erfasst.</td></tr>`}</tbody>
     </table>
     <h2>Fazit</h2>
     <div>${linesHtml(commentItems(trip.fazit))}</div>
-    <h2>Gesamtkosten</h2>
+    <h2>Gesamtausgaben</h2>
     <p>${formatEuro(trip.kosten)}</p>
     ${stays.length ? `
       <h2>Quartierliste</h2>
