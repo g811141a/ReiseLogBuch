@@ -1,5 +1,5 @@
 // HIG-Prüfskript des Reiselogbuchs: geht alle Ansichten durch und misst sie mit der HIG-Prüfung aus AppDesign
-// (AppDesign/tests/hig.mjs, Designrichtlinie allgemein Abschnitt 16).
+// (AppDesign/tests/hig.mjs, Designrichtlinie allgemein Abschnitte 16 und 17 – jede Meldung mit ihrer Regelnummer R-x.y).
 // Aufruf im Repo-Ordner: node tests/hig.mjs   (braucht Playwright mit Chromium; AppDesign liegt daneben)
 // Geprüft wird jede Ansicht in hell und dunkel, quer und hoch – auf dem iPad und dem iPhone: Antippflächen, Schriftgrößen, Kontraste,
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
@@ -8,13 +8,13 @@ import { chromium } from 'playwright';
 import { createCheck } from '../../AppDesign/tests/hig.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
-const long = 'a'.repeat(100); // R-37: zu lange Wörter müssen im Wort umbrechen
+const long = 'a'.repeat(100); // R-6.3: zu lange Wörter müssen im Wort umbrechen
 const smileys = '😊😊😉👍😋😌😏😳🤪🥶🤷🏻‍♂️☹️🤮🙂'.repeat(3);
 const trips = [
   { id: 'a', title: 'Australien', participants: 'Anna, Ben', start: '2026-08-24', end: '2026-09-05', transport: ['flug', 'leihwagen'], quarterList: true, foodColumn: true, moodColumn: true, quarterColumn: true, fazit: 'Schön',
     days: { '2026-08-24': { weather: '☀️', program: 'Ankunft Sydney\nOper', mood: '🙂 super', food: '🍽️ Fischmarkt – gut\n😋 Harrys Café – Pie', quarter: 'Hotel Rocks', place: 'Sydney' },
       '2026-08-25': { program: 'Anreise ' + long, comment: '😉 ' + long, food: '😋 ' + long, quarter: long, place: 'Wien' },
-      // R-37: Reihen von Smileys ohne Leerzeichen (wie im echten Reiselogbuch, P-21/3)
+      // R-6.3: Reihen von Smileys ohne Leerzeichen (wie im echten Reiselogbuch, P-21/3)
       '2026-08-26': { program: 'Rundgang', comment: smileys + ' À' + 'a'.repeat(60), food: '🕛☕😉 Auer Bäckerei Graz-Nord - perfektes Frühstücken ' + '😳'.repeat(30) + '\n' + '😕🤮🤮🤮🤮🤮👎⭐🍕👌🍕👌🥩'.repeat(4) } } },
   { id: 'c', title: 'Rundreise ' + 'b'.repeat(60), participants: long, start: '2024-05-03', end: '2024-05-17', transport: ['pkw'], days: {} },
   { id: 'b', title: 'Toskana', participants: 'Anna', start: '2027-05-03', end: '2027-05-17', transport: ['pkw'], days: {} },
@@ -50,7 +50,7 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[1180, 820], [820,
   await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: {}, trips, savedAt: Date.now(), savedOn: 'iPhone' })) });
   await p.waitForTimeout(300); await stays('#sideMore', 'Abfrage Backup laden'); await M('Abfrage Backup laden');
   await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
-  // R-44 (seit 3.11.0): Abgleichen mit einem neuen Reiselogbuch im Backup – kurzes Fenster mit Schaltfläche, dann der Abgleichbericht
+  // R-9.4 (seit 3.11.0): Abgleichen mit einem neuen Reiselogbuch im Backup – kurzes Fenster mit Schaltfläche, dann der Abgleichbericht
   await p.click('#sideMore'); await p.waitForTimeout(150);
   const [ch2] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
   await ch2.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: {}, savedAt: Date.now(), savedOn: 'iPhone',
@@ -70,7 +70,10 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[1180, 820], [820,
   await away();
   await p.click('#searchBtn'); await p.waitForTimeout(150); await p.fill('#search', 'Oper'); await p.waitForTimeout(700); await M('Suche');
   await hig.barStill(p, `Suche (${tag})`);
-  if (await p.locator('#search').evaluate(e => e === document.activeElement && getComputedStyle(e).outlineStyle !== 'none')) note('Suchfeld', 'blauer Fokus-Rahmen', `Suche (${tag})`);
+  // R-2.1 (seit 3.11.5): auch bei offener Tastatur (nachgebildet: sichtbarer Bereich etwa halb so hoch) stehen die Leisten fest.
+  await p.setViewportSize({ width: w, height: Math.round(h * 0.55) }); await p.waitForTimeout(250); await hig.barStill(p, `Suche mit Tastatur (${tag})`);
+  await p.setViewportSize({ width: w, height: h }); await p.waitForTimeout(250);
+  if (await p.locator('#search').evaluate(e => e === document.activeElement && getComputedStyle(e).outlineStyle !== 'none')) note('Regel', 'R-3.4 Suchfeld mit blauem Fokus-Rahmen', `Suche (${tag})`);
   await p.click('#searchBtn').catch(() => {}); await p.waitForTimeout(150);
   const dialog = async (open, s, opener) => {
     await open(); await p.waitForTimeout(350);
@@ -112,6 +115,9 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
   await away();
   await p.click('#searchBtn'); await p.waitForTimeout(150); await p.fill('#search', 'Oper'); await p.waitForTimeout(700); await M('Suche');
   await hig.barStill(p, `Suche (${tag})`);
+  // R-2.1 (seit 3.11.5): auch bei offener Tastatur (nachgebildet: sichtbarer Bereich etwa halb so hoch) stehen die Leisten fest.
+  await p.setViewportSize({ width: w, height: Math.round(h * 0.55) }); await p.waitForTimeout(250); await hig.barStill(p, `Suche mit Tastatur (${tag})`);
+  await p.setViewportSize({ width: w, height: h }); await p.waitForTimeout(250);
   await p.click('#searchBtn'); await p.waitForTimeout(200);
   await p.evaluate(() => window.scrollTo(0, 600)); await p.waitForTimeout(150); await M('Titel in der Leiste'); await p.evaluate(() => window.scrollTo(0, 0));
   const dialog = async (open, s, opener) => {
@@ -119,8 +125,8 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
     if (opener) await stays(opener, s);
     await M(s);
     // Fenster: kein Fokus-Rahmen am x, Seite dahinter gesperrt (AppDesign 4.2.0)
-    if (await p.evaluate(() => document.activeElement?.id === 'dlgX')) note('Fenster', 'x hat beim Öffnen den Fokus (blauer Rahmen)', `${s} (${tag})`);
-    if (!(await p.evaluate(() => document.documentElement.classList.contains('locked')))) note('Fenster', 'Seite dahinter nicht gesperrt', `${s} (${tag})`);
+    if (await p.evaluate(() => document.activeElement?.id === 'dlgX')) note('Regel', 'R-3.4 x hat beim Öffnen den Fokus (blauer Rahmen)', `${s} (${tag})`);
+    if (!(await p.evaluate(() => document.documentElement.classList.contains('locked')))) note('Regel', 'R-1.4 Seite hinter dem Fenster nicht gesperrt', `${s} (${tag})`);
     await p.click('#dlgX'); await p.waitForTimeout(200);
     if (await p.locator('.pop').count()) { await p.locator('.pop button').first().click(); await p.waitForTimeout(200); }
   };
@@ -131,7 +137,7 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
   await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);
   await M('Sprechblase Löschen'); await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
   await p.click('#back'); await p.waitForTimeout(250); await M('Startliste');
-  // Abfrage beim Laden eines Backups (T-03), auch iPhone quer: muss ganz auf den Bildschirm passen (R-39)
+  // Abfrage beim Laden eines Backups (T-03), auch iPhone quer: muss ganz auf den Bildschirm passen (R-4.5)
   await p.evaluate(() => db.trips.forEach(t => { t.changedAt = Date.now(); t.changedOn = 'iPhone'; }));   // mit Vergleich ‚neuer/älter‘ wie im Alltag
   await p.click('#sideMore'); await p.waitForTimeout(150);
   const [chooser] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
@@ -144,7 +150,7 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
     await p.click('#sideMore', { timeout: 3000 }); await p.waitForTimeout(150); await stays('#sideMore', 'Menü Startliste'); await M('Menü Startliste'); await away();
     await dialog(() => p.click('#newTrip', { timeout: 3000 }), 'Fenster Neues Reiselogbuch', '#newTrip');
   } catch (e) { note('Ablauf', 'Startliste nicht bedienbar (Mehr/plus fehlen)', tag); }
-  // R-44 (seit 3.11.2 auch am iPhone): Ergebnisfenster und Abgleichbericht, links und ganz nach rechts gewischt
+  // R-9.4 (seit 3.11.2 auch am iPhone): Ergebnisfenster und Abgleichbericht, links und ganz nach rechts gewischt
   await p.click('#sideMore'); await p.waitForTimeout(150);
   const [ch2] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
   await ch2.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: {}, savedAt: Date.now(), savedOn: 'iPad',

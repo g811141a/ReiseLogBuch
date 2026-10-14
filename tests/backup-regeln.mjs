@@ -1,4 +1,4 @@
-// Allgemeine Prüfung ‚Backup erstellen‘ und ‚Backup laden‘ (AppDesign/tests/backup.mjs, R-45, R-46) – iPad und iPhone, hell und dunkel.
+// Allgemeine Prüfung ‚Backup erstellen‘ und ‚Backup laden‘ (AppDesign/tests/backup.mjs, R-9.1, R-9.2) – iPad und iPhone, hell und dunkel.
 // Aufruf im Repo-Ordner: node tests/backup-regeln.mjs
 import { chromium } from 'playwright';
 import { checkBackup } from '../../AppDesign/tests/backup.mjs';

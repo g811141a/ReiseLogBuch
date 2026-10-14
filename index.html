@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.11.4">
+<link rel="stylesheet" href="../AppDesign/v4/design.css?v=4.12.0">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -47,7 +47,7 @@
   .ln .m { flex: none; }
   .ln .t { min-width: 0; overflow-wrap: anywhere; }
   /* In der Tagestabelle zwischen ganzen Wörtern umbrechen (die Spalte wird so breit wie das längste Wort);
-     ein zu langes Wort, das nicht in die Spalte passt, bricht im Wort um (R-37). */
+     ein zu langes Wort, das nicht in die Spalte passt, bricht im Wort um (R-6.3). */
   table.days .ln .t { overflow-wrap: break-word; }
   /* Spaltenköpfe (Smileys) bleiben in einer Zeile – die Spalte wird mindestens so breit. */
   table.days th { white-space: nowrap; }
@@ -115,18 +115,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/v4/ui.js?v=4.11.4"></script>
+<script src="../AppDesign/v4/ui.js?v=4.12.0"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.11.4';
-const APP_BUILT = '14.10.2026 um 03:59';
-// R-48: benötigte AppDesign-Fassung (gleich wie ?v= bei ui.js und design.css oben und in sw.js). Ist eine andere geladen
+const APP_VERSION = '3.11.5';
+const APP_BUILT = '14.10.2026 um 11:08';
+// R-10.3: benötigte AppDesign-Fassung (gleich wie ?v= bei ui.js und design.css oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.11.4';
+const AD_NEEDED = '4.12.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -178,12 +178,12 @@ function onDialogOpen() { clearInterval(autosaveTimer); }
 
 /* ---------- Speicher ---------- */
 
-// Abgleich zwischen iPad und iPhone (T-03, Regeln R-41 bis R-44): gemeinsamer Baustein createSync aus AppDesign (ui.js).
+// Abgleich zwischen iPad und iPhone (T-03, Regeln R-9.2 bis R-9.4): gemeinsamer Baustein createSync aus AppDesign (ui.js).
 // Je Feld Zeitpunkt und Gerät – Kopfdaten (metaAt) und Tage (dayAt); gelöschte Reiselogbücher in db.deleted.
 const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields: ['outputCounter'],
   nouns: ['Reiselogbuch', 'Reiselogbücher', 'Reiselogbüchern'], app: 'Reiselogbuch',
-  // Namen der Felder für die Tabelle der Änderungen nach dem Abgleich (R-44).
-  labels: { title: 'Reisetitel', participants: 'Reiseteilnehmer', start: 'Beginn', end: 'Ende', transport: 'Verkehrsmittel',
+  // Namen der Felder für die Tabelle der Änderungen nach dem Abgleich (R-9.4) – wie im Fenster (R-9.1.1).
+  labels: { title: 'Reisetitel', participants: 'Reiseteilnehmer', start: 'Beginn', end: 'Ende', transport: 'Reisemittel',
     quarterList: 'Quartierliste', foodColumn: 'Spalte Essen', moodColumn: 'Spalte Wie war was?', quarterColumn: 'Spalte Quartier',
     fazit: 'Fazit', kosten: 'Gesamtkosten', weather: 'Wetter', program: 'Verlauf', comment: 'Wie war was?', food: 'Essen und Trinken',
     sameQuarter: 'Quartier wie Vortag', quarter: 'Quartier', place: 'Ort', noMap: 'Google-Maps-Link' } });
@@ -241,7 +241,7 @@ let searchIndex = 0;
 let autosaveTimer = null;
 let searchOpen = false;
 let searchJump = null;     // Zeitgeber für den Sprung zum ersten Treffer    // Suchzeile unter der Kopfzeile eingeblendet
-// R-47 (seit 3.11.0): ein einziger Zustand für quer und hoch – sichtbar bleibt beim Drehen sichtbar (quer fest links,
+// R-8.1 (seit 3.11.0): ein einziger Zustand für quer und hoch – sichtbar bleibt beim Drehen sichtbar (quer fest links,
 // hoch über den Inhalt gelegt), ausgeblendet bleibt ausgeblendet. Nur Tippen ändert ihn, nie das Drehen.
 let sideOpen = true;
 let emptyPrompted = false; // Ohne Reiselogbuch öffnet sich "Neues Reiselogbuch" einmal von selbst
@@ -380,7 +380,7 @@ function programItems(text) {
 
 // Führende Smileys (auch mehrere) einer Zeile abtrennen: "🕛 😋 Text" → { m: "🕛😋", t: "Text" }.
 // Höchstens drei werden zum Zeichen; eine längere Reihe ist Inhalt: die ganze Zeile ist dann Text und bricht
-// am Rand der Zelle um (R-37).
+// am Rand der Zelle um (R-6.3).
 const MAX_MARKS = 3;
 function splitLeadingEmojis(line) {
   const g = graphemes(line);
@@ -458,9 +458,9 @@ function toggleNoLink(ta) {
 
 // Optional werden Suchtreffer im (bereits maskierten) Text gelb markiert.
 function highlight(text, term) {
-  const safe = esc(breakable(text)); // zu lange Wörter dürfen im Wort umbrechen (R-37)
+  const safe = esc(breakable(text)); // zu lange Wörter dürfen im Wort umbrechen (R-6.3)
   if (!term) return safe;
-  // Zwischen den Zeichen darf eine unsichtbare Umbruchstelle stehen (lange Wörter, R-37)
+  // Zwischen den Zeichen darf eine unsichtbare Umbruchstelle stehen (lange Wörter, R-6.3)
   const pattern = (esc(term).match(/&[a-z0-9#]+;|./gsu) || []).map(ch => ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('\u200B?');
   return safe.replace(new RegExp(pattern, 'gi'), m => `<mark>${m}</mark>`);
 }
@@ -764,7 +764,7 @@ let phoneList = false;   // iPhone: Startliste statt eines Reiselogbuchs
 function renderPhone({ scrollToGap = false } = {}) {
   fab.hidden = true;
   const trip = getTrip(currentTripId);
-  // Startliste = Seitenleiste als ganze Seite (derselbe Baustein wie am iPad, R-36)
+  // Startliste = Seitenleiste als ganze Seite (derselbe Baustein wie am iPad, R-1.1)
   if (phoneList || !trip) {
     searchOpen = false;
     app.innerHTML = '';
@@ -1465,7 +1465,7 @@ function outputName(trip, version) {
 }
 
 // Alle Regeln gelten nur innerhalb von .rt, damit sie beim Drucken nicht in die App durchschlagen.
-// Schrift und Tabellen aus der Mustertabelle der Ausgabe in AppDesign (outputCss, R-52); hier nur, was dazukommt.
+// Schrift und Tabellen aus der Mustertabelle der Ausgabe in AppDesign (outputCss, R-6.2); hier nur, was dazukommt.
 const OUTPUT_CSS = outputCss('.rt') + `
   body { font: 11pt/1.4 -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #000; background: #fff; margin: 24px; }
   .rt .ln { display: flex; gap: .35em; }
@@ -1699,7 +1699,7 @@ importFile.onchange = async () => {
   try {
     const { data, savedAt, savedOn } = await readBackup(file, 'trips');
     normalize(data);
-    // Abfrage (R-41): Zeitpunkt und Gerät des Backups, neuer oder älter – Abgleichen · Ersetzen · Abbrechen.
+    // Abfrage (R-9.2): Zeitpunkt und Gerät des Backups, neuer oder älter – Abgleichen · Ersetzen · Abbrechen.
     const choice = await sync.ask(document.querySelector(importAnchor), db, data, savedAt, savedOn);
     if (!choice) return release(importAnchor);
     // Das letzte Backup gilt je Gerät: der Zeitpunkt aus der Datei (z. B. vom iPad) wird nicht übernommen.
@@ -1715,7 +1715,7 @@ importFile.onchange = async () => {
     if (dlg.open) dlg.close();
     // Abgleichen bleibt in der aktuellen Ansicht; Ersetzen beginnt wie beim Start.
     if (choice === 'merge' && getTrip(currentTripId)) render(); else showTrip(pickStartTrip()?.id);
-    // R-44: Ergebnis mit Tabelle der Änderungen auf diesem Gerät (breites Fenster).
+    // R-9.4: Ergebnis mit Tabelle der Änderungen auf diesem Gerät (breites Fenster).
     if (stats) await sync.showResult(stats, savedAt, savedOn);
     release(importAnchor);
   } catch (e) {
@@ -1744,9 +1744,9 @@ let wasWide = isWide();
 let wasPhone = isPhone();
 window.addEventListener('resize', () => {
   placeDialogs();
-  // R-40: Ist ein Menü oder eine Abfrage aus der Seitenleiste offen, bleibt sie in jedem Fall sichtbar.
+  // R-8.1: Ist ein Menü oder eine Abfrage aus der Seitenleiste offen, bleibt sie in jedem Fall sichtbar.
   if (document.querySelector('#side .on') && document.querySelector('.menu, .pop')) sideOpen = true;
-  // Wechsel fest ↔ darübergelegt bzw. iPad- ↔ iPhone-Aufbau: neu aufbauen; der Zustand sideOpen bleibt (R-47).
+  // Wechsel fest ↔ darübergelegt bzw. iPad- ↔ iPhone-Aufbau: neu aufbauen; der Zustand sideOpen bleibt (R-8.1).
   if (isPhone() !== wasPhone || isWide() !== wasWide) { wasPhone = isPhone(); wasWide = isWide(); render(); return; }
   const bar = document.getElementById('bar');
   if (bar) document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');

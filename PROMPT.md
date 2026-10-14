@@ -1,4 +1,4 @@
-# Reiselogbuch – Prompt (Stand 14.10.2026, Version 3.11.4)
+# Reiselogbuch – Prompt (Stand 14.10.2026, Version 3.11.5)
 
 Reiselogbuch 3.11.4 · AppDesign 4.11.4 (Designrichtlinie allgemein 4.11.4) · Designrichtlinie Reiselogbuch 3.11.4 · Zusammenarbeit allgemein 2.0.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
@@ -107,16 +107,16 @@ RAHMEN
     Breite; ist das Fenster schmaler (iPad hoch, iPhone), wischt man seitlich.
   - Seit 3.6.0: Auch am iPad steht die Kopfzeile fest; in der Seitenleiste scrollen nur die
     Kacheln, Kopf und Backup-Kachel bewegen sich nie. Es gilt der Regelkatalog der
-    Designrichtlinie allgemein (R-01 bis R-35); das Prüfskript prüft ihn bei jeder Version.
+    Designrichtlinie allgemein (seit 3.11.5 nach Themen: R-1.1 bis R-10.4); die Prüfskripte prüfen ihn bei jeder Version.
   - Seit 3.7.0: Die Startliste am iPhone ist dieselbe Seitenleiste wie am iPad, als ganze Seite
-    (ein Baustein, R-36); die Kacheln laufen auf beiden Geräten hinter der Backup-Kachel durch.
-    Zu lange Wörter brechen in Zellen, Kästen und Kacheln im Wort um (R-37); die Suche markiert
+    (ein Baustein, R-1.1); die Kacheln laufen auf beiden Geräten hinter der Backup-Kachel durch.
+    Zu lange Wörter brechen in Zellen, Kästen und Kacheln im Wort um (R-6.3); die Suche markiert
     auch Teile solcher Wörter.
   - Seit 3.8.0: Reihen von Smileys ohne Leerzeichen brechen um – höchstens drei Smileys am
     Zeilenanfang werden zum Zeichen, eine längere Reihe ist Text. Die Seitenleiste behält ihre
     Position, der gewählte Eintrag bleibt sichtbar. iPhone: Wischen bei offener Suche schließt die Tastatur.
   - Seit 3.8.1: Eine Symbolleiste – mit oder ohne Suchzeile – bewegt sich beim Wischen keinen
-    Millimeter (R-05). Bei offener Tastatur der Suche schließt das erste Wischen nur die Tastatur.
+    Millimeter (R-2.1). Bei offener Tastatur der Suche schließt das erste Wischen nur die Tastatur.
   - Seit 3.9.0: Abgleich zwischen iPad und iPhone (T-03). Jede Änderung bekommt Zeitpunkt und Gerät
     (je Reiselogbuch und je Tag), gelöschte Reiselogbücher werden gemerkt. ‚Backup laden‘ zeigt
     Zeitpunkt und Gerät des Backups und ob es neuer oder älter ist und fragt: Abgleichen (je
@@ -124,25 +124,25 @@ RAHMEN
     Abbrechen. Das Ergebnis steht im kleinen Fenster. Jede Kachel zeigt ‚geändert am … · Gerät‘.
     Weg: auf dem einen Gerät ‚Backup erstellen‘ → ‚In Dateien sichern‘ → iCloud Drive; auf dem
     anderen ‚Backup laden‘ → die Datei in iCloud Drive wählen → Abgleichen.
-  - Seit 3.9.1: Menüs, Sprechblasen und Fenster passen immer ganz auf den Bildschirm (R-39).
-  - Seit 3.10.0: Menüs und Untermenüs bleiben beim Drehen an ihrer Schaltfläche (R-40); iPhone: Kontextmenü einer
-    Reise linksbündig unter der Kachel. Abgleich je Feld nach den allgemeinen Regeln R-41 bis R-44 (Fall-Tabelle:
-    Designrichtlinie allgemein 15.18); Backup erstellen und laden nach R-45, R-46 – die Abfrage zeigt je eine Kachel
+  - Seit 3.9.1: Menüs, Sprechblasen und Fenster passen immer ganz auf den Bildschirm (R-4.5).
+  - Seit 3.10.0: Menüs und Untermenüs bleiben beim Drehen an ihrer Schaltfläche (R-8.1); iPhone: Kontextmenü einer
+    Reise linksbündig unter der Kachel. Abgleich je Feld nach den allgemeinen Regeln R-9.2 bis R-9.4 (Fall-Tabelle:
+    Designrichtlinie allgemein 15.18); Backup erstellen und laden nach R-9.1, R-9.2 – die Abfrage zeigt je eine Kachel
     für Abgleichen und Ersetzen. Abgleich und Backup kommen als gemeinsame Bausteine aus AppDesign.
-  - Seit 3.10.1: Die Seitenleiste behält beim Drehen ihren Zustand (R-47); das Kontextmenü einer Reise ist nie
+  - Seit 3.10.1: Die Seitenleiste behält beim Drehen ihren Zustand (R-8.1); das Kontextmenü einer Reise ist nie
     abgeschnitten und steht nie über der Backup-Kachel; leere Felder überschreiben beim Abgleich nichts; die Hinweise
     nennen iPad bzw. iPhone beim Namen.
   - Seit 3.11.0: Nach dem Abgleichen ein kleines Fenster ohne Einzelheiten; gibt es etwas zu berichten, öffnet
     ‚Abgleichbericht anzeigen‘ den Bericht als Vorschau wie die Ausgabe (teilbar als HTML): Tabelle der Änderungen
     (Reiselogbuch · Tag · Feld · Neu · Vorher · Vom Gerät · Geändert am), Anzahl unveränderter Reiselogbücher, Tabelle
-    ‚Auf diesem … neuer als im Backup – bleibt so‘, Hinweise (R-44). Ohne Änderung nur ‚Alles war schon auf dem gleichen
+    ‚Auf diesem … neuer als im Backup – bleibt so‘, Hinweise (R-9.4). Ohne Änderung nur ‚Alles war schon auf dem gleichen
     Stand.‘. Die App lädt AppDesign mit Versionsnummer und meldet beim Start eine falsche Fassung; die Versionszeile nennt
-    ‚AppDesign 4.11.0‘ (R-48). Die Seitenleiste hat einen Zustand für quer und hoch (R-47).
-  - Seit 3.11.2: Beim Drehen bleibt oben derselbe Tag stehen (R-51). Der Abgleichbericht hat oben rechts PDF und Teilen
-    wie die Vorschau der Ausgabe; kein Zelleninhalt ragt in die Nachbarzelle (R-37).
-  - Seit 3.11.3: Die Tabellen des Abgleichberichts sehen aus wie die der HTML-Ausgabe – überall gleich starke Linien (R-52).
+    ‚AppDesign 4.11.0‘ (R-10.3). Die Seitenleiste hat einen Zustand für quer und hoch (R-8.1).
+  - Seit 3.11.2: Beim Drehen bleibt oben derselbe Tag stehen (R-8.1). Der Abgleichbericht hat oben rechts PDF und Teilen
+    wie die Vorschau der Ausgabe; kein Zelleninhalt ragt in die Nachbarzelle (R-6.3).
+  - Seit 3.11.3: Die Tabellen des Abgleichberichts sehen aus wie die der HTML-Ausgabe – überall gleich starke Linien (R-6.2).
   - Seit 3.11.4: Im Abgleichbericht ist jedes Reiselogbuch eine Tabellenzeile (Name in der ersten Spalte zusammengefasst),
-    ganz weiß oder ganz grau, im Wechsel (R-52).
+    ganz weiß oder ganz grau, im Wechsel (R-6.2).
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen
@@ -272,7 +272,7 @@ HAUPTANSICHT (TABELLE)
   (die erste Lücke, auch wenn spätere Tage schon erfasst sind) und
   markiert diese Zeile.
 - Die Kopfzeile bleibt beim Scrollen stehen, der Tabellenkopf direkt
-  darunter. In der Tabelle wird zwischen ganzen Wörtern umgebrochen; ein zu langes Wort bricht im Wort um (R-37).
+  darunter. In der Tabelle wird zwischen ganzen Wörtern umgebrochen; ein zu langes Wort bricht im Wort um (R-6.3).
 - Unten rechts übereinander die Schaltflächen ⬆️ (nach oben) und ⬇️ (ans
   Ende), im gleichen Aussehen wie die Dunkel-Schaltfläche, ohne Schatten.
 - Filter im Mehr-Menü: "Alle Tage" bzw. "Nur erfasste Tage"; beim Öffnen

@@ -59,7 +59,7 @@ const ask = await iphone.locator('.pop > p').innerHTML();
 check(ask.includes('Backup vom <b>12.10.2026 um 11:00</b> (iPad) mit 3 Reiselogbüchern.'), `Abfrage: ${ask}`);
 check(ask.includes('Es ist <b>älter</b> als die Daten auf diesem iPhone (zuletzt geändert am 12.10.2026 um 12:00)'), `Vergleich: ${ask}`);
 await iphone.locator('.pop button', { hasText: 'Abgleichen' }).click(); await iphone.waitForTimeout(400);
-// R-44: kurzes Fenster mit Schaltfläche; die Einzelheiten stehen im Abgleichbericht (Vorschau).
+// R-9.4: kurzes Fenster mit Schaltfläche; die Einzelheiten stehen im Abgleichbericht (Vorschau).
 check(await iphone.locator('#msg[open] [data-act]', { hasText: 'Abgleichbericht anzeigen' }).count() === 1, 'Schaltfläche ‚Abgleichbericht anzeigen‘ fehlt');
 await iphone.click('#msg [data-act]'); await iphone.waitForTimeout(400);
 const result = await iphone.locator('#dlg .sync-report').innerHTML();
