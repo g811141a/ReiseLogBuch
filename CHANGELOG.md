@@ -13,6 +13,33 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.11.7 – 14.10.2026 (Korrektur)
+
+Reiselogbuch 3.11.7 · AppDesign 4.12.2 (Designrichtlinie allgemein 4.12.2) · Designrichtlinie Reiselogbuch 3.11.7 · Zusammenarbeit allgemein 2.2.0
+
+A-02 Schritte 3 und 4 – nur Texte und Prüfungen, die App sieht gleich aus:
+
+- **Designrichtlinie Reiselogbuch 3.11.7:** Wiederholungen allgemeiner Regeln durch Verweise ersetzt (Backup-Kachel R-9.1,
+  Suche R-2.3, Vorschau R-6.4, Abfragen R-4.3, Diktieren und Großbuchstaben R-5.2); alter Text ‚Backup laden … werden
+  ersetzt‘ gestrichen (seit 4.10.0 Abfrage mit Abgleichen und Ersetzen, R-9.2); Feldnamen des Abgleichberichts wie in der
+  App (‚Reisemittel‘ statt ‚Verkehrsmittel‘).
+- **PROMPT.md:** Versionszeile nachgeführt (stand noch auf 3.11.4 / 4.11.4); ‚Läuft nur auf dem iPad‘ → iPad und iPhone;
+  ‚Backup laden ersetzt … alle Daten‘ → Abgleichen oder Ersetzen.
+- **CLAUDE.md 3.0.0:** zuerst UEBERGABE.md, Regeln nur als Verweis auf AppDesign, Einbindung mit `?v=`, Prüfung mit
+  `sh tests/alle.sh`; BACKLOG-Kopf: 2–3 Punkte statt ‚etwa 5‘.
+- **Prüfungen:** `doku-regeln.mjs` ruft `checkCollab` auf (AppDesign 4.12.2; vorher rot, jetzt grün); `regeln-ablauf.mjs`
+  prüft die Vorschau (R-6.4) jetzt auch am iPad hoch und am iPhone quer – mit nicht wischbarer Vorschau rot, dann grün.
+
+Prüfliste P-34 (Schritt für Schritt, Zusammenarbeit allgemein 2.2.0). Kein sichtbarer Unterschied in der App erwartet.
+
+**P-34/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.11.7 · erstellt am … · AppDesign 4.12.2‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.11.7‘ und ‚AppDesign 4.12.2‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
 ## 3.11.6 – 14.10.2026 (Korrektur)
 
 Reiselogbuch 3.11.6 · AppDesign 4.12.1 (Designrichtlinie allgemein 4.12.1) · Designrichtlinie Reiselogbuch 3.11.6 · Zusammenarbeit allgemein 2.1.1

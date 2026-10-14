@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 14.10.2026, Version 3.11.6)
+# Reiselogbuch – Prompt (Stand 14.10.2026, Version 3.11.7)
 
-Reiselogbuch 3.11.4 · AppDesign 4.11.4 (Designrichtlinie allgemein 4.11.4) · Designrichtlinie Reiselogbuch 3.11.4 · Zusammenarbeit allgemein 2.0.0
+Reiselogbuch 3.11.7 · AppDesign 4.12.2 (Designrichtlinie allgemein 4.12.2) · Designrichtlinie Reiselogbuch 3.11.7 · Zusammenarbeit allgemein 2.2.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -24,9 +24,9 @@ Ein Tagebuch in Tabellenform, genau wie in meinem Beispiel:
   Gesamtausgaben: 0,00 €
 
 RAHMEN
-- Läuft nur auf dem iPad, nur ich nutze es (kein Teilen, kein Login).
+- Läuft auf iPad und iPhone (abgeglichen über das Backup), nur ich nutze es (kein Login).
 - Nur Text, Icons und Smileys – keine Fotos.
-- Daten bleiben lokal auf dem iPad; die App fordert beim Start dauerhaften
+- Daten bleiben lokal auf dem Gerät; die App fordert beim Start dauerhaften
   Speicher an, damit Safari die Daten nicht von selbst löscht.
 - Auch offline nutzbar. Beim Start fragt die App immer bei GitHub nach
   einer neuen Version (kein 10-Minuten-Zwischenspeicher); ohne Netz läuft
@@ -292,7 +292,7 @@ HAUPTANSICHT (TABELLE)
   nächsten Treffer (am Anfang/Ende ausgegraut, kein Umlauf). Der Treffer im
   Fokus ist hellorange und wird in die Bildmitte gescrollt; die Eingabetaste
   springt weiter.
-- Aussehen im Apple-Look (siehe Designrichtlinie allgemein 3.0.0): Hintergrund
+- Aussehen im Apple-Look (siehe Designrichtlinie allgemein): Hintergrund
   Hellgrau, Kästen weiß ohne Rand, schwebende Schaltflächen mit 12 px Abstand;
   Akzentfarbe Apple-Blau: blau gefüllt = Hauptaktion, blau getönt mit Haarlinie
   = eingeschaltet (ohne Breitenänderung), rot gefüllt = Löschen; blau gefüllt nur in Fenstern,
@@ -458,7 +458,7 @@ SICHERHEIT
 - Backup als Datei exportieren/importieren, enthält alle Reisen.
 - Backup über "Backup erstellen" (Mehr-Menü der Seitenleiste oder Hinweis
   unten in der Seitenleiste), über das Teilen-Menü ("In Dateien sichern").
-  Backup laden ersetzt nach einer Sprechblase ("Ersetzen") alle Daten.
+  Backup laden fragt mit zwei Kacheln: Abgleichen oder Ersetzen (R-9.2).
 - Einmal am Tag sichern: Solange heute noch kein Backup gesichert wurde,
   steht der Hinweis unten in der Seitenleiste. Kein automatisches Backup bei
   der Ausgabe; danach erscheint eine Erinnerung "Denk daran, auch ein Backup
