@@ -1,12 +1,17 @@
 // Ablauf-Test: Abgleich über die echte Oberfläche wie auf dem Gerät – Fenster ‚Tag‘ (speichert alle Felder, auch leere),
 // Backup erstellen (Kachel), Backup laden → Abgleichen, in beide Richtungen. Fälle 8, 9, 9a–9c der Tabelle (15.18).
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich-ui.mjs
-import { chromium } from 'playwright';
+import * as pw from 'playwright';
+import { pruefung } from '../../AppDesign/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/tests/hig.mjs';
+// Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
+const t = pruefung('ablauf-abgleich-ui', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
+const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
 import { readFileSync } from 'node:fs';
 const APP = new URL('../index.html', import.meta.url).href;
-const errors = [];
+const errors = { push: (...m) => m.forEach(x => t.fehler('', x)) };   // Meldungen werden Fehler (pruefe.mjs)
 const base = [{ id: 'x', title: 'Island', participants: 'A', start: '2026-07-01', end: '2026-07-05', transport: ['flug'], quarterColumn: true, moodColumn: true, days: { '2026-07-02': { program: 'Alt' } } }];
-const b = await chromium.launch();
+const b = await t.browser();
 const dev = async (w, h) => { const c = await b.newContext({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700, acceptDownloads: true }); const p = await c.newPage(); p.on('pageerror', e => errors.push(e.message)); return p; };
 const at = (p, t) => p.clock.setFixedTime(new Date(`2026-10-12T${t}:00`));
 const backup = async p => { const name = p.viewportSize().width < 700 ? '#hintBackup' : '#hintBackup'; if (p.viewportSize().width < 700) { await p.click('#back'); await p.waitForTimeout(200); }
@@ -53,10 +58,10 @@ for (const fall of [8, 9, '9a', '9b', '9c']) {
   await at(ipad, '12:15'); await load(ipad, fromIphone);
   const w = want[fall];
   for (const [name, p] of [['iPad', ipad], ['iPhone', iphone]]) {
+    t.ort = `Fall ${fall} – ${name}`; await G(p, 'nach beiden Abgleichen');
     const d = await p.evaluate(i => db.trips[0].days[i] || {}, w.iso);
     if ((d.weather || '') !== (w.weather || '') || d.program !== w.program) errors.push(`Fall ${fall} – ${name}: Wetter ‚${d.weather}‘, Verlauf ‚${d.program}‘ statt ‚${w.weather || ''}‘/‚${w.program}‘`);
   }
   await ipad.context().close(); await iphone.context().close();
 }
-console.log('ERR', JSON.stringify(errors, null, 1));
-await b.close();
+await t.ende(b);

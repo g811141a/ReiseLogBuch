@@ -1,10 +1,13 @@
 // HIG-Prüfskript des Reiselogbuchs: geht alle Ansichten durch und misst sie mit der HIG-Prüfung aus AppDesign
 // (AppDesign/tests/hig.mjs, Designrichtlinie allgemein Abschnitte 16 und 17 – jede Meldung mit ihrer Regelnummer R-x.y).
-// Aufruf im Repo-Ordner: node tests/hig.mjs   (braucht Playwright mit Chromium; AppDesign liegt daneben)
+// Aufruf im Repo-Ordner: node tests/hig.mjs   (braucht Playwright; AppDesign liegt daneben)
+// Seit 3.12.0: Browser über PRUEF_BROWSER (chromium | webkit), Teilung für den parallelen Lauf über PRUEF_DARSTELLUNG
+// (light | dark, ohne Angabe beide) – der Gerätevergleich iPad ↔ iPhone (R-1.1) bleibt in jedem Teil vollständig.
 // Geprüft wird jede Ansicht in hell und dunkel, quer und hoch – auf dem iPad und dem iPhone: Antippflächen, Schriftgrößen, Kontraste,
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
 // Bewusste Abweichungen (Abschnitt 16) werden nicht gezählt. Ergebnis: Abweichungsliste, Exit-Code 1 bei Funden.
-import { chromium } from 'playwright';
+import * as pw from 'playwright';
+import { pruefung } from '../../AppDesign/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/tests/hig.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
@@ -26,8 +29,9 @@ const trips = [
 const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] });
 const { measure, note } = hig;
 
-const browser = await chromium.launch();
-for (const scheme of ['light', 'dark']) for (const [w, h] of [[1180, 820], [820, 1180]]) {
+const browser = await pruefung('hig', pw).browser();
+const darstellungen = process.env.PRUEF_DARSTELLUNG ? [process.env.PRUEF_DARSTELLUNG] : ['light', 'dark'];
+for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 1180]]) {
   const tag = `${scheme === 'light' ? 'hell' : 'dunkel'} ${w > h ? 'quer' : 'hoch'}`;
   const p = await browser.newPage({ viewport: { width: w, height: h }, hasTouch: true, colorScheme: scheme });
   const errors = [];
@@ -93,7 +97,7 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[1180, 820], [820,
   await p.close();
 }
 // iPhone (AppDesign html.phone): hoch und quer, hell und dunkel.
-for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 393]]) {
+for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]]) {
   const tag = `iPhone ${scheme === 'light' ? 'hell' : 'dunkel'} ${w > h ? 'quer' : 'hoch'}`;
   const p = await browser.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: true, colorScheme: scheme });
   const errors = [];
@@ -167,4 +171,7 @@ for (const scheme of ['light', 'dark']) for (const [w, h] of [[393, 852], [852, 
 }
 await browser.close();
 
+// Gegenprobe (AppDesign/tests/pruefe.mjs): mit PRUEF_GEGENPROBE=1 muss die Prüfung rot werden.
+if (process.env.PRUEF_GEGENPROBE === '1') note('Gegenprobe', 'absichtlich eingefügte Abweichung', 'Gegenprobe');
+console.log(`Browser: ${process.env.PRUEF_BROWSER || 'chromium'} · Darstellung: ${darstellungen.join(', ')}`);
 process.exit(hig.report());

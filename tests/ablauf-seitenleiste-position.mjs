@@ -1,13 +1,18 @@
 // Ablauf-Test: Seitenleiste (iPad) bzw. Startliste (iPhone) behält ihre Position, der gewählte Eintrag bleibt sichtbar
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
-import { chromium } from 'playwright';
+import * as pw from 'playwright';
+import { pruefung } from '../../AppDesign/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/tests/hig.mjs';
+// Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
+const t = pruefung('ablauf-seitenleiste-position', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
+const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
 
 const APP = new URL('../index.html', import.meta.url).href;
 const trips = Array.from({ length: 14 }, (_, i) => ({ id: 't' + i, title: 'Reise ' + (i + 1), participants: 'A', start: `${2026 - i}-06-01`, end: `${2026 - i}-06-10`, transport: ['pkw'], days: { [`${2026 - i}-06-02`]: { program: 'Stadt ' + i } } }));
-const errors = [];
+const errors = { push: (...m) => m.forEach(x => t.fehler('', x)) };   // Meldungen werden Fehler (pruefe.mjs)
 const check = (ok, text) => { if (!ok) errors.push(text); };
-const b = await chromium.launch();
+const b = await t.browser();
 // Sichtbar = ganz innerhalb der Liste und über der Backup-Kachel
 const visible = p => p.evaluate(() => {
   const list = document.querySelector('#side .side-list'), cur = list?.querySelector('.side-row.current');
@@ -32,6 +37,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   if (dev === 'iPad hoch') { await p.click('#sideShow, [aria-label="Seitenleiste einblenden"]'); await p.waitForTimeout(250); }
   check(await p.locator('#side .side-row.current').textContent().then(t => t.includes('Reise 14')), `${dev}: gewählter Eintrag nicht blau`);
   check(await visible(p), `${dev}: gewählter Eintrag nach dem Öffnen nicht mehr sichtbar (Liste nach oben gesprungen)`);
+  t.ort = dev; await G(p, 'Reise 14 gewählt');
   await p.close();
 }
 // iPhone: Kontextmenü (lange drücken) linksbündig unter der Kachel, ganz sichtbar über der Backup-Kachel (R-8.1) –
@@ -55,6 +61,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
     check(g.left, `iPhone: Kontextmenü (${which} Kachel) nicht linksbündig`);
     check(g.aboveTile && g.inView, `iPhone: Kontextmenü (${which} Kachel) nicht ganz über der Backup-Kachel sichtbar`);
     check(g.rowVisible, `iPhone: Kachel (${which}) nach dem Verschieben nicht mehr sichtbar`);
+    t.ort = 'iPhone hoch'; await G(p, `Kontextmenü ${which} Kachel`);
     if (which === 'unterste') await p.screenshot({ path: new URL('out/iphone-kontextmenue-unten.png', import.meta.url).pathname });
     await p.mouse.click(380, 840); await p.waitForTimeout(200);
   }
@@ -70,13 +77,14 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   await p.click('#searchBtn'); await p.waitForTimeout(150); await p.fill('#search', 'Stadt'); await p.waitForTimeout(300);
   check(await p.evaluate(() => document.activeElement?.id === 'search'), 'iPhone: Suchfeld hat keinen Fokus');
   const top0 = await p.locator('.pnav').evaluate(e => e.getBoundingClientRect().top);
-  const blocked = await p.evaluate(() => { const t = document.querySelector('#pdays') || document.getElementById('app'); const touch = new Touch({ identifier: 1, target: t, clientX: 200, clientY: 500 });
-    return !t.dispatchEvent(new TouchEvent('touchmove', { bubbles: true, cancelable: true, touches: [touch], changedTouches: [touch] })); });
+  const blocked = await p.evaluate(() => { const t = document.querySelector('#pdays') || document.getElementById('app'); // WebKit unter Linux kennt new Touch() nicht – dann ein touchmove-Ereignis ohne Touch-Liste (die App braucht nur das Ereignis).
+    let ev; try { const touch = new Touch({ identifier: 1, target: t, clientX: 200, clientY: 500 }); ev = new TouchEvent('touchmove', { bubbles: true, cancelable: true, touches: [touch], changedTouches: [touch] }); }
+    catch { ev = new Event('touchmove', { bubbles: true, cancelable: true }); }
+    return !t.dispatchEvent(ev); });
   await p.waitForTimeout(100);
   check(blocked, 'iPhone: erstes Wischen bei offener Tastatur bewegt die Seite (R-2.1)');
   check(await p.evaluate(() => document.activeElement?.id !== 'search'), 'iPhone: Wischen bei offener Suche schließt die Tastatur nicht');
   check(await p.locator('.pnav').evaluate(e => e.getBoundingClientRect().top) === top0, 'iPhone: Leiste bewegt sich');
   await p.close();
 }
-console.log('ERR', JSON.stringify(errors));
-await b.close();
+await t.ende(b);

@@ -1,7 +1,9 @@
-// Versionskopplung App ↔ AppDesign (AppDesign/tests/version.mjs, R-10.3). Aufruf im Repo-Ordner: node tests/version-regeln.mjs
-import { chromium } from 'playwright';
+// Versionskopplung App ↔ AppDesign (AppDesign/tests/version.mjs, R-10.3). Aufruf im Repo-Ordner: node tests/version-regeln.mjs.
+// Meldet Fehler mit Rückgabewert (seit 3.12.0, pruefe.mjs).
+import * as pw from 'playwright';
+import { pruefung } from '../../AppDesign/tests/pruefe.mjs';
 import { checkVersions } from '../../AppDesign/tests/version.mjs';
-const b = await chromium.launch();
-const errors = await checkVersions(new URL('..', import.meta.url), b);
-console.log('ERR', JSON.stringify(errors, null, 1));
-await b.close();
+const t = pruefung('version-regeln', pw, { out: new URL('out/', import.meta.url) });
+const b = await t.browser();
+t.liste(await checkVersions(new URL('..', import.meta.url), b));
+await t.ende(b);
