@@ -1,9 +1,9 @@
 // Offline-Cache: App-Dateien zuerst aus dem Netz holen, ohne Netz aus dem Cache.
 // "no-cache" fragt immer bei GitHub nach (umgeht den 10-Minuten-Zwischenspeicher), eine neue Version ist sofort da.
-const CACHE = 'reiselogbuch-3.11.3';
+const CACHE = 'reiselogbuch-3.11.4';
 // Ab 3.0.0 kommen die gemeinsamen Bausteine aus AppDesign (gleiche Adresse g811141a.github.io) – auch offline.
 // Seit 3.11.0 (R-48) mit ?v=<AppDesign-Version> wie in index.html: jede neue Version lädt sicher die passende Fassung.
-const FILES = ['./', 'index.html', 'manifest.json', 'icon-180.png', 'icon-512.png', '../AppDesign/v4/design.css?v=4.11.3', '../AppDesign/v4/ui.js?v=4.11.3'];
+const FILES = ['./', 'index.html', 'manifest.json', 'icon-180.png', 'icon-512.png', '../AppDesign/v4/design.css?v=4.11.4', '../AppDesign/v4/ui.js?v=4.11.4'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));

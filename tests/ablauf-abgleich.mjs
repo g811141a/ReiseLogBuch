@@ -63,7 +63,7 @@ await iphone.locator('.pop button', { hasText: 'Abgleichen' }).click(); await ip
 check(await iphone.locator('#msg[open] [data-act]', { hasText: 'Abgleichbericht anzeigen' }).count() === 1, 'Schaltfläche ‚Abgleichbericht anzeigen‘ fehlt');
 await iphone.click('#msg [data-act]'); await iphone.waitForTimeout(400);
 const result = await iphone.locator('#dlg .sync-report').innerHTML();
-check(['updated" data-title="Island', 'added" data-title="Kreta', 'removed" data-title="Malta'].every(x => result.includes(`<tbody data-kind="${x}">`)) && result.includes('1 Reiselogbuch ist unverändert.'), `Bericht: ${result.slice(0, 400)}`);
+check(['updated" data-title="Island', 'added" data-title="Kreta', 'removed" data-title="Malta'].every(x => result.includes(`<tbody data-kind="${x}"`)) && result.includes('1 Reiselogbuch ist unverändert.'), `Bericht: ${result.slice(0, 400)}`);
 // T-80: Kapsel oben rechts wie die Vorschau der Ausgabe – PDF und Teilen; PDF füllt #printout und öffnet das Drucken-Menü.
 check(await iphone.locator('#dlg .grp #repPdf', { hasText: 'PDF' }).count() === 1 && await iphone.locator('#dlg .grp #repShare').count() === 1, 'Kapsel mit PDF und Teilen fehlt');
 await iphone.evaluate(() => { window.__printed = 0; window.print = () => { window.__printed++; }; });

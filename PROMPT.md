@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 14.10.2026, Version 3.11.3)
+# Reiselogbuch – Prompt (Stand 14.10.2026, Version 3.11.4)
 
-Reiselogbuch 3.11.3 · AppDesign 4.11.3 (Designrichtlinie allgemein 4.11.3) · Designrichtlinie Reiselogbuch 3.11.3 · Zusammenarbeit allgemein 1.16.0
+Reiselogbuch 3.11.4 · AppDesign 4.11.4 (Designrichtlinie allgemein 4.11.4) · Designrichtlinie Reiselogbuch 3.11.4 · Zusammenarbeit allgemein 1.16.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -141,6 +141,8 @@ RAHMEN
   - Seit 3.11.2: Beim Drehen bleibt oben derselbe Tag stehen (R-51). Der Abgleichbericht hat oben rechts PDF und Teilen
     wie die Vorschau der Ausgabe; kein Zelleninhalt ragt in die Nachbarzelle (R-37).
   - Seit 3.11.3: Die Tabellen des Abgleichberichts sehen aus wie die der HTML-Ausgabe – überall gleich starke Linien (R-52).
+  - Seit 3.11.4: Im Abgleichbericht ist jedes Reiselogbuch eine Tabellenzeile (Name in der ersten Spalte zusammengefasst),
+    ganz weiß oder ganz grau, im Wechsel (R-52).
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen

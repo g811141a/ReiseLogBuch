@@ -13,6 +13,36 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.11.4 – 14.10.2026 (Korrektur)
+
+Reiselogbuch 3.11.4 · AppDesign 4.11.4 (Designrichtlinie allgemein 4.11.4) · Designrichtlinie Reiselogbuch 3.11.4 · Zusammenarbeit allgemein 1.16.0
+
+- T-82: Im Abgleichbericht ist jedes Reiselogbuch eine Tabellenzeile – sein Name ist in der ersten Spalte über alle seine
+  Zeilen zusammengefasst, alle Zellen dahinter haben dieselbe Farbe, weiß und grau wechseln je Reiselogbuch (R-52).
+  3.11.3 färbte innerhalb eines Reiselogbuchs abwechselnd; die Prüfung erkennt das jetzt.
+
+Prüfliste P-31 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0). Sie ersetzt P-30.
+
+**P-31/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.11.4 · erstellt am … · AppDesign 4.11.4‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.11.4‘ und ‚AppDesign 4.11.4‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-31/1 – Abgleichbericht: Tabelle wie die HTML-Ausgabe, eine Farbe je Reiselogbuch**
+1. iPad: in drei Reiselogbüchern je einen Tag ändern (im ersten Verlauf und Wetter, dazu einen zweiten Tag), ✓;
+   ‚Backup erstellen‘ → ‚In Dateien sichern‘.
+2. iPhone: ‚Backup laden‘ → diese Datei → ‚Abgleichen‘.
+3. Erwartet im Fenster: ‚Auf diesem iPhone hat sich etwas geändert – Einzelheiten im Abgleichbericht.‘
+4. ‚Abgleichbericht anzeigen‘ tippen.
+5. Erwartet: Der Name jedes Reiselogbuchs steht einmal links, über alle seine Zeilen zusammengefasst; alle Zellen dieses
+   Reiselogbuchs haben dieselbe Farbe – das erste weiß, das zweite grau, das dritte weiß.
+6. Erwartet: Alle Linien sind gleich dünn; der Kopf ist grau mit fetter Schrift.
+7. Zum Vergleich ein Reiselogbuch öffnen → Teilen → ‚Vorschau‘. Erwartet: Schrift, Kopf, Linien und Abstände gleich.
+8. Am iPad hoch und quer und am iPhone quer wiederholen. Erwartet: ebenso.
+
 ## 3.11.3 – 14.10.2026 (Korrektur)
 
 Reiselogbuch 3.11.3 · AppDesign 4.11.3 (Designrichtlinie allgemein 4.11.3) · Designrichtlinie Reiselogbuch 3.11.3 · Zusammenarbeit allgemein 1.16.0
