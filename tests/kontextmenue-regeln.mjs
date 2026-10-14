@@ -1,4 +1,4 @@
-// Allgemeine Prüfung der Kontextmenüs (AppDesign/tests/kontextmenue.mjs, R-40) – verschiedene Listenlängen, iPad und iPhone.
+// Allgemeine Prüfung der Kontextmenüs (AppDesign/tests/kontextmenue.mjs, R-4.2) – verschiedene Listenlängen, iPad und iPhone.
 // Aufruf im Repo-Ordner: node tests/kontextmenue-regeln.mjs
 import { chromium } from 'playwright';
 import { checkContextMenus } from '../../AppDesign/tests/kontextmenue.mjs';

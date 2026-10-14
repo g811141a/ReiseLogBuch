@@ -1,4 +1,4 @@
-// Allgemeine Prüfung des Abgleichs (AppDesign/tests/abgleich.mjs, Regeln R-41 bis R-44) für das Reiselogbuch.
+// Allgemeine Prüfung des Abgleichs (AppDesign/tests/abgleich.mjs, Regeln R-9.2 bis R-9.4) für das Reiselogbuch.
 // Aufruf im Repo-Ordner: node tests/abgleich-regeln.mjs
 import { chromium } from 'playwright';
 import { checkSync } from '../../AppDesign/tests/abgleich.mjs';

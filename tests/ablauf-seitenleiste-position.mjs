@@ -1,5 +1,5 @@
 // Ablauf-Test: Seitenleiste (iPad) bzw. Startliste (iPhone) behält ihre Position, der gewählte Eintrag bleibt sichtbar
-// (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-05).
+// (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import { chromium } from 'playwright';
 
@@ -34,7 +34,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   check(await visible(p), `${dev}: gewählter Eintrag nach dem Öffnen nicht mehr sichtbar (Liste nach oben gesprungen)`);
   await p.close();
 }
-// iPhone: Kontextmenü (lange drücken) linksbündig unter der Kachel, ganz sichtbar über der Backup-Kachel (R-40) –
+// iPhone: Kontextmenü (lange drücken) linksbündig unter der Kachel, ganz sichtbar über der Backup-Kachel (R-8.1) –
 // für die oberste und die unterste sichtbare Kachel; die Liste rückt dafür nötigenfalls nach oben.
 {
   const p = await b.newPage({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
@@ -73,7 +73,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   const blocked = await p.evaluate(() => { const t = document.querySelector('#pdays') || document.getElementById('app'); const touch = new Touch({ identifier: 1, target: t, clientX: 200, clientY: 500 });
     return !t.dispatchEvent(new TouchEvent('touchmove', { bubbles: true, cancelable: true, touches: [touch], changedTouches: [touch] })); });
   await p.waitForTimeout(100);
-  check(blocked, 'iPhone: erstes Wischen bei offener Tastatur bewegt die Seite (R-05)');
+  check(blocked, 'iPhone: erstes Wischen bei offener Tastatur bewegt die Seite (R-2.1)');
   check(await p.evaluate(() => document.activeElement?.id !== 'search'), 'iPhone: Wischen bei offener Suche schließt die Tastatur nicht');
   check(await p.locator('.pnav').evaluate(e => e.getBoundingClientRect().top) === top0, 'iPhone: Leiste bewegt sich');
   await p.close();

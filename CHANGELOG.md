@@ -13,6 +13,62 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.11.5 – 14.10.2026 (Korrektur)
+
+Reiselogbuch 3.11.5 · AppDesign 4.12.0 (Designrichtlinie allgemein 4.12.0) · Designrichtlinie Reiselogbuch 3.11.5 · Zusammenarbeit allgemein 2.1.1
+
+- **AppDesign 4.12.0 – Regelkatalog neu (A-02a):** Die allgemeinen Regeln sind nach Themen geordnet (R-1.1 bis R-10.4,
+  vorher R-01 bis R-52). Alle Prüfskripte melden die neuen Nummern; jede Regel hat genau eine Prüfung. Neu geprüft werden
+  Suche (R-2.3), Fenster-Kopfzeile (R-4.4), Großbuchstaben (R-5.2), Fehlermeldungen (R-5.3), Auswahl-Kapsel (R-5.4),
+  Vorschau (R-6.4), Zebra je Tabellenzeile in der Tagestabelle (R-6.1), höchstens eine blaue Hauptaktion (R-3.3), gleiches
+  Icon für gleiche Aktion (R-10.1) und die Leisten bei offener Tastatur (R-2.1). Die App selbst ändert sich dadurch nicht.
+- **T-83:** Im Abgleichbericht heißt das Feld jetzt ‚Reisemittel‘ wie im Fenster ‚Einstellungen‘ (vorher ‚Verkehrsmittel‘).
+  Eine neue Prüfung vergleicht die Feldnamen des Berichts mit denen im Fenster; sie meldete den Fehler, dann behoben.
+- AppDesign wird mit `?v=4.12.0` geladen; README ‚Verwendete Versionen‘ nachgeführt (nannte noch Zusammenarbeit 2.0.0).
+
+Prüfliste P-32 (Schritt für Schritt, Zusammenarbeit allgemein 2.1.1).
+
+**P-32/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.11.5 · erstellt am … · AppDesign 4.12.0‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.11.5‘ und ‚AppDesign 4.12.0‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-32/1 – Abgleichbericht nennt ‚Reisemittel‘ (T-83)**
+1. iPad quer, hell: ein Reiselogbuch öffnen → ‚…‘ (Mehr) → ‚Einstellungen‘ → bei ‚Reisemittel‘ ein weiteres Mittel
+   antippen (z. B. ‚Zug‘) → Häkchen.
+2. iPad: Seitenleiste ‚…‘ → ‚Backup erstellen‘ → ‚In Dateien sichern‘.
+3. Erwartet am iPad: kleines Fenster ‚Backup‘ mit ‚✅‘.
+4. iPhone hoch: Startliste ‚…‘ → ‚Backup laden‘ → diese Datei → ‚Abgleichen‘.
+5. Erwartet am iPhone: Fenster ‚Auf diesem iPhone hat sich etwas geändert – Einzelheiten im Abgleichbericht.‘
+6. ‚Abgleichbericht anzeigen‘ tippen.
+7. Erwartet am iPhone: in der Tabelle in der Spalte ‚Feld‘ ‚Reisemittel‘ (nicht ‚Verkehrsmittel‘), daneben Neu und Vorher.
+8. Danach am iPad das Reisemittel wieder abwählen, wenn es nicht gewünscht ist.
+
+**P-32/2 – Suche unverändert (R-2.3, jetzt automatisch geprüft)**
+1. iPad quer, hell: ein Reiselogbuch mit vielen Tagen öffnen → Lupe in der Kopfzeile antippen.
+2. Ein Wort eingeben, das weit unten vorkommt, und kurz warten.
+3. Erwartet: rechts im Suchfeld ‚1 von n‘; der Tag mit dem Treffer steht direkt unter der Suchzeile; nur Tage mit Treffern.
+4. Mehrmals ⌄ tippen bis zum letzten Treffer, dann noch einmal.
+5. Erwartet: ‚n von n‘ bleibt, ⌄ ist grau – kein Sprung zum ersten Treffer.
+6. Am iPhone hoch wiederholen. Erwartet: ebenso.
+
+**P-32/3 – Fenster-Kopfzeile und Fehlermeldung unverändert (R-4.4, R-5.3)**
+1. iPad quer, hell: ein Reiselogbuch öffnen → ‚…‘ → ‚Einstellungen‘.
+2. Erwartet: x links, Häkchen rechts grau; keine rote Meldung.
+3. Den Reisetitel ganz löschen.
+4. Erwartet: Häkchen blau; unter dem Feld rot ‚Bitte einen Reisetitel eingeben.‘, das Feld ist rot umrandet.
+5. x antippen. Erwartet: Abfrage ‚Änderungen verwerfen‘ / ‚Weiter bearbeiten‘ → ‚Änderungen verwerfen‘ schließt, der
+   Titel ist unverändert.
+
+**P-32/4 – Vorschau unverändert (R-6.4)**
+1. iPhone hoch, dunkel: ein Reiselogbuch öffnen → Teilen (Icon) → ‚Vorschau‘.
+2. Erwartet: die Vorschau ist hell (weiß, schwarze Schrift), oben rechts [PDF · Teilen]; seitlich wischen zeigt die
+   ganze Seite.
+3. Am iPad hoch wiederholen. Erwartet: ebenso.
+
 ## 3.11.4 – 14.10.2026 (Korrektur)
 
 Reiselogbuch 3.11.4 · AppDesign 4.11.4 (Designrichtlinie allgemein 4.11.4) · Designrichtlinie Reiselogbuch 3.11.4 · Zusammenarbeit allgemein 1.16.0

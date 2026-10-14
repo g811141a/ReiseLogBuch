@@ -26,19 +26,20 @@ Claude lässt das Skript bei jeder Version laufen und nennt das Ergebnis im Appl
 | `ablauf-suche-tabelle.mjs` | Suche, Trefferanzeige und Springen in der Tabelle |
 | `ablauf-fenster.mjs` | Fenster (Tag, Einstellungen, Fazit), Häkchen und ‚Änderungen verwerfen‘ |
 | `ablauf-seitenleiste-kontextmenue.mjs` | Seitenleiste, langes Drücken, Löschen-Abfrage |
-| `ablauf-seitenleiste-position.mjs` | Seitenleiste/Startliste behält ihre Position, gewählter Eintrag sichtbar; iPhone: erstes Wischen bei offener Suche schließt nur die Tastatur, die Seite bleibt stehen (R-05) |
-| `ablauf-abgleich.mjs` | Abgleich iPad ↔ iPhone über ein Backup: neuere Fassung je Tag, gelöschte und neue Reiselogbücher, Abfrage, Fenster mit ‚Abgleichbericht anzeigen‘ und Bericht (T-03, R-44) |
+| `ablauf-seitenleiste-position.mjs` | Seitenleiste/Startliste behält ihre Position, gewählter Eintrag sichtbar; iPhone: erstes Wischen bei offener Suche schließt nur die Tastatur, die Seite bleibt stehen (R-2.1) |
+| `ablauf-abgleich.mjs` | Abgleich iPad ↔ iPhone über ein Backup: neuere Fassung je Tag, gelöschte und neue Reiselogbücher, Abfrage, Fenster mit ‚Abgleichbericht anzeigen‘ und Bericht (T-03, R-9.4) |
 | `ablauf-abgleich-faelle.mjs` | alle Anwendungsfälle des Abgleichs mit den Daten des Reiselogbuchs |
-| `abgleich-regeln.mjs` | allgemeine Abgleich-Prüfung (`AppDesign/tests/abgleich.mjs`, R-41 bis R-44) |
-| `backup-regeln.mjs` | allgemeine Backup-Prüfung (`AppDesign/tests/backup.mjs`, R-45, R-46) – iPad und iPhone, hell und dunkel |
+| `abgleich-regeln.mjs` | allgemeine Abgleich-Prüfung (`AppDesign/tests/abgleich.mjs`, R-9.2 bis R-9.4) |
+| `backup-regeln.mjs` | allgemeine Backup-Prüfung (`AppDesign/tests/backup.mjs`, R-9.1, R-9.2) – iPad und iPhone, hell und dunkel |
 | `ablauf-abgleich-ui.mjs` | Abgleich über die echte Oberfläche (Fenster ‚Tag‘, Backup erstellen/laden), Fälle 8, 9, 9a–9c |
-| `version-regeln.mjs` | Versionskopplung mit AppDesign (`AppDesign/tests/version.mjs`, R-48): `?v=` in index.html und sw.js, Hinweis bei älterer Fassung |
-| `doku-regeln.mjs` | Doku-Prüfung (`AppDesign/tests/doku.mjs`, R-49, R-50): README ‚Verwendete Versionen‘, Prüfliste beginnt mit /0 |
-| `kontextmenue-regeln.mjs` | allgemeine Kontextmenü-Prüfung (`AppDesign/tests/kontextmenue.mjs`, R-40) – 3 bis 12 Reisen, iPad und iPhone |
+| `version-regeln.mjs` | Versionskopplung mit AppDesign (`AppDesign/tests/version.mjs`, R-10.3): `?v=` in index.html und sw.js, Hinweis bei älterer Fassung |
+| `doku-regeln.mjs` | Doku-Prüfung (`AppDesign/tests/doku.mjs`, R-10.4, Zusammenarbeit 7): README ‚Verwendete Versionen‘, Prüfliste beginnt mit /0; Regelkatalog vollständig (`checkCatalog`) |
+| `kontextmenue-regeln.mjs` | allgemeine Kontextmenü-Prüfung (`AppDesign/tests/kontextmenue.mjs`, R-4.2) – 3 bis 12 Reisen, iPad und iPhone |
 | `ablauf-markierung-menues.mjs` | blaue Markierung bleibt, Menüs mit Strich und Speicher-Satz |
 | `ablauf-iphone.mjs` | iPhone-Ansicht: Startliste, Suche unten, Tag erfassen, Kontextmenü, Löschen, Wechsel iPhone ↔ iPad |
+| `regeln-ablauf.mjs` | allgemeine Ablauf-Prüfungen (`AppDesign/tests/ablauf.mjs`, seit 3.11.5): Suche R-2.3, Fenster-Kopfzeile R-4.4, Großbuchstaben R-5.2, Fehlermeldungen R-5.3, Vorschau R-6.4 hell und dunkel; Feldnamen im Abgleichbericht wie im Fenster (R-10.1) – iPad und iPhone |
 | `tastatur.mjs` | Fenster und Kopfzeilen bei sichtbarer Tastatur |
 | `pixelvergleich.mjs` | 40 Ansichten pixelgenau gegen eine ältere Fassung (`_alt.html`) |
-| `hig.mjs` | HIG- und Regel-Prüfung (mit `AppDesign/tests/hig.mjs`, Regelkatalog R-01 bis R-37, Gerätevergleich iPad ↔ iPhone, Testdaten mit 100 × ‚a‘) |
+| `hig.mjs` | HIG- und Regel-Prüfung (mit `AppDesign/tests/hig.mjs`, Regelkatalog R-1.1 bis R-10.4, Gerätevergleich iPad ↔ iPhone, Testdaten mit 100 × ‚a‘) |
 
 Bildschirmfotos landen in `tests/out/` (nicht hochgeladen).

@@ -80,7 +80,7 @@ check(await p.locator('#pdays .box').count() === 3, 'Nur erfasste Tage filtert n
 
 // Zurück zur Startliste, Kontextmenü, Einstellungen
 await p.click('#back'); await p.waitForTimeout(200);
-// Startliste = derselbe Baustein wie die Seitenleiste am iPad (R-36)
+// Startliste = derselbe Baustein wie die Seitenleiste am iPad (R-1.1)
 check((await p.locator('#side.page .side-head h2').textContent()) === 'Reiselogbücher', 'Startliste fehlt (Seitenleiste als ganze Seite)');
 check(await p.locator('#side.page .side-list .side-row').count() === 2, 'Kacheln fehlen');
 check(!(await p.locator('#sideHide').isVisible()), 'Seitenleisten-Knopf auf dem iPhone sichtbar');
