@@ -16,7 +16,7 @@ im Mehr-Menü der Seitenleiste).
 | AppDesign | 4.11.4 | [CHANGELOG.md (AppDesign)](https://github.com/g811141a/AppDesign/blob/main/CHANGELOG.md) · Bausteine [v4/ui.js](https://github.com/g811141a/AppDesign/blob/main/v4/ui.js), [v4/design.css](https://github.com/g811141a/AppDesign/blob/main/v4/design.css) |
 | Designrichtlinie allgemein | 4.11.4 | [README - Designrichtlinie allgemein.md](https://github.com/g811141a/AppDesign/blob/main/README%20-%20Designrichtlinie%20allgemein.md) |
 | Designrichtlinie Reiselogbuch | 3.11.4 | [README - Designrichtlinie Reiselogbuch.md](https://github.com/g811141a/ReiseLogBuch/blob/main/README%20-%20Designrichtlinie%20Reiselogbuch.md) |
-| Zusammenarbeit allgemein | 1.16.0 | [README - Zusammenarbeit allgemein.md](https://github.com/g811141a/AppDesign/blob/main/README%20-%20Zusammenarbeit%20allgemein.md) |
+| Zusammenarbeit allgemein | 2.0.0 | [README - Zusammenarbeit allgemein.md](https://github.com/g811141a/AppDesign/blob/main/README%20-%20Zusammenarbeit%20allgemein.md) |
 
 ## Dateien
 
