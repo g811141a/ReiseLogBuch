@@ -13,6 +13,56 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.13.0 – 14.10.2026 (Neben)
+
+Reiselogbuch 3.13.0 · AppDesign 4.14.0 (Designrichtlinie allgemein 4.14.0) · Designrichtlinie Reiselogbuch 3.13.0 · Zusammenarbeit allgemein 2.3.2
+
+A-05 Version B – feste AppDesign-Fassung und Veröffentlichungs-Skript (Fall-Liste `AppDesign/arbeit/A-05 Fall-Liste.md`,
+Teile D und E). Die App sieht unverändert aus; sie lädt die Bausteine jetzt aus ihrer festen Fassung.
+
+- **Feste Fassung (D-2, D-8):** `index.html` und `sw.js` laden `../AppDesign/fassung/4.14.0/design.css` und `…/ui.js`
+  statt `../AppDesign/v4/…?v=4.13.0`; `AD_NEEDED` = 4.14.0. Eine neue AppDesign-Version ändert das Reiselogbuch nicht mehr,
+  bis es nach Rückfrage gehoben wird (Zusammenarbeit 0 Nr. 10). Offline aus dem Zwischenspeicher wie bisher.
+- **Prüfungen der eigenen Fassung (D-1):** alle Prüfskripte binden `../../AppDesign/fassung/4.14.0/tests/…` ein.
+- **Neue Prüfungen (version-regeln, doku-regeln):** Pfad = `AD_NEEDED` in `index.html` und `sw.js`, nichts aus `v4/`; ein
+  absichtlich geänderter Arbeitsstand `v4/` (roter Knopf, Skriptfehler) erreicht die App nicht (D-3); Prüfsummen der
+  Fassungen (D-1); README verlinkt die Richtlinien der Markierung `v4.14.0` (D-6); ‚gilt sofort für alle Apps‘ und `?v=`
+  nirgends mehr (D-7, W-4).
+- **Versionen mit dem Skript (E-1):** `node ../AppDesign/werkzeug/veroeffentlichen.mjs vorbereiten --ad 4.14.0 --app
+  reiselogbuch=3.13.0` hat `APP_VERSION`, `APP_BUILT`, Cache-Name, Pfade, README-Tabelle, PROMPT-Zeile, Richtlinien- und
+  Backlog-Kopf erhöht; veröffentlicht wird mit `… los` (erst AppDesign, dann das Reiselogbuch).
+- **CLAUDE.md 3.2.0**, Designrichtlinie Reiselogbuch 3.13.0 (nur Version und Verweis auf allgemein 4.14.0).
+
+Prüfliste P-36 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2). Kein sichtbarer Unterschied erwartet.
+
+**P-36/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.13.0 · erstellt am … · AppDesign 4.14.0‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.13.0‘ und ‚AppDesign 4.14.0‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-36/1 – App sieht unverändert aus (iPad)**
+1. iPad quer, hell: App öffnen, ein Reiselogbuch mit mehreren Tagen öffnen.
+2. Seitenleiste, Kopfzeile mit Kapsel, Tabelle und Mehr-Menü ansehen; dann iPad hochkant drehen.
+3. In den Einstellungen (Mehr-Menü → Darstellung) ‚Dunkel‘ wählen und dasselbe ansehen, danach wieder ‚Automatisch‘.
+4. Erwartet: alles sieht aus wie in 3.12.0 (Schrift, Farben, Schaltflächen, Abstände), hell und dunkel, quer und hoch.
+5. Erwartet: beim Start kein Fenster ‚Neue Version wird geladen‘.
+
+**P-36/2 – App sieht unverändert aus (iPhone)**
+1. iPhone hoch, hell: App öffnen, Startliste ‚Reiselogbücher‘ ansehen, ein Reiselogbuch öffnen, einen Tag öffnen.
+2. Darstellung ‚Dunkel‘ wählen und dasselbe ansehen, danach wieder ‚Automatisch‘.
+3. Erwartet: alles sieht aus wie in 3.12.0, hell und dunkel; kein Fenster ‚Neue Version wird geladen‘.
+
+**P-36/3 – Offline mit der eigenen Fassung (iPad oder iPhone)**
+1. Die App nach P-36/0 einmal geöffnet haben, dann ganz schließen.
+2. Flugmodus einschalten (Kontrollzentrum → Flugzeug), WLAN aus.
+3. App öffnen, ein Reiselogbuch öffnen und das Mehr-Menü der Seitenleiste bzw. Startliste ansehen.
+4. Erwartet: die App startet normal und sieht aus wie online; die Versionszeile nennt ‚Version 3.13.0‘ und ‚AppDesign 4.14.0‘;
+   kein Fenster ‚Neue Version wird geladen‘.
+5. Flugmodus wieder ausschalten.
+
 ## 3.12.0 – 14.10.2026 (Neben)
 
 Reiselogbuch 3.12.0 · AppDesign 4.13.0 (Designrichtlinie allgemein 4.13.0) · Designrichtlinie Reiselogbuch 3.12.0 · Zusammenarbeit allgemein 2.3.1

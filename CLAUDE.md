@@ -1,6 +1,6 @@
 # Reiselogbuch – Hinweise für Claude
 
-**Version 3.1.0** · Stand 14.10.2026
+**Version 3.2.0** · Stand 14.10.2026
 
 ## Zuerst lesen
 
@@ -22,14 +22,16 @@ erst Prüfpunkte dann Neues, Zeit und Token am Ende jeder Antwort (Abschnitt 2).
 ## App-spezifisch
 
 - App: Reiselogbuch, Web-App (PWA) für iPad und iPhone: `index.html` plus `sw.js`, `manifest.json`, Icons.
-- Gemeinsame Bausteine aus AppDesign: `../AppDesign/v4/design.css?v=<AppDesign-Version>` und
-  `../AppDesign/v4/ui.js?v=<AppDesign-Version>` (in `index.html` und in der Dateiliste von `sw.js`, R-10.3);
-  `AD_NEEDED` in `index.html` nennt dieselbe Version. Schnittstelle: `db.settings.appearance`, `save()`, `render()`,
+- Gemeinsame Bausteine aus der festen AppDesign-Fassung (seit 3.13.0, R-10.3): `../AppDesign/fassung/X.Y.Z/design.css`
+  und `../AppDesign/fassung/X.Y.Z/ui.js` (in `index.html` und in der Dateiliste von `sw.js`); `AD_NEEDED` in `index.html`
+  = X.Y.Z; die Prüfskripte binden `../../AppDesign/fassung/X.Y.Z/tests/…` ein. Auf eine neuere Fassung nur nach Rückfrage
+  heben (Zusammenarbeit 0 Nr. 10). Schnittstelle: `db.settings.appearance`, `save()`, `render()`,
   `onDialogOpen()`. `index.html` enthält nur, was zum Reiselogbuch gehört – Gemeinsames wird in AppDesign geändert,
   **erst AppDesign veröffentlichen, dann das Reiselogbuch.**
 - Repo: `g811141a/ReiseLogBuch`, Branch `main`, GitHub Pages: https://g811141a.github.io/ReiseLogBuch/
-- Bei jeder Version: `APP_VERSION` und `APP_BUILT` (Europe/Berlin, „TT.MM.JJJJ um hh:mm“) in `index.html`, Cache-Name
-  `reiselogbuch-X.Y.Z` in `sw.js`, README ‚Verwendete Versionen‘ (R-10.4), Versionszeile in PROMPT.md und CHANGELOG.
+- Bei jeder Version erhöht `node ../AppDesign/werkzeug/veroeffentlichen.mjs vorbereiten --app reiselogbuch=X.Y.Z` (mit
+  `--ad`, wenn AppDesign mitkommt) `APP_VERSION`, `APP_BUILT`, Cache-Name, Fassungs-Pfad, README ‚Verwendete Versionen‘
+  (R-10.4), PROMPT-Versionszeile und Backlog-Kopf; CHANGELOG und Prüfliste schreibt Claude, dann `… los`.
 - Daten im localStorage unter `reiselogbuch.v1`; Änderungen am Datenmodell immer mit Übernahme alter Daten (`normalize`).
 - Ausgabe (HTML/PDF) mit eigener, immer heller Gestaltung (`.rt`, Mustertabelle `outputCss`, R-6.2).
 - Bedienung: Seitenleiste `#side` (`renderSide`), Kopfzeile `.nb` mit Kapsel, Menüs `openMenu` (Untermenüs über
@@ -46,6 +48,7 @@ erst Prüfpunkte dann Neues, Zeit und Token am Ende jeder Antwort (Abschnitt 2).
 
 | Version | Datum | Inhalt |
 |---|---|---|
+| 3.2.0 | 14.10.2026 | Feste AppDesign-Fassung `fassung/X.Y.Z/` statt `v4/…?v=`, Versionen mit dem Veröffentlichungs-Skript (A-05 Version B) |
 | 3.1.0 | 14.10.2026 | Prüfen mit `node tests/alle.mjs` (A-05 Version A: parallel, Chromium und WebKit) |
 | 3.0.0 | 14.10.2026 | Neu gefasst (A-02 Schritt 4): zuerst UEBERGABE.md, Regeln nur als Verweis auf AppDesign (ohne ‚etwa 5 Punkte‘, Antwortzeile und ‚Gesamt‘ in der Zeitzeile), Einbindung mit `?v=`, Prüfung mit `sh tests/alle.sh` |
 | 2.1.0 | 10.10.2026 | Pflicht: Zeitmessung je Aktion |
