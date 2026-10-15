@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-40 | 1 | Reiselogbuch 3.14.1 mit AppDesign 4.15.1: iPad erkennt den Wechsel offline/online bei offener App (Korrektur zu P-39/1 und /2) – Prüfliste im CHANGELOG (/0 bis /2) | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-70 | Geprüft: P-40 alles in Ordnung (Version, iPad offline/online bei offener App) | Reiselogbuch 3.14.1 | 15.10.2026 |
 | E-69 | Reiselogbuch 3.14.1: Korrektur zu P-39/1 und /2 – iPad erkennt den Wechsel bei offener App (Nachfrage alle 10 s), Prüfung F-17 | Reiselogbuch 3.14.1 | 15.10.2026 |
 | E-68 | Geprüft: P-39 ok bis auf /1 und /2 (iPad: keine Meldung beim Wechsel bei offener App) | Reiselogbuch 3.14.0 | 15.10.2026 |
 | E-67 | Reiselogbuch 3.14.0: Offline-Hinweis (A-06 Variante c, R-1.5) – graue Zeile unter der Backup-Kachel, kurze Meldung beim Wechsel und beim Start ohne Netz, Service Worker meldet ‚aus dem Speicher‘, Prüfung F-1 bis F-16 | Reiselogbuch 3.14.0 | 15.10.2026 |
