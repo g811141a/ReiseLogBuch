@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-38 | 1 | Reiselogbuch 3.13.2 mit AppDesign 4.14.2: Prüfliste P-38/0 bis /3 im CHANGELOG – Version, Quartier-Kopf iPhone quer und hoch, offline iPad und iPhone | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-66 | Geprüft: P-38 alles in Ordnung (Version, Quartier-Kopf iPhone quer/hoch, offline iPad und iPhone) | Reiselogbuch 3.13.2 | 15.10.2026 |
 | E-65 | Reiselogbuch 3.13.2: Quartier-Kopf als Gruppe (iPhone quer in einer Zeile), Offline-Start mit Frist 3 s (iPad weiße Seite), Prüfung `offline-regeln.mjs` | Reiselogbuch 3.13.2 | 14.10.2026 |
 | E-64 | Reiselogbuch 3.13.1: README-Links auf den Richtlinien-Text in `fassung/4.14.1/` statt auf eine Git-Markierung (Korrektur) | Reiselogbuch 3.13.1 | 14.10.2026 |
 | E-63 | Reiselogbuch 3.13.0: A-05 Version B – lädt die feste AppDesign-Fassung `fassung/4.14.0/`, Prüfskripte mit den Prüfungen dieser Fassung, Versionen mit dem Veröffentlichungs-Skript | Reiselogbuch 3.13.0 | 14.10.2026 |
