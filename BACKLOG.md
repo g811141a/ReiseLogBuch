@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 15.10.2026** · Aktuelle Version: Reiselogbuch 3.14.0 · AppDesign 4.15.0
+**Stand 15.10.2026** · Aktuelle Version: Reiselogbuch 3.14.1 · AppDesign 4.15.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-39 | 1 | Reiselogbuch 3.14.0 mit AppDesign 4.15.0: Offline-Hinweis (A-06) – Prüfliste im CHANGELOG (/0 bis /5) | prüfen |
+| P-40 | 1 | Reiselogbuch 3.14.1 mit AppDesign 4.15.1: iPad erkennt den Wechsel offline/online bei offener App (Korrektur zu P-39/1 und /2) – Prüfliste im CHANGELOG (/0 bis /2) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-69 | Reiselogbuch 3.14.1: Korrektur zu P-39/1 und /2 – iPad erkennt den Wechsel bei offener App (Nachfrage alle 10 s), Prüfung F-17 | Reiselogbuch 3.14.1 | 15.10.2026 |
+| E-68 | Geprüft: P-39 ok bis auf /1 und /2 (iPad: keine Meldung beim Wechsel bei offener App) | Reiselogbuch 3.14.0 | 15.10.2026 |
 | E-67 | Reiselogbuch 3.14.0: Offline-Hinweis (A-06 Variante c, R-1.5) – graue Zeile unter der Backup-Kachel, kurze Meldung beim Wechsel und beim Start ohne Netz, Service Worker meldet ‚aus dem Speicher‘, Prüfung F-1 bis F-16 | Reiselogbuch 3.14.0 | 15.10.2026 |
 | E-66 | Geprüft: P-38 alles in Ordnung (Version, Quartier-Kopf iPhone quer/hoch, offline iPad und iPhone) | Reiselogbuch 3.13.2 | 15.10.2026 |
 | E-65 | Reiselogbuch 3.13.2: Quartier-Kopf als Gruppe (iPhone quer in einer Zeile), Offline-Start mit Frist 3 s (iPad weiße Seite), Prüfung `offline-regeln.mjs` | Reiselogbuch 3.13.2 | 14.10.2026 |
