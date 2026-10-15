@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.15.1/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.16.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.15.1/ui.js"></script>
+<script src="../AppDesign/fassung/4.16.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.14.1';
-const APP_BUILT = '15.10.2026 um 15:28';
+const APP_VERSION = '3.15.0';
+const APP_BUILT = '15.10.2026 um 16:29';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.15.1';
+const AD_NEEDED = '4.16.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -770,6 +770,7 @@ const fazitHtml = trip => `<h2>Fazit</h2>
 // Wie Apple (Notizen, iOS 26): Startliste ‚Reiselogbücher‘ als eigene Seite; ein Reiselogbuch zeigt die Tage als Kästen,
 // die Suche steht unten. Fenster sind bildschirmfüllend (AppDesign, html.phone).
 let phoneList = false;   // iPhone: Startliste statt eines Reiselogbuchs
+let startList = false;   // R-7.2: Startliste nach dem Neuladen – noch nichts geöffnet, daher kein Eintrag blau
 
 function renderPhone({ scrollToGap = false } = {}) {
   fab.hidden = true;
@@ -897,6 +898,7 @@ function renderEmpty() {
 function showTrip(id) {
   currentTripId = id;
   phoneList = false;
+  startList = false;
   // Beim Öffnen eines Reiselogbuchs (und beim Start) immer alle Tage zeigen.
   db.settings.hideEmpty = false;
   searchTerm = '';
@@ -956,7 +958,7 @@ function renderSide() {
       <span class="grp"><button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button><button type="button" id="sideMore" aria-label="Mehr">${ic('ellipsis')}</button></span>
       <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
     </div>
-    <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId ? 'current' : ''}" data-id="${t.id}">
+    <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId && !(page && startList) ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
       : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}</div>
     ${trips.length ? backupTileHtml(db.settings.lastBackup) : ''}`;
@@ -1749,7 +1751,11 @@ if (navigator.storage?.persist) {
 }
 // Beim Start ist die Seitenleiste immer eingeblendet (im Hochformat über den Inhalt gelegt).
 sideOpen = true;
+// R-7.2 (seit 3.15.0, T-84): Im iPhone-Aufbau (auch iPad im schmalen Fenster) beginnt jedes Neuladen in der Startliste,
+// ohne blauen Eintrag; der iPad-Aufbau öffnet wie bisher die laufende (sonst zuletzt beendete, sonst nächste) Reise.
+// Die Startreise bleibt gewählt, damit ein breiteres Fenster sie mit der Seitenleiste zeigt.
 showTrip(pickStartTrip()?.id);
+if (isPhone()) { phoneList = true; startList = true; window.scrollTo(0, 0); render(); }
 // Wechsel quer/hoch: Seitenleiste fest oder darübergelegt; sonst nur Höhen und Breiten nachführen.
 let wasWide = isWide();
 let wasPhone = isPhone();

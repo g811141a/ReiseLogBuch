@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 15.10.2026** · Aktuelle Version: Reiselogbuch 3.14.1 · AppDesign 4.15.1
+**Stand 15.10.2026** · Aktuelle Version: Reiselogbuch 3.15.0 · AppDesign 4.16.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,15 +22,15 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-84 | 2 | iPhone startet bei jedem Neuladen in der Startliste ‚Reiselogbücher‘, beim Start kein Eintrag blau, der Aufbau entscheidet – seit 15.10.2026 **allgemeine Regel** (AppDesign A-09); das Reiselogbuch übernimmt sie mit der neuen Fassung. Fall-Liste F-1 bis F-18: AppDesign `arbeit/T-84 Fall-Liste.md` | Reiselogbuch (aus AppDesign A-09) | 15.10.2026 |
+| – | – | zurzeit nichts bereit | – | – |
 
-**1 Punkt bereit** (T-84) · gebaut wird erst nach „Ja“
+**0 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-41 | 1 | Reiselogbuch 3.15.0 · AppDesign 4.16.0: iPhone startet in der Startliste ohne blauen Eintrag (T-84, R-7.2) – Prüfliste P-41/0 bis /5 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-71 | Reiselogbuch 3.15.0: T-84 – Start im iPhone-Aufbau in der Startliste ohne blauen Eintrag (allgemein R-7.2), Prüfung `start-regeln.mjs` F-1 bis F-18 | Reiselogbuch 3.15.0 | 15.10.2026 |
 | E-70 | Geprüft: P-40 alles in Ordnung (Version, iPad offline/online bei offener App) | Reiselogbuch 3.14.1 | 15.10.2026 |
 | E-69 | Reiselogbuch 3.14.1: Korrektur zu P-39/1 und /2 – iPad erkennt den Wechsel bei offener App (Nachfrage alle 10 s), Prüfung F-17 | Reiselogbuch 3.14.1 | 15.10.2026 |
 | E-68 | Geprüft: P-39 ok bis auf /1 und /2 (iPad: keine Meldung beim Wechsel bei offener App) | Reiselogbuch 3.14.0 | 15.10.2026 |

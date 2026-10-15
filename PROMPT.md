@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 15.10.2026, Version 3.14.1)
+# Reiselogbuch – Prompt (Stand 15.10.2026, Version 3.15.0)
 
-Reiselogbuch 3.14.1 · AppDesign 4.15.1 (Designrichtlinie allgemein 4.15.1) · Designrichtlinie Reiselogbuch 3.14.1 · Zusammenarbeit allgemein 2.3.2
+Reiselogbuch 3.15.0 · AppDesign 4.16.0 (Designrichtlinie allgemein 4.16.0) · Designrichtlinie Reiselogbuch 3.15.0 · Zusammenarbeit allgemein 2.4.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -75,8 +75,10 @@ RAHMEN
     "Einstellungen" · "Darstellung ›" · "Reiselogbuch löschen" (rot).
   - iPhone (hoch und quer, auch sehr schmale Fenster; AppDesign html.phone) – eine Seite
     nach der anderen statt Seitenleiste, Bedienung sonst wie am iPad:
-    - Start wie auf dem iPad im laufenden Reiselogbuch beim ersten offenen Tag.
-      Oben links runder chevron-left zur Startliste, rechts die Kapsel
+    - Start (seit 3.15.0, R-7.2): jedes Neuladen beginnt in der Startliste "Reiselogbücher",
+      ganz oben, kein Eintrag blau; ein Reiselogbuch öffnet beim ersten offenen Tag. Gilt im
+      iPhone-Aufbau, also auch für ein iPad im schmalen Fenster.
+      Im Reiselogbuch oben links runder chevron-left zur Startliste, rechts die Kapsel
       [share | search | ellipsis] mit denselben Menüs und derselben Suche wie auf dem iPad
       (Suchzeile darunter mit "1 von 4", ⓧ und ⌃ ⌄).
     - Großer Titel (Reisetitel), darunter grau "Teilnehmer · Zeitraum", die
@@ -231,8 +233,8 @@ RAHMEN
 
 REISEN
 - Es wird immer an einer Reise gearbeitet.
-- Beim Start öffnet die App automatisch die Reise, in deren Zeitraum
-  das heutige Datum fällt.
+- Beim Start öffnet die App (iPad-Aufbau; am iPhone erst die Startliste) automatisch die
+  Reise, in deren Zeitraum das heutige Datum fällt.
 - Fällt heute in keine Reise, öffnet die App die zuletzt beendete Reise.
   Gibt es noch keine beendete Reise, öffnet die nächste geplante Reise.
 - Gibt es noch kein Reiselogbuch (erster Start oder letztes gelöscht),

@@ -36,6 +36,7 @@ Schritt die Grundregeln (dieselben Prüfungen wie `hig.mjs`). Einzeln: `PRUEF_BR
 | `ablauf-abgleich.mjs` | Abgleich iPad ↔ iPhone über ein Backup: neuere Fassung je Tag, gelöschte und neue Reiselogbücher, Abfrage, Fenster mit ‚Abgleichbericht anzeigen‘ und Bericht (T-03, R-9.4) |
 | `ablauf-abgleich-faelle.mjs` | alle Anwendungsfälle des Abgleichs mit den Daten des Reiselogbuchs |
 | `abgleich-regeln.mjs` | allgemeine Abgleich-Prüfung (`AppDesign/tests/abgleich.mjs`, R-9.2 bis R-9.4) |
+| `start-regeln.mjs` | Start nach dem Neuladen (R-7.2, seit 3.15.0, T-84): iPhone hoch/quer und iPad im schmalen Fenster in der Startliste ohne blauen Eintrag, iPad unverändert; Rückkehr aus dem Hintergrund, Drehen, Öffnen, Zurück, leere/lange Liste, Wechsel des Aufbaus, Backup laden – F-1 bis F-18 (`AppDesign/tests/start.mjs`) |
 | `backup-regeln.mjs` | allgemeine Backup-Prüfung (`AppDesign/tests/backup.mjs`, R-9.1, R-9.2) – iPad und iPhone, hell und dunkel |
 | `ablauf-abgleich-ui.mjs` | Abgleich über die echte Oberfläche (Fenster ‚Tag‘, Backup erstellen/laden), Fälle 8, 9, 9a–9c |
 | `version-regeln.mjs` | Versionskopplung mit AppDesign (`AppDesign/tests/version.mjs`, R-10.3): `?v=` in index.html und sw.js, Hinweis bei älterer Fassung |
