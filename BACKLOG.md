@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-41 | 1 | Reiselogbuch 3.15.0 · AppDesign 4.16.0: iPhone startet in der Startliste ohne blauen Eintrag (T-84, R-7.2) – Prüfliste P-41/0 bis /5 im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-72 | Geprüft: P-41 alles in Ordnung (Version, iPhone hoch/quer startet in der Startliste ohne blauen Eintrag, kurz weg und zurück, Öffnen und Zurück, iPad unverändert); **T-84 damit abgeschlossen** | Reiselogbuch 3.15.0 | 15.10.2026 |
 | E-71 | Reiselogbuch 3.15.0: T-84 – Start im iPhone-Aufbau in der Startliste ohne blauen Eintrag (allgemein R-7.2), Prüfung `start-regeln.mjs` F-1 bis F-18 | Reiselogbuch 3.15.0 | 15.10.2026 |
 | E-70 | Geprüft: P-40 alles in Ordnung (Version, iPad offline/online bei offener App) | Reiselogbuch 3.14.1 | 15.10.2026 |
 | E-69 | Reiselogbuch 3.14.1: Korrektur zu P-39/1 und /2 – iPad erkennt den Wechsel bei offener App (Nachfrage alle 10 s), Prüfung F-17 | Reiselogbuch 3.14.1 | 15.10.2026 |
