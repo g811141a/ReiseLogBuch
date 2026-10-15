@@ -13,6 +13,45 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.14.1 – 15.10.2026 (Korrektur)
+
+Reiselogbuch 3.14.1 · AppDesign 4.15.1 (Designrichtlinie allgemein 4.15.1) · Designrichtlinie Reiselogbuch 3.14.1 · Zusammenarbeit allgemein 2.3.2
+
+Korrektur zu P-39 (ok bis auf /1 und /2; Auswertung `AppDesign/arbeit/P-39 Rückmeldung.md`).
+
+- **iPad erkennt den Wechsel bei offener App (P-39/1 und /2):** Die App fragt jetzt, solange sie sichtbar ist, alle 10 s
+  den Service Worker, ob das Netz antwortet; vorher hing der Wechsel an Meldungen von Safari, die das iPad als
+  Home-Bildschirm-App nicht zuverlässig sendet. Meldung und Zeile kommen damit spätestens nach etwa 10–15 s.
+- **Service Worker (`sw.js`):** prüft mit einem kleinen Abruf ohne Inhalt (`HEAD`) und gibt jeder Antwort die Nummer der
+  Frage mit.
+- **Prüfung** `tests/offline-regeln.mjs`: neuer Fall F-17 ‚Gerät ohne Safari-Meldung‘ (erst rot, dann grün).
+  **Warum übersehen:** die Prüfung schaltete das Netz so ab, dass der Browser immer ‚offline‘ meldet – wie es das iPad
+  nicht tut.
+- **Feste Fassung 4.15.1**; Designrichtlinie Reiselogbuch 3.14.1 (nur Version).
+
+Prüfliste P-40 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
+
+**P-40/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.14.1 · erstellt am … · AppDesign 4.15.1‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.14.1‘ und ‚AppDesign 4.15.1‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-40/1 – iPad: offline gehen, während die App offen ist**
+1. iPad quer, hell, App offen mit Seitenleiste.
+2. Kontrollzentrum öffnen (oben rechts nach unten wischen), Flugmodus ein, WLAN aus, Kontrollzentrum schließen.
+3. Höchstens 15 Sekunden warten, die App nicht verlassen.
+4. Erwartet: unten mittig rechts neben der Seitenleiste ‚Du bist offline‘, darunter grau ‚Die App arbeitet weiter; alles
+   bleibt auf diesem Gerät.‘ – nach etwa 4 s verschwindet sie.
+5. Erwartet: unter der Backup-Kachel bleibt grau ‚Offline – alles bleibt auf diesem Gerät‘ stehen.
+
+**P-40/2 – iPad: wieder online, während die App offen ist**
+1. Weiter von P-40/1: Flugmodus aus, WLAN ein; warten, bis oben das WLAN-Zeichen erscheint.
+2. Höchstens 15 Sekunden warten, die App nicht verlassen.
+3. Erwartet: unten kurz ‚Wieder online‘; die graue Zeile unter der Backup-Kachel ist weg.
+
 ## 3.14.0 – 15.10.2026 (Neben)
 
 Reiselogbuch 3.14.0 · AppDesign 4.15.0 (Designrichtlinie allgemein 4.15.0) · Designrichtlinie Reiselogbuch 3.14.0 · Zusammenarbeit allgemein 2.3.2

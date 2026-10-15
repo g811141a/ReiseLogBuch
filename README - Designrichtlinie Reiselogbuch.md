@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.14.0** · Stand 15.10.2026
+**Version 3.14.1** · Stand 15.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.15.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.15.1)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -167,6 +167,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.14.1 | 15.10.2026 | Korrektur | Angepasst an allgemein 4.15.1 (15.20: Nachfrage alle 10 s); keine eigene Änderung |
 | 3.14.0 | 15.10.2026 | Neben | Angepasst an allgemein 4.15.0 (R-1.5 Offline-Hinweis, 15.20); keine eigene Änderung |
 | 3.13.2 | 14.10.2026 | Korrektur | Angepasst an allgemein 4.14.2 (R-1.5 Offline-Start, R-5.1 Schrittkopf); keine eigene Änderung |
 | 3.13.1 | 14.10.2026 | Korrektur | Angepasst an allgemein 4.14.1 (Richtlinien-Text in der Fassung); keine eigene Änderung |
