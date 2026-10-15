@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 15.10.2026** · Aktuelle Version: Reiselogbuch 3.15.0 · AppDesign 4.16.0
+**Stand 15.10.2026** · Aktuelle Version: Reiselogbuch 3.15.1 · AppDesign 4.16.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-42 | 1 | Reiselogbuch 3.15.1 · AppDesign 4.16.1: nur Version prüfen (Prüflauf mit höchstens 4 Browsern, AppDesign A-10) – Prüfliste P-42 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-73 | Reiselogbuch 3.15.1: auf AppDesign-Fassung 4.16.1 gehoben (A-10, Prüflauf mit höchstens 4 Browsern) | Reiselogbuch 3.15.1 | 15.10.2026 |
 | E-72 | Geprüft: P-41 alles in Ordnung (Version, iPhone hoch/quer startet in der Startliste ohne blauen Eintrag, kurz weg und zurück, Öffnen und Zurück, iPad unverändert); **T-84 damit abgeschlossen** | Reiselogbuch 3.15.0 | 15.10.2026 |
 | E-71 | Reiselogbuch 3.15.0: T-84 – Start im iPhone-Aufbau in der Startliste ohne blauen Eintrag (allgemein R-7.2), Prüfung `start-regeln.mjs` F-1 bis F-18 | Reiselogbuch 3.15.0 | 15.10.2026 |
 | E-70 | Geprüft: P-40 alles in Ordnung (Version, iPad offline/online bei offener App) | Reiselogbuch 3.14.1 | 15.10.2026 |

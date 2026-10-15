@@ -13,6 +13,26 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.15.1 – 15.10.2026 (Korrektur)
+
+Reiselogbuch 3.15.1 · AppDesign 4.16.1 (Designrichtlinie allgemein 4.16.1) · Designrichtlinie Reiselogbuch 3.15.1 · Zusammenarbeit allgemein 2.4.0
+
+AppDesign A-10. In der App ändert sich nichts.
+
+- **Feste Fassung 4.16.1:** der volle Prüflauf (`tests/alle.mjs`) startet höchstens so viele Browser gleichzeitig, wie der
+  Rechner Kerne hat (4 statt 8) – beim Veröffentlichen von 3.15.0 war er zweimal rot durch WebKit unter Last.
+- Designrichtlinie Reiselogbuch 3.15.1 (nur Version).
+
+Prüfliste P-42 (Schritt für Schritt, Zusammenarbeit allgemein 2.4.0).
+
+**P-42/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.15.1 · erstellt am … · AppDesign 4.16.1‘.
+4. iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+5. Erwartet: dieselbe Zeile mit ‚Version 3.15.1‘ und ‚AppDesign 4.16.1‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
 ## 3.15.0 – 15.10.2026 (Neben)
 
 Reiselogbuch 3.15.0 · AppDesign 4.16.0 (Designrichtlinie allgemein 4.16.0) · Designrichtlinie Reiselogbuch 3.15.0 · Zusammenarbeit allgemein 2.4.0
