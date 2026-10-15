@@ -22,7 +22,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-84 | 2 | iPhone startet bei **jedem Neuladen** in der Startliste ‚Reiselogbücher‘ (auch wenn iOS die App im Hintergrund beendet hat); beim Start ist **kein** Eintrag blau (nach ‚Zurück‘ wie bisher das zuletzt geöffnete); es entscheidet der **Aufbau** (iPhone-Aufbau, auch iPad im schmalen Fenster); iPad sonst unverändert. Rückkehr aus dem Hintergrund ohne Neuladen bleibt, wo es war. Nur Reiselogbuch. Fall-Liste F-1 bis F-18: AppDesign `arbeit/T-84 Fall-Liste.md` (entschieden 15.10.2026) | Reiselogbuch | 15.10.2026 |
+| T-84 | 2 | iPhone startet bei jedem Neuladen in der Startliste ‚Reiselogbücher‘, beim Start kein Eintrag blau, der Aufbau entscheidet – seit 15.10.2026 **allgemeine Regel** (AppDesign A-09); das Reiselogbuch übernimmt sie mit der neuen Fassung. Fall-Liste F-1 bis F-18: AppDesign `arbeit/T-84 Fall-Liste.md` | Reiselogbuch (aus AppDesign A-09) | 15.10.2026 |
 
 **1 Punkt bereit** (T-84) · gebaut wird erst nach „Ja“
 
