@@ -3,8 +3,8 @@
 // Blättern, Kontextmenü, Löschen zurück zur Startliste, neues Reiselogbuch, Wechsel iPhone ↔ iPad. Hell und dunkel.
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.15.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.15.1/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.16.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.16.0/tests/hig.mjs';
 const t = pruefung('ablauf-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const OUT = new URL('./out/', import.meta.url).pathname;
@@ -26,7 +26,12 @@ await p.reload(); await p.waitForTimeout(300);
 const db = () => p.evaluate(() => JSON.parse(localStorage.getItem('reiselogbuch.v1')));
 
 check(await p.evaluate(() => document.documentElement.classList.contains('phone')), 'html.phone fehlt');
-check(await p.locator('.pnav-title').textContent() === 'Australien', 'Start nicht im laufenden Reiselogbuch');
+// Seit 3.15.0 (R-7.2): Start in der Startliste ohne blauen Eintrag; das laufende Reiselogbuch wird daraus geöffnet.
+check(await p.locator('#side.page').isVisible(), 'Start nicht in der Startliste');
+check(await p.locator('#side .side-row.current').count() === 0, 'Eintrag in der Startliste beim Start blau');
+await G('Startliste beim Start');
+await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(300);
+check(await p.locator('.pnav-title').textContent() === 'Australien', 'Laufendes Reiselogbuch öffnet nicht');
 check(await p.locator('#side').isHidden(), 'Seitenleiste sichtbar');
 check(await p.locator('#pdays .box.gap').count() === 1, 'erster offener Tag nicht markiert');
 check(await p.locator('.pnav .grp #searchBtn').count() === 1, 'search fehlt in der Kapsel');

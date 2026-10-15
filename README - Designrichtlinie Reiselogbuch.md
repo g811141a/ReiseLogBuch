@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.14.1** · Stand 15.10.2026
+**Version 3.15.0** · Stand 15.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.15.1)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.16.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -67,12 +67,13 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 
 ## 3a. iPhone — Ausprägung der iPhone-Ansicht (allgemein 15.17)
 
-- **Start** im laufenden (sonst zuletzt beendeten, sonst nächsten) Reiselogbuch, gesprungen wird
-  zum ersten offenen Tag – wie auf dem iPad. Runder `chevron-left` führt zur Startliste.
+- **Start (seit 3.15.0, allgemein R-7.2):** jedes Neuladen beginnt in der Startliste ‚Reiselogbücher‘ ohne blauen Eintrag;
+  ein Reiselogbuch öffnet beim ersten offenen Tag. Die Startreise (laufende, sonst zuletzt beendete, sonst nächste) bleibt
+  gewählt und erscheint, wenn das Fenster in den iPad-Aufbau wechselt. Runder `chevron-left` führt zur Startliste.
 - **Startliste ‚Reiselogbücher‘ = Seitenleiste:** fest stehende Leiste mit ‚Reiselogbücher‘ links
   (darunter klein und grau die Anzahl) und der Kapsel [`plus` | `ellipsis`] rechts (ellipsis: Backup
   erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher); ohne großen Titel; jedes Reiselogbuch als
-  eigene Kachel (Titel · Zeitraum · Zustand, ›), das zuletzt geöffnete blau; Backup-Kachel fest am unteren Rand (R-7.1, R-9.1). Langes Drücken: Einstellungen · Reiselogbuch
+  eigene Kachel (Titel · Zeitraum · Zustand, ›), das zuletzt geöffnete blau (nach dem Start keines, R-7.2); Backup-Kachel fest am unteren Rand (R-7.1, R-9.1). Langes Drücken: Einstellungen · Reiselogbuch
   löschen. Leer: ‚Noch kein Reiselogbuch angelegt.‘ und ‚Mit ‚plus‘ oben rechts ein neues
   Reiselogbuch anlegen.‘
 - **Reiselogbuch:** Kopf mit rundem `chevron-left` und Kapsel [`share` | `search` | `ellipsis`]
@@ -167,6 +168,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.15.0 | 15.10.2026 | Neben | Angepasst an allgemein 4.16.0: Start im iPhone-Aufbau in der Startliste ohne blauen Eintrag (R-7.2, T-84) |
 | 3.14.1 | 15.10.2026 | Korrektur | Angepasst an allgemein 4.15.1 (15.20: Nachfrage alle 10 s); keine eigene Änderung |
 | 3.14.0 | 15.10.2026 | Neben | Angepasst an allgemein 4.15.0 (R-1.5 Offline-Hinweis, 15.20); keine eigene Änderung |
 | 3.13.2 | 14.10.2026 | Korrektur | Angepasst an allgemein 4.14.2 (R-1.5 Offline-Start, R-5.1 Schrittkopf); keine eigene Änderung |

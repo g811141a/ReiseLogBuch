@@ -13,6 +13,69 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.15.0 – 15.10.2026 (Neben)
+
+Reiselogbuch 3.15.0 · AppDesign 4.16.0 (Designrichtlinie allgemein 4.16.0) · Designrichtlinie Reiselogbuch 3.15.0 · Zusammenarbeit allgemein 2.4.0
+
+T-84 – seit 15.10.2026 allgemeine Regel R-7.2 (AppDesign A-09). Fall-Liste F-1 bis F-18: `AppDesign/arbeit/T-84 Fall-Liste.md`.
+
+- **iPhone startet in der Startliste (R-7.2):** Jedes Neuladen der App beginnt im iPhone-Aufbau in der Startliste
+  ‚Reiselogbücher‘, ganz oben, **kein Eintrag blau** (es ist noch nichts geöffnet). Ein Reiselogbuch antippen öffnet es wie
+  bisher beim ersten offenen Tag; nach ‚Zurück‘ ist es blau. Kurz in eine andere App und zurück ändert nichts – dort, wo man
+  war. Hat iOS die App im Hintergrund beendet, beginnt sie wieder in der Startliste (Safari meldet nicht, warum neu geladen
+  wird; Designrichtlinie allgemein 13).
+- **Der Aufbau entscheidet:** auch ein iPad im schmalen Fenster (iPhone-Aufbau) beginnt in der Startliste; iPad quer und
+  hoch bleiben unverändert (laufende Reise offen, Seitenleiste eingeblendet).
+- **Prüfungen:** neu `tests/start-regeln.mjs` (F-1 bis F-11, F-13 bis F-17, hell und dunkel; Gegenprobe: altes
+  Startverhalten und blauer Eintrag beim Start werden rot), dazu die allgemeine Prüfung `start.mjs` aus AppDesign;
+  `ablauf-iphone`, `hig`, `backup-regeln`, `kontextmenue-regeln` und `ablauf-seitenleiste-position` beginnen am iPhone
+  jetzt in der Startliste. F-12 (Start ohne Netz) prüft `offline-regeln`, F-18 (Löschen) `ablauf-iphone`.
+- **Arbeitsweise (AppDesign A-07, Zusammenarbeit 2.4.0):** zu Beginn gezielt lesen, ein voller Prüflauf je Version;
+  `CLAUDE.md` 3.3.0.
+- **Feste Fassung 4.16.0**; Designrichtlinie Reiselogbuch 3.15.0.
+
+Apple-Review: Apple stellt nach einem Neustart meist den letzten Ort wieder her (HIG ‚Launching‘) – **weicht ab, weil**
+die Startliste auf dem kleinen Bildschirm der feste Ausgangspunkt sein soll (entschieden 14./15.10.2026); kein Eintrag blau
+**entspricht HIG** 4 (Auswahl nur, solange der Inhalt offen ist); Aufbau statt Gerät **entspricht** R-1.1.
+
+Prüfliste P-41 (Schritt für Schritt, Zusammenarbeit allgemein 2.4.0).
+
+**P-41/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.15.0 · erstellt am … · AppDesign 4.16.0‘.
+4. iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+5. Erwartet: dieselbe Zeile mit ‚Version 3.15.0‘ und ‚AppDesign 4.16.0‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-41/1 – iPhone hoch: Neustart beginnt in der Startliste**
+1. iPhone hoch, hell. Ein Reiselogbuch antippen, sodass es offen ist.
+2. App ganz schließen (vom unteren Rand nach oben wischen, App nach oben wegschieben) und neu öffnen.
+3. Erwartet: die Startliste ‚Reiselogbücher‘, ganz oben; **keine** Kachel ist blau; keine Meldung.
+
+**P-41/2 – iPhone quer: Neustart beginnt in der Startliste**
+1. iPhone quer, dunkel (Kontrollzentrum → Darstellung dunkel). Ein Reiselogbuch öffnen.
+2. App ganz schließen und quer neu öffnen.
+3. Erwartet: die Startliste ‚Reiselogbücher‘, keine Kachel blau, die Backup-Kachel unten.
+
+**P-41/3 – iPhone: kurz weg und zurück bleibt, wo es war**
+1. iPhone hoch, hell. Ein Reiselogbuch öffnen und etwas nach unten wischen.
+2. Zum Home-Bildschirm wechseln, eine andere App kurz öffnen, über den App-Umschalter zurück zum Reiselogbuch.
+3. Erwartet: dasselbe Reiselogbuch an derselben Stelle, keine Meldung.
+4. Hinweis: War die App lange im Hintergrund und hat iOS sie beendet, beginnt sie in der Startliste – das ist so gewollt.
+
+**P-41/4 – iPhone: aus der Startliste öffnen und zurück**
+1. Weiter von P-41/1: in der Startliste die laufende Reise antippen.
+2. Erwartet: das Reiselogbuch öffnet beim ersten offenen Tag.
+3. Oben links ‚‹‘ (chevron-left) tippen.
+4. Erwartet: die Startliste; die eben geöffnete Reise ist blau.
+
+**P-41/5 – iPad quer und hoch: unverändert**
+1. iPad quer, hell. App ganz schließen und neu öffnen.
+2. Erwartet: die laufende Reise ist offen, die Seitenleiste fest links, die laufende Reise darin blau.
+3. iPad hoch drehen, App ganz schließen und neu öffnen.
+4. Erwartet: die laufende Reise ist offen, die Seitenleiste darübergelegt, die laufende Reise blau.
+
 ## 3.14.1 – 15.10.2026 (Korrektur)
 
 Reiselogbuch 3.14.1 · AppDesign 4.15.1 (Designrichtlinie allgemein 4.15.1) · Designrichtlinie Reiselogbuch 3.14.1 · Zusammenarbeit allgemein 2.3.2

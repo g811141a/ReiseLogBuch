@@ -1,8 +1,8 @@
 // Allgemeine Prüfung der Kontextmenüs (AppDesign/tests/kontextmenue.mjs, R-4.2) – verschiedene Listenlängen, iPad und iPhone.
 // Aufruf im Repo-Ordner: node tests/kontextmenue-regeln.mjs. Meldet Fehler mit Rückgabewert (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.15.1/tests/pruefe.mjs';
-import { checkContextMenus } from '../../AppDesign/fassung/4.15.1/tests/kontextmenue.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.16.0/tests/pruefe.mjs';
+import { checkContextMenus } from '../../AppDesign/fassung/4.16.0/tests/kontextmenue.mjs';
 const t = pruefung('kontextmenue-regeln', pw, { out: new URL('out/', import.meta.url) });
 const b = await t.browser();
 // Teilbar nach Gerät (Lauf-Werkzeug, Fall-Liste A-05 B-5): PRUEF_GERAET=iPad oder iPhone, ohne Angabe beide.
@@ -17,8 +17,8 @@ for (const [w, h, dev] of [[393, 852, 'iPhone hoch'], [852, 393, 'iPhone quer'],
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: {}, trips: t })), trips);
   await p.reload(); await p.waitForTimeout(300);
-  if (w < 700 || h < 500) { await p.click('#back'); await p.waitForTimeout(250); }
-  else if (await p.locator('#side').isHidden()) { await p.click('[data-side-toggle]'); await p.waitForTimeout(250); }
+  // iPhone: Start in der Startliste (R-7.2, seit 3.15.0)
+  if (!(w < 700 || h < 500) && (await p.locator('#side').isHidden())) { await p.click('[data-side-toggle]'); await p.waitForTimeout(250); }
   t.liste(await checkContextMenus(p, t.ort));
   await p.close();
 }

@@ -1,17 +1,16 @@
 # Reiselogbuch – Hinweise für Claude
 
-**Version 3.2.0** · Stand 14.10.2026
+**Version 3.3.0** · Stand 15.10.2026
 
-## Zuerst lesen
+## Zuerst lesen (gezielt, Zusammenarbeit 0 Nr. 15)
 
 Die allgemeinen Regeln liegen im Design-Repo **AppDesign** (g811141a/AppDesign, lokal neben diesem Repo klonen):
 
 1. `AppDesign/UEBERGABE.md` – Stand der letzten Sitzung, nächster Schritt, Chatnummer
-2. `AppDesign/README - Zusammenarbeit allgemein.md` – Abschnitt 0 (Arbeitsprozess 2.0) hat Vorrang
-3. `AppDesign/README - Designrichtlinie allgemein.md` – Komponenten (15), HIG-Checkliste (16), Regelkatalog (17)
-4. `README - Designrichtlinie Reiselogbuch.md` – nur Abweichungen und Ausprägungen
-5. `PROMPT.md` – vollständige Funktionsbeschreibung der App
-6. `CHANGELOG.md` (Prüfliste der neuesten Version oben) und `BACKLOG.md`
+2. `AppDesign/README - Zusammenarbeit allgemein.md` – nur Abschnitt 0 (Arbeitsprozess 2.0, hat Vorrang)
+3. Überschriften (`grep -n '^##'`) von `AppDesign/README - Designrichtlinie allgemein.md` (Komponenten 15, HIG-Checkliste 16,
+   Regelkatalog 17) und `README - Designrichtlinie Reiselogbuch.md`; einzelne Abschnitte erst, wenn die Aufgabe sie braucht
+4. Nur bei Bedarf: `PROMPT.md` (Funktionsbeschreibung), `CHANGELOG.md` (Prüfliste der neuesten Version oben), `BACKLOG.md`
 
 ## Verpflichtend
 
@@ -40,7 +39,8 @@ erst Prüfpunkte dann Neues, Zeit und Token am Ende jeder Antwort (Abschnitt 2).
 - Prüfen: im Ordner `tests` einmalig `npm install playwright` (WebKit kommt über das Setup-Skript der Umgebung, sonst
   `npx playwright install webkit` und `npx playwright install-deps webkit`), dann im Repo-Ordner `node tests/alle.mjs`
   (oder `sh tests/alle.sh`): alle Prüfungen parallel in Chromium und WebKit, Abbruch beim ersten Fehler, `--alle` zeigt
-  alle roten; Gegenprobe `--gegenprobe` (siehe `tests/README.md`, AppDesign `tests/README.md`).
+  alle roten; Gegenprobe `--gegenprobe` (siehe `tests/README.md`, AppDesign `tests/README.md`). Während der Arbeit nur die
+  betroffenen Prüfungen (`node tests/<datei>.mjs`); der volle Lauf genau einmal in `… los` (Zusammenarbeit 0 Nr. 2).
 
 ---
 
@@ -48,6 +48,7 @@ erst Prüfpunkte dann Neues, Zeit und Token am Ende jeder Antwort (Abschnitt 2).
 
 | Version | Datum | Inhalt |
 |---|---|---|
+| 3.3.0 | 15.10.2026 | Gezielt lesen (nur Abschnitt 0 und Überschriften), ein voller Prüflauf je Version (AppDesign A-07) |
 | 3.2.0 | 14.10.2026 | Feste AppDesign-Fassung `fassung/X.Y.Z/` statt `v4/…?v=`, Versionen mit dem Veröffentlichungs-Skript (A-05 Version B) |
 | 3.1.0 | 14.10.2026 | Prüfen mit `node tests/alle.mjs` (A-05 Version A: parallel, Chromium und WebKit) |
 | 3.0.0 | 14.10.2026 | Neu gefasst (A-02 Schritt 4): zuerst UEBERGABE.md, Regeln nur als Verweis auf AppDesign (ohne ‚etwa 5 Punkte‘, Antwortzeile und ‚Gesamt‘ in der Zeitzeile), Einbindung mit `?v=`, Prüfung mit `sh tests/alle.sh` |

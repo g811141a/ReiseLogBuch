@@ -7,8 +7,8 @@
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
 // Bewusste Abweichungen (Abschnitt 16) werden nicht gezählt. Ergebnis: Abweichungsliste, Exit-Code 1 bei Funden.
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.15.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.15.1/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.16.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.16.0/tests/hig.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
 const long = 'a'.repeat(100); // R-6.3: zu lange Wörter müssen im Wort umbrechen
@@ -110,6 +110,9 @@ for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]
   const away = async () => { if (await p.locator('.layer').count()) { await p.mouse.click(4, h - 4); await p.waitForTimeout(150); } };
   const stays = (sel, s) => hig.stays(p, sel, `${s} (${tag})`);
   try {
+  // Seit 3.15.0 (R-7.2): Start in der Startliste; das laufende Reiselogbuch wird daraus geöffnet.
+  await M('Startliste beim Start');
+  await p.locator(`#side .side-row[data-id="${await p.evaluate(() => pickStartTrip().id)}"]`).click(); await p.waitForTimeout(300);
   await M('Hauptansicht');
   await hig.barStill(p, `Hauptansicht (${tag})`);
   await p.click('#mainMore'); await p.waitForTimeout(150); await stays('#mainMore', 'Mehr-Menü'); await M('Mehr-Menü');
