@@ -20,7 +20,8 @@ Reiselogbuch 3.15.1 · AppDesign 4.16.1 (Designrichtlinie allgemein 4.16.1) · D
 AppDesign A-10. In der App ändert sich nichts.
 
 - **Feste Fassung 4.16.1:** der volle Prüflauf (`tests/alle.mjs`) startet höchstens so viele Browser gleichzeitig, wie der
-  Rechner Kerne hat (4 statt 8) – beim Veröffentlichen von 3.15.0 war er zweimal rot durch WebKit unter Last.
+  Rechner Kerne hat (4 statt 8), und erst alle in Chromium, dann alle in WebKit (A-11) – beim Veröffentlichen von 3.15.0
+  und 3.15.1 war er mehrmals rot durch WebKit unter Last.
 - Designrichtlinie Reiselogbuch 3.15.1 (nur Version).
 
 Prüfliste P-42 (Schritt für Schritt, Zusammenarbeit allgemein 2.4.0).
