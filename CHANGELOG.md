@@ -15,16 +15,20 @@ Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste 
 
 ## 3.15.1 – 15.10.2026 (Korrektur)
 
-Reiselogbuch 3.15.1 · AppDesign 4.16.1 (Designrichtlinie allgemein 4.16.1) · Designrichtlinie Reiselogbuch 3.15.1 · Zusammenarbeit allgemein 2.4.0
+Reiselogbuch 3.15.1 · AppDesign 4.16.1 (Designrichtlinie allgemein 4.16.1) · Designrichtlinie Reiselogbuch 3.15.1 · Zusammenarbeit allgemein 2.5.0
 
 AppDesign A-10. In der App ändert sich nichts.
 
 - **Feste Fassung 4.16.1:** der volle Prüflauf (`tests/alle.mjs`) startet höchstens so viele Browser gleichzeitig, wie der
   Rechner Kerne hat (4 statt 8), und erst alle in Chromium, dann alle in WebKit (A-11) – beim Veröffentlichen von 3.15.0
-  und 3.15.1 war er mehrmals rot durch WebKit unter Last.
+  und 3.15.1 war er mehrmals rot durch WebKit unter Last. Ursache: der Netzprozess von WebKit stürzt in der Prüfumgebung
+  unter Last ab und verliert den Speicher des Service Workers – `offline-regeln` erkennt das jetzt und prüft die Ansicht
+  einmal neu (kein Fehler der App).
+- **Zusammenarbeit allgemein 2.5.0:** per du; bei offensichtlichem Regelbruch widerspricht Claude und setzt erst nach
+  ausdrücklicher Umsetzungspflicht um.
 - Designrichtlinie Reiselogbuch 3.15.1 (nur Version).
 
-Prüfliste P-42 (Schritt für Schritt, Zusammenarbeit allgemein 2.4.0).
+Prüfliste P-42 (Schritt für Schritt, Zusammenarbeit allgemein 2.5.0).
 
 **P-42/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
