@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 15.10.2026, Version 3.13.2)
+# Reiselogbuch – Prompt (Stand 15.10.2026, Version 3.14.0)
 
-Reiselogbuch 3.13.2 · AppDesign 4.14.2 (Designrichtlinie allgemein 4.14.2) · Designrichtlinie Reiselogbuch 3.13.2 · Zusammenarbeit allgemein 2.3.2
+Reiselogbuch 3.14.0 · AppDesign 4.15.0 (Designrichtlinie allgemein 4.15.0) · Designrichtlinie Reiselogbuch 3.14.0 · Zusammenarbeit allgemein 2.3.2
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -30,7 +30,9 @@ RAHMEN
   Speicher an, damit Safari die Daten nicht von selbst löscht.
 - Auch offline nutzbar. Beim Start fragt die App immer bei GitHub nach
   einer neuen Version (kein 10-Minuten-Zwischenspeicher); ohne Netz läuft
-  die gespeicherte Version.
+  die gespeicherte Version. Arbeitet die App offline (kein Netz oder Netz hängt länger als 3 s), steht unter der
+  Backup-Kachel grau ‚Offline – alles bleibt auf diesem Gerät‘; beim Wechsel und beim Start ohne Netz erscheint kurz
+  ‚Du bist offline‘ bzw. ‚Wieder online‘ (seit 3.14.0, AppDesign R-1.5).
 - Oberfläche auf Deutsch, schlicht und klar.
 - Web-App, die man über Safari zum Home-Bildschirm hinzufügt.
 - Bereitstellung über GitHub Pages aus dem Repo "ReiseLogBuch" (Branch

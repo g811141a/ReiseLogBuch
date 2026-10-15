@@ -13,6 +13,70 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.14.0 – 15.10.2026 (Neben)
+
+Reiselogbuch 3.14.0 · AppDesign 4.15.0 (Designrichtlinie allgemein 4.15.0) · Designrichtlinie Reiselogbuch 3.14.0 · Zusammenarbeit allgemein 2.3.2
+
+A-06 Offline-Hinweis (Variante c, allgemeine Regel R-1.5; Muster und Fall-Liste `AppDesign/arbeit/A-06 Muster und Fall-Liste.md`).
+
+- **Graue Zeile unter der Backup-Kachel** (Seitenleiste iPad, Startliste iPhone): solange die App offline arbeitet,
+  ‚Offline – alles bleibt auf diesem Gerät‘ mit Icon `wifi-off`; die Liste läuft auch hinter der Zeile durch.
+- **Kurze Meldung** unten: ‚Du bist offline‘ (darunter grau ‚Die App arbeitet weiter; alles bleibt auf diesem Gerät.‘) beim
+  Wechsel und beim Start ohne Netz, ‚Wieder online‘ beim Zurückkommen; mittig neben der Seitenleiste, auf dem iPhone über
+  der Backup-Kachel, verschwindet nach 4 s, Antippen schließt sie, auch über einem offenen Fenster sichtbar.
+- **Service Worker (`sw.js`):** meldet der App, ob sie aus dem Speicher kommt (kein Netz oder Netz hängt länger als 3 s)
+  und ob das Netz wieder antwortet; die App fragt beim Start und bei der Rückkehr in die App.
+- **Prüfung `tests/offline-regeln.mjs`** mit den Fällen F-1 bis F-16 (iPad und iPhone, Chromium und WebKit, mit langer
+  Liste). Beim Bauen gefunden und behoben: ‚Wieder online‘ fehlte (der Service Worker meldete nur Änderungen aus seiner
+  Sicht); bei schnellem Hin und Her überschrieb eine verspätete Antwort ‚an‘ den Zustand ‚offline‘; bei hängendem Netz kam
+  die Meldung in WebKit zu spät (wartete auf Manifest und Icons); auf dem iPhone verdeckte die Meldung die Backup-Kachel
+  und wurde beim Wechsel in die Startliste nicht neu ausgerichtet. Gegenprobe: ohne Meldung 32 Fehler.
+- **Feste Fassung 4.15.0**; Designrichtlinie Reiselogbuch 3.14.0 (nur Version).
+
+Prüfliste P-39 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
+
+**P-39/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.14.0 · erstellt am … · AppDesign 4.15.0‘.
+4. iPhone: Startliste ‚Reiselogbücher‘ → oben ‚…‘ (Mehr).
+5. Erwartet: dieselbe Zeile mit ‚Version 3.14.0‘ und ‚AppDesign 4.15.0‘.
+6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-39/1 – iPad: offline gehen, während die App offen ist**
+1. iPad quer, hell, App offen mit Seitenleiste.
+2. Kontrollzentrum öffnen (oben rechts nach unten wischen) und den Flugmodus einschalten; WLAN aus. Kontrollzentrum schließen.
+3. Erwartet: unten mittig rechts neben der Seitenleiste die Meldung ‚Du bist offline‘, darunter grau ‚Die App arbeitet
+   weiter; alles bleibt auf diesem Gerät.‘ – nach etwa 4 s verschwindet sie.
+4. Erwartet: unter der Backup-Kachel grau ‚Offline – alles bleibt auf diesem Gerät‘ (bleibt stehen).
+
+**P-39/2 – iPad: wieder online**
+1. Weiter von P-39/1: Flugmodus ausschalten, WLAN ein, warten, bis das WLAN-Zeichen oben erscheint.
+2. Erwartet: unten kurz ‚Wieder online‘; die graue Zeile unter der Backup-Kachel ist weg.
+3. Kommt die Meldung nicht von selbst: App kurz verlassen (Home-Bildschirm) und wieder öffnen – dann erscheint sie.
+
+**P-39/3 – iPad: Start ohne Netz, hoch und dunkel**
+1. iPad hoch, Darstellung dunkel. App ganz schließen, Flugmodus einschalten.
+2. App öffnen.
+3. Erwartet: nach höchstens 3–5 s erscheint die App (keine weiße Seite), die Seitenleiste liegt über dem Inhalt.
+4. Erwartet: unten rechts neben der Seitenleiste kurz ‚Du bist offline‘ (gut lesbar), unter der Backup-Kachel die graue Zeile.
+5. Ein Reiselogbuch antippen: die Seitenleiste schließt sich, die Tabelle ist da. Flugmodus wieder ausschalten.
+
+**P-39/4 – iPhone: offline gehen in der Startliste und im Reiselogbuch**
+1. iPhone hoch, hell, Startliste ‚Reiselogbücher‘ offen.
+2. Flugmodus einschalten.
+3. Erwartet: unten mittig über der Backup-Kachel kurz ‚Du bist offline‘ (verdeckt die Backup-Kachel nicht); danach unter
+   der Backup-Kachel grau ‚Offline – alles bleibt auf diesem Gerät‘.
+4. Ein Reiselogbuch öffnen, Flugmodus aus- und wieder einschalten.
+5. Erwartet: unten mittig kurz ‚Wieder online‘, dann ‚Du bist offline‘.
+6. Zurück (chevron-left) in die Startliste: die graue Zeile steht unter der Backup-Kachel.
+
+**P-39/5 – iPhone: Start ohne Netz, quer**
+1. iPhone quer, App ganz schließen, Flugmodus ein.
+2. App öffnen.
+3. Erwartet: die App erscheint nach höchstens 3–5 s, unten kurz ‚Du bist offline‘.
+4. Flugmodus ausschalten.
+
 ## 3.13.2 – 14.10.2026 (Korrektur)
 
 Reiselogbuch 3.13.2 · AppDesign 4.14.2 (Designrichtlinie allgemein 4.14.2) · Designrichtlinie Reiselogbuch 3.13.2 · Zusammenarbeit allgemein 2.3.2
