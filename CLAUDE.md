@@ -1,6 +1,6 @@
 # Reiselogbuch – Hinweise für Claude
 
-**Version 3.3.0** · Stand 15.10.2026
+**Version 3.4.0** · Stand 16.10.2026
 
 ## Zuerst lesen (gezielt, Zusammenarbeit 0 Nr. 15)
 
@@ -13,6 +13,9 @@ Die allgemeinen Regeln liegen im Design-Repo **AppDesign** (g811141a/AppDesign, 
 4. Nur bei Bedarf: `PROMPT.md` (Funktionsbeschreibung), `CHANGELOG.md` (Prüfliste der neuesten Version oben), `BACKLOG.md`
 
 ## Verpflichtend
+
+**Startfrage (Zusammenarbeit 0 Nr. 19):** Beginnt die Sitzung ohne konkreten Auftrag, zuerst das Auswahlfenster
+‚Was möchtest du als Nächstes tun?‘ mit je einer Möglichkeit pro angehängtem Repo (Version, Backlog-Spitze).
 
 Alle Regeln der Zusammenarbeit allgemein gelten; sie stehen nur dort (hier keine Wiederholung). Besonders: nie ohne
 ausdrückliches ‚Ja‘ bauen, Fall-Liste vor jedem Bau (0 Nr. 1), kleine Versionen und Korrekturen sofort (0 Nr. 8),
@@ -48,6 +51,7 @@ erst Prüfpunkte dann Neues, Zeit und Token am Ende jeder Antwort (Abschnitt 2).
 
 | Version | Datum | Inhalt |
 |---|---|---|
+| 3.4.0 | 16.10.2026 | Startfrage zu Beginn einer Sitzung ohne Auftrag (Zusammenarbeit 0 Nr. 19) |
 | 3.3.0 | 15.10.2026 | Gezielt lesen (nur Abschnitt 0 und Überschriften), ein voller Prüflauf je Version (AppDesign A-07) |
 | 3.2.0 | 14.10.2026 | Feste AppDesign-Fassung `fassung/X.Y.Z/` statt `v4/…?v=`, Versionen mit dem Veröffentlichungs-Skript (A-05 Version B) |
 | 3.1.0 | 14.10.2026 | Prüfen mit `node tests/alle.mjs` (A-05 Version A: parallel, Chromium und WebKit) |
