@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-42 | 1 | Reiselogbuch 3.15.1 · AppDesign 4.16.1: nur Version prüfen (Prüflauf mit höchstens 4 Browsern, AppDesign A-10) – Prüfliste P-42 im CHANGELOG | prüfen |
+| P-42 | 1 | Reiselogbuch 3.15.1 · AppDesign 4.16.1: Version und Offline-Start nach dem Update (Prüflauf mit höchstens 4 Browsern, AppDesign A-10, A-11) – Prüfliste P-42/0 und /1 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 

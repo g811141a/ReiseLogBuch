@@ -38,6 +38,17 @@ Prüfliste P-42 (Schritt für Schritt, Zusammenarbeit allgemein 2.5.0).
 5. Erwartet: dieselbe Zeile mit ‚Version 3.15.1‘ und ‚AppDesign 4.16.1‘.
 6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
 
+**P-42/1 – Offline-Start nach dem Update (iPad und iPhone)** – neuer Speichername des Service Workers und neuer Fassungs-Ordner (R-1.5)
+1. Zuerst P-42/0: App mit Netz geöffnet, ‚Version 3.15.1 · AppDesign 4.16.1‘ ist zu sehen.
+2. App ganz schließen (vom unteren Rand nach oben wischen, App wegschieben).
+3. Kontrollzentrum öffnen, Flugmodus ein, WLAN aus.
+4. App neu öffnen.
+5. Erwartet: die App erscheint nach höchstens etwa 3 Sekunden, nie eine weiße Seite – am iPhone die Startliste, am iPad die
+   laufende Reise; kurz ‚Du bist offline‘, unter der Backup-Kachel grau ‚Offline – alles bleibt auf diesem Gerät‘.
+6. Erwartet: im Mehr-Menü (‚…‘) weiterhin ‚Version 3.15.1 · AppDesign 4.16.1‘.
+7. Flugmodus aus, WLAN ein.
+8. Erwartet: kurz ‚Wieder online‘; die graue Zeile verschwindet.
+
 ## 3.15.0 – 15.10.2026 (Neben)
 
 Reiselogbuch 3.15.0 · AppDesign 4.16.0 (Designrichtlinie allgemein 4.16.0) · Designrichtlinie Reiselogbuch 3.15.0 · Zusammenarbeit allgemein 2.4.0
