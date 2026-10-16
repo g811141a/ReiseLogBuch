@@ -37,6 +37,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
 | T-05 | 2 | Alte Reiselogbücher importieren: **Werkzeug fertig** – privates Repo `g811141a/ReiseLogBuch-Import` 1.0.1 (Anleitung `PROMPT.md`, Prüfwerkzeug `werkzeug/pruefen.mjs`, Startfrage ‚Reiselogbücher konvertieren‘); Datei nur mit den alten Reisen, laden über ‚Backup laden‘ → ‚Abgleichen‘; keine App-Version. Anforderungen AppDesign `arbeit/T-05 Anforderungen.md`. Offen: erste echte Konvertierung (Nutzer hängt Dateien an) | Reiselogbuch | prüfen |
+| A-13 | 2 | Nach dem Schließen des Fensters ‚Tag‘ steht die Zeile des bearbeiteten Tages ganz oben – **allgemeine Regel**, geführt im Backlog von AppDesign (A-13) | AppDesign | offen |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
