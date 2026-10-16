@@ -36,7 +36,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-05 | 2 | Alte Reiselogbücher importieren: **Werkzeug fertig** – privates Repo `g811141a/ReiseLogBuch-Import` 1.0.1 (Anleitung `PROMPT.md`, Prüfwerkzeug `werkzeug/pruefen.mjs`, Startfrage ‚Reiselogbücher konvertieren‘); Datei nur mit den alten Reisen, laden über ‚Backup laden‘ → ‚Abgleichen‘; keine App-Version. Anforderungen AppDesign `arbeit/T-05 Anforderungen.md`. Offen: erste echte Konvertierung (Nutzer hängt Dateien an) | Reiselogbuch | prüfen |
 | A-13 | 2 | Nach dem Schließen des Fensters ‚Tag‘ steht die Zeile des bearbeiteten Tages ganz oben – **allgemeine Regel**, geführt im Backlog von AppDesign (A-13) | AppDesign | offen |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
@@ -52,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-75 | T-05 Alte Reiselogbücher importieren: Werkzeug im privaten Repo `ReiseLogBuch-Import`, erste Konvertierung geladen (‚Backup laden‘ → ‚Abgleichen‘) und geprüft – alles in Ordnung; weitere Konvertierungen bei Bedarf über die Startfrage | ReiseLogBuch-Import 1.2.1 | 16.10.2026 |
 | E-74 | Geprüft: P-42 alles in Ordnung (Version, Offline-Start nach dem Update auf iPad und iPhone) | Reiselogbuch 3.15.1 | 16.10.2026 |
 | E-73 | Reiselogbuch 3.15.1: auf AppDesign-Fassung 4.16.1 gehoben (A-10, Prüflauf mit höchstens 4 Browsern) | Reiselogbuch 3.15.1 | 15.10.2026 |
 | E-72 | Geprüft: P-41 alles in Ordnung (Version, iPhone hoch/quer startet in der Startliste ohne blauen Eintrag, kurz weg und zurück, Öffnen und Zurück, iPad unverändert); **T-84 damit abgeschlossen** | Reiselogbuch 3.15.0 | 15.10.2026 |
