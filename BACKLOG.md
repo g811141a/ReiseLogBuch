@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 15.10.2026** · Aktuelle Version: Reiselogbuch 3.15.1 · AppDesign 4.16.1
+**Stand 16.10.2026** · Aktuelle Version: Reiselogbuch 3.16.0 · AppDesign 4.18.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,13 +30,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-44 | 1 | Reiselogbuch 3.16.0 (A-13, R-7.3): Tabelle steht still beim Erfassen eines Tages, danach wie vorher, Zeile kurz blau – Prüfliste im CHANGELOG | Reiselogbuch | prüfen |
 | – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| A-13 | 2 | Nach dem Schließen des Fensters ‚Tag‘ steht die Zeile des bearbeiteten Tages ganz oben – **allgemeine Regel**, geführt im Backlog von AppDesign (A-13) | AppDesign | offen |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-76 | A-13: Tabelle bzw. Tageskästen stehen still, solange das Fenster ‚Tag‘ offen ist; danach wie vorher, Zeile kurz blau, nach ‹ › sichtbar (AppDesign R-7.3) | Reiselogbuch 3.16.0 | 16.10.2026 |
 | E-75 | T-05 Alte Reiselogbücher importieren: Werkzeug im privaten Repo `ReiseLogBuch-Import`, erste Konvertierung geladen (‚Backup laden‘ → ‚Abgleichen‘) und geprüft – alles in Ordnung; weitere Konvertierungen bei Bedarf über die Startfrage | ReiseLogBuch-Import 1.2.1 | 16.10.2026 |
 | E-74 | Geprüft: P-42 alles in Ordnung (Version, Offline-Start nach dem Update auf iPad und iPhone) | Reiselogbuch 3.15.1 | 16.10.2026 |
 | E-73 | Reiselogbuch 3.15.1: auf AppDesign-Fassung 4.16.1 gehoben (A-10, Prüflauf mit höchstens 4 Browsern) | Reiselogbuch 3.15.1 | 15.10.2026 |

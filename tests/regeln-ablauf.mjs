@@ -1,12 +1,12 @@
 // Ablauf-Prüfungen der allgemeinen Regeln (AppDesign/tests/ablauf.mjs): R-2.3 Suche, R-4.4 Fenster-Kopfzeile, R-5.2 Texteingabe,
-// R-5.3 Fehlermeldungen, R-6.4 Vorschau – iPad und iPhone quer und hoch, Vorschau hell und dunkel. Aufruf im Repo-Ordner: node tests/regeln-ablauf.mjs
+// R-5.3 Fehlermeldungen, R-6.4 Vorschau, R-7.3 Liste steht still – iPad und iPhone quer und hoch, Vorschau hell und dunkel. Aufruf im Repo-Ordner: node tests/regeln-ablauf.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.16.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.16.1/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.18.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.18.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('regeln-ablauf', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
-import { checkSearch, checkDialogHead, checkFieldErrors, checkCapital, checkPreview } from '../../AppDesign/fassung/4.16.1/tests/ablauf.mjs';
+import { checkSearch, checkDialogHead, checkFieldErrors, checkCapital, checkPreview, checkListStill } from '../../AppDesign/fassung/4.18.0/tests/ablauf.mjs';
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i >= 30 && i < 34 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok ' + 'sehr schöner Tag mit viel Sonne '.repeat(i % 3 + 1), food: '😋 Restaurant Zum Hafen – Fisch', quarter: 'Hotel Bellevue am Meer', place: 'Hafenviertel' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }];
 const b = await t.browser(); const errs = { push: (...m) => m.forEach(x => t.fehler('', x)) };
@@ -57,6 +57,11 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     if (w < 700 && await p.locator('.irow', { hasText: 'Australien' }).count()) { await p.locator('.irow', { hasText: 'Australien' }).click(); await p.waitForTimeout(300); }
     if (w >= 700) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(300); }
     errs.push(...await checkCapital(p, { where, open: () => p.evaluate(() => openDayDialog(db.trips[0], '2026-08-25')), field: '#fProgram' }));
+    // R-7.3 (seit 3.16.0, A-13): Tabelle bzw. Tageskästen stehen still, solange das Fenster ‚Tag‘ offen ist (Tastatur nachgebildet).
+    if (await p.evaluate(() => dlg.open)) { await p.evaluate(() => dlg.close()); await p.waitForTimeout(200); }
+    if (w < 700 && await p.evaluate(() => phoneList)) { await p.locator('.irow, .side-row', { hasText: 'Australien' }).first().click(); await p.waitForTimeout(300); }
+    errs.push(...await checkListStill(p, { where, item: w < 700 ? '#pdays [data-day]' : 'table.days tbody [data-day]', field: '#fProgram', next: '#dlg [data-nav="1"]' }));
+    await G(p, 'nach dem Fenster Tag');
   }
   await p.close();
 }

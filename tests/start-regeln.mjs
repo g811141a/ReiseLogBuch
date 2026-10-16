@@ -4,9 +4,9 @@
 // öffnet wie bisher die laufende Reise. Hell und dunkel, Grundregeln nach den Schritten (pruefe.mjs).
 // F-12 (Start ohne Netz) prüft offline-regeln.mjs, F-18 (Löschen → Startliste) ablauf-iphone.mjs.
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.16.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.16.1/tests/hig.mjs';
-import { checkStart, checkRueckkehr } from '../../AppDesign/fassung/4.16.1/tests/start.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.18.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.18.0/tests/hig.mjs';
+import { checkStart, checkRueckkehr } from '../../AppDesign/fassung/4.18.0/tests/start.mjs';
 const t = pruefung('start-regeln', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const reise = (id, title, start, end, days = {}) => ({ id, title, participants: 'Anna', start, end, transport: ['pkw'], days });
