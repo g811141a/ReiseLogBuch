@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-42 | 1 | Reiselogbuch 3.15.1 · AppDesign 4.16.1: Version und Offline-Start nach dem Update (Prüflauf mit höchstens 4 Browsern, AppDesign A-10, A-11) – Prüfliste P-42/0 und /1 im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-74 | Geprüft: P-42 alles in Ordnung (Version, Offline-Start nach dem Update auf iPad und iPhone) | Reiselogbuch 3.15.1 | 16.10.2026 |
 | E-73 | Reiselogbuch 3.15.1: auf AppDesign-Fassung 4.16.1 gehoben (A-10, Prüflauf mit höchstens 4 Browsern) | Reiselogbuch 3.15.1 | 15.10.2026 |
 | E-72 | Geprüft: P-41 alles in Ordnung (Version, iPhone hoch/quer startet in der Startliste ohne blauen Eintrag, kurz weg und zurück, Öffnen und Zurück, iPad unverändert); **T-84 damit abgeschlossen** | Reiselogbuch 3.15.0 | 15.10.2026 |
 | E-71 | Reiselogbuch 3.15.0: T-84 – Start im iPhone-Aufbau in der Startliste ohne blauen Eintrag (allgemein R-7.2), Prüfung `start-regeln.mjs` F-1 bis F-18 | Reiselogbuch 3.15.0 | 15.10.2026 |
