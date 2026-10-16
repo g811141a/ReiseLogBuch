@@ -13,6 +13,50 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.16.0 – 16.10.2026 (Neben)
+
+Reiselogbuch 3.16.0 · AppDesign 4.18.0 (Designrichtlinie allgemein 4.18.0) · Designrichtlinie Reiselogbuch 3.16.0 · Zusammenarbeit allgemein 2.7.0
+
+A-13 (neue allgemeine Regel R-7.3). Gilt auf iPad und iPhone gleich.
+
+- **Fehler behoben:** Nach dem Erfassen eines Tages stand die Tabelle weiter unten, der erfasste Tag war nach oben
+  verschwunden. Ursache: Beim Schreiben im Fenster ‚Tag‘ schiebt Safari für die Tastatur die ganze Seite und schiebt sie
+  nicht zurück. Jetzt steht die Tabelle (iPhone: die Tageskästen) still, solange das Fenster offen ist, und nach dem
+  Schließen genau wie vorher.
+- **Zeile kurz blau:** Nach dem Schließen wird die Zeile des Tages kurz blau hinterlegt und blendet aus – man sieht, welcher
+  Tag es war.
+- **Nach ‹ ›:** Wer im Fenster zu einem späteren Tag geblättert hat, findet dessen Zeile nach dem Schließen sichtbar – die
+  Tabelle rollt nur so weit wie nötig.
+- Feste Fassung AppDesign 4.18.0; Designrichtlinie Reiselogbuch 3.16.0 (nur Version).
+
+Prüfliste P-44 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+
+**P-44/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.16.0 · erstellt am … · AppDesign 4.18.0‘.
+4. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-44/1 – Tabelle steht still (iPad quer)**
+1. Ein Reiselogbuch mit vielen Tagen öffnen und die Tabelle so weit nach unten wischen, dass ein Tag in der Mitte des
+   Bildschirms steht. Merken, welcher Tag ganz oben steht.
+2. Den Tag in der Mitte antippen, ins Feld ‚Programm‘ (oder ‚Wie war was?‘) tippen, ein paar Worte schreiben – auch einmal
+   mit Diktieren.
+3. Häkchen antippen.
+4. Erwartet: oben steht derselbe Tag wie vorher; die Zeile des bearbeiteten Tages ist an derselben Stelle und leuchtet kurz
+   blau auf.
+5. Dasselbe mit x (ohne Änderung): wieder alles wie vorher.
+
+**P-44/2 – Blättern im Fenster (iPad quer)**
+1. Einen Tag weit unten auf dem Bildschirm antippen.
+2. Im Fenster mit ‹ › (oben rechts, Pfeil nach rechts) vier Tage weiterblättern, dann Häkchen.
+3. Erwartet: die Zeile des zuletzt gezeigten Tages ist ganz sichtbar (die Tabelle ist nur so weit gerollt wie nötig) und
+   leuchtet kurz blau.
+
+**P-44/3 – iPhone und iPad hoch**
+1. P-44/1 auf dem iPhone (Tageskästen) und auf dem iPad hoch wiederholen.
+2. Erwartet: wie P-44/1 – die Kästen bzw. die Tabelle stehen nach dem Schließen wie vorher, der Kasten leuchtet kurz blau.
+
 ## 3.15.1 – 15.10.2026 (Korrektur)
 
 Reiselogbuch 3.15.1 · AppDesign 4.16.1 (Designrichtlinie allgemein 4.16.1) · Designrichtlinie Reiselogbuch 3.15.1 · Zusammenarbeit allgemein 2.5.0

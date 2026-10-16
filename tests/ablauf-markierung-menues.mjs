@@ -2,8 +2,8 @@
 // Menü der Seitenleiste mit eingerücktem Strich und Zusatzinfos. Hell und dunkel, quer und hoch.
 // Aufruf im Repo-Ordner: node tests/ablauf-markierung-menues.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.16.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.16.1/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.18.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.18.0/tests/hig.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
