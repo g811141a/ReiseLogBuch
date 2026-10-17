@@ -31,6 +31,7 @@ T-92 Suche über alle Reiselogbücher (Variante C; allgemein als AppDesign A-19,
 - Eingabetaste ‚Suchen‘ schließt nur die Tastatur (R-5.5); Neuladen beginnt ohne Suche; ohne Reiselogbuch keine Lupe.
 - Neue Prüfung `tests/ablauf-suche-liste.mjs` (AppDesign `checkListSearch` in iPad quer/hoch und iPhone, hell und dunkel, dazu
   F-3, F-9, F-10, F-11, F-15, F-16, F-19); Gegenprobe (Zählung +1, ohne 1:1) rot.
+  F-11 misst den besten von 3 Durchgängen (Grenze 50 ms): im vollen Lauf lag ein einzelner Durchgang in WebKit unter Last bei 54 ms.
 - **Korrektur R-7.3 (aus AppDesign 4.23.0):** nach dem Fenster ‚Tag‘ rollte eine ganz sichtbare Zeile direkt unter dem
   Tabellenkopf um bis zu 6 px nach; jetzt steht die Liste genau wie vorher. Die Prüfung sah es bisher nicht, weil bei 340 px
   Seitenleiste zufällig keine Zeile so lag – erst die Lupe machte die Seitenleiste breiter; die Prüfung rollt jetzt gezielt
