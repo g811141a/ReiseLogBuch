@@ -37,7 +37,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-92 | 2 | **Suche über alle Reiselogbücher** – entschieden 17.10.2026: **Variante C** (AppDesign `arbeit/T-92 Vorschläge.md`): Suchfeld in Startliste/Seitenleiste filtert die Kacheln (Trefferzahl statt ‚geändert am …‘), Antippen öffnet das Reiselogbuch mit gefüllter Suche (‚1 von 12‘, Pfeile wie gewohnt); allgemein als AppDesign A-19. Noch offen: Platz des Feldes, Zählweise | Reiselogbuch · allgemein | in Klärung |
+| T-92 | 2 | **Suche über alle Reiselogbücher** – entschieden 17.10.2026: **Variante C** (AppDesign `arbeit/T-92 Vorschläge.md`): Suchfeld in Startliste/Seitenleiste filtert die Kacheln (Trefferzahl statt ‚geändert am …‘), Antippen öffnet das Reiselogbuch mit gefüllter Suche (‚1 von 12‘, Pfeile wie gewohnt); allgemein als AppDesign A-19. Entschieden 17.10.2026 (0011): Feld hinter einer **Lupe in der Kopfzeile** (wie im Reiselogbuch), Trefferzahl **je Fundstelle** (passt zu ‚1 von 12‘). Nächster Schritt: Fall-Liste | Reiselogbuch · allgemein | in Klärung |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
