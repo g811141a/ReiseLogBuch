@@ -44,6 +44,7 @@ Schritt die Grundregeln (dieselben Prüfungen wie `hig.mjs`). Einzeln: `PRUEF_BR
 | `kontextmenue-regeln.mjs` | allgemeine Kontextmenü-Prüfung (`AppDesign/tests/kontextmenue.mjs`, R-4.2) – 3 bis 12 Reisen, iPad und iPhone; im Lauf geteilt nach Gerät (`PRUEF_GERAET`) |
 | `ablauf-markierung-menues.mjs` | blaue Markierung bleibt, Menüs mit Strich und Speicher-Satz |
 | `ablauf-iphone.mjs` | iPhone-Ansicht: Startliste, Suche unten, Tag erfassen, Kontextmenü, Löschen, Wechsel iPhone ↔ iPad |
+| `link-name.mjs` | T-86 (seit 3.18.0): nur der Name ist der Maps-Link (Essen und Quartier, Ende an ‚ – ‘, Komma, Doppelpunkt, Klammer, nicht vor Ziffer) – Tabelle, Tageskästen, Vorschau, Suche |
 | `regeln-ablauf.mjs` | allgemeine Ablauf-Prüfungen (`AppDesign/tests/ablauf.mjs`, seit 3.11.5): Suche R-2.3, Fenster-Kopfzeile R-4.4, Großbuchstaben R-5.2, Fehlermeldungen R-5.3, Vorschau R-6.4 hell und dunkel; Feldnamen im Abgleichbericht wie im Fenster (R-10.1) – iPad und iPhone |
 | `tastatur.mjs` | Fenster passt bei offener Tastatur in den sichtbaren Bereich, Kopfzeile sichtbar – iPad quer und hoch, iPhone hoch, hell und dunkel; Tastatur seit 3.12.0 wie Safari über `visualViewport` nachgebildet |
 | `alle.mjs` | Liste aller Prüfungen für das Lauf-Werkzeug (`AppDesign/tests/lauf.mjs`) |

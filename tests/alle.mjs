@@ -6,7 +6,7 @@ import * as pw from 'playwright';
 import { lauf } from '../../AppDesign/fassung/4.19.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-fenster', 'ablauf-suche-tabelle', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-abgleich-faelle', 'ablauf-seitenleiste-position', 'ablauf-gesamt',
-  'ablauf-iphone', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf',
+  'ablauf-iphone', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'link-name',
   // Die zwei langen Prüfungen geteilt (B-5): hig nach Darstellung (der Gerätevergleich R-1.1 bleibt je Teil vollständig),
   // das Kontextmenü nach Gerät.
   { name: 'hig', teile: { hell: { PRUEF_DARSTELLUNG: 'light' }, dunkel: { PRUEF_DARSTELLUNG: 'dark' } } },
