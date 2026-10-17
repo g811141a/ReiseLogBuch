@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-45 | 1 | Reiselogbuch 3.17.0: Eingabetaste ‚Fertig‘ in einzeiligen Feldern (T-87, R-5.5), zuletzt verwendetes Reiselogbuch beim Start (T-88) – Prüfliste im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-80 | Geprüft: P-45 alles in Ordnung (Eingabetaste ‚Fertig‘, iPhone ✓ über der Zifferntastatur – Farbe des ✓ bestimmt iOS, nicht änderbar; zuletzt verwendetes Reiselogbuch); **T-87 und T-88 damit abgeschlossen** | Reiselogbuch 3.17.0 | 17.10.2026 |
 | E-79 | T-87 und T-88 gebaut: Eingabetaste ‚Fertig‘ schließt die Tastatur in einzeiligen Feldern (Fenster bleiben offen – vorher schloss die Eingabetaste das Fenster), zuletzt verwendetes Reiselogbuch öffnet beim Start (iPad-Aufbau) | Reiselogbuch 3.17.0 | 17.10.2026 |
 | E-78 | T-85 geschlossen ohne Bau: Emoji-Taste statt Weltkugel kann eine Web-App nicht steuern – iOS zeigt die Emoji-Taste, wenn nur eine Tastatur-Sprache plus Emoji eingerichtet ist (Einstellungen → Allgemein → Tastatur → Tastaturen) | – | 17.10.2026 |
 | E-77 | Geprüft: P-44 alles in Ordnung (Tabelle steht still beim Erfassen, iPad und iPhone) | Reiselogbuch 3.16.0 | 17.10.2026 |
