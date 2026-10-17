@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-47 | 1 | Reiselogbuch 3.19.0: Kapsel ‚Nach oben / Ans Ende‘ auch auf dem iPhone (AppDesign A-15) – Prüfliste im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-84 | Geprüft: P-47 alles in Ordnung (Kapsel ‚Nach oben / Ans Ende‘ auf dem iPhone) | Reiselogbuch 3.19.0 | 17.10.2026 |
 | E-83 | AppDesign A-15 übernommen: Kapsel ‚Nach oben / Ans Ende‘ auch auf dem iPhone (im Reiselogbuch, nicht in der Startliste) | Reiselogbuch 3.19.0 | 17.10.2026 |
 | E-82 | Geprüft: P-46 alles in Ordnung (Link nur über den Namen); **T-86 damit abgeschlossen** | Reiselogbuch 3.18.0 | 17.10.2026 |
 | E-81 | T-86 gebaut: Maps-Link nur über den Namen – endet an ‚ – ‘, Komma, Doppelpunkt, Klammer (nicht vor einer Ziffer), Essen und Quartier | Reiselogbuch 3.18.0 | 17.10.2026 |
