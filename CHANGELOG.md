@@ -42,8 +42,9 @@ Prüfliste P-47 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 4. Pfeil nach oben antippen: rollt ganz nach oben.
 
 **P-47/2 – iPhone quer und iPad**
-1. iPhone quer drehen: Kapsel unten rechts, nicht unter der Notch bzw. dem Rand.
-2. iPad: Kapsel wie bisher.
+1. iPhone quer drehen.
+2. Erwartet: Kapsel unten rechts, nicht unter der Notch bzw. dem Rand.
+3. iPad: ein Reiselogbuch öffnen. Erwartet: Kapsel wie bisher.
 
 ## 3.18.0 – 17.10.2026 (Neben)
 
