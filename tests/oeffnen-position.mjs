@@ -1,11 +1,12 @@
 // Reiselogbuch-Test: oeffnen-position – T-89/T-90 (seit 3.20.0, AppDesign A-16/A-17; Fall-Liste AppDesign arbeit/A-16 A-17
-// Fall-Liste.md): Position beim Öffnen (R-7.4) – alles erfasst ganz oben, sonst der erste nicht erfasste Tag hervorgehoben direkt
-// unter dem Tabellenkopf (iPad) bzw. der Leiste (iPhone); Seitenleiste ein/aus (R-8.1) – oben bleibt derselbe Tag.
+// Fall-Liste.md, Korrektur 3.20.1: arbeit/A-17 Korrektur Fall-Liste.md): Position beim Öffnen (R-7.4) – alles erfasst ganz oben, sonst der erste nicht erfasste Tag hervorgehoben direkt
+// unter dem Tabellenkopf (iPad) bzw. der Leiste (iPhone); Seitenleiste ein/aus (R-8.1) – oben bleibt derselbe Tag; Drehen am
+// Ende der Seite (seit 3.20.1) – ganz unten bleibt ganz unten.
 // Aufruf im Repo-Ordner: node tests/oeffnen-position.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.21.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.21.0/tests/hig.mjs';
-import { checkOpenAt, checkSideToggle } from '../../AppDesign/fassung/4.21.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.21.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.21.1/tests/hig.mjs';
+import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.21.1/tests/ablauf.mjs';
 const t = pruefung('oeffnen-position', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const iso = (start, i) => new Date(Date.parse(start + 'T00:00:00Z') + i * 864e5).toISOString().slice(0, 10);
@@ -39,6 +40,16 @@ for (const theme of ['light', 'dark']) {
     if (!phone) {   // S1–S6: Seitenleiste ein/aus
       await oeffne('v')(); await p.waitForTimeout(400);
       for (const at of [0.5, 0.97, 0]) t.liste(await checkSideToggle(p, { where: `${where} · bei ${at}`, at, toggle: '[data-side-toggle], #sideHide', times: ansicht === 'iPad quer' ? 5 : 1 }));
+    }
+    // D1–D5 (seit 3.20.1): Drehen am Ende der Seite – mit und ohne Seitenleiste (iPad quer), iPad hoch, iPhone hoch
+    if (theme === 'light' && ansicht !== 'iPhone quer') {
+      if (phone) await oeffne('v')();
+      t.liste(await checkTurnEnd(p, { where: `${where} · D Ende`, back: 0 }));
+      t.liste(await checkTurnEnd(p, { where: `${where} · D5 nahe Ende`, back: 60 }));
+      if (ansicht === 'iPad quer' && await p.locator('#sideHide').isVisible()) {
+        await p.click('#sideHide'); await p.waitForTimeout(350);
+        t.liste(await checkTurnEnd(p, { where: `${where} · D2 ohne Seitenleiste`, back: 0 }));
+      }
     }
     await p.close();
   }

@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.20.0 · AppDesign 4.21.0
+**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.20.1 · AppDesign 4.21.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -31,7 +31,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-48 | 1 | Reiselogbuch 3.20.0: Position beim Öffnen (T-89, R-7.4), Seitenleiste ein/aus (T-90, R-8.1) – Prüfliste im CHANGELOG | prüfen |
+| P-49 | 1 | Reiselogbuch 3.20.1: Korrektur aus P-48/3 – Drehen am Ende der Seite (R-8.1) – Prüfliste im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -53,6 +53,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-87 | Korrektur 3.20.1: Drehen am Ende der Seite – ganz unten bleibt ganz unten (aus P-48/3; Ursache: am Ende kein Tag als Anker) | Reiselogbuch 3.20.1 | 17.10.2026 |
+| E-86 | Geprüft: P-48/0–2 in Ordnung (Öffnen iPad und iPhone, Seitenleiste ein/aus); **P-48/3 nicht ok** (Drehen am Ende) → Korrektur 3.20.1 | Reiselogbuch 3.20.0 | 17.10.2026 |
 | E-85 | T-89 und T-90 gebaut: beim Öffnen ganz oben bzw. erster offener Tag direkt unter dem Kopf; Seitenleiste ein/aus hält den obersten Tag | Reiselogbuch 3.20.0 | 17.10.2026 |
 | E-84 | Geprüft: P-47 alles in Ordnung (Kapsel ‚Nach oben / Ans Ende‘ auf dem iPhone) | Reiselogbuch 3.19.0 | 17.10.2026 |
 | E-83 | AppDesign A-15 übernommen: Kapsel ‚Nach oben / Ans Ende‘ auch auf dem iPhone (im Reiselogbuch, nicht in der Startliste) | Reiselogbuch 3.19.0 | 17.10.2026 |

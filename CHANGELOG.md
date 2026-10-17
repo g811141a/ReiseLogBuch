@@ -13,6 +13,38 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.20.1 – 17.10.2026 (Korrektur)
+
+Reiselogbuch 3.20.1 · AppDesign 4.21.1 (Designrichtlinie allgemein 4.21.1) · Designrichtlinie Reiselogbuch 3.20.1 · Zusammenarbeit allgemein 2.7.0
+
+Korrektur aus P-48/3 (Fall-Liste AppDesign `arbeit/A-17 Korrektur Fall-Liste.md`).
+
+- **Fehler behoben:** Tabelle ans Ende, dann hoch ↔ quer drehen – die Seite stand danach nicht mehr am Ende, mit und ohne
+  Seitenleiste. Ursache: Beim Drehen hält die App den obersten **Tag** fest; am Ende der Seite (Fazit, Gesamtausgaben,
+  Quartierliste, Statistik) steht oben kein Tag, also wurde nichts festgehalten. Jetzt zählt dort der Abstand zum Ende –
+  ganz unten bleibt ganz unten (wie seit 3.20.0 schon beim Ein- und Ausblenden der Seitenleiste).
+- **Warum die Prüfung es übersehen hat:** die Drehprüfung drehte nur in der Mitte der Tabelle; das Ende wurde nur beim
+  Umschalten der Seitenleiste geprüft. Neu: `checkTurnEnd` in `tests/oeffnen-position.mjs` (iPad quer mit und ohne
+  Seitenleiste, iPad hoch, iPhone hoch; ganz am Ende und kurz davor). Gegenprobe ohne die Korrektur rot.
+- Feste Fassung AppDesign 4.21.1; Designrichtlinie Reiselogbuch 3.20.1 (nur Version).
+
+Prüfliste P-49 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+
+**P-49/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.20.1 · erstellt am … · AppDesign 4.21.1‘.
+
+**P-49/1 – Drehen am Ende (iPad)**
+1. Ein langes Reiselogbuch öffnen, ‚Ans Ende‘ (Pfeil nach unten) antippen.
+2. Von quer auf hoch drehen und wieder zurück.
+3. Erwartet: die Seite steht jedes Mal ganz am Ende (Statistik unten sichtbar), nichts verschiebt sich.
+4. Dasselbe mit ausgeblendeter Seitenleiste. Erwartet: wie 3.
+
+**P-49/2 – Drehen am Ende (iPhone)**
+1. Ein langes Reiselogbuch öffnen, ‚Ans Ende‘ antippen, drehen und zurückdrehen.
+2. Erwartet: jedes Mal ganz am Ende.
+
 ## 3.20.0 – 17.10.2026 (Neben)
 
 Reiselogbuch 3.20.0 · AppDesign 4.21.0 (Designrichtlinie allgemein 4.21.0) · Designrichtlinie Reiselogbuch 3.20.0 · Zusammenarbeit allgemein 2.7.0
