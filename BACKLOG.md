@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.19.0 · AppDesign 4.20.0
+**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.20.0 · AppDesign 4.21.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,6 +22,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+
 | – | – | zurzeit nichts bereit | – | – |
 
 **0 Punkte bereit** · gebaut wird erst nach „Ja“
@@ -30,12 +31,14 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-48 | 1 | Reiselogbuch 3.20.0: Position beim Öffnen (T-89, R-7.4), Seitenleiste ein/aus (T-90, R-8.1) – Prüfliste im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| T-91 | 1 | iPad: Tastatur im Fenster ‚Tag‘ (z. B. Verlauf) – Fenster und Tabelle springen hin und her, bis die Tastatur steht (AppDesign A-18, R-7.3) – Version B nach Messung am iPad | Reiselogbuch · allgemein | offen |
+| T-92 | 2 | **Suche über alle Reiselogbücher** – entschieden 17.10.2026: **Variante C** (AppDesign `arbeit/T-92 Vorschläge.md`): Suchfeld in Startliste/Seitenleiste filtert die Kacheln (Trefferzahl statt ‚geändert am …‘), Antippen öffnet das Reiselogbuch mit gefüllter Suche (‚1 von 12‘, Pfeile wie gewohnt); allgemein als AppDesign A-19. Noch offen: Platz des Feldes, Zählweise | Reiselogbuch · allgemein | in Klärung |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -50,6 +53,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-85 | T-89 und T-90 gebaut: beim Öffnen ganz oben bzw. erster offener Tag direkt unter dem Kopf; Seitenleiste ein/aus hält den obersten Tag | Reiselogbuch 3.20.0 | 17.10.2026 |
 | E-84 | Geprüft: P-47 alles in Ordnung (Kapsel ‚Nach oben / Ans Ende‘ auf dem iPhone) | Reiselogbuch 3.19.0 | 17.10.2026 |
 | E-83 | AppDesign A-15 übernommen: Kapsel ‚Nach oben / Ans Ende‘ auch auf dem iPhone (im Reiselogbuch, nicht in der Startliste) | Reiselogbuch 3.19.0 | 17.10.2026 |
 | E-82 | Geprüft: P-46 alles in Ordnung (Link nur über den Namen); **T-86 damit abgeschlossen** | Reiselogbuch 3.18.0 | 17.10.2026 |

@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.19.0** · Stand 17.10.2026
+**Version 3.20.0** · Stand 17.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.20.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.21.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -169,6 +169,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.20.0 | 17.10.2026 | Neben | Angepasst an allgemein 4.21.0 (R-7.4 Position beim Öffnen, R-8.1 Seitenleiste ein/aus); keine eigene Änderung |
 | 3.19.0 | 17.10.2026 | Neben | Angepasst an allgemein 4.20.0 (R-3.2: Kapsel ‚Nach oben / Ans Ende‘ auch auf dem iPhone); HIG-Abweichung eingetragen |
 | 3.18.0 | 17.10.2026 | Neben | Abschnitt 2: Maps-Link endet an ‚ – ‘, Komma, Doppelpunkt oder Klammer, nicht vor einer Ziffer (T-86) |
 | 3.17.0 | 17.10.2026 | Neben | Angepasst an allgemein 4.19.0 (R-5.5 Eingabetaste: Gesamtausgaben, Fenster ‚Tag‘ und ‚Einstellungen‘); keine eigene Änderung |
