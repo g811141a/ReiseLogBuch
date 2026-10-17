@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.21.1/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.23.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.21.1/ui.js"></script>
+<script src="../AppDesign/fassung/4.23.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.20.1';
-const APP_BUILT = '17.10.2026 um 16:15';
+const APP_VERSION = '3.21.0';
+const APP_BUILT = '17.10.2026 um 19:06';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.21.1';
+const AD_NEEDED = '4.23.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -246,6 +246,9 @@ let searchTerm = '';
 let searchIndex = 0;
 let autosaveTimer = null;
 let searchOpen = false;
+// T-92 (AppDesign A-19, R-2.3): Suche in der Startliste bzw. Seitenleiste – Lupe in der Kopfzeile, ein Begriff für beide Suchen.
+let listOpen = false;
+let listTerm = '';
 let searchJump = null;     // Zeitgeber für den Sprung zum ersten Treffer    // Suchzeile unter der Kopfzeile eingeblendet
 // R-8.1 (seit 3.11.0): ein einziger Zustand für quer und hoch – sichtbar bleibt beim Drehen sichtbar (quer fest links,
 // hoch über den Inhalt gelegt), ausgeblendet bleibt ausgeblendet. Nur Tippen ändert ihn, nie das Drehen.
@@ -370,6 +373,21 @@ function matchesSearch(trip, iso, term) {
   const c = cols(trip);
   return [e.program, c.mood && e.comment, c.food && e.food, c.quarter && q.name, c.quarter && q.place]
     .filter(Boolean).join('\n').toLocaleLowerCase('de').includes(term);
+}
+
+// T-92: Treffer eines Reiselogbuchs je Fundstelle – gezählt wie ‚1 von N‘ im Reiselogbuch: jede Markierung in denselben
+// Feldern (Verlauf, ‚Wie war was?‘, Essen, Quartier), nur in den eingeschalteten Spalten.
+function hitCount(trip, term) {
+  const c = cols(trip);
+  let html = '';
+  for (const iso of tripDays(trip)) {
+    if (!matchesSearch(trip, iso, term)) continue;
+    const e = rawEntry(trip, iso);
+    const q = quarterOf(trip, iso);
+    html += linesHtml(programItems(e.program), term) + (c.mood ? linesHtml(commentItems(e.comment), term) : '')
+      + (c.food ? foodHtml(foodItems(e.food, q.place), term) : '') + (c.quarter ? quarterHtml(q, term) : '');
+  }
+  return (html.match(/<mark>/g) || []).length;
 }
 
 /* ---------- Text-Formatierung mit hängendem Einzug ---------- */
@@ -723,6 +741,7 @@ function bindSearch(term) {
     search.oninput = () => {
       searchTerm = search.value;
       searchIndex = 0;
+      if (listOpen) listTerm = searchTerm;   // T-92: ein Begriff für beide Suchen
       render();
       refocus();
       clearTimeout(searchJump);
@@ -732,7 +751,7 @@ function bindSearch(term) {
     search.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); stepHit(1); } };
   }
   if (term) {
-    app.querySelector('#sclear').onclick = () => { searchTerm = ''; searchIndex = 0; render(); refocus(); };
+    app.querySelector('#sclear').onclick = () => { searchTerm = ''; searchIndex = 0; if (listOpen) listTerm = ''; render(); refocus(); };
     app.querySelector('#sprev').onclick = () => stepHit(-1);
     app.querySelector('#snext').onclick = () => stepHit(1);
     showHit(false);
@@ -900,7 +919,7 @@ function renderEmpty() {
   if (!emptyPrompted && !dlg.open) { emptyPrompted = true; openTripDialog(null); }
 }
 
-function showTrip(id) {
+function showTrip(id, term = '') {
   currentTripId = id;
   // T-88: zuletzt verwendetes Reiselogbuch merken (je Gerät, wie lastBackup) – beim nächsten Start öffnet es (iPad-Aufbau).
   if (id && db.settings.lastTrip !== id) { db.settings.lastTrip = id; save(); }
@@ -908,10 +927,12 @@ function showTrip(id) {
   startList = false;
   // Beim Öffnen eines Reiselogbuchs (und beim Start) immer alle Tage zeigen.
   db.settings.hideEmpty = false;
-  searchTerm = '';
+  // T-92: aus der gefilterten Liste geöffnet – Suche gefüllt, erster Treffer unter der Suchzeile.
+  searchTerm = term;
   searchIndex = 0;
-  searchOpen = false;
-  render({ scrollToGap: true });
+  searchOpen = Boolean(term);
+  render({ scrollToGap: !term });
+  if (term) showHit(true);
 }
 
 /* ---------- Seitenleiste ---------- */
@@ -931,6 +952,9 @@ const bindSideToggle = root => root.querySelectorAll('[data-side-toggle]').forEa
 
 // Anzahl unter dem Titel der Seitenleiste bzw. Startliste: ‚3 Reiselogbücher‘.
 const tripCount = n => n ? `${n} Reiselogb${n === 1 ? 'uch' : 'ücher'}` : '';
+// T-92: während der Suche ‚2 von 5 Reiselogbüchern‘.
+const hitTripCount = (n, all) => `${n} von ${all} Reiselogb${all === 1 ? 'uch' : 'üchern'}`;
+const hitText = n => `${n} Treffer`;
 
 function tripState(t, today) {
   return t.start <= today && today <= t.end ? 'läuft gerade' : t.end < today ? 'beendet' : 'geplant';
@@ -959,16 +983,22 @@ function renderSide() {
     side.before(shade);
   }
   const today = todayISO();
-  const trips = [...db.trips].sort((a, b) => b.start.localeCompare(a.start));
+  const all = [...db.trips].sort((a, b) => b.start.localeCompare(a.start));
+  if (!all.length) { listOpen = false; listTerm = ''; }
+  // T-92: Suche in der Liste – nur Reiselogbücher mit Treffer, je Kachel die Zahl statt ‚geändert am …‘.
+  const term = listOpen ? listTerm.trim().toLocaleLowerCase('de') : '';
+  const hits = new Map(term ? all.map(t => [t.id, hitCount(t, term)]) : []);
+  const trips = term ? all.filter(t => hits.get(t.id)) : all;
   side.innerHTML = `
-    <div class="side-head"><div class="ttl"><h2>Reiselogbücher</h2><small>${tripCount(trips.length)}</small></div>
-      <span class="grp"><button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button><button type="button" id="sideMore" aria-label="Mehr">${ic('ellipsis')}</button></span>
+    <div class="side-head"><div class="ttl"><h2>Reiselogbücher</h2><small>${term ? hitTripCount(trips.length, all.length) : tripCount(all.length)}</small></div>
+      <span class="grp">${all.length ? `<button type="button" id="listSearchBtn" class="${listOpen ? 'on' : ''}" aria-label="Suchen">${ic('search')}</button>` : ''}<button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button><button type="button" id="sideMore" aria-label="Mehr">${ic('ellipsis')}</button></span>
       <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
     </div>
+    ${listOpen ? listSearchHtml() : ''}
     <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId && !(page && startList) ? 'current' : ''}" data-id="${t.id}">
-        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
-      : '<div class="side-empty">Noch kein Reiselogbuch angelegt.</div>'}</div>
-    ${trips.length ? backupTileHtml(db.settings.lastBackup) : ''}`;
+        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${term ? `<small class="chg hits">${hitText(hits.get(t.id))}</small>` : sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
+      : `<div class="side-empty">${term ? 'Keine Treffer' : 'Noch kein Reiselogbuch angelegt.'}</div>`}</div>
+    ${all.length ? backupTileHtml(db.settings.lastBackup) : ''}`;
   side.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
   side.querySelector('#sideMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
   side.querySelector('#sideHide').onclick = toggleSide;
@@ -978,9 +1008,49 @@ function renderSide() {
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Öffnen · Einstellungen · Reiselogbuch löschen).
   side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
     () => tripContextMenu(b, getTrip(b.dataset.id)),
-    () => { if (!isWide()) sideOpen = false; if (isPhone()) window.scrollTo(0, 0); showTrip(b.dataset.id); }));
+    () => { if (!isWide()) sideOpen = false; if (isPhone()) window.scrollTo(0, 0); showTrip(b.dataset.id, term ? listTerm : ''); }));
+  bindListSearch();
   document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
   keepSideScroll();
+}
+
+// T-92 (AppDesign A-19): Suchzeile der Liste wie 15.2, ohne Pfeile – die Kacheln zeigen die Treffer.
+const listSearchHtml = () => `<div class="nb2 side-search">
+    <span class="searchbox active">${ic('search')}<input type="search" id="lsearch" placeholder="In allen suchen" value="${esc(listTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${listTerm ? `
+      <span class="smeta"><button type="button" class="sclear" id="lsclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
+  </div>`;
+
+function bindListSearch() {
+  const btn = side.querySelector('#listSearchBtn');
+  if (btn) btn.onclick = () => {
+    listOpen = !listOpen;
+    listTerm = '';
+    renderSide();
+    if (listOpen) side.querySelector('#lsearch').focus();
+  };
+  const input = side.querySelector('#lsearch');
+  if (!input) return;
+  const refocus = () => {
+    const s = side.querySelector('#lsearch');
+    s.focus();
+    s.selectionStart = s.selectionEnd = s.value.length;
+  };
+  // Ist im offenen Reiselogbuch die Suche zu, bleibt es, wie es ist (T-92, Frage 1); ist sie offen, wird der Begriff
+  // 1:1 übernommen (T-92, Zusatz 17.10.2026) – Markierung sofort, Sprung zum ersten Treffer nach der Tipp-Pause.
+  const both = () => searchOpen && !isPhone() && getTrip(currentTripId);
+  const update = () => {
+    sideScroll = 0;
+    if (both()) {
+      searchTerm = listTerm; searchIndex = 0; render();
+      clearTimeout(searchJump);
+      searchJump = setTimeout(() => showHit(true), 500);
+    } else renderSide();
+    refocus();
+  };
+  input.oninput = () => { listTerm = input.value; update(); };
+  // Eingabetaste ‚Suchen‘ schließt nur die Tastatur (R-5.5).
+  input.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } };
+  side.querySelector('#lsclear')?.addEventListener('click', () => { listTerm = ''; update(); });
 }
 
 // Die Liste der Seitenleiste (iPhone: Startliste) behält beim Neuaufbau ihre Position; der gewählte Eintrag
