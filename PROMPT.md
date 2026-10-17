@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 17.10.2026, Version 3.19.0)
+# Reiselogbuch – Prompt (Stand 17.10.2026, Version 3.20.0)
 
-Reiselogbuch 3.19.0 · AppDesign 4.20.0 (Designrichtlinie allgemein 4.20.0) · Designrichtlinie Reiselogbuch 3.19.0 · Zusammenarbeit allgemein 2.7.0
+Reiselogbuch 3.20.0 · AppDesign 4.21.0 (Designrichtlinie allgemein 4.21.0) · Designrichtlinie Reiselogbuch 3.20.0 · Zusammenarbeit allgemein 2.7.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -283,7 +283,9 @@ HAUPTANSICHT (TABELLE)
 - Für jeden Tag im Zeitraum gibt es eine Zeile ("Mo, 24.08.").
 - Beim Öffnen scrollt die App zum ersten nicht erfassten Tag der Reise
   (die erste Lücke, auch wenn spätere Tage schon erfasst sind) und
-  markiert diese Zeile.
+  markiert diese Zeile; seit 3.20.0 (R-7.4) steht sie direkt unter dem Tabellenkopf
+  (iPhone: die Kachel direkt unter der Leiste). Sind alle Tage erfasst, beginnt die
+  Tabelle ganz oben ohne Markierung. Seitenleiste ein/aus: der oberste Tag bleibt stehen (R-8.1).
 - Die Kopfzeile bleibt beim Scrollen stehen, der Tabellenkopf direkt
   darunter. In der Tabelle wird zwischen ganzen Wörtern umgebrochen; ein zu langes Wort bricht im Wort um (R-6.3).
 - Unten rechts übereinander die Schaltflächen ⬆️ (nach oben) und ⬇️ (ans

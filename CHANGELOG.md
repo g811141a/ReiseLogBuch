@@ -13,6 +13,47 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.20.0 – 17.10.2026 (Neben)
+
+Reiselogbuch 3.20.0 · AppDesign 4.21.0 (Designrichtlinie allgemein 4.21.0) · Designrichtlinie Reiselogbuch 3.20.0 · Zusammenarbeit allgemein 2.7.0
+
+T-89 und T-90 (neue allgemeine Regel R-7.4, R-8.1 erweitert; Fall-Liste AppDesign `arbeit/A-16 A-17 Fall-Liste.md`).
+
+- **Öffnen eines Reiselogbuchs (T-89):** Sind alle Tage erfasst, beginnt die Tabelle (iPhone: die Tageskästen) ganz oben und
+  kein Tag ist hervorgehoben. Sonst steht der erste nicht erfasste Tag hervorgehoben **direkt unter dem Tabellenkopf** (iPad)
+  bzw. **direkt unter der Leiste** (iPhone). Bisher stand er in der Mitte; ohne offenen Tag blieb die Seite dort stehen, wo
+  das vorige Reiselogbuch war. Gilt auch beim Start der App.
+- **Seitenleiste ein/aus (T-90, iPad):** Der oberste sichtbare Tag bleibt an seiner Stelle. Bisher rutschte die Seite, weil
+  die Zeilen bei anderer Breite anders hoch sind; nahe dem Ende sprang sie ans Ende. Ganz oben bleibt ganz oben, am Ende
+  (Fazit, Statistik) bleibt der Abstand zum Ende gleich.
+- Neue Prüfung `tests/oeffnen-position.mjs` (Gegenprobe mit dem alten Verhalten rot: 40 Fehler).
+- Feste Fassung AppDesign 4.21.0; Designrichtlinie Reiselogbuch 3.20.0 (nur Version).
+- Offen bleibt T-91 (Tastatur im Fenster ‚Tag‘, Version B).
+
+Prüfliste P-48 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+
+**P-48/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.20.0 · erstellt am … · AppDesign 4.21.0‘.
+
+**P-48/1 – Öffnen (iPad)**
+1. Ein Reiselogbuch mit einem nicht erfassten Tag in der Seitenleiste antippen.
+2. Erwartet: dieser Tag steht hervorgehoben direkt unter dem Tabellenkopf.
+3. Ein vollständig erfasstes Reiselogbuch antippen.
+4. Erwartet: die Tabelle beginnt ganz oben, kein Tag hervorgehoben.
+
+**P-48/2 – Öffnen (iPhone)**
+1. Aus der Startliste ein Reiselogbuch mit einem nicht erfassten Tag öffnen.
+2. Erwartet: die Kachel dieses Tages steht hervorgehoben direkt unter der Leiste.
+3. Ein vollständig erfasstes öffnen. Erwartet: ganz oben mit großem Titel, keine Kachel hervorgehoben.
+
+**P-48/3 – Seitenleiste ein/aus (iPad quer)**
+1. Die Tabelle in die Mitte wischen und merken, welcher Tag oben steht.
+2. Seitenleiste mehrmals aus- und einblenden.
+3. Erwartet: derselbe Tag bleibt oben stehen, kein Sprung ans Ende.
+4. Dasselbe ganz unten bei Fazit und Statistik. Erwartet: die Seite bleibt unten stehen.
+
 ## 3.19.0 – 17.10.2026 (Neben)
 
 Reiselogbuch 3.19.0 · AppDesign 4.20.0 (Designrichtlinie allgemein 4.20.0) · Designrichtlinie Reiselogbuch 3.19.0 · Zusammenarbeit allgemein 2.7.0
