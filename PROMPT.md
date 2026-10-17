@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 17.10.2026, Version 3.18.0)
+# Reiselogbuch – Prompt (Stand 17.10.2026, Version 3.19.0)
 
-Reiselogbuch 3.18.0 · AppDesign 4.19.0 (Designrichtlinie allgemein 4.19.0) · Designrichtlinie Reiselogbuch 3.18.0 · Zusammenarbeit allgemein 2.7.0
+Reiselogbuch 3.19.0 · AppDesign 4.20.0 (Designrichtlinie allgemein 4.20.0) · Designrichtlinie Reiselogbuch 3.19.0 · Zusammenarbeit allgemein 2.7.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -152,6 +152,8 @@ RAHMEN
     Tagestabelle der Ausgabe hat feste Spaltenanteile (Verlauf und ‚Wie war was?‘ je 28, Essen und Quartier je 22, ‚Tag‘ so
     schmal wie das Datum). ‚Gesamtausgaben‘ statt ‚Gesamtkosten‘. Am iPad bleibt die Seitenleiste beim Sprung zum ersten
     Treffer der Suche bei offener Tastatur an ihrem Platz (R-2.1).
+  - Seit 3.19.0: Auch am iPhone steht im geöffneten Reiselogbuch unten rechts die Kapsel ‚Nach oben / Ans Ende‘
+    (nicht in der Startliste; ohne Scrollen ausgeblendet, R-3.2, AppDesign A-15).
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen
