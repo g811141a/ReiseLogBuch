@@ -31,6 +31,10 @@ T-92 Suche über alle Reiselogbücher (Variante C; allgemein als AppDesign A-19,
 - Eingabetaste ‚Suchen‘ schließt nur die Tastatur (R-5.5); Neuladen beginnt ohne Suche; ohne Reiselogbuch keine Lupe.
 - Neue Prüfung `tests/ablauf-suche-liste.mjs` (AppDesign `checkListSearch` in iPad quer/hoch und iPhone, hell und dunkel, dazu
   F-3, F-9, F-10, F-11, F-15, F-16, F-19); Gegenprobe (Zählung +1, ohne 1:1) rot.
+- **Korrektur R-7.3 (aus AppDesign 4.23.0):** nach dem Fenster ‚Tag‘ rollte eine ganz sichtbare Zeile direkt unter dem
+  Tabellenkopf um bis zu 6 px nach; jetzt steht die Liste genau wie vorher. Die Prüfung sah es bisher nicht, weil bei 340 px
+  Seitenleiste zufällig keine Zeile so lag – erst die Lupe machte die Seitenleiste breiter; die Prüfung rollt jetzt gezielt
+  eine Zeile 2 px unter den Kopf.
 - Feste Fassung AppDesign 4.23.0 (gehoben mit Zustimmung, Zusammenarbeit 0 Nr. 10); Designrichtlinie Reiselogbuch 3.21.0 (nur Version).
 
 Prüfliste P-51 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
@@ -64,6 +68,11 @@ Prüfliste P-51 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
 **P-51/4 – Gefühl beim Tippen**
 1. Mit allen echten Reiselogbüchern zügig einen längeren Begriff tippen und wieder löschen.
 2. Erwartet: das Tippen bleibt flüssig, keine Verzögerung.
+
+**P-51/5 – Liste steht still (iPad quer)**
+1. In einem Reiselogbuch die Tabelle so rollen, dass eine Zeile direkt unter dem Tabellenkopf steht.
+2. Diese Zeile antippen, im Fenster ‚Tag‘ im Programm etwas ergänzen, Häkchen.
+3. Erwartet: die Tabelle steht genau wie vorher (kein Ruck), die Zeile wird kurz blau hinterlegt.
 
 ## 3.20.1 – 17.10.2026 (Korrektur)
 
