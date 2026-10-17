@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-46 | 1 | Reiselogbuch 3.18.0: Link nur über den Namen bei Essen und Quartier (T-86) – Prüfliste im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-82 | Geprüft: P-46 alles in Ordnung (Link nur über den Namen); **T-86 damit abgeschlossen** | Reiselogbuch 3.18.0 | 17.10.2026 |
 | E-81 | T-86 gebaut: Maps-Link nur über den Namen – endet an ‚ – ‘, Komma, Doppelpunkt, Klammer (nicht vor einer Ziffer), Essen und Quartier | Reiselogbuch 3.18.0 | 17.10.2026 |
 | E-80 | Geprüft: P-45 alles in Ordnung (Eingabetaste ‚Fertig‘, iPhone ✓ über der Zifferntastatur – Farbe des ✓ bestimmt iOS, nicht änderbar; zuletzt verwendetes Reiselogbuch); **T-87 und T-88 damit abgeschlossen** | Reiselogbuch 3.17.0 | 17.10.2026 |
 | E-79 | T-87 und T-88 gebaut: Eingabetaste ‚Fertig‘ schließt die Tastatur in einzeiligen Feldern (Fenster bleiben offen – vorher schloss die Eingabetaste das Fenster), zuletzt verwendetes Reiselogbuch öffnet beim Start (iPad-Aufbau) | Reiselogbuch 3.17.0 | 17.10.2026 |
