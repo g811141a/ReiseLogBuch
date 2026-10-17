@@ -31,7 +31,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-49 | 1 | Reiselogbuch 3.20.1: Korrektur aus P-48/3 – Drehen am Ende der Seite (R-8.1) – Prüfliste im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -53,6 +53,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-88 | Geprüft: P-49 alles in Ordnung (Drehen am Ende der Seite); **T-89 und T-90 damit abgeschlossen** | Reiselogbuch 3.20.1 | 17.10.2026 |
 | E-87 | Korrektur 3.20.1: Drehen am Ende der Seite – ganz unten bleibt ganz unten (aus P-48/3; Ursache: am Ende kein Tag als Anker) | Reiselogbuch 3.20.1 | 17.10.2026 |
 | E-86 | Geprüft: P-48/0–2 in Ordnung (Öffnen iPad und iPhone, Seitenleiste ein/aus); **P-48/3 nicht ok** (Drehen am Ende) → Korrektur 3.20.1 | Reiselogbuch 3.20.0 | 17.10.2026 |
 | E-85 | T-89 und T-90 gebaut: beim Öffnen ganz oben bzw. erster offener Tag direkt unter dem Kopf; Seitenleiste ein/aus hält den obersten Tag | Reiselogbuch 3.20.0 | 17.10.2026 |
