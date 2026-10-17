@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 17.10.2026, Version 3.17.0)
+# Reiselogbuch – Prompt (Stand 17.10.2026, Version 3.18.0)
 
-Reiselogbuch 3.17.0 · AppDesign 4.19.0 (Designrichtlinie allgemein 4.19.0) · Designrichtlinie Reiselogbuch 3.17.0 · Zusammenarbeit allgemein 2.7.0
+Reiselogbuch 3.18.0 · AppDesign 4.19.0 (Designrichtlinie allgemein 4.19.0) · Designrichtlinie Reiselogbuch 3.18.0 · Zusammenarbeit allgemein 2.7.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -354,7 +354,11 @@ ERFASSUNG – wenig eingeben, in ganz einfachen Schritten
      🕗 🕙 🕛 🕒 🕕 😋 👌 👍 😕 🤮 👎 ⭐️ 🍕 🍔 🥩 🍷 🍺 ☕️
      Darstellung "🕛😋 📍Hard Rock Café – Steak war super": 📍 ist nur
      Zeichen, nur der Name des Lokals (bis einschließlich letztem
-     Buchstaben) ist der Link, ab dem Bindestrich normaler Text.
+     Buchstaben) ist der Link, ab dem Bindestrich normaler Text. Seit 3.18.0 (T-86)
+     endet der Name auch an Komma, Doppelpunkt und öffnender Klammer
+     ("Krone, sehr gut", "Krone: Schnitzel", "Krone (Terrasse)"); nicht vor
+     einer Ziffer ("8:30", "4,50 €") und nicht an Bindestrich ohne Leerzeichen
+     oder Punkt. Gleich beim Quartier ("Hotel X (Zimmer 12)" → Link "Hotel X").
      Smileys und 📍 bilden gemeinsam die linke Spalte: bei einem Umbruch
      beginnt die Folgezeile genau unter dem Namen (wie beim Quartier).
      Checkbox "keinen Google-Maps Link" rechts in der Kopfzeile des

@@ -13,6 +13,40 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.18.0 – 17.10.2026 (Neben)
+
+Reiselogbuch 3.18.0 · AppDesign 4.19.0 (Designrichtlinie allgemein 4.19.0) · Designrichtlinie Reiselogbuch 3.18.0 · Zusammenarbeit allgemein 2.7.0
+
+T-86 (Fall-Liste AppDesign `arbeit/T-86 Fall-Liste.md`).
+
+- **Link nur über den Namen:** Bei ‚Essen und Trinken‘ und beim Quartier ist nur noch der Name des Lokals bzw. Hotels der
+  Google-Maps-Link. Der Name endet jetzt auch an **Komma**, **Doppelpunkt** und **öffnender Klammer** – bisher nur an
+  ‚ – ‘ (beim Quartier auch am Komma), sonst wurde die ganze Zeile zum Link. Beispiele: ‚Krone, sehr gut‘, ‚Krone: Schnitzel‘,
+  ‚Krone (Terrasse)‘, ‚Hotel X (Zimmer 12)‘ – verlinkt ist jeweils nur ‚Krone‘ bzw. ‚Hotel X‘.
+- **Bleibt zusammen:** Uhrzeit und Betrag (‚Café Central 8:30‘, ‚Bier 4,50 €‘), Bindestrich ohne Leerzeichen
+  (‚Müller-Bräu‘) und Punkt (‚St. Peter‘).
+- Gilt gleich in der Tabelle (iPad), in den Tageskästen (iPhone) und in der Ausgabe (HTML/PDF); die Suche findet Name und Rest.
+- Neue Prüfung `tests/link-name.mjs` (Chromium und WebKit, Gegenprobe mit der alten Trennung rot: 16 Fehler).
+- Fassung AppDesign bleibt 4.19.0; Designrichtlinie Reiselogbuch 3.18.0 (Abschnitt 2: Maps-Links).
+
+Prüfliste P-46 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+
+**P-46/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.18.0 · erstellt am … · AppDesign 4.19.0‘.
+
+**P-46/1 – Essen und Trinken**
+1. Einen Tag antippen und bei ‚Essen und Trinken‘ zwei Zeilen schreiben: ‚Krone, sehr gut‘ und ‚Adler (Terrasse): Schnitzel‘.
+2. Häkchen.
+3. Erwartet: in der Tabelle (iPhone: im Kasten) ist nur ‚Krone‘ bzw. ‚Adler‘ blau und unterstrichen, der Rest normaler Text.
+4. ‚Krone‘ antippen: Google Maps öffnet mit dem Lokal. Den Rest der Zeile antippen: das Fenster ‚Tag‘ öffnet.
+
+**P-46/2 – Bestehende Einträge**
+1. Ein älteres Reiselogbuch durchsehen (auch die aus der Konvertierung).
+2. Erwartet: wo bisher die ganze Zeile blau war, ist jetzt nur der Name blau; nichts ist abgeschnitten.
+3. Auffällige Zeilen (z. B. ein Name mit Komma, der zusammenbleiben soll) bitte melden.
+
 ## 3.17.0 – 17.10.2026 (Neben)
 
 Reiselogbuch 3.17.0 · AppDesign 4.19.0 (Designrichtlinie allgemein 4.19.0) · Designrichtlinie Reiselogbuch 3.17.0 · Zusammenarbeit allgemein 2.7.0

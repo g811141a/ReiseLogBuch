@@ -125,8 +125,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.17.0';
-const APP_BUILT = '17.10.2026 um 08:26';
+const APP_VERSION = '3.18.0';
+const APP_BUILT = '17.10.2026 um 10:53';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
 const AD_NEEDED = '4.19.0';
@@ -415,8 +415,10 @@ function commentItems(text) {
 
 // Trennt den Namen vom Rest: am ersten " - " (bzw. – —), optional auch am ersten Komma.
 // "Santai Resort - Kingscliff" → ["Santai Resort", " - Kingscliff"]
-function splitName(text, withComma) {
-  const m = text.match(withComma ? /\s+[–—-]\s+|\s*,/ : /\s+[–—-]\s+/);
+// T-86 (seit 3.18.0): der Name (Maps-Link) endet am ersten ‚ – ‘, Komma, Doppelpunkt oder an einer öffnenden Klammer –
+// gleich für Essen und Quartier; Bindestrich ohne Leerzeichen, Punkt, Uhrzeit (8:30) und Betrag (4,50) gehören zum Namen.
+function splitName(text) {
+  const m = text.match(/\s+[–—-]\s+|\s*[,:](?!\d)|\s*\(/);
   if (!m || m.index === 0) return [text, ''];
   return [text.slice(0, m.index), text.slice(m.index)];
 }
@@ -432,18 +434,18 @@ function quarterHtml(q, term = '', inApp = false) {
   const parts = (q.place || '').split(',').map(x => x.trim()).filter(x => x && !lower.includes(x.toLocaleLowerCase('de')));
   const tail = parts.length ? ', ' + parts.join(', ') : '';
   if (q.noMap) return `<div class="ln"><span class="t">${highlight(q.name + tail, term)}</span></div>`;
-  const [name, rest] = splitName(q.name, true);
+  const [name, rest] = splitName(q.name);
   return `<div class="ln q"><span class="m">📍</span><span class="t"><a href="${mapsUrl(q)}"${linkAttrs(inApp)}>${highlight(name, term)}</a>${highlight(rest + tail, term)}</span></div>`;
 }
 
-// Essen: "Smileys Name – Kommentar"; 📍 als Zeichen, nur der Name ist der Link (Suche: Name + Ort des Quartiers).
+// Essen: "Smileys Name – Kommentar" (auch Komma, Doppelpunkt, Klammer); 📍 als Zeichen, nur der Name ist der Link (Suche: Name + Ort des Quartiers).
 // Ein "⊘" am Zeilenanfang schaltet den Maps-Link für dieses Lokal aus.
 const NO_LINK = '⊘';
 function foodItems(text, place) {
   return splitLines(text).map(line => {
     const noLink = line.startsWith(NO_LINK);
     const { m, t } = splitLeadingEmojis(noLink ? line.slice(NO_LINK.length).trim() : line);
-    const [name, rest] = splitName(t, false);
+    const [name, rest] = splitName(t);
     return { m, name, rest, maps: !noLink && name.trim() ? mapsUrl({ name, place }) : '' };
   });
 }
