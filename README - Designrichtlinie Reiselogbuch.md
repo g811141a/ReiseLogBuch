@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.16.0** · Stand 16.10.2026
+**Version 3.17.0** · Stand 17.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.18.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.19.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -168,6 +168,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.17.0 | 17.10.2026 | Neben | Angepasst an allgemein 4.19.0 (R-5.5 Eingabetaste: Gesamtausgaben, Fenster ‚Tag‘ und ‚Einstellungen‘); keine eigene Änderung |
 | 3.16.0 | 16.10.2026 | Neben | Angepasst an allgemein 4.18.0 (R-7.3 Liste steht still: Tagestabelle und Tageskästen); keine eigene Änderung |
 | 3.15.1 | 15.10.2026 | Korrektur | Angepasst an allgemein 4.16.1; keine eigene Änderung |
 | 3.15.0 | 15.10.2026 | Neben | Angepasst an allgemein 4.16.0: Start im iPhone-Aufbau in der Startliste ohne blauen Eintrag (R-7.2, T-84) |

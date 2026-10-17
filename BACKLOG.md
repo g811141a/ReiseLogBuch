@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.16.0 · AppDesign 4.18.0
+**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.17.0 · AppDesign 4.19.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,17 +22,15 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-88 | 1 | Zuletzt verwendetes Reiselogbuch beim Start: zuletzt geöffnetes merken (`settings.lastTrip`, Übernahme alter Daten), beim Start öffnen (iPad) bzw. in der Startliste blau markieren (iPhone); immer das zuletzt verwendete, auch während einer laufenden Reise; fehlt es (oder gelöscht), wie bisher nach Datum (`pickStartTrip`) | Reiselogbuch | 17.10.2026 |
-| T-87 | 1 | Eingabetaste schließt einzeilige Felder (z. B. Gesamtausgaben): `enterkeyhint="done"`, Eingabetaste bestätigt und schließt die Tastatur; mehrzeilige Felder behalten den Zeilenumbruch (Schließen mit Häkchen oder Tippen daneben) – **allgemeine Regel**, Teil in AppDesign: A-14 | Reiselogbuch · allgemein | 17.10.2026 |
 | T-86 | 2 | Link nur über den Ort (Essen und Trinken): der Name endet außer an ‚ – ‘ auch an Komma, Doppelpunkt und öffnender Klammer; nur der Name ist der Maps-Link, der Rest normaler Text | Reiselogbuch | 17.10.2026 |
 
-**3 Punkte bereit** · gebaut wird erst nach „Ja“
+**1 Punkt bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-45 | 1 | Reiselogbuch 3.17.0: Eingabetaste ‚Fertig‘ in einzeiligen Feldern (T-87, R-5.5), zuletzt verwendetes Reiselogbuch beim Start (T-88) – Prüfliste im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-79 | T-87 und T-88 gebaut: Eingabetaste ‚Fertig‘ schließt die Tastatur in einzeiligen Feldern (Fenster bleiben offen – vorher schloss die Eingabetaste das Fenster), zuletzt verwendetes Reiselogbuch öffnet beim Start (iPad-Aufbau) | Reiselogbuch 3.17.0 | 17.10.2026 |
 | E-78 | T-85 geschlossen ohne Bau: Emoji-Taste statt Weltkugel kann eine Web-App nicht steuern – iOS zeigt die Emoji-Taste, wenn nur eine Tastatur-Sprache plus Emoji eingerichtet ist (Einstellungen → Allgemein → Tastatur → Tastaturen) | – | 17.10.2026 |
 | E-77 | Geprüft: P-44 alles in Ordnung (Tabelle steht still beim Erfassen, iPad und iPhone) | Reiselogbuch 3.16.0 | 17.10.2026 |
 | E-76 | A-13: Tabelle bzw. Tageskästen stehen still, solange das Fenster ‚Tag‘ offen ist; danach wie vorher, Zeile kurz blau, nach ‹ › sichtbar (AppDesign R-7.3) | Reiselogbuch 3.16.0 | 16.10.2026 |

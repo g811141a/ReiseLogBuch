@@ -13,6 +13,57 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.17.0 – 17.10.2026 (Neben)
+
+Reiselogbuch 3.17.0 · AppDesign 4.19.0 (Designrichtlinie allgemein 4.19.0) · Designrichtlinie Reiselogbuch 3.17.0 · Zusammenarbeit allgemein 2.7.0
+
+T-87 (neue allgemeine Regel R-5.5, AppDesign A-14) und T-88 (Fall-Liste AppDesign `arbeit/A-14 T-88 Fall-Liste.md`).
+
+- **Eingabetaste ‚Fertig‘ (T-87):** In einzeiligen Feldern (Gesamtausgaben, Reisetitel, Reiseteilnehmer, Quartier, Ort)
+  heißt die Eingabetaste ‚Fertig‘; sie bestätigt die Eingabe und schließt die Tastatur. Bei den Gesamtausgaben wird der
+  Betrag dabei gleich formatiert (‚4.850,00‘). In Fenstern bleibt das Fenster offen – gespeichert wird erst mit dem Häkchen.
+- **Fehler behoben:** Bisher hat die Eingabetaste in den Fenstern ‚Tag‘ und ‚Einstellungen‘ das ganze Fenster geschlossen
+  (das Fenster ist technisch ein Formular, die Eingabetaste schickte es ab). Gefunden bei der Gegenprobe zu T-87.
+- **Mehrzeilige Felder** (Verlauf, Wie war was?, Essen und Trinken, Fazit): die Eingabetaste macht wie bisher eine neue
+  Zeile; die Tastatur schließt mit Häkchen oder x. Das Suchfeld behält ‚Suchen‘ (nächster Treffer).
+- **Zuletzt verwendetes Reiselogbuch (T-88):** Die App merkt sich je Gerät das zuletzt geöffnete Reiselogbuch. Auf dem iPad
+  öffnet es beim Start und ist in der Seitenleiste blau – auch während einer laufenden Reise. Gibt es keines (alte Daten,
+  gelöscht), wählt die App wie bisher nach Datum (laufende Reise, sonst die zuletzt beendete, sonst die nächste geplante).
+  Mit dem Backup hatte das nichts zu tun. Backup laden und Abgleichen übernehmen den Wert des anderen Geräts nicht.
+- **iPhone:** die Startliste bleibt beim Start ohne blauen Eintrag (R-7.2, Entscheidung 17.10.2026).
+- Feste Fassung AppDesign 4.19.0; Designrichtlinie Reiselogbuch 3.17.0 (nur Version).
+
+Prüfliste P-45 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+
+**P-45/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.17.0 · erstellt am … · AppDesign 4.19.0‘.
+4. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
+
+**P-45/1 – Gesamtausgaben (iPad)**
+1. Ein Reiselogbuch öffnen, ganz nach unten zu ‚Gesamtausgaben‘ wischen und ins Feld tippen.
+2. Erwartet: die Eingabetaste der Tastatur heißt ‚Fertig‘ (statt ‚Return‘ bzw. dem Pfeil).
+3. Einen Betrag tippen, z. B. 4850, dann ‚Fertig‘.
+4. Erwartet: die Tastatur verschwindet, im Feld steht ‚4.850,00‘, die Seite springt nicht.
+
+**P-45/2 – Gesamtausgaben (iPhone)**
+1. Wie P-45/1/1. Das iPhone zeigt eine Zifferntastatur ohne Eingabetaste.
+2. Erwartet: über der Tastatur gibt es ‚Fertig‘ bzw. ✓ – antippen schließt die Tastatur, der Betrag steht formatiert da.
+   Fehlt diese Leiste, bitte melden (dann braucht es eine eigene Lösung).
+
+**P-45/3 – Fenster ‚Tag‘ und ‚Einstellungen‘**
+1. Einen Tag antippen, ins Feld ‚Quartier‘ tippen, etwas schreiben, ‚Fertig‘ antippen.
+2. Erwartet: Tastatur zu, das Fenster bleibt offen; das Häkchen ist blau.
+3. Ins Feld ‚Verlauf‘ tippen, Eingabetaste: neue Zeile, Tastatur bleibt.
+4. Mit x und ‚Änderungen verwerfen‘ schließen. Dasselbe im Fenster ‚Einstellungen‘ mit ‚Reisetitel‘.
+
+**P-45/4 – Zuletzt verwendetes Reiselogbuch (iPad)**
+1. Ein anderes Reiselogbuch als das, das beim Start offen ist, in der Seitenleiste antippen.
+2. App ganz schließen (wie P-45/0/1) und neu öffnen.
+3. Erwartet: genau dieses Reiselogbuch ist offen und in der Seitenleiste blau.
+4. iPhone: App ganz schließen und neu öffnen – die Startliste ist wie bisher ohne blauen Eintrag.
+
 ## 3.16.0 – 16.10.2026 (Neben)
 
 Reiselogbuch 3.16.0 · AppDesign 4.18.0 (Designrichtlinie allgemein 4.18.0) · Designrichtlinie Reiselogbuch 3.16.0 · Zusammenarbeit allgemein 2.7.0

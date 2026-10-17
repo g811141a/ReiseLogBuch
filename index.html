@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.18.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.19.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.18.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.19.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.16.0';
-const APP_BUILT = '16.10.2026 um 14:27';
+const APP_VERSION = '3.17.0';
+const APP_BUILT = '17.10.2026 um 08:26';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.18.0';
+const AD_NEEDED = '4.19.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -206,6 +206,7 @@ function normalize(data) {
   data.settings = { appearance: 'auto', hideEmpty: false, ...(data.settings || {}) };
   delete data.settings.theme;
   if (!['auto', 'light', 'dark'].includes(data.settings.appearance)) data.settings.appearance = 'auto';
+  if (typeof data.settings.lastTrip !== 'string') delete data.settings.lastTrip;
   for (const t of data.trips) {
     t.days ||= {};
     t.transport ||= [];
@@ -306,7 +307,10 @@ const getTrip = id => db.trips.find(t => t.id === id);
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
 // Startreise: die Reise, in die heute fällt; sonst die zuletzt beendete; sonst die nächste geplante.
+// T-88 (seit 3.17.0): zuerst das zuletzt verwendete Reiselogbuch dieses Geräts, sonst nach Datum.
 function pickStartTrip() {
+  const last = getTrip(db.settings.lastTrip);
+  if (last) return last;
   const today = todayISO();
   const current = db.trips.find(t => t.start <= today && today <= t.end);
   if (current) return current;
@@ -897,6 +901,8 @@ function renderEmpty() {
 
 function showTrip(id) {
   currentTripId = id;
+  // T-88: zuletzt verwendetes Reiselogbuch merken (je Gerät, wie lastBackup) – beim nächsten Start öffnet es (iPad-Aufbau).
+  if (id && db.settings.lastTrip !== id) { db.settings.lastTrip = id; save(); }
   phoneList = false;
   startList = false;
   // Beim Öffnen eines Reiselogbuchs (und beim Start) immer alle Tage zeigen.
@@ -1715,13 +1721,14 @@ importFile.onchange = async () => {
     // Abfrage (R-9.2): Zeitpunkt und Gerät des Backups, neuer oder älter – Abgleichen · Ersetzen · Abbrechen.
     const choice = await sync.ask(document.querySelector(importAnchor), db, data, savedAt, savedOn);
     if (!choice) return release(importAnchor);
-    // Das letzte Backup gilt je Gerät: der Zeitpunkt aus der Datei (z. B. vom iPad) wird nicht übernommen.
-    const lastBackup = db.settings.lastBackup;
+    // Das letzte Backup und das zuletzt verwendete Reiselogbuch gelten je Gerät: die Werte aus der Datei werden nicht übernommen.
+    const { lastBackup, lastTrip } = db.settings;
     let stats = null;
     if (choice === 'merge') ({ data: db, stats } = mergeData(db, data));
     else db = data;
     db = normalize(db);
     db.settings.lastBackup = lastBackup;
+    if (lastTrip) db.settings.lastTrip = lastTrip; else delete db.settings.lastTrip;
     lastSnap = snapshot(db);   // übernommene Änderungen behalten Zeitpunkt und Gerät von drüben
     save();
     applyTheme();

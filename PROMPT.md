@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 16.10.2026, Version 3.16.0)
+# Reiselogbuch – Prompt (Stand 17.10.2026, Version 3.17.0)
 
-Reiselogbuch 3.16.0 · AppDesign 4.18.0 (Designrichtlinie allgemein 4.18.0) · Designrichtlinie Reiselogbuch 3.16.0 · Zusammenarbeit allgemein 2.7.0
+Reiselogbuch 3.17.0 · AppDesign 4.19.0 (Designrichtlinie allgemein 4.19.0) · Designrichtlinie Reiselogbuch 3.17.0 · Zusammenarbeit allgemein 2.7.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -49,7 +49,7 @@ RAHMEN
     läuft gerade/beendet/geplant", rechts ›; das geöffnete ist blau gefüllt. Antippen
     öffnet es. Die Seitenleiste schwebt wie in Safari (runde Ecken, Schatten wie die
     Schaltflächen, Abstand zum Rand, unten nur 4 px). Beim Start ist sie immer
-    eingeblendet, die laufende Reise ist geöffnet. Quer steht sie fest links
+    eingeblendet, das zuletzt verwendete Reiselogbuch ist geöffnet (sonst die laufende Reise). Quer steht sie fest links
     (aus-/einblendbar bis zum nächsten Start); im Hochformat wird sie über den Inhalt gelegt und schließt sich
     nach der Auswahl. Ist sie ausgeblendet, steht panel-left links in der
     Kopfzeile.
@@ -233,8 +233,10 @@ RAHMEN
 
 REISEN
 - Es wird immer an einer Reise gearbeitet.
-- Beim Start öffnet die App (iPad-Aufbau; am iPhone erst die Startliste) automatisch die
-  Reise, in deren Zeitraum das heutige Datum fällt.
+- Beim Start öffnet die App (iPad-Aufbau; am iPhone erst die Startliste ohne blauen Eintrag) das
+  zuletzt verwendete Reiselogbuch dieses Geräts (seit 3.17.0, T-88; auch während einer laufenden Reise;
+  Backup laden und Abgleichen übernehmen den Wert des anderen Geräts nicht).
+- Gibt es keines (alte Daten, gelöscht), öffnet sie die Reise, in deren Zeitraum das heutige Datum fällt.
 - Fällt heute in keine Reise, öffnet die App die zuletzt beendete Reise.
   Gibt es noch keine beendete Reise, öffnet die nächste geplante Reise.
 - Gibt es noch kein Reiselogbuch (erster Start oder letztes gelöscht),
@@ -415,7 +417,8 @@ ABSCHLUSS
   immer mit zwei Nachkommastellen (Komma für Cent), mindestens so breit, dass
   "100.000,00" passt, bei längeren Beträgen wächst es mit. Der Tausenderpunkt
   erscheint schon beim Tippen ("4.850"); fehlen beim Verlassen des Feldes die
-  Nachkommastellen, ergänzt die App ",00". Anzeige und Ausgabe z. B. als
+  Nachkommastellen, ergänzt die App ",00". Die Eingabetaste heißt ‚Fertig‘ und schließt die
+  Tastatur (R-5.5, seit 3.17.0; gilt für alle einzeiligen Felder, in Fenstern bleibt das Fenster offen). Anzeige und Ausgabe z. B. als
   "4.850,00 €".
 
 AUSGABE
