@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.20.1 · AppDesign 4.21.1
+**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.21.0 · AppDesign 4.23.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,15 +22,15 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-92 | 2 | **Suche über alle Reiselogbücher (Variante C):** Lupe in der Kopfzeile der Startliste/Seitenleiste öffnet die Suchzeile ‚In allen suchen‘; nur Reiselogbücher mit Treffer, Kachel ‚N Treffer‘ (je Fundstelle, gleich wie ‚1 von N‘), Untertitel ‚2 von 5 Reiselogbüchern‘, ‚Keine Treffer‘; Antippen öffnet mit gefüllter Suche; Liste bleibt gefiltert bis ⓧ/Lupe; Backup-Kachel bleibt; rechts offenes Reiselogbuch bleibt unberührt, außer seine Suche ist offen – dann werden Eingaben **1:1 in beide Felder** übernommen (Zusatz 17.10.2026). Muster bestätigt (Bilder 1–8), Fall-Liste AppDesign `arbeit/T-92 Fall-Liste.md` | Reiselogbuch · allgemein (A-19) | 17.10.2026 |
+| – | – | zurzeit nichts bereit | – | – |
 
-**1 Punkt bereit** (T-92, mit AppDesign A-19 → 4.23.0 / 3.21.0) · gebaut wird erst nach „Ja“
+**0 Punkte bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-51 | 1 | Reiselogbuch 3.21.0: Suche über alle Reiselogbücher (T-92, R-2.3) – Prüfliste im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-90 | **T-92 gebaut:** Suche über alle Reiselogbücher in Startliste/Seitenleiste (Lupe, Filter, ‚N Treffer‘, Öffnen mit gefüllter Suche, beide Suchfelder 1:1); Fassung 4.23.0 | Reiselogbuch 3.21.0 | 17.10.2026 |
 | E-89 | **T-91 verworfen (Nutzer, 17.10.2026):** Tastatur im Fenster ‚Tag‘ – Mitfahren beim ersten Hochfahren kommt von Safari; Messungen in AppDesign-Sitzung 0010, Messseiten entfernt (AppDesign E-42) | – | 17.10.2026 |
 | E-88 | Geprüft: P-49 alles in Ordnung (Drehen am Ende der Seite); **T-89 und T-90 damit abgeschlossen** | Reiselogbuch 3.20.1 | 17.10.2026 |
 | E-87 | Korrektur 3.20.1: Drehen am Ende der Seite – ganz unten bleibt ganz unten (aus P-48/3; Ursache: am Ende kein Tag als Anker) | Reiselogbuch 3.20.1 | 17.10.2026 |

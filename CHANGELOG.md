@@ -13,6 +13,58 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.21.0 – 17.10.2026 (Neben)
+
+Reiselogbuch 3.21.0 · AppDesign 4.23.0 (Designrichtlinie allgemein 4.23.0) · Designrichtlinie Reiselogbuch 3.21.0 · Zusammenarbeit allgemein 2.8.0
+
+T-92 Suche über alle Reiselogbücher (Variante C; allgemein als AppDesign A-19, R-2.3 erweitert; Fall-Liste AppDesign
+`arbeit/T-92 Fall-Liste.md`, Muster bestätigt).
+
+- **Lupe in der Seitenleiste bzw. Startliste:** Kapsel oben [Lupe | + | …]; die Lupe blendet unter ‚Reiselogbücher‘ die
+  Suchzeile ‚In allen suchen‘ ein. Beim Tippen bleiben nur Reiselogbücher mit Treffer; jede Kachel zeigt statt ‚geändert am …‘
+  die Zahl ‚12 Treffer‘ – gezählt je Fundstelle wie ‚1 von 12‘ im Reiselogbuch (nur eingeschaltete Spalten); unter der
+  Überschrift ‚2 von 5 Reiselogbüchern‘; ohne Treffer ‚Keine Treffer‘. Die Backup-Kachel bleibt.
+- **Öffnen mit gefüllter Suche:** Antippen einer Kachel öffnet das Reiselogbuch mit dem Begriff, ‚1 von 12‘, erster Treffer
+  hervorgehoben direkt unter der Suchzeile. Zurück in der Liste ist sie noch gefiltert, bis ⓧ oder die Lupe die Suche beendet.
+- **iPad, beide Suchfelder offen:** jede Eingabe (auch ⓧ) wird 1:1 ins andere Feld übernommen (Zusatz 17.10.2026); ist die
+  Suche im rechts offenen Reiselogbuch zu, bleibt es unberührt.
+- Eingabetaste ‚Suchen‘ schließt nur die Tastatur (R-5.5); Neuladen beginnt ohne Suche; ohne Reiselogbuch keine Lupe.
+- Neue Prüfung `tests/ablauf-suche-liste.mjs` (AppDesign `checkListSearch` in iPad quer/hoch und iPhone, hell und dunkel, dazu
+  F-3, F-9, F-10, F-11, F-15, F-16, F-19); Gegenprobe (Zählung +1, ohne 1:1) rot.
+- Feste Fassung AppDesign 4.23.0 (gehoben mit Zustimmung, Zusammenarbeit 0 Nr. 10); Designrichtlinie Reiselogbuch 3.21.0 (nur Version).
+
+Prüfliste P-51 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
+
+**P-51/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.21.0 · erstellt am … · AppDesign 4.23.0‘.
+
+**P-51/1 – Suchen in der Seitenleiste (iPad quer)**
+1. In der Seitenleiste oben auf die Lupe tippen.
+2. Erwartet: unter ‚Reiselogbücher‘ erscheint die Suchzeile ‚In allen suchen‘, die Tastatur geht auf, die Seite rollt nicht weg.
+3. Einen Begriff tippen, der in einigen Reiselogbüchern vorkommt (z. B. ein Restaurant).
+4. Erwartet: nur diese Reiselogbücher stehen da, je mit ‚N Treffer‘; darunter ‚x von y Reiselogbüchern‘; rechts ändert sich nichts.
+5. Auf der Tastatur ‚Suchen‘ tippen. Erwartet: die Tastatur geht zu, nichts öffnet sich.
+
+**P-51/2 – Öffnen mit gefüllter Suche (iPad)**
+1. Eine Kachel aus P-51/1 antippen.
+2. Erwartet: das Reiselogbuch öffnet mit dem Begriff in der Suchzeile, ‚1 von N‘ mit demselben N wie auf der Kachel, der erste
+   Treffer orange direkt unter der Suchzeile.
+3. Jetzt in der Suchzeile der Seitenleiste weitertippen.
+4. Erwartet: derselbe Text erscheint gleichzeitig in der Suchzeile des Reiselogbuchs; umgekehrt genauso; ⓧ leert beide.
+
+**P-51/3 – iPhone**
+1. In der Startliste die Lupe tippen und einen Begriff eingeben.
+2. Erwartet: nur Reiselogbücher mit Treffer, je ‚N Treffer‘.
+3. Eines öffnen. Erwartet: Suche gefüllt, ‚1 von N‘, erster Treffer unter der Suchzeile.
+4. Oben links ‹ (Zurück) tippen. Erwartet: die Startliste ist noch gefiltert, der Begriff steht im Feld.
+5. Die Lupe tippen. Erwartet: die Suchzeile geht zu, alle Reiselogbücher stehen wieder da.
+
+**P-51/4 – Gefühl beim Tippen**
+1. Mit allen echten Reiselogbüchern zügig einen längeren Begriff tippen und wieder löschen.
+2. Erwartet: das Tippen bleibt flüssig, keine Verzögerung.
+
 ## 3.20.1 – 17.10.2026 (Korrektur)
 
 Reiselogbuch 3.20.1 · AppDesign 4.21.1 (Designrichtlinie allgemein 4.21.1) · Designrichtlinie Reiselogbuch 3.20.1 · Zusammenarbeit allgemein 2.7.0
