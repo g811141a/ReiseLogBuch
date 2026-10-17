@@ -38,7 +38,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
 | T-91 | 1 | iPad: Tastatur im Fenster ‚Tag‘ (z. B. Verlauf) – Fenster und Tabelle springen hin und her, bis die Tastatur steht (AppDesign A-18, R-7.3) – Version B nach Messung am iPad | Reiselogbuch · allgemein | offen |
-| T-92 | 2 | **Suche über alle Reiselogbücher** in der Startliste bzw. Seitenleiste – funktioniert wie die Suche im Reiselogbuch (Markierung, ‚3 von 57‘, Pfeile), erstreckt sich aber über alle Reiselogbücher; Vorschläge A/B/C siehe Chat 0009, ggf. beide Suchen kombinieren | Reiselogbuch · allgemein? | offen |
+| T-92 | 2 | **Suche über alle Reiselogbücher** – entschieden 17.10.2026: **Variante C** (AppDesign `arbeit/T-92 Vorschläge.md`): Suchfeld in Startliste/Seitenleiste filtert die Kacheln (Trefferzahl statt ‚geändert am …‘), Antippen öffnet das Reiselogbuch mit gefüllter Suche (‚1 von 12‘, Pfeile wie gewohnt); allgemein als AppDesign A-19. Noch offen: Platz des Feldes, Zählweise | Reiselogbuch · allgemein | in Klärung |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
