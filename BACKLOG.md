@@ -30,7 +30,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-44 | 1 | Reiselogbuch 3.16.0 (A-13, R-7.3): Tabelle steht still beim Erfassen eines Tages, danach wie vorher, Zeile kurz blau – Prüfliste im CHANGELOG | Reiselogbuch | prüfen |
 | – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
@@ -51,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-77 | Geprüft: P-44 alles in Ordnung (Tabelle steht still beim Erfassen, iPad und iPhone) | Reiselogbuch 3.16.0 | 17.10.2026 |
 | E-76 | A-13: Tabelle bzw. Tageskästen stehen still, solange das Fenster ‚Tag‘ offen ist; danach wie vorher, Zeile kurz blau, nach ‹ › sichtbar (AppDesign R-7.3) | Reiselogbuch 3.16.0 | 16.10.2026 |
 | E-75 | T-05 Alte Reiselogbücher importieren: Werkzeug im privaten Repo `ReiseLogBuch-Import`, erste Konvertierung geladen (‚Backup laden‘ → ‚Abgleichen‘) und geprüft – alles in Ordnung; weitere Konvertierungen bei Bedarf über die Startfrage | ReiseLogBuch-Import 1.2.1 | 16.10.2026 |
 | E-74 | Geprüft: P-42 alles in Ordnung (Version, Offline-Start nach dem Update auf iPad und iPhone) | Reiselogbuch 3.15.1 | 16.10.2026 |
