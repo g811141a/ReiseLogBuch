@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.18.0 · AppDesign 4.19.0
+**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.19.0 · AppDesign 4.20.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-47 | 1 | Reiselogbuch 3.19.0: Kapsel ‚Nach oben / Ans Ende‘ auch auf dem iPhone (AppDesign A-15) – Prüfliste im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-83 | AppDesign A-15 übernommen: Kapsel ‚Nach oben / Ans Ende‘ auch auf dem iPhone (im Reiselogbuch, nicht in der Startliste) | Reiselogbuch 3.19.0 | 17.10.2026 |
 | E-82 | Geprüft: P-46 alles in Ordnung (Link nur über den Namen); **T-86 damit abgeschlossen** | Reiselogbuch 3.18.0 | 17.10.2026 |
 | E-81 | T-86 gebaut: Maps-Link nur über den Namen – endet an ‚ – ‘, Komma, Doppelpunkt, Klammer (nicht vor einer Ziffer), Essen und Quartier | Reiselogbuch 3.18.0 | 17.10.2026 |
 | E-80 | Geprüft: P-45 alles in Ordnung (Eingabetaste ‚Fertig‘, iPhone ✓ über der Zifferntastatur – Farbe des ✓ bestimmt iOS, nicht änderbar; zuletzt verwendetes Reiselogbuch); **T-87 und T-88 damit abgeschlossen** | Reiselogbuch 3.17.0 | 17.10.2026 |

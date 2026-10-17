@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.18.0** · Stand 17.10.2026
+**Version 3.19.0** · Stand 17.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.19.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.20.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -156,6 +156,7 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 | Was | Grund | Entschieden |
 |---|---|---|
 | Maps-Links der Lokale in der Spalte ‚Essen und Trinken‘ nur so hoch wie der Text (ca. 19 px) – auf dem iPhone auch in den Tageskästen | mehr Zeilenabstand in der Tabelle nicht gewünscht; im Kasten würde eine größere Fläche das Antippen des Tages behindern; das HIG-Prüfskript zählt es nicht | 09.10.2026 · iPhone 10.10.2026 |
+| Kapsel ‚Nach oben / Ans Ende‘ auch auf dem iPhone (Apple: Statusleiste antippen, Scroll-Leiste ziehen) | Apple-Weg zu schwerfällig; allgemein in AppDesign R-3.2 (A-15) | 17.10.2026 |
 | Wetter-Symbole in der Tageserfassung auf dem iPhone 40 px breit (in der Kapsel, über dem Minimum von 28 pt) | alle sieben passen ohne Wischen | 10.10.2026 |
 
 ## Abgleich zwischen iPad und iPhone
@@ -168,6 +169,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.19.0 | 17.10.2026 | Neben | Angepasst an allgemein 4.20.0 (R-3.2: Kapsel ‚Nach oben / Ans Ende‘ auch auf dem iPhone); HIG-Abweichung eingetragen |
 | 3.18.0 | 17.10.2026 | Neben | Abschnitt 2: Maps-Link endet an ‚ – ‘, Komma, Doppelpunkt oder Klammer, nicht vor einer Ziffer (T-86) |
 | 3.17.0 | 17.10.2026 | Neben | Angepasst an allgemein 4.19.0 (R-5.5 Eingabetaste: Gesamtausgaben, Fenster ‚Tag‘ und ‚Einstellungen‘); keine eigene Änderung |
 | 3.16.0 | 16.10.2026 | Neben | Angepasst an allgemein 4.18.0 (R-7.3 Liste steht still: Tagestabelle und Tageskästen); keine eigene Änderung |

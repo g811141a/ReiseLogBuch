@@ -13,6 +13,38 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.19.0 – 17.10.2026 (Neben)
+
+Reiselogbuch 3.19.0 · AppDesign 4.20.0 (Designrichtlinie allgemein 4.20.0) · Designrichtlinie Reiselogbuch 3.19.0 · Zusammenarbeit allgemein 2.7.0
+
+AppDesign A-15 (R-3.2 erweitert; Fall-Liste AppDesign `arbeit/A-15 Fall-Liste.md`).
+
+- **iPhone: Kapsel ‚Nach oben / Ans Ende‘:** In einem geöffneten Reiselogbuch steht unten rechts dieselbe senkrechte Kapsel
+  wie am iPad – ein Tippen rollt ganz nach oben bzw. ganz ans Ende. In der Startliste ‚Reiselogbücher‘ gibt es sie nicht.
+  Bewusste Abweichung von Apple (dort Uhrzeit antippen bzw. Scroll-Leiste ziehen – zu schwerfällig).
+- Unten etwas mehr Platz (120 px), damit der letzte Tageskasten nicht unter der Kapsel liegt; der Offline-Hinweis lässt
+  seitlich Platz für die Kapsel.
+- iPad und iPhone: Die Kapsel verschwindet, wenn es nichts zu scrollen gibt (stand schon in R-3.2, jetzt in `ui.js` gebaut).
+- Neue Prüfung `tests/kapsel-iphone.mjs` (iPhone hoch und quer, iPad schmal und quer, hell und dunkel, Chromium und WebKit;
+  Gegenprobe rot: 14 Fehler). Feste Fassung AppDesign 4.20.0; Designrichtlinie Reiselogbuch 3.19.0 (HIG-Abweichung eingetragen).
+
+Prüfliste P-47 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+
+**P-47/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.19.0 · erstellt am … · AppDesign 4.20.0‘.
+
+**P-47/1 – iPhone hoch**
+1. In der Startliste: unten rechts **keine** Kapsel.
+2. Ein Reiselogbuch mit vielen Tagen öffnen. Erwartet: unten rechts die Kapsel mit Pfeil nach oben und Pfeil nach unten.
+3. Pfeil nach unten antippen: rollt weich bis ganz ans Ende (Statistik); der letzte Inhalt ist nicht verdeckt.
+4. Pfeil nach oben antippen: rollt ganz nach oben.
+
+**P-47/2 – iPhone quer und iPad**
+1. iPhone quer drehen: Kapsel unten rechts, nicht unter der Notch bzw. dem Rand.
+2. iPad: Kapsel wie bisher.
+
 ## 3.18.0 – 17.10.2026 (Neben)
 
 Reiselogbuch 3.18.0 · AppDesign 4.19.0 (Designrichtlinie allgemein 4.19.0) · Designrichtlinie Reiselogbuch 3.18.0 · Zusammenarbeit allgemein 2.7.0
