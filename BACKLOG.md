@@ -37,7 +37,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-91 | 1 | iPad: Tastatur im Fenster ‚Tag‘ (z. B. Verlauf) – Fenster und Tabelle springen hin und her, bis die Tastatur steht (AppDesign A-18, R-7.3) – Version B nach Messung am iPad | Reiselogbuch · allgemein | offen |
 | T-92 | 2 | **Suche über alle Reiselogbücher** – entschieden 17.10.2026: **Variante C** (AppDesign `arbeit/T-92 Vorschläge.md`): Suchfeld in Startliste/Seitenleiste filtert die Kacheln (Trefferzahl statt ‚geändert am …‘), Antippen öffnet das Reiselogbuch mit gefüllter Suche (‚1 von 12‘, Pfeile wie gewohnt); allgemein als AppDesign A-19. Noch offen: Platz des Feldes, Zählweise | Reiselogbuch · allgemein | in Klärung |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
@@ -53,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-89 | **T-91 verworfen (Nutzer, 17.10.2026):** Tastatur im Fenster ‚Tag‘ – Mitfahren beim ersten Hochfahren kommt von Safari; Messungen in AppDesign-Sitzung 0010, Messseiten entfernt (AppDesign E-42) | – | 17.10.2026 |
 | E-88 | Geprüft: P-49 alles in Ordnung (Drehen am Ende der Seite); **T-89 und T-90 damit abgeschlossen** | Reiselogbuch 3.20.1 | 17.10.2026 |
 | E-87 | Korrektur 3.20.1: Drehen am Ende der Seite – ganz unten bleibt ganz unten (aus P-48/3; Ursache: am Ende kein Tag als Anker) | Reiselogbuch 3.20.1 | 17.10.2026 |
 | E-86 | Geprüft: P-48/0–2 in Ordnung (Öffnen iPad und iPhone, Seitenleiste ein/aus); **P-48/3 nicht ok** (Drehen am Ende) → Korrektur 3.20.1 | Reiselogbuch 3.20.0 | 17.10.2026 |
