@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 16.10.2026** · Aktuelle Version: Reiselogbuch 3.16.0 · AppDesign 4.18.0
+**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.16.0 · AppDesign 4.18.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -37,6 +37,10 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
+| T-85 | 2 | **Emoji-Taste statt Weltkugel (iPad):** Wunsch: auf der Tastatur direkt die Emoji-Taste. Befund: iOS zeigt die Weltkugel, sobald mehr als eine Tastatur-Sprache eingerichtet ist; mit nur einer Sprache plus Emoji erscheint die Emoji-Taste. Eine Web-App kann das nicht beeinflussen – nur über Einstellungen → Allgemein → Tastatur → Tastaturen. Vorschlag: kein Bau, Hinweis in der Hilfe oder Punkt schließen | Reiselogbuch | offen – Entscheidung |
+| T-86 | 2 | **Link nur über den Ort (z. B. Essen und Trinken):** Wunsch: nur der Name der Örtlichkeit ist der Maps-Link, nicht der ganze Text. Befund: der Name endet heute nur an ‚ – ‘ (Gedankenstrich mit Leerzeichen); fehlt er (z. B. ‚Krone, sehr gut‘ oder ‚Krone: lecker‘), wird die ganze Zeile zum Link. Zu klären: Name zusätzlich an Komma, Doppelpunkt, Klammer beenden (wie beim Quartier, dort schon mit Komma)? | Reiselogbuch | offen |
+| T-87 | 1 | **Eingabetaste schließt einzeilige Felder (z. B. Gesamtausgaben):** Wunsch: Eingabe mit der Eingabetaste abschließen, Tastatur verschwindet; als Standard für Eingabefelder. HIG: einzeilige Felder – Eingabetaste bestätigt (Beschriftung ‚Fertig‘/‚Weiter‘/‚Suchen‘); mehrzeilige Felder – Eingabetaste macht einen Zeilenumbruch, geschlossen wird mit Häkchen/‚Fertig‘ oder Tippen daneben. Vorschlag: `enterkeyhint="done"` und Schließen bei Eingabetaste für alle einzeiligen Felder; mehrzeilige bleiben mit Zeilenumbruch. Kandidat für eine allgemeine Regel (R-5.x, AppDesign) | Reiselogbuch, allgemein? | offen |
+| T-88 | 1 | **Zuletzt verwendetes Reiselogbuch beim Start:** Wunsch: beim Öffnen der App ist das zuletzt verwendete Reiselogbuch in der Startliste blau markiert und auf dem iPad geöffnet. Befund: kein Zusammenhang mit dem Backup – die App merkt sich das zuletzt benutzte nicht und wählt nach Datum (`pickStartTrip`): laufende Reise, sonst die zuletzt beendete, sonst die nächste geplante; darum öffnet sie immer dieselbe. Vorschlag: zuletzt geöffnetes merken (`settings.lastTrip`, Übernahme alter Daten), bei Fehlen wie bisher nach Datum; in der iPhone-Startliste blau markieren. Zu klären: hat eine laufende Reise Vorrang? | Reiselogbuch | offen |
 
 ## 3. Später
 
