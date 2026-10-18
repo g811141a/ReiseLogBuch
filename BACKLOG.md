@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 18.10.2026** · Aktuelle Version: Reiselogbuch 3.22.0 · AppDesign 4.24.0
+**Stand 18.10.2026** · Aktuelle Version: Reiselogbuch 3.23.0 · AppDesign 4.25.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,13 +30,12 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| T-93 | 1 | Suche mit mehreren Wörtern und „…“ (Einheit Reiselogbuch), Lupe am Ende der Kapsel (AppDesign A-21, A-22) – Prüfliste P-55 im CHANGELOG 3.23.0 | zu prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-93 | 1 | Suche mit mehreren Begriffen (UND) – allgemein als AppDesign A-21 (R-2.3); Lupe am Ende der Kapsel – AppDesign A-22 | AppDesign | in Klärung |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -51,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-98 | **T-93 gebaut:** Suche mit mehreren Wörtern (alle irgendwo im Reiselogbuch, gezeigt die Tage mit einem Wort), „…“ als genaue Folge, Lupe am Ende der Kapsel [+ \| Lupe \| …]; neue Prüfung `tests/ablauf-suche-woerter.mjs`; Fassung 4.25.0 | Reiselogbuch 3.23.0 | 18.10.2026 |
 | E-97 | Geprüft: P-54 alles in Ordnung (Hervorhebung, ‚Tour …‘, ‚Sonstiges …‘, Aufbau der Vorschläge); **T-94 damit abgeschlossen** | Reiselogbuch 3.22.0 | 18.10.2026 |
 | E-96 | **T-94 gebaut:** Verlauf mit ‚Tour …‘ und ‚Sonstiges …‘ (leere erste Zeile, Cursor dorthin); Hervorhebung nach dem Fenster 2 s + 1 s (AppDesign A-23); neue Prüfung `tests/verlauf-vorschlaege.mjs`; Fassung 4.24.0 | Reiselogbuch 3.22.0 | 18.10.2026 |
 | E-95 | Geprüft: P-53 alles in Ordnung (Liste steht still: tiefer erfassen, vorblättern, iPhone, Wischen frei); **T-92 damit abgeschlossen** | Reiselogbuch 3.21.2 | 18.10.2026 |

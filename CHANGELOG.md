@@ -13,6 +13,59 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.23.0 – 18.10.2026
+
+Reiselogbuch 3.23.0 · AppDesign 4.25.0 (Designrichtlinie allgemein 4.25.0) · Designrichtlinie Reiselogbuch 3.23.0 · Zusammenarbeit allgemein 2.10.1
+
+Suchen mit mehreren Wörtern (T-93, allgemein AppDesign A-21) und die Lupe am Ende der Kapsel (A-22).
+
+- **Mehrere Wörter:** ‚sydney opera‘ findet ein Reiselogbuch, wenn **beide Wörter irgendwo darin** vorkommen – auch an
+  verschiedenen Tagen (deine Wahl: Einheit = Reiselogbuch); Reihenfolge und Groß/klein egal. Gezeigt werden die Tage mit
+  mindestens einem der Wörter, **alle Wörter sind gelb markiert und gezählt**, ‚1 von N‘ und ⌃ ⌄ laufen durch alle.
+- **„…“ = genaue Wortfolge:** ‚„Opera House“ sydney‘ sucht die Folge ‚Opera House‘ und dazu ‚sydney‘.
+- **Zentrale Liste:** gleiche Regel – ‚N Treffer‘ je Reiselogbuch wie ‚1 von N‘ nach dem Öffnen; beide Suchfelder laufen 1:1 mit.
+- **Lupe am Ende:** Kopf der Seitenleiste bzw. Startliste jetzt [+ | Lupe | …] (vorher [Lupe | + | …]); im Reiselogbuch
+  unverändert [Teilen | Lupe | …].
+- **Neue feste Prüfung `tests/ablauf-suche-woerter.mjs`:** S1–S15 im Reiselogbuch (ein Wort, zwei Wörter, umgekehrt, verschiedene
+  Felder und Tage, fehlendes Wort, Leerzeichen, doppelt, Überlappung, „…“), Pfeile ohne Umlauf, Liste mit zwei Wörtern, ‚Keine
+  Treffer‘, Lupe am Ende; iPad quer und hoch, iPhone hoch und quer, hell und dunkel. Gegenprobe mit 3.22.0: rot.
+- Feste Fassung AppDesign 4.25.0 (gehoben mit deinem Ja); Designrichtlinie Reiselogbuch 3.23.0.
+
+Prüfliste P-55 (Schritt für Schritt, Zusammenarbeit allgemein 2.10.1).
+
+**P-55/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.23.0 · erstellt am … · AppDesign 4.25.0‘.
+
+**P-55/1 – Lupe am Ende (iPad und iPhone)**
+1. Kopf der Seitenleiste (iPad) bzw. der Startliste (iPhone) ansehen.
+2. Erwartet: Kapsel [+ | Lupe | …] – die Lupe direkt vor ‚…‘.
+3. Ein Reiselogbuch öffnen. Erwartet: Kapsel [Teilen | Lupe | …] wie bisher.
+
+**P-55/2 – Zwei Wörter im Reiselogbuch (iPad quer)**
+1. Ein Reiselogbuch öffnen, Lupe, zwei Wörter eingeben, die an **verschiedenen** Tagen stehen (z. B. ein Ort und ein Essen).
+2. Erwartet: es bleiben die Tage mit einem der Wörter; beide Wörter gelb; ‚1 von N‘ zählt alle Markierungen.
+3. ⌄ mehrmals tippen. Erwartet: springt durch alle Markierungen beider Wörter, am Ende kein Sprung zurück zum ersten.
+4. Die Wörter umgekehrt eingeben. Erwartet: dasselbe Ergebnis.
+5. Ein Wort dazu, das in diesem Reiselogbuch nicht vorkommt. Erwartet: ‚0‘, keine Tage.
+
+**P-55/3 – Genaue Folge „…“ (iPad)**
+1. Zwei Wörter, die im Verlauf direkt hintereinander stehen, in Anführungszeichen eingeben (z. B. „Opera House“).
+2. Erwartet: nur Stellen, wo genau diese Folge steht, sind gelb – als eine Markierung.
+3. Die beiden Wörter vertauscht in Anführungszeichen. Erwartet: ‚0‘.
+
+**P-55/4 – Zentrale Liste (iPad und iPhone)**
+1. In der Seitenleiste bzw. Startliste die Lupe tippen, zwei Wörter eingeben, die in einem Reiselogbuch beide vorkommen.
+2. Erwartet: nur Reiselogbücher mit beiden Wörtern; jede Kachel ‚N Treffer‘.
+3. Eines antippen. Erwartet: die Suche ist gefüllt, ‚1 von N‘ mit demselben N.
+4. iPad: beide Suchfelder offen, im einen tippen (mit Leerzeichen). Erwartet: das andere zeigt genau dasselbe.
+
+**P-55/5 – Tippen und Diktieren (iPhone hoch)**
+1. Mit der Bildschirmtastatur ‚sydney ‘ tippen (iOS setzt nach einem Wort-Vorschlag ein Leerzeichen), dann ein zweites Wort.
+2. Erwartet: nach dem Leerzeichen bleibt alles wie mit einem Wort, mit dem zweiten Wort wird weiter gefiltert.
+3. Zwei Wörter diktieren. Erwartet: gleich.
+
 ## 3.22.0 – 18.10.2026
 
 Reiselogbuch 3.22.0 · AppDesign 4.24.0 (Designrichtlinie allgemein 4.24.0) · Designrichtlinie Reiselogbuch 3.22.0 · Zusammenarbeit allgemein 2.9.0
