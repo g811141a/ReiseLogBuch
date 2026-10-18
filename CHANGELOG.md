@@ -13,6 +13,54 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.21.2 – 18.10.2026 (Korrektur)
+
+Reiselogbuch 3.21.2 · AppDesign 4.23.2 (Designrichtlinie allgemein 4.23.2) · Designrichtlinie Reiselogbuch 3.21.2 · Zusammenarbeit allgemein 2.8.0
+
+Korrektur aus P-52/2–4 (allgemein in AppDesign 4.23.2, R-7.3).
+
+- **Liste steht still nach dem Fenster ‚Tag‘ – wirklich:** nach dem Öffnen eines Reiselogbuchs (erster fehlender Tag oben) steht
+  oben danach wieder derselbe Tag an derselben Stelle – egal welcher Tag erfasst wurde, mit Häkchen oder x, und **auch nach
+  ‹ ›** im Fenster (Wunsch des Nutzers; vorher sprang die Tabelle an den Anfang bzw. das iPhone zum geänderten Tag).
+- Ursachen: Safari rollt beim Zugehen der Tastatur nach dem Schließen noch einmal; eine durch die Tastatur geänderte
+  Fensterhöhe galt als Drehen; nach ‹ › wurde gewollt zum zuletzt gezeigten Tag gerollt.
+- **Warum die Prüfung es nicht sah:** sie begann ohne Lücke bei Scrollstand 1200, tippte nur die oberste Zeile an und bildete
+  die Tastatur nur teilweise nach. **Neue feste Prüfung `tests/ablauf-liste-still.mjs`** (läuft in jedem vollen Lauf): genau
+  deine Abläufe – Reiselogbuch mit Lücke öffnen, Tag oben, 3 Zeilen tiefer, untere Hälfte, 2 px unter dem Kopf, 5× ‹ ›;
+  Häkchen und x; Safari-Tastatur einzeln und zusammen; iPad quer und hoch, iPhone hoch und quer. Gegenprobe mit 3.21.1: 22 Fälle
+  rot. R-7.3 wird nur noch hier geprüft (nicht mehr zusätzlich in `regeln-ablauf`).
+- Feste Fassung AppDesign 4.23.2 (Korrektur); Designrichtlinie Reiselogbuch 3.21.2 (nur Version).
+
+Prüfliste P-53 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
+
+**P-53/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.21.2 · erstellt am … · AppDesign 4.23.2‘.
+
+**P-53/1 – Tiefer erfassen (iPad quer, wie P-52/2)**
+1. Ein Reiselogbuch mit fehlenden Tagen öffnen. Erwartet: der erste fehlende Tag steht oben unter dem Tabellenkopf.
+2. Zwei, drei Zeilen darunter einen Tag antippen, ins Programm tippen (Tastatur geht auf), Häkchen.
+3. Erwartet: oben steht weiter der erste fehlende Tag, genau wie vorher; der erfasste Tag wird kurz blau hinterlegt.
+4. Dasselbe mit einem Tag in der unteren Hälfte, einmal mit Häkchen, einmal mit x.
+
+**P-53/2 – Vorblättern (iPad quer, wie P-52/3)**
+1. Wie P-53/1 öffnen; den vorletzten sichtbaren Tag antippen.
+2. Im Fenster 4–5× › (Folgetag) tippen, dort etwas ändern, Häkchen.
+3. Erwartet: die Tabelle steht genau wie beim Öffnen des Fensters (oben der erste fehlende Tag) – kein Sprung an den Anfang,
+   kein Rollen zum geänderten Tag.
+
+**P-53/3 – iPhone (hoch und quer, wie P-52/4)**
+1. Ein Reiselogbuch mit fehlenden Tagen öffnen. Erwartet: der erste fehlende Tag steht als Kasten oben unter der Leiste.
+2. Einen Kasten weiter unten antippen, erfassen, Häkchen. Erwartet: oben weiter derselbe Kasten, nicht die Überschrift mit
+   den Reiseteilnehmern.
+3. Einen Kasten antippen, im Fenster 4–5× › tippen, ändern, Häkchen. Erwartet: die Kästen stehen wie beim Öffnen – kein Rollen
+   zum geänderten Tag.
+
+**P-53/4 – Wischen bleibt frei**
+1. Gleich nach dem Häkchen (innerhalb einer Sekunde) über die Tabelle wischen.
+2. Erwartet: die Tabelle folgt dem Finger sofort, nichts springt zurück.
+
 ## 3.21.1 – 18.10.2026 (Korrektur)
 
 Reiselogbuch 3.21.1 · AppDesign 4.23.1 (Designrichtlinie allgemein 4.23.1) · Designrichtlinie Reiselogbuch 3.21.1 · Zusammenarbeit allgemein 2.8.0
