@@ -13,6 +13,57 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.23.1 – 19.10.2026 (Korrektur)
+
+Reiselogbuch 3.23.1 · AppDesign 4.25.1 (Designrichtlinie allgemein 4.25.1) · Designrichtlinie Reiselogbuch 3.23.1 · Zusammenarbeit allgemein 2.10.1
+
+Zwei Korrekturen aus deiner Rückmeldung vom 18.10.2026 (T-95, allgemein AppDesign A-24 und A-25).
+
+- **Kopf- und Suchzeile stehen beim Tippen fest (iPhone):** bisher baute jeder Buchstabe die ganze Seite samt Suchfeld neu auf;
+  Safari schloss dabei die Tastatur kurz und verschob den sichtbaren Bereich – die Leisten zitterten. Jetzt bleibt das Suchfeld
+  dasselbe Feld mit Fokus, neu aufgebaut wird nur der Inhalt (Reiselogbuch, iPad-Tabelle, Seitenleiste und Startliste).
+- **Markierung als Kreis:** die blaue Markierung von Lupe, Teilen und ‚…‘ (bei offener Suche bzw. offenem Menü) ist ein Kreis
+  36 × 36 wie bei Wetter und Smileys – vorher 42 × 36, eiförmig (seit 2.3.0).
+- **Neue feste Prüfung `tests/ablauf-suche-iphone.mjs`:** dein Ablauf (iPhone hoch und quer, hell und dunkel, Reiselogbuch mit 40
+  Tagen, Mitte bzw. Ende der Seite, Tastatur offen, ‚Sydney‘ Buchstabe für Buchstabe); Lage von Kopf- und Suchzeile in jedem
+  Bild, Safari einzeln und zusammen nachgebildet. Gegen 3.23.0 rot (Suchfeld ersetzt, Leiste springt 120 px), jetzt grün. Dazu
+  prüfen alle Suchen, dass das Feld beim Tippen und Löschen bleibt, und die Grundregel ‚rund ist ein Kreis‘.
+- **Warum die Prüfungen es übersehen haben:** die Suche wurde nur mit fertigem Ergebnis geprüft, nicht Bild für Bild beim
+  Tippen, und Safari nur einzeln nachgebildet – das Zittern zeigt sich erst, wenn alles zusammenkommt; bei der Markierung wurde
+  nur geprüft, dass sie im Rand liegt, nicht ihre Form.
+- Intern: Seitenleiste und Backup-Kachel binden ihre Schaltflächen mit `onclick` (ein beibehaltenes Element bekommt sonst die
+  Aktion doppelt). Feste Fassung AppDesign 4.25.1 (gehoben mit deinem Ja); Designrichtlinie Reiselogbuch 3.23.1.
+
+Prüfliste P-56 (Schritt für Schritt, Zusammenarbeit allgemein 2.10.1).
+
+**P-56/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.23.1 · erstellt am … · AppDesign 4.25.1‘.
+
+**P-56/1 – Suchen ohne Zittern (iPhone hoch)**
+1. Ein langes Reiselogbuch öffnen und bis etwa in die Mitte rollen.
+2. Lupe tippen, langsam ein Wort tippen, das mehrmals vorkommt (z. B. ein Ort).
+3. Erwartet: Kopfzeile und Suchzeile stehen bei jedem Buchstaben still; die Tage darunter werden gefiltert.
+4. Schnell weitertippen und mit der Löschtaste wieder löschen. Erwartet: ebenfalls kein Zittern, die Tastatur bleibt offen.
+5. ⓧ tippen. Erwartet: das Feld ist leer, der Cursor bleibt im Feld, die Tastatur bleibt offen.
+
+**P-56/2 – Suchen ohne Zittern (iPhone quer und Startliste)**
+1. iPhone quer drehen, im Reiselogbuch wie P-56/1 tippen. Erwartet: nichts zittert.
+2. Zurück zur Startliste, dort die Lupe tippen und ein Wort tippen. Erwartet: Kopf und Suchzeile der Startliste stehen still,
+   die Kacheln werden gefiltert.
+
+**P-56/3 – Suchen am iPad (unverändert)**
+1. iPad quer: Reiselogbuch öffnen, Lupe, ein Wort tippen. Erwartet: wie bisher – sofort gelb, nach der Pause steht der erste
+   Treffer unter der Suchzeile.
+2. Seitenleiste: Lupe, ein Wort tippen, Backup-Kachel unten einmal tippen. Erwartet: genau ein Backup (nicht zwei).
+
+**P-56/4 – Markierung als Kreis (iPad und iPhone)**
+1. Im Reiselogbuch die Lupe tippen. Erwartet: die Lupe ist blau hinterlegt – als **Kreis**, nicht eiförmig.
+2. ‚…‘ tippen. Erwartet: auch ‚…‘ als Kreis hinterlegt, solange das Menü offen ist; Teilen genauso.
+3. Seitenleiste bzw. Startliste: Lupe tippen. Erwartet: Kreis.
+4. Hell und dunkel ansehen. Erwartet: in beiden ein Kreis, gleich groß wie die Markierung bei Wetter und Smileys im Fenster ‚Tag‘.
+
 ## 3.23.0 – 18.10.2026
 
 Reiselogbuch 3.23.0 · AppDesign 4.25.0 (Designrichtlinie allgemein 4.25.0) · Designrichtlinie Reiselogbuch 3.23.0 · Zusammenarbeit allgemein 2.10.1
