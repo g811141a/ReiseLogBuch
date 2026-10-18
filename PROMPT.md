@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 18.10.2026, Version 3.22.0)
+# Reiselogbuch – Prompt (Stand 18.10.2026, Version 3.23.0)
 
-Reiselogbuch 3.22.0 · AppDesign 4.24.0 (Designrichtlinie allgemein 4.24.0) · Designrichtlinie Reiselogbuch 3.22.0 · Zusammenarbeit allgemein 2.9.0
+Reiselogbuch 3.23.0 · AppDesign 4.25.0 (Designrichtlinie allgemein 4.25.0) · Designrichtlinie Reiselogbuch 3.23.0 · Zusammenarbeit allgemein 2.10.1
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -64,13 +64,16 @@ RAHMEN
     Einstellungen · Reiselogbuch löschen (rot, mit Abfrage) – ohne "Öffnen",
     weil kurzes Tippen öffnet.
   - Suche über alle Reiselogbücher (seit 3.21.0, T-92, R-2.3): Kapsel im Kopf der Seitenleiste
-    bzw. Startliste [search | plus | ellipsis]; search blendet darunter die Suchzeile "In allen
+    bzw. Startliste [plus | search | ellipsis] (Lupe am Ende seit 3.23.0); search blendet darunter die Suchzeile "In allen
     suchen" ein. Beim Tippen bleiben nur Reiselogbücher mit Treffer, jede Kachel zeigt "12 Treffer"
     (je Fundstelle, gleich wie "1 von 12" im Reiselogbuch; nur sichtbare Spalten), unter der
     Überschrift "2 von 5 Reiselogbüchern", sonst "Keine Treffer". Antippen öffnet das Reiselogbuch
     mit gefüllter Suche, erster Treffer direkt unter der Suchzeile. Die Liste bleibt gefiltert, bis
     ⓧ oder search sie leert. iPad: das rechts offene Reiselogbuch bleibt unberührt, solange seine
     Suche zu ist; sind beide Suchfelder offen, wird jede Eingabe 1:1 ins andere übernommen.
+  - Mehrere Wörter (seit 3.23.0, T-93, R-2.3): Leerzeichen trennt Wörter; ein Reiselogbuch passt, wenn jedes
+    Wort irgendwo darin vorkommt (Reihenfolge, Groß/klein egal); "…" sucht eine genaue Wortfolge. Gezeigt werden
+    die Tage mit mindestens einem Wort; alle Wörter werden markiert und gezählt (Liste und Reiselogbuch gleich).
   - Wurde heute noch kein Backup erstellt, steht unten in der Seitenleiste fest
     eine gelbe Kachel "Letztes Backup erstellt am …" (bzw. "Noch kein Backup erstellt.")
     mit blauem Knopf "Backup erstellen".

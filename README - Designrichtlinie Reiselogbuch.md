@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.22.0** · Stand 18.10.2026
+**Version 3.23.0** · Stand 18.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.24.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.25.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -54,7 +54,9 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 - **Kopfzeile** (Komponente): Titel der Reise; Kapsel [share | search | ellipsis].
   - share → Menü: Vorschau · HTML · PDF (jeweils mit grauem Hinweis), Strich, darunter
     ‚N erfasste Tage · Dateiname: …‘.
-  - search → Suchzeile; die Suche durchsucht den Verlauf und die sichtbaren Spalten.
+  - search → Suchzeile; die Suche durchsucht den Verlauf und die sichtbaren Spalten. **Mehrere Wörter (seit 3.23.0, R-2.3):**
+    ‚ein Eintrag‘ ist das ganze Reiselogbuch – jedes Wort muss irgendwo darin stehen; gezeigt werden die Tage mit mindestens
+    einem Wort (Entscheidung des Nutzers 18.10.2026).
   - ellipsis → Mehr-Menü: Alle Tage / Nur erfasste Tage · Einstellungen · Darstellung › ·
     Reiselogbuch löschen (rot, Sprechblase mit Tipp zum Backup).
 - Darunter (ohne Überschrift – der Titel steht in der Kopfzeile): Reiseteilnehmer,
@@ -170,6 +172,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.23.0 | 18.10.2026 | Neben | Suche mit mehreren Wörtern: Einheit = Reiselogbuch (T-93); angepasst an allgemein 4.25.0 (R-2.3 mehrere Wörter und „…“, Lupe am Ende der Kapsel) |
 | 3.22.0 | 18.10.2026 | Neben | Verlauf: Vorschläge ‚Tour …‘ und ‚Sonstiges …‘ (leere erste Zeile, T-94); angepasst an allgemein 4.24.0 (R-7.3 Hervorhebung 2 s + 1 s) |
 | 3.21.2 | 18.10.2026 | Korrektur | Angepasst an allgemein 4.23.2 (R-7.3 Liste steht still – auch nach ‹ ›, P-52/2–4); keine eigene Abweichung |
 | 3.21.1 | 18.10.2026 | Korrektur | Angepasst an allgemein 4.23.1 (R-7.3 Liste steht still, auch mit Tastatur – P-51/5); keine eigene Abweichung |
