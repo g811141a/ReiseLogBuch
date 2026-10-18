@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 18.10.2026, Version 3.21.2)
+# Reiselogbuch – Prompt (Stand 18.10.2026, Version 3.22.0)
 
-Reiselogbuch 3.21.2 · AppDesign 4.23.2 (Designrichtlinie allgemein 4.23.2) · Designrichtlinie Reiselogbuch 3.21.2 · Zusammenarbeit allgemein 2.8.0
+Reiselogbuch 3.22.0 · AppDesign 4.24.0 (Designrichtlinie allgemein 4.24.0) · Designrichtlinie Reiselogbuch 3.22.0 · Zusammenarbeit allgemein 2.9.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -345,9 +345,11 @@ ERFASSUNG – wenig eingeben, in ganz einfachen Schritten
   2. Verlauf (bis 3.1.0 "Programm"): eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle
      und Ausgabe ▫️ davor.
      Vorschläge zum Antippen: "Weiterfahrt nach …", "Rundgang durch …",
-     "Besichtigung …", "Freetour …". Angetippt wird der Text als neue
-     Zeile eingefügt; die "…" sind nur Platzhalter und werden nicht
-     übernommen.
+     "Besichtigung …", "Freetour …", "Tour …", "Sonstiges …". Angetippt wird
+     der Text als neue Zeile eingefügt; die "…" sind nur Platzhalter und
+     werden nicht übernommen. "Sonstiges …" (seit 3.22.0) fügt keinen Text
+     ein, sondern eine leere Zeile am Anfang des Felds und setzt den Cursor
+     dorthin (ist die erste Zeile schon leer, keine zweite).
   3. Wie war was?: Smiley + kurzer Text; mehrere Smiley-Zeilen möglich.
      Alle Smileys möglich (iPad-Emoji-Tastatur).
      Schnellauswahl über dem Textfeld (alle Smiley-Leisten: Wie war was?,

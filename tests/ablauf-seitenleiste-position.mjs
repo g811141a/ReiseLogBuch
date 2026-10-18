@@ -2,8 +2,8 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.23.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.23.2/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.24.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.24.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-seitenleiste-position', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand

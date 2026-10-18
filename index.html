@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.23.2/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.24.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.23.2/ui.js"></script>
+<script src="../AppDesign/fassung/4.24.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.21.2';
-const APP_BUILT = '18.10.2026 um 05:47';
+const APP_VERSION = '3.22.0';
+const APP_BUILT = '18.10.2026 um 17:37';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.23.2';
+const AD_NEEDED = '4.24.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -172,6 +172,9 @@ const PROGRAM_SUGGESTIONS = [
   { label: 'Rundgang durch …', text: 'Rundgang durch ' },
   { label: 'Besichtigung …', text: 'Besichtigung ' },
   { label: 'Freetour …', text: 'Freetour ' },
+  { label: 'Tour …', text: 'Tour ' },
+  // T-94 (seit 3.22.0): keine Vorlage – nur eine leere erste Zeile, der Cursor steht darin
+  { label: 'Sonstiges …', top: true },
 ];
 const AUTOSAVE_MS = 10000;
 
@@ -550,6 +553,14 @@ function insertAtCursor(ta, text, ownLine) {
   ta.focus();
   ta.selectionStart = ta.selectionEnd = pos + ins.length;
   autoGrow(ta);
+}
+// T-94: leere Zeile am Anfang des Felds, Cursor dorthin – ist die erste Zeile schon leer, keine zweite.
+function insertLineTop(ta) {
+  if (ta.value && !ta.value.startsWith('\n')) ta.value = '\n' + ta.value;
+  ta.focus();
+  ta.selectionStart = ta.selectionEnd = 0;
+  autoGrow(ta);
+  ta.scrollTop = 0;
 }
 
 
@@ -1406,7 +1417,9 @@ function openDayDialog(trip, iso) {
 
   // Schritt 2: Vorschläge als neue Zeile einfügen
   dlg.querySelectorAll('#suggest button').forEach(b => b.onclick = () => {
-    insertAtCursor(fProgram, PROGRAM_SUGGESTIONS[b.dataset.s].text, true);
+    const sg = PROGRAM_SUGGESTIONS[b.dataset.s];
+    if (sg.top) return insertLineTop(fProgram);
+    insertAtCursor(fProgram, sg.text, true);
     capNext(fProgram); // nach ‚Weiterfahrt nach …‘ beginnt der Ort groß
   });
 
