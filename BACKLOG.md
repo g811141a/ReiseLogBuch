@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 18.10.2026** · Aktuelle Version: Reiselogbuch 3.21.1 · AppDesign 4.23.1
+**Stand 18.10.2026** · Aktuelle Version: Reiselogbuch 3.21.2 · AppDesign 4.23.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-52 | 1 | Reiselogbuch 3.21.1: Liste steht nach dem Fenster ‚Tag‘ still, auch mit Tastatur (Korrektur R-7.3 aus P-51/5) – Prüfliste im CHANGELOG | prüfen |
+| P-53 | 1 | Reiselogbuch 3.21.2: Liste steht nach dem Fenster ‚Tag‘ wirklich still – tiefer erfassen, vorblättern, iPhone (Korrektur R-7.3 aus P-52/2–4) – Prüfliste im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-94 | **Korrektur R-7.3 gebaut (P-52/2–4):** oben bleibt derselbe Tag – auch nach ‹ ›; neue feste Prüfung `tests/ablauf-liste-still.mjs` (deine Abläufe, Safari-Tastatur einzeln und zusammen); Fassung 4.23.2 | Reiselogbuch 3.21.2 | 18.10.2026 |
+| E-93 | Geprüft: P-52/0–1 in Ordnung; **P-52/2–4 nicht ok** (Liste rückt nach dem Erfassen eines tieferen Tages bzw. nach ‹ › weg, iPad und iPhone) → Korrektur 3.21.2 | Reiselogbuch 3.21.1 | 18.10.2026 |
 | E-92 | **Korrektur R-7.3 gebaut (P-51/5):** oberste Zeile beim Öffnen des Fensters ‚Tag‘ merken und danach genau dort ausrichten; gerollt wird nur nach ‹ ›; Fassung 4.23.1 | Reiselogbuch 3.21.1 | 18.10.2026 |
 | E-91 | Geprüft: P-51/0–4 in Ordnung; **P-51/5 nicht ok** (Liste rückt nach dem Fenster ‚Tag‘ 1–3 Zeilen hoch, auch mit x, sobald die Tastatur offen war) → Korrektur 3.21.1 | Reiselogbuch 3.21.0 | 18.10.2026 |
 | E-90 | **T-92 gebaut:** Suche über alle Reiselogbücher in Startliste/Seitenleiste (Lupe, Filter, ‚N Treffer‘, Öffnen mit gefüllter Suche, beide Suchfelder 1:1); Fassung 4.23.0 | Reiselogbuch 3.21.0 | 17.10.2026 |

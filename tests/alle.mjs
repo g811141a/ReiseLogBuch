@@ -3,8 +3,8 @@
 // Aufruf im Repo-Ordner: node tests/alle.mjs [--alle] [--browser chromium] [--nur hig,tastatur] [--abdeckung]
 // pixelvergleich.mjs läuft nicht mit (braucht _alt.html, Handwerkzeug).
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.23.1/tests/lauf.mjs';
-const tests = ['doku-regeln', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-fenster', 'ablauf-suche-tabelle', 'ablauf-suche-liste', 'tastatur',
+import { lauf } from '../../AppDesign/fassung/4.23.2/tests/lauf.mjs';
+const tests = ['doku-regeln', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-fenster', 'ablauf-suche-tabelle', 'ablauf-suche-liste', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-abgleich-faelle', 'ablauf-seitenleiste-position', 'ablauf-gesamt',
   'ablauf-iphone', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'link-name', 'kapsel-iphone', 'oeffnen-position',
   // Die zwei langen Prüfungen geteilt (B-5): hig nach Darstellung (der Gerätevergleich R-1.1 bleibt je Teil vollständig),
