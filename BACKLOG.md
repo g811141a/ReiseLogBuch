@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 17.10.2026** · Aktuelle Version: Reiselogbuch 3.21.0 · AppDesign 4.23.0
+**Stand 18.10.2026** · Aktuelle Version: Reiselogbuch 3.21.1 · AppDesign 4.23.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,12 +30,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-51 | 1 | Reiselogbuch 3.21.0: Suche über alle Reiselogbücher (T-92, R-2.3) – Prüfliste im CHANGELOG | prüfen |
+| P-52 | 1 | Reiselogbuch 3.21.1: Liste steht nach dem Fenster ‚Tag‘ still, auch mit Tastatur (Korrektur R-7.3 aus P-51/5) – Prüfliste im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| T-93 | 1 | Suche mit mehreren Begriffen (UND) – allgemein als AppDesign A-21 (R-2.3); Lupe am Ende der Kapsel – AppDesign A-22 | AppDesign | in Klärung |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -50,6 +51,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-92 | **Korrektur R-7.3 gebaut (P-51/5):** oberste Zeile beim Öffnen des Fensters ‚Tag‘ merken und danach genau dort ausrichten; gerollt wird nur nach ‹ ›; Fassung 4.23.1 | Reiselogbuch 3.21.1 | 18.10.2026 |
+| E-91 | Geprüft: P-51/0–4 in Ordnung; **P-51/5 nicht ok** (Liste rückt nach dem Fenster ‚Tag‘ 1–3 Zeilen hoch, auch mit x, sobald die Tastatur offen war) → Korrektur 3.21.1 | Reiselogbuch 3.21.0 | 18.10.2026 |
 | E-90 | **T-92 gebaut:** Suche über alle Reiselogbücher in Startliste/Seitenleiste (Lupe, Filter, ‚N Treffer‘, Öffnen mit gefüllter Suche, beide Suchfelder 1:1); Fassung 4.23.0 | Reiselogbuch 3.21.0 | 17.10.2026 |
 | E-89 | **T-91 verworfen (Nutzer, 17.10.2026):** Tastatur im Fenster ‚Tag‘ – Mitfahren beim ersten Hochfahren kommt von Safari; Messungen in AppDesign-Sitzung 0010, Messseiten entfernt (AppDesign E-42) | – | 17.10.2026 |
 | E-88 | Geprüft: P-49 alles in Ordnung (Drehen am Ende der Seite); **T-89 und T-90 damit abgeschlossen** | Reiselogbuch 3.20.1 | 17.10.2026 |
