@@ -30,12 +30,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-53 | 1 | Reiselogbuch 3.21.2: Liste steht nach dem Fenster ‚Tag‘ wirklich still – tiefer erfassen, vorblättern, iPhone (Korrektur R-7.3 aus P-52/2–4) – Prüfliste im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| T-94 | 1 | **Verlauf im Fenster ‚Tag‘ (Nutzer 18.10.2026):** nach ‚Freetour …‘ zwei Schaltflächen – **‚Tour …‘** wie die anderen (setzt ‚Tour ‘ ins Programm); **‚Sonstiges …‘** fügt im Feld Programm nur am Ende eine neue Zeile ein und setzt den Cursor dorthin. Fall-Liste und Muster folgen | Reiselogbuch | in Klärung |
 | T-93 | 1 | Suche mit mehreren Begriffen (UND) – allgemein als AppDesign A-21 (R-2.3); Lupe am Ende der Kapsel – AppDesign A-22 | AppDesign | in Klärung |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
@@ -51,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-95 | Geprüft: P-53 alles in Ordnung (Liste steht still: tiefer erfassen, vorblättern, iPhone, Wischen frei); **T-92 damit abgeschlossen** | Reiselogbuch 3.21.2 | 18.10.2026 |
 | E-94 | **Korrektur R-7.3 gebaut (P-52/2–4):** oben bleibt derselbe Tag – auch nach ‹ ›; neue feste Prüfung `tests/ablauf-liste-still.mjs` (deine Abläufe, Safari-Tastatur einzeln und zusammen); Fassung 4.23.2 | Reiselogbuch 3.21.2 | 18.10.2026 |
 | E-93 | Geprüft: P-52/0–1 in Ordnung; **P-52/2–4 nicht ok** (Liste rückt nach dem Erfassen eines tieferen Tages bzw. nach ‹ › weg, iPad und iPhone) → Korrektur 3.21.2 | Reiselogbuch 3.21.1 | 18.10.2026 |
 | E-92 | **Korrektur R-7.3 gebaut (P-51/5):** oberste Zeile beim Öffnen des Fensters ‚Tag‘ merken und danach genau dort ausrichten; gerollt wird nur nach ‹ ›; Fassung 4.23.1 | Reiselogbuch 3.21.1 | 18.10.2026 |
