@@ -13,6 +13,53 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.22.0 – 18.10.2026
+
+Reiselogbuch 3.22.0 · AppDesign 4.24.0 (Designrichtlinie allgemein 4.24.0) · Designrichtlinie Reiselogbuch 3.22.0 · Zusammenarbeit allgemein 2.9.0
+
+Zwei Wünsche vom 18.10.2026: der erfasste Tag fällt nach dem Fenster deutlicher auf, und im Verlauf gibt es zwei neue Vorschläge.
+
+- **Hervorhebung länger (allgemein, AppDesign 4.24.0, A-23):** nach dem Fenster ‚Tag‘ bleibt die Zeile bzw. der Kasten **2 s voll
+  blau** und blendet in 1 s aus (vorher ~1 s); ‚Bewegung reduzieren‘: 2 s ohne Ausblenden; öffnest du gleich den nächsten Tag,
+  endet sie sofort.
+- **Verlauf im Fenster ‚Tag‘ (T-94):** nach ‚Freetour …‘ neu **‚Tour …‘** (wie die anderen: ‚Tour ‘ als eigene Zeile an der
+  Cursorstelle, danach groß weiter) und **‚Sonstiges …‘**: fügt **am Anfang** des Felds eine leere Zeile ein und setzt den
+  Cursor dorthin – ist die erste Zeile schon leer, keine zweite. Die Vorschläge brechen wie bisher um (Variante 1).
+- **Neue feste Prüfung `tests/verlauf-vorschlaege.mjs`** (Fall-Liste V1–V13): Reihenfolge, Tour im leeren Feld und mitten im Text,
+  Sonstiges leer / mit Text / erste Zeile leer / Cursor mitten im Text / zweimal, danach groß weiter, Feld wächst mit, Häkchen
+  blau; iPad quer und hoch, iPhone hoch und quer, hell und dunkel. Gegenprobe mit 3.21.2: rot. `ablauf-liste-still` prüft jetzt
+  auch Farbe und Dauer der Hervorhebung.
+- Feste Fassung AppDesign 4.24.0 (gehoben mit deinem Ja); Designrichtlinie Reiselogbuch 3.22.0 (Vorschläge im Verlauf).
+
+Prüfliste P-54 (Schritt für Schritt, Zusammenarbeit allgemein 2.9.0).
+
+**P-54/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.22.0 · erstellt am … · AppDesign 4.24.0‘.
+
+**P-54/1 – Hervorhebung (iPad quer und iPhone hoch)**
+1. Ein Reiselogbuch öffnen, einen Tag antippen, etwas ins Programm schreiben, Häkchen.
+2. Erwartet: die Zeile (iPhone: der Kasten) ist etwa 2 s deutlich blau und blendet dann in etwa 1 s aus; die Liste steht still.
+3. Dasselbe mit x (ohne Änderung). Erwartet: gleich.
+4. Gleich nach dem Schließen einen anderen Tag antippen. Erwartet: die alte Hervorhebung ist sofort weg.
+5. Frage an dich: fällt die Zeile jetzt deutlich genug auf, ohne zu stören?
+
+**P-54/2 – Tour … (iPad)**
+1. Einen Tag öffnen, im Schritt Verlauf ganz rechts nach ‚Freetour …‘ auf **‚Tour …‘** tippen, dann ‚wien‘ schreiben.
+2. Erwartet: neue Zeile ‚Tour Wien‘ (W groß).
+
+**P-54/3 – Sonstiges … (iPad und iPhone)**
+1. Im Verlauf stehen schon Zeilen; den Cursor irgendwo hineinsetzen, dann **‚Sonstiges …‘** tippen.
+2. Erwartet: oben im Feld eine neue leere Zeile, der Cursor blinkt darin, die Tastatur bleibt offen; der Text darunter ist
+   unverändert.
+3. ‚Sonstiges …‘ noch einmal tippen. Erwartet: keine zweite leere Zeile.
+4. Etwas schreiben (oder diktieren). Erwartet: steht in der ersten Zeile, groß begonnen; Häkchen ist blau.
+
+**P-54/4 – Aufbau der Vorschläge (iPad quer und hoch, iPhone hoch und quer, hell und dunkel)**
+1. Fenster ‚Tag‘ öffnen. Erwartet: sechs Vorschläge in der Reihenfolge Weiterfahrt nach … · Rundgang durch … · Besichtigung … ·
+   Freetour … · Tour … · Sonstiges …, umgebrochen, nichts abgeschnitten.
+
 ## 3.21.2 – 18.10.2026 (Korrektur)
 
 Reiselogbuch 3.21.2 · AppDesign 4.23.2 (Designrichtlinie allgemein 4.23.2) · Designrichtlinie Reiselogbuch 3.21.2 · Zusammenarbeit allgemein 2.8.0

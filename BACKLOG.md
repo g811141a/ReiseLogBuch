@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 18.10.2026** · Aktuelle Version: Reiselogbuch 3.21.2 · AppDesign 4.23.2
+**Stand 18.10.2026** · Aktuelle Version: Reiselogbuch 3.22.0 · AppDesign 4.24.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,13 +30,12 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| T-94 | 1 | Verlauf: ‚Tour …‘ und ‚Sonstiges …‘ (Leerzeile am Anfang); Hervorhebung länger (AppDesign A-23) – Prüfliste P-54 im CHANGELOG 3.22.0 | zu prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-94 | 1 | **Verlauf im Fenster ‚Tag‘ (Nutzer 18.10.2026):** nach ‚Freetour …‘ zwei Schaltflächen – **‚Tour …‘** wie die anderen (setzt ‚Tour ‘ ins Programm); **‚Sonstiges …‘** fügt im Feld Programm nur am Ende eine neue Zeile ein und setzt den Cursor dorthin. Fall-Liste und Muster folgen | Reiselogbuch | in Klärung |
 | T-93 | 1 | Suche mit mehreren Begriffen (UND) – allgemein als AppDesign A-21 (R-2.3); Lupe am Ende der Kapsel – AppDesign A-22 | AppDesign | in Klärung |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
@@ -52,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-96 | **T-94 gebaut:** Verlauf mit ‚Tour …‘ und ‚Sonstiges …‘ (leere erste Zeile, Cursor dorthin); Hervorhebung nach dem Fenster 2 s + 1 s (AppDesign A-23); neue Prüfung `tests/verlauf-vorschlaege.mjs`; Fassung 4.24.0 | Reiselogbuch 3.22.0 | 18.10.2026 |
 | E-95 | Geprüft: P-53 alles in Ordnung (Liste steht still: tiefer erfassen, vorblättern, iPhone, Wischen frei); **T-92 damit abgeschlossen** | Reiselogbuch 3.21.2 | 18.10.2026 |
 | E-94 | **Korrektur R-7.3 gebaut (P-52/2–4):** oben bleibt derselbe Tag – auch nach ‹ ›; neue feste Prüfung `tests/ablauf-liste-still.mjs` (deine Abläufe, Safari-Tastatur einzeln und zusammen); Fassung 4.23.2 | Reiselogbuch 3.21.2 | 18.10.2026 |
 | E-93 | Geprüft: P-52/0–1 in Ordnung; **P-52/2–4 nicht ok** (Liste rückt nach dem Erfassen eines tieferen Tages bzw. nach ‹ › weg, iPad und iPhone) → Korrektur 3.21.2 | Reiselogbuch 3.21.1 | 18.10.2026 |

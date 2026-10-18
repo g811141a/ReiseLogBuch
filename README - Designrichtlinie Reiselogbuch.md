@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.21.2** · Stand 18.10.2026
+**Version 3.22.0** · Stand 18.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.23.2)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.24.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -101,7 +101,8 @@ Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinke
 - Diktieren und Großbuchstaben nach R-5.2, Hinweis zum Diktieren unten im Fenster; groß wird auch der erste Buchstabe nach
   einem Smiley.
 - Verlauf: Vorschläge als Chips zum Antippen („Weiterfahrt nach …“, „Rundgang durch …“,
-  „Besichtigung …“, „Freetour …“); „…“ ist nur Platzhalter und wird nicht übernommen.
+  „Besichtigung …“, „Freetour …“, „Tour …“, „Sonstiges …“); „…“ ist nur Platzhalter und wird nicht übernommen.
+  „Sonstiges …“ (seit 3.22.0) schreibt keinen Text, sondern setzt eine leere erste Zeile und den Cursor dorthin.
 - Smiley-Leisten bei „Wie war was?“, „Essen und Trinken“ (eigener Satz:
   🕗 🕙 🕛 🕒 🕕 😋 👌 👍 😕 🤮 👎 ⭐️ 🍕 🍔 🥩 🍷 🍺 ☕️) und im Fazit.
 - Quartier: Kopfzeile „Quartier wie Vortag“ (nicht am ersten Tag) und
@@ -169,6 +170,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.22.0 | 18.10.2026 | Neben | Verlauf: Vorschläge ‚Tour …‘ und ‚Sonstiges …‘ (leere erste Zeile, T-94); angepasst an allgemein 4.24.0 (R-7.3 Hervorhebung 2 s + 1 s) |
 | 3.21.2 | 18.10.2026 | Korrektur | Angepasst an allgemein 4.23.2 (R-7.3 Liste steht still – auch nach ‹ ›, P-52/2–4); keine eigene Abweichung |
 | 3.21.1 | 18.10.2026 | Korrektur | Angepasst an allgemein 4.23.1 (R-7.3 Liste steht still, auch mit Tastatur – P-51/5); keine eigene Abweichung |
 | 3.21.0 | 17.10.2026 | Neben | Angepasst an allgemein 4.23.0 (R-2.3 Suche in der zentralen Liste, T-92 / A-19); keine eigene Änderung |
