@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| T-94 | 1 | Verlauf: ‚Tour …‘ und ‚Sonstiges …‘ (Leerzeile am Anfang); Hervorhebung länger (AppDesign A-23) – Prüfliste P-54 im CHANGELOG 3.22.0 | zu prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-97 | Geprüft: P-54 alles in Ordnung (Hervorhebung, ‚Tour …‘, ‚Sonstiges …‘, Aufbau der Vorschläge); **T-94 damit abgeschlossen** | Reiselogbuch 3.22.0 | 18.10.2026 |
 | E-96 | **T-94 gebaut:** Verlauf mit ‚Tour …‘ und ‚Sonstiges …‘ (leere erste Zeile, Cursor dorthin); Hervorhebung nach dem Fenster 2 s + 1 s (AppDesign A-23); neue Prüfung `tests/verlauf-vorschlaege.mjs`; Fassung 4.24.0 | Reiselogbuch 3.22.0 | 18.10.2026 |
 | E-95 | Geprüft: P-53 alles in Ordnung (Liste steht still: tiefer erfassen, vorblättern, iPhone, Wischen frei); **T-92 damit abgeschlossen** | Reiselogbuch 3.21.2 | 18.10.2026 |
 | E-94 | **Korrektur R-7.3 gebaut (P-52/2–4):** oben bleibt derselbe Tag – auch nach ‹ ›; neue feste Prüfung `tests/ablauf-liste-still.mjs` (deine Abläufe, Safari-Tastatur einzeln und zusammen); Fassung 4.23.2 | Reiselogbuch 3.21.2 | 18.10.2026 |
