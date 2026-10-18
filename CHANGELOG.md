@@ -13,6 +13,46 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.21.1 – 18.10.2026 (Korrektur)
+
+Reiselogbuch 3.21.1 · AppDesign 4.23.1 (Designrichtlinie allgemein 4.23.1) · Designrichtlinie Reiselogbuch 3.21.1 · Zusammenarbeit allgemein 2.8.0
+
+Korrektur aus P-51/5 (allgemein in AppDesign 4.23.1, R-7.3).
+
+- **Liste steht still, auch mit Tastatur:** nach dem Fenster ‚Tag‘ rückte die Tabelle bzw. die Tageskästen 1–3 Zeilen nach
+  oben (Häkchen und x, sobald die Tastatur offen war). Jetzt merkt sich die App beim Öffnen die oberste Zeile samt Abstand
+  und richtet sie nach dem Schließen genau dort aus (Wunsch des Nutzers); gerollt wird nur, wenn im Fenster mit ‹ › auf einen
+  anderen Tag geblättert wurde und er verdeckt ist.
+- **Warum die Prüfung es nicht sah:** sie bildete die Tastatur nur als Rollen der Seite nach, nicht den kleineren sichtbaren
+  Bereich, und nahm nur Zeilen oben. Jetzt mit nachgebildeter Tastatur und Zeilen aus der unteren Hälfte; Gegenprobe rot.
+- Feste Fassung AppDesign 4.23.1 (Korrektur, mit Zustimmung); Designrichtlinie Reiselogbuch 3.21.1 (nur Version).
+
+Prüfliste P-52 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
+
+**P-52/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.21.1 · erstellt am … · AppDesign 4.23.1‘.
+
+**P-52/1 – Liste steht still, Zeile oben (iPad quer)**
+1. In einem Reiselogbuch die Tabelle in die Mitte rollen und sich die oberste Zeile unter dem Tabellenkopf merken.
+2. Eine Zeile im oberen Drittel antippen, im Programm etwas ergänzen (Tastatur geht auf), Häkchen.
+3. Erwartet: die Tabelle steht genau wie vorher – dieselbe Zeile oben, kein Ruck; die angetippte Zeile wird kurz blau hinterlegt.
+
+**P-52/2 – Zeile in der unteren Hälfte (iPad quer)**
+1. Eine Zeile in der unteren Hälfte antippen, ins Programm tippen (Tastatur geht auf), Häkchen.
+2. Erwartet: wie P-52/1 – dieselbe Zeile oben, nichts rückt hoch.
+3. Noch einmal eine Zeile unten antippen, ins Programm tippen, dann mit x schließen (Änderung verwerfen).
+4. Erwartet: die Tabelle steht genau wie vorher.
+
+**P-52/3 – Blättern mit ‹ ›**
+1. Eine Zeile unten antippen, im Fenster mehrmals ‹ › (nächster Tag) tippen, bis der Tag unter dem unteren Rand läge, Häkchen.
+2. Erwartet: die Tabelle rollt nur so weit, bis der zuletzt gezeigte Tag ganz sichtbar ist, und hebt ihn kurz blau hervor.
+
+**P-52/4 – iPhone**
+1. Wie P-52/1 und P-52/2 mit den Tageskästen (hoch und quer).
+2. Erwartet: die Kästen stehen nach dem Schließen genau wie vorher, auch wenn der angetippte Kasten unten nur halb zu sehen war.
+
 ## 3.21.0 – 17.10.2026 (Neben)
 
 Reiselogbuch 3.21.0 · AppDesign 4.23.0 (Designrichtlinie allgemein 4.23.0) · Designrichtlinie Reiselogbuch 3.21.0 · Zusammenarbeit allgemein 2.8.0
