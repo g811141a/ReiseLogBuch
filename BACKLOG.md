@@ -22,21 +22,21 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts bereit | – | – |
+| T-96 | 1 | **Korrektur aus P-58/2 (AppDesign A-33):** am iPhone quer mit offener Tastatur verdeckt die Kapsel ‚Nach oben / Ans Ende‘ ⌄ der Suche. Weg A (Nutzer 19.10.2026): die Kapsel erscheint nur, wenn sie ganz in den Inhalt passt; allgemeine Regel R-3.2. **Ja zum Bau** als Reiselogbuch 3.25.1 mit AppDesign 4.27.1 | allgemein | 19.10.2026 |
 
-**0 Punkte bereit** · gebaut wird erst nach „Ja“
+**1 Punkt bereit (Ja liegt vor)** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-58 | 1 | **Reiselogbuch 3.25.0 am Gerät prüfen** (Prüfliste im CHANGELOG): nur der Inhalt rollt (AppDesign A-28, B1) – Zittern beim Tippen nach ⓧ (hoch und quer), Wischen, Nach oben / Ans Ende über der Tastatur, Liste steht still, Drucken, neue Messung; Lupe und ⓧ rollen nach oben (A-29); damit T-95 (1) | prüfen |
+| – | – | zurzeit nichts zu prüfen (P-59 kommt mit 3.25.1) | – |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-95 | 1 | **3.25.0 gebaut (Umbau B, in der Nachbildung behoben) – am Gerät zu bestätigen mit P-58.** Nutzer 18.10.2026: (1) Zittern beim Suchen am iPhone – P-56/1, /2 nicht ok; Entscheidung 19.10.2026: Suche bleibt oben, Umbau B (nur der Inhalt rollt) mit Messung vorher (AppDesign A-24, A-27, A-28); **Messmodus in 3.24.0, P-57 gemessen: Ursache Hin und Her beim Rollen zum Treffer – weiter mit Umbau B (A-28)**; Suche öffnen und ⓧ → ganz nach oben (A-29); (2) Markierung als Kreis – **ok (P-56/4)**; (3) Datumsfeld: Tag antippen übernimmt und schließt (A-26, allgemeine Regel) | AppDesign | in Arbeit |
+| T-95 | 1 | Nutzer 18.10.2026: (1) Zittern beim Suchen – **erledigt** (3.25.0, P-58); (2) Markierung als Kreis – **erledigt** (P-56/4); (3) **offen:** Datumsfeld – Tag antippen übernimmt und schließt (AppDesign A-26, allgemeine Regel) | AppDesign | offen |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-105 | Geprüft P-58: /0, /1, /3–/6 ok – **Zittern beim Suchen am iPhone weg, T-95 (1) abgeschlossen** (Messung: Seite rollt nie, Kopf- und Suchzeile stehen in jeder Zeile still); /2 nicht ok (Kapsel verdeckt quer mit Tastatur ⌄) → T-96 | Reiselogbuch 3.25.0 | 19.10.2026 |
 | E-104 | **Umbau B gebaut (T-95 (1), AppDesign A-28 B1 und A-29):** nur der Inhalt rollt (Rollbereich unter Kopf- und Suchzeile, endet über der Tastatur), Lupe und ⓧ rollen nach oben, Nach oben / Ans Ende im Inhalt; `ablauf-suche-iphone.mjs` grün (vorher rot), neue Prüfungen in `regeln-ablauf.mjs` (Suche nach oben, Kapsel, Drucken); Fassung 4.27.0. T-95 (1) wartet auf P-58 | Reiselogbuch 3.25.0 | 19.10.2026 |
 | E-103 | Geprüft P-57: alles ok (Messungen iPhone hoch und quer, iPad); Ursache des Zitterns gemessen (Hin und Her beim Rollen zum Treffer, AppDesign `arbeit/A-27 Auswertung P-57.md`); weiter mit Umbau B (A-28) | Reiselogbuch 3.24.0 | 19.10.2026 |
 | E-102 | **Messmodus gebaut (T-95 (1), AppDesign A-27):** ‚Messung starten‘ / ‚Messung beenden und teilen‘ im Mehr-Menü der Seitenleiste; neue feste Prüfung `tests/ablauf-messung.mjs`; Fassung 4.26.0 | Reiselogbuch 3.24.0 | 19.10.2026 |
