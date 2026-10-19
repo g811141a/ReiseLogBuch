@@ -30,13 +30,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| T-95 | 1 | (1) Kopf- und Suchzeile stehen beim Tippen am iPhone fest, (2) Markierung in Kapseln als Kreis (AppDesign A-24, A-25) – Prüfliste P-56 im CHANGELOG 3.23.1 | zu prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-95 | 1 | Nutzer 18.10.2026: (1) und (2) gebaut in 3.23.1 (oben, P-56); (3) Datumsfeld: Tag antippen übernimmt und schließt (A-26, allgemeine Regel) | AppDesign | in Klärung |
+| T-95 | 1 | Nutzer 18.10.2026: (1) Zittern beim Suchen am iPhone – P-56/1, /2 nicht ok; Entscheidung 19.10.2026: Suche bleibt oben, Umbau B (nur der Inhalt rollt) mit Messung vorher (AppDesign A-24, A-27, A-28); Suche öffnen und ⓧ → ganz nach oben (A-29); (2) Markierung als Kreis – **ok (P-56/4)**; (3) Datumsfeld: Tag antippen übernimmt und schließt (A-26, allgemeine Regel) | AppDesign | in Arbeit |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-101 | Geprüft P-56: /0, /3, /4 ok (Markierung als Kreis, iPad unverändert, ein Backup); /1, /2 nicht ok → T-95 (1) offen | Reiselogbuch 3.23.1 | 19.10.2026 |
 | E-100 | **T-95 (1) und (2) gebaut:** Suchfeld bleibt beim Tippen (Kopf- und Suchzeile zittern am iPhone nicht mehr), Markierung in Kapseln als Kreis 36 × 36; neue feste Prüfung `tests/ablauf-suche-iphone.mjs` (rot gegen 3.23.0); Fassung 4.25.1 | Reiselogbuch 3.23.1 | 19.10.2026 |
 | E-99 | Geprüft: P-55 alles in Ordnung; **T-93 damit abgeschlossen** | Reiselogbuch 3.23.0 | 18.10.2026 |
 | E-98 | **T-93 gebaut:** Suche mit mehreren Wörtern (alle irgendwo im Reiselogbuch, gezeigt die Tage mit einem Wort), „…“ als genaue Folge, Lupe am Ende der Kapsel [+ \| Lupe \| …]; neue Prüfung `tests/ablauf-suche-woerter.mjs`; Fassung 4.25.0 | Reiselogbuch 3.23.0 | 18.10.2026 |
