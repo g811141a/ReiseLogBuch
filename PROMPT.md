@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 19.10.2026, Version 3.24.0)
+# Reiselogbuch – Prompt (Stand 19.10.2026, Version 3.25.0)
 
-Reiselogbuch 3.24.0 · AppDesign 4.26.0 (Designrichtlinie allgemein 4.26.0) · Designrichtlinie Reiselogbuch 3.24.0 · Zusammenarbeit allgemein 2.11.0
+Reiselogbuch 3.25.0 · AppDesign 4.27.0 (Designrichtlinie allgemein 4.27.0) · Designrichtlinie Reiselogbuch 3.25.0 · Zusammenarbeit allgemein 2.11.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
