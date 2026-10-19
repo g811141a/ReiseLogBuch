@@ -1,8 +1,8 @@
 // Allgemeine Prüfung der Kontextmenüs (AppDesign/tests/kontextmenue.mjs, R-4.2) – verschiedene Listenlängen, iPad und iPhone.
 // Aufruf im Repo-Ordner: node tests/kontextmenue-regeln.mjs. Meldet Fehler mit Rückgabewert (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.27.0/tests/pruefe.mjs';
-import { checkContextMenus } from '../../AppDesign/fassung/4.27.0/tests/kontextmenue.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.27.1/tests/pruefe.mjs';
+import { checkContextMenus } from '../../AppDesign/fassung/4.27.1/tests/kontextmenue.mjs';
 const t = pruefung('kontextmenue-regeln', pw, { out: new URL('out/', import.meta.url) });
 const b = await t.browser();
 // Teilbar nach Gerät (Lauf-Werkzeug, Fall-Liste A-05 B-5): PRUEF_GERAET=iPad oder iPhone, ohne Angabe beide.
