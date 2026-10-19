@@ -1,6 +1,6 @@
 # Reiselogbuch – Prompt (Stand 19.10.2026, Version 3.25.0)
 
-Reiselogbuch 3.25.0 · AppDesign 4.27.0 (Designrichtlinie allgemein 4.27.0) · Designrichtlinie Reiselogbuch 3.25.0 · Zusammenarbeit allgemein 2.11.0
+Reiselogbuch 3.25.0 · AppDesign 4.27.0 (Designrichtlinie allgemein 4.27.0) · Designrichtlinie Reiselogbuch 3.25.0 · Zusammenarbeit allgemein 2.12.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -301,7 +301,8 @@ HAUPTANSICHT (TABELLE)
   (iPhone: die Kachel direkt unter der Leiste). Sind alle Tage erfasst, beginnt die
   Tabelle ganz oben ohne Markierung. Seitenleiste ein/aus: der oberste Tag bleibt stehen (R-8.1).
 - Die Kopfzeile bleibt beim Scrollen stehen, der Tabellenkopf direkt
-  darunter. In der Tabelle wird zwischen ganzen Wörtern umgebrochen; ein zu langes Wort bricht im Wort um (R-6.3).
+  darunter. Seit 3.25.0 (AppDesign A-28, B1) rollt die Seite nie, nur der Inhalt unter Kopf- und Suchzeile; bei offener
+  Tastatur endet er über ihr. In der Tabelle wird zwischen ganzen Wörtern umgebrochen; ein zu langes Wort bricht im Wort um (R-6.3).
 - Unten rechts übereinander die Schaltflächen ⬆️ (nach oben) und ⬇️ (ans
   Ende), im gleichen Aussehen wie die Dunkel-Schaltfläche, ohne Schatten.
 - Filter im Mehr-Menü: "Alle Tage" bzw. "Nur erfasste Tage"; beim Öffnen
@@ -315,7 +316,7 @@ HAUPTANSICHT (TABELLE)
   und x zum Löschen; rechts daneben chevron-up / chevron-down zum vorigen bzw.
   nächsten Treffer (am Anfang/Ende ausgegraut, kein Umlauf). Der Treffer im
   Fokus ist hellorange und wird in die Bildmitte gescrollt; die Eingabetaste
-  springt weiter.
+  springt weiter. Seit 3.25.0 (A-29): Lupe (Suche öffnen) und x rollen den Inhalt ganz nach oben, der Cursor bleibt im Feld.
 - Aussehen im Apple-Look (siehe Designrichtlinie allgemein): Hintergrund
   Hellgrau, Kästen weiß ohne Rand, schwebende Schaltflächen mit 12 px Abstand;
   Akzentfarbe Apple-Blau: blau gefüllt = Hauptaktion, blau getönt mit Haarlinie
