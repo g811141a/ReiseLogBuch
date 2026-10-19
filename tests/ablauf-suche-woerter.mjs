@@ -5,9 +5,9 @@
 // zentrale Liste 1:1 (checkListSearch) und die Lupe am Ende der Kapsel (checkSearchPlace). iPad quer und hoch, iPhone hoch
 // und quer, hell und dunkel. Aufruf im Repo-Ordner: node tests/ablauf-suche-woerter.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.25.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.25.1/tests/hig.mjs';
-import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace } from '../../AppDesign/fassung/4.25.1/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.26.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.26.0/tests/hig.mjs';
+import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace } from '../../AppDesign/fassung/4.26.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-woerter', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const trip = (id, start, list) => ({ id, title: id, participants: 'G & A', start, end: new Date(Date.parse(start) + (list.length - 1) * 864e5).toISOString().slice(0, 10),
   transport: ['flug'], foodColumn: true, moodColumn: false, quarterColumn: false,

@@ -13,6 +13,62 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.24.0 – 19.10.2026
+
+Reiselogbuch 3.24.0 · AppDesign 4.26.0 (Designrichtlinie allgemein 4.26.0) · Designrichtlinie Reiselogbuch 3.24.0 · Zusammenarbeit allgemein 2.11.0
+
+Messmodus (T-95 (1), allgemein AppDesign A-27): bevor wir die Suche am iPhone umbauen (A-28), misst die App auf deinem Gerät, was
+Safari beim Tippen wirklich tut – statt dass ich es wieder errate.
+
+- **Mehr-Menü der Seitenleiste bzw. Startliste:** nach ‚Backup laden‘ neu **‚Messung starten‘** (grau ‚Für Claude: Bewegungen
+  aufzeichnen‘). Während der Messung steht dort **‚Messung beenden und teilen‘** mit ‚läuft · Minuten:Sekunden · Zeilen‘. Beenden
+  öffnet das Teilen-Menü mit der Datei `messung-JJJJ-MM-TT-hhmm.txt`; brichst du ab, bleibt die Messung und kann noch einmal geteilt
+  werden.
+- **Was aufgezeichnet wird:** in jedem Bild, in dem sich etwas ändert, eine Zeile – Scrollstand, Seitenhöhe, Fensterhöhe, sichtbarer
+  Bereich über der Tastatur (Höhe und Verschiebung), Lage von Kopf- und Suchzeile (Reiselogbuch und Liste), erster Tag, Rollstand der
+  Liste, Fokus, hoch/quer; dazu jedes Ereignis (Fokus, Eingabe, Tippen, Rollen, Drehen, Neuaufbau). **Keine Texte:** von der Suche nur
+  die Zahl der Buchstaben, keine Reisedaten.
+- **Grenzen:** sonst ist der Messmodus ganz aus; er endet von selbst nach 5 Minuten bzw. 20 000 Zeilen; nichts wird gespeichert –
+  neu laden verwirft die Messung.
+- **Neue feste Prüfung `tests/ablauf-messung.mjs`:** iPad quer, iPhone hoch (dunkel) und quer, viele Tage und leere App – Start, Menü,
+  keine Zeilen in Ruhe, Ereignisse, Werte wie auf der Seite, keine Texte (‚Rom‘, Reisetitel), Grenze, Datei, Neuladen. Gegenprobe:
+  mit Texten in der Datei bzw. Zeilen in Ruhe rot.
+- Intern: feste Fassung AppDesign 4.26.0 (gehoben mit deinem Ja); Designrichtlinie Reiselogbuch 3.24.0.
+
+Prüfliste P-57 (Schritt für Schritt, Zusammenarbeit allgemein 2.11.0).
+
+**P-57/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.24.0 · erstellt am … · AppDesign 4.26.0‘; darüber ‚Messung starten‘ mit grauer
+   Zeile ‚Für Claude: Bewegungen aufzeichnen‘.
+
+**P-57/1 – Messung am iPhone hoch (vom Home-Bildschirm)**
+1. In der Startliste ‚…‘ → ‚Messung starten‘.
+2. Ein langes Reiselogbuch öffnen, bis etwa in die Mitte rollen, Lupe tippen.
+3. Langsam 3–4 Buchstaben eines Worts tippen, das mehrmals vorkommt; kurz warten.
+4. ⓧ tippen, dann wieder 3–4 Buchstaben tippen (hier zitterte es bisher am stärksten).
+5. Mit ⌃ ⌄ einmal weiterspringen, dann die Suche schließen.
+6. Zurück zur Startliste, Lupe tippen, 3 Buchstaben tippen, ⓧ, 2 Buchstaben.
+7. ‚…‘ → ‚Messung beenden und teilen‘ → im Teilen-Menü die Claude-App wählen (bzw. ‚In Dateien sichern‘ und die Datei im Chat
+   anhängen).
+8. Erwartet: das Teilen-Menü zeigt `messung-….txt`; die App verhält sich während der Messung genau wie sonst.
+
+**P-57/2 – Messung am iPhone quer**
+1. iPhone quer drehen und P-57/1 Schritte 1–7 noch einmal (eigene Datei).
+2. Erwartet: wie P-57/1.
+
+**P-57/3 – Vergleich am iPad (Bildschirmtastatur)**
+1. iPad quer: Seitenleiste ‚…‘ → ‚Messung starten‘.
+2. Reiselogbuch öffnen, Lupe, 3–4 Buchstaben, ⓧ, 3–4 Buchstaben; Seitenleiste: Lupe, 3 Buchstaben, ⓧ.
+3. ‚…‘ → ‚Messung beenden und teilen‘ → in den Chat.
+4. Erwartet: wie P-57/1.
+
+**P-57/4 – Abbrechen und Neuladen**
+1. Messung starten, kurz rollen, ‚Messung beenden und teilen‘, im Teilen-Menü abbrechen.
+2. ‚…‘ öffnen. Erwartet: ‚Messung beenden und teilen‘ mit ‚beendet · …‘ – noch einmal teilen geht.
+3. Messung starten, App ganz schließen und neu öffnen, ‚…‘ öffnen. Erwartet: wieder ‚Messung starten‘.
+
 ## 3.23.1 – 19.10.2026 (Korrektur)
 
 Reiselogbuch 3.23.1 · AppDesign 4.25.1 (Designrichtlinie allgemein 4.25.1) · Designrichtlinie Reiselogbuch 3.23.1 · Zusammenarbeit allgemein 2.10.1

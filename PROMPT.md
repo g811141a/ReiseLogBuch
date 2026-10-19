@@ -1,6 +1,6 @@
-# Reiselogbuch – Prompt (Stand 19.10.2026, Version 3.23.1)
+# Reiselogbuch – Prompt (Stand 19.10.2026, Version 3.24.0)
 
-Reiselogbuch 3.23.1 · AppDesign 4.25.1 (Designrichtlinie allgemein 4.25.1) · Designrichtlinie Reiselogbuch 3.23.1 · Zusammenarbeit allgemein 2.10.1
+Reiselogbuch 3.24.0 · AppDesign 4.26.0 (Designrichtlinie allgemein 4.26.0) · Designrichtlinie Reiselogbuch 3.24.0 · Zusammenarbeit allgemein 2.11.0
 (Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
 `README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
 `CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
@@ -55,6 +55,9 @@ RAHMEN
     Kopfzeile.
   - plus öffnet "Neues Reiselogbuch". ellipsis der Seitenleiste: Backup
     erstellen (darunter grau "Letztes Backup erstellt am …") · Backup laden ·
+    Abstand · Messung starten (activity, darunter grau "Für Claude: Bewegungen
+    aufzeichnen"; während der Messung "Messung beenden und teilen" circle-stop mit
+    "läuft · m:ss · N Zeilen", AppDesign 15.21, seit 3.24.0) ·
     durchgehender Strich · darunter ohne Leerzeilen grau "Reiselogbuch · Version
     X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm" und "Die Daten bleiben in Safari
     gespeichert, solange das Reiselogbuch auf dem Home-Bildschirm nicht entfernt

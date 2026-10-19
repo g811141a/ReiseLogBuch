@@ -11,7 +11,7 @@
 // Verschiebung des sichtbaren Bereichs); dazu: das Suchfeld bleibt dasselbe Feld und behält den Fokus.
 // Aufruf im Repo-Ordner: node tests/ablauf-suche-iphone.mjs. Meldet Fehler (pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.25.1/tests/pruefe.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.26.0/tests/pruefe.mjs';
 const t = pruefung('ablauf-suche-iphone', pw, { out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 30 ? 'Fahrt nach Sydney' : i % 7 === 0 ? 'Bus nach Sydney' : 'Programm ' + i, comment: '😉 ok', quarter: 'Hotel', place: 'Ort' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, days }];

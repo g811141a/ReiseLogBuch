@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.25.1/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.26.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.25.1/ui.js"></script>
+<script src="../AppDesign/fassung/4.26.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.23.1';
-const APP_BUILT = '19.10.2026 um 01:21';
+const APP_VERSION = '3.24.0';
+const APP_BUILT = '19.10.2026 um 04:12';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.25.1';
+const AD_NEEDED = '4.26.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -1090,11 +1090,15 @@ function keepSideScroll() {
 }
 
 
-// Menü der Seitenleiste (iPhone: der Startliste): Backup und technische Informationen.
+// Menü der Seitenleiste (iPhone: der Startliste): Backup, Messmodus und technische Informationen.
 let importAnchor = '#sideMore'; // Schaltfläche, von der ‚Backup laden‘ kommt
 const backupMenuItems = sel => [
   ...backupMenuEntries({ last: db.settings.lastBackup, disabled: !db.trips.length, onSave: () => saveBackup(sel),
     onLoad: () => { importAnchor = sel; hold(sel); importFile.click(); } }),
+  // Messmodus (seit 3.24.0, AppDesign A-27): Kopf- und Suchzeile von Inhalt und Liste, erster Tag, Rollstand der Liste.
+  'sep',
+  ...messungMenuItems({ app: `Reiselogbuch ${APP_VERSION}`, teile: { kopf: '#bar', such: '#app .nb2', inh: '#app [data-day]', lkopf: '.side-head', lsuch: '.side-search' },
+    rollen: { lroll: '.side-list' } }),
   'line',
   { note: `Reiselogbuch · Version ${APP_VERSION} · erstellt am ${APP_BUILT} · AppDesign ${adLoaded().js}` },
   { note: storagePersistent ? `Die Daten bleiben in Safari gespeichert, solange das Reiselogbuch auf dem Home-Bildschirm nicht entfernt wird.`
