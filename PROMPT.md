@@ -167,7 +167,8 @@ RAHMEN
     schmal wie das Datum). ‚Gesamtausgaben‘ statt ‚Gesamtkosten‘. Am iPad bleibt die Seitenleiste beim Sprung zum ersten
     Treffer der Suche bei offener Tastatur an ihrem Platz (R-2.1).
   - Seit 3.19.0: Auch am iPhone steht im geöffneten Reiselogbuch unten rechts die Kapsel ‚Nach oben / Ans Ende‘
-    (nicht in der Startliste; ohne Scrollen ausgeblendet, R-3.2, AppDesign A-15).
+    (nicht in der Startliste; ohne Scrollen ausgeblendet, R-3.2, AppDesign A-15). Seit 3.25.1 (AppDesign A-33): sie überdeckt
+    nie Kopf- oder Suchzeile – passt sie nicht ganz in den Inhalt (iPhone quer mit offener Tastatur), ist sie ausgeblendet.
   - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
     Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
   - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen
