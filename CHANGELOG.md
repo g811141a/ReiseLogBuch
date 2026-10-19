@@ -13,6 +13,61 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.25.1 – 19.10.2026
+
+Reiselogbuch 3.25.1 · AppDesign 4.27.1 (Designrichtlinie allgemein 4.27.1) · Designrichtlinie Reiselogbuch 3.25.1 · Zusammenarbeit allgemein 2.12.0
+
+Korrektur aus P-58/2 (T-96, AppDesign A-33, Weg A): Am iPhone quer mit offener Tastatur verdeckte die Kapsel ‚Nach oben / Ans Ende‘
+⌄ der Suche und ‚…‘ der Kopfzeile. Jetzt ist sie dort ausgeblendet und kommt nach dem Schließen der Tastatur wieder. In der
+Nachbildung behoben, **am Gerät zu bestätigen** (P-59).
+
+- **Kapsel ‚Nach oben / Ans Ende‘:** sie überdeckt nie Kopf- oder Suchzeile (allgemeine Regel R-3.2). Passt sie nicht ganz in den
+  sichtbaren Inhalt unter der Suchzeile, ist sie ausgeblendet – am iPhone quer mit offener Tastatur. Hoch steht sie wie bisher über
+  der Tastatur, am iPad ändert sich nichts.
+- **Inhalt bei offener Tastatur quer:** er endet jetzt über der Tastatur (vorher ragte er 55 px darunter). Der Platz unter dem
+  letzten Inhalt bleibt gleich.
+- **Prüfungen:** `kapsel-iphone.mjs` stellt den Ablauf aus P-58/2 nach (iPhone quer, Suche offen, Tastatur auf, 126 px sichtbar,
+  Safari-Modell) und prüft mit `checkFab` hoch und quer mit und ohne Suche: Kapsel schneidet keine Leiste, ⌃ ⌄ ⓧ und die
+  Kopfzeile sind frei, nach dem Schließen ist die Kapsel wieder da; dazu nach jedem Schritt die neue Grundregel ‚Kapsel schneidet
+  keine Leiste‘. Gegen 3.25.0 rot (18 Fehler), jetzt grün.
+- **Warum die Prüfung es übersehen hat:** sie prüfte nur, ob die Kapsel über der Tastatur endet – am iPhone hoch und am iPad, nie quer
+  und nie, ob sie dabei eine Leiste überdeckt.
+- Intern: feste Fassung AppDesign 4.27.1; Designrichtlinie Reiselogbuch 3.25.1.
+
+Prüfliste P-59 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: https://g811141a.github.io/ReiseLogBuch/
+
+**P-59/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
+   (Home-Bildschirm bzw. https://g811141a.github.io/ReiseLogBuch/).
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.25.1 · erstellt am … · AppDesign 4.27.1‘.
+
+**P-59/1 – iPhone quer: Suche mit offener Tastatur (Ablauf aus P-58/2)**
+1. iPhone quer drehen, ein langes Reiselogbuch öffnen. Erwartet: die Kapsel ‚Nach oben / Ans Ende‘ steht unten rechts.
+2. Lupe tippen, die Tastatur geht auf. Erwartet: die Kapsel ist weg; Kopfzeile (Teilen, Lupe, ‚…‘) und Suchzeile mit ⌃ ⌄ sind
+   frei, nichts liegt darüber.
+3. „Sydney“ (oder ein Wort, das mehrmals vorkommt) tippen, dann ⌄ und ⌃ tippen. Erwartet: ⌄ springt zum nächsten, ⌃ zum
+   vorigen Treffer; die Kapsel bleibt weg.
+4. ⓧ tippen. Erwartet: das Feld ist leer, der Cursor bleibt darin, die Kapsel bleibt weg.
+5. Die Tastatur schließen (auf der Tastatur ‚Suchen‘ tippen oder den Inhalt wischen). Erwartet: die Kapsel ist unten rechts
+   wieder da.
+6. ‚Ans Ende‘ und ‚Nach oben‘ tippen. Erwartet: der Inhalt rollt ganz nach unten bzw. ganz nach oben; unten ist der letzte Inhalt
+   ganz zu sehen, die Kapsel verdeckt ihn nicht.
+
+**P-59/2 – iPhone hoch: Suche mit offener Tastatur**
+1. iPhone hoch halten, ein langes Reiselogbuch öffnen, Lupe tippen (die Tastatur geht auf).
+2. Erwartet: die Kapsel steht rechts über der Tastatur, unter der Suchzeile; sie verdeckt weder Kopf- noch Suchzeile.
+3. ‚Ans Ende‘ tippen, dann ‚Nach oben‘. Erwartet: der Inhalt rollt ganz nach unten bzw. ganz nach oben, Kopf- und Suchzeile
+   bleiben stehen.
+4. Die Tastatur schließen. Erwartet: die Kapsel steht wieder unten rechts.
+
+**P-59/3 – iPad quer und hoch: unverändert**
+1. Ein langes Reiselogbuch öffnen. Erwartet: die Kapsel steht unten rechts.
+2. Lupe tippen (Tastatur auf, falls keine externe Tastatur angeschlossen ist). Erwartet: die Kapsel steht über der Tastatur und
+   verdeckt nichts.
+3. Die Tastatur schließen, ‚Ans Ende‘ tippen. Erwartet: der letzte Tag ist ganz zu sehen, darunter etwas Platz – wie bisher.
+4. iPad hoch drehen und Schritte 1–3 wiederholen. Erwartet: wie quer.
+
 ## 3.25.0 – 19.10.2026
 
 Reiselogbuch 3.25.0 · AppDesign 4.27.0 (Designrichtlinie allgemein 4.27.0) · Designrichtlinie Reiselogbuch 3.25.0 · Zusammenarbeit allgemein 2.12.0

@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 19.10.2026** · Aktuelle Version: Reiselogbuch 3.25.0 · AppDesign 4.27.0
+**Stand 19.10.2026** · Aktuelle Version: Reiselogbuch 3.25.1 · AppDesign 4.27.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,15 +22,15 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-96 | 1 | **Korrektur aus P-58/2 (AppDesign A-33):** am iPhone quer mit offener Tastatur verdeckt die Kapsel ‚Nach oben / Ans Ende‘ ⌄ der Suche. Weg A (Nutzer 19.10.2026): die Kapsel erscheint nur, wenn sie ganz in den Inhalt passt; allgemeine Regel R-3.2. **Ja zum Bau** als Reiselogbuch 3.25.1 mit AppDesign 4.27.1 | allgemein | 19.10.2026 |
+| – | – | zurzeit nichts gesammelt | – | – |
 
-**1 Punkt bereit (Ja liegt vor)** · gebaut wird erst nach „Ja“
+**Kein Punkt bereit** · gebaut wird erst nach „Ja“
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen (P-59 kommt mit 3.25.1) | – |
+| T-96 | 1 | **P-59** (Reiselogbuch 3.25.1): Kapsel ‚Nach oben / Ans Ende‘ am iPhone quer mit offener Tastatur ausgeblendet, ⌃ ⌄ frei; hoch über der Tastatur unter der Suchzeile; iPad unverändert | gebaut 3.25.1, am Gerät zu prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-106 | **T-96 gebaut (AppDesign A-33, Weg A):** die Kapsel ‚Nach oben / Ans Ende‘ überdeckt nie Kopf- oder Suchzeile, am iPhone quer mit offener Tastatur ausgeblendet; Inhalt endet quer über der Tastatur; `kapsel-iphone.mjs` mit dem Ablauf aus P-58/2 (gegen 3.25.0 rot, jetzt grün); Fassung 4.27.1. Wartet auf P-59 | Reiselogbuch 3.25.1 | 19.10.2026 |
 | E-105 | Geprüft P-58: /0, /1, /3–/6 ok – **Zittern beim Suchen am iPhone weg, T-95 (1) abgeschlossen** (Messung: Seite rollt nie, Kopf- und Suchzeile stehen in jeder Zeile still); /2 nicht ok (Kapsel verdeckt quer mit Tastatur ⌄) → T-96 | Reiselogbuch 3.25.0 | 19.10.2026 |
 | E-104 | **Umbau B gebaut (T-95 (1), AppDesign A-28 B1 und A-29):** nur der Inhalt rollt (Rollbereich unter Kopf- und Suchzeile, endet über der Tastatur), Lupe und ⓧ rollen nach oben, Nach oben / Ans Ende im Inhalt; `ablauf-suche-iphone.mjs` grün (vorher rot), neue Prüfungen in `regeln-ablauf.mjs` (Suche nach oben, Kapsel, Drucken); Fassung 4.27.0. T-95 (1) wartet auf P-58 | Reiselogbuch 3.25.0 | 19.10.2026 |
 | E-103 | Geprüft P-57: alles ok (Messungen iPhone hoch und quer, iPad); Ursache des Zitterns gemessen (Hin und Her beim Rollen zum Treffer, AppDesign `arbeit/A-27 Auswertung P-57.md`); weiter mit Umbau B (A-28) | Reiselogbuch 3.24.0 | 19.10.2026 |
