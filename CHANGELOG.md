@@ -13,6 +13,67 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.26.0 – 20.10.2026
+
+Reiselogbuch 3.26.0 · AppDesign 4.28.0 (Designrichtlinie allgemein 4.28.0) · Designrichtlinie Reiselogbuch 3.26.0 · Zusammenarbeit allgemein 2.14.1
+
+Fehler aus deiner Messung iPhone quer vom 19.10.2026 (T-97, AppDesign A-35): Beim Antippen von Gesamtausgaben verdeckte die
+Tastatur das Feld. Jetzt rollt der Inhalt, bis das Feld ganz sichtbar über der Tastatur steht. Dazu spielt eine neue Prüfung deine
+Messung nach (AppDesign A-31). In der Nachbildung behoben, **am Gerät zu bestätigen** (P-60).
+
+- **Gesamtausgaben über der Tastatur:** Tippst du in das Feld Gesamtausgaben (ganz unten im Reiselogbuch), rollt der Inhalt, bis
+  es 16 px über der Tastatur steht – am iPhone hoch und quer und am iPad (allgemeine Regel R-4.5). Ist die Suchzeile offen und das
+  iPhone quer, bleibt dafür zu wenig Platz: dann steht das Feld direkt unter der Suchzeile, ganz sichtbar.
+- **Prüfungen:** `ablauf-feld-tastatur.mjs` stellt den Ablauf der Messung nach (‚Ans Ende‘, Feld am unteren Rand antippen,
+  Zifferntastatur, Safari-Modell) – gegen 3.25.1 rot, jetzt grün. `ablauf-abspielen.mjs` spielt die Messdatei selbst nach: Kopf-
+  und Suchzeile und Fokus wie am Gerät, nach dem Antippen Gesamtausgaben über der Tastatur; eine um 20 px verschobene Messung
+  wird rot (Gegenprobe).
+- **Warum die Prüfung es übersehen hat:** sie tippte Gesamtausgaben an, maß aber nicht, ob das Feld über der Tastatur zu sehen ist;
+  die Nachbildung von Safari kannte das Verschieben des sichtbaren Bereichs zum Feld nicht.
+- **Datumsfelder:** bleiben wie bisher (T-95 (3) entfällt, AppDesign A-26).
+- Intern: feste Fassung AppDesign 4.28.0; Designrichtlinie Reiselogbuch 3.26.0.
+
+Prüfliste P-60 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: https://g811141a.github.io/ReiseLogBuch/
+
+**P-60/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
+   (Home-Bildschirm bzw. https://g811141a.github.io/ReiseLogBuch/).
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.26.0 · erstellt am … · AppDesign 4.28.0‘.
+
+**P-60/1 – iPhone quer: Gesamtausgaben (Ablauf deiner Messung)**
+1. iPhone quer drehen, ein langes Reiselogbuch öffnen.
+2. ‚Ans Ende‘ (Kapsel unten rechts) tippen. Erwartet: unten stehen Fazit und das Feld Gesamtausgaben.
+3. In das Feld Gesamtausgaben tippen. Erwartet: die Zifferntastatur geht auf, das Feld steht ganz sichtbar knapp über der
+   Tastatur; die Kopfzeile bleibt oben stehen.
+4. Einen Betrag tippen, z. B. 4850. Erwartet: die Ziffern erscheinen im Feld, das Feld bleibt sichtbar.
+5. Die Tastatur schließen (Eingabetaste bzw. ‚Fertig‘). Erwartet: im Feld steht ‚4.850,00‘, das Feld ist zu sehen, die Kopfzeile
+   steht oben, nichts springt.
+
+**P-60/2 – iPhone quer mit offener Suche**
+1. Im selben Reiselogbuch die Lupe tippen und ein Wort tippen, das vorkommt (z. B. einen Ort); auf der Tastatur ‚Suchen‘ tippen.
+   Erwartet: die Tastatur geht zu, die Suchzeile bleibt offen.
+2. ‚Ans Ende‘ tippen, dann in das Feld Gesamtausgaben tippen. Erwartet: das Feld steht ganz sichtbar direkt unter der Suchzeile,
+   über der Tastatur (es ist wenig Platz); Kopf- und Suchzeile bleiben stehen.
+3. Die Tastatur schließen. Erwartet: Feld, Kopf- und Suchzeile sind zu sehen, nichts springt.
+
+**P-60/3 – iPhone hoch**
+1. iPhone hoch halten, ‚Ans Ende‘ tippen, in das Feld Gesamtausgaben tippen.
+2. Erwartet: das Feld steht ganz sichtbar über der Tastatur, die Kopfzeile bleibt oben.
+3. Die Tastatur schließen. Erwartet: das Feld ist zu sehen, nichts springt.
+
+**P-60/4 – iPad (quer und hoch, Bildschirmtastatur)**
+1. Ein langes Reiselogbuch öffnen, ‚Ans Ende‘ tippen, in das Feld Gesamtausgaben tippen.
+2. Erwartet: das Feld steht ganz sichtbar über der Tastatur (am iPad nur am Gerät prüfbar – keine Messung der Tastatur).
+3. Das iPad drehen und Schritt 1–2 wiederholen. Erwartet: ebenso.
+
+**P-60/5 – Fenster unverändert**
+1. Einen Tag öffnen und in das Feld ‚Ort‘ tippen.
+2. Erwartet: wie bisher – das Feld steht über der Tastatur, die Kopfzeile des Fensters (x, Titel, Häkchen) ist zu sehen.
+
+Ist etwas nicht ok: im Mehr-Menü ‚Messung starten‘, den Ablauf wiederholen, ‚Messung beenden und teilen‘ und die Datei im Chat
+schicken.
+
 ## 3.25.1 – 19.10.2026
 
 Reiselogbuch 3.25.1 · AppDesign 4.27.1 (Designrichtlinie allgemein 4.27.1) · Designrichtlinie Reiselogbuch 3.25.1 · Zusammenarbeit allgemein 2.12.0

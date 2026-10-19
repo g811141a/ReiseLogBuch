@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 19.10.2026** · Aktuelle Version: Reiselogbuch 3.25.1 · AppDesign 4.27.1
+**Stand 20.10.2026** · Aktuelle Version: Reiselogbuch 3.26.0 · AppDesign 4.28.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,13 +30,12 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| T-97 | 1 | **Gesamtausgaben über der Tastatur (AppDesign A-35, Messung iPhone quer 19.10.2026):** Gesamtausgaben antippen – das Feld steht jetzt ganz sichtbar über der Tastatur (vorher darunter); dazu A-31: die Messung läuft als Prüfung mit (`ablauf-abspielen.mjs`) | **prüfen** – P-60 (3.26.0) |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-95 | 1 | Nutzer 18.10.2026: (1) Zittern beim Suchen – **erledigt** (3.25.0, P-58); (2) Markierung als Kreis – **erledigt** (P-56/4); (3) **offen:** Datumsfeld – Tag antippen übernimmt und schließt (AppDesign A-26, allgemeine Regel) | AppDesign | offen |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -51,6 +50,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-109 | **T-95 abgeschlossen:** (3) Datumsfeld ‚Tag antippen übernimmt und schließt‘ **entfällt** (AppDesign A-26, Nutzer 20.10.2026: Safari meldet nur den Wert – in drei Fällen bliebe die Auswahl offen; ‚wenn nicht alles funktioniert, bauen wir es so nicht ein‘). Datumsfelder bleiben wie bisher | – | 20.10.2026 |
+| E-108 | **T-97 gebaut (AppDesign A-35, A-31):** Gesamtausgaben steht bei offener Tastatur ganz sichtbar über ihr (`fieldIntoView`, R-4.5); `ablauf-feld-tastatur.mjs` (Ablauf der Messung, gegen 3.25.1 rot) und `ablauf-abspielen.mjs` (Messung nachgespielt, Gegenprobe); Fassung 4.28.0. Wartet auf P-60 | Reiselogbuch 3.26.0 | 20.10.2026 |
 | E-107 | Geprüft P-59: alles ok – **T-96 abgeschlossen** (Kapsel am iPhone quer mit Tastatur ausgeblendet, kommt nach dem Schließen wieder) | Reiselogbuch 3.25.1 | 19.10.2026 |
 | E-106 | **T-96 gebaut (AppDesign A-33, Weg A):** die Kapsel ‚Nach oben / Ans Ende‘ überdeckt nie Kopf- oder Suchzeile, am iPhone quer mit offener Tastatur ausgeblendet; Inhalt endet quer über der Tastatur; `kapsel-iphone.mjs` mit dem Ablauf aus P-58/2 (gegen 3.25.0 rot, jetzt grün); Fassung 4.27.1. Wartet auf P-59 | Reiselogbuch 3.25.1 | 19.10.2026 |
 | E-105 | Geprüft P-58: /0, /1, /3–/6 ok – **Zittern beim Suchen am iPhone weg, T-95 (1) abgeschlossen** (Messung: Seite rollt nie, Kopf- und Suchzeile stehen in jeder Zeile still); /2 nicht ok (Kapsel verdeckt quer mit Tastatur ⌄) → T-96 | Reiselogbuch 3.25.0 | 19.10.2026 |
