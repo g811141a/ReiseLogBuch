@@ -25,6 +25,8 @@ for (const theme of ['light', 'dark']) {
       t.ist('K5 Kapsel in der Startliste', (await kapsel(p)).sichtbar, false, 'R-3.2');
       await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400);
     }
+    // Seit 3.24.0: warten, bis das Reiselogbuch aufgebaut ist (höchstens 3 s) – unter Last reichten die festen 400 ms in WebKit nicht.
+    await p.waitForFunction(() => document.querySelector('#app [data-day]') && getComputedStyle(document.getElementById('fab')).display !== 'none', null, { timeout: 3000 }).catch(() => {});
     let k = await kapsel(p);   // K1, K4, K13, K12
     t.ist('K1 Kapsel im Reiselogbuch sichtbar', k.sichtbar, true, 'R-3.2');
     t.wahr(`K1 Kapsel nicht unten rechts (rechts ${k.rechts} px, unten ${k.unten} px)`, k.rechts >= 14 && k.rechts <= 70 && k.unten >= 14 && k.unten <= 60, 'R-3.2');
