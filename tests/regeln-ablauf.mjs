@@ -1,12 +1,13 @@
 // Ablauf-Prüfungen der allgemeinen Regeln (AppDesign/tests/ablauf.mjs): R-2.3 Suche, R-4.4 Fenster-Kopfzeile, R-5.2 Texteingabe,
-// R-5.3 Fehlermeldungen, R-5.5 Eingabetaste (seit 3.17.0), R-6.4 Vorschau – iPad und iPhone quer und hoch, Vorschau hell und dunkel. Aufruf im Repo-Ordner: node tests/regeln-ablauf.mjs
+// R-5.3 Fehlermeldungen, R-5.5 Eingabetaste (seit 3.17.0), R-6.4 Vorschau, seit 3.25.0 (AppDesign A-28/A-29) Suche nach oben (F-3/F-4),
+// Nach oben / Ans Ende im Rollbereich (F-12) und Drucken der ganzen Liste (F-16) – iPad und iPhone quer und hoch, Vorschau hell und dunkel. Aufruf im Repo-Ordner: node tests/regeln-ablauf.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.26.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.26.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.27.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.27.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('regeln-ablauf', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
-import { checkSearch, checkDialogHead, checkFieldErrors, checkCapital, checkPreview, checkEnterDone } from '../../AppDesign/fassung/4.26.0/tests/ablauf.mjs';
+import { checkSearch, checkDialogHead, checkFieldErrors, checkCapital, checkPreview, checkEnterDone, checkSearchTop, checkFab, checkPrint } from '../../AppDesign/fassung/4.27.0/tests/ablauf.mjs';
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i >= 30 && i < 34 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok ' + 'sehr schöner Tag mit viel Sonne '.repeat(i % 3 + 1), food: '😋 Restaurant Zum Hafen – Fisch', quarter: 'Hotel Bellevue am Meer', place: 'Hafenviertel' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }];
 const b = await t.browser(); const errs = { push: (...m) => m.forEach(x => t.fehler('', x)) };
@@ -32,6 +33,12 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
   if (scheme === 'light' && !/iPad hoch|iPhone quer/.test(dev)) {   // iPad hoch und iPhone quer: nur Vorschau und Spalten
     errs.push(...await checkSearch(p, { where, term: 'Sydney', item: w < 700 ? '#pdays [data-day]' : 'table.days tbody [data-day]' }));
     await G(p, 'nach der Suche');
+    // A-29 (seit 3.25.0): Lupe und ⓧ rollen den Inhalt ganz nach oben; A-28: Kapsel und Drucken mit dem Rollbereich
+    errs.push(...await checkSearchTop(p, { where, term: 'Sydney' }));
+    await G(p, 'nach Suche nach oben');
+    errs.push(...await checkFab(p, { where }));
+    errs.push(...await checkPrint(p, { where, print: async () => { await p.click('#shareBtn'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'PDF' }).first().click(); } }));
+    await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
     const settings = async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); };
     errs.push(...await checkDialogHead(p, { where, open: settings, change: () => p.locator('#fTitle').fill('Australien 2') }));
     errs.push(...await checkFieldErrors(p, { where, open: settings, field: '#fTitle' }));

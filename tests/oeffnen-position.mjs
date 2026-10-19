@@ -4,9 +4,9 @@
 // Ende der Seite (seit 3.20.1) – ganz unten bleibt ganz unten.
 // Aufruf im Repo-Ordner: node tests/oeffnen-position.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.26.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.26.0/tests/hig.mjs';
-import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.26.0/tests/ablauf.mjs';
+import { pruefung, rolle } from '../../AppDesign/fassung/4.27.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.27.0/tests/hig.mjs';
+import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.27.0/tests/ablauf.mjs';
 const t = pruefung('oeffnen-position', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const iso = (start, i) => new Date(Date.parse(start + 'T00:00:00Z') + i * 864e5).toISOString().slice(0, 10);
@@ -33,7 +33,7 @@ for (const theme of ['light', 'dark']) {
       await p.locator(`#side .side-row[data-id="${id}"]`).click();
     };
     for (const id of ['g', 'v', 'f', 'l', 'g']) {   // P2–P7, P9: v nach g (vorher weit unten) prüft P1
-      await p.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+      await rolle(p, 'ende');
       t.liste(await checkOpenAt(p, { where: `${where} · ${id}`, open: oeffne(id), want: WANT[id] }));
     }
     await t.schritt(p, 'Lücke direkt unter dem Kopf', async () => {});

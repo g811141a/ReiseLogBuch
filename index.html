@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.26.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.27.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -24,7 +24,7 @@
   table.days { border-collapse: separate; border-spacing: 0; width: 100%; }
   table.days th, table.days td { border-bottom: 1px solid var(--line); padding: 10px 12px; vertical-align: top; text-align: left; }
   table.days td + td { border-left: 1px solid var(--line); }
-  table.days th { position: sticky; top: calc(var(--bar-h) + var(--vv-top)); background: var(--th-bg); border-bottom-color: var(--th-line); font-size: 17px; font-weight: 600; z-index: 2; }
+  table.days th { position: sticky; top: 0; background: var(--th-bg); border-bottom-color: var(--th-line); font-size: 17px; font-weight: 600; z-index: 2; }
   table.days th + th { border-left: 1px solid var(--th-line); }
   table.days tbody tr:last-child td { border-bottom: none; }
   table.days tbody tr { cursor: pointer; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.26.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.27.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.24.0';
-const APP_BUILT = '19.10.2026 um 04:12';
+const APP_VERSION = '3.25.0';
+const APP_BUILT = '19.10.2026 um 12:59';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.26.0';
+const AD_NEEDED = '4.27.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -671,6 +671,7 @@ function render({ scrollToGap = false } = {}) {
       </div>
       ${searchOpen ? searchRowHtml(term) : ''}
     </div>
+    <div class="rolle" id="rolle">
     <dl class="meta trip">
       <dt>Reiseteilnehmer:</dt><dd>${esc(trip.participants)}</dd>
       <dt>Reisezeitraum:</dt><dd>${fullDate(trip.start)} - ${fullDate(trip.end)}</dd>
@@ -701,7 +702,8 @@ function render({ scrollToGap = false } = {}) {
       </div>` : ''}
 
     <h2>Statistik</h2>
-    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>`);
+    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    </div>`);
 
   fab.hidden = false;
   const bar = app.querySelector('#bar');
@@ -744,7 +746,8 @@ function bindSearch(term) {
     searchOpen = !searchOpen;
     if (!searchOpen) { searchTerm = ''; searchIndex = 0; }
     render();
-    if (searchOpen) app.querySelector('#search').focus();
+    // A-29 (seit 3.25.0, R-2.3): Suche öffnen rollt den Inhalt ganz nach oben.
+    if (searchOpen) { rolle.to(0); app.querySelector('#search').focus(); }
   };
   const search = app.querySelector('#search');
   const refocus = () => {
@@ -767,7 +770,8 @@ function bindSearch(term) {
     search.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); stepHit(1); } };
   }
   if (term) {
-    app.querySelector('#sclear').onclick = () => { searchTerm = ''; searchIndex = 0; if (listOpen) listTerm = ''; render(); refocus(); };
+    // A-29: ⓧ leert die Suche und rollt den Inhalt ganz nach oben; der Fokus bleibt im Feld.
+    app.querySelector('#sclear').onclick = () => { clearTimeout(searchJump); searchTerm = ''; searchIndex = 0; if (listOpen) listTerm = ''; render(); rolle.to(0); refocus(); };
     app.querySelector('#sprev').onclick = () => stepHit(-1);
     app.querySelector('#snext').onclick = () => stepHit(1);
     showHit(false);
@@ -859,6 +863,7 @@ function renderPhone({ scrollToGap = false } = {}) {
       </span></span>
       ${searchOpen ? searchRowHtml(term) : ''}
     </div>
+    <div class="rolle" id="rolle">
     <dl class="meta trip">
       <dt>Reiseteilnehmer:</dt><dd>${esc(trip.participants)}</dd>
       <dt>Reisezeitraum:</dt><dd>${fullDate(trip.start)} - ${fullDate(trip.end)}</dd>
@@ -869,8 +874,9 @@ function renderPhone({ scrollToGap = false } = {}) {
     ${fazitHtml(trip)}
     ${phoneStaysHtml(trip)}
     <h2>Statistik</h2>
-    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>`);
-  app.querySelector('#back').onclick = () => { phoneList = true; searchOpen = false; searchTerm = ''; window.scrollTo(0, 0); render(); };
+    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    </div>`);
+  app.querySelector('#back').onclick = () => { phoneList = true; searchOpen = false; searchTerm = ''; rolle.to(0); render(); };
   app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
   app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
   bindSearch(term);
@@ -907,13 +913,12 @@ function showHit(scroll) {
 }
 
 // Treffer direkt unter die Suchzeile (und den Tabellenkopf) rollen, mit einer halben Zeile Abstand.
+// Seit 3.25.0 (AppDesign A-28): nur der Rollbereich rollt – gemessen ab seiner Oberkante (= Unterkante der Leiste), ohne offsetTop.
 function scrollUnderBar(el) {
   const row = el.closest('tr, .kv') || el;
-  const bar = document.getElementById('bar');
   const head = app.querySelector('table.days:not(.static) thead');
-  const offset = (bar?.offsetHeight || 0) + (head?.offsetHeight || 0) + 12;
-  const top = row.getBoundingClientRect().top + scrollY - offset - (window.visualViewport?.offsetTop || 0);
-  window.scrollTo({ top: Math.max(0, top) });
+  const box = rolle.el?.getBoundingClientRect().top ?? document.getElementById('bar')?.getBoundingClientRect().bottom ?? 0;
+  rolle.to(rolle.y + row.getBoundingClientRect().top - box - (head?.offsetHeight || 0) - 12);
 }
 
 function stepHit(dir) {
@@ -931,7 +936,7 @@ function renderEmpty() {
   renderSide();
   app.innerHTML = `
     <div class="nb" id="bar"><div class="nb1"><span>${sideToggleHtml()}</span><span></span><span></span></div></div>
-    <div class="emptymain">Noch kein Reiselogbuch angelegt.<br>Mit ‚plus‘ in der Seitenleiste ein neues anlegen.</div>`;
+    <div class="rolle" id="rolle"><div class="emptymain">Noch kein Reiselogbuch angelegt.<br>Mit ‚plus‘ in der Seitenleiste ein neues anlegen.</div></div>`;
   bindSideToggle(app);
   if (!emptyPrompted && !dlg.open) { emptyPrompted = true; openTripDialog(null); }
 }
@@ -1025,7 +1030,7 @@ function renderSide() {
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Öffnen · Einstellungen · Reiselogbuch löschen).
   side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
     () => tripContextMenu(b, getTrip(b.dataset.id)),
-    () => { if (!isWide()) sideOpen = false; if (isPhone()) window.scrollTo(0, 0); showTrip(b.dataset.id, term ? listTerm : ''); }));
+    () => { if (!isWide()) sideOpen = false; if (isPhone()) rolle.to(0); showTrip(b.dataset.id, term ? listTerm : ''); }));
   bindListSearch();
   document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
   keepSideScroll();
@@ -1097,7 +1102,7 @@ const backupMenuItems = sel => [
     onLoad: () => { importAnchor = sel; hold(sel); importFile.click(); } }),
   // Messmodus (seit 3.24.0, AppDesign A-27): Kopf- und Suchzeile von Inhalt und Liste, erster Tag, Rollstand der Liste.
   'sep',
-  ...messungMenuItems({ app: `Reiselogbuch ${APP_VERSION}`, teile: { kopf: '#bar', such: '#app .nb2', inh: '#app [data-day]', lkopf: '.side-head', lsuch: '.side-search' },
+  ...messungMenuItems({ app: `Reiselogbuch ${APP_VERSION}`, teile: { kopf: '#bar', such: '#app .nb2', tag: '#app [data-day]', lkopf: '.side-head', lsuch: '.side-search' },
     rollen: { lroll: '.side-list' } }),
   'line',
   { note: `Reiselogbuch · Version ${APP_VERSION} · erstellt am ${APP_BUILT} · AppDesign ${adLoaded().js}` },
@@ -1157,8 +1162,9 @@ function openShareMenu(anchor, trip) {
 
 document.getElementById('toTop').innerHTML = ic('arrow-up-to-line');
 document.getElementById('toEnd').innerHTML = ic('arrow-down-to-line');
-document.getElementById('toTop').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-document.getElementById('toEnd').onclick = () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+// Nach oben / Ans Ende rollen den Inhalt (Rollbereich, AppDesign A-28).
+document.getElementById('toTop').onclick = fabTop;
+document.getElementById('toEnd').onclick = fabEnd;
 
 
 const MOOD_HINT = 'Leiste nach links/rechts wischen für weitere Smileys. Lange drücken entfernt einen Smiley aus der Leiste. ↺ stellt die Standard-Smileys wieder her. Weitere Smileys über die Emoji-Taste der Tastatur.';
@@ -1856,7 +1862,7 @@ sideOpen = true;
 // ohne blauen Eintrag; der iPad-Aufbau öffnet wie bisher die laufende (sonst zuletzt beendete, sonst nächste) Reise.
 // Die Startreise bleibt gewählt, damit ein breiteres Fenster sie mit der Seitenleiste zeigt.
 showTrip(pickStartTrip()?.id);
-if (isPhone()) { phoneList = true; startList = true; window.scrollTo(0, 0); render(); }
+if (isPhone()) { phoneList = true; startList = true; rolle.to(0); render(); }
 // Wechsel quer/hoch: Seitenleiste fest oder darübergelegt; sonst nur Höhen und Breiten nachführen.
 let wasWide = isWide();
 let wasPhone = isPhone();

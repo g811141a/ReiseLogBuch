@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.24.0** · Stand 19.10.2026
+**Version 3.25.0** · Stand 19.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.26.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.27.0)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -172,6 +172,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.25.0 | 19.10.2026 | Neben | angepasst an allgemein 4.27.0 (A-28 Umbau B, 15.22; A-29, R-2.3): der Inhalt (Tage, Fazit, Quartierliste, Statistik) liegt im Rollbereich unter Kopf- und Suchzeile, der Tabellenkopf haftet mit `top: 0`; Lupe und ⓧ rollen nach oben; Messmodus-Teil `tag` statt `inh` (die Spalte `inh` kommt jetzt aus AppDesign) |
 | 3.24.0 | 19.10.2026 | Neben | angepasst an allgemein 4.26.0 (Messmodus R-1.6, 15.21): ‚Messung starten‘ im Mehr-Menü der Seitenleiste bzw. Startliste – gemessen werden Kopf- und Suchzeile von Reiselogbuch und Liste, der erste Tag und der Rollstand der Liste |
 | 3.23.1 | 19.10.2026 | Korrektur | angepasst an allgemein 4.25.1 (Suchfeld bleibt beim Tippen, R-2.3; Markierung bei Icons als Kreis, R-3.1) – im Reiselogbuch keine eigene Regel |
 | 3.23.0 | 18.10.2026 | Neben | Suche mit mehreren Wörtern: Einheit = Reiselogbuch (T-93); angepasst an allgemein 4.25.0 (R-2.3 mehrere Wörter und „…“, Lupe am Ende der Kapsel) |

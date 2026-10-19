@@ -13,6 +13,82 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.25.0 – 19.10.2026
+
+Reiselogbuch 3.25.0 · AppDesign 4.27.0 (Designrichtlinie allgemein 4.27.0) · Designrichtlinie Reiselogbuch 3.25.0 · Zusammenarbeit allgemein 2.12.0
+
+Umbau B (AppDesign A-28, Variante B1) und Suche nach oben (A-29): Die Seite rollt nicht mehr, nur noch der Inhalt unter Kopf- und
+Suchzeile. Damit hat Safari beim Tippen nichts mehr zu verschieben – das Zittern nach ⓧ ist in der Nachbildung weg, **am Gerät zu
+bestätigen** (P-58).
+
+- **Nur der Inhalt rollt:** Kopfzeile (mit Suchzeile) steht als feste Zeile oben, darunter rollt der Inhalt (Tage, Fazit,
+  Quartierliste, Statistik). Bei offener Tastatur endet der Inhalt über ihr – das letzte Ergebnis lässt sich bis über die Tastatur
+  rollen. Der Tabellenkopf haftet weiter unter der Kopfzeile.
+- **Suche öffnen (Lupe) und ⓧ rollen den Inhalt ganz nach oben** (iPad und iPhone); nach ⓧ bleibt der Cursor im Suchfeld.
+- **Nach oben / Ans Ende** rollen den Inhalt und stehen bei offener Tastatur über ihr.
+- Treffer, Öffnen (erster fehlender Tag unter dem Kopf), Drehen, Seitenleiste ein/aus und ‚Liste steht still‘ nach einem Fenster
+  arbeiten wie bisher, jetzt mit dem Inhalt statt der ganzen Seite.
+- **Bewusst anders (deine Entscheidung 19.10.2026):** Antippen der Statusleiste rollt nicht mehr nach oben – dafür gibt es ‚Nach oben‘.
+- **Messmodus:** neue Spalte `inh` (Rollstand des Inhalts); die Spalte für den ersten Tag heißt jetzt `tag`.
+- **Prüfungen:** `ablauf-suche-iphone.mjs` (Ablauf P-57 unter dem Safari-Modell) ist grün – gegen 3.24.0 war sie rot (±120 px hoch,
+  21 px quer nach ⓧ); neu in `regeln-ablauf.mjs`: Suche öffnen und ⓧ nach oben, Nach oben / Ans Ende im Inhalt und über der Tastatur,
+  Drucken der ganzen Ausgabe (PDF mehrseitig); alle Prüfungen rollen über den Rollbereich; Grundregel ‚Seite rollt nie‘ nach jedem
+  Schritt.
+- Intern: feste Fassung AppDesign 4.27.0 (Ja vom 19.10.2026); Designrichtlinie Reiselogbuch 3.25.0.
+
+Prüfliste P-58 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: https://g811141a.github.io/ReiseLogBuch/
+
+**P-58/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
+   (Home-Bildschirm bzw. https://g811141a.github.io/ReiseLogBuch/).
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.25.0 · erstellt am … · AppDesign 4.27.0‘.
+
+**P-58/1 – Tippen in der Suche am iPhone hoch (Ablauf wie P-57)**
+1. Ein langes Reiselogbuch öffnen und bis etwa in die Mitte rollen.
+2. Lupe tippen. Erwartet: der Inhalt springt ganz nach oben (Reiseteilnehmer sichtbar), Kopf- und Suchzeile bleiben, wo sie sind.
+3. Langsam „Sydney“ (oder ein Wort, das mehrmals vorkommt) tippen. Erwartet: Kopf- und Suchzeile stehen still, der Inhalt rollt
+   nach einer kurzen Pause zum ersten Treffer direkt unter der Suchzeile.
+4. ⓧ tippen. Erwartet: das Feld ist leer, der Cursor bleibt darin, die Tastatur bleibt offen, der Inhalt steht ganz oben.
+5. Noch einmal langsam dasselbe Wort tippen (hier zitterte es bisher ±120 px). Erwartet: Kopf- und Suchzeile stehen in jedem
+   Augenblick still – kein Zucken, kein Springen.
+6. Mit ⌃ ⌄ zwei Treffer weiter. Erwartet: der Treffer steht jeweils direkt unter der Suchzeile, die Leisten bewegen sich nicht.
+
+**P-58/2 – Tippen in der Suche am iPhone quer**
+1. iPhone quer drehen und P-58/1 Schritte 1–6 wiederholen.
+2. Erwartet: wie P-58/1 – auch beim Öffnen der Tastatur und nach ⓧ kein Schub um eine halbe Zeile (bisher 21 px).
+
+**P-58/3 – Wischen im Inhalt (iPad und iPhone)**
+1. Ein langes Reiselogbuch öffnen, schnell nach unten und wieder nach oben wischen, auch über den oberen und unteren Rand hinaus.
+2. Erwartet: der Inhalt rollt mit Schwung wie gewohnt und federt am Rand; Kopfzeile (und Seitenleiste am iPad) bewegen sich nie.
+3. Lupe tippen, ein Wort mit vielen Treffern tippen, dann im Inhalt ganz nach unten wischen.
+4. Erwartet: das erste Wischen schließt nur die Tastatur; danach rollt der Inhalt. Bei offener Tastatur liegen das Ende der Liste
+   und die Kapsel ‚Nach oben / Ans Ende‘ über der Tastatur.
+5. ‚Ans Ende‘, dann ‚Nach oben‘ tippen. Erwartet: der Inhalt rollt ganz nach unten bzw. ganz nach oben; ein kurzes Reiselogbuch
+   (passt auf den Bildschirm) zeigt keine Kapsel.
+6. Statusleiste oben antippen. Erwartet: nichts rollt (bewusst – dafür ‚Nach oben‘).
+
+**P-58/4 – Liste steht still, Öffnen und Drehen (iPad und iPhone)**
+1. In einem Reiselogbuch in die Mitte rollen, einen Tag antippen, im Fenster etwas schreiben, Häkchen tippen.
+2. Erwartet: die Liste steht danach genau wie vorher, der Tag leuchtet kurz blau.
+3. Drehen (quer ↔ hoch). Erwartet: oben steht derselbe Tag; ganz oben bleibt ganz oben, ganz unten bleibt ganz unten.
+4. iPad quer: Seitenleiste aus- und einblenden. Erwartet: oben steht derselbe Tag.
+5. Ein anderes Reiselogbuch mit fehlendem Tag öffnen. Erwartet: der erste fehlende Tag steht direkt unter dem Kopf (bzw. dem
+   Tabellenkopf), hervorgehoben; ohne fehlenden Tag steht das Reiselogbuch ganz oben.
+6. iPhone: zurück zur Startliste und wieder hinein. Erwartet: die Startliste steht wie vorher, die Kopfzeile bewegt sich nicht.
+
+**P-58/5 – Drucken / PDF (iPad)**
+1. Ein langes Reiselogbuch öffnen, Teilen (Pfeil) → ‚PDF‘.
+2. Erwartet: das Drucken-Menü zeigt alle Seiten der Ausgabe (nicht nur einen Bildschirm), ohne Kopfzeile und Kapseln.
+
+**P-58/6 – Neue Messung am iPhone (hoch, vom Home-Bildschirm)**
+1. In der Startliste ‚…‘ → ‚Messung starten‘.
+2. P-58/1 Schritte 1–5 ausführen.
+3. ‚…‘ der Startliste (zurück mit ‹) → ‚Messung beenden und teilen‘ → im Teilen-Menü die Claude-App wählen (bzw. ‚In Dateien
+   sichern‘ und die Datei im Chat anhängen).
+4. Erwartet: das Teilen-Menü zeigt `messung-….txt`; in der Datei bleibt die Spalte `sy` immer 0, die Spalte `inh` ändert sich beim
+   Rollen.
+
 ## 3.24.0 – 19.10.2026
 
 Reiselogbuch 3.24.0 · AppDesign 4.26.0 (Designrichtlinie allgemein 4.26.0) · Designrichtlinie Reiselogbuch 3.24.0 · Zusammenarbeit allgemein 2.11.0

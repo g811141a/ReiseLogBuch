@@ -7,8 +7,8 @@
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
 // Bewusste Abweichungen (Abschnitt 16) werden nicht gezählt. Ergebnis: Abweichungsliste, Exit-Code 1 bei Funden.
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.26.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.26.0/tests/hig.mjs';
+import { pruefung, rolle } from '../../AppDesign/fassung/4.27.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.27.0/tests/hig.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
 const long = 'a'.repeat(100); // R-6.3: zu lange Wörter müssen im Wort umbrechen
@@ -126,7 +126,7 @@ for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]
   await p.setViewportSize({ width: w, height: Math.round(h * 0.55) }); await p.waitForTimeout(250); await hig.barStill(p, `Suche mit Tastatur (${tag})`);
   await p.setViewportSize({ width: w, height: h }); await p.waitForTimeout(250);
   await p.click('#searchBtn'); await p.waitForTimeout(200);
-  await p.evaluate(() => window.scrollTo(0, 600)); await p.waitForTimeout(150); await M('Titel in der Leiste'); await p.evaluate(() => window.scrollTo(0, 0));
+  await rolle(p, 600); await p.waitForTimeout(150); await M('Titel in der Leiste'); await rolle(p, 0);
   const dialog = async (open, s, opener) => {
     await open(); await p.waitForTimeout(350);
     if (opener) await stays(opener, s);
