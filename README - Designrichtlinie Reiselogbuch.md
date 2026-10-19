@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.23.0** · Stand 18.10.2026
+**Version 3.23.1** · Stand 19.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.25.0)** – die Komponenten kommen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.25.1)** – die Komponenten kommen
 > fertig aus `AppDesign/v4/design.css` und `ui.js`.
 > Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
 > (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
@@ -172,6 +172,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.23.1 | 19.10.2026 | Korrektur | angepasst an allgemein 4.25.1 (Suchfeld bleibt beim Tippen, R-2.3; Markierung bei Icons als Kreis, R-3.1) – im Reiselogbuch keine eigene Regel |
 | 3.23.0 | 18.10.2026 | Neben | Suche mit mehreren Wörtern: Einheit = Reiselogbuch (T-93); angepasst an allgemein 4.25.0 (R-2.3 mehrere Wörter und „…“, Lupe am Ende der Kapsel) |
 | 3.22.0 | 18.10.2026 | Neben | Verlauf: Vorschläge ‚Tour …‘ und ‚Sonstiges …‘ (leere erste Zeile, T-94); angepasst an allgemein 4.24.0 (R-7.3 Hervorhebung 2 s + 1 s) |
 | 3.21.2 | 18.10.2026 | Korrektur | Angepasst an allgemein 4.23.2 (R-7.3 Liste steht still – auch nach ‹ ›, P-52/2–4); keine eigene Abweichung |

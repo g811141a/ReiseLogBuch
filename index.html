@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.25.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.25.1/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.25.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.25.1/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.23.0';
-const APP_BUILT = '18.10.2026 um 18:47';
+const APP_VERSION = '3.23.1';
+const APP_BUILT = '19.10.2026 um 01:21';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.25.0';
+const AD_NEEDED = '4.25.1';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -658,7 +658,7 @@ function render({ scrollToGap = false } = {}) {
   const transport = transportText(trip);
   const stays = c.quarter ? quarterStays(trip) : [];
 
-  app.innerHTML = `
+  setHtml(app, `
     <div class="nb" id="bar">
       <div class="nb1">
         <span>${sideToggleHtml()}</span>
@@ -701,7 +701,7 @@ function render({ scrollToGap = false } = {}) {
       </div>` : ''}
 
     <h2>Statistik</h2>
-    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>`;
+    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>`);
 
   fab.hidden = false;
   const bar = app.querySelector('#bar');
@@ -848,7 +848,7 @@ function renderPhone({ scrollToGap = false } = {}) {
       ${c.quarter ? line('😴💤', quarterHtml(q, term, true)) : ''}
     </div>`;
   }).join('');
-  app.innerHTML = `
+  setHtml(app, `
     <div class="pnav" id="bar">
       <span><button type="button" class="round" id="back" aria-label="Reiselogbücher">${ic('chevron-left')}</button></span>
       <span class="pnav-title">${esc(trip.title)}</span>
@@ -869,7 +869,7 @@ function renderPhone({ scrollToGap = false } = {}) {
     ${fazitHtml(trip)}
     ${phoneStaysHtml(trip)}
     <h2>Statistik</h2>
-    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>`;
+    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>`);
   app.querySelector('#back').onclick = () => { phoneList = true; searchOpen = false; searchTerm = ''; window.scrollTo(0, 0); render(); };
   app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
   app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
@@ -1006,7 +1006,7 @@ function renderSide() {
   const term = listOpen ? listTerm.trim().toLocaleLowerCase('de') : '';
   const hits = new Map(term ? all.map(t => [t.id, hitCount(t, term)]) : []);
   const trips = term ? all.filter(t => hits.get(t.id)) : all;
-  side.innerHTML = `
+  setHtml(side, `
     <div class="side-head"><div class="ttl"><h2>Reiselogbücher</h2><small>${term ? hitTripCount(trips.length, all.length) : tripCount(all.length)}</small></div>
       <span class="grp"><button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button>${all.length ? `<button type="button" id="listSearchBtn" class="${listOpen ? 'on' : ''}" aria-label="Suchen">${ic('search')}</button>` : ''}<button type="button" id="sideMore" aria-label="Mehr">${ic('ellipsis')}</button></span>
       <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
@@ -1015,11 +1015,11 @@ function renderSide() {
     <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId && !(page && startList) ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${term ? `<small class="chg hits">${hitText(hits.get(t.id))}</small>` : sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
       : `<div class="side-empty">${term ? 'Keine Treffer' : 'Noch kein Reiselogbuch angelegt.'}</div>`}</div>
-    ${all.length ? backupTileHtml(db.settings.lastBackup) : ''}`;
+    ${all.length ? backupTileHtml(db.settings.lastBackup) : ''}`);
   side.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
   side.querySelector('#sideMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
   side.querySelector('#sideHide').onclick = toggleSide;
-  side.querySelector('#hintBackup')?.addEventListener('click', () => saveBackup('#hintBackup'));
+  const hb = side.querySelector('#hintBackup'); if (hb) hb.onclick = () => saveBackup('#hintBackup');   // onclick: setHtml behält das Element (A-24)
   held.forEach(sel => side.querySelector(sel)?.classList.add('on'));
   markOpener();
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Öffnen · Einstellungen · Reiselogbuch löschen).
@@ -1067,7 +1067,7 @@ function bindListSearch() {
   input.oninput = () => { listTerm = input.value; update(); };
   // Eingabetaste ‚Suchen‘ schließt nur die Tastatur (R-5.5).
   input.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); input.blur(); } };
-  side.querySelector('#lsclear')?.addEventListener('click', () => { listTerm = ''; update(); });
+  const lc = side.querySelector('#lsclear'); if (lc) lc.onclick = () => { listTerm = ''; update(); };
 }
 
 // Die Liste der Seitenleiste (iPhone: Startliste) behält beim Neuaufbau ihre Position; der gewählte Eintrag
@@ -1086,7 +1086,7 @@ function keepSideScroll() {
     else if (r.bottom > bottom - 6) list.scrollTop += r.bottom - bottom + 6;
   }
   sideScroll = list.scrollTop;
-  list.addEventListener('scroll', () => { sideScroll = list.scrollTop; }, { passive: true });
+  list.onscroll = () => { sideScroll = list.scrollTop; };
 }
 
 

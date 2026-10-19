@@ -4,9 +4,9 @@
 // (AppDesign arbeit/T-92 Fall-Liste.md): F-3 ausgeblendete Spalte, F-9 Groß/klein, F-10 ohne Reiselogbuch, F-11 viele,
 // F-15 Drehen, F-16 Eingabetaste, F-19 Neuladen. Aufruf im Repo-Ordner: node tests/ablauf-suche-liste.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.25.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.25.0/tests/hig.mjs';
-import { checkListSearch } from '../../AppDesign/fassung/4.25.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.25.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.25.1/tests/hig.mjs';
+import { checkListSearch } from '../../AppDesign/fassung/4.25.1/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-liste', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const mk = (id, start, n, f, extra = {}) => { const days = {}; for (let i = 0; i < n; i++) days[new Date(Date.parse(start) + i * 864e5).toISOString().slice(0, 10)] = f(i);
   return { id, title: id, participants: 'G & A', start, end: Object.keys(days).at(-1), transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days, ...extra }; };
