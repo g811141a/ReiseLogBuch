@@ -1,13 +1,13 @@
 # Reiselogbuch – Hinweise für Claude
 
-**Version 3.4.0** · Stand 16.10.2026
+**Version 3.5.0** · Stand 20.10.2026
 
 ## Zuerst lesen (gezielt, Zusammenarbeit 0 Nr. 15)
 
 Die allgemeinen Regeln liegen im Design-Repo **AppDesign** (g811141a/AppDesign, lokal neben diesem Repo klonen):
 
 1. `AppDesign/UEBERGABE.md` – Stand der letzten Sitzung, nächster Schritt, Chatnummer
-2. `AppDesign/README - Zusammenarbeit allgemein.md` – nur Abschnitt 0 (Arbeitsprozess 2.0, hat Vorrang)
+2. `AppDesign/README - Zusammenarbeit allgemein.md` – nur Abschnitte 0 (Arbeitsprozess 2.0, hat Vorrang) und 1 (Sprache und Ton: per du)
 3. Überschriften (`grep -n '^##'`) von `AppDesign/README - Designrichtlinie allgemein.md` (Komponenten 15, HIG-Checkliste 16,
    Regelkatalog 17) und `README - Designrichtlinie Reiselogbuch.md`; einzelne Abschnitte erst, wenn die Aufgabe sie braucht
 4. Nur bei Bedarf: `PROMPT.md` (Funktionsbeschreibung), `CHANGELOG.md` (Prüfliste der neuesten Version oben), `BACKLOG.md`
@@ -51,6 +51,7 @@ erst Prüfpunkte dann Neues, Zeit und Token am Ende jeder Antwort (Abschnitt 2).
 
 | Version | Datum | Inhalt |
 |---|---|---|
+| 3.5.0 | 20.10.2026 | Zu Beginn Abschnitte 0 und 1 der Zusammenarbeit (Sprache und Ton: per du) – AppDesign Zusammenarbeit 2.14.0 |
 | 3.4.0 | 16.10.2026 | Startfrage zu Beginn einer Sitzung ohne Auftrag (Zusammenarbeit 0 Nr. 19) |
 | 3.3.0 | 15.10.2026 | Gezielt lesen (nur Abschnitt 0 und Überschriften), ein voller Prüflauf je Version (AppDesign A-07) |
 | 3.2.0 | 14.10.2026 | Feste AppDesign-Fassung `fassung/X.Y.Z/` statt `v4/…?v=`, Versionen mit dem Veröffentlichungs-Skript (A-05 Version B) |
