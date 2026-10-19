@@ -2,7 +2,7 @@
 // Ausgabe-Zelle, Druck ohne Seitenleisten-Abstand, Reisemittel und Wetter wählen.
 // Aufruf im Repo-Ordner: node tests/ablauf-suche-tabelle.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.27.0/tests/pruefe.mjs';
+import { pruefung, rolle, rollstand } from '../../AppDesign/fassung/4.27.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.27.0/tests/hig.mjs';
 const t = pruefung('ablauf-suche-tabelle', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 30 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok', quarter: 'Hotel', place: 'Ort' }; }
@@ -15,12 +15,12 @@ for (const theme of ['light', 'dark']) {
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: x })), trips);
   await t.schritt(p, 'Start', async () => { await p.reload(); await p.waitForTimeout(300); });
   t.ist('Kostenfeld so breit wie der Betrag (px)', await p.evaluate(() => document.getElementById('kosten').offsetWidth), w => w >= 100 && w <= 150, 'R-5.1');
-  await p.evaluate(() => scrollTo(0, 0));
+  await rolle(p, 0);
   // Hier ohne Grundregeln direkt nach dem Tippen: deren Messung wartet, und die Pause der Suche (R-2.3) wäre schon vorbei.
   await p.click('#searchBtn'); await p.locator('#search').pressSequentially('Sydney');
-  const y0 = await p.evaluate(() => scrollY);
+  const y0 = (await rollstand(p)).y;
   await p.clock.runFor(200);
-  t.ist('Seite bleibt während des Tippens stehen', await p.evaluate(() => scrollY) === y0, true, 'R-2.3');
+  t.ist('Inhalt bleibt während des Tippens stehen', (await rollstand(p)).y === y0, true, 'R-2.3');
   await p.clock.runFor(600); await p.waitForTimeout(100);
   const lage = await p.evaluate(() => ({ row: Math.round(document.querySelector('mark.cur').closest('tr').getBoundingClientRect().top), th: Math.round(document.querySelector('table.days thead').getBoundingClientRect().bottom) }));
   t.ist('Treffer nach der Pause direkt unter dem Tabellenkopf', Math.abs(lage.row - lage.th) <= 1, true, 'R-2.3');

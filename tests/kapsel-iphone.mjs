@@ -11,7 +11,7 @@ const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '202
   { id: 'k', title: 'Kurz', participants: 'Anna', start: '2025-05-01', end: '2025-05-01', transport: ['pkw'], days: {} }];
 const kapsel = p => p.evaluate(() => { const f = document.getElementById('fab'), r = f.getBoundingClientRect();
   return { sichtbar: !!(f.offsetParent || getComputedStyle(f).position === 'fixed') && getComputedStyle(f).display !== 'none' && r.width > 0,
-    rechts: Math.round(innerWidth - r.right), unten: Math.round(innerHeight - r.bottom), y: Math.round(scrollY), max: Math.round(document.documentElement.scrollHeight - innerHeight) }; });
+    rechts: Math.round(innerWidth - r.right), unten: Math.round(innerHeight - r.bottom), ...(e => e ? { y: Math.round(e.scrollTop), max: Math.round(e.scrollHeight - e.clientHeight) } : { y: Math.round(scrollY), max: Math.round(document.documentElement.scrollHeight - innerHeight) })(document.querySelector('#app > .rolle')) }; });
 const b = await t.browser();
 for (const theme of ['light', 'dark']) {
   for (const [name, ansicht] of [['iPhone hoch', 'iPhone hoch'], ['iPhone quer', 'iPhone quer'], ['iPad schmal', { viewport: { width: 600, height: 900 } }], ['iPad quer', 'iPad quer']]) {
