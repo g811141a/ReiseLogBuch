@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| T-97 | 1 | **Gesamtausgaben über der Tastatur (AppDesign A-35, Messung iPhone quer 19.10.2026):** Gesamtausgaben antippen – das Feld steht jetzt ganz sichtbar über der Tastatur (vorher darunter); dazu A-31: die Messung läuft als Prüfung mit (`ablauf-abspielen.mjs`) | **prüfen** – P-60 (3.26.0) |
+| T-97 | 1 | **Gesamtausgaben über der Tastatur (AppDesign A-35):** P-60 **nicht ok** (20.10.2026) – Kopf- und Suchzeile springen beim Ein- und Ausblenden der Tastatur (iPhone hoch und quer, iPad quer, auch in Fenstern), Kapsel unter der Tastatur bzw. am iPad weg, iPad-Fenster rutscht nach links → AppDesign A-36 (`arbeit/A-36 Analyse P-60.md`) | nicht ok – A-36 |
 
 ## 2. Weitere Themen (in Klärung)
 
