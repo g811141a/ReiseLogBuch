@@ -13,7 +13,8 @@ const APP = new URL('../index.html', import.meta.url).href, ORDNER = new URL('..
 const days = {}; for (let i = 0; i < 40; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, ...(i % 3 ? {} : { place: 'Sydney' }) };   // Suche ‚Sydne…‘ findet jeden 3. Tag
 const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '2026-08-24', end: '2026-10-02', transport: ['flug'], days }];
 // Je Messdatei: bis wohin nachgespielt wird (danach nur noch das Beenden der Messung im Menü)
-const EINSTELLUNG = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt': { bis: 133000 } };
+const EINSTELLUNG = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt': { bis: 133000 },
+  '2026-10-20 iPhone hoch Fenster Ort.txt': { bis: 35000 }, '2026-10-20 iPad quer Fenster Ort.txt': { bis: 25000 } };
 // Ziele ohne id: ‚button‘ = Reiselogbuch in der Liste, ‚-‘ = ein sichtbarer Tag (öffnet das Fenster des Tages). Ist mit den eigenen
 // Daten kein Tag zu sehen (am Gerät endete der Inhalt kürzer), wird der letzte Tag in den Inhalt gerollt – inh wird nicht verglichen.
 const tagSichtbar = async p => {
@@ -49,9 +50,10 @@ for (const datei of dateien) {
     await p.reload(); await p.waitForTimeout(400);
     await safariModell(p, m.lage === 'quer' ? 'iPhone quer' : 'iPhone hoch');
     const { bis = Infinity } = EINSTELLUNG[datei] || {};
-    if (gegenprobe) {   // M-5: Suchzeile 20 px verschoben – das Nachspielen muss das finden (nur bis zur ersten Suche)
-      const f = await spieleAb(p, m, { ziele: ziele(), woerter, bis: 30000, verschiebe: { such: 20 } });
-      t.wahr('M-5 Gegenprobe: eine um 20 px verschobene Messung bleibt beim Nachspielen grün', f.some(x => x.includes('Suchzeile')), 'A-31');
+    if (gegenprobe) {   // M-5: Suchzeile (ohne Suche in der Messung: Kopfzeile) 20 px verschoben – das Nachspielen muss das finden
+      const k = m.zeilen.some(z => z.such != null) ? 'such' : 'kopf';
+      const f = await spieleAb(p, m, { ziele: ziele(), woerter, bis: Math.min(bis ?? Infinity, 30000), verschiebe: { [k]: 20 } });
+      t.wahr('M-5 Gegenprobe: eine um 20 px verschobene Messung bleibt beim Nachspielen grün', f.some(x => x.includes(k === 'such' ? 'Suchzeile' : 'Kopfzeile')), 'A-31');
     } else {
       t.liste(await spieleAb(p, m, { ziele: ziele(), woerter, bis, nachSchritt: s => nachSchritt(p, s), where: t.ort }));
       await t.schritt(p, 'nach dem Nachspielen', async () => {});
