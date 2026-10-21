@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 21.10.2026** · Aktuelle Version: Reiselogbuch 3.26.1 · AppDesign 4.28.1
+**Stand 21.10.2026** · Aktuelle Version: Reiselogbuch 3.26.2 · AppDesign 4.28.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -14,7 +14,7 @@ Status: **bereit** (fertig geklärt, kommt in die nächste Version) · **offen**
 
 Weg eines Punktes: 2. in Klärung → 0. Nächste Version → 1. Prüfen → Erledigt. Gebaut wird
 gesammelt – Claude fragt erst, wenn ein Thema fertig ist oder 2–3 zusammengehörige Punkte (höchstens 2 Themen) bereit
-sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 6.
+sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 ---
 
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-62 | 1 | Reiselogbuch 3.26.2 (AppDesign A-39, nur Texte): /0 Version prüfen, /1 App unverändert – Prüfliste im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-112 | **AppDesign A-39 Konsolidierung:** Designrichtlinie Reiselogbuch nur noch Abweichungen, PROMPT.md als gegliederte Funktionsbeschreibung mit allen Ausprägungen, CLAUDE.md 3.6.0, tests/README mit Regel je Prüfung | Reiselogbuch 3.26.2 · AppDesign 4.28.2 | 21.10.2026 |
 | E-111 | Geprüft **P-61: alles ok** (Nutzer 21.10.2026, mit Messungen) – **T-97 abgeschlossen**: Tastatur ohne Springen, Gesamtausgaben über der Tastatur, iPhone quer niedrige Leisten | Reiselogbuch 3.26.1 | 21.10.2026 |
 | E-110 | **T-97 korrigiert (AppDesign A-36):** Tastatur ohne Springen – Fassung 4.28.1; `ablauf-tastatur-still.mjs` mit allen vier Lagen, Tastatur-Taste, ‚Nach oben‘ bei offener Tastatur, kurzem Inhalt und Wischen (gegen 3.26.0 rot, jetzt grün). Wartet auf P-61 | Reiselogbuch 3.26.1 | 21.10.2026 |
 | E-109 | **T-95 abgeschlossen:** (3) Datumsfeld ‚Tag antippen übernimmt und schließt‘ **entfällt** (AppDesign A-26, Nutzer 20.10.2026: Safari meldet nur den Wert – in drei Fällen bliebe die Auswahl offen; ‚wenn nicht alles funktioniert, bauen wir es so nicht ein‘). Datumsfelder bleiben wie bisher | – | 20.10.2026 |

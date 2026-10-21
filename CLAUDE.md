@@ -1,49 +1,43 @@
 # Reiselogbuch – Hinweise für Claude
 
-**Version 3.5.0** · Stand 20.10.2026
+**Version 3.6.0** · Stand 21.10.2026
 
 ## Zuerst lesen (gezielt, Zusammenarbeit 0 Nr. 15)
 
-Die allgemeinen Regeln liegen im Design-Repo **AppDesign** (g811141a/AppDesign, lokal neben diesem Repo klonen):
+Die allgemeinen Regeln liegen im Design-Repo **AppDesign** (g811141a/AppDesign, lokal neben diesem Repo):
 
 1. `AppDesign/UEBERGABE.md` – Stand der letzten Sitzung, nächster Schritt, Chatnummer
-2. `AppDesign/README - Zusammenarbeit allgemein.md` – nur Abschnitte 0 (Arbeitsprozess 2.0, hat Vorrang) und 1 (Sprache und Ton: per du)
-3. Überschriften (`grep -n '^##'`) von `AppDesign/README - Designrichtlinie allgemein.md` (Komponenten 15, HIG-Checkliste 16,
-   Regelkatalog 17) und `README - Designrichtlinie Reiselogbuch.md`; einzelne Abschnitte erst, wenn die Aufgabe sie braucht
+2. `AppDesign/README - Zusammenarbeit allgemein.md` – nur Abschnitte 0 (Arbeitsmodell) und 1 (Sprache und Ton: per du)
+3. Überschriften (`grep -n '^##'`) von `AppDesign/README - Designrichtlinie allgemein.md` und
+   `README - Designrichtlinie Reiselogbuch.md` (nur Abweichungen); einzelne Abschnitte erst, wenn die Aufgabe sie braucht
 4. Nur bei Bedarf: `PROMPT.md` (Funktionsbeschreibung), `CHANGELOG.md` (Prüfliste der neuesten Version oben), `BACKLOG.md`
 
 ## Verpflichtend
 
-**Startfrage (Zusammenarbeit 0 Nr. 19):** Beginnt die Sitzung ohne konkreten Auftrag, zuerst das Auswahlfenster
-‚Was möchtest du als Nächstes tun?‘ mit je einer Möglichkeit pro angehängtem Repo (Version, Backlog-Spitze).
-
-Alle Regeln der Zusammenarbeit allgemein gelten; sie stehen nur dort (hier keine Wiederholung). Besonders: nie ohne
-ausdrückliches ‚Ja‘ bauen, Fall-Liste vor jedem Bau (0 Nr. 1), kleine Versionen und Korrekturen sofort (0 Nr. 8),
-erst Prüfpunkte dann Neues, Zeit und Token am Ende jeder Antwort (Abschnitt 2).
+Es gelten die Zusammenarbeit allgemein und die AppDesign-`CLAUDE.md` (Arbeitsumgebung, Veröffentlichen) – hier keine
+Wiederholung.
 
 ## App-spezifisch
 
-- App: Reiselogbuch, Web-App (PWA) für iPad und iPhone: `index.html` plus `sw.js`, `manifest.json`, Icons.
-- Gemeinsame Bausteine aus der festen AppDesign-Fassung (seit 3.13.0, R-10.3): `../AppDesign/fassung/X.Y.Z/design.css`
-  und `../AppDesign/fassung/X.Y.Z/ui.js` (in `index.html` und in der Dateiliste von `sw.js`); `AD_NEEDED` in `index.html`
-  = X.Y.Z; die Prüfskripte binden `../../AppDesign/fassung/X.Y.Z/tests/…` ein. Auf eine neuere Fassung nur nach Rückfrage
-  heben (Zusammenarbeit 0 Nr. 10). Schnittstelle: `db.settings.appearance`, `save()`, `render()`,
-  `onDialogOpen()`. `index.html` enthält nur, was zum Reiselogbuch gehört – Gemeinsames wird in AppDesign geändert,
-  **erst AppDesign veröffentlichen, dann das Reiselogbuch.**
-- Repo: `g811141a/ReiseLogBuch`, Branch `main`, GitHub Pages: https://g811141a.github.io/ReiseLogBuch/
-- Bei jeder Version erhöht `node ../AppDesign/werkzeug/veroeffentlichen.mjs vorbereiten --app reiselogbuch=X.Y.Z` (mit
-  `--ad`, wenn AppDesign mitkommt) `APP_VERSION`, `APP_BUILT`, Cache-Name, Fassungs-Pfad, README ‚Verwendete Versionen‘
-  (R-10.4), PROMPT-Versionszeile und Backlog-Kopf; CHANGELOG und Prüfliste schreibt Claude, dann `… los`.
+- App: Reiselogbuch, Web-App (PWA) für iPad und iPhone: `index.html` plus `sw.js`, `manifest.json`, Icons. Was sie tut:
+  `PROMPT.md`.
+- Gemeinsame Bausteine aus der festen AppDesign-Fassung (R-10.3): `../AppDesign/fassung/X.Y.Z/design.css` und `ui.js` (in
+  `index.html` und in der Dateiliste von `sw.js`), `AD_NEEDED` = X.Y.Z; die Prüfskripte binden
+  `../../AppDesign/fassung/X.Y.Z/tests/…` ein. `index.html` enthält nur, was zum Reiselogbuch gehört – Gemeinsames wird in
+  AppDesign geändert.
+- Repo `g811141a/ReiseLogBuch`, Branch `main`, GitHub Pages: https://g811141a.github.io/ReiseLogBuch/
+- Versionen: `node ../AppDesign/werkzeug/veroeffentlichen.mjs vorbereiten --app reiselogbuch=X.Y.Z` (mit `--ad`, wenn AppDesign
+  mitkommt) erhöht `APP_VERSION`, `APP_BUILT`, Cache-Name, Fassungs-Pfad, README ‚Verwendete Versionen‘ (R-10.4),
+  PROMPT-Versionszeile und Backlog-Kopf; CHANGELOG und Prüfliste schreibt Claude, dann `… los`.
 - Daten im localStorage unter `reiselogbuch.v1`; Änderungen am Datenmodell immer mit Übernahme alter Daten (`normalize`).
 - Ausgabe (HTML/PDF) mit eigener, immer heller Gestaltung (`.rt`, Mustertabelle `outputCss`, R-6.2).
-- Bedienung: Seitenleiste `#side` (`renderSide`), Kopfzeile `.nb` mit Kapsel, Menüs `openMenu` (Untermenüs über
-  `submenu`), Sprechblasen `confirmPop`, Fenster-Kopfzeile `dlgHead` (Häkchen blau über `dlgDirty`), gedrückte
-  Schaltflächen `.on`; Seitenleiste ein/aus `settings.sidebar`; Darstellung `settings.appearance`; Abgleich `createSync`.
-- Prüfen: im Ordner `tests` einmalig `npm install playwright` (WebKit kommt über das Setup-Skript der Umgebung, sonst
-  `npx playwright install webkit` und `npx playwright install-deps webkit`), dann im Repo-Ordner `node tests/alle.mjs`
-  (oder `sh tests/alle.sh`): alle Prüfungen parallel in Chromium und WebKit, Abbruch beim ersten Fehler, `--alle` zeigt
-  alle roten; Gegenprobe `--gegenprobe` (siehe `tests/README.md`, AppDesign `tests/README.md`). Während der Arbeit nur die
-  betroffenen Prüfungen (`node tests/<datei>.mjs`); der volle Lauf genau einmal in `… los` (Zusammenarbeit 0 Nr. 2).
+- Bedienung im Code: Seitenleiste `#side` (`renderSide`), Kopfzeile `.nb` mit Kapsel, Menüs `openMenu` (Untermenüs über
+  `submenu`), Sprechblasen `confirmPop`, Fenster-Kopfzeile `dlgHead` (Häkchen blau über `dlgDirty`), gedrückte Schaltflächen
+  `.on`; Seitenleiste ein/aus `settings.sidebar`; Darstellung `settings.appearance`; Abgleich `createSync`; Schnittstelle zu ui.js
+  `db.settings.appearance`, `save()`, `render()`, `onDialogOpen()`.
+- Prüfen: `node tests/alle.mjs` (oder `sh tests/alle.sh`) im Repo-Ordner – alle Prüfungen parallel in Chromium und WebKit, Abbruch
+  beim ersten Fehler, `--alle` zeigt alle roten, Gegenprobe `--gegenprobe`; Einrichten: AppDesign-`CLAUDE.md`; die Prüfungen:
+  `tests/README.md`.
 
 ---
 
@@ -51,6 +45,7 @@ erst Prüfpunkte dann Neues, Zeit und Token am Ende jeder Antwort (Abschnitt 2).
 
 | Version | Datum | Inhalt |
 |---|---|---|
+| 3.6.0 | 21.10.2026 | AppDesign A-39 Konsolidierung: Verpflichtendes und Einrichten der Tests nur noch in der Zusammenarbeit bzw. der AppDesign-`CLAUDE.md`; App-Richtlinie enthält nur Abweichungen |
 | 3.5.0 | 20.10.2026 | Zu Beginn Abschnitte 0 und 1 der Zusammenarbeit (Sprache und Ton: per du) – AppDesign Zusammenarbeit 2.14.0 |
 | 3.4.0 | 16.10.2026 | Startfrage zu Beginn einer Sitzung ohne Auftrag (Zusammenarbeit 0 Nr. 19) |
 | 3.3.0 | 15.10.2026 | Gezielt lesen (nur Abschnitt 0 und Überschriften), ein voller Prüflauf je Version (AppDesign A-07) |

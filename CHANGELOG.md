@@ -13,6 +13,34 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.26.2 – 21.10.2026
+
+Reiselogbuch 3.26.2 · AppDesign 4.28.2 (Designrichtlinie allgemein 4.28.2) · Designrichtlinie Reiselogbuch 3.26.2 · Zusammenarbeit allgemein 2.17.0
+
+**AppDesign A-39 Konsolidierung:** nur Texte – die App funktioniert genau wie 3.26.1; sie lädt die neue Fassung AppDesign 4.28.2
+(darin nur die neu geordneten Regeln, die Bausteine sind dieselben).
+
+- **Designrichtlinie Reiselogbuch 3.26.2:** enthält nur noch die drei Abweichungen (Maps-Links der Lokale 19 px, Wetter am iPhone
+  40 px, feste Spaltenanteile der Ausgabe) und die Feldnamen des Abgleichberichts.
+- **PROMPT.md** ist jetzt eine gegliederte Funktionsbeschreibung (1 Zweck und Rahmen · 2 Begriffe, Texte und Icons · 3 Reisen · 4
+  iPad · 5 iPhone · 6 Suche · 7 Tageserfassung · 8 Quartier und Maps-Links · 9 Abschluss · 10 Ausgabe · 11 Backup, Abgleich,
+  Offline, Messung) mit allen Ausprägungen aus der bisherigen Richtlinie; überholte Stellen dem gebauten Stand angeglichen (z. B.
+  ‚erfasst‘ ohne Essen, Treffer unter der Suchzeile, Maps-Link endet an ‚ – ‘, Komma, Doppelpunkt, Klammer).
+- `CLAUDE.md` 3.6.0 und `tests/README.md` (jede Prüfung mit ihrer Regel, sieben fehlende Prüfungen ergänzt).
+
+Prüfliste P-62 (Schritt für Schritt, Zusammenarbeit allgemein 2.17.0). Link: https://g811141a.github.io/ReiseLogBuch/
+
+**P-62/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
+   (Home-Bildschirm bzw. https://g811141a.github.io/ReiseLogBuch/).
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.26.2 · erstellt am … · AppDesign 4.28.2‘.
+
+**P-62/1 – App unverändert (Stichprobe)**
+1. Ein Reiselogbuch öffnen und einen Tag antippen.
+2. Im Fenster ‚Ort‘ antippen, etwas tippen, Häkchen tippen.
+3. Erwartet: alles wie in 3.26.1 – die Tastatur geht beim ersten Mal auf, nichts springt, der Tag zeigt den Eintrag.
+
 ## 3.26.1 – 21.10.2026
 
 Reiselogbuch 3.26.1 · AppDesign 4.28.1 (Designrichtlinie allgemein 4.28.1) · Designrichtlinie Reiselogbuch 3.26.1 · Zusammenarbeit allgemein 2.16.0

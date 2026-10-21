@@ -1,170 +1,27 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.26.1** · Stand 21.10.2026
+**Version 3.26.2** · Stand 21.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.28.1)** – die Komponenten kommen
-> fertig aus `AppDesign/v4/design.css` und `ui.js`.
-> Hier stehen nur **Abweichungen** (bewusst anders als dort) und **Ausprägungen**
-> (konkrete Ausgestaltung einer allgemeinen Regel für das Reiselogbuch).
-> Die vollständige Funktionsbeschreibung steht in `PROMPT.md`.
->
-> Derzeit gibt es **keine Abweichungen** – alle Punkte sind Ausprägungen.
-
-> **Hinweis für Claude:** Bei jeder Design-Änderung nachfragen, ob sie allgemein oder nur
-> für das Reiselogbuch gilt. Diese Datei wird bei jeder Reiselogbuch-spezifischen
-> Design-Änderung aktualisiert und ihre Versionsnummer erhöht.
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.28.2)** – die Komponenten kommen fertig aus der festen
+> AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
+> anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
+> Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
 
 ---
 
-## 1. Begriffe — Ausprägung
+## 1. Abweichungen
 
-- App-Name „Reiselogbuch“; der Begriff „Reisetagebuch“ kommt nicht vor.
-- Seitenleiste: „Reiselogbücher“; Fenster „Neues Reiselogbuch“ (über plus) und
-  „Einstellungen“ (Mehr-Menü); Menüpunkt „Reiselogbuch löschen“.
-- Überschrift „Reiselogbuch – <Titel>“ nur in der Ausgabe; in der App steht der Titel des
-  Reiselogbuchs in der Leiste (iPad und iPhone).
-- Spalte und Erfassungsschritt **‚Verlauf‘** (bis 3.1.0 ‚Programm‘) – passt auch zu Tagen, an denen man
-  nur fährt. Erfassungsschritte: „Wetter“, „Verlauf“, „Wie war was?“, „Essen und Trinken“, „Quartier“.
-- Options-Kapseln (Tageserfassung): „Quartier wie Vortag“, „keinen Google-Maps Link“; Schalter (Bearbeiten):
-  „Quartierliste in der Ausgabe“.
-- Blättern in der Tageserfassung: chevron-left / chevron-right (Vortag / Folgetag, nur Icon).
-- Filter im Mehr-Menü: ‚Alle Tage‘ (`list-chevrons-up-down`) / ‚Nur erfasste Tage‘ (`fold-vertical`) –
-  Häkchen vor der Auswahl (15.6).
-- Leer: „Noch kein Reiselogbuch angelegt.“ (Seitenleiste) bzw. zusätzlich „Mit „plus“ in der
-  Seitenleiste ein neues anlegen.“ (Inhalt).
+| Nr. | Was | allgemein gilt | Grund | Prüfung | Entschieden |
+|---|---|---|---|---|---|
+| 1 | Maps-Links der Lokale in der Spalte ‚Essen und Trinken‘ nur so hoch wie der Text (ca. 19 px) – auf dem iPhone auch in den Tageskästen; Quartier-Links haben die unsichtbare Antippfläche von 44 px | Antippfläche 44 pt, kleine Links unsichtbar größer (R-3.1, HIG 1) | mehr Zeilenabstand in der Tabelle nicht gewünscht; im Kasten würde eine größere Fläche das Antippen des Tages behindern | `hig.mjs` zählt sie nicht (`skipTargets` `.ln:not(.q) a` in den Prüfskripten) | 09.10.2026 · iPhone 10.10.2026 |
+| 2 | Wetter-Symbole in der Tageserfassung auf dem iPhone 40 px breit (in der Kapsel, über dem Minimum von 28 pt) | Icon- und Emoji-Schaltflächen 44 × 44 (4, R-3.1) | alle sieben passen ohne Wischen | `hig.mjs` (Kapsel ab 28) | 10.10.2026 |
+| 3 | Tagestabelle der Ausgabe mit festen Spaltenanteilen: ‚Tag‘ so schmal wie das Datum, Verlauf und ‚Wie war was?‘ je 28, Essen und Quartier je 22 – unabhängig von der Textmenge, die letzten beiden Spalten gleich breit; fehlt eine Spalte, teilen sich die übrigen den Platz im selben Verhältnis | Spaltenbreiten passen sich dem Inhalt an (9) | Entscheidung des Nutzers mit 3.11.6 (gilt nur für das Reiselogbuch, nicht allgemein) | Sicht | 14.10.2026 |
 
-## 2. Icons und Emojis — Ausprägung
+## 2. Abgleich – Feldnamen
 
-| Aktion | Lucide-Icon |
-|---|---|
-| Ausgabe (Teilen-Menü) | `share` |
-| Einstellungen des Reiselogbuchs | `settings` |
-
-Emojis als Inhalt: Wetter ☀️ 🌤 🌦 🌧 ☁️ ⛈ ❄️ · Reisemittel 🚗 🚆 🚲 ✈️ 🚙 🚢 🚐 🚶 ·
-📍 vor Maps-Links (nur Zeichen, verlinkt ist nur der Name – er endet an ‚ – ‘, Komma, Doppelpunkt oder Klammer, nicht vor einer Ziffer (seit 3.18.0, T-86); Antippfläche unsichtbar mindestens 44 px, R-3.1) ·
-▫️ vor mehreren Punkten im Verlauf · ⊘ am Zeilenanfang = ohne Maps-Link ·
-Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinken), 😴💤 (Quartier).
-
-## 3. Hauptansicht — Ausprägung
-
-- **Seitenleiste** (Komponente): unter ‚Reiselogbücher‘ klein und grau die Anzahl; Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst; je
-  Kachel Titel · „TT.MM.JJJJ - TT.MM.JJJJ · läuft gerade / beendet / geplant“ und ›. Fest unten die
-  Backup-Kachel (R-9.1). Mehr-Menü: Backup erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher.
-  Langes Drücken auf ein Reiselogbuch: Einstellungen · Reiselogbuch löschen.
-- **Kopfzeile** (Komponente): Titel der Reise; Kapsel [share | search | ellipsis].
-  - share → Menü: Vorschau · HTML · PDF (jeweils mit grauem Hinweis), Strich, darunter
-    ‚N erfasste Tage · Dateiname: …‘.
-  - search → Suchzeile; die Suche durchsucht den Verlauf und die sichtbaren Spalten. **Mehrere Wörter (seit 3.23.0, R-2.3):**
-    ‚ein Eintrag‘ ist das ganze Reiselogbuch – jedes Wort muss irgendwo darin stehen; gezeigt werden die Tage mit mindestens
-    einem Wort (Entscheidung des Nutzers 18.10.2026).
-  - ellipsis → Mehr-Menü: Alle Tage / Nur erfasste Tage · Einstellungen · Darstellung › ·
-    Reiselogbuch löschen (rot, Sprechblase mit Tipp zum Backup).
-- Darunter (ohne Überschrift – der Titel steht in der Kopfzeile): Reiseteilnehmer,
-  Reisezeitraum, Reisemittel und Fortschrittsanzeige („Tag 42 von 80 · 38 erfasst“).
-- Tagestabelle: Tag · Verlauf · sichtbare konfigurierte Spalten. Die erste Lücke ist
-  gelb markiert (ohne blauen Rand), vergangene leere Tage tragen „fehlt“ (Farbe `--warn`).
-- Darunter: Fazit (Kasten passt sich dem Inhalt an), Gesamtausgaben (Betragsfeld 150 px,
-  „[ 4.850,00 ] €“), Quartierliste (nur mit Spalte Quartier), Statistik (Reisetage · Quartiere ·
-  Nächte · Wetter · Smileys).
-
-## 3a. iPhone — Ausprägung der iPhone-Ansicht (allgemein 15.17)
-
-- **Start (seit 3.15.0, allgemein R-7.2):** jedes Neuladen beginnt in der Startliste ‚Reiselogbücher‘ ohne blauen Eintrag;
-  ein Reiselogbuch öffnet beim ersten offenen Tag. Die Startreise (laufende, sonst zuletzt beendete, sonst nächste) bleibt
-  gewählt und erscheint, wenn das Fenster in den iPad-Aufbau wechselt. Runder `chevron-left` führt zur Startliste.
-- **Startliste ‚Reiselogbücher‘ = Seitenleiste:** fest stehende Leiste mit ‚Reiselogbücher‘ links
-  (darunter klein und grau die Anzahl) und der Kapsel [`plus` | `ellipsis`] rechts (ellipsis: Backup
-  erstellen · Backup laden · Strich · Versionszeile · Satz zum Speicher); ohne großen Titel; jedes Reiselogbuch als
-  eigene Kachel (Titel · Zeitraum · Zustand, ›), das zuletzt geöffnete blau (nach dem Start keines, R-7.2); Backup-Kachel fest am unteren Rand (R-7.1, R-9.1). Langes Drücken: Einstellungen · Reiselogbuch
-  löschen. Leer: ‚Noch kein Reiselogbuch angelegt.‘ und ‚Mit ‚plus‘ oben rechts ein neues
-  Reiselogbuch anlegen.‘
-- **Reiselogbuch:** Kopf mit rundem `chevron-left` und Kapsel [`share` | `search` | `ellipsis`]
-  (R-1.1); der Reisetitel steht in der Mitte der Leiste. Darunter wie am
-  iPad ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ – nach dem Doppelpunkt eine neue Zeile;
-  die Reisemittel in einer Zeile, bei Bedarf seitlich wischen; dann die Fortschrittsanzeige.
-- **Tage als Kästen:** Kopf ‚Mo, 24.08.‘ mit ‚heute‘/‚fehlt‘ und Wetter rechts (leer: blasse
-  Platzhalter); Felder ‚Verlauf‘ (als Wort, normale Größe, halbfett), dann die Spalten-Emojis
-  🙂☹️😉 · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt; zwischen den Feldern
-  waagrechte Linien, zwischen Bezeichnung und Inhalt eine senkrechte. Erster offener Tag gelb
-  (ohne blauen Rand); der angetippte Kasten bleibt blau, solange die Tageserfassung offen ist.
-- Darunter Fazit (volle Breite), Gesamtausgaben, Quartierliste als Liste (Quartier mit Maps-Link,
-  darunter ‚24.08. - 25.08.2026 · 1 Nacht‘), Statistik.
-- **Suche** wie am iPad (15.17, R-2.3): es bleiben nur Tage mit Treffern.
-- **Tageserfassung** bildschirmfüllend, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘;
-  Wetter-Symbole 40 px breit, damit alle sieben ohne Wischen passen.
-- Nach dem Löschen eines Reiselogbuchs geht es zur Startliste. (Vorschau R-6.4, Abfragen R-4.3, Backup laden R-9.2.)
-
-## 4. Tageserfassung — Ausprägung des Erfassungsfensters
-
-- Kopfzeile: x · Wochentag mit vollem Datum („Sonntag, 04.10.2026“), darunter
-  „Automatisch gespeichert um hh:mm“ · Kapsel [chevron-left | chevron-right] · Häkchen.
-- Schritte je nach sichtbaren Spalten (2 bis 5).
-- Eingeschaltet (blau getönt mit Haarlinie): gewählte Wetter-Symbole.
-- Diktieren und Großbuchstaben nach R-5.2, Hinweis zum Diktieren unten im Fenster; groß wird auch der erste Buchstabe nach
-  einem Smiley.
-- Verlauf: Vorschläge als Chips zum Antippen („Weiterfahrt nach …“, „Rundgang durch …“,
-  „Besichtigung …“, „Freetour …“, „Tour …“, „Sonstiges …“); „…“ ist nur Platzhalter und wird nicht übernommen.
-  „Sonstiges …“ (seit 3.22.0) schreibt keinen Text, sondern setzt eine leere erste Zeile und den Cursor dorthin.
-- Smiley-Leisten bei „Wie war was?“, „Essen und Trinken“ (eigener Satz:
-  🕗 🕙 🕛 🕒 🕕 😋 👌 👍 😕 🤮 👎 ⭐️ 🍕 🍔 🥩 🍷 🍺 ☕️) und im Fazit.
-- Quartier: Kopfzeile „Quartier wie Vortag“ (nicht am ersten Tag) und
-  „keinen Google-Maps Link“; Felder Name und „Ort für Google Maps, z. B. Cairns,
-  Australien“ **nebeneinander in einer Zeile (halb und halb)**, bei schmalem Bildschirm
-  untereinander; Link „📍 In Google Maps prüfen“.
-
-## 5. Abfragen — Ausprägung der Sprechblasen
-
-- Backup laden: Abfrage mit den Kacheln Abgleichen und Ersetzen nach R-9.2 (allgemein 15.19).
-- Reiselogbuch löschen (am ellipsis der Kopfzeile) · Backup laden („Ersetzen“, am ellipsis der
-  Seitenleiste) · Smiley entfernen (am Smiley) · Smileys zurücksetzen (am rotate-ccw) ·
-  Änderungen verwerfen (am x). Rote Schaltflächen: „Reiselogbuch löschen“, „Ersetzen“,
-  „Entfernen“, „Zurücksetzen“, „Änderungen verwerfen“.
-
-## 6. Neues Reiselogbuch / Einstellungen — Ausprägung
-
-- Gewählte Reisemittel: eingeschaltet (blau getönt mit Haarlinie).
-- Kästen: Reisetitel · Reiseteilnehmer · Reisezeitraum („Von“ Datum · „Bis“ Datum) ·
-  Reisemittel (Chips) · Konfiguration Tabellenspalten · Quartierliste in der Ausgabe.
-- Pflichtfelder: Reisetitel, Reiseteilnehmer, Reisezeitraum, mindestens ein Reisemittel.
-  Meldungen:
-  - „Bitte einen Reisetitel eingeben.“
-  - „Bitte Reiseteilnehmer eingeben.“
-  - „Bitte Beginn und Ende der Reise wählen.“ bzw. „Der Zeitraum überschneidet sich mit
-    „…“ (…). Bitte korrigieren.“ – erscheint auch, sobald ein Titel eingegeben wurde
-    (das vorgeschlagene Datum kann sich mit einer anderen Reise überschneiden)
-  - „Bitte mindestens ein Reisemittel wählen.“
-- Konfiguration Tabellenspalten: Hinweis „Die Spalten ‚Tag‘ und ‚Verlauf‘ werden immer
-  angezeigt.“; Schalter in Tabellenreihenfolge „Spalte 🙂☹️😉 ‚Wie war was?‘“,
-  „Spalte 🍽️🍷☕️ ‚Essen und Trinken‘“, „Spalte 😴💤 ‚Quartier‘“ (einfache
-  Anführungszeichen), beim Anlegen alle eingeschaltet; Hinweis „Ausgeblendete Spalten fehlen in Tabelle, Tageserfassung und
-  Ausgabe. Vorhandene Einträge bleiben erhalten.“ Ohne Spalte Quartier ist
-  „Quartierliste in der Ausgabe“ ausgegraut.
-
-## 7. Ausgabe — Ausprägung
-
-- Kein eigenes Fenster „Ausgabe“ mehr: Teilen-Menü in der Kopfzeile (Abschnitt 3).
-- Inhalt: Überschrift, Reisedaten, Tagestabelle (nur erfasste Tage, ohne
-  Wetter-Platzhalter; Wetter in der Spalte „Tag“ unter dem Datum), danach Fazit · Gesamtausgaben · Quartierliste (falls aktiviert) ·
-  Statistik · Zeile „Ausgabe V… erstellt am …“.
-- Tagestabelle mit festen Spaltenanteilen (seit 3.11.6): ‚Tag‘ so schmal wie das Datum, Verlauf und ‚Wie war was?‘ je 28,
-  Essen und Quartier je 22 – unabhängig von der Textmenge, die letzten beiden Spalten gleich breit; fehlt eine Spalte,
-  teilen sich die übrigen den Platz im selben Verhältnis (gilt nur für das Reiselogbuch, nicht allgemein).
-- Dateinamen: „Reiselogbuch <Titel> JJJJ.MM.TT-JJJJ.MM.TT V001“ und
-  „Ω Backup Reiselogbuch JJJJ.MM.TT hh.mm.json“.
-
----
-
-## Bewusste Abweichungen von der HIG-Checkliste
-
-| Was | Grund | Entschieden |
-|---|---|---|
-| Maps-Links der Lokale in der Spalte ‚Essen und Trinken‘ nur so hoch wie der Text (ca. 19 px) – auf dem iPhone auch in den Tageskästen | mehr Zeilenabstand in der Tabelle nicht gewünscht; im Kasten würde eine größere Fläche das Antippen des Tages behindern; das HIG-Prüfskript zählt es nicht | 09.10.2026 · iPhone 10.10.2026 |
-| Kapsel ‚Nach oben / Ans Ende‘ auch auf dem iPhone (Apple: Statusleiste antippen, Scroll-Leiste ziehen) | Apple-Weg zu schwerfällig; allgemein in AppDesign R-3.2 (A-15) | 17.10.2026 |
-| Wetter-Symbole in der Tageserfassung auf dem iPhone 40 px breit (in der Kapsel, über dem Minimum von 28 pt) | alle sieben passen ohne Wischen | 10.10.2026 |
-
-## Abgleich zwischen iPad und iPhone
-
-Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Designrichtlinie allgemein (Abschnitt 15.18). Ausprägung im Reiselogbuch: Einträge = Reiselogbücher, Unterdaten = Tage (Felder Wetter, Verlauf, Wie war was?, Essen, Quartier …), Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Kosten; Zähler ohne Zeitpunkt = Dateinummer für PDF/HTML. Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Reisemittel, Quartierliste, Spalte Essen, Spalte Wie war was?, Spalte Quartier, Fazit, Gesamtausgaben; je Tag Wetter, Verlauf, Wie war was?, Essen und Trinken, Quartier, Ort, Quartier wie Vortag, Google-Maps-Link.
+Es gelten R-9.2 bis R-9.4 und die Fall-Tabelle der Designrichtlinie allgemein (15.18); wie das Reiselogbuch Einträge, Tage und
+Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier, weil die Prüfung sie mit der App vergleicht
+(R-10.1, `doku.mjs`). Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Reisemittel, Quartierliste, Spalte Essen, Spalte Wie war was?, Spalte Quartier, Fazit, Gesamtausgaben; je Tag Wetter, Verlauf, Wie war was?, Essen und Trinken, Quartier, Ort, Quartier wie Vortag, Google-Maps-Link.
 
 ---
 
@@ -172,6 +29,7 @@ Es gelten die allgemeinen Regeln R-9.2 bis R-9.4 und die Fall-Tabelle der Design
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.26.2 | 21.10.2026 | Korrektur | **AppDesign A-39 Konsolidierung:** die Richtlinie enthält nur noch die Abweichungen (Nutzer 21.10.2026, F-5) – Maps-Links der Lokale 19 px, Wetter am iPhone 40 px, feste Spaltenanteile der Ausgabe (bisher unter Ausgabe als Ausprägung, ‚derzeit keine Abweichungen‘ war überholt) – und die Feldnamen des Abgleichberichts; alle Ausprägungen (bisher 1 Begriffe, 2 Icons und Emojis, 3 Hauptansicht, 3a iPhone, 4 Tageserfassung, 5 Abfragen, 6 Neues Reiselogbuch / Einstellungen, 7 Ausgabe) stehen jetzt in `PROMPT.md`; ‚Nach oben / Ans Ende auch am iPhone‘ ist allgemeine Abweichung (Designrichtlinie allgemein 16). Überholt und berichtigt: Meldung bei überschneidendem Zeitraum (‚Wähle einen Zeitraum, der sich nicht mit … überschneidet.‘), Startreise (zuerst die zuletzt verwendete), Bausteine aus der festen Fassung statt `v4/` |
 | 3.26.1 | 21.10.2026 | Korrektur | angepasst an allgemein 4.28.1 (A-36, R-4.5, R-2.4): Tastatur ohne Springen – Felder rollen beim Antippen in die obere Hälfte, Leisten und Fenster stehen still; iPhone quer niedrige Leisten (32 px); `ablauf-tastatur-still.mjs` erweitert |
 | 3.26.0 | 20.10.2026 | Neben | angepasst an allgemein 4.28.0 (A-35, R-4.5): Gesamtausgaben steht bei offener Tastatur ganz sichtbar über ihr; A-31 die Messung iPhone quer läuft als Prüfung mit |
 | 3.25.1 | 19.10.2026 | Korrektur | angepasst an allgemein 4.27.1 (A-33, R-3.2): die Kapsel ‚Nach oben / Ans Ende‘ überdeckt nie Kopf- oder Suchzeile, am iPhone quer mit offener Tastatur ausgeblendet |
