@@ -1,17 +1,19 @@
-# Reiselogbuch – Prompt (Stand 21.10.2026, Version 3.26.1)
+# Reiselogbuch – Funktionsbeschreibung (Stand 21.10.2026, Version 3.26.2)
 
-Reiselogbuch 3.26.1 · AppDesign 4.28.1 (Designrichtlinie allgemein 4.28.1) · Designrichtlinie Reiselogbuch 3.26.1 · Zusammenarbeit allgemein 2.16.0
-(Gestaltungsregeln: Designrichtlinie allgemein im Design-Repo AppDesign und
-`README - Designrichtlinie Reiselogbuch.md`; Zusammenarbeit: in AppDesign; Einstieg für Claude:
-`CLAUDE.md`. Gemeinsame Bausteine `design.css`/`ui.js` kommen aus AppDesign v4. Bei jeder
-Design-Änderung mit aktualisieren.)
+Reiselogbuch 3.26.2 · AppDesign 4.28.2 (Designrichtlinie allgemein 4.28.2) · Designrichtlinie Reiselogbuch 3.26.2 · Zusammenarbeit allgemein 2.17.0
 
-```text
-Baue mir ein einfaches Reiselogbuch als Web-App für das iPad.
+Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
+Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
+steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLAUDE.md`. Bei jeder Änderung mit aktualisieren.
 
-ZIEL
-Ein Tagebuch in Tabellenform, genau wie in meinem Beispiel:
+---
 
+## 1. Zweck und Rahmen
+
+- Ein Reisetagebuch in Tabellenform: je Reise ein **Reiselogbuch** mit einer Zeile je Tag, am Ende Fazit, Gesamtausgaben,
+  Quartierliste und Statistik; ausgegeben als HTML oder PDF. Beispiel der Ausgabe:
+
+  ```text
   Reiselogbuch – <Titel>
   Reiseteilnehmer:  Gerhild & Arnold
   Reisezeitraum:    24.08.2026 - 11.11.2026
@@ -22,484 +24,210 @@ Ein Tagebuch in Tabellenform, genau wie in meinem Beispiel:
 
   Fazit
   Gesamtausgaben: 0,00 €
+  ```
 
-RAHMEN
-- Läuft auf iPad und iPhone (abgeglichen über das Backup), nur ich nutze es (kein Login).
-- Nur Text, Icons und Smileys – keine Fotos.
-- Daten bleiben lokal auf dem Gerät; die App fordert beim Start dauerhaften
-  Speicher an, damit Safari die Daten nicht von selbst löscht.
-- Auch offline nutzbar. Beim Start fragt die App immer bei GitHub nach
-  einer neuen Version (kein 10-Minuten-Zwischenspeicher); ohne Netz läuft
-  die gespeicherte Version. Arbeitet die App offline (kein Netz oder Netz hängt länger als 3 s), steht unter der
-  Backup-Kachel grau ‚Offline – alles bleibt auf diesem Gerät‘; beim Wechsel und beim Start ohne Netz erscheint kurz
-  ‚Du bist offline‘ bzw. ‚Wieder online‘ (seit 3.14.0, AppDesign R-1.5).
-- Oberfläche auf Deutsch, schlicht und klar.
-- Web-App, die man über Safari zum Home-Bildschirm hinzufügt.
-- Bereitstellung über GitHub Pages aus dem Repo "ReiseLogBuch" (Branch
-  main, Hauptordner): https://g811141a.github.io/ReiseLogBuch/
-  (Repo öffentlich, die Einträge bleiben trotzdem nur auf dem iPad).
-- Darstellung wie Apple: folgt automatisch der Hell/Dunkel-Einstellung des
-  iPads (Voreinstellung "Automatisch"). Im Mehr-Menü Untermenü "Darstellung ›"
-  (sun-moon) mit Automatisch · Hell · Dunkel zum Übersteuern; wird gemerkt.
-- Aufbau wie Apple-Apps:
-  - Links die Seitenleiste "Reiselogbücher": Überschrift linksbündig,
-    daneben die Kapsel [plus | ellipsis] und rechts die runde Schaltfläche
-    panel-left zum Ausblenden; der Kopf bleibt stehen. Darunter alle Reiselogbücher als
-    Kacheln (zuletzt beginnende zuerst): Titel fett, darunter grau "TT.MM.JJJJ - TT.MM.JJJJ ·
-    läuft gerade/beendet/geplant", rechts ›; das geöffnete ist blau gefüllt. Antippen
-    öffnet es. Die Seitenleiste schwebt wie in Safari (runde Ecken, Schatten wie die
-    Schaltflächen, Abstand zum Rand, unten nur 4 px). Beim Start ist sie immer
-    eingeblendet, das zuletzt verwendete Reiselogbuch ist geöffnet (sonst die laufende Reise). Quer steht sie fest links
-    (aus-/einblendbar bis zum nächsten Start); im Hochformat wird sie über den Inhalt gelegt und schließt sich
-    nach der Auswahl. Ist sie ausgeblendet, steht panel-left links in der
-    Kopfzeile.
-  - plus öffnet "Neues Reiselogbuch". ellipsis der Seitenleiste: Backup
-    erstellen (darunter grau "Letztes Backup erstellt am …") · Backup laden ·
-    Abstand · Messung starten (activity, darunter grau "Für Claude: Bewegungen
-    aufzeichnen"; während der Messung "Messung beenden und teilen" circle-stop mit
-    "läuft · m:ss · N Zeilen", AppDesign 15.21, seit 3.24.0) ·
-    durchgehender Strich · darunter ohne Leerzeilen grau "Reiselogbuch · Version
-    X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm" und "Die Daten bleiben in Safari
-    gespeichert, solange das Reiselogbuch auf dem Home-Bildschirm nicht entfernt
-    wird." (bzw. "Safari kann die Daten bei Speichermangel löschen – bitte
-    regelmäßig ein Backup erstellen.")
-  - Langes Drücken auf ein Reiselogbuch in der Seitenleiste öffnet ein Menü:
-    Einstellungen · Reiselogbuch löschen (rot, mit Abfrage) – ohne "Öffnen",
-    weil kurzes Tippen öffnet.
-  - Suche über alle Reiselogbücher (seit 3.21.0, T-92, R-2.3): Kapsel im Kopf der Seitenleiste
-    bzw. Startliste [plus | search | ellipsis] (Lupe am Ende seit 3.23.0); search blendet darunter die Suchzeile "In allen
-    suchen" ein. Beim Tippen bleiben nur Reiselogbücher mit Treffer, jede Kachel zeigt "12 Treffer"
-    (je Fundstelle, gleich wie "1 von 12" im Reiselogbuch; nur sichtbare Spalten), unter der
-    Überschrift "2 von 5 Reiselogbüchern", sonst "Keine Treffer". Antippen öffnet das Reiselogbuch
-    mit gefüllter Suche, erster Treffer direkt unter der Suchzeile. Die Liste bleibt gefiltert, bis
-    ⓧ oder search sie leert. iPad: das rechts offene Reiselogbuch bleibt unberührt, solange seine
-    Suche zu ist; sind beide Suchfelder offen, wird jede Eingabe 1:1 ins andere übernommen.
-  - Mehrere Wörter (seit 3.23.0, T-93, R-2.3): Leerzeichen trennt Wörter; ein Reiselogbuch passt, wenn jedes
-    Wort irgendwo darin vorkommt (Reihenfolge, Groß/klein egal); "…" sucht eine genaue Wortfolge. Gezeigt werden
-    die Tage mit mindestens einem Wort; alle Wörter werden markiert und gezählt (Liste und Reiselogbuch gleich).
-  - Wurde heute noch kein Backup erstellt, steht unten in der Seitenleiste fest
-    eine gelbe Kachel "Letztes Backup erstellt am …" (bzw. "Noch kein Backup erstellt.")
-    mit blauem Knopf "Backup erstellen".
-  - Kopfzeile des Inhalts (bleibt beim Scrollen stehen, keine Glas-Leiste):
-    Titel der Reise in der Mitte, rechts die Kapsel [share | search |
-    ellipsis]. share öffnet das Teilen-Menü (Vorschau · HTML · PDF), search
-    blendet darunter eine zweite Zeile mit dem Suchfeld über die volle
-    Breite ein, ellipsis öffnet das Mehr-Menü: "Alle Tage" (list-chevrons-up-down) /
-    "Nur erfasste Tage" (fold-vertical) – Häkchen vorne, dann Icon und Text ·
-    "Einstellungen" · "Darstellung ›" · "Reiselogbuch löschen" (rot).
-  - iPhone (hoch und quer, auch sehr schmale Fenster; AppDesign html.phone) – eine Seite
-    nach der anderen statt Seitenleiste, Bedienung sonst wie am iPad:
-    - Start (seit 3.15.0, R-7.2): jedes Neuladen beginnt in der Startliste "Reiselogbücher",
-      ganz oben, kein Eintrag blau; ein Reiselogbuch öffnet beim ersten offenen Tag. Gilt im
-      iPhone-Aufbau, also auch für ein iPad im schmalen Fenster.
-      Im Reiselogbuch oben links runder chevron-left zur Startliste, rechts die Kapsel
-      [share | search | ellipsis] mit denselben Menüs und derselben Suche wie auf dem iPad
-      (Suchzeile darunter mit "1 von 4", ⓧ und ⌃ ⌄).
-    - Großer Titel (Reisetitel), darunter grau "Teilnehmer · Zeitraum", die
-      Reisemittel und die Fortschrittsanzeige; beim Hochschieben steht der Titel klein
-      in der Leiste (wie Notizen). Die Tage stehen als Kästen untereinander: Kopf
-      "Mo, 24.08." mit "heute"/"fehlt" und dem Wetter rechts, darunter die Felder
-      "Verlauf" (als Wort, normale Schrift) und 🙂☹️😉 · 🍽️🍷☕️ · 😴💤 (nur sichtbare
-      Spalten mit Inhalt), getrennt durch Linien (waagrecht zwischen den Feldern,
-      senkrecht zwischen Bezeichnung und Inhalt; "Verlauf" halbfett). Erster offener Tag gelb
-      (ohne blauen Rand – auch in der iPad-Tabelle).
-      Antippen öffnet die Tageserfassung (bildschirmfüllend, Titel kurz
-      "Di, 25.08.2026", Wetter-Symbole 40 px). Darunter Fazit, Gesamtausgaben,
-      Quartierliste als Liste und Statistik. Die Vorschau zeigt die Seite in voller
-      Breite (seitlich wischen).
-    - Startliste "Reiselogbücher": oben die Kapsel [plus | ellipsis] wie am iPad, großer
-      Titel, darunter "3 Reiselogbücher"; jedes Reiselogbuch als eigene Kachel, das
-      zuletzt geöffnete blau (seit 3.3.0 wie die Seitenleiste am iPad: fest stehende Leiste
-      mit "Reiselogbücher" links und [plus | ellipsis], ohne großen Titel und Anzahl); der Backup-Hinweis steht fest unten als gelbe Kachel mit
-      blauem Knopf (die Kacheln laufen dahinter durch); langes Drücken: Einstellungen ·
-      Reiselogbuch löschen. Nach dem Löschen eines Reiselogbuchs geht es zur Startliste.
-  - Seit 3.4.0: Der Titel des Reiselogbuchs steht auf iPad und iPhone in der Leiste; die
-    Überschrift "Reiselogbuch – <Titel>" gibt es nur noch in der Ausgabe. Auf dem iPhone stehen
-    darunter "Reiseteilnehmer:", "Reisezeitraum:", "Reisemittel:" (Wert jeweils in der nächsten
-    Zeile, Reisemittel in einer Zeile zum Wischen). Unter "Reiselogbücher" (Seitenleiste und
-    Startliste) klein und grau die Anzahl. Die Backup-Kachel steht immer unten – gelb mit blauem
-    Knopf, solange heute noch kein Backup erstellt wurde, sonst weiß. Nach einem Vorschlag im
-    Verlauf beginnt das nächste Wort groß.
-  - Seit 3.5.0: Leisten bewegen sich nie – die Seite federt beim Wischen nicht nach, die Leiste
-    der iPhone-Startliste steht fest. Die Vorschau zeigt auf iPad und iPhone die Seite in voller
-    Breite; ist das Fenster schmaler (iPad hoch, iPhone), wischt man seitlich.
-  - Seit 3.6.0: Auch am iPad steht die Kopfzeile fest; in der Seitenleiste scrollen nur die
-    Kacheln, Kopf und Backup-Kachel bewegen sich nie. Es gilt der Regelkatalog der
-    Designrichtlinie allgemein (seit 3.11.5 nach Themen: R-1.1 bis R-10.4); die Prüfskripte prüfen ihn bei jeder Version.
-  - Seit 3.7.0: Die Startliste am iPhone ist dieselbe Seitenleiste wie am iPad, als ganze Seite
-    (ein Baustein, R-1.1); die Kacheln laufen auf beiden Geräten hinter der Backup-Kachel durch.
-    Zu lange Wörter brechen in Zellen, Kästen und Kacheln im Wort um (R-6.3); die Suche markiert
-    auch Teile solcher Wörter.
-  - Seit 3.8.0: Reihen von Smileys ohne Leerzeichen brechen um – höchstens drei Smileys am
-    Zeilenanfang werden zum Zeichen, eine längere Reihe ist Text. Die Seitenleiste behält ihre
-    Position, der gewählte Eintrag bleibt sichtbar. iPhone: Wischen bei offener Suche schließt die Tastatur.
-  - Seit 3.8.1: Eine Symbolleiste – mit oder ohne Suchzeile – bewegt sich beim Wischen keinen
-    Millimeter (R-2.1). Bei offener Tastatur der Suche schließt das erste Wischen nur die Tastatur.
-  - Seit 3.9.0: Abgleich zwischen iPad und iPhone (T-03). Jede Änderung bekommt Zeitpunkt und Gerät
-    (je Reiselogbuch und je Tag), gelöschte Reiselogbücher werden gemerkt. ‚Backup laden‘ zeigt
-    Zeitpunkt und Gerät des Backups und ob es neuer oder älter ist und fragt: Abgleichen (je
-    Reiselogbuch und Tag gilt die neuere Fassung, Gelöschtes wird auch hier gelöscht) · Ersetzen ·
-    Abbrechen. Das Ergebnis steht im kleinen Fenster. Jede Kachel zeigt ‚geändert am … · Gerät‘.
-    Weg: auf dem einen Gerät ‚Backup erstellen‘ → ‚In Dateien sichern‘ → iCloud Drive; auf dem
-    anderen ‚Backup laden‘ → die Datei in iCloud Drive wählen → Abgleichen.
-  - Seit 3.9.1: Menüs, Sprechblasen und Fenster passen immer ganz auf den Bildschirm (R-4.5).
-  - Seit 3.10.0: Menüs und Untermenüs bleiben beim Drehen an ihrer Schaltfläche (R-8.1); iPhone: Kontextmenü einer
-    Reise linksbündig unter der Kachel. Abgleich je Feld nach den allgemeinen Regeln R-9.2 bis R-9.4 (Fall-Tabelle:
-    Designrichtlinie allgemein 15.18); Backup erstellen und laden nach R-9.1, R-9.2 – die Abfrage zeigt je eine Kachel
-    für Abgleichen und Ersetzen. Abgleich und Backup kommen als gemeinsame Bausteine aus AppDesign.
-  - Seit 3.10.1: Die Seitenleiste behält beim Drehen ihren Zustand (R-8.1); das Kontextmenü einer Reise ist nie
-    abgeschnitten und steht nie über der Backup-Kachel; leere Felder überschreiben beim Abgleich nichts; die Hinweise
-    nennen iPad bzw. iPhone beim Namen.
-  - Seit 3.11.0: Nach dem Abgleichen ein kleines Fenster ohne Einzelheiten; gibt es etwas zu berichten, öffnet
-    ‚Abgleichbericht anzeigen‘ den Bericht als Vorschau wie die Ausgabe (teilbar als HTML): Tabelle der Änderungen
-    (Reiselogbuch · Tag · Feld · Neu · Vorher · Vom Gerät · Geändert am), Anzahl unveränderter Reiselogbücher, Tabelle
-    ‚Auf diesem … neuer als im Backup – bleibt so‘, Hinweise (R-9.4). Ohne Änderung nur ‚Alles war schon auf dem gleichen
-    Stand.‘. Die App lädt AppDesign mit Versionsnummer und meldet beim Start eine falsche Fassung; die Versionszeile nennt
-    ‚AppDesign 4.11.0‘ (R-10.3). Die Seitenleiste hat einen Zustand für quer und hoch (R-8.1).
-  - Seit 3.11.2: Beim Drehen bleibt oben derselbe Tag stehen (R-8.1). Der Abgleichbericht hat oben rechts PDF und Teilen
-    wie die Vorschau der Ausgabe; kein Zelleninhalt ragt in die Nachbarzelle (R-6.3).
-  - Seit 3.11.3: Die Tabellen des Abgleichberichts sehen aus wie die der HTML-Ausgabe – überall gleich starke Linien (R-6.2).
-  - Seit 3.11.4: Im Abgleichbericht ist jedes Reiselogbuch eine Tabellenzeile (Name in der ersten Spalte zusammengefasst),
-    ganz weiß oder ganz grau, im Wechsel (R-6.2).
-  - Seit 3.11.5: Im Abgleichbericht heißt das Feld ‚Reisemittel‘ wie im Fenster (R-10.1).
-  - Seit 3.11.6: Der Abgleichbericht zeigt die Reisemittel mit Symbol und Namen (‚✈️ Flugzeug, 🚗 PKW‘) wie in der App. Die
-    Tagestabelle der Ausgabe hat feste Spaltenanteile (Verlauf und ‚Wie war was?‘ je 28, Essen und Quartier je 22, ‚Tag‘ so
-    schmal wie das Datum). ‚Gesamtausgaben‘ statt ‚Gesamtkosten‘. Am iPad bleibt die Seitenleiste beim Sprung zum ersten
-    Treffer der Suche bei offener Tastatur an ihrem Platz (R-2.1).
-  - Seit 3.19.0: Auch am iPhone steht im geöffneten Reiselogbuch unten rechts die Kapsel ‚Nach oben / Ans Ende‘
-    (nicht in der Startliste; ohne Scrollen ausgeblendet, R-3.2, AppDesign A-15). Seit 3.25.1 (AppDesign A-33): sie überdeckt
-    nie Kopf- oder Suchzeile – passt sie nicht ganz in den Inhalt (iPhone quer mit offener Tastatur), ist sie ausgeblendet.
-  - Offene Fenster, Menüs und Sprechblasen: Wischen und Tippen wirken nur dort, die
-    Seite dahinter bewegt sich nicht; Fenster öffnen ohne blauen Rahmen am x.
-  - Menüs: Icons vor dem Text, Schatten wie die Schaltflächen; daneben tippen
-    schließt. Die Schaltfläche, von der ein Menü, eine Abfrage oder ein
-    Fenster kommt, ist so lange blau getönt.
-- Abfragen (Löschen, Backup laden, Smiley entfernen, Smileys zurücksetzen,
-  Änderungen verwerfen) als Sprechblase an der angetippten Schaltfläche:
-  grauer Text, rote Schaltfläche mit dem Verb der Aktion, darunter
-  "Abbrechen" (bzw. "Weiter bearbeiten") in normaler Schrift – Schaltflächen
-  ohne Icons wie in Apple-Abfragen; daneben tippen bricht ab. Reine
-  Meldungen (z. B. Fehler) in einem kleinen Fenster mit rundem x. Keine
-  iPad-Systemfenster mit "Close"/"OK".
-- Alle Aktionen sind echte Schaltflächen (kein reiner Text als Link).
-- Fenster ohne Fußleiste: links oben rundes x, rechts oben rundes Häkchen.
-  Das Häkchen ist grau, bis etwas geändert wurde, dann blau. x schließt;
-  wurde etwas geändert, fragt eine Sprechblase "Änderungen verwerfen" /
-  "Weiter bearbeiten" (die Eingaben bleiben dann erhalten). Häkchen ohne
-  Änderung schließt einfach. Escape wirkt wie x.
-- Fehlermeldungen stehen in Rot direkt unter dem betroffenen Feld, das Feld
-  bekommt einen roten Rahmen. Beim Öffnen eines Fensters erscheint keine
-  Meldung. Reisetitel und Reiseteilnehmer: Meldung erst, wenn das Feld leer
-  verlassen oder geleert wird. Reisezeitraum: sobald ein Datum geändert oder
-  ein Titel eingegeben wurde. Reisemittel: wenn das letzte gewählte abgewählt
-  wird. Ein Tippen auf das Häkchen zeigt alle fehlenden Angaben und scrollt
-  zur ersten.
-- Pflichtfelder werden nicht gekennzeichnet (kein Sternchen, kein
-  "erforderlich"/"optional"); fehlt eine Eingabe, erscheint die Meldung am Feld.
-  Pflicht sind nur Reisetitel, Reiseteilnehmer, Reisezeitraum und Reisemittel
-  (mindestens eines).
-  - Bestätigung immer mit dem Verb der Aktion: "Löschen", "Entfernen",
-    "Zurücksetzen", "Ersetzen", "Änderungen verwerfen"
-- Alle Schaltflächen einheitlich 44 px hoch (auch lange Texte, Vorschläge,
-  Reisemittel, Wetter, Smileys); reine Icon-, Wetter- und Smiley-
-  Schaltflächen quadratisch 44 × 44 px (Emoji 24 px, Icon 20 px); Text in
-  der Höhe genau mittig zum Icon. Mehrere Schaltflächen nebeneinander in
-  einer Kapsel.
-- Textfelder wachsen mit dem Inhalt (nie innerhalb eines Feldes scrollen).
-  Datumsfelder sind so breit wie das Datum und haben rechts ein Kalender-Icon.
-  Tabellenüberschriften 17 px halbfett wie die Zellen.
-- Smileys, Wetter-Symbole und Reisemittel stehen je in einer Kapsel; bei
-  knappem Platz lässt sich der Inhalt wischen. Zurücksetzen steht daneben.
-- Suche: Markierung sofort, Sprung zum Treffer nach kurzer Tipp-Pause; der
-  Treffer steht direkt unter der Suchzeile. Kopf- und Suchzeile bleiben fest,
-  auch bei offener Tastatur.
-- Drucken/PDF: nur das Reiselogbuch, ohne Seitenleiste.
-- Bei sichtbarer Tastatur bleiben die Kopfzeilen aller Fenster und der
-  Hauptansicht sichtbar; nur der Inhalt scrollt.
-- Fenster passen sich in der Breite dem Inhalt an (höchstens 90 % der
-  Bildschirmbreite, Mindestbreite für Eingabefelder): Neues Reiselogbuch,
-  Einstellungen, Fazit, Meldungen. Tagesmaske und Vorschau sind fast
-  bildschirmbreit.
-- Versionsnummer dreistufig Hauptversion.Nebenversion.Korrektur (ab 1.0.0):
-  Hauptversion = grundlegende Änderung (Aufbau, Bedienkonzept, Datenstruktur);
-  Nebenversion = neue Funktion oder sichtbare Verbesserung; Korrektur =
-  Fehlerbehebung. Jede Version steht mit Datum, Art und Inhalt in CHANGELOG.md.
-- Vorschau: fast bildschirmbreites Fenster, Inhalt immer hell und genau wie
-  die HTML-Datei; Kopfzeile x · "Vorschau" mit dem Dateinamen klein darunter ·
-  Kapsel [PDF | share (blau gefüllt)]. Zeigt die Nummer der nächsten Datei,
-  ohne den Zähler zu erhöhen. Google-Maps-Links öffnen extern, die Vorschau
-  bleibt offen. Nach Teilen bzw. PDF folgen Meldung und ggf.
-  Backup-Erinnerung.
-- Schaltflächen-Icons aus dem Set Lucide (Liniengrafiken, direkt in die App
-  eingebettet, offline). Inhalte (Smileys, Wetter, Reisemittel, Essen-Leiste,
-  📍, Spaltenköpfe) bleiben Emojis. Zuordnung:
-  Seitenleiste panel-left · Neues Reiselogbuch plus · Mehr-Menü ellipsis ·
-  Einstellungen settings · Ausgabe/Teilen share (immer ohne Text) · Suchen
-  search · Darstellung sun-moon · Fertig check (rund) · Abbrechen/
-  Schließen x (rund) · Löschen/
-  Entfernen/Verwerfen trash · Weiter bearbeiten pencil · Backup sichern save
-  · Backup laden folder-open · Vorschau eye · HTML file-code · PDF file-text
-  · Nach oben/Ans Ende arrow-up-to-line/arrow-down-to-line (in einer senkrechten Kapsel) ·
-  Vortag/Folgetag chevron-left/chevron-right (nur Icon, als Kapsel) ·
-  Treffer chevron-up/chevron-down · Smileys zurücksetzen rotate-ccw
-- Begriffe: Seitenleiste "Reiselogbücher", Fenster "Neues Reiselogbuch" und
-  "Einstellungen", Menüpunkt "Reiselogbuch löschen", Überschrift
-  "Reiselogbuch – <Titel>" (App und Ausgabe). Die App heißt "Reiselogbuch";
-  der Begriff "Reisetagebuch" kommt nicht mehr vor.
-- Die "Reset"-Schaltfläche der iPad-Datumsauswahl bleibt (Systembeschriftung).
+- Web-App für iPad und iPhone, über Safari zum Home-Bildschirm hinzugefügt; nur eine Person nutzt sie (kein Login), abgeglichen
+  wird über das Backup (11). Nur Text, Icons und Smileys – keine Fotos.
+- Daten bleiben lokal auf dem Gerät (localStorage `reiselogbuch.v1`, dauerhafter Speicher angefordert); offline nutzbar (R-1.5).
+- Bereitstellung über GitHub Pages aus dem Repo ‚ReiseLogBuch‘ (Branch `main`, Hauptordner): https://g811141a.github.io/ReiseLogBuch/
+  – das Repo ist öffentlich, die Einträge bleiben trotzdem nur auf den Geräten.
+- Aufbau, Bedienung und Aussehen wie in der Designrichtlinie allgemein (Apple-Look, Seitenleiste und Kopfzeile, Fenster,
+  Sprechblasen, Schaltflächen, Tabellen, Darstellung hell/dunkel/automatisch).
 
-REISEN
-- Es wird immer an einer Reise gearbeitet.
-- Beim Start öffnet die App (iPad-Aufbau; am iPhone erst die Startliste ohne blauen Eintrag) das
-  zuletzt verwendete Reiselogbuch dieses Geräts (seit 3.17.0, T-88; auch während einer laufenden Reise;
-  Backup laden und Abgleichen übernehmen den Wert des anderen Geräts nicht).
-- Gibt es keines (alte Daten, gelöscht), öffnet sie die Reise, in deren Zeitraum das heutige Datum fällt.
-- Fällt heute in keine Reise, öffnet die App die zuletzt beendete Reise.
-  Gibt es noch keine beendete Reise, öffnet die nächste geplante Reise.
-- Gibt es noch kein Reiselogbuch (erster Start oder letztes gelöscht),
-  öffnet sich "Neues Reiselogbuch" einmal von selbst; mit x bleibt die leere
-  Seite mit dem grauen Hinweis "Noch kein Reiselogbuch angelegt." (auch in
-  der Seitenleiste). Das Häkchen öffnet das neue Reiselogbuch.
-- Eine neue Reise wird bewusst neu angelegt (plus in der Seitenleiste).
-- Die geöffnete Reise wird über Mehr-Menü → "Einstellungen" bearbeitet und
-  über Mehr-Menü → "Reiselogbuch löschen" gelöscht (Sprechblase mit Tipp,
-  vorher ein Backup zu sichern); danach öffnet die Startreise.
-- Reisezeitraum: grau "Von" Datum · "Bis" Datum in einer Zeile. Liegt das
-  Bis-Datum vor dem Von-Datum, wird es auf das Von-Datum gesetzt – und
-  umgekehrt.
-- Allgemeine Reisedaten: Titel, Reiseteilnehmer, Reisezeitraum,
-  darunter Reisemittel per Antippen, Mehrfachauswahl möglich,
-  in dieser Reihenfolge:
-  🚗 PKW · 🚆 Zug · 🚲 Fahrrad · ✈️ Flugzeug · 🚙 Leihwagen · 🚢 Schiff · 🚐 Wohnmobil · 🚶 Fuß
-  Die gewählten Reisemittel werden mit Icons ausgegeben.
-- Option "Quartierliste in der Ausgabe": beim Anlegen der Reise
-  wählbar und nachträglich änderbar.
-- Block "Konfiguration Tabellenspalten" (unter Reisemittel) mit Hinweis
-  "Die Spalten ‚Tag‘ und ‚Verlauf‘ werden immer angezeigt." und den
-  Schaltern in Tabellenreihenfolge: "Spalte 🙂☹️😉 ‚Wie war was?‘",
-  "Spalte 🍽️🍷☕️ ‚Essen und Trinken‘", "Spalte 😴💤 ‚Quartier‘". Beim Anlegen
-  alle drei eingeschaltet (bestehende Reiselogbücher: Wie war was? und
-  Quartier ein, Essen wie bisher). Ausgeblendete Spalten fehlen in Tabelle,
-  Tageserfassung (Schritte werden neu nummeriert), Suche und Ausgabe;
-  vorhandene Einträge bleiben erhalten.
-  - Quartier aus: "Quartierliste in der Ausgabe" ausgegraut, keine
-    Quartierliste in App und Ausgabe, Statistik ohne Anzahl der Quartiere.
-  - Wie war was? aus: Statistik zählt nur die Smileys des Fazits.
-  - Erfasst ist ein Tag, wenn Wetter, Verlauf oder eine sichtbare Spalte
-    (außer Essen) ausgefüllt ist.
-- Reisezeiträume dürfen sich nicht überschneiden (Hinweis "Wähle einen
-  Zeitraum, der sich nicht mit ‚…‘ (…) überschneidet.", Speichern erst nach
-  Korrektur möglich).
-- Frühere Reisen bleiben gespeichert und können jederzeit wieder
-  geöffnet und geändert werden.
-- Reisen können gelöscht werden, nur nach einer Sicherheitsabfrage.
+## 2. Begriffe, Texte und Icons
 
-HAUPTANSICHT (TABELLE)
-- Für jeden Tag im Zeitraum gibt es eine Zeile ("Mo, 24.08.").
-- Beim Öffnen scrollt die App zum ersten nicht erfassten Tag der Reise
-  (die erste Lücke, auch wenn spätere Tage schon erfasst sind) und
-  markiert diese Zeile; seit 3.20.0 (R-7.4) steht sie direkt unter dem Tabellenkopf
-  (iPhone: die Kachel direkt unter der Leiste). Sind alle Tage erfasst, beginnt die
-  Tabelle ganz oben ohne Markierung. Seitenleiste ein/aus: der oberste Tag bleibt stehen (R-8.1).
-- Die Kopfzeile bleibt beim Scrollen stehen, der Tabellenkopf direkt
-  darunter. Seit 3.25.0 (AppDesign A-28, B1) rollt die Seite nie, nur der Inhalt unter Kopf- und Suchzeile; bei offener
-  Tastatur endet er über ihr. In der Tabelle wird zwischen ganzen Wörtern umgebrochen; ein zu langes Wort bricht im Wort um (R-6.3).
-- Unten rechts übereinander die Schaltflächen ⬆️ (nach oben) und ⬇️ (ans
-  Ende), im gleichen Aussehen wie die Dunkel-Schaltfläche, ohne Schatten.
-- Filter im Mehr-Menü: "Alle Tage" bzw. "Nur erfasste Tage"; beim Öffnen
-  eines Reiselogbuchs und beim Start gilt immer "Alle Tage".
-- Dezente Fortschrittsanzeige, z. B. "Tag 42 von 80 · 38 erfasst".
-- Vergangene Tage ohne Eintrag werden dezent markiert.
-- Suche über die Einträge (Verlauf und sichtbare Spalten), nur innerhalb
-  der aktuellen Reise. Treffer werden im Text gelb hinterlegt. Suchfeld als
-  schwebende Kapsel in der zweiten Zeile über die volle Breite, rechtsbündig
-  „3 von 57“ (bzw. „0“)
-  und x zum Löschen; rechts daneben chevron-up / chevron-down zum vorigen bzw.
-  nächsten Treffer (am Anfang/Ende ausgegraut, kein Umlauf). Der Treffer im
-  Fokus ist hellorange und wird in die Bildmitte gescrollt; die Eingabetaste
-  springt weiter. Seit 3.25.0 (A-29): Lupe (Suche öffnen) und x rollen den Inhalt ganz nach oben, der Cursor bleibt im Feld.
-- Aussehen im Apple-Look (siehe Designrichtlinie allgemein): Hintergrund
-  Hellgrau, Kästen weiß ohne Rand, schwebende Schaltflächen mit 12 px Abstand;
-  Akzentfarbe Apple-Blau: blau gefüllt = Hauptaktion, blau getönt mit Haarlinie
-  = eingeschaltet (ohne Breitenänderung), rot gefüllt = Löschen; blau gefüllt nur in Fenstern,
-  nie in Menüs oder der Kopfzeilen-Kapsel. Tabellen und
-  Eingabefelder mit Schatten. Einstellungen im Fenster "Einstellungen" als
-  Apple-Schalter (Apple-Grün), Optionen in der Tageserfassung als Options-Kapseln
-  mit Häkchen. Quartier: Hotel und Ort nebeneinander in einer Zeile.
-- Tabellendesign (gilt für alle Tabellen in App, HTML und PDF):
-  - Kopfzeile leicht grau hinterlegt (#d9d9d9), Zellenränder darin zwei
-    Stufen dunkler (#a5a5a5); im Dunkelmodus Kopfzeile #3b3a37 mit
-    helleren Rändern (#625f5a), damit sie sichtbar sind
-  - jede 2. Tageszeile heller grau (#f5f5f5, dunkel #2e2d2a); gezählt
-    werden nur die sichtbaren Zeilen; die markierte Lücke bleibt gelb
-  - Trennlinien zwischen allen Spalten
-  - äußere Tabellenumrandung in der Farbe der Kopfzeilen-Ränder
-  - die Statistik bleibt eine schlichte Liste
-  - Quartierliste kompakt (Breite passt sich dem Inhalt an), "Nächte"
-    rechtsbündig (Überschrift und Werte)
-  - keine Hover-Farbe auf dem iPad (bleibt sonst nach dem Antippen hängen)
-- Mehrzeilige Einträge mit hängendem Einzug: Bricht eine Zeile um,
-  beginnt die Fortsetzung genau unter dem Text, nicht unter dem ▫️
-  bzw. dem Smiley.
+- App-Name ‚Reiselogbuch‘; der Begriff ‚Reisetagebuch‘ kommt nicht vor.
+- Seitenleiste bzw. Startliste ‚Reiselogbücher‘; Fenster ‚Neues Reiselogbuch‘ (über plus) und ‚Einstellungen‘ (Mehr-Menü);
+  Menüpunkt ‚Reiselogbuch löschen‘.
+- Überschrift ‚Reiselogbuch – <Titel>‘ nur in der Ausgabe; in der App steht der Titel des Reiselogbuchs in der Leiste (iPad und
+  iPhone, R-2.2).
+- Spalte und Erfassungsschritt **‚Verlauf‘** – passt auch zu Tagen, an denen man nur fährt. Erfassungsschritte: ‚Wetter‘,
+  ‚Verlauf‘, ‚Wie war was?‘, ‚Essen und Trinken‘, ‚Quartier‘.
+- Options-Kapseln (Tageserfassung): ‚Quartier wie Vortag‘, ‚keinen Google-Maps Link‘; Schalter (Bearbeiten): ‚Quartierliste in der
+  Ausgabe‘.
+- Leer: ‚Noch kein Reiselogbuch angelegt.‘ (Seitenleiste) bzw. zusätzlich ‚Mit ‚plus‘ in der Seitenleiste ein neues anlegen.‘
+  (Inhalt); iPhone-Startliste: ‚Noch kein Reiselogbuch angelegt.‘ und ‚Mit ‚plus‘ oben rechts ein neues Reiselogbuch anlegen.‘
+- **Abfragen** (Sprechblasen an der angetippten Schaltfläche, R-4.3): Reiselogbuch löschen (am ellipsis der Kopfzeile bzw. im
+  Kontextmenü) · Backup laden (Abgleichen/Ersetzen, am ellipsis der Seitenleiste) · Smiley entfernen (am Smiley) · Smileys
+  zurücksetzen (am rotate-ccw) · Änderungen verwerfen (am x). Rote Schaltflächen: ‚Reiselogbuch löschen‘, ‚Ersetzen‘,
+  ‚Entfernen‘, ‚Zurücksetzen‘, ‚Änderungen verwerfen‘.
+- Die ‚Reset‘-Schaltfläche der iPad-Datumsauswahl bleibt (Systembeschriftung).
+- **Icons** (Lucide, Zuordnung der Designrichtlinie allgemein 5): Ausgabe/Teilen `share`, Einstellungen des Reiselogbuchs
+  `settings`, Filter ‚Alle Tage‘ `list-chevrons-up-down` / ‚Nur erfasste Tage‘ `fold-vertical`, Vortag/Folgetag `chevron-left` /
+  `chevron-right`, Smileys zurücksetzen `rotate-ccw`.
+- **Emojis als Inhalt:** Wetter ☀️ 🌤 🌦 🌧 ☁️ ⛈ ❄️ · Reisemittel 🚗 🚆 🚲 ✈️ 🚙 🚢 🚐 🚶 · 📍 vor Maps-Links (8) · ▫️ vor mehreren
+  Punkten im Verlauf · ⊘ am Zeilenanfang = ohne Maps-Link · Spaltenköpfe 🙂☹️😉 (Wie war was?), 🍽️🍷☕️ (Essen und Trinken),
+  😴💤 (Quartier).
 
-ERFASSUNG – wenig eingeben, in ganz einfachen Schritten
-- Tag antippen → Erfassungsmaske (fast bildschirmbreit, damit weniger
-  gescrollt werden muss). Checkbox-Texte in normaler Schrift.
-- Titelzeile mit Wochentag und vollem Datum, z. B. "Sonntag, 04.10.2026".
-- Die Eingabefelder bleiben schlicht (ohne Aufzählungszeichen); die
-  saubere Formatierung erfolgt in Tabelle, HTML und PDF.
-- Schritte (je nach sichtbaren Spalten 2 bis 5, fortlaufend nummeriert):
-  1. Wetter: Symbole antippen, auch mehrere: ☀️ 🌤 🌦 🌧 ☁️ ⛈ ❄️
-  2. Verlauf (bis 3.1.0 "Programm"): eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle
-     und Ausgabe ▫️ davor.
-     Vorschläge zum Antippen: "Weiterfahrt nach …", "Rundgang durch …",
-     "Besichtigung …", "Freetour …", "Tour …", "Sonstiges …". Angetippt wird
-     der Text als neue Zeile eingefügt; die "…" sind nur Platzhalter und
-     werden nicht übernommen. "Sonstiges …" (seit 3.22.0) fügt keinen Text
-     ein, sondern eine leere Zeile am Anfang des Felds und setzt den Cursor
-     dorthin (ist die erste Zeile schon leer, keine zweite).
-  3. Wie war was?: Smiley + kurzer Text; mehrere Smiley-Zeilen möglich.
-     Alle Smileys möglich (iPad-Emoji-Tastatur).
-     Schnellauswahl über dem Textfeld (alle Smiley-Leisten: Wie war was?,
-     Essen und Trinken, Fazit): nur einzeilig, mit dem Finger nach links/
-     rechts wischen, Verlauf am Rand als Hinweis, ↺ fest rechts daneben.
-     - Sortiert nach Häufigkeit (meistbenutzt vorne), noch nie benutzte
-       in Standardreihenfolge dahinter.
-     - Langes Drücken entfernt einen Smiley (mit Sicherheitsabfrage).
-       Wird er später wieder verwendet, kommt er automatisch zurück.
-     - Reset-Icon (nur Symbol) stellt die Standard-Smileys wieder her
-       und setzt alle Zähler auf null (mit Sicherheitsabfrage).
-  4. Essen und Trinken (nur wenn die Spalte aktiviert ist): wie "Wie war was?", eine
-     Zeile pro Lokal im Format "Smiley(s) Name – Kommentar", z. B.
-     "🕛😋 Hard Rock Café – Steak war super". Eigene Smiley-Leiste mit
-     eigener Häufigkeit, Entfernen (lange drücken) und ↺, Standard:
-     🕗 🕙 🕛 🕒 🕕 😋 👌 👍 😕 🤮 👎 ⭐️ 🍕 🍔 🥩 🍷 🍺 ☕️
-     Darstellung "🕛😋 📍Hard Rock Café – Steak war super": 📍 ist nur
-     Zeichen, nur der Name des Lokals (bis einschließlich letztem
-     Buchstaben) ist der Link, ab dem Bindestrich normaler Text. Seit 3.18.0 (T-86)
-     endet der Name auch an Komma, Doppelpunkt und öffnender Klammer
-     ("Krone, sehr gut", "Krone: Schnitzel", "Krone (Terrasse)"); nicht vor
-     einer Ziffer ("8:30", "4,50 €") und nicht an Bindestrich ohne Leerzeichen
-     oder Punkt. Gleich beim Quartier ("Hotel X (Zimmer 12)" → Link "Hotel X").
-     Smileys und 📍 bilden gemeinsam die linke Spalte: bei einem Umbruch
-     beginnt die Folgezeile genau unter dem Namen (wie beim Quartier).
-     Checkbox "keinen Google-Maps Link" rechts in der Kopfzeile des
-     Schritts: zeigt den Zustand der Zeile mit dem Cursor und setzt bzw.
-     entfernt dort ein "⊘" am Zeilenanfang; diese Zeile erscheint ohne 📍
-     und ohne Link. Suche: Name + Ort des
-     Quartiers, ohne Ort nur der Name.
-     Essen wird bei der Suche gefunden, zählt nicht als "erfasst" und
-     erscheint nicht in der Statistik. Keine Restaurantliste.
-  5. Quartier: Name eintragen.
-     Kopfzeile des Blocks: "☐ Quartier wie Vortag  ☐ keinen Google-Maps
-     Link" (am ersten Reisetag nur die zweite Checkbox).
-     Häkchen "Quartier wie Vortag": nur wenn gesetzt, wird das Quartier
-     vom Vortag übernommen. Sonst bleibt das Feld leer.
-     Checkbox "keinen Google-Maps Link" rechts in der Kopfzeile des
-     Schritts (wie bei Essen): Name ohne 📍 und ohne Link (wird bei
-     "Quartier wie Vortag" mit übernommen). "In Google Maps prüfen" ist
-     nicht unterstrichen.
-     Optionales Feld "Ort für Google Maps" (z. B. "Cairns, Australien"),
-     macht den Maps-Link treffsicherer und wird nach einem Komma hinter
-     dem Hotelnamen angezeigt ("📍Prize by Radisson, Wien") – überall
-     (Tagestabelle, Quartierliste, App und Ausgabe); Teile des Ortes, die
-     schon im Namen stehen, entfallen.
-- Mehrere Smileys pro Zeile (Wie war was?, Essen, Fazit): Ein angetippter
-  Smiley wird angehängt, wenn der Cursor in einer leeren Zeile oder direkt
-  hinter Smileys steht; steht er hinter Text, beginnt eine neue Zeile.
-  Alle führenden Smileys stehen in Tabelle und Ausgabe zusammen vorne,
-  der Text rückt daneben ein.
-- Diktieren über die Mikrofon-Taste der Tastatur (Hinweis im Fenster); keine eigenen
-  Mikrofon-Knöpfe, weil iOS Web-Apps vom Home-Bildschirm keine Spracherkennung liefert.
-- Textfelder: der erste Buchstabe jeder Zeile (und nach . ! ?) wird automatisch groß, auch
-  nach einem Smiley. Doppeltippen vergrößert die Ansicht nicht.
-- Reisezeitraum: "Von" mit Datum und "Bis" mit Datum bleiben jeweils zusammen; reicht der
-  Platz nicht (iPhone), steht "Bis" mit seinem Datum unter "Von".
-- Automatisches Speichern alle 10 Sekunden während der Erfassung.
-- Mit der Kapsel [chevron-left | chevron-right] rechts oben (neben dem
-  Häkchen) direkt zum Vortag bzw. Folgetag blättern; unter dem Datum steht
-  grau "Automatisch gespeichert um hh:mm".
-- Ein Tag gilt als erfasst, sobald mindestens ein Feld ausgefüllt ist.
+## 3. Reisen
 
-QUARTIER-SPALTE
-- Der Quartiersname wird automatisch zu einem funktionierenden
-  Google-Maps-Link. 📍 ist nur Zeichen, Link ist nur der Hotelname bis vor den ersten
-  Bindestrich oder das erste Komma ("📍Santai Resort - Kingscliff",
-  "📍Cascade Gardens, Cairns"); gesucht wird mit dem ganzen Eintrag plus
-  optionalem Ort.
-- Gleiche Darstellung in Tagestabelle und Quartierliste, in App und
-  Ausgabe (überall mit 📍).
+- Es wird immer an einer Reise gearbeitet; eine neue Reise wird bewusst neu angelegt (plus in der Seitenleiste). Frühere Reisen
+  bleiben gespeichert und können jederzeit wieder geöffnet und geändert werden.
+- **Startreise:** Beim Start öffnet die App (iPad-Aufbau; im iPhone-Aufbau erst die Startliste ohne blauen Eintrag, R-7.2) das
+  zuletzt verwendete Reiselogbuch dieses Geräts – auch während einer laufenden Reise; Backup laden und Abgleichen übernehmen den
+  Wert des anderen Geräts nicht. Gibt es keines (alte Daten, gelöscht), die Reise, in deren Zeitraum heute fällt; sonst die
+  zuletzt beendete; sonst die nächste geplante.
+- Gibt es noch kein Reiselogbuch (erster Start oder letztes gelöscht), öffnet sich ‚Neues Reiselogbuch‘ einmal von selbst; mit x
+  bleibt die leere Seite mit dem grauen Hinweis (2). Das Häkchen öffnet das neue Reiselogbuch.
+- **Fenster ‚Neues Reiselogbuch‘ / ‚Einstellungen‘** – Kästen: Reisetitel · Reiseteilnehmer · Reisezeitraum (grau ‚Von‘ Datum ·
+  ‚Bis‘ Datum in einer Zeile; ‚Von‘ und ‚Bis‘ bleiben je mit ihrem Datum zusammen, auf dem iPhone steht ‚Bis‘ unter ‚Von‘) ·
+  Reisemittel · Konfiguration Tabellenspalten · Schalter ‚Quartierliste in der Ausgabe‘ (beim Anlegen wählbar, nachträglich
+  änderbar).
+  - Liegt das Bis-Datum vor dem Von-Datum, wird es auf das Von-Datum gesetzt – und umgekehrt.
+  - Reisemittel per Antippen, Mehrfachauswahl, gewählte eingeschaltet (blau getönt mit Haarlinie), in dieser Reihenfolge:
+    🚗 PKW · 🚆 Zug · 🚲 Fahrrad · ✈️ Flugzeug · 🚙 Leihwagen · 🚢 Schiff · 🚐 Wohnmobil · 🚶 Fuß; ausgegeben mit Symbol und Namen.
+  - **Konfiguration Tabellenspalten:** Hinweis ‚Die Spalten ‚Tag‘ und ‚Verlauf‘ werden immer angezeigt.‘; Schalter in
+    Tabellenreihenfolge ‚Spalte 🙂☹️😉 ‚Wie war was?‘‘, ‚Spalte 🍽️🍷☕️ ‚Essen und Trinken‘‘, ‚Spalte 😴💤 ‚Quartier‘‘, beim Anlegen
+    alle eingeschaltet (bestehende Reiselogbücher: Wie war was? und Quartier ein, Essen wie bisher); Hinweis ‚Ausgeblendete Spalten
+    fehlen in Tabelle, Tageserfassung und Ausgabe. Vorhandene Einträge bleiben erhalten.‘ Ausgeblendete Spalten fehlen auch in der
+    Suche, die Schritte der Tageserfassung werden neu nummeriert. Quartier aus: ‚Quartierliste in der Ausgabe‘ ausgegraut, keine
+    Quartierliste in App und Ausgabe, Statistik ohne Anzahl der Quartiere. Wie war was? aus: die Statistik zählt nur die Smileys des
+    Fazits.
+  - **Pflicht** sind Reisetitel, Reiseteilnehmer, Reisezeitraum und mindestens ein Reisemittel (nicht gekennzeichnet, R-5.3).
+    Meldungen: ‚Bitte einen Reisetitel eingeben.‘ und ‚Bitte Reiseteilnehmer eingeben.‘ (wenn das Feld leer verlassen oder
+    geleert wird) · ‚Bitte Beginn und Ende der Reise wählen.‘ bzw. ‚Wähle einen Zeitraum, der sich nicht mit ‚…‘ (… - …)
+    überschneidet.‘ (sobald ein Datum geändert oder ein Titel eingegeben wurde – das vorgeschlagene Datum kann sich mit einer
+    anderen Reise überschneiden; Reisezeiträume dürfen sich nicht überschneiden, gespeichert wird erst nach der Korrektur) ·
+    ‚Bitte mindestens ein Reisemittel wählen.‘ (wenn das letzte gewählte abgewählt wird).
+- Die geöffnete Reise wird über Mehr-Menü → ‚Einstellungen‘ bearbeitet und über Mehr-Menü → ‚Reiselogbuch löschen‘ gelöscht
+  (Sprechblase mit Tipp, vorher ein Backup zu erstellen); danach öffnet die Startreise (iPhone: die Startliste).
 
-ABSCHLUSS
-- Fazit: Antippen öffnet eine eigene Erfassungsmaske wie "Wie war was?"
-  (Smiley-Schnellauswahl mit gemeinsamer Häufigkeits-Sortierung, lange
-  drücken/Reset, automatisches Speichern alle 10 Sekunden).
-  Darstellung in App und Ausgabe mit hängendem Einzug.
-- Unter Fazit und Gesamtausgaben zeigt auch die App die Quartierliste und
-  danach die Statistik (Quartierliste in der App immer, in der Ausgabe nur
-  mit Häkchen).
-- Der Fazit-Kasten in der App passt sich in der Breite dem Inhalt an.
-- Ein Feld "Gesamtausgaben" in Euro, rechtsbündig, € rechts neben dem Feld,
-  immer mit zwei Nachkommastellen (Komma für Cent), mindestens so breit, dass
-  "100.000,00" passt, bei längeren Beträgen wächst es mit. Der Tausenderpunkt
-  erscheint schon beim Tippen ("4.850"); fehlen beim Verlassen des Feldes die
-  Nachkommastellen, ergänzt die App ",00". Die Eingabetaste heißt ‚Fertig‘ und schließt die
-  Tastatur (R-5.5, seit 3.17.0; gilt für alle einzeiligen Felder, in Fenstern bleibt das Fenster offen). Anzeige und Ausgabe z. B. als
-  "4.850,00 €".
+## 4. iPad: Seitenleiste und Hauptansicht
 
-AUSGABE
-- share in der Kopfzeile öffnet das Teilen-Menü: Vorschau · HTML · PDF (mit
-  grauen Hinweisen zum Speichern), durchgehender Strich, darunter "N erfasste
-  Tage · Dateiname: …".
-- Anführungszeichen in allen Texten der App: einfache ‚…‘, keine doppelten.
-- HTML: Speichern über das Teilen-Menü ("In Dateien sichern", Ordner
-  frei wählbar).
-- PDF: direkt über das Drucken-Menü von Safari (dort Teilen → "In Dateien
-  sichern"); der Dateiname wird als Seitentitel vorgeschlagen.
-- Die App meldet ehrlich, dass sie das Teilen- bzw. Drucken-Menü geöffnet
-  hat (bzw. dass es abgebrochen wurde) – ob wirklich gespeichert wurde,
-  kann sie nicht prüfen.
-- Keine Hilfeseite.
-- Jederzeit möglich, auch mitten in der Reise (Zwischenstand).
-- Überschrift "Reiselogbuch – <Titel>".
-- Nur erfasste Tage, keine leeren Tage, keine Wetter-Platzhalter;
-  das Wetter steht in der Spalte "Tag" unter dem Datum.
-- Die Google-Maps-Links funktionieren in beiden Formaten.
-- Spaltenbreiten passen sich dem Inhalt an.
-- Hängender Einzug bei Aufzählungen und Smiley-Zeilen.
-- Reihenfolge am Ende:
-  1. Fazit
-  2. Gesamtausgaben
-  3. Quartierliste (Quartier, Zeitraum, Anzahl Nächte, Maps-Link),
-     falls bei der Reise aktiviert
-  4. Statistik: Reisetage gesamt und davon erfasst, Anzahl der
-     Quartiere, darunter Anzahl der Nächte (Summe), Wetter-Verteilung (z. B. "40×🌤 · 12×☀️ · 5×🌧"),
-     Smileys: alle verwendeten aus Tagen und Fazit, absteigend nach
-     Anzahl (z. B. "5×😊 · 3×😉 · 2×☹️"); Varianten wie ☹️/☹ zählen
-     gemeinsam – Anzahl vor dem Symbol, ohne Leerzeichen
-  5. Dezent als letzte Zeile:
-     "Ausgabe V003 erstellt am TT.MM.JJJJ um hh:mm"
-- Dateiname mit fortlaufender Versionsnummer (ein gemeinsamer Zähler
-  pro Reise für HTML und PDF, im Backup enthalten):
-  "Reiselogbuch <Reisetitel> JJJJ.MM.TT-JJJJ.MM.TT V001"
-  z. B. "Reiselogbuch Australien 2026.08.24-2026.11.11 V003.pdf"
-  (nie zwei Leerzeichen hintereinander)
-- PDF bleibt im Hochformat (Safari ignoriert die Querformat-Vorgabe);
-  beim Drucken ist der Seitenhintergrund weiß (kein grauer Balken).
+- **Seitenleiste ‚Reiselogbücher‘** (Komponente Seitenleiste): darunter klein und grau die Anzahl; Kapsel [plus | search |
+  ellipsis]; Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst; je Kachel Titel · ‚TT.MM.JJJJ - TT.MM.JJJJ · läuft
+  gerade / beendet / geplant‘ und ›, dazu ‚geändert am … · Gerät‘. Fest unten die Backup-Kachel (11). Beim Start eingeblendet mit
+  der Startreise (3).
+  - plus öffnet ‚Neues Reiselogbuch‘. ellipsis: Backup erstellen · Backup laden · Abstand · Messung starten · Strich ·
+    Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
+  - Langes Drücken auf ein Reiselogbuch: Einstellungen · Reiselogbuch löschen (rot, Sprechblase).
+- **Kopfzeile:** Titel der Reise; Kapsel [share | search | ellipsis].
+  - share → Teilen-Menü: Vorschau · HTML · PDF (jeweils mit grauem Hinweis zum Speichern), Strich, darunter ‚N erfasste Tage ·
+    Dateiname: …‘.
+  - search → Suchzeile (6).
+  - ellipsis → Mehr-Menü: ‚Alle Tage‘ / ‚Nur erfasste Tage‘ (Häkchen vorne, dann Icon und Text) · ‚Einstellungen‘ ·
+    ‚Darstellung ›‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase mit Tipp zum Backup). Beim Öffnen eines Reiselogbuchs und beim Start
+    gilt immer ‚Alle Tage‘.
+- **Darunter** (ohne Überschrift – der Titel steht in der Kopfzeile): Reiseteilnehmer, Reisezeitraum, Reisemittel und die dezente
+  Fortschrittsanzeige ‚Tag 42 von 80 · 38 erfasst‘.
+- **Tagestabelle:** eine Zeile je Tag im Zeitraum (‚Mo, 24.08.‘): Tag · Verlauf · sichtbare konfigurierte Spalten; Tabellenkopf
+  haftet unter der Kopfzeile. Vergangene Tage ohne Eintrag tragen ‚fehlt‘ (Farbe `--warn`). **Erster offener Tag:** beim Öffnen
+  steht der erste nicht erfasste Tag (die erste Lücke, auch wenn spätere Tage schon erfasst sind) gelb markiert (ohne blauen Rand)
+  direkt unter dem Tabellenkopf (R-7.4); sind alle erfasst, beginnt die Tabelle ganz oben ohne Markierung. Ein Tag gilt als
+  **erfasst**, wenn Wetter, Verlauf oder eine sichtbare Spalte außer Essen (Wie war was?, Quartier) ausgefüllt ist. Mehrere
+  Verlauf-Zeilen bekommen ▫️ davor; führende Smileys stehen vorne, der Text rückt daneben ein (hängender Einzug, R-6.3).
+- Darunter Fazit (Kasten passt sich in der Breite dem Inhalt an), Gesamtausgaben, Quartierliste (immer, sofern die Spalte Quartier
+  sichtbar ist) und Statistik (9). Unten rechts ‚Nach oben / Ans Ende‘ (R-3.2).
 
-SICHERHEIT
-- Backup als Datei exportieren/importieren, enthält alle Reisen.
-- Backup über "Backup erstellen" (Mehr-Menü der Seitenleiste oder Hinweis
-  unten in der Seitenleiste), über das Teilen-Menü ("In Dateien sichern").
-  Backup laden fragt mit zwei Kacheln: Abgleichen oder Ersetzen (R-9.2).
-- Einmal am Tag sichern: Solange heute noch kein Backup gesichert wurde,
-  steht der Hinweis unten in der Seitenleiste. Kein automatisches Backup bei
-  der Ausgabe; danach erscheint eine Erinnerung "Denk daran, auch ein Backup
-  zu erstellen." mit "Letztes Backup erstellt am …" und dem blauen Knopf
-  "Backup erstellen".
-- Als Backup-Zeitpunkt zählt nur ein abgeschlossenes Teilen-Menü, ein
-  Abbruch zählt nicht.
-- Backup-Dateiname (ohne Versionszähler):
-  "Ω Backup Reiselogbuch JJJJ.MM.TT hh.mm"
-  z. B. "Ω Backup Reiselogbuch 2026.10.04 14.35.json"
-```
+## 5. iPhone
+
+Im iPhone-Aufbau (iPhone hoch und quer, auch sehr schmale Fenster) eine Seite nach der anderen statt Seitenleiste, Bedienung sonst
+wie am iPad (R-1.1):
+
+- **Start:** jedes Neuladen beginnt in der Startliste ‚Reiselogbücher‘ ganz oben ohne blauen Eintrag (R-7.2); ein Reiselogbuch
+  öffnet beim ersten offenen Tag. Die Startreise (3) bleibt gewählt und erscheint, wenn das Fenster in den iPad-Aufbau wechselt.
+- **Startliste = Seitenleiste:** fest stehende Leiste mit ‚Reiselogbücher‘ links (darunter klein und grau die Anzahl) und der Kapsel
+  [plus | search | ellipsis] rechts (ellipsis wie am iPad), ohne großen Titel; jedes Reiselogbuch als Kachel (Titel · Zeitraum ·
+  Zustand, ›), das zuletzt geöffnete blau (nach dem Start keines); Backup-Kachel fest am unteren Rand, die Kacheln laufen dahinter
+  durch. Langes Drücken: Einstellungen · Reiselogbuch löschen; nach dem Löschen geht es zur Startliste. Leertexte: 2.
+- **Reiselogbuch:** Kopf mit rundem `chevron-left` zur Startliste und Kapsel [share | search | ellipsis] mit denselben Menüs; der
+  Reisetitel steht in der Mitte der Leiste. Darunter ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ – der Wert jeweils in der
+  nächsten Zeile, die Reisemittel in einer Zeile, bei Bedarf seitlich wischen; dann die Fortschrittsanzeige.
+- **Tage als Kästen:** Kopf ‚Mo, 24.08.‘ mit ‚heute‘/‚fehlt‘ und Wetter rechts (leer: blasse Platzhalter); Felder ‚Verlauf‘ (als
+  Wort, normale Größe, halbfett), dann die Spalten-Emojis 🙂☹️😉 · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt;
+  Linien wie im Kasten mit Feldern (R-6.1). Erster offener Tag gelb (ohne blauen Rand) direkt unter der Leiste; der angetippte Kasten
+  bleibt blau, solange die Tageserfassung offen ist.
+- Darunter Fazit (volle Breite), Gesamtausgaben, Quartierliste als Liste (Quartier mit Maps-Link, darunter ‚24.08. - 25.08.2026 ·
+  1 Nacht‘), Statistik. ‚Nach oben / Ans Ende‘ wie am iPad (nicht in der Startliste).
+- **Tageserfassung** bildschirmfüllend, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘; Wetter-Symbole 40 px breit (Abweichung 2).
+
+## 6. Suche
+
+- **Im Reiselogbuch** (R-2.3): durchsucht Verlauf und sichtbare Spalten (Essen: Name und Kommentar; Quartier: Name und Ort, ohne
+  Ort nur der Name), nur innerhalb der aktuellen Reise; es bleiben nur Tage mit Treffern. **Ein Eintrag** im Sinne der Suche mit
+  mehreren Wörtern ist das ganze Reiselogbuch: jedes Wort muss irgendwo darin stehen; gezeigt werden die Tage mit mindestens einem
+  Wort (Entscheidung des Nutzers 18.10.2026). Die Suche markiert auch Teile langer Wörter.
+- **Über alle Reiselogbücher** (Lupe in der Seitenleiste bzw. Startliste, Platzhalter ‚In allen suchen‘): Kacheln zeigen ‚12
+  Treffer‘ (gleich gezählt wie ‚1 von 12‘ im Reiselogbuch, nur sichtbare Spalten), unter der Überschrift ‚2 von 5
+  Reiselogbüchern‘, sonst ‚Keine Treffer‘; Antippen öffnet das Reiselogbuch mit gefüllter Suche.
+
+## 7. Tageserfassung
+
+- Tag antippen → Erfassungsfenster (fast bildschirmbreit; iPhone 5). Kopfzeile: x · Wochentag mit vollem Datum (‚Sonntag,
+  04.10.2026‘), darunter grau ‚Automatisch gespeichert um hh:mm‘ · Kapsel [chevron-left | chevron-right] zum Vortag bzw. Folgetag ·
+  Häkchen. Automatisches Speichern alle 10 Sekunden.
+- Schritte je nach sichtbaren Spalten (2 bis 5, fortlaufend nummeriert); die Eingabefelder bleiben schlicht (ohne
+  Aufzählungszeichen), formatiert wird in Tabelle und Ausgabe:
+  1. **Wetter:** Symbole antippen, auch mehrere; gewählte eingeschaltet (blau getönt mit Haarlinie).
+  2. **Verlauf:** eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle und Ausgabe ▫️ davor. Vorschläge als Chips: ‚Weiterfahrt
+     nach …‘, ‚Rundgang durch …‘, ‚Besichtigung …‘, ‚Freetour …‘, ‚Tour …‘, ‚Sonstiges …‘ – angetippt wird der Text als neue Zeile
+     eingefügt, ‚…‘ ist nur Platzhalter; nach einem Vorschlag beginnt das nächste Wort groß. ‚Sonstiges …‘ fügt keinen Text ein,
+     sondern eine leere Zeile am Anfang des Felds und setzt den Cursor dorthin (ist die erste Zeile schon leer, keine zweite).
+  3. **Wie war was?:** Smiley + kurzer Text, mehrere Smiley-Zeilen möglich, alle Smileys der Emoji-Tastatur; Smiley-Leiste.
+  4. **Essen und Trinken** (nur mit sichtbarer Spalte): eine Zeile pro Lokal im Format ‚Smiley(s) Name – Kommentar‘, z. B.
+     ‚🕛😋 Hard Rock Café – Steak war super‘; eigene Smiley-Leiste mit eigener Häufigkeit, Standard 🕗 🕙 🕛 🕒 🕕 😋 👌 👍 😕 🤮 👎
+     ⭐️ 🍕 🍔 🥩 🍷 🍺 ☕️; Options-Kapsel ‚keinen Google-Maps Link‘ rechts im Schrittkopf (8). Essen wird gesucht, zählt nicht als
+     ‚erfasst‘ und nicht in der Statistik; keine Restaurantliste.
+  5. **Quartier:** Name; Options-Kapseln ‚Quartier wie Vortag‘ (nicht am ersten Tag; nur wenn gesetzt, wird das Quartier vom
+     Vortag übernommen, sonst bleibt das Feld leer) und ‚keinen Google-Maps Link‘ (wird bei ‚Quartier wie Vortag‘ mit übernommen);
+     Felder Name und ‚Ort für Google Maps, z. B. Cairns, Australien‘ **nebeneinander in einer Zeile (halb und halb)**, bei schmalem
+     Bildschirm untereinander; darunter der Link ‚📍 In Google Maps prüfen‘ (nicht unterstrichen).
+- **Smiley-Leisten** bei ‚Wie war was?‘, ‚Essen und Trinken‘ und im Fazit (Verhalten wie Designrichtlinie allgemein 8: wischen,
+  Häufigkeit, lange drücken entfernt, rotate-ccw setzt zurück, Anhängen in der Zeile); ‚Wie war was?‘ und Fazit teilen die
+  Häufigkeit. Mehrere Smileys pro Zeile stehen in Tabelle und Ausgabe zusammen vorne.
+- Diktieren und Großbuchstaben nach R-5.2 (Hinweis zum Diktieren unten im Fenster; groß auch nach einem Smiley).
+
+## 8. Quartier und Maps-Links
+
+- Quartiersname und Lokale werden automatisch zu Google-Maps-Links. **📍 ist nur Zeichen, verlinkt ist nur der Name:** er endet an
+  ‚ – ‘, Komma, Doppelpunkt oder öffnender Klammer (‚Krone, sehr gut‘, ‚Krone: Schnitzel‘, ‚Krone (Terrasse)‘, ‚Hotel X (Zimmer
+  12)‘ → Link ‚Hotel X‘), nicht vor einer Ziffer (‚8:30‘, ‚4,50 €‘) und nicht an einem Bindestrich ohne Leerzeichen oder einem Punkt;
+  ab dort normaler Text. Gesucht wird mit dem ganzen Eintrag plus Ort.
+- Der optionale Ort steht nach einem Komma hinter dem Namen (‚📍Prize by Radisson, Wien‘) – überall (Tagestabelle, Quartierliste,
+  App und Ausgabe); Teile des Ortes, die schon im Namen stehen, entfallen.
+- Smileys und 📍 bilden gemeinsam die linke Spalte; bei einem Umbruch beginnt die Folgezeile genau unter dem Namen.
+- ‚keinen Google-Maps Link‘ zeigt den Zustand der Zeile mit dem Cursor und setzt bzw. entfernt dort ‚⊘‘ am Zeilenanfang; diese Zeile
+  erscheint ohne 📍 und ohne Link.
+- Quartier-Links haben die unsichtbare Antippfläche von 44 px (R-3.1), Links der Lokale nicht (Abweichung 1). Maps-Links öffnen
+  extern, die Vorschau bleibt offen; sie funktionieren in HTML und PDF.
+
+## 9. Abschluss: Fazit, Gesamtausgaben, Quartierliste, Statistik
+
+- **Fazit:** Antippen öffnet ein eigenes Fenster wie ‚Wie war was?‘ (Smiley-Leiste mit gemeinsamer Häufigkeit, automatisches
+  Speichern alle 10 Sekunden); Darstellung in App und Ausgabe mit hängendem Einzug; der Kasten bleibt blau, solange das Fenster
+  offen ist.
+- **Gesamtausgaben:** ein Betragsfeld in Euro (R-5.1, Designrichtlinie allgemein 8), Anzeige z. B. ‚4.850,00 €‘; die Eingabetaste
+  heißt ‚Fertig‘ und schließt die Tastatur (R-5.5).
+- **Quartierliste:** Quartier (mit Maps-Link), Zeitraum, Anzahl Nächte; kompakt, ‚Nächte‘ rechtsbündig; in der App immer, in der
+  Ausgabe nur mit ‚Quartierliste in der Ausgabe‘.
+- **Statistik** (schlichte Liste): Reisetage gesamt und davon erfasst, Anzahl der Quartiere, darunter Anzahl der Nächte (Summe),
+  Wetter-Verteilung (z. B. ‚40×🌤 · 12×☀️ · 5×🌧‘), Smileys aus Tagen und Fazit absteigend nach Anzahl (z. B. ‚5×😊 · 3×😉 · 2×☹️‘;
+  Varianten wie ☹️/☹ zählen gemeinsam, Anzahl vor dem Symbol ohne Leerzeichen).
+
+## 10. Ausgabe
+
+- Teilen-Menü in der Kopfzeile (4); jederzeit möglich, auch mitten in der Reise (Zwischenstand). Vorschau, HTML und PDF nach R-6.4
+  und Designrichtlinie allgemein 10 (Mustertabelle, Dateinamen, ehrliche Meldung, Backup-Erinnerung danach); die Vorschau zeigt die
+  Nummer der nächsten Datei, ohne den Zähler zu erhöhen.
+- **Inhalt:** Überschrift ‚Reiselogbuch – <Titel>‘, Reisedaten, Tagestabelle (nur erfasste Tage, ohne Wetter-Platzhalter; Wetter in
+  der Spalte ‚Tag‘ unter dem Datum; feste Spaltenanteile – Abweichung 3), danach Fazit · Gesamtausgaben · Quartierliste (falls
+  aktiviert) · Statistik · dezent ‚Ausgabe V003 erstellt am TT.MM.JJJJ um hh:mm‘. Hängender Einzug bei Aufzählungen und
+  Smiley-Zeilen.
+- **Dateinamen:** ‚Reiselogbuch <Titel> JJJJ.MM.TT-JJJJ.MM.TT V001‘ (ein gemeinsamer Zähler pro Reise für HTML und PDF, im Backup
+  enthalten), z. B. ‚Reiselogbuch Australien 2026.08.24-2026.11.11 V003.pdf‘.
+- PDF über das Drucken-Menü von Safari (dort Teilen → ‚In Dateien sichern‘); nur das Reiselogbuch, ohne Seitenleiste; Hochformat
+  (Safari ignoriert die Querformat-Vorgabe), weißer Seitenhintergrund.
+
+## 11. Backup, Abgleich, Offline, Messung
+
+- **Backup** (R-9.1, R-9.2): Datei mit allen Reisen über ‚Backup erstellen‘ (Mehr-Menü der Seitenleiste bzw. Startliste oder
+  Backup-Kachel), Name ‚Ω Backup Reiselogbuch JJJJ.MM.TT hh.mm.json‘. Einmal am Tag: solange heute noch kein Backup erstellt wurde,
+  ist die Backup-Kachel gelb. Kein automatisches Backup bei der Ausgabe; danach erscheint die Erinnerung ‚Denk daran, auch ein
+  Backup zu erstellen.‘ mit ‚Letztes Backup erstellt am …‘ und dem blauen Knopf ‚Backup erstellen‘.
+- **Abgleich zwischen iPad und iPhone** (R-9.2 bis R-9.4, Fall-Tabelle Designrichtlinie allgemein 15.18): ‚Backup laden‘ fragt mit den
+  Kacheln Abgleichen und Ersetzen. Einträge = Reiselogbücher, Unterdaten = Tage (Wetter, Verlauf, Wie war was?, Essen, Quartier …),
+  Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Gesamtausgaben; Zähler ohne Zeitpunkt = Dateinummer für
+  PDF/HTML. Der Abgleichbericht zeigt die Reisemittel mit Symbol und Namen wie in der App; Feldnamen: Designrichtlinie Reiselogbuch 2.
+- **Offline** (R-1.5): Beim Start fragt die App immer bei GitHub nach einer neuen Version; ohne Netz oder bei hängendem Netz (mehr als
+  3 s) läuft die gespeicherte Version, mit Zeile und Meldung nach Designrichtlinie allgemein 15.20.
+- **Messung** (R-1.6): ‚Messung starten‘ im Mehr-Menü der Seitenleiste bzw. Startliste.
