@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| T-97 | 1 | **Tastatur ohne Springen (AppDesign A-35, A-36):** P-60 war nicht ok (Leisten sprangen) – in 3.26.1 behoben: Feld rollt beim Antippen in die obere Hälfte, Kopf-, Such- und Seitenleiste und Fenster stehen still, Gesamtausgaben über der Tastatur; iPhone quer niedrige Leisten. Im Modell grün, **am Gerät zu bestätigen** | prüfen (P-61) |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, Abschnitt 
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-111 | Geprüft **P-61: alles ok** (Nutzer 21.10.2026, mit Messungen) – **T-97 abgeschlossen**: Tastatur ohne Springen, Gesamtausgaben über der Tastatur, iPhone quer niedrige Leisten | Reiselogbuch 3.26.1 | 21.10.2026 |
 | E-110 | **T-97 korrigiert (AppDesign A-36):** Tastatur ohne Springen – Fassung 4.28.1; `ablauf-tastatur-still.mjs` mit allen vier Lagen, Tastatur-Taste, ‚Nach oben‘ bei offener Tastatur, kurzem Inhalt und Wischen (gegen 3.26.0 rot, jetzt grün). Wartet auf P-61 | Reiselogbuch 3.26.1 | 21.10.2026 |
 | E-109 | **T-95 abgeschlossen:** (3) Datumsfeld ‚Tag antippen übernimmt und schließt‘ **entfällt** (AppDesign A-26, Nutzer 20.10.2026: Safari meldet nur den Wert – in drei Fällen bliebe die Auswahl offen; ‚wenn nicht alles funktioniert, bauen wir es so nicht ein‘). Datumsfelder bleiben wie bisher | – | 20.10.2026 |
 | E-108 | **T-97 gebaut (AppDesign A-35, A-31):** Gesamtausgaben steht bei offener Tastatur ganz sichtbar über ihr (`fieldIntoView`, R-4.5); `ablauf-feld-tastatur.mjs` (Ablauf der Messung, gegen 3.25.1 rot) und `ablauf-abspielen.mjs` (Messung nachgespielt, Gegenprobe); Fassung 4.28.0. Wartet auf P-60 | Reiselogbuch 3.26.0 | 20.10.2026 |
