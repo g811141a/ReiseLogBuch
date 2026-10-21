@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-62 | 1 | Reiselogbuch 3.26.2 (AppDesign A-39, nur Texte): /0 Version prüfen, /1 App unverändert – Prüfliste im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-113 | Geprüft **P-62: alles ok** (Nutzer 21.10.2026) – Version 3.26.2 mit AppDesign 4.28.2, App unverändert; **AppDesign A-39 abgeschlossen** | Reiselogbuch 3.26.2 · AppDesign 4.28.2 | 21.10.2026 |
 | E-112 | **AppDesign A-39 Konsolidierung:** Designrichtlinie Reiselogbuch nur noch Abweichungen, PROMPT.md als gegliederte Funktionsbeschreibung mit allen Ausprägungen, CLAUDE.md 3.6.0, tests/README mit Regel je Prüfung | Reiselogbuch 3.26.2 · AppDesign 4.28.2 | 21.10.2026 |
 | E-111 | Geprüft **P-61: alles ok** (Nutzer 21.10.2026, mit Messungen) – **T-97 abgeschlossen**: Tastatur ohne Springen, Gesamtausgaben über der Tastatur, iPhone quer niedrige Leisten | Reiselogbuch 3.26.1 | 21.10.2026 |
 | E-110 | **T-97 korrigiert (AppDesign A-36):** Tastatur ohne Springen – Fassung 4.28.1; `ablauf-tastatur-still.mjs` mit allen vier Lagen, Tastatur-Taste, ‚Nach oben‘ bei offener Tastatur, kurzem Inhalt und Wischen (gegen 3.26.0 rot, jetzt grün). Wartet auf P-61 | Reiselogbuch 3.26.1 | 21.10.2026 |
