@@ -5,10 +5,10 @@
 // sichtbar 126 px nach der Messung A-27; Safari-Modell safari.mjs), dazu checkFab mit den gemessenen Höhen. Gegen 3.25.0 rot.
 // Aufruf im Repo-Ordner: node tests/kapsel-iphone.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.28.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.28.0/tests/hig.mjs';
-import { checkFab } from '../../AppDesign/fassung/4.28.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.28.0/tests/safari.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.28.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.28.1/tests/hig.mjs';
+import { checkFab } from '../../AppDesign/fassung/4.28.1/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.28.1/tests/safari.mjs';
 const t = pruefung('kapsel-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const viele = {}; for (let i = 0; i < 30; i++) viele[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Sydney' };
