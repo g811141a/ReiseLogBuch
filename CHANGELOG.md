@@ -13,6 +13,62 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.26.1 – 21.10.2026
+
+Reiselogbuch 3.26.1 · AppDesign 4.28.1 (Designrichtlinie allgemein 4.28.1) · Designrichtlinie Reiselogbuch 3.26.1 · Zusammenarbeit allgemein 2.16.0
+
+Korrektur aus P-60 (AppDesign A-36): Beim Antippen eines Felds sprangen Kopfzeile, Suchzeile, Seitenleiste und Fenster um die ganze
+Tastaturhöhe. Jetzt rollt das Feld beim Antippen in die obere Hälfte, und Safari verschiebt nichts mehr – wie Muster 9 am Gerät. In
+der Nachbildung behoben, **am Gerät zu bestätigen** (P-61, mit Messmodus).
+
+- **Tastatur ohne Springen:** Tippst du ein Feld an (im Fenster eines Tages, Gesamtausgaben, Titel …), rollt der Inhalt bzw. das
+  Fenster es einmal in die obere Hälfte; die Tastatur geht beim ersten Antippen auf, Kopfzeile, Suchzeile, Seitenleiste und Fenster
+  bleiben stehen, das Feld springt nicht. Das iPad-Fenster gleitet mit der Tastatur sanft hoch und wieder zurück.
+- **Nach dem Schließen der Tastatur** bleibt kein leerer Platz unter dem Inhalt stehen: ‚Ans Ende‘ endet wie vorher.
+- **‚Nach oben‘ / ‚Ans Ende‘ bei offener Tastatur:** ein Antippen genügt (vorher zwei).
+- **iPad, Tastatur-Taste:** schließt die Tastatur; erneutes Antippen des Felds ist wieder ruhig.
+- **iPhone quer: niedrige Leisten** (neue allgemeine Regel R-2.4): Kopfzeile, Suchzeile und Fensterkopf sind quer 32 statt 44 px
+  hoch, wie in den Apps von Apple – so bleibt über der Tastatur mehr Platz.
+- **Prüfungen:** `ablauf-tastatur-still.mjs` prüft jedes Bild in allen vier Lagen (iPhone hoch und quer, iPad quer und hoch):
+  Fenster ‚Ort‘ und Wechsel, Gesamtausgaben, Tastatur-Taste am iPad, ‚Nach oben‘ bei offener Tastatur, Wischen über das Feld,
+  ein Reiselogbuch mit nur einem Tag – gegen 3.26.0 rot (177 Fehler), jetzt grün; die drei Messungen laufen weiter mit (T-8).
+- **Warum die Prüfung es übersehen hatte:** sie prüfte nur den Zustand am Ende, nicht jedes Bild, und die Nachbildung von Safari
+  kannte das Verschieben bei Feldern in Fenstern nicht.
+- Intern: feste Fassung AppDesign 4.28.1; Designrichtlinie Reiselogbuch 3.26.1.
+
+Prüfliste P-61 (Schritt für Schritt, Zusammenarbeit allgemein 2.16.0). Link: https://g811141a.github.io/ReiseLogBuch/
+
+**P-61/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
+   (Home-Bildschirm bzw. https://g811141a.github.io/ReiseLogBuch/).
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.26.1 · erstellt am … · AppDesign 4.28.1‘.
+
+**P-61/1 – iPhone hoch (mit Messung)**
+1. In der Startliste ‚…‘ → ‚Messung starten‘ tippen, dann ein langes Reiselogbuch öffnen.
+2. Einen Tag antippen, im Fenster ‚Ort‘ antippen. Erwartet: das Fenster rollt einmal, die Tastatur geht beim ersten Mal auf,
+   Fensterkopf und Kopfzeile stehen still, ‚Ort‘ steht über der Tastatur.
+3. ‚Fertig‘ (Häkchen) tippen, dann ‚Ans Ende‘ und ‚Gesamtausgaben‘ antippen. Erwartet: das Feld rollt einmal nach oben, nichts
+   springt, die Zifferntastatur ist offen.
+4. Bei offener Tastatur einmal ‚Nach oben‘ tippen. Erwartet: die Tastatur geht zu und der Inhalt rollt ganz nach oben – ein Antippen.
+5. ‚Ans Ende‘ tippen. Erwartet: das Ende steht wie in Schritt 3, kein leerer Platz darunter.
+6. Startliste ‚…‘ → ‚Messung beenden und teilen‘ → an Claude schicken.
+
+**P-61/2 – iPhone quer**
+1. iPhone quer drehen. Erwartet: Kopfzeile niedriger als hoch (wie in den Apps von Apple quer).
+2. Einen Tag antippen, ‚Ort‘ antippen. Erwartet: Fensterkopf steht still, ‚Ort‘ steht über der Tastatur.
+3. ‚Fertig‘ tippen, ‚Ans Ende‘, ‚Gesamtausgaben‘ antippen. Erwartet: nichts springt, das Feld steht über der Tastatur.
+
+**P-61/3 – iPad (quer, mit Messung)**
+1. Seitenleiste ‚…‘ → ‚Messung starten‘, ein langes Reiselogbuch öffnen.
+2. Einen Tag antippen, ‚Ort‘ antippen. Erwartet: das Fenster gleitet sanft nach oben, Kopfzeile und Seitenleiste stehen still,
+   die Tastatur geht beim ersten Mal auf.
+3. Tastatur-Taste (unten rechts auf der Tastatur) tippen. Erwartet: die Tastatur geht zu, das Fenster gleitet zurück in die Mitte.
+4. ‚Ort‘ erneut antippen. Erwartet: wie in Schritt 2, nichts springt.
+5. ‚Fertig‘ tippen, ‚Ans Ende‘, ‚Gesamtausgaben‘ antippen, dann bei offener Tastatur einmal ‚Nach oben‘. Erwartet: nichts springt;
+   ‚Nach oben‘ schließt die Tastatur und rollt mit einem Antippen ganz nach oben.
+6. Seitenleiste ‚…‘ → ‚Messung beenden und teilen‘ → an Claude schicken.
+
 ## 3.26.0 – 20.10.2026
 
 Reiselogbuch 3.26.0 · AppDesign 4.28.0 (Designrichtlinie allgemein 4.28.0) · Designrichtlinie Reiselogbuch 3.26.0 · Zusammenarbeit allgemein 2.14.1
