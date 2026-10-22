@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 22.10.2026** · Aktuelle Version: Reiselogbuch 3.28.1 · AppDesign 4.30.1
+**Stand 23.10.2026** · Aktuelle Version: Reiselogbuch 3.28.1 · AppDesign 4.30.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,8 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-65 | 1 | **Messung ‚Zurückwischen über einem Tageskasten‘ (Version 3.28.1 mit AppDesign 4.30.1):** Prüfliste P-65 im CHANGELOG – Version, Messung starten, über einem Tageskasten zurückwischen (langsam, schnell, zum Vergleich daneben), Messung teilen und hier anhängen. Danach AppDesign A-67 Schritt 2 (feste Prüfung, beheben → 3.28.2) | prüfen |
-| P-64 | 1 | **Version 3.28.0 mit AppDesign 4.30.0 geprüft (Nutzer 22.10.2026): alles ok bis auf /5** – Zurückwischen funktioniert außerhalb der Tageskästen, **über einem Tageskasten federt die Seite zurück** (am Gerät; in Chromium und WebKit der Prüfung geht es zurück). Vermutung: Safari bricht die Berührung über dem antippbaren Kasten ab (`pointercancel`). Weiter mit AppDesign A-67: erst messen (3.28.1, P-65), dann als feste Prüfung nachbauen und beheben | Fehler – Messung P-65, Korrektur 3.28.2 |
+| P-65 | 1 | **Version 3.28.1 mit AppDesign 4.30.1 geprüft (Nutzer 23.10.2026): /2 nicht ok** – unverändert, meist federt die Startliste zurück und verschwindet. Messung `messung-2026-10-23-0633.txt`: 22 von 25 Versuchen bricht Safari ab, über den Kästen und daneben, sobald der Finger 10–21 px senkrecht abweicht (`touch-action: pan-y`). Weiter mit AppDesign A-67: Korrektur 3.28.2 (Vorschlag, wartet auf Ja) | Fehler – Korrektur 3.28.2 |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +49,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-118 | Geprüft **P-64 (3.28.0)**: alles ok bis auf /5 – weiter in P-65 | Reiselogbuch 3.28.0 | 23.10.2026 |
 | E-117 | **AppDesign A-67 Schritt 1 und A-66:** Fassung 4.30.1 – der Messmodus zeichnet Berührungen und die Entscheidungen der Wischgeste auf; `ablauf-navigation.mjs` prüft die Messzeilen (F-22) und wartet das Ende der Bewegung ab. Wartet auf P-65 | Reiselogbuch 3.28.1 · AppDesign 4.30.1 | 22.10.2026 |
 | E-116 | **AppDesign A-37 B+C und A-61 Teil 1:** Marken `data-marke` an Tagen (‚Tag 19 · Fr 20.03.‘) und an Fazit, Quartierliste, Statistik; Seitenwechsel und Gesten über `navAnmelden()` (Zurück-Knopf, Öffnen aus der Startliste, panel-left und Abdunkelung am iPad hoch); Fassung 4.30.0; Prüfungen `ablauf-navigation.mjs` (neu), `kapsel-iphone.mjs` (Griff, Marken, 365 Tage). Wartet auf P-64 | Reiselogbuch 3.28.0 · AppDesign 4.30.0 | 22.10.2026 |
 | E-115 | Geprüft **P-63: alles ok** (Nutzer 22.10.2026) – Version 3.27.0 mit AppDesign 4.29.0; **AppDesign A-63 abgeschlossen** | Reiselogbuch 3.27.0 · AppDesign 4.29.0 | 22.10.2026 |
