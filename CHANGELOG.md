@@ -13,6 +13,93 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.27.0 – 22.10.2026
+
+Reiselogbuch 3.27.0 · AppDesign 4.29.0 (Designrichtlinie allgemein 4.29.0) · Designrichtlinie Reiselogbuch 3.27.0 · Zusammenarbeit allgemein 2.18.0
+
+**AppDesign A-63 Paket C** (dein Ja vom 22.10.2026): vier kleine Verbesserungen nach dem Vorbild von Apple, alle als allgemeine
+Regeln in AppDesign 4.29.0.
+
+- **Suche ohne Akzente:** ‚Zurich‘ findet ‚Zürich‘, ‚Sao Paulo‘ findet ‚São Paulo‘, ‚cafe creme‘ findet ‚Café Crème‘ – im Reiselogbuch
+  und über alle Reiselogbücher; markiert wird das Wort, wie es dasteht. ‚Strasse‘ findet ‚Straße‘ weiterhin nicht (ß ist ein eigener
+  Buchstabe).
+- **ⓧ in Feldern:** Titel, Teilnehmer, Ort, Quartier und Gesamtausgaben zeigen beim Schreiben rechts ein graues ⓧ, sobald etwas
+  drinsteht. Antippen leert das Feld, die Tastatur bleibt offen.
+- **Schalter von Safari:** die Schalter in ‚Reiselogbuch bearbeiten‘ (Spalten, Quartierliste) sind jetzt Safaris eigene Schalter –
+  im Aussehen deiner iOS-Version, der Knopf gleitet und lässt sich ziehen, das iPhone gibt beim Umschalten ein leichtes Klicken
+  (Haptik), VoiceOver sagt ‚Schalter‘.
+- **Sichere Ränder:** Fenster am iPad enden über der Home-Leiste (vorher reichten sie 10 px darunter); am iPhone quer stehen das Menü
+  der Startliste und die Sprechblase ‚Backup laden‘ nicht mehr in der Aussparung bzw. unter der Home-Leiste, und der Abgleichbericht
+  lässt sich quer ganz bis neben die Aussparung wischen (vorher blieben rechts 32 px darunter). Die Prüfungen setzen
+  dafür jetzt echte Gerätewerte. Der Messmodus nennt in der ersten Zeile die Ränder deines Geräts (‚Ränder …‘).
+- **Prüfungen:** `regeln-ablauf.mjs` mit dem ⓧ (Titel, Teilnehmer, Ort, Quartier, Gesamtausgaben), `ablauf-suche-woerter.mjs` mit
+  ‚Zürich‘ und ‚Café Crème‘, `hig.mjs` mit den sicheren Rändern und den Schaltern in jeder Ansicht.
+
+Prüfliste P-63 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/
+
+**P-63/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
+   (Home-Bildschirm bzw. https://g811141a.github.io/ReiseLogBuch/).
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.27.0 · erstellt am … · AppDesign 4.29.0‘.
+
+**P-63/1 – Suche ohne Akzente im Reiselogbuch (iPad quer)**
+1. Ein Reiselogbuch öffnen, in dem ein Wort mit Akzent vorkommt (z. B. ‚Zürich‘, ‚Café‘, ‚São Paulo‘).
+2. Lupe tippen und das Wort ohne Akzent eintippen (z. B. ‚zurich‘).
+3. Erwartet: die Tage mit dem Wort bleiben stehen, das Wort ist gelb markiert, wie es dasteht (‚Zürich‘), daneben ‚1 von N‘.
+
+**P-63/2 – Suche ohne Akzente über alle Reiselogbücher (iPhone hoch)**
+1. In der Startliste ‚Reiselogbücher‘ die Lupe tippen.
+2. Dasselbe Wort ohne Akzent eintippen.
+3. Erwartet: das Reiselogbuch mit dem Wort bleibt stehen, auf seiner Kachel ‚N Treffer‘; Antippen öffnet es mit gefüllter Suche.
+
+**P-63/3 – ⓧ im Feld (iPhone hoch)**
+1. Ein Reiselogbuch öffnen und einen Tag mit Quartier antippen.
+2. Ins Feld ‚Quartier‘ tippen.
+3. Erwartet: rechts im Feld ein graues ⓧ.
+4. ⓧ antippen.
+5. Erwartet: das Feld ist leer, der Cursor bleibt darin, die Tastatur bleibt offen; das Häkchen oben rechts wird blau.
+6. x (Abbrechen) tippen, ‚Änderungen verwerfen‘ wählen.
+7. Erwartet: das Quartier steht wieder wie vorher.
+
+**P-63/4 – ⓧ im Pflichtfeld (iPad quer)**
+1. Im Reiselogbuch oben ‚…‘ → ‚Einstellungen‘ tippen.
+2. Ins Feld ‚Reisetitel‘ tippen, ⓧ antippen, dann neben das Feld tippen.
+3. Erwartet: unter dem Feld rot die Fehlermeldung, das Feld rot umrandet.
+4. x (Abbrechen) tippen, ‚Änderungen verwerfen‘ wählen.
+5. Erwartet: der Reisetitel ist unverändert.
+
+**P-63/5 – Schalter von Safari (iPhone hoch)**
+1. Im Reiselogbuch oben ‚…‘ → ‚Einstellungen‘ tippen, nach unten zu den Spalten rollen.
+2. Den Schalter ‚Spalte 🍽️🍷☕️ ‚Essen und Trinken‘‘ antippen, dann zurück; danach den Knopf mit dem Finger hin und her ziehen.
+3. Erwartet: Schalter im Aussehen deiner iOS-Version, ein grün, aus grau; der Knopf gleitet, lässt sich ziehen, und das iPhone gibt
+   beim Umschalten ein leichtes Klicken.
+4. x (Abbrechen) tippen, ‚Änderungen verwerfen‘ wählen.
+
+**P-63/6 – Schalter hell und dunkel (iPad quer)**
+1. Im Reiselogbuch oben ‚…‘ → ‚Darstellung‘ → ‚Dunkel‘, dann ‚…‘ → ‚Einstellungen‘.
+2. Die Schalter der Spalten ansehen, einen umschalten.
+3. Erwartet: Schalter gut zu sehen, ein grün, aus dunkelgrau; wieder hell einstellen (bzw. ‚Automatisch‘) – ebenso gut zu sehen.
+4. x (Abbrechen) tippen, ‚Änderungen verwerfen‘ wählen.
+
+**P-63/7 – Fenster über der Home-Leiste (iPad quer)**
+1. Ein Reiselogbuch öffnen und einen Tag antippen.
+2. Erwartet: das Fenster endet unten über dem Home-Strich (mit etwas Abstand), nichts darin liegt unter dem Strich.
+
+**P-63/8 – Menü und Sprechblase neben der Aussparung (iPhone quer)**
+1. iPhone quer halten, die Startliste ‚Reiselogbücher‘ zeigen.
+2. Oben rechts auf ‚…‘ tippen.
+3. Erwartet: das Menü steht ganz neben der Aussparung (Dynamic Island) bzw. dem Rand, nichts davon darunter; dann ‚Backup laden‘
+   tippen – die Sprechblase endet über dem Home-Strich. Mit ‚Abbrechen‘ schließen. Danach das iPhone andersherum drehen und
+   dasselbe ansehen.
+
+**P-63/9 – Ränder messen (iPhone hoch und quer)**
+1. iPhone hoch: in der Startliste ‚…‘ → ‚Messung starten‘, gleich danach ‚…‘ → ‚Messung beenden und teilen‘, die Datei an Claude
+   schicken (z. B. in den Chat).
+2. Dasselbe quer.
+3. Erwartet: in der ersten Zeile jeder Datei ‚Ränder o/u/l/r‘ mit den Werten deines iPhones (z. B. hoch ‚Ränder 0/34/0/0‘) –
+   Claude übernimmt sie in die Prüfung.
+
 ## 3.26.2 – 21.10.2026
 
 Reiselogbuch 3.26.2 · AppDesign 4.28.2 (Designrichtlinie allgemein 4.28.2) · Designrichtlinie Reiselogbuch 3.26.2 · Zusammenarbeit allgemein 2.17.0

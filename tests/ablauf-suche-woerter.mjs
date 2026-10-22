@@ -3,11 +3,11 @@
 // irgendwo darin vorkommt (Entscheidung des Nutzers: Einheit = Reiselogbuch); gezeigt werden die Tage mit mindestens einem
 // Wort, markiert und gezählt werden alle Wörter. Dazu die Bausteine (checkSearchWords), Pfeile ohne Umlauf (checkSearch),
 // zentrale Liste 1:1 (checkListSearch) und die Lupe am Ende der Kapsel (checkSearchPlace). iPad quer und hoch, iPhone hoch
-// und quer, hell und dunkel. Aufruf im Repo-Ordner: node tests/ablauf-suche-woerter.mjs
+// und quer, hell und dunkel. Seit 3.27.0 ohne Akzente (AppDesign A-63 C2). Aufruf im Repo-Ordner: node tests/ablauf-suche-woerter.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.28.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.28.2/tests/hig.mjs';
-import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace } from '../../AppDesign/fassung/4.28.2/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.29.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.29.0/tests/hig.mjs';
+import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace } from '../../AppDesign/fassung/4.29.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-woerter', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const trip = (id, start, list) => ({ id, title: id, participants: 'G & A', start, end: new Date(Date.parse(start) + (list.length - 1) * 864e5).toISOString().slice(0, 10),
   transport: ['flug'], foodColumn: true, moodColumn: false, quarterColumn: false,
@@ -17,6 +17,8 @@ const TRIPS = [
     ['Weiterfahrt nach Melbourne', '🍕 Pizza'], ['Oper: Aida in Melbourne', '🍷 Weinbar'], ['Strand', '☕️ Kaffee']]),
   trip('Italien', '2025-05-03', [['Rundgang durch Rom', '🍕 Pizza'], ['Besichtigung Opera di Roma', '🍝 Pasta']]),
   trip('Japan', '2024-04-06', [['Tour durch Kyoto', '🍣 Sushi']]),
+  // seit 3.27.0 (AppDesign A-63 C2, A-1/A-3/A-5): Suche ohne Akzente
+  trip('Schweiz', '2022-06-01', [['Ankunft in Zürich', '☕️ Café Crème']]),
   // lang genug zum Rollen: der Treffer muss unter die Suchzeile rücken können (S11, checkSearch)
   trip('Lang', '2023-01-01', Array.from({ length: 30 }, (_, i) => [i % 2 ? 'Opera ' + i : 'Sydney ' + i, '☕️ Kaffee'])),
 ];
@@ -89,7 +91,15 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.ist('S6 Liste ‚kyoto sydney‘ (verschiedene Reiselogbücher)', await liste('kyoto sydney'), {}, 'R-2.3');
   t.wahr('S6 Liste zeigt ‚Keine Treffer‘', /Keine Treffer/.test(await p.locator('#side').textContent()), 'R-2.3');
   t.ist('S14 Liste ‚„opera di“‘', await liste('„opera di“'), { Italien: '1 Treffer' }, 'R-2.3');
+  // A-63 C2 (seit 3.27.0): ohne Akzente – ‚Zurich‘ findet ‚Zürich‘, ‚cafe creme‘ findet ‚Café Crème‘ (Liste und Reiselogbuch)
+  t.ist('A-5 Liste ‚zurich‘', await liste('zurich'), { Schweiz: '1 Treffer' }, 'R-2.3');
+  t.ist('A-5 Liste ‚cafe creme‘', await liste('cafe creme'), { Schweiz: '2 Treffer' }, 'R-2.3');
   await t.schritt(p, 'Liste mit zwei Wörtern', async () => { await liste('pizza rundgang'); });
+  await liste('zurich'); await open('Schweiz');
+  const z = await suche('zurich');
+  t.ist('A-1 ‚zurich‘ im Reiselogbuch', { n: z.n, marks: z.marks }, { n: '1 von 1', marks: ['Zürich'] }, 'R-2.3');
+  const c = await suche('cafe creme');
+  t.ist('A-3 ‚cafe creme‘ im Reiselogbuch', { n: c.n, marks: c.marks }, { n: '1 von 2', marks: ['Café', 'Crème'] }, 'R-2.3');
   await p.close();
 }
 await t.ende(b);

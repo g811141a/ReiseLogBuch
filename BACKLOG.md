@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 21.10.2026** · Aktuelle Version: Reiselogbuch 3.26.2 · AppDesign 4.28.2
+**Stand 22.10.2026** · Aktuelle Version: Reiselogbuch 3.27.0 · AppDesign 4.29.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-63 | 1 | **Version 3.27.0 (AppDesign 4.29.0, A-63 Paket C):** Suche ohne Akzente, ⓧ in Feldern, Safaris Schalter, sichere Ränder – Prüfliste im CHANGELOG (P-63/0 bis /9) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-114 | **AppDesign A-63 Paket C:** Suche ohne Akzente, ⓧ in Titel, Teilnehmer, Ort, Quartier und Gesamtausgaben, Schalter mit `switch` (Safaris Schalter), sichere Ränder (Fenster am iPad, Menü und Sprechblase am iPhone quer); Fassung 4.29.0; Prüfungen `regeln-ablauf.mjs` (ⓧ), `ablauf-suche-woerter.mjs` (Akzente), `hig.mjs` (Ränder, Schalter). Wartet auf P-63 | Reiselogbuch 3.27.0 · AppDesign 4.29.0 | 22.10.2026 |
 | E-113 | Geprüft **P-62: alles ok** (Nutzer 21.10.2026) – Version 3.26.2 mit AppDesign 4.28.2, App unverändert; **AppDesign A-39 abgeschlossen** | Reiselogbuch 3.26.2 · AppDesign 4.28.2 | 21.10.2026 |
 | E-112 | **AppDesign A-39 Konsolidierung:** Designrichtlinie Reiselogbuch nur noch Abweichungen, PROMPT.md als gegliederte Funktionsbeschreibung mit allen Ausprägungen, CLAUDE.md 3.6.0, tests/README mit Regel je Prüfung | Reiselogbuch 3.26.2 · AppDesign 4.28.2 | 21.10.2026 |
 | E-111 | Geprüft **P-61: alles ok** (Nutzer 21.10.2026, mit Messungen) – **T-97 abgeschlossen**: Tastatur ohne Springen, Gesamtausgaben über der Tastatur, iPhone quer niedrige Leisten | Reiselogbuch 3.26.1 | 21.10.2026 |
