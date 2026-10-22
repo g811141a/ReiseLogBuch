@@ -7,8 +7,8 @@
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
 // Bewusste Abweichungen (Abschnitt 16) werden nicht gezählt. Ergebnis: Abweichungsliste, Exit-Code 1 bei Funden.
 import * as pw from 'playwright';
-import { pruefung, rolle } from '../../AppDesign/fassung/4.30.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.30.0/tests/hig.mjs';
+import { pruefung, rolle } from '../../AppDesign/fassung/4.30.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.30.1/tests/hig.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
 const long = 'a'.repeat(100); // R-6.3: zu lange Wörter müssen im Wort umbrechen

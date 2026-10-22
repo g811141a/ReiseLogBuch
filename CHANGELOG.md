@@ -13,6 +13,47 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.28.1 – 22.10.2026
+
+Reiselogbuch 3.28.1 · AppDesign 4.30.1 (Designrichtlinie allgemein 4.30.1) · Designrichtlinie Reiselogbuch 3.28.1 · Zusammenarbeit allgemein 2.18.0
+
+**Korrektur – Messung zu P-64/5** (AppDesign A-67 Schritt 1 und A-66, dein Ja vom 22.10.2026): Über einem Tageskasten federt das
+Zurückwischen am iPhone zurück, in der Prüfung nicht. Diese Version **misst** den Fehler, sie behebt ihn noch nicht – erst mit deiner
+Messung wird der Ablauf als feste Prüfung nachgebaut und behoben (3.28.2).
+
+- **Messmodus:** die Messung zeichnet jetzt auch jede Berührung auf (Finger auf, bewegt, hoch, von Safari abgebrochen – mit Lage und
+  dem berührten Element, ohne Texte) und was die Wischgeste daraus macht (aktiv, fertig, zurückgefedert, abgebrochen, mit Weg und
+  Tempo). Sonst bleibt alles wie in 3.28.0.
+- **Prüfungen:** `ablauf-navigation.mjs` prüft über Fassung 4.30.1 die neuen Zeilen der Messung (F-22) und wartet bei ‚Bewegung
+  reduzieren‘ das Ende der Bewegung ab (AppDesign A-66).
+
+Prüfliste P-65 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm** auf dem **iPhone** (wie bei P-64/5).
+
+**P-65/0 – Version prüfen**
+1. Auf dem iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.28.1 · erstellt am … · AppDesign 4.30.1‘.
+
+**P-65/1 – Messung starten**
+1. Im selben Menü ‚Messung starten‘ (activity) tippen.
+2. Erneut ‚…‘ tippen.
+3. Erwartet: ‚Messung beenden und teilen‘ (circle-stop), grau ‚läuft · 0:… · … Zeilen‘. Das Menü schließen (daneben tippen).
+
+**P-65/2 – über einem Tageskasten zurückwischen (iPhone hoch)**
+1. Ein Reiselogbuch mit Tagen öffnen.
+2. Den Finger mitten auf einen Tageskasten legen und langsam weit nach rechts wischen (über die Hälfte), dann loslassen.
+3. Erwartet (noch der Fehler): die Seite federt zurück, das Reiselogbuch bleibt offen.
+4. Noch einmal auf einem Tageskasten, diesmal kurz und schnell nach rechts wischen.
+5. Zum Vergleich neben den Kästen (z. B. ganz oben unter der Kopfzeile) langsam über die Hälfte nach rechts wischen.
+6. Erwartet: zurück in der Startliste.
+
+**P-65/3 – Messung teilen**
+1. In der Startliste oben auf ‚…‘ tippen, dann ‚Messung beenden und teilen‘ (circle-stop).
+2. Im Teilen-Menü ‚In Dateien sichern‘ wählen (oder direkt an Claude senden).
+3. Erwartet: eine Datei `messung-2026-10-…-….txt`; sie enthält nur Zahlen, Längen und Element-Namen, keine Texte aus dem Reiselogbuch.
+4. Die Datei hier im Chat anhängen und dazu kurz schreiben, ob Schritt 3 wie beschrieben zurückgefedert ist.
+
 ## 3.28.0 – 22.10.2026
 
 Reiselogbuch 3.28.0 · AppDesign 4.30.0 (Designrichtlinie allgemein 4.30.0) · Designrichtlinie Reiselogbuch 3.28.0 · Zusammenarbeit allgemein 2.18.0
