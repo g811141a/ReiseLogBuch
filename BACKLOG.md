@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-64 | 1 | **Version 3.28.0 mit AppDesign 4.30.0 prüfen** (CHANGELOG 3.28.0): Kapsel mit wirksamen Pfeilen, Schnellroll-Griff mit Marken (A-37), Seitenwechsel, Zurückwischen, Seitenleiste am iPad hoch per Wischen, ‚Bewegung reduzieren‘, VoiceOver (A-61/1) – /0 bis /10 | prüfen |
+| P-64 | 1 | **Version 3.28.0 mit AppDesign 4.30.0 geprüft (Nutzer 22.10.2026): alles ok bis auf /5** – Zurückwischen funktioniert außerhalb der Tageskästen, **über einem Tageskasten federt die Seite zurück** (am Gerät; in Chromium und WebKit der Prüfung geht es zurück). Vermutung: Safari bricht die Berührung über dem antippbaren Kasten ab (`pointercancel`). Weiter mit AppDesign A-67: erst messen, dann als feste Prüfung nachbauen und beheben | Fehler – Korrektur 3.28.1 |
 
 ## 2. Weitere Themen (in Klärung)
 
