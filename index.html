@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.28.2/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.29.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.28.2/ui.js"></script>
+<script src="../AppDesign/fassung/4.29.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.26.2';
-const APP_BUILT = '21.10.2026 um 18:16';
+const APP_VERSION = '3.27.0';
+const APP_BUILT = '22.10.2026 um 08:33';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.28.2';
+const AD_NEEDED = '4.29.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -1236,14 +1236,14 @@ function openTripDialog(trip) {
         <div class="step"><label>Konfiguration Tabellenspalten</label>
           <div class="hint" style="margin:0 0 6px">Die Spalten ‚Tag‘ und ‚Verlauf‘ werden immer angezeigt.</div>
           <div class="swlist">
-            <label class="check sw"><input type="checkbox" id="fMood" ${t.moodColumn !== false ? 'checked' : ''}> Spalte 🙂☹️😉 ‚Wie war was?‘</label>
-            <label class="check sw"><input type="checkbox" id="fFood" ${t.foodColumn ? 'checked' : ''}> Spalte 🍽️🍷☕️ ‚Essen und Trinken‘</label>
-            <label class="check sw"><input type="checkbox" id="fQuarterCol" ${t.quarterColumn !== false ? 'checked' : ''}> Spalte 😴💤 ‚Quartier‘</label>
+            <label class="check sw"><input type="checkbox" switch role="switch" id="fMood" ${t.moodColumn !== false ? 'checked' : ''}> Spalte 🙂☹️😉 ‚Wie war was?‘</label>
+            <label class="check sw"><input type="checkbox" switch role="switch" id="fFood" ${t.foodColumn ? 'checked' : ''}> Spalte 🍽️🍷☕️ ‚Essen und Trinken‘</label>
+            <label class="check sw"><input type="checkbox" switch role="switch" id="fQuarterCol" ${t.quarterColumn !== false ? 'checked' : ''}> Spalte 😴💤 ‚Quartier‘</label>
           </div>
           <div class="hint">Ausgeblendete Spalten fehlen in Tabelle, Tageserfassung und Ausgabe. Vorhandene Einträge bleiben erhalten.</div>
         </div>
         <div class="step">
-          <div class="swlist" style="margin:0"><label class="check sw"><input type="checkbox" id="fQuarterList" ${t.quarterList ? 'checked' : ''}> Quartierliste in der Ausgabe</label></div>
+          <div class="swlist" style="margin:0"><label class="check sw"><input type="checkbox" switch role="switch" id="fQuarterList" ${t.quarterList ? 'checked' : ''}> Quartierliste in der Ausgabe</label></div>
           <div class="hint">Am Ende der Ausgabe: alle Quartiere mit Zeitraum, Anzahl Nächte und Maps-Link. Nur mit Spalte Quartier.</div>
         </div>
       </div>
