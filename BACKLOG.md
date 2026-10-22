@@ -22,9 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts gesammelt | – | – |
+| A-37 | 2 | **Marken für den Schnellroll-Griff (AppDesign A-37 B+C, Nutzer 22.10.2026):** `data-marke` an den Tageskästen (‚Tag 19 · Fr 20.03.‘) und an Quartierliste, Statistik, Fazit; Kapsel ‚Nach oben / Ans Ende‘ und Griff kommen aus AppDesign 4.30.0 | AppDesign + Reiselogbuch | 22.10.2026 |
 
-**Kein Punkt bereit** · gebaut wird erst nach „Ja“
+**1 Punkt bereit** · gebaut wird erst nach „Ja“ (Nutzer 22.10.2026: noch sammeln)
 
 ## 1. Auf iPad und iPhone prüfen
 
