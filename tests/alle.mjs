@@ -3,7 +3,7 @@
 // Aufruf im Repo-Ordner: node tests/alle.mjs [--alle] [--browser chromium] [--nur hig,tastatur] [--abdeckung]
 // pixelvergleich.mjs läuft nicht mit (braucht _alt.html, Handwerkzeug).
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.30.1/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.30.2/tests/lauf.mjs';
 const tests = ['doku-regeln', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-fenster', 'ablauf-suche-tabelle', 'ablauf-suche-liste', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'ablauf-messung', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-abgleich-faelle', 'ablauf-seitenleiste-position', 'ablauf-gesamt',
   'ablauf-iphone', 'verlauf-vorschlaege', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'link-name', 'kapsel-iphone', 'ablauf-navigation', 'oeffnen-position', 'ablauf-feld-tastatur', 'ablauf-abspielen',

@@ -4,9 +4,9 @@
 // Ende der Seite (seit 3.20.1) – ganz unten bleibt ganz unten.
 // Aufruf im Repo-Ordner: node tests/oeffnen-position.mjs
 import * as pw from 'playwright';
-import { pruefung, rolle } from '../../AppDesign/fassung/4.30.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.30.1/tests/hig.mjs';
-import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.30.1/tests/ablauf.mjs';
+import { pruefung, rolle } from '../../AppDesign/fassung/4.30.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.30.2/tests/hig.mjs';
+import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.30.2/tests/ablauf.mjs';
 const t = pruefung('oeffnen-position', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const iso = (start, i) => new Date(Date.parse(start + 'T00:00:00Z') + i * 864e5).toISOString().slice(0, 10);

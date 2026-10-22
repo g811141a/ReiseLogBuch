@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.28.1** · Stand 22.10.2026
+**Version 3.28.2** · Stand 23.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.30.1)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.30.2)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -29,6 +29,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.28.2 | 23.10.2026 | Korrektur | AppDesign 4.30.2 (A-67): keine eigene Abweichung – Zurückwischen bricht nicht mehr ab (R-7.5, 13) |
 | 3.28.1 | 22.10.2026 | Korrektur | AppDesign 4.30.1 (A-67 Schritt 1, A-66): keine eigene Abweichung – der Messmodus zeichnet Berührungen und Gesten-Entscheidungen auf (15.21) |
 | 3.28.0 | 22.10.2026 | Neben | AppDesign 4.30.0 (A-37 B+C, A-61 Teil 1): keine eigene Abweichung – Kapsel mit wirksamen Pfeilen, Schnellroll-Griff (Marken in PROMPT.md 4), Seitenwechsel und Gesten nach R-3.2 und R-7.5 |
 | 3.27.0 | 22.10.2026 | Neben | AppDesign 4.29.0 (A-63): keine eigene Abweichung – sichere Ränder, Suche ohne Akzente, ⓧ in Feldern und Safaris Schalter gelten wie in der Designrichtlinie allgemein |
