@@ -33,6 +33,8 @@ Schnellroll-Griff wie in Apple Fotos; Seiten schieben sich wie in iOS 26, zurüc
 - **Prüfungen:** neu `ablauf-navigation.mjs` (alle Fälle von A-61 in iPhone hoch und quer, iPad hoch und quer, hell und dunkel,
   ‚Bewegung reduzieren‘); `kapsel-iphone.mjs` mit den Pfeilen je Rollstand, dem Griff, den Marken und einem Reiselogbuch mit 365
   Tagen; Prüfungen, die nach ‚Zurück‘ bzw. dem Öffnen sofort messen, warten jetzt das Ende des Seitenwechsels ab.
+  `ablauf-abspielen.mjs` überspringt Messungen ohne Kopf- und Suchzeile (die Ränder-Messungen aus P-63/9 – ihr Nachspielen tippte
+  bei offenem Menü auf eine Kachel und war seit dem Ablegen nach 3.27.0 rot).
 
 Prüfliste P-64 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/ – die Gesten
 bitte in der **App vom Home-Bildschirm** prüfen (in Safari selbst gehört das Wischen vom linken Rand Safari).

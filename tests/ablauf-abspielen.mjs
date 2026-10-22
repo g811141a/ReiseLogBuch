@@ -43,6 +43,9 @@ const dateien = readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort();
 for (const datei of dateien) {
   const m = lies(readFileSync(new URL(encodeURIComponent(datei), ORDNER), 'utf8'));
   if (!m.app.startsWith('Reiselogbuch')) continue;
+  // Seit 3.28.0: Messungen ohne Kopf- und Suchzeile (z. B. ‚Ränder‘ aus P-63/9 – nur Startliste und Menü, für die sicheren Ränder)
+  // haben nichts nachzuspielen; ihr Schritt ‚button‘ ist ‚Messung beenden‘ im Menü, nicht eine Kachel
+  if (!m.zeilen.some(z => z.kopf != null || z.such != null)) continue;
   for (const gegenprobe of [false, true]) {
     const p = await t.seite(b, ansicht(m));
     t.ort = `${datei.replace(/\.txt$/, '')}${gegenprobe ? ' (Gegenprobe M-5)' : ''}`;
