@@ -23,8 +23,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
 | A-37 | 2 | **Marken für den Schnellroll-Griff (AppDesign A-37 B+C, Nutzer 22.10.2026):** `data-marke` an den Tageskästen (‚Tag 19 · Fr 20.03.‘) und an Quartierliste, Statistik, Fazit; Kapsel ‚Nach oben / Ans Ende‘ und Griff kommen aus AppDesign 4.30.0 | AppDesign + Reiselogbuch | 22.10.2026 |
+| A-61/1 | 2 | **Navigation und Gesten Teil 1 (AppDesign A-61, Variante Überall, Nutzer 22.10.2026):** Seitenwechsel als Schieben und Zurückwischen am iPhone, Seitenleiste am iPad hoch per Wischen – aus AppDesign 4.30.0; die App meldet nur, was waagerecht rollt (z. B. Tabellen) | AppDesign + Reiselogbuch | 22.10.2026 |
 
-**1 Punkt bereit** · gebaut wird erst nach „Ja“ (Nutzer 22.10.2026: noch sammeln)
+**2 Punkte bereit** · **Ja des Nutzers 22.10.2026:** Reiselogbuch 3.28.0 mit AppDesign 4.30.0 – Bau in Sitzung ‚Reiselogbuch 0030‘
 
 ## 1. Auf iPad und iPhone prüfen
 
