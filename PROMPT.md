@@ -117,7 +117,10 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   **erfasst**, wenn Wetter, Verlauf oder eine sichtbare Spalte außer Essen (Wie war was?, Quartier) ausgefüllt ist. Mehrere
   Verlauf-Zeilen bekommen ▫️ davor; führende Smileys stehen vorne, der Text rückt daneben ein (hängender Einzug, R-6.3).
 - Darunter Fazit (Kasten passt sich in der Breite dem Inhalt an), Gesamtausgaben, Quartierliste (immer, sofern die Spalte Quartier
-  sichtbar ist) und Statistik (9). Unten rechts ‚Nach oben / Ans Ende‘ (R-3.2).
+  sichtbar ist) und Statistik (9). Unten rechts ‚Nach oben / Ans Ende‘, bei langem Reiselogbuch der Schnellroll-Griff (R-3.2); seine
+  Blase zeigt den Tag oben im Bild als ‚Tag 19 · Fr 20.03.‘ (Nummer im Reisezeitraum), danach ‚Fazit‘ (mit Gesamtausgaben),
+  ‚Quartierliste‘, ‚Statistik‘ (`data-marke`).
+- **iPad hoch:** die Seitenleiste kommt auch durch Wischen nach rechts im Reiselogbuch, nach links wischen schiebt sie weg (R-7.5).
 
 ## 5. iPhone
 
@@ -138,7 +141,9 @@ wie am iPad (R-1.1):
   Linien wie im Kasten mit Feldern (R-6.1). Erster offener Tag gelb (ohne blauen Rand) direkt unter der Leiste; der angetippte Kasten
   bleibt blau, solange die Tageserfassung offen ist.
 - Darunter Fazit (volle Breite), Gesamtausgaben, Quartierliste als Liste (Quartier mit Maps-Link, darunter ‚24.08. - 25.08.2026 ·
-  1 Nacht‘), Statistik. ‚Nach oben / Ans Ende‘ wie am iPad (nicht in der Startliste).
+  1 Nacht‘), Statistik. ‚Nach oben / Ans Ende‘ und Schnellroll-Griff wie am iPad (nicht in der Startliste).
+- **Seitenwechsel:** ein Reiselogbuch schiebt sich über die Startliste; zurück mit `chevron-left` oder Wischen nach rechts von überall
+  im Reiselogbuch (R-7.5) – die Zeile ‚Reisemittel‘ behält ihr seitliches Wischen.
 - **Tageserfassung** bildschirmfüllend, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘; Wetter-Symbole 40 px breit (Abweichung 2).
 
 ## 6. Suche

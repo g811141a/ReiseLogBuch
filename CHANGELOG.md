@@ -13,6 +13,106 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.28.0 – 22.10.2026
+
+Reiselogbuch 3.28.0 · AppDesign 4.30.0 (Designrichtlinie allgemein 4.30.0) · Designrichtlinie Reiselogbuch 3.28.0 · Zusammenarbeit allgemein 2.18.0
+
+**AppDesign A-37 B+C und A-61 Teil 1 ‚Überall‘** (dein Ja vom 22.10.2026): die Kapsel zeigt nur noch, was etwas bewirkt, dazu ein
+Schnellroll-Griff wie in Apple Fotos; Seiten schieben sich wie in iOS 26, zurück geht es auch durch Wischen von überall.
+
+- **Nach oben / Ans Ende:** ganz oben steht nur ‚Ans Ende‘, ganz unten nur ‚Nach oben‘, dazwischen beide; kurz vor einem Ende fehlt
+  dessen Pfeil. Die Kapsel bleibt unten an ihrem Platz und wird nur kürzer.
+- **Schnellroll-Griff:** in langen Reiselogbüchern erscheint beim Wischen rechts über der Kapsel ein Griff. Halten und ziehen springt
+  durch das ganze Reiselogbuch, die Blase daneben zeigt den Tag (‚Tag 19 · Fr 20.03.‘) bzw. ‚Fazit‘, ‚Quartierliste‘, ‚Statistik‘.
+  Nach 1,5 s Ruhe blendet er aus.
+- **iPhone – Seitenwechsel:** ein Reiselogbuch schiebt sich von rechts über die Startliste, der Zurück-Knopf schiebt es wieder
+  hinaus. **Zurück durch Wischen** nach rechts von überall im Reiselogbuch – die Seite folgt dem Finger; nicht ganz bis zur Hälfte
+  gewischt, federt sie zurück. Senkrechtes Wischen rollt wie bisher, die Zeile ‚Reisemittel‘ lässt sich weiter seitlich wischen.
+- **iPad hoch – Seitenleiste:** Wischen nach rechts von überall im Reiselogbuch holt die Seitenleiste herein, nach links wischen
+  schiebt sie weg; panel-left und Antippen der Abdunkelung lassen sie gleiten. iPad quer bleibt wie bisher.
+- **Prüfungen:** neu `ablauf-navigation.mjs` (alle Fälle von A-61 in iPhone hoch und quer, iPad hoch und quer, hell und dunkel,
+  ‚Bewegung reduzieren‘); `kapsel-iphone.mjs` mit den Pfeilen je Rollstand, dem Griff, den Marken und einem Reiselogbuch mit 365
+  Tagen; Prüfungen, die nach ‚Zurück‘ bzw. dem Öffnen sofort messen, warten jetzt das Ende des Seitenwechsels ab.
+
+Prüfliste P-64 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/ – die Gesten
+bitte in der **App vom Home-Bildschirm** prüfen (in Safari selbst gehört das Wischen vom linken Rand Safari).
+
+**P-64/0 – Version prüfen**
+1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPad: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen; iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.28.0 · erstellt am … · AppDesign 4.30.0‘.
+
+**P-64/1 – Kapsel mit wirksamen Pfeilen (iPhone hoch)**
+1. Ein langes Reiselogbuch öffnen (ganz oben).
+2. Erwartet: unten rechts nur der Pfeil ‚Ans Ende‘.
+3. Ein Stück nach unten wischen (mehr als eine halbe Bildschirmhöhe).
+4. Erwartet: beide Pfeile; der untere Rand der Kapsel bleibt an derselben Stelle.
+5. ‚Ans Ende‘ antippen.
+6. Erwartet: das Reiselogbuch rollt ganz ans Ende, danach nur noch ‚Nach oben‘.
+
+**P-64/2 – Schnellroll-Griff (iPhone hoch)**
+1. Im langen Reiselogbuch kurz nach oben oder unten wischen.
+2. Erwartet: rechts über der Kapsel erscheint ein runder Griff mit Doppelpfeil; nach etwa 1,5 s ohne Wischen blendet er aus.
+3. Wischen, dann den Griff halten und langsam nach unten ziehen.
+4. Erwartet: das Reiselogbuch springt mit, links neben dem Griff steht ‚Tag N · Wt TT.MM.‘ des Tages oben im Bild; ganz unten
+   ‚Statistik‘; der Tag unter dem Finger öffnet sich nicht.
+5. Den Griff ganz nach oben ziehen und loslassen.
+6. Erwartet: ganz oben, der Griff blendet nach 1,5 s aus.
+
+**P-64/3 – Schnellroll-Griff (iPad quer)**
+1. Ein langes Reiselogbuch öffnen, wischen, den Griff halten und bis kurz vor das Ende ziehen.
+2. Erwartet: die Blase zeigt nacheinander die Tage, dann ‚Fazit‘, ‚Quartierliste‘, ‚Statistik‘; Griff und Blase verdecken keine
+   Kopfzeile und keine Kapsel.
+
+**P-64/4 – Seitenwechsel (iPhone hoch)**
+1. In der Startliste ein Reiselogbuch antippen.
+2. Erwartet: das Reiselogbuch schiebt sich von rechts herein, die Liste weicht nach links.
+3. Oben links den Zurück-Knopf (chevron-left) tippen.
+4. Erwartet: das Reiselogbuch schiebt sich nach rechts hinaus; die Liste steht wie vorher, der eben geöffnete Eintrag ist blau.
+
+**P-64/5 – Zurückwischen (iPhone hoch und quer)**
+1. Ein Reiselogbuch öffnen und in der Mitte des Bildschirms langsam nach rechts wischen, kurz vor der Hälfte anhalten.
+2. Erwartet: die Seite folgt dem Finger, links darunter ist die Startliste zu sehen.
+3. Loslassen.
+4. Erwartet: die Seite federt zurück, das Reiselogbuch bleibt offen.
+5. Noch einmal nach rechts wischen, diesmal über die Hälfte bzw. kurz und schnell.
+6. Erwartet: zurück in der Startliste.
+7. Ein Reiselogbuch öffnen und senkrecht bzw. leicht schräg wischen.
+8. Erwartet: es rollt, kein Zurück.
+
+**P-64/6 – Vorrang (iPhone hoch)**
+1. Im Reiselogbuch die Zeile ‚Reisemittel‘ (bei mehreren Reisemitteln) seitlich wischen.
+2. Erwartet: die Zeile rollt seitlich, kein Zurück.
+3. Wischen, dann den Schnellroll-Griff ziehen.
+4. Erwartet: der Griff rollt, kein Zurück.
+5. Suche öffnen (Lupe), Tastatur ist offen; in der Mitte nach rechts wischen.
+6. Erwartet: die Tastatur geht zu und es geht zurück in die Startliste.
+
+**P-64/7 – Seitenleiste per Wischen (iPad hoch)**
+1. Ein Reiselogbuch öffnen (die Seitenleiste geht zu).
+2. In der Mitte des Reiselogbuchs nach rechts wischen.
+3. Erwartet: die Seitenleiste folgt dem Finger, dahinter dunkelt es ab; losgelassen über der Hälfte bleibt sie offen.
+4. Auf der Seitenleiste nach links wischen.
+5. Erwartet: sie geht weg.
+6. panel-left oben links tippen, dann daneben auf die Abdunkelung tippen.
+7. Erwartet: die Seitenleiste gleitet herein bzw. hinaus.
+
+**P-64/8 – iPad quer unverändert**
+1. Im Reiselogbuch nach rechts und auf der Seitenleiste nach links wischen.
+2. Erwartet: nichts bewegt sich, die Seitenleiste bleibt fest; panel-left blendet sie wie bisher aus und ein.
+
+**P-64/9 – ‚Bewegung reduzieren‘ (iPhone hoch)**
+1. In den Einstellungen → Bedienungshilfen → Bewegung → ‚Bewegung reduzieren‘ einschalten, die App öffnen.
+2. Ein Reiselogbuch öffnen und mit dem Zurück-Knopf zurück.
+3. Erwartet: die Seiten blenden über statt zu schieben; auch beim Zurückwischen blendet die Seite aus.
+4. ‚Bewegung reduzieren‘ wieder ausschalten.
+
+**P-64/10 – VoiceOver (iPhone hoch, wenn du magst)**
+1. VoiceOver einschalten, im Reiselogbuch den Griff ansteuern (nach dem Wischen rechts).
+2. Erwartet: VoiceOver sagt ‚Schnell rollen, Regler‘ und den Tag; mit einem Finger nach oben bzw. unten wischen springt einen Tag.
+3. Mit zwei Fingern ein ‚Z‘ zeichnen.
+4. Erwartet: zurück in die Startliste (falls nicht: bitte melden – die Z-Geste ist im Web nicht belegt).
+
 ## 3.27.0 – 22.10.2026
 
 Reiselogbuch 3.27.0 · AppDesign 4.29.0 (Designrichtlinie allgemein 4.29.0) · Designrichtlinie Reiselogbuch 3.27.0 · Zusammenarbeit allgemein 2.18.0
