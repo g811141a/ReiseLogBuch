@@ -1,6 +1,6 @@
 # Reiselogbuch – Funktionsbeschreibung (Stand 22.10.2026, Version 3.27.0)
 
-Reiselogbuch 3.27.0 · AppDesign 4.29.0 (Designrichtlinie allgemein 4.29.0) · Designrichtlinie Reiselogbuch 3.27.0 · Zusammenarbeit allgemein 2.17.0
+Reiselogbuch 3.27.0 · AppDesign 4.29.0 (Designrichtlinie allgemein 4.29.0) · Designrichtlinie Reiselogbuch 3.27.0 · Zusammenarbeit allgemein 2.18.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -146,7 +146,8 @@ wie am iPad (R-1.1):
 - **Im Reiselogbuch** (R-2.3): durchsucht Verlauf und sichtbare Spalten (Essen: Name und Kommentar; Quartier: Name und Ort, ohne
   Ort nur der Name), nur innerhalb der aktuellen Reise; es bleiben nur Tage mit Treffern. **Ein Eintrag** im Sinne der Suche mit
   mehreren Wörtern ist das ganze Reiselogbuch: jedes Wort muss irgendwo darin stehen; gezeigt werden die Tage mit mindestens einem
-  Wort (Entscheidung des Nutzers 18.10.2026). Die Suche markiert auch Teile langer Wörter.
+  Wort (Entscheidung des Nutzers 18.10.2026). Die Suche markiert auch Teile langer Wörter. **Ohne Akzente** wie Apple (seit
+  3.27.0): ‚Zurich‘ findet ‚Zürich‘, ‚cafe‘ findet ‚Café‘ – in beiden Suchen.
 - **Über alle Reiselogbücher** (Lupe in der Seitenleiste bzw. Startliste, Platzhalter ‚In allen suchen‘): Kacheln zeigen ‚12
   Treffer‘ (gleich gezählt wie ‚1 von 12‘ im Reiselogbuch, nur sichtbare Spalten), unter der Überschrift ‚2 von 5
   Reiselogbüchern‘, sonst ‚Keine Treffer‘; Antippen öffnet das Reiselogbuch mit gefüllter Suche.

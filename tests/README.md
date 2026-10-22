@@ -23,12 +23,12 @@ Die Spalte ‚prüft‘ nennt die Regel (R-… = Regelkatalog, Designrichtlinie 
 | Datei | prüft | Inhalt |
 |---|---|---|
 | `hig.mjs` | Regelkatalog (alle mit ‚hig.mjs‘), HIG-Checkliste | alle Ansichten, quer und hoch, iPad und iPhone, hell und dunkel; Gerätevergleich iPad ↔ iPhone (R-1.1); Testdaten mit 100 × ‚a‘ (R-6.3); im Lauf geteilt nach Darstellung (`PRUEF_DARSTELLUNG`) |
-| `regeln-ablauf.mjs` | R-2.3, R-4.4, R-5.2, R-5.3, R-6.4, R-10.1 | allgemeine Ablauf-Prüfungen (`ablauf.mjs`): Suche, Fenster-Kopfzeile, Großbuchstaben, Fehlermeldungen, Vorschau hell und dunkel; Feldnamen im Abgleichbericht wie im Fenster – iPad und iPhone |
+| `regeln-ablauf.mjs` | R-2.3, R-4.4, R-5.2, R-5.3, R-5.6, R-6.4, R-10.1 | allgemeine Ablauf-Prüfungen (`ablauf.mjs`): Suche, Fenster-Kopfzeile, Großbuchstaben, Fehlermeldungen, ⓧ in Feldern (Titel, Teilnehmer, Ort, Quartier, Gesamtausgaben), Vorschau hell und dunkel; Feldnamen im Abgleichbericht wie im Fenster – iPad und iPhone |
 | `ablauf-gesamt.mjs` | PROMPT 3, 4, 7, 9, 10 | Gesamtablauf: Reiselogbuch anlegen (leer, Pflichtfelder), Tage erfassen, Filter ‚Alle Tage‘, Darstellung, Menüs, Gesamtausgaben, Ausgabe |
 | `ablauf-fenster.mjs` | R-4.4, PROMPT 3, 7, 9 | Fenster Tag, Einstellungen, Fazit; Häkchen und ‚Änderungen verwerfen‘ |
 | `verlauf-vorschlaege.mjs` | PROMPT 7 | Vorschläge im Schritt Verlauf: Reihenfolge, eigene Zeile an der Cursorstelle, ‚Sonstiges …‘ setzt nur eine leere erste Zeile, danach groß weiter (Fall-Liste V1–V13) |
 | `ablauf-suche-tabelle.mjs` | R-2.3, PROMPT 6 | Suche, Trefferanzeige und Springen in der Tabelle |
-| `ablauf-suche-woerter.mjs` | R-2.3, PROMPT 6 | mehrere Wörter und „…“, Einheit = Reiselogbuch, gezeigt die Tage mit mindestens einem Wort (S1–S19, L1–L9) |
+| `ablauf-suche-woerter.mjs` | R-2.3, PROMPT 6 | mehrere Wörter und „…“, Einheit = Reiselogbuch, gezeigt die Tage mit mindestens einem Wort (S1–S19, L1–L9); ohne Akzente (‚Zurich‘ → ‚Zürich‘, ‚cafe creme‘ → ‚Café Crème‘, A-1, A-3, A-5) |
 | `ablauf-suche-liste.mjs` | R-2.3, PROMPT 6 | Suche über alle Reiselogbücher (`checkListSearch`) und die App-Fälle |
 | `ablauf-suche-iphone.mjs` | R-2.1, R-2.3 | am iPhone stehen Kopf- und Suchzeile beim Tippen in der Suche fest – genau der gemessene Ablauf (P-57) |
 | `ablauf-seitenleiste-kontextmenue.mjs` | R-4.2, PROMPT 4 | Seitenleiste, langes Drücken, Löschen-Abfrage |
