@@ -3,8 +3,8 @@
 // Blättern, Kontextmenü, Löschen zurück zur Startliste, neues Reiselogbuch, Wechsel iPhone ↔ iPad. Hell und dunkel.
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle } from '../../AppDesign/fassung/4.29.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.29.0/tests/hig.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.30.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.30.0/tests/hig.mjs';
 const t = pruefung('ablauf-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const OUT = new URL('./out/', import.meta.url).pathname;
@@ -30,7 +30,7 @@ check(await p.evaluate(() => document.documentElement.classList.contains('phone'
 check(await p.locator('#side.page').isVisible(), 'Start nicht in der Startliste');
 check(await p.locator('#side .side-row.current').count() === 0, 'Eintrag in der Startliste beim Start blau');
 await G('Startliste beim Start');
-await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(300);
+await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(300); await navFertig(p);
 check(await p.locator('.pnav-title').textContent() === 'Australien', 'Laufendes Reiselogbuch öffnet nicht');
 check(await p.locator('#side').isHidden(), 'Seitenleiste sichtbar');
 check(await p.locator('#pdays .box.gap').count() === 1, 'erster offener Tag nicht markiert');
@@ -93,7 +93,7 @@ check(await p.locator('#pdays .box').count() === 3, 'Nur erfasste Tage filtert n
 await G('Nur erfasste Tage');
 
 // Zurück zur Startliste, Kontextmenü, Einstellungen
-await p.click('#back'); await p.waitForTimeout(200);
+await p.click('#back'); await p.waitForTimeout(200); await navFertig(p);   // seit 3.28.0: Seitenwechsel als Schieben (A-61)
 // Startliste = derselbe Baustein wie die Seitenleiste am iPad (R-1.1)
 check((await p.locator('#side.page .side-head h2').textContent()) === 'Reiselogbücher', 'Startliste fehlt (Seitenleiste als ganze Seite)');
 check(await p.locator('#side.page .side-list .side-row').count() === 2, 'Kacheln fehlen');
@@ -125,7 +125,7 @@ check(await p.evaluate(() => getComputedStyle(document.querySelector('#transport
 await p.click('#dlgX'); await p.waitForTimeout(200);
 
 // Reiselogbuch öffnen und löschen → zurück zur Startliste
-await row.click(); await p.waitForTimeout(250);
+await row.click(); await p.waitForTimeout(250); await navFertig(p);
 check((await p.locator('.pnav-title').textContent()) === 'Toskana', 'Öffnen aus der Liste geht nicht');
 await p.click('#mainMore'); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(200);
 await p.locator('.pop button', { hasText: 'Reiselogbuch löschen' }).click(); await p.waitForTimeout(250);

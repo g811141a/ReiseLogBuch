@@ -5,9 +5,9 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-abspielen.mjs
 import * as pw from 'playwright';
 import { readFileSync, readdirSync } from 'node:fs';
-import { pruefung } from '../../AppDesign/fassung/4.29.0/tests/pruefe.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.29.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.29.0/tests/abspielen.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.30.0/tests/pruefe.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.30.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.30.0/tests/abspielen.mjs';
 const t = pruefung('ablauf-abspielen', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href, ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);
 const days = {}; for (let i = 0; i < 40; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, ...(i % 3 ? {} : { place: 'Sydney' }) };   // Suche ‚Sydne…‘ findet jeden 3. Tag
@@ -43,6 +43,9 @@ const dateien = readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort();
 for (const datei of dateien) {
   const m = lies(readFileSync(new URL(encodeURIComponent(datei), ORDNER), 'utf8'));
   if (!m.app.startsWith('Reiselogbuch')) continue;
+  // Seit 3.28.0: Messungen ohne Kopf- und Suchzeile (z. B. ‚Ränder‘ aus P-63/9 – nur Startliste und Menü, für die sicheren Ränder)
+  // haben nichts nachzuspielen; ihr Schritt ‚button‘ ist ‚Messung beenden‘ im Menü, nicht eine Kachel
+  if (!m.zeilen.some(z => z.kopf != null || z.such != null)) continue;
   for (const gegenprobe of [false, true]) {
     const p = await t.seite(b, ansicht(m));
     t.ort = `${datei.replace(/\.txt$/, '')}${gegenprobe ? ' (Gegenprobe M-5)' : ''}`;

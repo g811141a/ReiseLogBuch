@@ -1,9 +1,9 @@
 // Offline-Cache: App-Dateien zuerst aus dem Netz holen, ohne Netz aus dem Cache.
 // "no-cache" fragt immer bei GitHub nach (umgeht den 10-Minuten-Zwischenspeicher), eine neue Version ist sofort da.
-const CACHE = 'reiselogbuch-3.27.0';
+const CACHE = 'reiselogbuch-3.28.0';
 // Ab 3.0.0 kommen die gemeinsamen Bausteine aus AppDesign (gleiche Adresse g811141a.github.io) – auch offline.
 // Seit 3.13.0 (R-10.3) aus der festen Fassung ../AppDesign/fassung/X.Y.Z/ wie in index.html: eine neue AppDesign-Version ändert die App nicht.
-const FILES = ['./', 'index.html', 'manifest.json', 'icon-180.png', 'icon-512.png', '../AppDesign/fassung/4.29.0/design.css', '../AppDesign/fassung/4.29.0/ui.js'];
+const FILES = ['./', 'index.html', 'manifest.json', 'icon-180.png', 'icon-512.png', '../AppDesign/fassung/4.30.0/design.css', '../AppDesign/fassung/4.30.0/ui.js'];
 
 // Seit 3.13.2 (R-1.5, Fund P-37/3 – iPad startete offline mit weißer Seite): Die App fragt das Netz höchstens 3 s, dann
 // kommt sie aus dem Speicher; die Fassung aus AppDesign ist unveränderlich und kommt zuerst aus dem Speicher. Wird die App

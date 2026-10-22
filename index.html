@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.29.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.30.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.29.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.30.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.27.0';
-const APP_BUILT = '22.10.2026 um 08:33';
+const APP_VERSION = '3.28.0';
+const APP_BUILT = '22.10.2026 um 14:28';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.29.0';
+const AD_NEEDED = '4.30.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -281,6 +281,9 @@ function dayLabel(iso) {
   const d = parseISO(iso);
   return `${WEEKDAYS[d.getUTCDay()]}, ${pad(d.getUTCDate())}.${pad(d.getUTCMonth() + 1)}.`;
 }
+// Seit 3.28.0 (AppDesign A-37): Marke für den Schnellroll-Griff – ‚Tag 19 · Fr 20.03.‘ (Nummer im ganzen Reisezeitraum)
+const dayNumbers = days => new Map(days.map((iso, i) => [iso, i + 1]));
+const dayMark = (iso, nr) => `Tag ${nr.get(iso)} · ${dayLabel(iso).replace(',', '')}`;
 function longDayLabel(iso) {
   return `${WEEKDAYS_LONG[parseISO(iso).getUTCDay()]}, ${fullDate(iso)}`;
 }
@@ -624,6 +627,7 @@ function render({ scrollToGap = false } = {}) {
   const days = tripDays(trip);
   const gap = firstGap(trip);
   const term = searchTerm.trim().toLocaleLowerCase('de');
+  const nr = dayNumbers(days);
 
   const whole = Boolean(term) && tripFinds(trip, term);
   const visible = days.filter(iso => {
@@ -644,7 +648,7 @@ function render({ scrollToGap = false } = {}) {
       : `<span class="wx empty">☀️🌤🌦🌧</span>`;
     const link = quarterHtml(q, term, true);
     const cls = [i % 2 ? 'alt' : '', iso === gap ? 'gap' : ''].join(' ').trim();
-    return `<tr data-day="${iso}" class="${cls}">
+    return `<tr data-day="${iso}" data-marke="${dayMark(iso, nr)}" class="${cls}">
       <td class="day">${dayLabel(iso)}${tags}${wx}</td>
       <td>${linesHtml(programItems(e.program), term)}</td>
       ${c.mood ? `<td>${linesHtml(commentItems(e.comment), term)}</td>` : ''}
@@ -689,7 +693,7 @@ function render({ scrollToGap = false } = {}) {
     ${fazitHtml(trip)}
 
     ${stays.length ? `
-      <h2>Quartierliste</h2>
+      <h2 data-marke="Quartierliste">Quartierliste</h2>
       <div class="table-wrap fit">
         <table class="days static">
           <thead><tr><th>Quartier</th><th>Zeitraum</th><th class="num">Nächte</th></tr></thead>
@@ -701,7 +705,7 @@ function render({ scrollToGap = false } = {}) {
         </table>
       </div>` : ''}
 
-    <h2>Statistik</h2>
+    <h2 data-marke="Statistik">Statistik</h2>
     <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
     </div>`);
 
@@ -798,7 +802,7 @@ function bindTripEnd(trip) {
   fitMoney(kosten);
 }
 
-const fazitHtml = trip => `<h2>Fazit</h2>
+const fazitHtml = trip => `<h2 data-marke="Fazit">Fazit</h2>
     <button type="button" class="fazit-box" id="fazit">${trip.fazit
       ? linesHtml(commentItems(trip.fazit))
       : `<span class="muted" style="display:inline-flex;gap:6px;align-items:center">${ic('pencil')}Antippen, um das Fazit zu schreiben.</span>`}</button>
@@ -835,7 +839,8 @@ function renderPhone({ scrollToGap = false } = {}) {
   const term = searchTerm.trim().toLocaleLowerCase('de');
   const c = cols(trip);
   const whole = Boolean(term) && tripFinds(trip, term);
-  const visible = tripDays(trip).filter(iso => term ? matchesSearch(trip, iso, term, whole) : !db.settings.hideEmpty || isRecorded(trip, iso));
+  const all = tripDays(trip), nr = dayNumbers(all);
+  const visible = all.filter(iso => term ? matchesSearch(trip, iso, term, whole) : !db.settings.hideEmpty || isRecorded(trip, iso));
   const transport = transportText(trip);
   // Felder eines Tages; ‚Verlauf‘ als Wort in normaler Schrift, die anderen mit den Spalten-Emojis.
   const line = (k, v, word) => v ? `<div class="kv"><span class="k ${word ? 'word' : ''}">${k}</span><span class="v">${v}</span></div>` : '';
@@ -844,7 +849,7 @@ function renderPhone({ scrollToGap = false } = {}) {
     const q = quarterOf(trip, iso);
     const tags = (iso === today ? '<span class="tag today">heute</span>' : '')
       + (!isRecorded(trip, iso) && iso < today ? '<span class="tag miss">fehlt</span>' : '');
-    return `<div class="box day ${iso === gap && !term ? 'gap' : ''}" data-day="${iso}" role="button" tabindex="0">
+    return `<div class="box day ${iso === gap && !term ? 'gap' : ''}" data-day="${iso}" data-marke="${dayMark(iso, nr)}" role="button" tabindex="0">
       <div class="h">${dayLabel(iso)}${tags}${e.weather ? `<span class="wx">${esc(e.weather)}</span>` : '<span class="wx empty">☀️🌤🌦🌧</span>'}</div>
       ${line('Verlauf', e.program ? linesHtml(programItems(e.program), term) : '', true)}
       ${c.mood ? line('🙂☹️😉', e.comment ? linesHtml(commentItems(e.comment), term) : '') : ''}
@@ -873,10 +878,10 @@ function renderPhone({ scrollToGap = false } = {}) {
     <div id="pdays">${boxes || `<div class="empty-note">${term ? 'Keine Treffer.' : 'Noch keine Tage erfasst.'}</div>`}</div>
     ${fazitHtml(trip)}
     ${phoneStaysHtml(trip)}
-    <h2>Statistik</h2>
+    <h2 data-marke="Statistik">Statistik</h2>
     <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
     </div>`);
-  app.querySelector('#back').onclick = () => { phoneList = true; searchOpen = false; searchTerm = ''; rolle.to(0); render(); };
+  app.querySelector('#back').onclick = navZurueck;   // seit 3.28.0 (AppDesign A-61): der Inhalt schiebt sich hinaus
   app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
   app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
   bindSearch(term);
@@ -890,7 +895,7 @@ function renderPhone({ scrollToGap = false } = {}) {
 // Quartierliste als Liste: Quartier mit Maps-Link, darunter Zeitraum und Nächte.
 function phoneStaysHtml(trip) {
   const stays = cols(trip).quarter ? quarterStays(trip) : [];
-  return stays.length ? `<h2>Quartierliste</h2><div class="ilist">${stays.map(st => `<div class="irow"><span class="t">${quarterHtml(st.q, '', true)}
+  return stays.length ? `<h2 data-marke="Quartierliste">Quartierliste</h2><div class="ilist">${stays.map(st => `<div class="irow"><span class="t">${quarterHtml(st.q, '', true)}
     <small>${shortDate(st.firstNight)} - ${fullDate(addDays(st.lastNight, 1))} · ${st.nights} ${st.nights === 1 ? 'Nacht' : 'Nächte'}</small></span></div>`).join('')}</div>` : '';
 }
 
@@ -962,12 +967,15 @@ function showTrip(id, term = '') {
 // Quer (breiter Bildschirm) steht die Seitenleiste fest links und lässt sich aus- und einblenden;
 // im Hochformat wird sie über den Inhalt gelegt und schließt sich nach der Auswahl wieder.
 const isWide = () => window.innerWidth >= 1100;
+const sideOver = () => !isPhone() && !isWide() && Boolean(getTrip(currentTripId));   // iPad hoch: darübergelegt
 const sideVisible = () => sideOpen;
 const sideToggleHtml = () => sideVisible() && isWide() ? ''
   : `<button type="button" class="round" data-side-toggle aria-label="Seitenleiste einblenden">${ic('panel-left')}</button>`;
 
 // R-8.1 (seit 3.20.0, T-90): beim Ein- und Ausblenden bleibt oben derselbe Tag stehen.
+// Seit 3.28.0 (AppDesign A-61): am iPad hoch gleitet die darübergelegte Seitenleiste herein und hinaus (navSeite).
 function toggleSide() {
+  if (sideOver()) return navSeite(!sideOpen);
   keepPlace(() => { sideOpen = !sideOpen; render(); });
 }
 const bindSideToggle = root => root.querySelectorAll('[data-side-toggle]').forEach(b => b.onclick = toggleSide);
@@ -1001,7 +1009,7 @@ function renderSide() {
   if (!wide && !page) {
     const shade = document.createElement('div');
     shade.className = 'side-shade';
-    shade.onclick = () => keepPlace(() => { sideOpen = false; render(); });
+    shade.onclick = () => navSeite(false);
     side.before(shade);
   }
   const today = todayISO();
@@ -1030,7 +1038,7 @@ function renderSide() {
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Öffnen · Einstellungen · Reiselogbuch löschen).
   side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
     () => tripContextMenu(b, getTrip(b.dataset.id)),
-    () => { if (!isWide()) sideOpen = false; if (isPhone()) rolle.to(0); showTrip(b.dataset.id, term ? listTerm : ''); }));
+    () => navVor(() => { if (!isWide()) sideOpen = false; if (isPhone()) rolle.to(0); showTrip(b.dataset.id, term ? listTerm : ''); })));
   bindListSearch();
   document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
   keepSideScroll();
@@ -1165,6 +1173,19 @@ document.getElementById('toEnd').innerHTML = ic('arrow-down-to-line');
 // Nach oben / Ans Ende rollen den Inhalt (Rollbereich, AppDesign A-28).
 document.getElementById('toTop').onclick = fabTop;
 document.getElementById('toEnd').onclick = fabEnd;
+// Seit 3.28.0 (AppDesign A-61 Teil 1): Seitenwechsel als Schieben, Zurückwischen am iPhone, Seitenleiste am iPad hoch per Wischen.
+// darunter: die Startliste unter dem Inhalt aufbauen, ohne den Zustand zu ändern (phoneList nur für renderSide).
+navAnmelden({
+  zurueck: {
+    offen: () => isPhone() && !phoneList && Boolean(getTrip(currentTripId)),
+    darunter: an => {
+      if (an) { phoneList = true; renderSide(); phoneList = false; }
+      else if (!phoneList && isPhone()) { side.hidden = true; side.classList.remove('page'); }
+    },
+    los: () => { phoneList = true; searchOpen = false; searchTerm = ''; rolle.to(0); render(); },
+  },
+  seite: { moeglich: sideOver, offen: () => sideOpen, zeigen: an => { sideOpen = an; renderSide(); } },
+});
 
 
 const MOOD_HINT = 'Leiste nach links/rechts wischen für weitere Smileys. Lange drücken entfernt einen Smiley aus der Leiste. ↺ stellt die Standard-Smileys wieder her. Weitere Smileys über die Emoji-Taste der Tastatur.';

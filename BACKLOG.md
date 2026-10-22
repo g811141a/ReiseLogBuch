@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 22.10.2026** · Aktuelle Version: Reiselogbuch 3.27.0 · AppDesign 4.29.0
+**Stand 22.10.2026** · Aktuelle Version: Reiselogbuch 3.28.0 · AppDesign 4.30.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,16 +22,14 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| A-37 | 2 | **Marken für den Schnellroll-Griff (AppDesign A-37 B+C, Nutzer 22.10.2026):** `data-marke` an den Tageskästen (‚Tag 19 · Fr 20.03.‘) und an Quartierliste, Statistik, Fazit; Kapsel ‚Nach oben / Ans Ende‘ und Griff kommen aus AppDesign 4.30.0 | AppDesign + Reiselogbuch | 22.10.2026 |
-| A-61/1 | 2 | **Navigation und Gesten Teil 1 (AppDesign A-61, Variante Überall, Nutzer 22.10.2026):** Seitenwechsel als Schieben und Zurückwischen am iPhone, Seitenleiste am iPad hoch per Wischen – aus AppDesign 4.30.0; die App meldet nur, was waagerecht rollt (z. B. Tabellen) | AppDesign + Reiselogbuch | 22.10.2026 |
+| – | – | zurzeit nichts gesammelt | – | – |
 
-**2 Punkte bereit** · **Ja des Nutzers 22.10.2026:** Reiselogbuch 3.28.0 mit AppDesign 4.30.0 – Bau in Sitzung ‚Reiselogbuch 0030‘
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-64 | 1 | **Version 3.28.0 mit AppDesign 4.30.0 prüfen** (CHANGELOG 3.28.0): Kapsel mit wirksamen Pfeilen, Schnellroll-Griff mit Marken (A-37), Seitenwechsel, Zurückwischen, Seitenleiste am iPad hoch per Wischen, ‚Bewegung reduzieren‘, VoiceOver (A-61/1) – /0 bis /10 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +49,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-116 | **AppDesign A-37 B+C und A-61 Teil 1:** Marken `data-marke` an Tagen (‚Tag 19 · Fr 20.03.‘) und an Fazit, Quartierliste, Statistik; Seitenwechsel und Gesten über `navAnmelden()` (Zurück-Knopf, Öffnen aus der Startliste, panel-left und Abdunkelung am iPad hoch); Fassung 4.30.0; Prüfungen `ablauf-navigation.mjs` (neu), `kapsel-iphone.mjs` (Griff, Marken, 365 Tage). Wartet auf P-64 | Reiselogbuch 3.28.0 · AppDesign 4.30.0 | 22.10.2026 |
 | E-115 | Geprüft **P-63: alles ok** (Nutzer 22.10.2026) – Version 3.27.0 mit AppDesign 4.29.0; **AppDesign A-63 abgeschlossen** | Reiselogbuch 3.27.0 · AppDesign 4.29.0 | 22.10.2026 |
 | E-114 | **AppDesign A-63 Paket C:** Suche ohne Akzente, ⓧ in Titel, Teilnehmer, Ort, Quartier und Gesamtausgaben, Schalter mit `switch` (Safaris Schalter), sichere Ränder (Fenster am iPad, Menü und Sprechblase am iPhone quer); Fassung 4.29.0; Prüfungen `regeln-ablauf.mjs` (ⓧ), `ablauf-suche-woerter.mjs` (Akzente), `hig.mjs` (Ränder, Schalter). Wartet auf P-63 | Reiselogbuch 3.27.0 · AppDesign 4.29.0 | 22.10.2026 |
 | E-113 | Geprüft **P-62: alles ok** (Nutzer 21.10.2026) – Version 3.26.2 mit AppDesign 4.28.2, App unverändert; **AppDesign A-39 abgeschlossen** | Reiselogbuch 3.26.2 · AppDesign 4.28.2 | 21.10.2026 |
