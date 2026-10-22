@@ -5,10 +5,10 @@
 // Gegen 3.25.1 (AppDesign 4.27.1) rot. iPad nur am Gerät (keine Messung der Tastatur, Safari-Modell nur iPhone).
 // Aufruf im Repo-Ordner: node tests/ablauf-feld-tastatur.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.30.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.30.1/tests/hig.mjs';
-import { checkFieldVisible } from '../../AppDesign/fassung/4.30.1/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.30.1/tests/safari.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.30.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.30.2/tests/hig.mjs';
+import { checkFieldVisible } from '../../AppDesign/fassung/4.30.2/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.30.2/tests/safari.mjs';
 const t = pruefung('ablauf-feld-tastatur', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const days = {}; for (let i = 0; i < 30; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Sydney' };

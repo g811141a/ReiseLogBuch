@@ -13,6 +13,57 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.28.2 – 23.10.2026
+
+Reiselogbuch 3.28.2 · AppDesign 4.30.2 (Designrichtlinie allgemein 4.30.2) · Designrichtlinie Reiselogbuch 3.28.2 · Zusammenarbeit allgemein 2.18.0
+
+**Korrektur – Zurückwischen federt zurück (P-64/5, P-65)** (AppDesign A-67, dein Ja vom 23.10.2026). Deine Messung hat es gezeigt:
+weicht der Finger beim Zurückwischen etwa 10 px nach oben oder unten ab, fängt Safari an zu rollen und bricht das Wischen ab – über
+den Tageskästen und daneben.
+
+- **Zurückwischen:** hat das Reiselogbuch einmal erkannt, dass du zurückwischst, rollt Safari nicht mehr dazwischen – auch leicht
+  schräg geht es jetzt zurück in die Startliste. Senkrecht rollt das Reiselogbuch wie bisher, die Zeile ‚Reisemittel‘ wischt weiter
+  seitlich. Am iPad hoch gilt dasselbe für das Hereinwischen der Seitenleiste.
+- **Prüfungen:** `ablauf-navigation.mjs` wischt jetzt auch mit nachgebildeter Berührung wie Safari (deine gemessenen Züge, über einem
+  Tageskasten und daneben) – gegen 3.28.1 rot, jetzt grün.
+- **Messmodus:** zeigt zusätzlich, ob Safari noch rollen darf (‚touchmove‘).
+
+Prüfliste P-66 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**.
+
+**P-66/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen; iPad: in der Seitenleiste oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.28.2 · erstellt am … · AppDesign 4.30.2‘.
+
+**P-66/1 – über einem Tageskasten zurückwischen (iPhone hoch)**
+1. Ein Reiselogbuch mit Tagen öffnen.
+2. Den Finger mitten auf einen Tageskasten legen und langsam über die Hälfte nach rechts wischen, ruhig auch leicht schräg.
+3. Erwartet: die Seite folgt dem Finger, nach dem Loslassen zurück in der Startliste.
+4. Wieder öffnen und auf einem Tageskasten kurz und schnell nach rechts wischen.
+5. Erwartet: zurück in der Startliste.
+
+**P-66/2 – neben den Kästen zurückwischen (iPhone hoch)**
+1. Ein Reiselogbuch öffnen und oben im Kopf (Teilnehmer, Zeitraum) langsam über die Hälfte nach rechts wischen.
+2. Erwartet: zurück in der Startliste.
+3. Wieder öffnen, nur ein Stück nach rechts ziehen (weniger als die Hälfte) und langsam loslassen.
+4. Erwartet: die Seite federt zurück, das Reiselogbuch bleibt offen.
+
+**P-66/3 – Rollen bleibt (iPhone hoch)**
+1. Im Reiselogbuch senkrecht nach oben und unten wischen, auch etwas schräg.
+2. Erwartet: es rollt, kein Zurück.
+3. Die Zeile ‚Reisemittel‘ (bei mehreren Reisemitteln) seitlich wischen.
+4. Erwartet: die Zeile rollt seitlich, kein Zurück.
+
+**P-66/4 – Seitenleiste per Wischen (iPad hoch)**
+1. Ein Reiselogbuch öffnen; über einem Tag leicht schräg nach rechts wischen.
+2. Erwartet: die Seitenleiste kommt herein und bleibt offen.
+
+**P-66/5 – nur falls /1 bis /4 nicht ok: Messung**
+1. Mehr ‚…‘ → ‚Messung starten‘ (activity), den Fehler nachmachen, dann ‚…‘ → ‚Messung beenden und teilen‘ (circle-stop).
+2. Erwartet: eine Datei `messung-2026-10-….txt` im Teilen-Menü.
+3. Die Datei hier im Chat anhängen.
+
 ## 3.28.1 – 22.10.2026
 
 Reiselogbuch 3.28.1 · AppDesign 4.30.1 (Designrichtlinie allgemein 4.30.1) · Designrichtlinie Reiselogbuch 3.28.1 · Zusammenarbeit allgemein 2.18.0
