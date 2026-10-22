@@ -29,7 +29,8 @@ Regeln in AppDesign 4.29.0.
   im Aussehen deiner iOS-Version, der Knopf gleitet und lässt sich ziehen, das iPhone gibt beim Umschalten ein leichtes Klicken
   (Haptik), VoiceOver sagt ‚Schalter‘.
 - **Sichere Ränder:** Fenster am iPad enden über der Home-Leiste (vorher reichten sie 10 px darunter); am iPhone quer stehen das Menü
-  der Startliste und die Sprechblase ‚Backup laden‘ nicht mehr in der Aussparung bzw. unter der Home-Leiste. Die Prüfungen setzen
+  der Startliste und die Sprechblase ‚Backup laden‘ nicht mehr in der Aussparung bzw. unter der Home-Leiste, und der Abgleichbericht
+  lässt sich quer ganz bis neben die Aussparung wischen (vorher blieben rechts 32 px darunter). Die Prüfungen setzen
   dafür jetzt echte Gerätewerte. Der Messmodus nennt in der ersten Zeile die Ränder deines Geräts (‚Ränder …‘).
 - **Prüfungen:** `regeln-ablauf.mjs` mit dem ⓧ (Titel, Teilnehmer, Ort, Quartier, Gesamtausgaben), `ablauf-suche-woerter.mjs` mit
   ‚Zürich‘ und ‚Café Crème‘, `hig.mjs` mit den sicheren Rändern und den Schaltern in jeder Ansicht.
