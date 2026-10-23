@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-67 | 1 | **Seitenleiste quer wischen, Leerzeichen, Großschreibung (Version 3.29.0 mit AppDesign 4.31.0):** Prüfliste P-67 im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-123 | Geprüft **P-67 (3.29.0)**: alles ok – Seitenleiste am iPad quer hereinwischen, Vorrang und panel-left, keine doppelten Leerzeichen, Großschreibung zurücknehmen (AppDesign A-68, A-64, A-65 abgeschlossen) | Reiselogbuch 3.29.0 | 23.10.2026 |
 | E-122 | **AppDesign A-68, A-64, A-65:** Seitenleiste am iPad quer per Wischen (Variante B), keine doppelten Leerzeichen, keine erzwungene Großschreibung nach einer Korrektur von Hand; `ablauf-navigation.mjs` mit iPad quer, `regeln-ablauf.mjs` mit `checkSpaces`. Wartet auf P-67 | Reiselogbuch 3.29.0 | 23.10.2026 |
 | E-121 | Geprüft **P-66 (3.28.2)**: alles ok – Zurückwischen über und neben den Tageskästen, Rollen, Seitenleiste am iPad hoch (AppDesign A-67 abgeschlossen) | Reiselogbuch 3.28.2 | 23.10.2026 |
 | E-120 | **AppDesign A-67 Korrektur:** Zurückwischen über und neben den Tageskästen bricht nicht mehr ab (Safari rollte ab 10 px senkrecht dazwischen); `ablauf-navigation.mjs` mit Berührung nach Safari (`kasten: #app .box.day`). Wartet auf P-66 | Reiselogbuch 3.28.2 · AppDesign 4.30.2 | 23.10.2026 |
