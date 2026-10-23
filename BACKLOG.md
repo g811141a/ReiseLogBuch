@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-66 | 1 | **Zurückwischen (Version 3.28.2 mit AppDesign 4.30.2):** Prüfliste P-66 im CHANGELOG – über einem Tageskasten, daneben, Rollen bleibt, Seitenleiste am iPad hoch | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -49,6 +49,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-121 | Geprüft **P-66 (3.28.2)**: alles ok – Zurückwischen über und neben den Tageskästen, Rollen, Seitenleiste am iPad hoch (AppDesign A-67 abgeschlossen) | Reiselogbuch 3.28.2 | 23.10.2026 |
 | E-120 | **AppDesign A-67 Korrektur:** Zurückwischen über und neben den Tageskästen bricht nicht mehr ab (Safari rollte ab 10 px senkrecht dazwischen); `ablauf-navigation.mjs` mit Berührung nach Safari (`kasten: #app .box.day`). Wartet auf P-66 | Reiselogbuch 3.28.2 · AppDesign 4.30.2 | 23.10.2026 |
 | E-119 | Geprüft **P-65 (3.28.1)**: /2 nicht ok – Messung ausgewertet (Safari bricht ab 10 px senkrecht ab) → Korrektur 3.28.2 | Reiselogbuch 3.28.1 | 23.10.2026 |
 | E-118 | Geprüft **P-64 (3.28.0)**: alles ok bis auf /5 – weiter in P-65 | Reiselogbuch 3.28.0 | 23.10.2026 |
