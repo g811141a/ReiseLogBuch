@@ -23,6 +23,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
 | T-98 | 1 | **Startposition beim Öffnen (Nutzer 23.10.2026, AppDesign A-69):** Standard bleibt die erste Lücke gelb oben (R-7.4). **Reise läuft und alles bis heute erfasst** (danach Lücken oder alles erfasst) → der **heutige Tag** oben, **ohne Gelb** (er trägt ‚heute‘); **Reise in der Zukunft** → **ganz oben**, nichts gelb; **Gelb nur bis heute** – künftige Tage nie gelb. Vergangene Reise unverändert. Fall-Liste AppDesign `arbeit/A-69 T-98 Fall-Liste.md` (F1–F11), Prüfung `oeffnen-position.mjs` mit festem Datum – rot gegen 3.29.0 bei F5–F11 | App | 23.10.2026 |
+| T-99 | 2 | **Blatt auf dem iPhone (AppDesign A-61/2, T-15, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung werden auf dem iPhone alle Fenster außer Meldungen (Erfassen, Bearbeiten, Neues Reiselogbuch, Vorschau, Einstellungen …) ein Blatt ‚nur groß‘; nach unten ziehen schließt, mit Änderungen fragt es wie x – auch beim Erfassen; am iPad unverändert | App | 23.10.2026 |
 
 
 ## 1. Auf iPad und iPhone prüfen
