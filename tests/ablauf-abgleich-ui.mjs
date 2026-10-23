@@ -2,7 +2,7 @@
 // Backup erstellen (Kachel), Backup laden → Abgleichen, in beide Richtungen. Fälle 8, 9, 9a–9c der Tabelle (15.18).
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich-ui.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.32.0/tests/pruefe.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.32.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.32.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-abgleich-ui', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
@@ -24,7 +24,8 @@ const load = async (p, content) => { if (p.viewportSize().width < 700 && !(await
 const day = async (p, iso, fn) => {
   if (p.viewportSize().width < 700) { if (await p.locator('#side.page').count()) { await p.locator('#side .side-row').first().click(); await p.waitForTimeout(250); } await p.locator(`#pdays [data-day="${iso}"]`).click(); }
   else await p.locator(`table.days tbody tr[data-day="${iso}"]`).click();
-  await p.waitForTimeout(300); await fn(); await p.click('#dlgOk'); await p.waitForTimeout(300); };
+  await p.waitForTimeout(300); await navFertig(p);   // seit 3.30.0: bis das Blatt auf dem iPhone ruht (R-4.6)
+  await fn(); await p.click('#dlgOk'); await p.waitForTimeout(300); };
 const want = { 8: { iso: '2026-07-03', weather: '☀️', program: 'Golden Circle' }, 9: { iso: '2026-07-02', program: 'Vom iPhone' }, '9a': { iso: '2026-07-04', program: 'Neu iPhone' }, '9b': { iso: '2026-07-02', weather: '🌧', program: 'Alt' }, '9c': { iso: '2026-07-02', program: 'Spät iPad' } };
 for (const fall of [8, 9, '9a', '9b', '9c']) {
   const ipad = await dev(1180, 820), iphone = await dev(393, 852);
