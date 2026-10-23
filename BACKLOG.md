@@ -36,6 +36,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| T-100 | 2 | **Barrierefreiheit Teil 1 in der App (AppDesign A-43/1, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung Felder mit Fehlermeldung über `feldFehler` (rot, hörbar, Fokus aufs erste fehlerhafte Feld beim Häkchen); Ansagen der Suche („3 Treffer“, „Treffer 2 von 3“, „Keine Treffer“) und der Seitenleiste („2 von 5 Reiselogbüchern“); sanftes Rollen zum Fehler beim Häkchen (index.html:1323) springt mit ‚Bewegung reduzieren‘; Prüfungen der App mit `PRUEF_BEDIENUNG` (Fall-Liste AppDesign `arbeit/A-43 Teil 1 Fall-Liste.md`) | App | bereit – für die Version nach 3.30.0 |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
