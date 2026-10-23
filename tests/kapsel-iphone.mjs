@@ -7,10 +7,10 @@
 // Marken der Tage und Abschnitte (data-marke), sehr langes Reiselogbuch mit 365 Tagen (F-11).
 // Aufruf im Repo-Ordner: node tests/kapsel-iphone.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.31.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.31.0/tests/hig.mjs';
-import { checkFab, checkGriff } from '../../AppDesign/fassung/4.31.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.31.0/tests/safari.mjs';
+import { pruefung, navFertig, rollRuht } from '../../AppDesign/fassung/4.32.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.32.0/tests/hig.mjs';
+import { checkFab, checkGriff } from '../../AppDesign/fassung/4.32.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.32.0/tests/safari.mjs';
 const t = pruefung('kapsel-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const viele = {}; for (let i = 0; i < 30; i++) viele[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Sydney' };
@@ -40,11 +40,11 @@ for (const theme of ['light', 'dark']) {
     t.wahr(`K1 Kapsel nicht unten rechts (rechts ${k.rechts} px, unten ${k.unten} px)`, k.rechts >= 14 && k.rechts <= 70 && k.unten >= 14 && k.unten <= 60, 'R-3.2');
     await t.schritt(p, 'Reiselogbuch mit Kapsel', async () => {});
     if (k.sichtbar) {
-    await p.click('#toEnd'); await p.waitForTimeout(900);   // K2
+    await p.click('#toEnd'); await p.waitForTimeout(300); await rollRuht(p);   // K2 (seit 3.30.0: bis das Rollen ruht – Chrome 153 rollt langsamer)
     k = await kapsel(p);
     t.wahr(`K2 ‚Ans Ende‘ rollt nicht ganz nach unten (${k.y} von ${k.max})`, k.max - k.y <= 2, 'R-3.2');
     await t.schritt(p, 'ganz unten', async () => {});
-    await p.click('#toTop'); await p.waitForTimeout(900);   // K3
+    await p.click('#toTop'); await p.waitForTimeout(300); await rollRuht(p);   // K3
     t.ist('K3 ‚Nach oben‘ rollt ganz nach oben', (await kapsel(p)).y, 0, 'R-3.2');
     // A-33 K-1 bis K-5: Tastatur offen (sichtbarer Bereich wie gemessen, A-27), mit und ohne Suche – Kapsel schneidet keine Leiste
     for (const x of await checkFab(p, { top: '#toTop', end: '#toEnd', suche: '#searchBtn', sichtbar: { 'iPhone hoch': 409, 'iPhone quer': 126 }[name] ?? null,

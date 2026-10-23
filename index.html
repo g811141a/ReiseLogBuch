@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.31.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.32.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.31.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.32.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.29.0';
-const APP_BUILT = '23.10.2026 um 07:43';
+const APP_VERSION = '3.30.0';
+const APP_BUILT = '23.10.2026 um 19:25';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.31.0';
+const AD_NEEDED = '4.32.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -371,6 +371,16 @@ function isRecorded(trip, iso) {
 
 function firstGap(trip) {
   return tripDays(trip).find(d => !isRecorded(trip, d)) || null;
+}
+
+// T-98 (seit 3.30.0, AppDesign A-69, R-7.4): Startposition beim Öffnen. Die erste Lücke bis heute steht gelb oben (top = mark);
+// läuft die Reise und ist bis heute alles erfasst, steht heute oben, ohne Gelb; sonst (Reise in der Zukunft, vergangen und
+// vollständig) ganz oben. Künftige Tage sind nie gelb.
+function startDay(trip, today = todayISO()) {
+  const gap = firstGap(trip);
+  if (gap && gap <= today) return { top: gap, mark: gap };
+  if (trip.start <= today && today <= trip.end) return { top: today, mark: null };
+  return { top: null, mark: null };
 }
 
 // Durchsuchte Felder eines Tages (nur die eingeschalteten Spalten).
@@ -625,7 +635,7 @@ function render({ scrollToGap = false } = {}) {
   renderSide();
   const today = todayISO();
   const days = tripDays(trip);
-  const gap = firstGap(trip);
+  const { top: startTop, mark: gap } = startDay(trip, today);
   const term = searchTerm.trim().toLocaleLowerCase('de');
   const nr = dayNumbers(days);
 
@@ -722,8 +732,8 @@ function render({ scrollToGap = false } = {}) {
   app.querySelectorAll('tbody tr').forEach(tr => tr.onclick = () => openDayDialog(trip, tr.dataset.day));
   bindTripEnd(trip);
 
-  // R-7.4 (seit 3.20.0, T-89): beim Öffnen steht der erste nicht erfasste Tag direkt unter dem Tabellenkopf; sonst ganz oben.
-  if (scrollToGap) openAt(app.querySelector('tr.gap'));
+  // R-7.4 (seit 3.20.0, T-89; seit 3.30.0 T-98): beim Öffnen steht der Starttag direkt unter dem Tabellenkopf; sonst ganz oben.
+  if (scrollToGap) openAt(startTop && app.querySelector(`tr[data-day="${startTop}"]`));
 }
 
 function progressText(trip) {
@@ -835,7 +845,7 @@ function renderPhone({ scrollToGap = false } = {}) {
   side.classList.remove('page');
   emptyPrompted = false;
   const today = todayISO();
-  const gap = firstGap(trip);
+  const { top: startTop, mark: gap } = startDay(trip, today);
   const term = searchTerm.trim().toLocaleLowerCase('de');
   const c = cols(trip);
   const whole = Boolean(term) && tripFinds(trip, term);
@@ -888,7 +898,7 @@ function renderPhone({ scrollToGap = false } = {}) {
   bindTripEnd(trip);
   app.querySelectorAll('#pdays [data-day]').forEach(b => b.onclick = () => openDayDialog(trip, b.dataset.day));
   markOpener();
-  if (scrollToGap) openAt(app.querySelector('.box.gap'));   // R-7.4: direkt unter der Leiste, sonst ganz oben
+  if (scrollToGap) openAt(startTop && app.querySelector(`#pdays [data-day="${startTop}"]`));   // R-7.4, T-98: direkt unter der Leiste, sonst ganz oben
   updateBar();
 }
 

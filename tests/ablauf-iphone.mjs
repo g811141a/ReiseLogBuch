@@ -3,8 +3,8 @@
 // Blättern, Kontextmenü, Löschen zurück zur Startliste, neues Reiselogbuch, Wechsel iPhone ↔ iPad. Hell und dunkel.
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.31.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.31.0/tests/hig.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.32.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.32.0/tests/hig.mjs';
 const t = pruefung('ablauf-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const OUT = new URL('./out/', import.meta.url).pathname;
@@ -58,12 +58,13 @@ await rolle(p, 0); await p.waitForTimeout(100);
 check((await p.locator('#pdays .box .k.word').first().textContent()) === 'Verlauf', 'Begriff Verlauf fehlt');
 await p.screenshot({ path: SHOT('iphone-1-reiselogbuch.png') });
 
-// Tag erfassen: bildschirmfüllend, kurzer Titel, Kasten bleibt blau, Speichern mit Häkchen, Blättern
-await p.locator('#pdays [data-day="2026-08-25"]').click(); await p.waitForTimeout(300);
+// Tag erfassen: als Blatt (seit 3.30.0, R-4.6: 10 px unter der Statusleiste bis zum unteren Rand), kurzer Titel, Kasten bleibt blau,
+// Speichern mit Häkchen, Blättern
+await p.locator('#pdays [data-day="2026-08-25"]').click(); await p.waitForTimeout(300); await navFertig(p);
 check(await p.evaluate(() => document.activeElement?.id !== 'dlgX'), 'x hat den Fokus');
 check(await p.evaluate(() => document.documentElement.classList.contains('locked')), 'Seite hinter dem Fenster nicht gesperrt');
 const box = await p.locator('#dlg').boundingBox();
-check(Math.round(box.width) === 393 && Math.round(box.height) === 852, `Fenster nicht bildschirmfüllend: ${JSON.stringify(box)}`);
+check(Math.round(box.width) === 393 && Math.round(box.y) === 10 && Math.round(box.y + box.height) === 852, `Fenster nicht als Blatt von 10 px bis unten: ${JSON.stringify(box)}`);
 check((await p.locator('#dlg h3').textContent()) === 'Di, 25.08.2026', 'Titel nicht kurz');
 await G('Tag 25.08. offen');
 check(await p.locator('#pdays [data-day="2026-08-25"]').evaluate(e => e.classList.contains('on')), 'Kasten nicht blau');

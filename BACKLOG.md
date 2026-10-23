@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 23.10.2026** · Aktuelle Version: Reiselogbuch 3.29.0 · AppDesign 4.31.0
+**Stand 23.10.2026** · Aktuelle Version: Reiselogbuch 3.30.0 · AppDesign 4.32.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,8 +22,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-98 | 1 | **Startposition beim Öffnen (Nutzer 23.10.2026, AppDesign A-69):** Standard bleibt die erste Lücke gelb oben (R-7.4). **Reise läuft und alles bis heute erfasst** (danach Lücken oder alles erfasst) → der **heutige Tag** oben, **ohne Gelb** (er trägt ‚heute‘); **Reise in der Zukunft** → **ganz oben**, nichts gelb; **Gelb nur bis heute** – künftige Tage nie gelb. Vergangene Reise unverändert. Fall-Liste AppDesign `arbeit/A-69 T-98 Fall-Liste.md` (F1–F11), Prüfung `oeffnen-position.mjs` mit festem Datum – rot gegen 3.29.0 bei F5–F11 | App | 23.10.2026 |
-| T-99 | 2 | **Blatt auf dem iPhone (AppDesign A-61/2, T-15, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung werden auf dem iPhone alle Fenster außer Meldungen (Erfassen, Bearbeiten, Neues Reiselogbuch, Vorschau, Einstellungen …) ein Blatt ‚nur groß‘; nach unten ziehen schließt, mit Änderungen fragt es wie x – auch beim Erfassen; am iPad unverändert | App | 23.10.2026 |
+| – | – | zurzeit nichts gesammelt | – | – |
 
 
 ## 1. Auf iPad und iPhone prüfen
@@ -36,7 +35,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-100 | 2 | **Barrierefreiheit Teil 1 in der App (AppDesign A-43/1, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung Felder mit Fehlermeldung über `feldFehler` (rot, hörbar, Fokus aufs erste fehlerhafte Feld beim Häkchen); Ansagen der Suche („3 Treffer“, „Treffer 2 von 3“, „Keine Treffer“) und der Seitenleiste („2 von 5 Reiselogbüchern“); sanftes Rollen zum Fehler beim Häkchen (index.html:1323) springt mit ‚Bewegung reduzieren‘; Prüfungen der App mit `PRUEF_BEDIENUNG` (Fall-Liste AppDesign `arbeit/A-43 Teil 1 Fall-Liste.md`) | App | bereit – für die Version nach 3.30.0 |
+| T-100 | 2 | **Barrierefreiheit Teil 1 in der App (AppDesign A-43/1, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung Felder mit Fehlermeldung über `feldFehler` (rot, hörbar, Fokus aufs erste fehlerhafte Feld beim Häkchen); Ansagen der Suche („3 Treffer“, „Treffer 2 von 3“, „Keine Treffer“) und der Seitenleiste („2 von 5 Reiselogbüchern“); sanftes Rollen zum Fehler beim Häkchen (index.html:1323) springt mit ‚Bewegung reduzieren‘; Prüfungen der App mit `PRUEF_BEDIENUNG` (Fall-Liste AppDesign `arbeit/A-43 Teil 1 Fall-Liste.md`) | App | bereit – für die nächste Version |
 | T-101 | 2 | **Barrierefreiheit Teil 2 Textgröße in der App (AppDesign A-43/2, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung folgt die Schrift der Einstellung ‚Textgröße‘ (R-1.10); in der App: die 6 eigenen Schriftgrößen einem Textstil zugeordnet, keine Schrift mehr in px außer Ausgabe (G4); Tage am iPad ab AX1 als dieselben Kästen wie am iPhone (`.box.day` aus `renderPhone` statt `table.days`), Kopf mit Wetter unter dem Datum, beim Wechsel Tabelle ↔ Kästen bleibt derselbe Tag oben (U4, W1); Reisedaten `.meta` ab AX1 untereinander (U1); Betragsfeld `#kosten` in Zeichenbreite statt fest 130 px (B5); Wetter-Knöpfe wachsen, die 40-px-Ausnahme gilt nur bei Standard, passt es nicht → seitlich wischen (B6); Prüfungen der App mit `PRUEF_TEXT` (Fall-Liste AppDesign `arbeit/A-43 Teil 2 Fall-Liste.md`) | App | bereit – für die Version nach T-100 |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
@@ -52,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-124 | **T-98 und T-99 (AppDesign A-69, A-61 Teil 2):** Startposition beim Öffnen – läuft die Reise und ist bis heute alles erfasst, steht heute oben ohne Gelb, eine Reise in der Zukunft öffnet ganz oben, Gelb nur bis heute (`oeffnen-position.mjs` mit festem Datum, rot gegen 3.29.0 bei F5–F11); auf dem iPhone sind Erfassen, Einstellungen, Neues Reiselogbuch, Fazit und Vorschau ein Blatt – nach unten ziehen schließt, mit Änderungen fragt es wie x (neu `ablauf-blatt.mjs`). Wartet auf P-68 | Reiselogbuch 3.30.0 · AppDesign 4.32.0 | 23.10.2026 |
 | E-123 | Geprüft **P-67 (3.29.0)**: alles ok – Seitenleiste am iPad quer hereinwischen, Vorrang und panel-left, keine doppelten Leerzeichen, Großschreibung zurücknehmen (AppDesign A-68, A-64, A-65 abgeschlossen) | Reiselogbuch 3.29.0 | 23.10.2026 |
 | E-122 | **AppDesign A-68, A-64, A-65:** Seitenleiste am iPad quer per Wischen (Variante B), keine doppelten Leerzeichen, keine erzwungene Großschreibung nach einer Korrektur von Hand; `ablauf-navigation.mjs` mit iPad quer, `regeln-ablauf.mjs` mit `checkSpaces`. Wartet auf P-67 | Reiselogbuch 3.29.0 | 23.10.2026 |
 | E-121 | Geprüft **P-66 (3.28.2)**: alles ok – Zurückwischen über und neben den Tageskästen, Rollen, Seitenleiste am iPad hoch (AppDesign A-67 abgeschlossen) | Reiselogbuch 3.28.2 | 23.10.2026 |
