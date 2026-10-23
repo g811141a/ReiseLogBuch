@@ -48,8 +48,10 @@ for (const theme of ['light', 'dark']) {
     await start('g');
     if (!phone) t.liste(await pruefeOeffnen('g', where + ' · P8 Start', async () => {}));
     const oeffne = id => async () => {
-      if (phone && !await p.locator('#side.page').isVisible()) { await p.click('#back'); await p.waitForTimeout(300); }
+      if (phone && !await p.locator('#side.page').isVisible()) { await p.click('#back'); await p.waitForTimeout(300); await navFertig(p); }
       if (!await p.locator(`#side .side-row[data-id="${id}"]`).isVisible()) { await p.locator('[data-side-toggle]').filter({ visible: true }).first().click(); await p.waitForTimeout(350); await navFertig(p); }
+      // seit 3.30.0: zwölf Reiselogbücher – den Eintrag in die Mitte der Liste rollen (unten liegt die Backup-Kachel darüber)
+      await p.locator(`#side .side-row[data-id="${id}"]`).evaluate(e => e.scrollIntoView({ block: 'center' }));
       await p.locator(`#side .side-row[data-id="${id}"]`).click();
     };
     for (const id of ['g', 'v', 'f', 'l', 'g', 'a', 'h', 'n', 'r', 'z', 'p', 'e', 'x', 'g']) {   // P2–P7, P9, F1–F11: vorher jeweils weit unten
