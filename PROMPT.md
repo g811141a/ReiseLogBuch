@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 23.10.2026, Version 3.28.2)
+# Reiselogbuch – Funktionsbeschreibung (Stand 23.10.2026, Version 3.29.0)
 
-Reiselogbuch 3.28.2 · AppDesign 4.30.2 (Designrichtlinie allgemein 4.30.2) · Designrichtlinie Reiselogbuch 3.28.2 · Zusammenarbeit allgemein 2.18.0
+Reiselogbuch 3.29.0 · AppDesign 4.31.0 (Designrichtlinie allgemein 4.31.0) · Designrichtlinie Reiselogbuch 3.29.0 · Zusammenarbeit allgemein 2.19.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -121,6 +121,8 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   Blase zeigt den Tag oben im Bild als ‚Tag 19 · Fr 20.03.‘ (Nummer im Reisezeitraum), danach ‚Fazit‘ (mit Gesamtausgaben),
   ‚Quartierliste‘, ‚Statistik‘ (`data-marke`).
 - **iPad hoch:** die Seitenleiste kommt auch durch Wischen nach rechts im Reiselogbuch, nach links wischen schiebt sie weg (R-7.5).
+- **iPad quer:** die ausgeblendete Seitenleiste kommt auch durch Wischen nach rechts im Reiselogbuch – der Inhalt rückt mit und wird
+  beim Einrasten schmaler; ausblenden nur mit panel-left (R-7.5).
 
 ## 5. iPhone
 

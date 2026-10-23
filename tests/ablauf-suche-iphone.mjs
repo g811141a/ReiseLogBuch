@@ -8,8 +8,8 @@
 // das Suchfeld bleibt dasselbe Feld und behält den Fokus. Gegen 3.24.0 rot: ±120 px (hoch) bzw. ±21 px (quer) nach ⓧ.
 // Aufruf im Repo-Ordner: node tests/ablauf-suche-iphone.mjs. Meldet Fehler (pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle } from '../../AppDesign/fassung/4.30.2/tests/pruefe.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.30.2/tests/safari.mjs';
+import { pruefung, rolle } from '../../AppDesign/fassung/4.31.0/tests/pruefe.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.31.0/tests/safari.mjs';
 const t = pruefung('ablauf-suche-iphone', pw, { out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 30 ? 'Fahrt nach Sydney' : i % 7 === 0 ? 'Bus nach Sydney' : 'Programm ' + i, comment: '😉 ok', quarter: 'Hotel', place: 'Ort' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, days }];
