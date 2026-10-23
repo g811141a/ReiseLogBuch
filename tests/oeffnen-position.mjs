@@ -4,9 +4,9 @@
 // Ende der Seite (seit 3.20.1) – ganz unten bleibt ganz unten.
 // Aufruf im Repo-Ordner: node tests/oeffnen-position.mjs
 import * as pw from 'playwright';
-import { pruefung, rolle } from '../../AppDesign/fassung/4.30.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.30.2/tests/hig.mjs';
-import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.30.2/tests/ablauf.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.31.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.31.0/tests/hig.mjs';
+import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.31.0/tests/ablauf.mjs';
 const t = pruefung('oeffnen-position', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const iso = (start, i) => new Date(Date.parse(start + 'T00:00:00Z') + i * 864e5).toISOString().slice(0, 10);
@@ -29,7 +29,7 @@ for (const theme of ['light', 'dark']) {
     if (!phone) t.liste(await checkOpenAt(p, { where: where + ' · P8 Start', open: async () => {}, want: WANT.g }));
     const oeffne = id => async () => {
       if (phone && !await p.locator('#side.page').isVisible()) { await p.click('#back'); await p.waitForTimeout(300); }
-      if (!await p.locator(`#side .side-row[data-id="${id}"]`).isVisible()) { await p.locator('[data-side-toggle]').filter({ visible: true }).first().click(); await p.waitForTimeout(350); }
+      if (!await p.locator(`#side .side-row[data-id="${id}"]`).isVisible()) { await p.locator('[data-side-toggle]').filter({ visible: true }).first().click(); await p.waitForTimeout(350); await navFertig(p); }
       await p.locator(`#side .side-row[data-id="${id}"]`).click();
     };
     for (const id of ['g', 'v', 'f', 'l', 'g']) {   // P2–P7, P9: v nach g (vorher weit unten) prüft P1

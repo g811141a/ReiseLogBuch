@@ -1,12 +1,12 @@
 // Reiselogbuch-Test: ablauf-navigation – AppDesign A-61 Teil 1 (seit 3.28.0, R-7.5; Fall-Liste AppDesign arbeit/A-61 Teil 1 Fall-Liste.md
 // F-1 bis F-21, Variante ‚Überall‘): Seitenwechsel als Schieben, Zurückwischen am iPhone von überall im Inhalt, Seitenleiste am iPad hoch
-// per Wischen, iPad quer unverändert – iPhone hoch und quer, iPad hoch und quer, hell und dunkel, dazu ‚Bewegung reduzieren‘ (F-19).
+// per Wischen; seit 3.29.0 (AppDesign A-68, Variante B, Q-1 bis Q-12) am iPad quer die ausgeblendete Seitenleiste per Wischen – iPhone hoch und quer, iPad hoch und quer, hell und dunkel, dazu ‚Bewegung reduzieren‘ (F-19).
 // Waagrecht rollender Bereich am iPhone: die Zeile Reisemittel (dd.swipe). Grundregeln nach den Schritten (pruefe.mjs).
 // Aufruf im Repo-Ordner: node tests/ablauf-navigation.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.30.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.30.2/tests/hig.mjs';
-import { checkNavigation } from '../../AppDesign/fassung/4.30.2/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.31.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.31.0/tests/hig.mjs';
+import { checkNavigation } from '../../AppDesign/fassung/4.31.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-navigation', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const tage = {}; for (let i = 0; i < 40; i++) tage[new Date(Date.UTC(2019, 2, 2 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Tokio' };
@@ -15,7 +15,7 @@ const trips = [{ id: 'a', title: 'Japan', participants: 'Anna', start: '2019-03-
   ...Array.from({ length: 14 }, (_, i) => ({ id: 't' + i, title: 'Reise ' + (i + 1), participants: 'A', start: `${2025 - i}-06-01`, end: `${2025 - i}-06-10`, transport: ['pkw'], days: { [`${2025 - i}-06-02`]: { program: 'Stadt ' + i } } }))];
 const b = await t.browser();
 const faelle = [['iPhone hoch', 'light'], ['iPhone quer', 'dark'], ['iPad hoch', 'light'], ['iPad quer', 'dark'], ['iPhone hoch', 'dark'], ['iPad hoch', 'dark'],
-  ['iPhone hoch', 'light', 'reduce'], ['iPad hoch', 'light', 'reduce']];
+  ['iPhone hoch', 'light', 'reduce'], ['iPad hoch', 'light', 'reduce'], ['iPad quer', 'light'], ['iPad quer', 'light', 'reduce']];
 for (const [ansicht, theme, bewegung] of faelle) {
   const p = await t.seite(b, ansicht, { theme, ...(bewegung ? { reducedMotion: bewegung } : {}) });
   if (bewegung) t.ort = `${t.ort} · Bewegung reduzieren`;

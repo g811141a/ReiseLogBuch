@@ -13,6 +13,73 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.29.0 – 23.10.2026
+
+Reiselogbuch 3.29.0 · AppDesign 4.31.0 (Designrichtlinie allgemein 4.31.0) · Designrichtlinie Reiselogbuch 3.29.0 · Zusammenarbeit allgemein 2.19.0
+
+**Sammelversion – Seitenleiste quer wischen, Leerzeichen und Großschreibung** (AppDesign A-68, A-64, A-65, dein Ja vom 23.10.2026).
+
+- **Seitenleiste am iPad quer (A-68, Variante B):** hast du die Seitenleiste mit panel-left ausgeblendet, holt Wischen nach rechts
+  irgendwo im Reiselogbuch sie wieder herein – der Inhalt rückt dabei mit dem Finger nach rechts. Ab der halben Breite oder bei
+  schnellem Wischen rastet sie links ein und der Inhalt wird schmaler, derselbe Tag bleibt oben; sonst federt sie zurück.
+  panel-left lässt sie quer jetzt gleiten statt springen. Ausblenden quer weiter nur mit panel-left.
+- **Großschreibung zurücknehmen (A-65):** schreibt das Reiselogbuch einen Buchstaben groß und du änderst ihn von Hand in einen
+  kleinen (markieren und überschreiben oder löschen und neu tippen), bleibt er klein.
+- **Keine doppelten Leerzeichen (A-64):** in allen Textfeldern und im Suchfeld wird ein zweites Leerzeichen nicht eingefügt; beim
+  Einfügen werden mehrere Leerzeichen zu einem.
+- **Prüfungen:** `ablauf-navigation.mjs` prüft jetzt auch iPad quer (hell, dunkel, ‚Bewegung reduzieren‘) mit Maus und Berührung
+  wie Safari; `regeln-ablauf.mjs` mit `checkSpaces` und der Korrektur von Hand in `checkCapital` – gegen 3.28.2 rot, jetzt grün.
+
+Prüfliste P-67 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**.
+
+**P-67/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen; iPad: in der Seitenleiste oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.29.0 · erstellt am … · AppDesign 4.31.0‘.
+
+**P-67/1 – Seitenleiste quer hereinwischen (iPad quer)**
+1. Ein Reiselogbuch mit Tagen öffnen, etwas nach unten rollen und oben in der Seitenleiste auf panel-left tippen.
+2. Erwartet: die Seitenleiste gleitet hinaus, der Inhalt wird breit, derselbe Tag bleibt oben.
+3. Irgendwo im Inhalt langsam über die Hälfte nach rechts wischen, ruhig leicht schräg.
+4. Erwartet: die Seitenleiste folgt dem Finger, der Inhalt rückt mit; nach dem Loslassen rastet sie links ein, der Inhalt wird
+   schmaler, derselbe Tag bleibt oben.
+5. Wieder ausblenden, nur ein Stück ziehen und langsam loslassen.
+6. Erwartet: sie federt zurück, der Inhalt bleibt breit.
+7. Kurz und schnell nach rechts wischen.
+8. Erwartet: sie kommt herein.
+
+**P-67/2 – Vorrang und panel-left (iPad quer)**
+1. Bei ausgeblendeter Seitenleiste senkrecht rollen, auch etwas schräg; die Zeile ‚Reisemittel‘ seitlich wischen.
+2. Erwartet: es rollt bzw. die Zeile rollt – keine Seitenleiste.
+3. Bei sichtbarer Seitenleiste auf ihr nach links wischen.
+4. Erwartet: sie bleibt.
+5. Im Kopf des Reiselogbuchs auf panel-left tippen.
+6. Erwartet: sie gleitet herein und rastet ein.
+
+**P-67/3 – Leerzeichen (iPhone oder iPad)**
+1. Einen Tag bearbeiten, im Programm ‚Stadt‘, zweimal Leertaste, ‚Rundgang‘ tippen.
+2. Erwartet: ‚Stadt. Rundgang‘, wenn der Kurzbefehl ‚.‘ eingeschaltet ist (Einstellungen → Allgemein → Tastatur), sonst
+   ‚Stadt Rundgang‘ mit einem Leerzeichen.
+3. Einen Text mit mehreren Leerzeichen hintereinander kopieren und ins Programm einsetzen.
+4. Erwartet: nur noch einzelne Leerzeichen, die Zeilenumbrüche bleiben.
+5. In der Suche (Lupe) zweimal Leertaste zwischen zwei Wörtern.
+6. Erwartet: ein Leerzeichen (bzw. ‚. ‘ mit Kurzbefehl).
+
+**P-67/4 – Großschreibung zurücknehmen (iPhone oder iPad)**
+1. Einen Tag bearbeiten, im Programm eine neue Zeile ‚ausflug‘ tippen.
+2. Erwartet: ‚Ausflug‘ (wie bisher).
+3. Das ‚A‘ markieren (doppelt tippen bzw. mit dem Cursor) oder dahinter einmal löschen, die Umschalttaste ausschalten und ‚a‘
+   tippen.
+4. Erwartet: ‚ausflug‘ bleibt klein.
+5. Eine neue Zeile ‚weiter‘ tippen.
+6. Erwartet: ‚Weiter‘ – am Zeilenanfang wieder groß.
+
+**P-67/5 – nur falls /1 oder /2 nicht ok: Messung**
+1. Mehr ‚…‘ → ‚Messung starten‘ (activity), den Fehler nachmachen, dann ‚…‘ → ‚Messung beenden und teilen‘ (circle-stop).
+2. Erwartet: eine Datei `messung-2026-10-….txt` im Teilen-Menü.
+3. Die Datei hier im Chat anhängen.
+
 ## 3.28.2 – 23.10.2026
 
 Reiselogbuch 3.28.2 · AppDesign 4.30.2 (Designrichtlinie allgemein 4.30.2) · Designrichtlinie Reiselogbuch 3.28.2 · Zusammenarbeit allgemein 2.18.0
