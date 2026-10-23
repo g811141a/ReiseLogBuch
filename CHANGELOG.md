@@ -30,7 +30,8 @@ Reiselogbuch 3.30.0 · AppDesign 4.32.0 (Designrichtlinie allgemein 4.32.0) · D
   Oben auf die Abdunkelung tippen wirkt wie das x. Am iPad bleibt alles wie bisher.
 - **Prüfungen:** `oeffnen-position.mjs` mit fester Uhr (heute = 23.10.2026) und den Fällen F1–F11 in allen Ansichten, hell und dunkel –
   gegen 3.29.0 rot bei F5–F11, jetzt grün; neu `ablauf-blatt.mjs` (alle fünf Fenster, iPhone hoch und quer, dunkel, ‚Bewegung
-  reduzieren‘, iPad).
+  reduzieren‘, iPad). `ablauf-iphone.mjs` erwartet das Blatt statt des bildschirmfüllenden Fensters; `kapsel-iphone.mjs` wartet nach
+  ‚Nach oben / Ans Ende‘, bis das Rollen ruht (Chrome 153 der Prüfumgebung rollt langsamer – auch 3.29.0 war damit rot).
 
 Prüfliste P-68 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**.
