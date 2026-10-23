@@ -22,7 +22,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts gesammelt | – | – |
+| T-98 | 1 | **Startposition beim Öffnen (Nutzer 23.10.2026, AppDesign A-69):** Standard bleibt die erste Lücke gelb oben (R-7.4). **Reise läuft und alles bis heute erfasst** (danach Lücken oder alles erfasst) → der **heutige Tag** oben, **ohne Gelb** (er trägt ‚heute‘); **Reise in der Zukunft** → **ganz oben**, nichts gelb; **Gelb nur bis heute** – künftige Tage nie gelb. Vergangene Reise unverändert. Fall-Liste AppDesign `arbeit/A-69 T-98 Fall-Liste.md` (F1–F11), Prüfung `oeffnen-position.mjs` mit festem Datum – rot gegen 3.29.0 bei F5–F11 | App | 23.10.2026 |
 
 
 ## 1. Auf iPad und iPhone prüfen
@@ -35,7 +35,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-98 | 1 | **Startposition beim Öffnen verbessern (Nutzer 23.10.2026):** heute steht der erste nicht erfasste Tag oben (R-7.4, T-89, `openAt` mit `tr.gap`) – das bleibt der Standard. Neu: **Reise läuft und die erste Lücke liegt nach heute** (alles bis heute erfasst) → der **heutige Tag** oben; **Reise ganz in der Zukunft** → das Reiselogbuch **von Beginn an** (ganz oben, kein bestimmter Tag); Reise in der Vergangenheit unverändert (erste Lücke, sonst Beginn). Offen: läuft die Reise und sind alle Tage erfasst – heutiger Tag oben? (Empfehlung Claude: ja). Vor dem Bau Fall-Liste, Prüfung rot gegen 3.29.0 (`oeffnen-position.mjs`) | App | offen |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
