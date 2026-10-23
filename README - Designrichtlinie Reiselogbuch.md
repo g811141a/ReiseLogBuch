@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.29.0** · Stand 23.10.2026
+**Version 3.30.0** · Stand 23.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.31.0)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.32.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -29,6 +29,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.30.0 | 23.10.2026 | Neben | AppDesign 4.32.0 (A-61 Teil 2, A-69): keine eigene Abweichung – Fenster auf dem iPhone als Blatt (R-4.6); Startposition mit heute ohne Gelb und Zukunft ganz oben nach R-7.4 (PROMPT.md 4) |
 | 3.29.0 | 23.10.2026 | Neben | AppDesign 4.31.0 (A-68, A-64, A-65): keine eigene Abweichung – Seitenleiste am iPad quer per Wischen (R-7.5), keine doppelten Leerzeichen und keine erzwungene Großschreibung nach einer Korrektur von Hand (R-5.2) |
 | 3.28.2 | 23.10.2026 | Korrektur | AppDesign 4.30.2 (A-67): keine eigene Abweichung – Zurückwischen bricht nicht mehr ab (R-7.5, 13) |
 | 3.28.1 | 22.10.2026 | Korrektur | AppDesign 4.30.1 (A-67 Schritt 1, A-66): keine eigene Abweichung – der Messmodus zeichnet Berührungen und Gesten-Entscheidungen auf (15.21) |

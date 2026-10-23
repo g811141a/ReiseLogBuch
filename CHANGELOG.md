@@ -13,6 +13,84 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.30.0 – 23.10.2026
+
+Reiselogbuch 3.30.0 · AppDesign 4.32.0 (Designrichtlinie allgemein 4.32.0) · Designrichtlinie Reiselogbuch 3.30.0 · Zusammenarbeit allgemein 2.19.0
+
+**Sammelversion – Startposition und Blatt auf dem iPhone** (T-98 und T-99, AppDesign A-69 und A-61 Teil 2, dein Ja vom 23.10.2026).
+
+- **Startposition beim Öffnen (T-98):** wie bisher steht die erste Lücke gelb oben. Neu: läuft die Reise und ist bis heute alles
+  erfasst (danach Lücken oder auch alles erfasst), steht der **heutige Tag** oben, **ohne Gelb** – er trägt ‚heute‘. Eine Reise in der
+  **Zukunft** öffnet **ganz oben**, nichts ist gelb. Gelb gibt es nur bis heute, künftige Tage sind nie gelb. Vergangene Reisen wie
+  bisher.
+- **Blatt auf dem iPhone (T-99):** Tag erfassen, Einstellungen, Neues Reiselogbuch, Fazit und Vorschau kommen auf dem iPhone als
+  Blatt von unten, das Reiselogbuch dahinter weicht etwas zurück (quer volle Höhe). **Nach unten ziehen schließt** – am Kopf oder im
+  Inhalt, wenn er ganz oben steht; schnell wischen genügt. Hast du etwas geändert, federt das Blatt zurück und fragt wie das x
+  ‚Änderungen verwerfen‘ / ‚Weiter bearbeiten‘ – auch beim Erfassen. Bei offener Tastatur schließt der Zug zuerst die Tastatur.
+  Oben auf die Abdunkelung tippen wirkt wie das x. Am iPad bleibt alles wie bisher.
+- **Prüfungen:** `oeffnen-position.mjs` mit fester Uhr (heute = 23.10.2026) und den Fällen F1–F11 in allen Ansichten, hell und dunkel –
+  gegen 3.29.0 rot bei F5–F11, jetzt grün; neu `ablauf-blatt.mjs` (alle fünf Fenster, iPhone hoch und quer, dunkel, ‚Bewegung
+  reduzieren‘, iPad).
+
+Prüfliste P-68 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**.
+
+**P-68/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. iPhone: in der Startliste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen; iPad: in der Seitenleiste oben auf ‚…‘.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.30.0 · erstellt am … · AppDesign 4.32.0‘.
+
+**P-68/1 – Blatt öffnen und wegziehen (iPhone hoch)**
+1. Ein Reiselogbuch öffnen und einen Tag antippen.
+2. Erwartet: das Fenster gleitet als Blatt von unten herein, oben runde Ecken; dahinter weicht das Reiselogbuch etwas verkleinert
+   und abgedunkelt zurück.
+3. Am Kopf (beim Datum) ein Stück nach unten ziehen und langsam loslassen.
+4. Erwartet: das Blatt folgt dem Finger und federt zurück.
+5. Am Kopf weit nach unten ziehen bzw. ein zweites Mal nur kurz und schnell nach unten wischen.
+6. Erwartet: das Blatt schließt, das Reiselogbuch steht wieder wie vorher, an derselben Stelle.
+7. Einen Tag öffnen, im Inhalt etwas nach unten rollen, dann im Inhalt nach unten ziehen.
+8. Erwartet: der Inhalt rollt zurück nach oben, das Blatt bleibt; erst wenn er ganz oben steht, zieht der nächste Zug das Blatt.
+9. Oben auf die abgedunkelte Fläche über dem Blatt tippen.
+10. Erwartet: das Blatt schließt wie mit x.
+
+**P-68/2 – mit Änderungen fragt es (iPhone hoch)**
+1. Einen Tag öffnen, im Verlauf etwas tippen (die Tastatur ist offen).
+2. Auf dem Feld nach unten ziehen.
+3. Erwartet: die Tastatur geht zu, das Blatt zieht sich zäh, federt zurück und fragt am x ‚Änderungen verwerfen‘ / ‚Weiter
+   bearbeiten‘.
+4. ‚Weiter bearbeiten‘ tippen, dann am Kopf weit nach unten ziehen und ‚Änderungen verwerfen‘ tippen.
+5. Erwartet: das Blatt schließt, die Änderung ist nicht übernommen.
+6. Dasselbe in ‚Einstellungen‘ (Mehr ‚…‘ → Einstellungen) mit einer Änderung am Titel.
+7. Erwartet: wie 3 und 5.
+
+**P-68/3 – Tastatur im Blatt (iPhone hoch und quer)**
+1. Einen Tag öffnen, ganz nach unten rollen und das unterste Feld (Ort beim Quartier) antippen.
+2. Erwartet: Kopf und Feld stehen über der Tastatur, nichts springt.
+3. Im Inhalt nach unten ziehen, wenn er nicht ganz oben steht.
+4. Erwartet: die Tastatur geht zu, der Inhalt rollt, das Blatt bleibt.
+5. Dasselbe quer.
+6. Erwartet: das Blatt hat quer die volle Höhe, das Reiselogbuch dahinter weicht nicht zurück; sonst wie 2 und 4.
+
+**P-68/4 – Vorschau und Drehen (iPhone)**
+1. Teilen (share) → ‚Vorschau‘, die Tabelle seitlich wischen, dann nach unten ziehen.
+2. Erwartet: seitlich wischen bewegt nur die Tabelle; nach unten ziehen schließt die Vorschau.
+3. Einen Tag öffnen und das iPhone drehen (hoch ↔ quer).
+4. Erwartet: das Blatt bleibt offen und passt sich an.
+
+**P-68/5 – iPad unverändert**
+1. Auf dem iPad einen Tag öffnen und am Kopf nach unten ziehen; neben das Fenster tippen.
+2. Erwartet: das Fenster bleibt in der Mitte und offen; x und Häkchen schließen es wie bisher.
+
+**P-68/6 – Startposition (iPhone oder iPad)**
+1. Ein Reiselogbuch anlegen, das vor 3 Tagen begann und in 5 Tagen endet; an jedem Tag bis heute ein Wetter antippen.
+2. Ein anderes Reiselogbuch öffnen, dann wieder das neue.
+3. Erwartet: der heutige Tag (mit ‚heute‘) steht direkt unter dem Kopf, kein Tag ist gelb.
+4. Ein Reiselogbuch anlegen, das nächsten Monat beginnt, und es wieder öffnen.
+5. Erwartet: ganz oben, kein Tag gelb.
+6. Ein vergangenes Reiselogbuch mit einem nicht erfassten Tag öffnen.
+7. Erwartet: wie bisher steht die erste Lücke gelb direkt unter dem Kopf.
+8. Die beiden Test-Reiselogbücher wieder löschen.
+
 ## 3.29.0 – 23.10.2026
 
 Reiselogbuch 3.29.0 · AppDesign 4.31.0 (Designrichtlinie allgemein 4.31.0) · Designrichtlinie Reiselogbuch 3.29.0 · Zusammenarbeit allgemein 2.19.0
