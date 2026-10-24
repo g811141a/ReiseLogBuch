@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 24.10.2026, Version 3.30.2)
+# Reiselogbuch – Funktionsbeschreibung (Stand 24.10.2026, Version 3.31.0)
 
-Reiselogbuch 3.30.2 · AppDesign 4.32.2 (Designrichtlinie allgemein 4.32.2) · Designrichtlinie Reiselogbuch 3.30.2 · Zusammenarbeit allgemein 2.19.0
+Reiselogbuch 3.31.0 · AppDesign 4.33.0 (Designrichtlinie allgemein 4.33.0) · Designrichtlinie Reiselogbuch 3.31.0 · Zusammenarbeit allgemein 2.19.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -139,7 +139,7 @@ wie am iPad (R-1.1):
   durch. Langes Drücken: Einstellungen · Reiselogbuch löschen; nach dem Löschen geht es zur Startliste. Leertexte: 2.
 - **Reiselogbuch:** Kopf mit rundem `chevron-left` zur Startliste und Kapsel [share | search | ellipsis] mit denselben Menüs; der
   Reisetitel steht in der Mitte der Leiste. Darunter ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ – der Wert jeweils in der
-  nächsten Zeile, die Reisemittel in einer Zeile, bei Bedarf seitlich wischen; dann die Fortschrittsanzeige.
+  nächsten Zeile, die Reisemittel in einer Zeile, bei Bedarf seitlich wischen (Verlauf und kleiner Pfeil am Rand, R-5.4); dann die Fortschrittsanzeige.
 - **Tage als Kästen:** Kopf ‚Mo, 24.08.‘ mit ‚heute‘/‚fehlt‘ und Wetter rechts (leer: blasse Platzhalter); Felder ‚Verlauf‘ (als
   Wort, normale Größe, halbfett), dann die Spalten-Emojis 🙂☹️😉 · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt;
   Linien wie im Kasten mit Feldern (R-6.1). Startposition wie am iPad (4), direkt unter der Leiste; der angetippte Kasten
@@ -185,7 +185,7 @@ wie am iPad (R-1.1):
      Felder Name und ‚Ort für Google Maps, z. B. Cairns, Australien‘ **nebeneinander in einer Zeile (halb und halb)**, bei schmalem
      Bildschirm untereinander; darunter der Link ‚📍 In Google Maps prüfen‘ (nicht unterstrichen).
 - **Smiley-Leisten** bei ‚Wie war was?‘, ‚Essen und Trinken‘ und im Fazit (Verhalten wie Designrichtlinie allgemein 8: wischen,
-  Häufigkeit, lange drücken entfernt, rotate-ccw setzt zurück, Anhängen in der Zeile); ‚Wie war was?‘ und Fazit teilen die
+  Häufigkeit, lange drücken entfernt – Ziehen nicht (R-3.5) –, rotate-ccw setzt zurück, Anhängen in der Zeile); ‚Wie war was?‘ und Fazit teilen die
   Häufigkeit. Mehrere Smileys pro Zeile stehen in Tabelle und Ausgabe zusammen vorne.
 - Diktieren und Großbuchstaben nach R-5.2 (Hinweis zum Diktieren unten im Fenster; groß auch nach einem Smiley).
 

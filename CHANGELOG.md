@@ -13,6 +13,65 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.31.0 – 24.10.2026
+
+Reiselogbuch 3.31.0 · AppDesign 4.33.0 (Designrichtlinie allgemein 4.33.0) · Designrichtlinie Reiselogbuch 3.31.0 · Zusammenarbeit allgemein 2.19.0
+
+**Pfeile an der Auswahl-Kapsel, Smiley-Leiste ziehen ohne Abfrage** (T-106, AppDesign A-75 und A-76, dein Ja vom 24.10.2026).
+
+- **Pfeile am Rand:** reicht der Platz in einer Auswahl-Kapsel nicht (Reisemittel, Wetter, Smileys), steht am Rand, wo es
+  weitergeht, im weichen Verlauf ein kleiner grauer Pfeil ‹ bzw. ›. Am Anfang nur ›, in der Mitte beide, am Ende nur ‹ – am
+  jeweiligen Ende blendet der Pfeil aus. Passt alles, gibt es weder Verlauf noch Pfeil. Die Pfeile sind nur ein Hinweis: Antippen
+  am Rand wählt wie bisher den Eintrag darunter. Nach dem Drehen stimmen Verlauf und Pfeile sofort.
+- **Ziehen ist kein langes Drücken:** ziehst du die Smiley-Leiste mit dem Finger auf einem Smiley seitlich, kommt keine Abfrage
+  ‚… aus der Schnellauswahl entfernen?‘ mehr – nur langes Drücken auf derselben Stelle entfernt ein Smiley. Gilt für alle
+  Smiley-Leisten (Wie war was?, Essen und Trinken, Fazit) und das Kontextmenü der Reiselogbücher.
+- **Prüfungen:** neu `ablauf-smiley-leiste.mjs` – dein Ablauf nachgebaut (Tag öffnen, auf einem Smiley aufsetzen, die Leiste ziehen),
+  dazu Essen und Fazit, iPhone hoch und quer, iPad mit Maus; gegen 3.30.2 rot (40 Meldungen), jetzt grün. Warum die Prüfung es
+  übersah: langes Drücken wurde nur still gehalten, nie mit Ziehen. Neu `ablauf-kapsel-pfeile.mjs` – Pfeile am Anfang, in der Mitte
+  und am Ende, Antippen unter dem Pfeil, Drehen mit offenem Blatt, Smiley entfernen und zurücksetzen, dunkel, ‚Bewegung reduzieren‘,
+  iPad schmaler.
+
+Prüfliste P-71 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**.
+
+**P-71/0 – Version prüfen**
+1. Auf dem iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.31.0 · erstellt am … · AppDesign 4.33.0‘.
+
+**P-71/1 – Pfeile an den Reisemitteln (iPhone hoch)**
+1. Ein Reiselogbuch öffnen, oben auf ‚…‘ (Mehr) → ‚Einstellungen‘ tippen.
+2. Erwartet: in der Reisemittel-Kapsel rechts ein weicher Verlauf und darin ein kleiner grauer Pfeil ›, links nichts.
+3. Die Kapsel langsam nach links wischen, bis in die Mitte.
+4. Erwartet: jetzt links und rechts je ein Verlauf mit Pfeil ‹ und ›.
+5. Bis ans Ende wischen.
+6. Erwartet: der Pfeil › blendet weich aus, ‹ bleibt; zurück ganz an den Anfang: ‹ blendet aus.
+7. Erwartet insgesamt: das Wischen fühlt sich an wie bisher, die Pfeile lesen sich als ‚hier geht es weiter‘ und stören nicht.
+
+**P-71/2 – Pfeile quer und gedreht (iPhone)**
+1. Bei offenen Einstellungen das iPhone quer drehen.
+2. Erwartet: passen alle Reisemittel, verschwinden Verlauf und Pfeile; sonst stehen sie, wo es weitergeht.
+3. Zurück ins Hochformat drehen.
+4. Erwartet: Verlauf und Pfeile wie in P-71/1, nichts springt.
+
+**P-71/3 – Smiley-Leiste ziehen (iPhone hoch)**
+1. Einen Tag antippen, bis ‚Wie war was?‘ rollen.
+2. Den Finger auf ein Smiley setzen und die Leiste gleich seitlich ziehen, danach den Finger noch kurz liegen lassen.
+3. Erwartet: die Leiste rollt mit, es kommt **keine** Abfrage ‚… aus der Schnellauswahl entfernen?‘; Pfeile wie in P-71/1.
+4. Den Finger auf ein Smiley setzen, kurz still halten, dann ziehen.
+5. Erwartet: ebenfalls keine Abfrage.
+6. Dasselbe bei ‚Essen und Trinken‘ (wenn eingeschaltet).
+7. Erwartet: wie in Schritt 3.
+
+**P-71/4 – langes Drücken und Antippen bleiben (iPhone)**
+1. Auf einem Smiley den Finger still liegen lassen (etwa 1 Sekunde).
+2. Erwartet: die Abfrage ‚… aus der Schnellauswahl entfernen?‘ kommt – ‚Abbrechen‘ tippen.
+3. Ein Smiley kurz antippen.
+4. Erwartet: es wird ins Feld eingefügt wie bisher.
+5. In der Startliste ein Reiselogbuch lange drücken.
+6. Erwartet: das Kontextmenü (Einstellungen · Reiselogbuch löschen) kommt wie bisher; ziehst du dabei gleich, rollt nur die Liste.
+
 ## 3.30.2 – 24.10.2026
 
 Reiselogbuch 3.30.2 · AppDesign 4.32.2 (Designrichtlinie allgemein 4.32.2) · Designrichtlinie Reiselogbuch 3.30.2 · Zusammenarbeit allgemein 2.19.0
