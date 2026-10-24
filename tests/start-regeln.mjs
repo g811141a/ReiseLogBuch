@@ -5,9 +5,9 @@
 // Seit 3.17.0 (T-88): zuletzt verwendetes Reiselogbuch – iPad-Aufbau öffnet es, Startliste bleibt ohne Blau.
 // F-12 (Start ohne Netz) prüft offline-regeln.mjs, F-18 (Löschen → Startliste) ablauf-iphone.mjs.
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.32.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.32.2/tests/hig.mjs';
-import { checkStart, checkRueckkehr } from '../../AppDesign/fassung/4.32.2/tests/start.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.33.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.33.0/tests/hig.mjs';
+import { checkStart, checkRueckkehr } from '../../AppDesign/fassung/4.33.0/tests/start.mjs';
 const t = pruefung('start-regeln', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const reise = (id, title, start, end, days = {}) => ({ id, title, participants: 'Anna', start, end, transport: ['pkw'], days });

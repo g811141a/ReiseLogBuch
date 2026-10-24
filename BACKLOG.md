@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 24.10.2026** · Aktuelle Version: Reiselogbuch 3.30.2 · AppDesign 4.32.2
+**Stand 24.10.2026** · Aktuelle Version: Reiselogbuch 3.31.0 · AppDesign 4.33.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,7 +22,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-106 | 1 | **Reisemittel-Kapsel: erkennbar, dass es seitlich weitergeht (Nutzer 24.10.2026, AppDesign A-75):** auf dem iPhone sind nicht alle Reisemittel sichtbar und man erkennt nicht, dass man wischen kann; Muster A + B verworfen; neu (Nutzer 24.10.2026): längerer Verlauf und kleine Pfeile am Rand, die am Ende verschwinden – Muster 2 in AppDesign A-75, gewählt Verlauf 48 px wie heute mit Pfeilen (24.10.2026); mit A-76 (Ziehen der Smiley-Leiste fragt nicht mehr ‚löschen‘) · Ja zur Version 3.31.0 mit AppDesign 4.33.0 (A-75, A-76; Nutzer 24.10.2026) | App | 24.10.2026 |
+| – | – | zurzeit nichts gesammelt | – | – |
 
 
 ## 1. Auf iPad und iPhone prüfen
@@ -53,6 +53,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-130 | **T-106 (AppDesign A-75) und AppDesign A-76:** in der Auswahl-Kapsel (Reisemittel, Wetter, Smileys) steht, wo es weitergeht, im Verlauf (48 px) ein kleiner Pfeil ‹ bzw. ›, der am jeweiligen Ende ausblendet; Ziehen der Smiley-Leiste löst keine Lösch-Abfrage mehr aus (langes Drücken nur auf derselben Stelle); neue Prüfungen `ablauf-kapsel-pfeile.mjs` und `ablauf-smiley-leiste.mjs` (L1 rot gegen 3.30.2). Wartet auf P-71 | Reiselogbuch 3.31.0 | 24.10.2026 |
 | E-129 | Geprüft **P-70 (3.30.2)**: alles ok – ein Zug neben dem Feld erst nach oben, dann nach unten schließt die Tastatur; quer sind Umrandung und Schatten im Verlauf, Fazit und Titel ganz zu sehen; sonst unverändert (**T-104 abgeschlossen**) | Reiselogbuch 3.30.2 | 24.10.2026 |
 | E-128 | **T-104 (AppDesign A-73, Korrektur):** auf dem iPhone schließt ein Zug neben dem Feld die Tastatur auch, wenn der Finger zuerst nach oben geht; quer steht ein großes Feld mit Fokus so weit unter der Kopfzeile, dass Umrandung und Schatten ganz zu sehen sind; `ablauf-blatt.mjs` B19 ‚erst nach oben‘ und B10 Abstand über dem Feld (rot gegen 3.30.1). Wartet auf P-70 | Reiselogbuch 3.30.2 | 24.10.2026 |
 | E-127 | Geprüft **P-69 (3.30.1)**: /0–/2 ok – ein Zug auf einem Feld bei offener Tastatur zieht das Blatt (**T-102 abgeschlossen**); /3 nicht ok: Fokusring quer oben abgeschnitten, Tastatur geht beim Zug am linken Rand nicht zu (→ AppDesign A-73) | Reiselogbuch 3.30.1 | 24.10.2026 |
