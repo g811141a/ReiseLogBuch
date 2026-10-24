@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 24.10.2026** · Aktuelle Version: Reiselogbuch 3.30.1 · AppDesign 4.32.1
+**Stand 24.10.2026** · Aktuelle Version: Reiselogbuch 3.30.2 · AppDesign 4.32.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,7 +22,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-104 | 1 | **Korrektur aus P-69/3 (AppDesign A-73):** auf dem iPhone schließt ein Zug nach unten die Tastatur auch, wenn der Finger zuerst nach oben geht (gemessen am Rand neben dem Feld); quer bleiben Umrandung und Schatten des Felds mit Fokus sichtbar; `ablauf-blatt.mjs` B19 mit Zug erst nach oben, dann nach unten. Mit AppDesign 4.32.2 als 3.30.2 – **Ja vom 24.10.2026** | App | 24.10.2026 |
+| – | – | zurzeit nichts gesammelt | – | – |
 
 
 ## 1. Auf iPad und iPhone prüfen
@@ -52,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-128 | **T-104 (AppDesign A-73, Korrektur):** auf dem iPhone schließt ein Zug neben dem Feld die Tastatur auch, wenn der Finger zuerst nach oben geht; quer steht ein großes Feld mit Fokus so weit unter der Kopfzeile, dass Umrandung und Schatten ganz zu sehen sind; `ablauf-blatt.mjs` B19 ‚erst nach oben‘ und B10 Abstand über dem Feld (rot gegen 3.30.1). Wartet auf P-70 | Reiselogbuch 3.30.2 | 24.10.2026 |
 | E-127 | Geprüft **P-69 (3.30.1)**: /0–/2 ok – ein Zug auf einem Feld bei offener Tastatur zieht das Blatt (**T-102 abgeschlossen**); /3 nicht ok: Fokusring quer oben abgeschnitten, Tastatur geht beim Zug am linken Rand nicht zu (→ AppDesign A-73) | Reiselogbuch 3.30.1 | 24.10.2026 |
 | E-126 | **T-102 (AppDesign A-71, Korrektur):** auf dem iPhone zieht ein Zug auf einem Feld bei offener Tastatur das Blatt im selben Zug – Tastatur zu, mit Änderungen federt es zurück und fragt ‚Änderungen verwerfen‘; `ablauf-blatt.mjs` prüft B10 und B19 mit Tastatur (Safari-Modell, rot gegen 3.30.0). Wartet auf P-69 | Reiselogbuch 3.30.1 | 24.10.2026 |
 | E-125 | Geprüft **P-68 (3.30.0)**: alles ok bis auf /2.3 – Blatt öffnen und wegziehen, Rückfrage, Tastatur, Vorschau, Drehen, iPad unverändert, Startposition (**T-98 abgeschlossen**); /2.3 Ziehen auf einem Feld schließt nur die Tastatur, erst der zweite Zug fragt (→ T-102) | Reiselogbuch 3.30.0 | 23.10.2026 |

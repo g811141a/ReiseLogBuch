@@ -13,6 +13,50 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.30.2 – 24.10.2026
+
+Reiselogbuch 3.30.2 · AppDesign 4.32.2 (Designrichtlinie allgemein 4.32.2) · Designrichtlinie Reiselogbuch 3.30.2 · Zusammenarbeit allgemein 2.19.0
+
+**Korrektur – Tastatur beim Zug erst nach oben, Fokusring quer** (T-104, AppDesign A-73, P-69/3, dein Ja vom 24.10.2026).
+
+- **Tastatur geht zu:** ziehst du auf dem iPhone in einem Blatt bei offener Tastatur neben dem Feld nach unten, geht die Tastatur
+  jetzt auch zu, wenn der Finger zuerst ein Stück nach oben geht (so war es am Rand gemessen); der Inhalt rollt dabei weiter, das
+  Blatt bleibt und fragt nichts.
+- **Fokusring quer:** im Querformat steht ein großes Feld (Verlauf, Fazit) mit Fokus so weit unter der Kopfzeile, dass die blaue
+  Umrandung und der Schatten oben ganz zu sehen sind – bisher stand es direkt am Rand und beides war oben abgeschnitten.
+- **Prüfungen:** `ablauf-blatt.mjs` B19 zusätzlich mit dem Zug ‚erst nach oben, dann nach unten‘ (als Berührung) und B10 mit dem
+  Abstand über dem Feld – gegen 3.30.1 rot (15 Meldungen), jetzt grün. Warum die Prüfung es übersah: sie zog mit der Maus, und in
+  Chromium nimmt schon das Drücken neben dem Feld ihm den Fokus; den Abstand über dem Feld maß sie nicht.
+
+Prüfliste P-70 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**.
+
+**P-70/0 – Version prüfen**
+1. Auf dem iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.30.2 · erstellt am … · AppDesign 4.32.2‘.
+
+**P-70/1 – am Rand erst nach oben, dann nach unten (iPhone hoch)**
+1. Ein Reiselogbuch öffnen, einen Tag antippen und ins Verlauf-Feld tippen (die Tastatur ist offen).
+2. Links neben dem Feld (am Rand, nicht auf dem Feld) den Finger aufsetzen, zuerst ein Stück nach oben und dann weit nach unten ziehen.
+3. Erwartet: die Tastatur geht zu, der Inhalt rollt, das Blatt bleibt und fragt nichts.
+4. Dasselbe in der Mitte neben dem Feld gleich nach unten ziehen.
+5. Erwartet: wie in Schritt 3.
+
+**P-70/2 – Fokusring quer (iPhone)**
+1. Das iPhone quer halten, einen Tag öffnen und ins Verlauf-Feld tippen.
+2. Erwartet: das Feld steht unter der Kopfzeile, die blaue Umrandung und der Schatten sind auch oben ganz zu sehen.
+3. Dasselbe im Fazit (am Ende des Reiselogbuchs ‚Fazit‘ antippen) und in den Einstellungen (Mehr-Menü ‚…‘ oben → ‚Einstellungen‘) im
+   Titel-Feld.
+4. Erwartet: wie in Schritt 2.
+
+**P-70/3 – unverändert (iPhone)**
+1. Hoch: einen Tag öffnen, im Verlauf etwas tippen und auf dem Feld nach unten ziehen.
+2. Erwartet: in einem Zug geht die Tastatur zu, das Blatt zieht sich zäh mit, federt zurück und fragt am x ‚Änderungen verwerfen‘ /
+   ‚Weiter bearbeiten‘ – ‚Änderungen verwerfen‘ schließt.
+3. Hoch: ein Reiselogbuch ans Ende rollen und ins Feld ‚Gesamtausgaben‘ tippen.
+4. Erwartet: das Feld steht ganz über der Tastatur, Umrandung und Schatten sind ganz zu sehen, nichts springt.
+
 ## 3.30.1 – 24.10.2026
 
 Reiselogbuch 3.30.1 · AppDesign 4.32.1 (Designrichtlinie allgemein 4.32.1) · Designrichtlinie Reiselogbuch 3.30.1 · Zusammenarbeit allgemein 2.19.0
