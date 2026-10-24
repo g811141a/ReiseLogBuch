@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-72 | 1 | **Reiselogbuch 3.32.0 / AppDesign 4.34.0 – Backup-Kachel nur, solange heute noch kein Backup erstellt wurde** (T-105, AppDesign A-74): Prüfliste P-72/0–P-72/5 im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-133 | Geprüft **P-72 (3.32.0)**: alles ok – Kachel nach dem Backup weg, Mehr-Menü mit heutigem Datum, offline nur die graue Zeile, Abgleich zählt nicht, Kontextmenü ohne Kachel ganz sichtbar (**T-105 abgeschlossen**) | 3.32.0 | 24.10.2026 |
 | E-132 | **T-105 (AppDesign A-74):** die gelbe Backup-Kachel steht nur noch, solange heute auf diesem Gerät kein Backup erstellt wurde; danach verschwindet sie (Fokus auf ‚Mehr‘), um 0:00 bzw. bei der Rückkehr am neuen Tag kommt sie wieder; Abgleich zählt nicht; Offline-Zeile auch ohne Kachel und bei leerer Liste; neue Prüfung `ablauf-backup-kachel.mjs` (gegen 3.31.0 rot); Prüfpunkt P-72 | 3.32.0 | 24.10.2026 |
 | E-131 | Geprüft **P-71 (3.31.0)**: alles ok – Pfeile an der Reisemittel-Kapsel am Anfang, in der Mitte und am Ende, quer und gedreht; Smiley-Leiste ziehen ohne Abfrage, langes Drücken und Antippen wie bisher (**T-106 abgeschlossen**) | Reiselogbuch 3.31.0 | 24.10.2026 |
 | E-130 | **T-106 (AppDesign A-75) und AppDesign A-76:** in der Auswahl-Kapsel (Reisemittel, Wetter, Smileys) steht, wo es weitergeht, im Verlauf (48 px) ein kleiner Pfeil ‹ bzw. ›, der am jeweiligen Ende ausblendet; Ziehen der Smiley-Leiste löst keine Lösch-Abfrage mehr aus (langes Drücken nur auf derselben Stelle); neue Prüfungen `ablauf-kapsel-pfeile.mjs` und `ablauf-smiley-leiste.mjs` (L1 rot gegen 3.30.2). Wartet auf P-71 | Reiselogbuch 3.31.0 | 24.10.2026 |
