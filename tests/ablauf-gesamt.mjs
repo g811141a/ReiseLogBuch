@@ -3,8 +3,8 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.33.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.33.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.34.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.34.0/tests/hig.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-gesamt', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -158,7 +158,11 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'Backup erstellen', async () => { await p.click('.menu .mi:has-text("Backup erstellen")'); await p.waitForTimeout(300); });
   t.ist('Meldung offen, Mehr bleibt blau', [await p.evaluate(() => msg.open), await cls(p, '#sideMore', 'on')], [true, true], 'R-3.3');
   await S(p, 'Meldung schließen', async () => { await p.click('#msg [data-x]'); await p.waitForTimeout(100); });
-  t.ist('Mehr nicht mehr blau, Backup-Kachel bleibt', [await cls(p, '#sideMore', 'on'), await p.locator('.bhint').count()], [false, 1], 'R-9.1');
+  // seit 3.32.0 (T-105, AppDesign A-74): nach dem Backup ist die Kachel weg, ‚Letztes Backup …‘ steht im Mehr-Menü
+  t.ist('Mehr nicht mehr blau, Backup-Kachel weg', [await cls(p, '#sideMore', 'on'), await p.locator('.bhint').count()], [false, 0], 'R-9.1');
+  await S(p, 'Menü der Seitenleiste nach dem Backup', () => p.click('#sideMore'));
+  t.ist('Letztes Backup im Menü', await p.locator('.menu .sub').first().textContent(), /^Letztes Backup erstellt am \d\d\.\d\d\.\d{4} um \d\d:\d\d$/, 'R-9.1');
+  await S(p, 'daneben tippen', () => p.click('.layer'));
   await S(p, 'Einstellungen', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Einstellungen")'); });
   t.ist('Datumsfelder mit Kalender-Icon', await p.locator('#dlg .datebox .ic').count(), 2, 'R-5.1');
   await p.close();

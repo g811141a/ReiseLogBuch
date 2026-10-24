@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 24.10.2026** · Aktuelle Version: Reiselogbuch 3.31.0 · AppDesign 4.33.0
+**Stand 24.10.2026** · Aktuelle Version: Reiselogbuch 3.32.0 · AppDesign 4.34.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,13 +29,12 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-72 | 1 | **Reiselogbuch 3.32.0 / AppDesign 4.34.0 – Backup-Kachel nur, solange heute noch kein Backup erstellt wurde** (T-105, AppDesign A-74): Prüfliste P-72/0–P-72/5 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| T-105 | 1 | **Backup-Kachel nur, solange heute noch kein Backup erstellt wurde (Nutzer 24.10.2026):** in der Seitenleiste bzw. Startliste erscheint die Kachel ‚Backup erstellen‘ nur noch, wenn heute noch kein Backup erstellt wurde; danach verschwindet sie (heute weiß mit ‚Letztes Backup erstellt am …‘). ‚Backup erstellen‘ bleibt im Mehr-Menü. Allgemeine Regel (Ja 24.10.2026): AppDesign **A-74** ändert R-9.1 / 15.19 (bisher ‚Backup-Kachel immer da‘); Muster und Fall-Liste dort (z. B. Mitternacht, Backup auf dem anderen Gerät, Liste leer, Suche, Platz der Liste) **Geklärt (Nutzer 24.10.2026, Muster und Fall-Liste AppDesign `arbeit/A-74 Fall-Liste.md`):** Variante A – nach dem Backup verschwindet die Kachel ganz, die Liste läuft bis an den unteren Rand; um Mitternacht (und bei der Rückkehr in die App) kommt sie von selbst wieder; ‚Letztes Backup‘ bleibt je Gerät (Backup auf dem anderen Gerät, Abgleich und ‚Backup laden‘ zählen nicht); bei offener Suche wie bisher; ohne Bewegung; Offline-Zeile auch ohne Kachel (auch bei leerer Liste); Fall-Liste B1–B28 vollständig | bereit |
 | T-103 | 2 | **Prüfung `ablauf-tastatur-still.mjs` reparieren und in den vollen Lauf aufnehmen (Nutzer 24.10.2026):** sie steht nicht in `tests/alle.mjs`; beim Nachspielen der Messung ‚2026-10-22 iPhone hoch Ränder‘ bricht sie ab – das Menü von ‚…‘ (sideMore) liegt über der Zeile, auf die der Schritt ‚tippen button‘ abgebildet ist (auch mit 4.32.0); Abbildung der Messschritte bzw. Menü vorher schließen, dann in die Liste des vollen Laufs | App | offen |
 | T-100 | 2 | **Barrierefreiheit Teil 1 in der App (AppDesign A-43/1, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung Felder mit Fehlermeldung über `feldFehler` (rot, hörbar, Fokus aufs erste fehlerhafte Feld beim Häkchen); Ansagen der Suche („3 Treffer“, „Treffer 2 von 3“, „Keine Treffer“) und der Seitenleiste („2 von 5 Reiselogbüchern“); sanftes Rollen zum Fehler beim Häkchen (index.html:1323) springt mit ‚Bewegung reduzieren‘; Prüfungen der App mit `PRUEF_BEDIENUNG` (Fall-Liste AppDesign `arbeit/A-43 Teil 1 Fall-Liste.md`) | App | bereit – für die nächste Version |
 | T-101 | 2 | **Barrierefreiheit Teil 2 Textgröße in der App (AppDesign A-43/2, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung folgt die Schrift der Einstellung ‚Textgröße‘ (R-1.10); in der App: die 6 eigenen Schriftgrößen einem Textstil zugeordnet, keine Schrift mehr in px außer Ausgabe (G4); Tage am iPad ab AX1 als dieselben Kästen wie am iPhone (`.box.day` aus `renderPhone` statt `table.days`), Kopf mit Wetter unter dem Datum, beim Wechsel Tabelle ↔ Kästen bleibt derselbe Tag oben (U4, W1); Reisedaten `.meta` ab AX1 untereinander (U1); Betragsfeld `#kosten` in Zeichenbreite statt fest 130 px (B5); Wetter-Knöpfe wachsen, die 40-px-Ausnahme gilt nur bei Standard, passt es nicht → seitlich wischen (B6); Prüfungen der App mit `PRUEF_TEXT` (Fall-Liste AppDesign `arbeit/A-43 Teil 2 Fall-Liste.md`) | App | bereit – für die Version nach T-100 |
@@ -53,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-132 | **T-105 (AppDesign A-74):** die gelbe Backup-Kachel steht nur noch, solange heute auf diesem Gerät kein Backup erstellt wurde; danach verschwindet sie (Fokus auf ‚Mehr‘), um 0:00 bzw. bei der Rückkehr am neuen Tag kommt sie wieder; Abgleich zählt nicht; Offline-Zeile auch ohne Kachel und bei leerer Liste; neue Prüfung `ablauf-backup-kachel.mjs` (gegen 3.31.0 rot); Prüfpunkt P-72 | 3.32.0 | 24.10.2026 |
 | E-131 | Geprüft **P-71 (3.31.0)**: alles ok – Pfeile an der Reisemittel-Kapsel am Anfang, in der Mitte und am Ende, quer und gedreht; Smiley-Leiste ziehen ohne Abfrage, langes Drücken und Antippen wie bisher (**T-106 abgeschlossen**) | Reiselogbuch 3.31.0 | 24.10.2026 |
 | E-130 | **T-106 (AppDesign A-75) und AppDesign A-76:** in der Auswahl-Kapsel (Reisemittel, Wetter, Smileys) steht, wo es weitergeht, im Verlauf (48 px) ein kleiner Pfeil ‹ bzw. ›, der am jeweiligen Ende ausblendet; Ziehen der Smiley-Leiste löst keine Lösch-Abfrage mehr aus (langes Drücken nur auf derselben Stelle); neue Prüfungen `ablauf-kapsel-pfeile.mjs` und `ablauf-smiley-leiste.mjs` (L1 rot gegen 3.30.2). Wartet auf P-71 | Reiselogbuch 3.31.0 | 24.10.2026 |
 | E-129 | Geprüft **P-70 (3.30.2)**: alles ok – ein Zug neben dem Feld erst nach oben, dann nach unten schließt die Tastatur; quer sind Umrandung und Schatten im Verlauf, Fazit und Titel ganz zu sehen; sonst unverändert (**T-104 abgeschlossen**) | Reiselogbuch 3.30.2 | 24.10.2026 |

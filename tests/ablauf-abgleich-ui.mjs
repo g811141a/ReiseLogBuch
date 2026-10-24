@@ -1,9 +1,10 @@
 // Ablauf-Test: Abgleich über die echte Oberfläche wie auf dem Gerät – Fenster ‚Tag‘ (speichert alle Felder, auch leere),
-// Backup erstellen (Kachel), Backup laden → Abgleichen, in beide Richtungen. Fälle 8, 9, 9a–9c der Tabelle (15.18).
+// Backup erstellen (Kachel, nach dem ersten Backup des Tages über das Mehr-Menü – seit 3.32.0 ist die Kachel dann weg, T-105),
+// Backup laden → Abgleichen, in beide Richtungen. Fälle 8, 9, 9a–9c der Tabelle (15.18).
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich-ui.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.33.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.33.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.34.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.34.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-abgleich-ui', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
@@ -15,7 +16,8 @@ const b = await t.browser();
 const dev = async (w, h) => { const c = await b.newContext({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700, acceptDownloads: true }); const p = await c.newPage(); p.on('pageerror', e => errors.push(e.message)); return p; };
 const at = (p, t) => p.clock.setFixedTime(new Date(`2026-10-12T${t}:00`));
 const backup = async p => { const name = p.viewportSize().width < 700 ? '#hintBackup' : '#hintBackup'; if (p.viewportSize().width < 700) { await p.click('#back'); await p.waitForTimeout(200); }
-  const [d] = await Promise.all([p.waitForEvent('download'), p.click('#hintBackup')]); await p.waitForTimeout(300); await p.click('#msg [data-x]'); await p.waitForTimeout(200); return readFileSync(await d.path(), 'utf8'); };
+  const los = async () => { if (await p.locator('#hintBackup').count()) return p.click('#hintBackup'); await p.click('#sideMore'); await p.waitForTimeout(150); return p.locator('.menu .mi', { hasText: 'Backup erstellen' }).click(); };
+  const [d] = await Promise.all([p.waitForEvent('download'), los()]); await p.waitForTimeout(300); await p.click('#msg [data-x]'); await p.waitForTimeout(200); return readFileSync(await d.path(), 'utf8'); };
 const load = async (p, content) => { if (p.viewportSize().width < 700 && !(await p.locator('#side.page').count())) { await p.click('#back'); await p.waitForTimeout(200); }
   await p.click('#sideMore'); await p.waitForTimeout(150);
   const [ch] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);

@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 24.10.2026, Version 3.31.0)
+# Reiselogbuch – Funktionsbeschreibung (Stand 24.10.2026, Version 3.32.0)
 
-Reiselogbuch 3.31.0 · AppDesign 4.33.0 (Designrichtlinie allgemein 4.33.0) · Designrichtlinie Reiselogbuch 3.31.0 · Zusammenarbeit allgemein 2.19.0
+Reiselogbuch 3.32.0 · AppDesign 4.34.0 (Designrichtlinie allgemein 4.34.0) · Designrichtlinie Reiselogbuch 3.32.0 · Zusammenarbeit allgemein 2.19.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -96,7 +96,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
 
 - **Seitenleiste ‚Reiselogbücher‘** (Komponente Seitenleiste): darunter klein und grau die Anzahl; Kapsel [plus | search |
   ellipsis]; Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst; je Kachel Titel · ‚TT.MM.JJJJ - TT.MM.JJJJ · läuft
-  gerade / beendet / geplant‘ und ›, dazu ‚geändert am … · Gerät‘. Fest unten die Backup-Kachel (11). Beim Start eingeblendet mit
+  gerade / beendet / geplant‘ und ›, dazu ‚geändert am … · Gerät‘. Fest unten die Backup-Kachel, solange heute noch kein Backup erstellt wurde (11). Beim Start eingeblendet mit
   der Startreise (3).
   - plus öffnet ‚Neues Reiselogbuch‘. ellipsis: Backup erstellen · Backup laden · Abstand · Messung starten · Strich ·
     Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
@@ -135,8 +135,8 @@ wie am iPad (R-1.1):
   öffnet an seiner Startposition (4). Die Startreise (3) bleibt gewählt und erscheint, wenn das Fenster in den iPad-Aufbau wechselt.
 - **Startliste = Seitenleiste:** fest stehende Leiste mit ‚Reiselogbücher‘ links (darunter klein und grau die Anzahl) und der Kapsel
   [plus | search | ellipsis] rechts (ellipsis wie am iPad), ohne großen Titel; jedes Reiselogbuch als Kachel (Titel · Zeitraum ·
-  Zustand, ›), das zuletzt geöffnete blau (nach dem Start keines); Backup-Kachel fest am unteren Rand, die Kacheln laufen dahinter
-  durch. Langes Drücken: Einstellungen · Reiselogbuch löschen; nach dem Löschen geht es zur Startliste. Leertexte: 2.
+  Zustand, ›), das zuletzt geöffnete blau (nach dem Start keines); Backup-Kachel fest am unteren Rand (solange heute noch kein Backup erstellt wurde), die
+  Kacheln laufen dahinter durch. Langes Drücken: Einstellungen · Reiselogbuch löschen; nach dem Löschen geht es zur Startliste. Leertexte: 2.
 - **Reiselogbuch:** Kopf mit rundem `chevron-left` zur Startliste und Kapsel [share | search | ellipsis] mit denselben Menüs; der
   Reisetitel steht in der Mitte der Leiste. Darunter ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ – der Wert jeweils in der
   nächsten Zeile, die Reisemittel in einer Zeile, bei Bedarf seitlich wischen (Verlauf und kleiner Pfeil am Rand, R-5.4); dann die Fortschrittsanzeige.
@@ -233,8 +233,9 @@ wie am iPad (R-1.1):
 ## 11. Backup, Abgleich, Offline, Messung
 
 - **Backup** (R-9.1, R-9.2): Datei mit allen Reisen über ‚Backup erstellen‘ (Mehr-Menü der Seitenleiste bzw. Startliste oder
-  Backup-Kachel), Name ‚Ω Backup Reiselogbuch JJJJ.MM.TT hh.mm.json‘. Einmal am Tag: solange heute noch kein Backup erstellt wurde,
-  ist die Backup-Kachel gelb. Kein automatisches Backup bei der Ausgabe; danach erscheint die Erinnerung ‚Denk daran, auch ein
+  Backup-Kachel), Name ‚Ω Backup Reiselogbuch JJJJ.MM.TT hh.mm.json‘. Einmal am Tag: nur solange heute auf diesem Gerät noch kein Backup erstellt
+  wurde (und es Reiselogbücher gibt), steht die gelbe Backup-Kachel; danach verschwindet sie, um 0:00 bzw. beim nächsten Öffnen am
+  neuen Tag kommt sie wieder. ‚Letztes Backup erstellt am …‘ steht grau im Mehr-Menü. Kein automatisches Backup bei der Ausgabe; danach erscheint die Erinnerung ‚Denk daran, auch ein
   Backup zu erstellen.‘ mit ‚Letztes Backup erstellt am …‘ und dem blauen Knopf ‚Backup erstellen‘.
 - **Abgleich zwischen iPad und iPhone** (R-9.2 bis R-9.4, Fall-Tabelle Designrichtlinie allgemein 15.18): ‚Backup laden‘ fragt mit den
   Kacheln Abgleichen und Ersetzen. Einträge = Reiselogbücher, Unterdaten = Tage (Wetter, Verlauf, Wie war was?, Essen, Quartier …),
