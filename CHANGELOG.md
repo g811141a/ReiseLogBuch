@@ -27,6 +27,8 @@ Reiselogbuch 3.30.2 · AppDesign 4.32.2 (Designrichtlinie allgemein 4.32.2) · D
 - **Prüfungen:** `ablauf-blatt.mjs` B19 zusätzlich mit dem Zug ‚erst nach oben, dann nach unten‘ (als Berührung) und B10 mit dem
   Abstand über dem Feld – gegen 3.30.1 rot (15 Meldungen), jetzt grün. Warum die Prüfung es übersah: sie zog mit der Maus, und in
   Chromium nimmt schon das Drücken neben dem Feld ihm den Fokus; den Abstand über dem Feld maß sie nicht.
+  `ablauf-abspielen.mjs` lässt die Messung ‚Blatt Zug am Rand‘ aus: sie kam nach dem letzten vollen Lauf dazu und ist nicht
+  nachspielbar (das Feld bekam den Fokus ohne Antippen-Zeile, Zeigerbewegungen spielt das Werkzeug nicht nach) – der Zug steht in B19.
 
 Prüfliste P-70 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**.
