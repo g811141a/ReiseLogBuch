@@ -54,6 +54,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-129 | Geprüft **P-70 (3.30.2)**: alles ok – ein Zug neben dem Feld erst nach oben, dann nach unten schließt die Tastatur; quer sind Umrandung und Schatten im Verlauf, Fazit und Titel ganz zu sehen; sonst unverändert (**T-104 abgeschlossen**) | Reiselogbuch 3.30.2 | 24.10.2026 |
 | E-128 | **T-104 (AppDesign A-73, Korrektur):** auf dem iPhone schließt ein Zug neben dem Feld die Tastatur auch, wenn der Finger zuerst nach oben geht; quer steht ein großes Feld mit Fokus so weit unter der Kopfzeile, dass Umrandung und Schatten ganz zu sehen sind; `ablauf-blatt.mjs` B19 ‚erst nach oben‘ und B10 Abstand über dem Feld (rot gegen 3.30.1). Wartet auf P-70 | Reiselogbuch 3.30.2 | 24.10.2026 |
 | E-127 | Geprüft **P-69 (3.30.1)**: /0–/2 ok – ein Zug auf einem Feld bei offener Tastatur zieht das Blatt (**T-102 abgeschlossen**); /3 nicht ok: Fokusring quer oben abgeschnitten, Tastatur geht beim Zug am linken Rand nicht zu (→ AppDesign A-73) | Reiselogbuch 3.30.1 | 24.10.2026 |
 | E-126 | **T-102 (AppDesign A-71, Korrektur):** auf dem iPhone zieht ein Zug auf einem Feld bei offener Tastatur das Blatt im selben Zug – Tastatur zu, mit Änderungen federt es zurück und fragt ‚Änderungen verwerfen‘; `ablauf-blatt.mjs` prüft B10 und B19 mit Tastatur (Safari-Modell, rot gegen 3.30.0). Wartet auf P-69 | Reiselogbuch 3.30.1 | 24.10.2026 |
