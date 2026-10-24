@@ -22,7 +22,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts gesammelt | – | – |
+| T-104 | 1 | **Korrektur aus P-69/3 (AppDesign A-73):** auf dem iPhone schließt ein Zug nach unten die Tastatur auch, wenn der Finger zuerst nach oben geht (gemessen am Rand neben dem Feld); quer bleiben Umrandung und Schatten des Felds mit Fokus sichtbar; `ablauf-blatt.mjs` B19 mit Zug erst nach oben, dann nach unten. Mit AppDesign 4.32.2 als 3.30.2 – **Ja vom 24.10.2026** | App | 24.10.2026 |
 
 
 ## 1. Auf iPad und iPhone prüfen
