@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.31.0** · Stand 24.10.2026
+**Version 3.32.0** · Stand 24.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.33.0)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.34.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -29,6 +29,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.32.0 | 24.10.2026 | Neben | AppDesign 4.34.0 (A-74): keine eigene Abweichung – Backup-Kachel nur, solange heute noch kein Backup erstellt wurde (R-9.1), Offline-Zeile auch ohne Kachel und bei leerer Liste (R-1.5); die Liste wird um 0:00 neu gezeichnet (T-105) |
 | 3.31.0 | 24.10.2026 | Neben | AppDesign 4.33.0 (A-75, A-76): keine eigene Abweichung – Pfeile am Rand der Auswahl-Kapsel (R-5.4; Wetter bleibt bei 40 px je Eintrag), Ziehen der Smiley-Leiste ist kein langes Drücken (R-3.5) |
 | 3.30.2 | 24.10.2026 | Korrektur | AppDesign 4.32.2 (A-73): keine eigene Abweichung – Zug erst nach oben schließt die Tastatur (R-4.6), Abstand über dem Feld mit Fokus für Umrandung und Schatten (R-4.5) |
 | 3.30.1 | 24.10.2026 | Korrektur | AppDesign 4.32.1 (A-71): keine eigene Abweichung – Ziehen auf einem Feld bei offener Tastatur zieht das Blatt (R-4.6) |

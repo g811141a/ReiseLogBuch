@@ -13,6 +13,73 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.32.0 – 24.10.2026
+
+Reiselogbuch 3.32.0 · AppDesign 4.34.0 (Designrichtlinie allgemein 4.34.0) · Designrichtlinie Reiselogbuch 3.32.0 · Zusammenarbeit allgemein 2.19.0
+
+**Backup-Kachel nur, solange heute noch kein Backup erstellt wurde** (T-105, AppDesign A-74, dein Ja vom 24.10.2026; Variante A,
+Fall-Liste AppDesign `arbeit/A-74 Fall-Liste.md` B1–B28).
+
+- **Kachel nur, wenn fällig:** die gelbe Kachel ‚Backup erstellen‘ unten in der Seitenleiste (iPad) bzw. Startliste (iPhone) steht
+  nur noch, solange du heute auf diesem Gerät noch kein Backup erstellt hast. Nach dem Backup verschwindet sie (statt weiß zu
+  werden), die Liste läuft bis an den unteren Rand; der Fokus geht auf ‚…‘ (Mehr). ‚Letztes Backup erstellt am …‘ steht weiter grau
+  im Mehr-Menü unter ‚Backup erstellen‘.
+- **Neuer Tag:** bleibt die App über Mitternacht offen, kommt die Kachel um 0:00 von selbst wieder; warst du in einer anderen App,
+  ist sie bei der Rückkehr am neuen Tag sofort da.
+- **Je Gerät:** ein Backup auf dem anderen Gerät, ‚Backup laden‘ und der Abgleich zählen nicht – das Backup des iPads enthält nicht,
+  was du seitdem auf dem iPhone geändert hast.
+- **Leere Liste und offline:** ohne Reiselogbücher keine Kachel (wie bisher). Die graue Zeile ‚Offline – alles bleibt auf diesem
+  Gerät‘ steht jetzt auch ohne Kachel und bei leerer Liste unten (bisher fehlte sie bei leerer Liste); der letzte Eintrag endet
+  darüber, die Meldung ‚Du bist offline‘ steht auf dem iPhone über der Zeile.
+- **Prüfungen:** neu `ablauf-backup-kachel.mjs` (mit gestellter Uhr: Backup über Kachel und Menü, Mitternacht, Rückkehr am nächsten
+  Tag, Abgleich, leere Liste, erster Eintrag, offline, Suche, Kontextmenü mit und ohne Kachel, Drehen; iPad quer hell und dunkel,
+  iPad hoch, iPhone hoch und quer) – gegen 3.31.0 rot (Kachel bleibt, Fokus im Leeren, keine Offline-Zeile bei leerer Liste), ohne
+  den Mitternachts-Haken rot (B6, B7), jetzt grün in Chromium und WebKit. `ablauf-gesamt` und `ablauf-abgleich-ui` an die neue Regel
+  angepasst.
+
+Prüfliste P-72 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**. Steht die gelbe Kachel bei einem Schritt gar nicht da, hast du heute auf diesem Gerät schon ein Backup
+erstellt – dann den Schritt morgen prüfen.
+
+**P-72/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.32.0 · erstellt am … · AppDesign 4.34.0‘.
+
+**P-72/1 – Backup über die Kachel (iPhone hoch)**
+1. In der Startliste unten die gelbe Kachel ansehen.
+2. Erwartet: ‚Letztes Backup erstellt am …‘ (ein früherer Tag) bzw. ‚Noch kein Backup erstellt.‘ und der blaue Knopf ‚Backup erstellen‘.
+3. ‚Backup erstellen‘ tippen → im Teilen-Menü ‚In Dateien sichern‘ → Ordner wählen → ‚Sichern‘.
+4. Erwartet: kleines Fenster ‚Backup‘ mit ✅; nach dem Schließen ist die gelbe Kachel weg, die Liste reicht bis an den unteren Rand,
+   nichts springt.
+5. Oben auf ‚…‘ (Mehr) tippen.
+6. Erwartet: unter ‚Backup erstellen‘ grau ‚Letztes Backup erstellt am <heute> um <jetzt>‘.
+
+**P-72/2 – offline ohne Kachel (iPhone hoch)**
+1. Nach P-72/1 (Kachel weg) im Kontrollzentrum den Flugmodus einschalten und in die App zurück.
+2. Erwartet: kurz die Meldung ‚Du bist offline‘ über der grauen Zeile (verdeckt sie nicht); unten allein grau ‚Offline – alles bleibt
+   auf diesem Gerät‘.
+3. Die Liste ganz nach unten wischen.
+4. Erwartet: das letzte Reiselogbuch steht ganz sichtbar über der grauen Zeile.
+5. Flugmodus wieder ausschalten.
+6. Erwartet: ‚Wieder online‘, die graue Zeile verschwindet.
+
+**P-72/3 – Abgleich zählt nicht (iPad quer)**
+1. Auf dem iPad (heute noch kein Backup dort) die gelbe Kachel ansehen.
+2. Über ‚…‘ (Mehr) → ‚Backup laden‘ das Backup vom iPhone aus P-72/1 wählen → ‚Abgleichen‘ → Fenster schließen.
+3. Erwartet: die gelbe Kachel bleibt mit demselben ‚Letztes Backup erstellt am …‘ wie vorher (das Backup des iPhones zählt nicht).
+
+**P-72/4 – Backup über die Kachel (iPad quer)**
+1. ‚Backup erstellen‘ in der gelben Kachel tippen → ‚In Dateien sichern‘ → ‚Sichern‘ → Fenster schließen.
+2. Erwartet: die Kachel ist weg, die Liste läuft bis an den unteren Rand der Seitenleiste; im Mehr-Menü grau ‚Letztes Backup erstellt
+   am <heute> um …‘.
+3. Ein Reiselogbuch weit unten lange drücken.
+4. Erwartet: das Kontextmenü steht ganz sichtbar neben dem Eintrag; Einstellungen und ‚Reiselogbuch löschen‘ sind zu sehen.
+
+**P-72/5 – am nächsten Tag (iPhone und iPad)**
+1. Morgen die App öffnen (oder sie über Mitternacht offen lassen).
+2. Erwartet auf beiden Geräten: die gelbe Kachel ist wieder da, mit ‚Letztes Backup erstellt am <gestern> um …‘.
+
 ## 3.31.0 – 24.10.2026
 
 Reiselogbuch 3.31.0 · AppDesign 4.33.0 (Designrichtlinie allgemein 4.33.0) · Designrichtlinie Reiselogbuch 3.31.0 · Zusammenarbeit allgemein 2.19.0
