@@ -4,8 +4,8 @@
 // (visualViewport.height), nicht das Fenster – früher wurde das Fenster auf 420 px verkleinert, dadurch schaltete die App in die
 // iPhone-Ansicht und der Test prüfte am iPad die falsche Ansicht.
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.32.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.32.1/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.32.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.32.2/tests/hig.mjs';
 const t = pruefung('tastatur', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const days = { '2026-08-25': { weather: '🌤', program: 'Weiterfahrt nach Sydney', comment: '😊 Oper', food: '👍 Fisch', quarter: 'Cambridge Hotel', place: 'Sydney' } };
 const b = await t.browser();

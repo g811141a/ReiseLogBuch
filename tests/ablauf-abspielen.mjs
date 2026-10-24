@@ -5,9 +5,9 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-abspielen.mjs
 import * as pw from 'playwright';
 import { readFileSync, readdirSync } from 'node:fs';
-import { pruefung } from '../../AppDesign/fassung/4.32.1/tests/pruefe.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.32.1/tests/safari.mjs';
-import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.32.1/tests/abspielen.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.32.2/tests/pruefe.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.32.2/tests/safari.mjs';
+import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.32.2/tests/abspielen.mjs';
 const t = pruefung('ablauf-abspielen', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href, ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);
 const days = {}; for (let i = 0; i < 40; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, ...(i % 3 ? {} : { place: 'Sydney' }) };   // Suche ‚Sydne…‘ findet jeden 3. Tag
@@ -15,7 +15,10 @@ const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '202
 // Je Messdatei: bis wohin nachgespielt wird (danach nur noch das Beenden der Messung im Menü); aufbau = seit der Messung geänderter
 // Aufbau – seit 3.26.1 (AppDesign 4.28.1, R-2.4) ist die Kopfzeile am iPhone quer niedrig, die Suchzeile steht 29 px höher (33 statt 62)
 const EINSTELLUNG = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt': { bis: 133000, aufbau: { such: -29 } },
-  '2026-10-20 iPhone hoch Fenster Ort.txt': { bis: 35000 }, '2026-10-20 iPad quer Fenster Ort.txt': { bis: 25000 } };
+  '2026-10-20 iPhone hoch Fenster Ort.txt': { bis: 35000 }, '2026-10-20 iPad quer Fenster Ort.txt': { bis: 25000 },
+  // seit 3.30.2: Messung einer Geste (P-69/3) – das Feld bekam den Fokus ohne ‚tippen‘-Zeile, Zeigerbewegungen spielt abspielen.mjs
+  // nicht nach; der gemessene Zug am Rand ist in checkSheet B19 nachgebaut (‚erst nach oben, dann nach unten‘)
+  '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { aus: true } };
 // Ziele ohne id: ‚button‘ = Reiselogbuch in der Liste, ‚-‘ = ein sichtbarer Tag (öffnet das Fenster des Tages). Ist mit den eigenen
 // Daten kein Tag zu sehen (am Gerät endete der Inhalt kürzer), wird der letzte Tag in den Inhalt gerollt – inh wird nicht verglichen.
 const tagSichtbar = async p => {
@@ -45,7 +48,7 @@ for (const datei of dateien) {
   if (!m.app.startsWith('Reiselogbuch')) continue;
   // Seit 3.28.0: Messungen ohne Kopf- und Suchzeile (z. B. ‚Ränder‘ aus P-63/9 – nur Startliste und Menü, für die sicheren Ränder)
   // haben nichts nachzuspielen; ihr Schritt ‚button‘ ist ‚Messung beenden‘ im Menü, nicht eine Kachel
-  if (!m.zeilen.some(z => z.kopf != null || z.such != null)) continue;
+  if (!m.zeilen.some(z => z.kopf != null || z.such != null) || EINSTELLUNG[datei]?.aus) continue;
   for (const gegenprobe of [false, true]) {
     const p = await t.seite(b, ansicht(m));
     t.ort = `${datei.replace(/\.txt$/, '')}${gegenprobe ? ' (Gegenprobe M-5)' : ''}`;

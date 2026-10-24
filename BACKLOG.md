@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 24.10.2026** · Aktuelle Version: Reiselogbuch 3.30.1 · AppDesign 4.32.1
+**Stand 24.10.2026** · Aktuelle Version: Reiselogbuch 3.30.2 · AppDesign 4.32.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,7 +22,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-104 | 1 | **Korrektur aus P-69/3 (AppDesign A-73):** auf dem iPhone schließt ein Zug nach unten die Tastatur auch, wenn der Finger zuerst nach oben geht (gemessen am Rand neben dem Feld); quer bleiben Umrandung und Schatten des Felds mit Fokus sichtbar; `ablauf-blatt.mjs` B19 mit Zug erst nach oben, dann nach unten. Mit AppDesign 4.32.2 als 3.30.2 – **Ja vom 24.10.2026** | App | 24.10.2026 |
+| – | – | zurzeit nichts gesammelt | – | – |
 
 
 ## 1. Auf iPad und iPhone prüfen
@@ -35,6 +35,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| T-105 | 1 | **Backup-Kachel nur, solange heute noch kein Backup erstellt wurde (Nutzer 24.10.2026):** in der Seitenleiste bzw. Startliste erscheint die Kachel ‚Backup erstellen‘ nur noch, wenn heute noch kein Backup erstellt wurde; danach verschwindet sie (heute weiß mit ‚Letztes Backup erstellt am …‘). ‚Backup erstellen‘ bleibt im Mehr-Menü. Allgemeine Regel (Ja 24.10.2026): AppDesign **A-74** ändert R-9.1 / 15.19 (bisher ‚Backup-Kachel immer da‘); Muster und Fall-Liste dort (z. B. Mitternacht, Backup auf dem anderen Gerät, Liste leer, Suche, Platz der Liste) | offen |
 | T-103 | 2 | **Prüfung `ablauf-tastatur-still.mjs` reparieren und in den vollen Lauf aufnehmen (Nutzer 24.10.2026):** sie steht nicht in `tests/alle.mjs`; beim Nachspielen der Messung ‚2026-10-22 iPhone hoch Ränder‘ bricht sie ab – das Menü von ‚…‘ (sideMore) liegt über der Zeile, auf die der Schritt ‚tippen button‘ abgebildet ist (auch mit 4.32.0); Abbildung der Messschritte bzw. Menü vorher schließen, dann in die Liste des vollen Laufs | App | offen |
 | T-100 | 2 | **Barrierefreiheit Teil 1 in der App (AppDesign A-43/1, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung Felder mit Fehlermeldung über `feldFehler` (rot, hörbar, Fokus aufs erste fehlerhafte Feld beim Häkchen); Ansagen der Suche („3 Treffer“, „Treffer 2 von 3“, „Keine Treffer“) und der Seitenleiste („2 von 5 Reiselogbüchern“); sanftes Rollen zum Fehler beim Häkchen (index.html:1323) springt mit ‚Bewegung reduzieren‘; Prüfungen der App mit `PRUEF_BEDIENUNG` (Fall-Liste AppDesign `arbeit/A-43 Teil 1 Fall-Liste.md`) | App | bereit – für die nächste Version |
 | T-101 | 2 | **Barrierefreiheit Teil 2 Textgröße in der App (AppDesign A-43/2, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung folgt die Schrift der Einstellung ‚Textgröße‘ (R-1.10); in der App: die 6 eigenen Schriftgrößen einem Textstil zugeordnet, keine Schrift mehr in px außer Ausgabe (G4); Tage am iPad ab AX1 als dieselben Kästen wie am iPhone (`.box.day` aus `renderPhone` statt `table.days`), Kopf mit Wetter unter dem Datum, beim Wechsel Tabelle ↔ Kästen bleibt derselbe Tag oben (U4, W1); Reisedaten `.meta` ab AX1 untereinander (U1); Betragsfeld `#kosten` in Zeichenbreite statt fest 130 px (B5); Wetter-Knöpfe wachsen, die 40-px-Ausnahme gilt nur bei Standard, passt es nicht → seitlich wischen (B6); Prüfungen der App mit `PRUEF_TEXT` (Fall-Liste AppDesign `arbeit/A-43 Teil 2 Fall-Liste.md`) | App | bereit – für die Version nach T-100 |
@@ -52,6 +53,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-128 | **T-104 (AppDesign A-73, Korrektur):** auf dem iPhone schließt ein Zug neben dem Feld die Tastatur auch, wenn der Finger zuerst nach oben geht; quer steht ein großes Feld mit Fokus so weit unter der Kopfzeile, dass Umrandung und Schatten ganz zu sehen sind; `ablauf-blatt.mjs` B19 ‚erst nach oben‘ und B10 Abstand über dem Feld (rot gegen 3.30.1). Wartet auf P-70 | Reiselogbuch 3.30.2 | 24.10.2026 |
 | E-127 | Geprüft **P-69 (3.30.1)**: /0–/2 ok – ein Zug auf einem Feld bei offener Tastatur zieht das Blatt (**T-102 abgeschlossen**); /3 nicht ok: Fokusring quer oben abgeschnitten, Tastatur geht beim Zug am linken Rand nicht zu (→ AppDesign A-73) | Reiselogbuch 3.30.1 | 24.10.2026 |
 | E-126 | **T-102 (AppDesign A-71, Korrektur):** auf dem iPhone zieht ein Zug auf einem Feld bei offener Tastatur das Blatt im selben Zug – Tastatur zu, mit Änderungen federt es zurück und fragt ‚Änderungen verwerfen‘; `ablauf-blatt.mjs` prüft B10 und B19 mit Tastatur (Safari-Modell, rot gegen 3.30.0). Wartet auf P-69 | Reiselogbuch 3.30.1 | 24.10.2026 |
 | E-125 | Geprüft **P-68 (3.30.0)**: alles ok bis auf /2.3 – Blatt öffnen und wegziehen, Rückfrage, Tastatur, Vorschau, Drehen, iPad unverändert, Startposition (**T-98 abgeschlossen**); /2.3 Ziehen auf einem Feld schließt nur die Tastatur, erst der zweite Zug fragt (→ T-102) | Reiselogbuch 3.30.0 | 23.10.2026 |

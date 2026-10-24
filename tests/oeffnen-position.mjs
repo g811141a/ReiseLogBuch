@@ -6,9 +6,9 @@
 // läuft die Reise und ist bis heute alles erfasst, steht heute oben ohne Gelb; Reise in der Zukunft ganz oben, nichts gelb (F1–F11).
 // Aufruf im Repo-Ordner: node tests/oeffnen-position.mjs
 import * as pw from 'playwright';
-import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.32.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.32.1/tests/hig.mjs';
-import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.32.1/tests/ablauf.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.32.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.32.2/tests/hig.mjs';
+import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.32.2/tests/ablauf.mjs';
 const t = pruefung('oeffnen-position', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const iso = (start, i) => new Date(Date.parse(start + 'T00:00:00Z') + i * 864e5).toISOString().slice(0, 10);
@@ -75,7 +75,9 @@ for (const theme of ['light', 'dark']) {
       t.liste(await checkTurnEnd(p, { where: `${where} · D Ende`, back: 0 }));
       t.liste(await checkTurnEnd(p, { where: `${where} · D5 nahe Ende`, back: 60 }));
       if (ansicht === 'iPad quer' && await p.locator('#sideHide').isVisible()) {
-        await p.click('#sideHide'); await p.waitForTimeout(350);
+        // seit 3.30.2: bis die Seitenleiste ausgeglitten ist (seit AppDesign 4.31.0) – unter Last stellte das Ende der Bewegung sonst den
+        // Rollstand von D5 wieder her, nachdem checkTurnEnd schon ans Ende gerollt hatte (voller Lauf: 60 px vor dem Ende statt 0)
+        await p.click('#sideHide'); await p.waitForTimeout(350); await navFertig(p);
         t.liste(await checkTurnEnd(p, { where: `${where} · D2 ohne Seitenleiste`, back: 0 }));
       }
     }
