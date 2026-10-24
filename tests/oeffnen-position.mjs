@@ -75,7 +75,9 @@ for (const theme of ['light', 'dark']) {
       t.liste(await checkTurnEnd(p, { where: `${where} · D Ende`, back: 0 }));
       t.liste(await checkTurnEnd(p, { where: `${where} · D5 nahe Ende`, back: 60 }));
       if (ansicht === 'iPad quer' && await p.locator('#sideHide').isVisible()) {
-        await p.click('#sideHide'); await p.waitForTimeout(350);
+        // seit 3.30.2: bis die Seitenleiste ausgeglitten ist (seit AppDesign 4.31.0) – unter Last stellte das Ende der Bewegung sonst den
+        // Rollstand von D5 wieder her, nachdem checkTurnEnd schon ans Ende gerollt hatte (voller Lauf: 60 px vor dem Ende statt 0)
+        await p.click('#sideHide'); await p.waitForTimeout(350); await navFertig(p);
         t.liste(await checkTurnEnd(p, { where: `${where} · D2 ohne Seitenleiste`, back: 0 }));
       }
     }

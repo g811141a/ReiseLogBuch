@@ -29,6 +29,8 @@ Reiselogbuch 3.30.2 · AppDesign 4.32.2 (Designrichtlinie allgemein 4.32.2) · D
   Chromium nimmt schon das Drücken neben dem Feld ihm den Fokus; den Abstand über dem Feld maß sie nicht.
   `ablauf-abspielen.mjs` lässt die Messung ‚Blatt Zug am Rand‘ aus: sie kam nach dem letzten vollen Lauf dazu und ist nicht
   nachspielbar (das Feld bekam den Fokus ohne Antippen-Zeile, Zeigerbewegungen spielt das Werkzeug nicht nach) – der Zug steht in B19.
+  `oeffnen-position.mjs` D2 wartet nach dem Ausblenden der Seitenleiste, bis sie ausgeglitten ist – im vollen Lauf stellte das
+  Ende der Bewegung sonst den vorigen Rollstand wieder her (60 px vor dem Ende statt ganz unten; einzeln grün).
 
 Prüfliste P-70 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**.
