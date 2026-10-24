@@ -13,6 +13,47 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.30.1 – 24.10.2026
+
+Reiselogbuch 3.30.1 · AppDesign 4.32.1 (Designrichtlinie allgemein 4.32.1) · Designrichtlinie Reiselogbuch 3.30.1 · Zusammenarbeit allgemein 2.19.0
+
+**Korrektur – Ziehen auf einem Feld bei offener Tastatur** (T-102, AppDesign A-71, P-68/2.3, dein Ja vom 24.10.2026).
+
+- **Ein Zug genügt:** tippst du auf dem iPhone in einem Blatt (die Tastatur ist offen) und ziehst auf dem Feld nach unten, geht die
+  Tastatur zu und das Blatt folgt im selben Zug – ohne Änderungen schließt es, mit Änderungen federt es zurück und fragt
+  ‚Änderungen verwerfen‘ / ‚Weiter bearbeiten‘. Bisher schloss der erste Zug nur die Tastatur. Ziehst du im gerollten Inhalt neben
+  dem Feld, geht wie bisher nur die Tastatur zu.
+- **Prüfungen:** `ablauf-blatt.mjs` prüft B10 und B19 jetzt mit Tastatur (Safari-Modell): Feld antippen, Inhalt rollt, dann der
+  Zug – gegen 3.30.0 rot (16 Meldungen, wie am Gerät), jetzt grün. Warum die Prüfung es übersah: sie setzte nur den Fokus, ohne
+  Tastatur rollte nichts.
+
+Prüfliste P-69 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**.
+
+**P-69/0 – Version prüfen**
+1. Auf dem iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet: unten grau ‚Reiselogbuch · Version 3.30.1 · erstellt am … · AppDesign 4.32.1‘.
+
+**P-69/1 – ein Zug auf dem Feld mit Änderung (iPhone hoch)**
+1. Ein Reiselogbuch öffnen, einen Tag antippen und im Verlauf etwas tippen (die Tastatur ist offen, das Feld steht oben).
+2. Auf dem Feld nach unten ziehen.
+3. Erwartet: in **einem** Zug geht die Tastatur zu, das Blatt zieht sich zäh mit, federt zurück und fragt am x ‚Änderungen
+   verwerfen‘ / ‚Weiter bearbeiten‘.
+4. ‚Änderungen verwerfen‘ tippen.
+5. Erwartet: das Blatt schließt, die Änderung ist nicht übernommen.
+
+**P-69/2 – ohne Änderung schließt es (iPhone hoch)**
+1. Einen Tag öffnen, ins Feld ‚Ort‘ beim Quartier tippen, nichts ändern.
+2. Auf dem Feld weit nach unten ziehen.
+3. Erwartet: die Tastatur geht zu und das Blatt schließt im selben Zug.
+
+**P-69/3 – daneben und quer**
+1. Einen Tag öffnen, ins Verlauf-Feld tippen, dann links neben dem Feld (am Rand, nicht auf dem Feld) nach unten ziehen.
+2. Erwartet: nur die Tastatur geht zu, der Inhalt rollt, das Blatt bleibt und fragt nichts.
+3. P-69/1 im Querformat wiederholen.
+4. Erwartet: wie P-69/1.
+
 ## 3.30.0 – 23.10.2026
 
 Reiselogbuch 3.30.0 · AppDesign 4.32.0 (Designrichtlinie allgemein 4.32.0) · Designrichtlinie Reiselogbuch 3.30.0 · Zusammenarbeit allgemein 2.19.0

@@ -3,8 +3,8 @@
 // Seit 3.14.0 auch der Offline-Hinweis (A-06): Meldung und graue Zeile beim Start ohne Netz und beim Wechsel.
 // Aufruf im Repo-Ordner: node tests/offline-regeln.mjs. Meldet Fehler mit Rückgabewert (pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, ANSICHTEN } from '../../AppDesign/fassung/4.32.0/tests/pruefe.mjs';
-import { checkOffline } from '../../AppDesign/fassung/4.32.0/tests/offline.mjs';
+import { pruefung, ANSICHTEN } from '../../AppDesign/fassung/4.32.1/tests/pruefe.mjs';
+import { checkOffline } from '../../AppDesign/fassung/4.32.1/tests/offline.mjs';
 const t = pruefung('offline-regeln', pw, { out: new URL('out/', import.meta.url) });
 const b = await t.browser();
 // Seit 3.14.0 (A-06): mit langer Liste, damit Offline-Zeile und Backup-Kachel die Liste wirklich überdecken (F-13)

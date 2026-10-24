@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 23.10.2026** · Aktuelle Version: Reiselogbuch 3.30.0 · AppDesign 4.32.0
+**Stand 24.10.2026** · Aktuelle Version: Reiselogbuch 3.30.1 · AppDesign 4.32.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,7 +22,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| T-102 | 1 | **Korrektur: Ziehen auf einem Feld bei offener Tastatur (P-68/2.3, AppDesign A-71):** auf dem iPhone schließt der Zug auf einem Feld nur die Tastatur, erst der zweite Zug fragt ‚Änderungen verwerfen‘ – künftig ein Zug wie am Kopf; `ablauf-blatt.mjs` B10 mit Tastatur (Safari-Modell). Mit AppDesign 4.32.1 als 3.30.1 – Ja fehlt | App | 23.10.2026 |
+| – | – | zurzeit nichts gesammelt | – | – |
 
 
 ## 1. Auf iPad und iPhone prüfen
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-126 | **T-102 (AppDesign A-71, Korrektur):** auf dem iPhone zieht ein Zug auf einem Feld bei offener Tastatur das Blatt im selben Zug – Tastatur zu, mit Änderungen federt es zurück und fragt ‚Änderungen verwerfen‘; `ablauf-blatt.mjs` prüft B10 und B19 mit Tastatur (Safari-Modell, rot gegen 3.30.0). Wartet auf P-69 | Reiselogbuch 3.30.1 | 24.10.2026 |
 | E-125 | Geprüft **P-68 (3.30.0)**: alles ok bis auf /2.3 – Blatt öffnen und wegziehen, Rückfrage, Tastatur, Vorschau, Drehen, iPad unverändert, Startposition (**T-98 abgeschlossen**); /2.3 Ziehen auf einem Feld schließt nur die Tastatur, erst der zweite Zug fragt (→ T-102) | Reiselogbuch 3.30.0 | 23.10.2026 |
 | E-124 | **T-98 und T-99 (AppDesign A-69, A-61 Teil 2):** Startposition beim Öffnen – läuft die Reise und ist bis heute alles erfasst, steht heute oben ohne Gelb, eine Reise in der Zukunft öffnet ganz oben, Gelb nur bis heute (`oeffnen-position.mjs` mit festem Datum, rot gegen 3.29.0 bei F5–F11); auf dem iPhone sind Erfassen, Einstellungen, Neues Reiselogbuch, Fazit und Vorschau ein Blatt – nach unten ziehen schließt, mit Änderungen fragt es wie x (neu `ablauf-blatt.mjs`). Wartet auf P-68 | Reiselogbuch 3.30.0 · AppDesign 4.32.0 | 23.10.2026 |
 | E-123 | Geprüft **P-67 (3.29.0)**: alles ok – Seitenleiste am iPad quer hereinwischen, Vorrang und panel-left, keine doppelten Leerzeichen, Großschreibung zurücknehmen (AppDesign A-68, A-64, A-65 abgeschlossen) | Reiselogbuch 3.29.0 | 23.10.2026 |
