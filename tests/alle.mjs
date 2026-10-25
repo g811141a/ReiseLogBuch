@@ -19,4 +19,7 @@ const tests = ['doku-regeln', 'ablauf-liste-still', 'version-regeln', 'offline-r
     'Text 14': { PRUEF_DARSTELLUNG: 'light', PRUEF_TEXT: '14' }, 'Text 23': { PRUEF_DARSTELLUNG: 'dark', PRUEF_TEXT: '23' },
     'Text 33': { PRUEF_DARSTELLUNG: 'light', PRUEF_TEXT: '33' }, 'Text 53': { PRUEF_DARSTELLUNG: 'dark', PRUEF_TEXT: '53' } } },
   { name: 'kontextmenue-regeln', teile: { iPad: { PRUEF_GERAET: 'iPad' }, iPhone: { PRUEF_GERAET: 'iPhone' } } }];
-process.exit(await lauf({ dir: new URL('..', import.meta.url), pw, tests }));
+// Seit 3.35.0: Zeitgrenze je Test 600 s statt 300 – ablauf-blatt braucht allein schon 288 s (auch mit AppDesign 4.36.0 gemessen) und lief
+// unter Volllast in WebKit über die Grenze
+const argv = process.argv.slice(2), zeit = argv.includes('--zeit') ? [] : ['--zeit', '600'];
+process.exit(await lauf({ dir: new URL('..', import.meta.url), pw, tests, argv: [...argv, ...zeit] }));

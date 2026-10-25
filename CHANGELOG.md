@@ -46,6 +46,7 @@ Reiselogbuch 3.35.0 · AppDesign 4.37.0 (Designrichtlinie allgemein 4.37.0) · D
   weil bei großer Schrift in seiner Mitte der Maps-Link liegen kann; die Abläufe Navigation, iPhone und Seitenleiste kennen hohe
   Kästen und Kacheln, breite Menüs und die umbrochenen Reisemittel. Gefunden und behoben: am iPad hoch wurde die Backup-Kachel
   gemessen, solange die Seitenleiste verborgen war – der letzte Eintrag lag dann bei großer Schrift dahinter.
+  Zeitgrenze je Prüfung im vollen Lauf 600 s statt 300 (`ablauf-blatt` braucht allein 288 s).
 
 Testfälle P-75 (Schritt für Schritt, Zusammenarbeit allgemein 2.20.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**. Die Textgröße stellst du am schnellsten über das Kontrollzentrum ein: einmalig Einstellungen →
