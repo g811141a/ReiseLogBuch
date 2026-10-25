@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-74 | 2 | **Version 3.34.0 (AppDesign 4.36.0, APD-78 und APD-79):** Version, Nummernschema im Backlog AppDesign, Tabelle ‚Nummern und Präfixe‘, Uhrzeitzeile – Testfälle P-74/0 bis /3 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-74 | Geprüft **P-74 (3.34.0)**: alles ok – Version, Nummernschema im Backlog AppDesign, Tabelle ‚Nummern und Präfixe‘, Uhrzeitzeile (AppDesign APD-78 und APD-79 abgeschlossen) | 3.34.0 | 25.10.2026 |
 | APD-78 | **AppDesign APD-78 Nummernschema:** Themen RLB-n (bisher T-), Erledigt ohne eigene Nummer, Begriffe Usertest / Testfälle P-n / Testfall-Liste in Backlog, CHANGELOG, PROMPT.md, Richtlinie und Prüfungen; Fassung 4.36.0 (Doku-Prüfung mit `checkSchema`) | Reiselogbuch 3.34.0 · AppDesign 4.36.0 | 25.10.2026 |
 | P-73 | Geprüft **P-73 (3.33.0)**: alles ok – kein blauer Rahmen in Textfeldern, Sprechblase schließt die Tastatur, Hardware-Tastatur, Fehlermeldung beim Häkchen, ‚Kontrast erhöhen‘, ‚Bewegung reduzieren‘ (**RLB-100 abgeschlossen**); neue Wünsche in AppDesign APD-80 (Kontrast dunkel) und APD-81 (ⓧ in mehrzeiligen Feldern) | 3.33.0 | 25.10.2026 |
 | RLB-100 | **RLB-100 (AppDesign APD-43 Teil 1):** kein blauer Rahmen mehr in Textfeldern, Hardware-Tastatur in Menüs, Sprechblasen und Fenstern, VoiceOver-Namen und Ansagen (Suche, Seitenleiste, Fehlermeldungen, offline), Fehlermeldungen über `feldFehler` mit Fokus beim Häkchen, ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (Sprung zum Fehler springt); neue Prüfung `ablauf-bedienung.mjs` mit Gegenprobe `bedienung`; Usertest P-73 | 3.33.0 | 25.10.2026 |
