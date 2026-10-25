@@ -11,20 +11,20 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.36.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.37.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
   .meta dt { font-weight: 600; }
   .meta dd { margin: 0; }
-  .progress { font-size: 14px; color: var(--muted); margin: 0 0 12px; }
+  .progress { font-size: calc(14px * var(--f-subhead)); color: var(--muted); margin: 0 0 12px; }
 
   /* Tabelle */
   .table-wrap { background: var(--card); border-radius: 12px; overflow: clip; box-shadow: var(--table-shadow); }
   table.days { border-collapse: separate; border-spacing: 0; width: 100%; }
   table.days th, table.days td { border-bottom: 1px solid var(--line); padding: 10px 12px; vertical-align: top; text-align: left; }
   table.days td + td { border-left: 1px solid var(--line); }
-  table.days th { position: sticky; top: 0; background: var(--th-bg); border-bottom-color: var(--th-line); font-size: 17px; font-weight: 600; z-index: 2; }
+  table.days th { position: sticky; top: 0; background: var(--th-bg); border-bottom-color: var(--th-line); font-size: var(--t-headline); font-weight: 600; z-index: 2; }
   table.days th + th { border-left: 1px solid var(--th-line); }
   table.days tbody tr:last-child td { border-bottom: none; }
   table.days tbody tr { cursor: pointer; }
@@ -33,9 +33,9 @@
   table.days tbody tr.gap { background: var(--focus); }
   table.days tbody tr.on { background: var(--sel-bg); }
   td.day { white-space: nowrap; width: 1%; }
-  td.day .wx { display: block; font-size: 18px; }
+  td.day .wx { display: block; font-size: calc(18px * var(--f-body)); }
   td.day .wx.empty { opacity: .25; }
-  .tag { display: inline-block; font-size: 12px; border-radius: 6px; padding: 0 6px; margin-left: 4px; vertical-align: 1px; }
+  .tag { display: inline-block; font-size: var(--t-caption1); border-radius: 6px; padding: 0 6px; margin-left: 4px; vertical-align: 1px; }
   .tag.today { background: var(--accent-fill); color: var(--accent-ink); }
   .tag.miss { color: var(--warn); border: 1px solid var(--warn); }
   td.quarter a { text-decoration: none; }
@@ -56,8 +56,9 @@
 
   .fazit-box { display: inline-block; width: auto; max-width: 100%; text-align: left; padding: 12px 14px; min-height: 60px; border-radius: 14px; background: var(--card); }
   .kosten { display: flex; align-items: center; gap: 10px; }
-  .kosten span { font-size: 20px; }
-  #kosten { text-align: right; width: 130px; flex: none; }
+  .kosten span { font-size: var(--t-title3); }
+  /* RLB-101 (AppDesign APD-43 B5): Betragsfeld in Zeichenbreite (‚4.850,00 €‘ plus Luft) statt fest 130 px – wächst mit der Textgröße */
+  #kosten { text-align: right; width: calc(11.5ch + 24px); flex: none; }
   .table-wrap.fit { display: inline-block; max-width: 100%; }
   .table-wrap.fit table { width: auto; }
   table.days.static th { position: static; }
@@ -75,7 +76,7 @@
   /* iPhone: Tage als Kästen (AppDesign .box) – Kopf mit Datum, Hinweisen und Wetter */
   .box.day { cursor: pointer; }
   .box.day .h { display: flex; align-items: center; gap: 4px; font-weight: 600; }
-  .box.day .h .wx { margin-left: auto; font-size: 18px; font-weight: 400; }
+  .box.day .h .wx { margin-left: auto; font-size: calc(18px * var(--f-body)); font-weight: 400; }
   .box.day .wx.empty { opacity: .25; }
   .box.day.gap { background: var(--focus); }
   .box.day.on { background: var(--sel-bg); }
@@ -86,8 +87,17 @@
   html.phone .meta.trip dd.swipe { white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
   html.phone .meta.trip dd.swipe::-webkit-scrollbar { display: none; }
   html.phone .fazit-box { width: 100%; }
-  /* Wetter auf dem iPhone 40 px breit, damit alle sieben ohne Wischen nebeneinander passen (bewusste Abweichung) */
-  html.phone #wx button { width: 40px; min-width: 40px; }
+  /* Wetter auf dem iPhone 40 px breit, damit alle sieben ohne Wischen nebeneinander passen (bewusste Abweichung) – seit 3.35.0
+     (RLB-101, AppDesign APD-43 B6) nur bei Standard; bei größerer Schrift wachsen die Knöpfe, passt es nicht, wischt die Kapsel seitlich */
+  html.phone #wx button { width: max(40px, calc(48px * var(--f-body) - 8px)); min-width: max(40px, calc(48px * var(--f-body) - 8px)); }
+  /* RLB-101 (AppDesign APD-43 U1): bei großer Schrift (html.ts-um) Reisedaten und Statistik untereinander, Wetter unter dem Datum */
+  html.ts-um .meta { display: block; }
+  html.ts-um .meta dd { margin: 0 0 6px; }
+  html.ts-um .box.day .h { flex-wrap: wrap; }
+  html.ts-um .box.day .h .wx { flex: 1 0 100%; margin-left: 0; overflow-wrap: anywhere; }
+  html.ts-um .meta.trip dd.swipe { white-space: normal; }
+  /* Zeichen vor der Zeile (🕛☕📍 …) dürfen bei großer Schrift umbrechen, statt hinauszuragen (R-6.3) */
+  html.ts-um .ln .m { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }
 
   .qrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
   .dlg-body.preview { margin: 0; padding: 24px; background: #fff; color: #000; color-scheme: light; }
@@ -118,18 +128,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.36.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.37.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.34.0';
-const APP_BUILT = '25.10.2026 um 12:16';
+const APP_VERSION = '3.35.0';
+const APP_BUILT = '25.10.2026 um 14:13';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.36.0';
+const AD_NEEDED = '4.37.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -627,7 +637,7 @@ function insertEmoji(ta, emoji) {
 
 /* ---------- Hauptansicht ---------- */
 
-function render({ scrollToGap = false } = {}) {
+function render({ scrollToGap = false, kaesten = false } = {}) {
   if (isPhone()) return renderPhone({ scrollToGap });
   const trip = getTrip(currentTripId);
   if (!trip) return renderEmpty();
@@ -668,6 +678,8 @@ function render({ scrollToGap = false } = {}) {
   }).join('');
 
   const progress = progressText(trip);
+  // Kästen ab AX1 – und schon vorher, wenn die Tabelle bei großer Schrift nicht in ihren Platz passt (render mit kaesten: true)
+  const ax = isAx() || kaesten;
 
   const transport = transportText(trip);
   const stays = c.quarter ? quarterStays(trip) : [];
@@ -692,17 +704,18 @@ function render({ scrollToGap = false } = {}) {
       ${transport ? `<dt>Reisemittel:</dt><dd>${esc(transport)}</dd>` : ''}
     </dl>
     <p class="progress">${progress}</p>
+    ${ax ? `<div id="pdays">${dayBoxesHtml(trip, visible, { today, gap, term, nr }) || `<div class="empty-note">${term ? 'Keine Treffer.' : 'Noch keine Tage erfasst.'}</div>`}</div>` : `
     <div class="table-wrap">
       <table class="days">
         <thead><tr>${headCells(trip)}</tr></thead>
         <tbody>${rows}</tbody>
       </table>
       ${visible.length ? '' : `<div class="empty-note">${term ? 'Keine Treffer.' : 'Noch keine Tage erfasst.'}</div>`}
-    </div>
+    </div>`}
 
     ${fazitHtml(trip)}
 
-    ${stays.length ? `
+    ${ax ? phoneStaysHtml(trip) : stays.length ? `
       <h2 data-marke="Quartierliste">Quartierliste</h2>
       <div class="table-wrap fit">
         <table class="days static">
@@ -719,6 +732,9 @@ function render({ scrollToGap = false } = {}) {
     <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
     </div>`);
 
+  const tabelle = app.querySelector('table.days:not(.static)');
+  if (!ax && tabelle && (tabelle.offsetWidth > tabelle.parentElement.clientWidth + 1 || [...tabelle.querySelectorAll('td')].some(td => td.scrollWidth > td.clientWidth + 1)))
+    return render({ scrollToGap, kaesten: true });
   fab.hidden = false;
   const bar = app.querySelector('#bar');
   updateBar();
@@ -729,11 +745,11 @@ function render({ scrollToGap = false } = {}) {
   app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
   bindSearch(term);
   markOpener();
-  app.querySelectorAll('tbody tr').forEach(tr => tr.onclick = () => openDayDialog(trip, tr.dataset.day));
+  app.querySelectorAll('tbody tr, #pdays [data-day]').forEach(tr => tr.onclick = () => openDayDialog(trip, tr.dataset.day));
   bindTripEnd(trip);
 
   // R-7.4 (seit 3.20.0, RLB-89; seit 3.30.0 RLB-98): beim Öffnen steht der Starttag direkt unter dem Tabellenkopf; sonst ganz oben.
-  if (scrollToGap) openAt(startTop && app.querySelector(`tr[data-day="${startTop}"]`));
+  if (scrollToGap) openAt(startTop && app.querySelector(`tr[data-day="${startTop}"], #pdays [data-day="${startTop}"]`));
 }
 
 function progressText(trip) {
@@ -853,21 +869,7 @@ function renderPhone({ scrollToGap = false } = {}) {
   const all = tripDays(trip), nr = dayNumbers(all);
   const visible = all.filter(iso => term ? matchesSearch(trip, iso, term, whole) : !db.settings.hideEmpty || isRecorded(trip, iso));
   const transport = transportText(trip);
-  // Felder eines Tages; ‚Verlauf‘ als Wort in normaler Schrift, die anderen mit den Spalten-Emojis.
-  const line = (k, v, word) => v ? `<div class="kv"><span class="k ${word ? 'word' : ''}">${k}</span><span class="v">${v}</span></div>` : '';
-  const boxes = visible.map(iso => {
-    const e = rawEntry(trip, iso);
-    const q = quarterOf(trip, iso);
-    const tags = (iso === today ? '<span class="tag today">heute</span>' : '')
-      + (!isRecorded(trip, iso) && iso < today ? '<span class="tag miss">fehlt</span>' : '');
-    return `<div class="box day ${iso === gap && !term ? 'gap' : ''}" data-day="${iso}" data-marke="${dayMark(iso, nr)}" role="button" tabindex="0">
-      <div class="h">${dayLabel(iso)}${tags}${e.weather ? `<span class="wx">${esc(e.weather)}</span>` : '<span class="wx empty">☀️🌤🌦🌧</span>'}</div>
-      ${line('Verlauf', e.program ? linesHtml(programItems(e.program), term) : '', true)}
-      ${c.mood ? line('🙂☹️😉', e.comment ? linesHtml(commentItems(e.comment), term) : '') : ''}
-      ${c.food ? line('🍽️🍷☕️', e.food ? foodHtml(foodItems(e.food, q.place), term, true) : '') : ''}
-      ${c.quarter ? line('😴💤', quarterHtml(q, term, true)) : ''}
-    </div>`;
-  }).join('');
+  const boxes = dayBoxesHtml(trip, visible, { today, gap, term, nr });
   setHtml(app, `
     <div class="pnav" id="bar">
       <span><button type="button" class="round" id="back" aria-label="Reiselogbücher">${ic('chevron-left')}</button></span>
@@ -902,6 +904,28 @@ function renderPhone({ scrollToGap = false } = {}) {
   if (scrollToGap) openAt(startTop && app.querySelector(`#pdays [data-day="${startTop}"]`));   // R-7.4, RLB-98: direkt unter der Leiste, sonst ganz oben
   updateBar();
 }
+
+// Tage als Kästen (AppDesign .box) – auf dem iPhone immer, am iPad ab AX1 (seit 3.35.0, RLB-101, AppDesign APD-43 U3/U4): dieselbe
+// Umsetzung auf beiden Geräten (R-1.1). Felder eines Tages; ‚Verlauf‘ als Wort in normaler Schrift, die anderen mit den Spalten-Emojis.
+function dayBoxesHtml(trip, visible, { today, gap, term, nr }) {
+  const c = cols(trip);
+  const line = (k, v, word) => v ? `<div class="kv"><span class="k ${word ? 'word' : ''}">${k}</span><span class="v">${v}</span></div>` : '';
+  return visible.map(iso => {
+    const e = rawEntry(trip, iso);
+    const q = quarterOf(trip, iso);
+    const tags = (iso === today ? '<span class="tag today">heute</span>' : '')
+      + (!isRecorded(trip, iso) && iso < today ? '<span class="tag miss">fehlt</span>' : '');
+    return `<div class="box day ${iso === gap && !term ? 'gap' : ''}" data-day="${iso}" data-marke="${dayMark(iso, nr)}" role="button" tabindex="0">
+      <div class="h">${dayLabel(iso)}${tags}${e.weather ? `<span class="wx">${esc(e.weather)}</span>` : '<span class="wx empty">☀️🌤🌦🌧</span>'}</div>
+      ${line('Verlauf', e.program ? linesHtml(programItems(e.program), term) : '', true)}
+      ${c.mood ? line('🙂☹️😉', e.comment ? linesHtml(commentItems(e.comment), term) : '') : ''}
+      ${c.food ? line('🍽️🍷☕️', e.food ? foodHtml(foodItems(e.food, q.place), term, true) : '') : ''}
+      ${c.quarter ? line('😴💤', quarterHtml(q, term, true)) : ''}
+    </div>`;
+  }).join('');
+}
+// Ab AX1 (html.ts-ax, ui.js textStufe) zeigt auch das iPad die Tage als Kästen und die Quartierliste als Liste (R-1.10)
+function isAx() { return document.documentElement.classList.contains('ts-ax'); }
 
 // Quartierliste als Liste: Quartier mit Maps-Link, darunter Zeitraum und Nächte.
 function phoneStaysHtml(trip) {
@@ -1115,7 +1139,9 @@ function keepSideScroll() {
     const lr = list.getBoundingClientRect(), r = cur.getBoundingClientRect();
     const tile = side.querySelector('.side-foot .bhint')?.getBoundingClientRect();
     const bottom = Math.min(lr.bottom, tile ? tile.top : lr.bottom);
-    if (r.top < lr.top + 6) list.scrollTop += r.top - lr.top - 6;
+    // seit 3.35.0 (RLB-101): ist die Kachel bei großer Schrift höher als der Platz, genügt ihr Anfang – steht er im Bild, bleibt die Liste
+    if (r.height > bottom - lr.top - 12) { if (r.top < lr.top + 6 || r.top > bottom - 40) list.scrollTop += r.top - lr.top - 6; }
+    else if (r.top < lr.top + 6) list.scrollTop += r.top - lr.top - 6;
     else if (r.bottom > bottom - 6) list.scrollTop += r.bottom - bottom + 6;
   }
   sideScroll = list.scrollTop;
@@ -1914,13 +1940,14 @@ showTrip(pickStartTrip()?.id);
 if (isPhone()) { phoneList = true; startList = true; rolle.to(0); render(); }
 // Wechsel quer/hoch: Seitenleiste fest oder darübergelegt; sonst nur Höhen und Breiten nachführen.
 let wasWide = isWide();
-let wasPhone = isPhone();
+let wasPhone = isPhone(), wasAx = isAx();
 window.addEventListener('resize', () => {
   placeDialogs();
   // R-8.1: Ist ein Menü oder eine Abfrage aus der Seitenleiste offen, bleibt sie in jedem Fall sichtbar.
   if (document.querySelector('#side .on') && document.querySelector('.menu, .pop')) sideOpen = true;
   // Wechsel fest ↔ darübergelegt bzw. iPad- ↔ iPhone-Aufbau: neu aufbauen; der Zustand sideOpen bleibt (R-8.1).
-  if (isPhone() !== wasPhone || isWide() !== wasWide) { wasPhone = isPhone(); wasWide = isWide(); render(); return; }
+  // seit 3.35.0 (RLB-101, AppDesign APD-43 W1): ebenso beim Wechsel der Textgröße über AX1 (Tabelle ↔ Kästen, oberster Tag bleibt – ui.js)
+  if (isPhone() !== wasPhone || isWide() !== wasWide || isAx() !== wasAx) { wasPhone = isPhone(); wasWide = isWide(); wasAx = isAx(); render(); return; }
   const bar = document.getElementById('bar');
   if (bar) document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
   if (!side.hidden) document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');

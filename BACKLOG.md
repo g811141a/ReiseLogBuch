@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 25.10.2026** · Aktuelle Version: Reiselogbuch 3.34.0 · AppDesign 4.36.0
+**Stand 25.10.2026** · Aktuelle Version: Reiselogbuch 3.35.0 · AppDesign 4.37.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,13 +29,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-75 | 2 | **Version 3.35.0 (AppDesign 4.37.0, APD-43 Teil 2, RLB-101): Textgröße folgt dem Gerät** – Version, Standard wie bisher, iPhone bis AX5, iPad Tage als Kästen ab AX1, Wechsel bei offenem Fenster, xS und Notiz bei AX5, Einstellung pro App, Mac – Testfälle P-75/0 bis /7 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
 | RLB-103 | 2 | **Prüfung `ablauf-tastatur-still.mjs` reparieren und in den vollen Lauf aufnehmen (Nutzer 24.10.2026):** sie steht nicht in `tests/alle.mjs`; beim Nachspielen der Messung ‚2026-10-22 iPhone hoch Ränder‘ bricht sie ab – das Menü von ‚…‘ (sideMore) liegt über der Zeile, auf die der Schritt ‚tippen button‘ abgebildet ist (auch mit 4.32.0); Abbildung der Messschritte bzw. Menü vorher schließen, dann in die Liste des vollen Laufs | App | offen |
-| RLB-101 | 2 | **Barrierefreiheit Teil 2 Textgröße in der App (AppDesign APD-43/2, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung folgt die Schrift der Einstellung ‚Textgröße‘ (R-1.10); in der App: die 6 eigenen Schriftgrößen einem Textstil zugeordnet, keine Schrift mehr in px außer Ausgabe (G4); Tage am iPad ab AX1 als dieselben Kästen wie am iPhone (`.box.day` aus `renderPhone` statt `table.days`), Kopf mit Wetter unter dem Datum, beim Wechsel Tabelle ↔ Kästen bleibt derselbe Tag oben (U4, W1); Reisedaten `.meta` ab AX1 untereinander (U1); Betragsfeld `#kosten` in Zeichenbreite statt fest 130 px (B5); Wetter-Knöpfe wachsen, die 40-px-Ausnahme gilt nur bei Standard, passt es nicht → seitlich wischen (B6); Prüfungen der App mit `PRUEF_TEXT` (Testfall-Liste AppDesign `arbeit/APD-43 Teil 2 Testfall-Liste.md`) | App | bereit – für die Version nach RLB-100 |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -50,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-101 | **RLB-101 (AppDesign APD-43 Teil 2): Textgröße folgt dem Gerät** – die 6 eigenen Schriftgrößen als Textstile, iPad ab AX1 Tage als Kästen (`dayBoxesHtml`, wie am iPhone) und Quartierliste als Liste, Reisedaten untereinander, Betragsfeld in Zeichenbreite, Wetter 40 px nur bei Standard; Prüfung `text-regeln.mjs`, hig und Abläufe in mehreren Textgrößen | Reiselogbuch 3.35.0 · AppDesign 4.37.0 | 25.10.2026 |
 | P-74 | Geprüft **P-74 (3.34.0)**: alles ok – Version, Nummernschema im Backlog AppDesign, Tabelle ‚Nummern und Präfixe‘, Uhrzeitzeile (AppDesign APD-78 und APD-79 abgeschlossen) | 3.34.0 | 25.10.2026 |
 | APD-78 | **AppDesign APD-78 Nummernschema:** Themen RLB-n (bisher T-), Erledigt ohne eigene Nummer, Begriffe Usertest / Testfälle P-n / Testfall-Liste in Backlog, CHANGELOG, PROMPT.md, Richtlinie und Prüfungen; Fassung 4.36.0 (Doku-Prüfung mit `checkSchema`) | Reiselogbuch 3.34.0 · AppDesign 4.36.0 | 25.10.2026 |
 | P-73 | Geprüft **P-73 (3.33.0)**: alles ok – kein blauer Rahmen in Textfeldern, Sprechblase schließt die Tastatur, Hardware-Tastatur, Fehlermeldung beim Häkchen, ‚Kontrast erhöhen‘, ‚Bewegung reduzieren‘ (**RLB-100 abgeschlossen**); neue Wünsche in AppDesign APD-80 (Kontrast dunkel) und APD-81 (ⓧ in mehrzeiligen Feldern) | 3.33.0 | 25.10.2026 |

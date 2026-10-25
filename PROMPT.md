@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 25.10.2026, Version 3.34.0)
+# Reiselogbuch – Funktionsbeschreibung (Stand 25.10.2026, Version 3.35.0)
 
-Reiselogbuch 3.34.0 · AppDesign 4.36.0 (Designrichtlinie allgemein 4.36.0) · Designrichtlinie Reiselogbuch 3.34.0 · Zusammenarbeit allgemein 2.20.0
+Reiselogbuch 3.35.0 · AppDesign 4.37.0 (Designrichtlinie allgemein 4.37.0) · Designrichtlinie Reiselogbuch 3.35.0 · Zusammenarbeit allgemein 2.20.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -150,7 +150,7 @@ wie am iPad (R-1.1):
   im Reiselogbuch (R-7.5) – die Zeile ‚Reisemittel‘ behält ihr seitliches Wischen.
 - **Fenster als Blatt** (R-4.6, seit 3.30.0 RLB-99): Tageserfassung, Einstellungen, Neues Reiselogbuch, Fazit und Vorschau gleiten
   von unten; nach unten ziehen schließt wie x, mit Änderungen fragt es (auch beim Erfassen).
-- **Tageserfassung** als Blatt, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘; Wetter-Symbole 40 px breit (Abweichung 2).
+- **Tageserfassung** als Blatt, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘; Wetter-Symbole 40 px breit (Abweichung 2, bei Standard-Textgröße).
 
 ## 6. Suche
 

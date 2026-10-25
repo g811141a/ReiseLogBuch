@@ -2,8 +2,8 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
+import { pruefung, textSeite } from '../../AppDesign/fassung/4.37.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.37.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-seitenleiste-position', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
@@ -22,6 +22,7 @@ const visible = p => p.evaluate(() => {
 });
 for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [393, 852, 'iPhone']]) {
   const p = await b.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700 });
+  await textSeite(p);   // seit 3.35.0: PRUEF_TEXT (AppDesign APD-43 Teil 2 P1)
   p.on('pageerror', e => errors.push(`${dev}: ${e.message}`));
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
@@ -43,19 +44,25 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
 // für die oberste und die unterste sichtbare Kachel; die Liste rückt dafür nötigenfalls nach oben.
 {
   const p = await b.newPage({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
+  await textSeite(p);   // seit 3.35.0: PRUEF_TEXT (AppDesign APD-43 Teil 2 P1)
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: {}, trips: t })), trips);
   await p.reload(); await p.waitForTimeout(300);   // Start in der Startliste (R-7.2)
   for (const which of ['oberste', 'unterste']) {
     const id = await p.evaluate(w => { const t = document.querySelector('#side .bhint').getBoundingClientRect().top, lt = document.querySelector('#side .side-list').getBoundingClientRect().top;
-      const rows = [...document.querySelectorAll('#side .side-row')].filter(r => { const b = r.getBoundingClientRect(); return b.top >= lt - 1 && b.bottom <= t; });
+      let rows = [...document.querySelectorAll('#side .side-row')].filter(r => { const b = r.getBoundingClientRect(); return b.top >= lt - 1 && b.bottom <= t; });
+      // seit 3.35.0: bei großer Schrift passt womöglich keine Kachel ganz hinein – dann zählt, wessen Anfang zu sehen ist
+      if (!rows.length) rows = [...document.querySelectorAll('#side .side-row')].filter(r => { const b = r.getBoundingClientRect(); return b.top >= lt - 1 && b.top < t - 20; });
       return (w === 'oberste' ? rows[0] : rows[rows.length - 1]).dataset.id; }, which);
     const row = p.locator(`#side .side-row[data-id="${id}"]`), rb = await row.boundingBox();
     await p.mouse.move(rb.x + 40, rb.y + 20); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); await p.waitForTimeout(250);
     const g = await p.evaluate(id => { const r = document.querySelector(`#side .side-row[data-id="${id}"]`).getBoundingClientRect(), m = document.querySelector('.menu').getBoundingClientRect(),
       t = document.querySelector('#side .bhint').getBoundingClientRect(), l = document.querySelector('#side .side-list').getBoundingClientRect();
-      return { below: m.top >= r.bottom - 1, left: Math.abs(m.left - r.left) < 2, aboveTile: m.bottom <= t.top + 1, rowVisible: r.top >= l.top - 1, inView: m.top >= 0 && m.bottom <= innerHeight }; }, id);
+      // seit 3.35.0 (AppDesign APD-43 Teil 2): bei großer Schrift ist das Menü so breit wie der Bildschirm minus Rand (B1) – dann zählt das
+      // als linksbündig; passen Kachel und Menü zusammen nicht über die Backup-Kachel, darf die Kachel oben hinausrücken
+      const breit = m.width >= innerWidth - 2 * r.left - 1, passt = r.height + m.height <= t.top - l.top;
+      return { below: m.top >= r.bottom - 1, left: Math.abs(m.left - r.left) < 2 || breit, aboveTile: m.bottom <= t.top + 1, rowVisible: r.top >= l.top - 1 || !passt, inView: m.top >= 0 && m.bottom <= innerHeight }; }, id);
     check(g.below, `iPhone: Kontextmenü (${which} Kachel) nicht unter der Kachel`);
     check(g.left, `iPhone: Kontextmenü (${which} Kachel) nicht linksbündig`);
     check(g.aboveTile && g.inView, `iPhone: Kontextmenü (${which} Kachel) nicht ganz über der Backup-Kachel sichtbar`);
@@ -69,6 +76,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
 // iPhone: Suche offen, Inhalt wischen → Tastatur schließt (Suchfeld verliert den Fokus), Leiste bleibt stehen
 {
   const p = await b.newPage({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
+  await textSeite(p);   // seit 3.35.0: PRUEF_TEXT (AppDesign APD-43 Teil 2 P1)
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: {}, trips: t })), trips);

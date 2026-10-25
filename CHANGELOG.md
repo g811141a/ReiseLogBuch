@@ -13,6 +13,93 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.35.0 – 25.10.2026
+
+Reiselogbuch 3.35.0 · AppDesign 4.37.0 (Designrichtlinie allgemein 4.37.0) · Designrichtlinie Reiselogbuch 3.35.0 · Zusammenarbeit allgemein 2.20.0
+
+**Textgröße folgt dem Gerät** (RLB-101, AppDesign APD-43 Teil 2, dein Ja vom 25.10.2026; Testfall-Liste AppDesign
+`arbeit/APD-43 Teil 2 Testfall-Liste.md`, Muster A).
+
+- **Die Schrift folgt der Einstellung ‚Textgröße‘** von iPhone und iPad – von der kleinsten Stufe bis zur größten Bedienungshilfe-Stufe
+  (AX5, 53 pt), sofort beim Umstellen, auch über das Kontrollzentrum bei offener App. Alle Textarten wachsen nach Apples Tabelle
+  (Überschriften langsamer als Text); bei Standard sieht alles aus wie bisher. Auf dem Mac bleibt es bei 17 px.
+- **Leisten wachsen nur bis XXXL** (Kopfzeile, Suchzeile, Fensterkopf, untere Leiste, Backup-Kachel, Kapsel ‚Nach oben / Ans
+  Ende‘): Text bis 23 pt, Knöpfe bis 60 px; iPhone quer gar nicht. Titel in Leisten bleiben einzeilig mit ….
+- **Bei großer Schrift untereinander:** ab AX1 (iPhone hoch schon ab XXL) Datum der Kachel unter dem Titel, Wert im Menü unter dem
+  Text, Bezeichnung im Kasten über dem Wert, Reisedaten und Statistik untereinander, Wetter unter dem Datum, Knöpfe im Kasten-Kopf
+  unter dem Titel; Menüs und Sprechblasen werden breiter, Knöpfe in Sprechblasen stehen untereinander.
+- **iPad ab AX1: die Tage als Kästen** wie am iPhone (statt der Tabelle), die Quartierliste als Liste – schon vorher, wenn die
+  Tabelle bei großer Schrift nicht in ihren Platz passt (z. B. XXXL mit fester Seitenleiste); beim Wechsel bleibt derselbe Tag oben.
+  Bei großer Schrift dürfen die Zeichen vor einer Zeile (🕛☕📍) umbrechen, die Reisemittel stehen umbrochen statt seitlich wischbar;
+  ein einzelnes langes Wort (‚Reiseteilnehmer:‘, ‚Gesamtausgaben‘) bricht im Wort um, statt den Inhalt breiter als den Bildschirm zu
+  machen (sonst ging das Zurückwischen vom Rand nicht). Ist eine Kachel der Startliste höher als der Platz, rückt die Liste nur, wenn
+  ihr Anfang nicht zu sehen ist.
+- **Betragsfeld** so breit wie ‚4.850,00 €‘ in der aktuellen Schrift (statt fest 130 px); **Wetter am iPhone** 40 px breit nur bei
+  Standard – größer wachsen die Knöpfe, passt es nicht, wischt die Kapsel seitlich. Smileys, Häkchen und Icons wachsen mit.
+- **Ausgabe (HTML/PDF) und Vorschau** bleiben unverändert.
+- **Prüfungen:** neu `text-regeln.mjs` (in allen vier Ansichten Wechsel Standard → AX5 → Standard: Apples Werte je Textstil, Leisten,
+  keine Tabelle bei AX, Bezeichnung über dem Wert, Ausgabe unverändert, letzter Eintrag erreichbar, oberster Tag und offenes
+  Fenster bleiben) – zugleich Ziel der Gegenprobe `--gegenprobe text` (7 eingeschleuste Fehler, jeder mit genau seiner Meldung rot);
+  `hig` zusätzlich in den Textgrößen 14, 23, 33 und 53 px, die Abläufe mit Bewegung zusätzlich bei 53 px (`PRUEF_TEXT`). Die
+  WebKit-Prüfung fand beim Bau, dass beim Wechsel der oberste Tag wegsprang (Safari hält die Rollposition nicht selbst) – behoben.
+  hig öffnet seine Seiten selbst und bekommt die Textgröße jetzt über `textSeite` (AppDesign); auf den Kopf eines Kastens wird getippt,
+  weil bei großer Schrift in seiner Mitte der Maps-Link liegen kann; die Abläufe Navigation, iPhone und Seitenleiste kennen hohe
+  Kästen und Kacheln, breite Menüs und die umbrochenen Reisemittel. Gefunden und behoben: am iPad hoch wurde die Backup-Kachel
+  gemessen, solange die Seitenleiste verborgen war – der letzte Eintrag lag dann bei großer Schrift dahinter.
+  Zeitgrenze je Prüfung im vollen Lauf 600 s statt 300 (`ablauf-blatt` braucht allein 288 s).
+
+Testfälle P-75 (Schritt für Schritt, Zusammenarbeit allgemein 2.20.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**. Die Textgröße stellst du am schnellsten über das Kontrollzentrum ein: einmalig Einstellungen →
+Kontrollzentrum → ‚Textgröße‘ hinzufügen; danach vom oberen rechten Rand nach unten wischen, ‚Textgröße‘ (aA) antippen, den Regler
+schieben (die Stufen über ‚Größer‘ hinaus gibt es unter Einstellungen → Bedienungshilfen → Anzeige & Textgröße → Größerer Text).
+
+**P-75/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.35.0 · erstellt am … · AppDesign 4.37.0‘.
+
+**P-75/1 – Standard sieht aus wie bisher**
+1. iPhone hoch und iPad quer, Textgröße in der Mitte (Standard, 4. Stufe von 7 im Kontrollzentrum), ‚Größerer Text‘ aus.
+2. Eine Reise öffnen, ein Tag-Fenster öffnen und wieder schließen, das Mehr-Menü öffnen.
+3. Erwartet: alles sieht aus wie in 3.34.0 – gleiche Schriftgrößen, Leisten, Kacheln, Tabelle bzw. Kästen.
+
+**P-75/2 – iPhone hoch: große Schrift bis AX5**
+1. iPhone hoch, eine Reise offen.
+2. Textgröße nacheinander auf die größte normale Stufe (XXXL) und dann mit ‚Größerer Text‘ auf die zweite und die größte Stufe stellen,
+   jeweils die Reise, ein Tag-Fenster und das Mehr-Menü ansehen.
+3. Erwartet: der Text wächst mit, die Leisten oben und unten wachsen nur bis XXXL; nichts ist abgeschnitten oder überlappt; in den
+   Kästen steht die Bezeichnung über dem Wert, das Wetter unter dem Datum; das Menü ist breiter und rollt, wenn es zu hoch ist.
+
+**P-75/3 – iPad: Tage ab AX1 als Kästen**
+1. iPad quer, eine Reise offen, etwas nach unten rollen, sodass oben z. B. der 5. Tag steht.
+2. Über das Kontrollzentrum ‚Größerer Text‘ auf die erste Bedienungshilfe-Stufe (AX1) stellen, zurück in die App; danach wieder auf
+   Standard.
+3. Erwartet: bei AX1 stehen die Tage als Kästen wie am iPhone (statt der Tabelle), oben steht weiter derselbe Tag; bei Standard wieder
+   die Tabelle, derselbe Tag oben.
+
+**P-75/4 – Wechsel bei offenem Fenster**
+1. iPhone hoch, ein Tag-Fenster offen, im Feld ‚Verlauf‘ ein paar Zeichen tippen.
+2. Über das Kontrollzentrum die Textgröße zwei Stufen größer stellen, zurück in die App.
+3. Erwartet: das Fenster ist weiter offen, der getippte Text ist da, die Schrift ist sofort größer (ohne Neuladen).
+
+**P-75/5 – Kleinste Stufe und Notiz bei AX5**
+1. iPhone hoch, Textgröße ganz klein (xS); ein Tag-Fenster öffnen und ins Feld ‚Verlauf‘ tippen.
+2. Danach Textgröße auf die größte Stufe (AX5), wieder ins Feld ‚Verlauf‘ tippen und ein paar Zeilen schreiben.
+3. Erwartet: bei xS ist der Text kleiner, beim Antippen vergrößert Safari die Ansicht nicht; bei AX5 steht das Feld beim Tippen über
+   der Tastatur und wächst mit, nichts ist abgeschnitten.
+
+**P-75/6 – Einstellung nur für Safari**
+1. Textgröße allgemein auf Standard; Einstellungen → Bedienungshilfen → Einstellungen pro App → Safari hinzufügen → Größerer Text
+   auf eine große Stufe.
+2. Die App vom Home-Bildschirm öffnen.
+3. Erwartet: kurz melden, ob die App die große Schrift zeigt (wirkt die Einstellung für Safari auch auf die Web-App?) – beides ist ok,
+   es geht nur um die Auskunft; danach die Einstellung pro App wieder entfernen.
+
+**P-75/7 – Mac (nur, wenn du einen hast)**
+1. Die Seite auf dem Mac in Safari öffnen.
+2. Eine Reise öffnen.
+3. Erwartet: Schrift in der gewohnten Größe (17 px wie bisher), nicht kleiner.
+
 ## 3.34.0 – 25.10.2026
 
 Reiselogbuch 3.34.0 · AppDesign 4.36.0 (Designrichtlinie allgemein 4.36.0) · Designrichtlinie Reiselogbuch 3.34.0 · Zusammenarbeit allgemein 2.20.0
