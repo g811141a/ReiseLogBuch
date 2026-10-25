@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-73 | 2 | **Barrierefreiheit Teil 1 mit Fokus-Rahmen (3.33.0, T-100, AppDesign A-43/1):** Prüfliste P-73/0–6 im CHANGELOG – kein blauer Rahmen in Textfeldern, Antippen wie bisher, Hardware-Tastatur, Fehlermeldung beim Häkchen, ‚Kontrast erhöhen‘, ‚Bewegung reduzieren‘ | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-135 | Geprüft **P-73 (3.33.0)**: alles ok – kein blauer Rahmen in Textfeldern, Sprechblase schließt die Tastatur, Hardware-Tastatur, Fehlermeldung beim Häkchen, ‚Kontrast erhöhen‘, ‚Bewegung reduzieren‘ (**T-100 abgeschlossen**); neue Wünsche in AppDesign A-80 (Kontrast dunkel) und A-81 (ⓧ in mehrzeiligen Feldern) | 3.33.0 | 25.10.2026 |
 | E-134 | **T-100 (AppDesign A-43 Teil 1):** kein blauer Rahmen mehr in Textfeldern, Hardware-Tastatur in Menüs, Sprechblasen und Fenstern, VoiceOver-Namen und Ansagen (Suche, Seitenleiste, Fehlermeldungen, offline), Fehlermeldungen über `feldFehler` mit Fokus beim Häkchen, ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (Sprung zum Fehler springt); neue Prüfung `ablauf-bedienung.mjs` mit Gegenprobe `bedienung`; Prüfpunkt P-73 | 3.33.0 | 25.10.2026 |
 | E-133 | Geprüft **P-72 (3.32.0)**: alles ok – Kachel nach dem Backup weg, Mehr-Menü mit heutigem Datum, offline nur die graue Zeile, Abgleich zählt nicht, Kontextmenü ohne Kachel ganz sichtbar (**T-105 abgeschlossen**) | 3.32.0 | 24.10.2026 |
 | E-132 | **T-105 (AppDesign A-74):** die gelbe Backup-Kachel steht nur noch, solange heute auf diesem Gerät kein Backup erstellt wurde; danach verschwindet sie (Fokus auf ‚Mehr‘), um 0:00 bzw. bei der Rückkehr am neuen Tag kommt sie wieder; Abgleich zählt nicht; Offline-Zeile auch ohne Kachel und bei leerer Liste; neue Prüfung `ablauf-backup-kachel.mjs` (gegen 3.31.0 rot); Prüfpunkt P-72 | 3.32.0 | 24.10.2026 |
