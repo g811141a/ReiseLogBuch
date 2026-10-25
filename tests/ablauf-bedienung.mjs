@@ -25,6 +25,8 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() - 864e5 * 2 }, trips: x })), trips);
   await G(p, 'Start', async () => { await p.reload(); await warte(p, 400); });
+  // bricht ein Ablauf ab (z. B. in der Gegenprobe), zählen die Meldungen bis dahin – die übrigen Ansichten laufen weiter
+  try {
 
   if (ansicht === 'iPad quer') {
     // V1, V3, V7: Menü offen – Namen, ‚öffnet Menü‘, alles daneben gesperrt; V4: Untermenü mit Häkchen
@@ -37,34 +39,36 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     // V11: ‚Automatisch gespeichert‘ steht im Fensterkopf, wird nicht angesagt
     await G(p, 'Tag erfassen, automatisch gespeichert', async () => {
       await p.evaluate(() => openDayDialog(db.trips.find(x => x.id === 'a'), '2026-08-25')); await warte(p, 300);
-      await p.locator('#dlg textarea').first().focus(); await p.keyboard.type(' mehr'); await p.locator('#dlg textarea').first().blur(); await warte(p, 600); });
+      await p.locator('#dlg textarea').first().focus(); await p.keyboard.type(' mehr'); await p.locator('#dlg textarea').first().blur(); await warte(p, 10500); });   // automatisch gespeichert nach 10 s
     t.wahr('‚Automatisch gespeichert‘ steht im Fensterkopf', /gespeichert um/.test(await p.textContent('#dlgSub')), 'R-1.8');
     await p.evaluate(() => dlg.close()); await warte(p);
     // K1–K6, K9, V5, V6
     errs(await checkFokus(p, { menue: '#mainMore', untermenue: 'Darstellung', felder: [],
-      fenster: { open: settings(p), change: () => p.locator('#fTitle').fill('Australien 2'), feld: '#fTitle' }, where: t.ort }));
+      fenster: { open: settings(p), change: () => p.locator('#fTitle').fill('Australien 2'), feld: '#fTitle' } }));
     // K9: Textfelder im Fenster nie mit Fokus-Rahmen (antippen)
     await settings(p)(); await warte(p, 300);
-    errs(await checkFokus(p, { felder: ['#fTitle', '#fPeople'], tab: false, where: t.ort + ' · Fenster' }));
+    errs(await checkFokus(p, { felder: ['#fTitle', '#fPeople'], tab: false, where: 'Fenster' }));
     await G(p, 'Feld im Fenster angetippt', () => p.locator('#fPeople').tap());
     await p.evaluate(() => dlg.close()); await warte(p);
     // V10: Fehlermeldung hörbar, Häkchen → Fokus aufs Feld
-    errs(await checkFieldErrors(p, { open: settings(p), field: '#fTitle', where: t.ort }));
+    errs(await checkFieldErrors(p, { open: settings(p), field: '#fTitle' }));
     // V9: Ansagen der Suche
     await p.click('#searchBtn'); await warte(p, 200);
-    await p.locator('#search').pressSequentially('Sydney', { delay: 30 });
-    const n = await p.evaluate(() => document.querySelectorAll('table.days:not(.static) mark').length);
+    await p.locator('#search').pressSequentially('Programm', { delay: 30 });
+    const n = await p.evaluate(() => hitMarks().length);
     const a1 = await ansage(p, 1100);
     if (a1 !== `${n} Treffer`) t.fehler('R-1.8', `Suche: Ansage ‚${a1}‘ statt ‚${n} Treffer‘ (nach der Tipp-Pause)`);
-    await p.click('#snext'); const a2 = await ansage(p, 300);
-    if (a2 !== `Treffer 2 von ${n}`) t.fehler('R-1.8', `Suche: Ansage ‚${a2}‘ statt ‚Treffer 2 von ${n}‘`);
+    t.wahr(`Suche findet mehrere Treffer (${n})`, n > 1);
+    if (n > 1) await p.click('#snext');
+    const a2 = await ansage(p, 300);
+    if (n > 1 && a2 !== `Treffer 2 von ${n}`) t.fehler('R-1.8', `Suche: Ansage ‚${a2}‘ statt ‚Treffer 2 von ${n}‘`);
     await p.locator('#search').fill('Xyzzy'); await p.locator('#search').dispatchEvent('input');
     const a3 = await ansage(p, 1100);
     if (a3 !== 'Keine Treffer') t.fehler('R-1.8', `Suche: Ansage ‚${a3}‘ statt ‚Keine Treffer‘`);
     await p.click('#searchBtn'); await warte(p, 200);
     // Seitenleiste filtern: ‚1 von 2 Reiselogbüchern‘
     await p.click('#listSearchBtn'); await warte(p, 200);
-    await p.locator('#lsearch').pressSequentially('Toskana', { delay: 30 });
+    await p.locator('#lsearch').pressSequentially('Sydney', { delay: 30 });
     const a4 = await ansage(p, 1100);
     if (a4 !== '1 von 2 Reiselogbüchern') t.fehler('R-1.8', `Seitenleiste: Ansage ‚${a4}‘ statt ‚1 von 2 Reiselogbüchern‘`);
     await p.click('#listSearchBtn'); await warte(p, 200);
@@ -78,12 +82,12 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     if (a6 !== 'Wieder online') t.fehler('R-1.8', `Wieder online bei offenem Fenster: Ansage ‚${a6}‘ im Fenster statt ‚Wieder online‘`);
     await p.evaluate(() => dlg.close()); await warte(p);
     // H1–H5: zweite Farbtabelle, Ausgabe hell, Umschalten ohne Neuaufbau
-    errs(await checkKontrast(p, { where: t.ort,
+    errs(await checkKontrast(p, {
       vorschau: async () => { await p.click('#shareBtn'); await warte(p, 150); await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); },
       fenster: { open: settings(p), feld: '#fPeople' } }));
     await G(p, 'nach dem Umschalten');
     // M2, M4: ‚Nach oben / Ans Ende‘ springen, Mikrofon ruhig
-    errs(await checkRuhig(p, { fab: true, mic: true, where: t.ort }));
+    errs(await checkRuhig(p, { fab: true, mic: true }));
     await G(p, 'nach ‚Nach oben / Ans Ende‘');
   }
 
@@ -104,9 +108,10 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     t.ist('Fokus nach dem Zurück auf der blauen Zeile bzw. dem Titel', await p.evaluate(() => !!document.activeElement?.closest('#side') && document.activeElement.matches('.current, h2, .pnav-head')), true, 'R-1.8');
     // M5: Blatt ohne Verkleinerung der Seite
     await p.click('#side .side-row[data-id="a"]'); await warte(p, 500);
-    errs(await checkRuhig(p, { fab: false, fenster: settings(p), where: t.ort }));
+    errs(await checkRuhig(p, { fab: false, fenster: settings(p) }));
     await G(p, 'Blatt geschlossen');
   }
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
 }
 await t.ende(b);

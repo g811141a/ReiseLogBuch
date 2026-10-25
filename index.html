@@ -751,7 +751,7 @@ function progressText(trip) {
 // gezeigt werden nur passende Tage, die Treffer sind gelb, der aktuelle hellorange.
 const searchRowHtml = term => `<div class="nb2">
     <span class="searchbox active">${ic('search')}<input type="search" id="search" placeholder="Suchen" value="${esc(searchTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${term ? `
-      <span class="smeta"><span class="scount" id="scount"></span><button type="button" class="sclear" id="sclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
+      <span class="smeta"><span class="scount" id="scount"></span><button type="button" class="sclear" id="sclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
     <span class="navgrp"><button type="button" id="sprev" aria-label="Voriger Treffer" ${term ? '' : 'disabled'}>${ic('chevron-up')}</button><button type="button" id="snext" aria-label="Nächster Treffer" ${term ? '' : 'disabled'}>${ic('chevron-down')}</button></span>
   </div>`;
 
@@ -819,7 +819,7 @@ const fazitHtml = trip => `<h2 data-marke="Fazit">Fazit</h2>
       : `<span class="muted" style="display:inline-flex;gap:6px;align-items:center">${ic('pencil')}Antippen, um das Fazit zu schreiben.</span>`}</button>
     <h2>Gesamtausgaben</h2>
     <div class="kosten">
-      <input type="text" id="kosten" inputmode="decimal" placeholder="0,00" value="${trip.kosten == null ? '' : money(trip.kosten)}">
+      <input type="text" id="kosten" inputmode="decimal" placeholder="0,00" aria-label="Gesamtausgaben" value="${trip.kosten == null ? '' : money(trip.kosten)}">
       <span>€</span>
     </div>`;
 
@@ -1065,7 +1065,7 @@ function renderSide() {
 // T-92 (AppDesign A-19): Suchzeile der Liste wie 15.2, ohne Pfeile – die Kacheln zeigen die Treffer.
 const listSearchHtml = () => `<div class="nb2 side-search">
     <span class="searchbox active">${ic('search')}<input type="search" id="lsearch" placeholder="In allen suchen" value="${esc(listTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${listTerm ? `
-      <span class="smeta"><button type="button" class="sclear" id="lsclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
+      <span class="smeta"><button type="button" class="sclear" id="lsclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
   </div>`;
 
 function bindListSearch() {
@@ -1451,7 +1451,7 @@ function openDayDialog(trip, iso) {
           <div class="step-head"><label for="fQuarter"><span class="step-num">${c.quarter ? nextNo() : ''}</span>Quartier</label><span class="head-checks">${isFirst ? '' : `<label class="check chip head-check"><input type="checkbox" id="fSame" ${same ? 'checked' : ''}> Quartier wie Vortag</label>`}<label class="check chip head-check"><input type="checkbox" id="fNoMap" ${e.noMap && !same ? 'checked' : ''}> keinen Google-Maps Link</label></span></div>
           <div class="qrow"><input type="text" id="fQuarter" autocapitalize="sentences" autocorrect="on" spellcheck="true" list="quarterList" placeholder="z. B. Oaks Townsville Hotel">
           <datalist id="quarterList">${knownQuarters.map(q => `<option value="${esc(q)}">`).join('')}</datalist>
-          <input type="text" id="fPlace" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Ort für Google Maps, z. B. Cairns, Australien"></div>
+          <input type="text" id="fPlace" aria-label="Ort für Google Maps" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Ort für Google Maps, z. B. Cairns, Australien"></div>
           <div class="hint" id="qHint"></div>
         </div>
         ${micHint()}

@@ -13,6 +13,97 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.33.0 – 25.10.2026
+
+Reiselogbuch 3.33.0 · AppDesign 4.35.0 (Designrichtlinie allgemein 4.35.0) · Designrichtlinie Reiselogbuch 3.33.0 · Zusammenarbeit allgemein 2.19.0
+
+**Barrierefreiheit Teil 1 mit Fokus-Rahmen** (T-100, AppDesign A-43 Teil 1, dein Ja vom 24.10.2026; Fall-Liste AppDesign
+`arbeit/A-43 Teil 1 Fall-Liste.md`).
+
+- **Kein blauer Rahmen mehr in Textfeldern:** Safari zeichnete um jedes angetippte Textfeld eine blaue Umrandung – jetzt zeigt nur
+  der Cursor, wo du tippst (wie in Kontakte und Kalender). Einen Ring gibt es nur noch, wenn du mit einer Hardware-Tastatur
+  bedienst – an Knöpfen, nie in Feldern.
+- **Hardware-Tastatur am iPad:** in Menüs und Untermenüs ↑ ↓ (mit Umlauf), → bzw. ←, Eingabe wählt, Esc bzw. ⌘. schließt; in der
+  Sprechblase ist Eingabe immer der sichere Weg (‚Weiter bearbeiten‘ bzw. die blaue Aktion), nie das Rote; Esc bzw. ⌘. schließt ein
+  Fenster wie das x; Tab bleibt im Fenster.
+- **VoiceOver:** alle Knöpfe, Felder und Menüs sind benannt (‚Mehr, öffnet Menü‘, ‚Hell, ausgewählt‘), Fenster mit Titel; der Fokus
+  geht in Menü, Sprechblase und Fenster und danach zurück. Angesagt werden die Treffer der Suche (‚3 Treffer‘, ‚Treffer 2 von 3‘,
+  ‚Keine Treffer‘), der Filter der Seitenleiste (‚1 von 2 Reiselogbüchern‘), Fehlermeldungen und offline/online – ‚Automatisch
+  gespeichert‘ nicht. Feld ‚Gesamtausgaben‘ hat jetzt einen Namen.
+- **Fehlermeldungen im Fenster ‚Einstellungen‘ bzw. ‚Neues Reiselogbuch‘:** über den neuen Baustein `feldFehler` (rot, hörbar); beim
+  Häkchen rollt der erste Fehler in die Mitte und das Feld hat den Fokus (fehlt nur das Reisemittel: sein erster Knopf).
+- **‚Kontrast erhöhen‘ (iOS-Einstellung):** dunkleres Blau, Rot, Grün und Grau, sichtbare Linien und Haarlinien – hell und dunkel,
+  sofort beim Umschalten; die Ausgabe (Vorschau, HTML, PDF) bleibt unverändert.
+- **‚Bewegung reduzieren‘ (iOS-Einstellung):** ‚Nach oben / Ans Ende‘ springen statt zu rollen, das Fenster auf dem iPhone blendet
+  über und die Seite dahinter bleibt groß; der Sprung zum Fehler beim Häkchen springt ebenfalls.
+- **Neu:** öffnest du in einem Fenster eine Sprechblase oder ein Menü (z. B. x mit Änderungen), während die Tastatur offen ist, geht
+  die Tastatur zu (der Rest des Fensters ist dann gesperrt).
+- **Prüfungen:** neu `ablauf-bedienung.mjs` (Fokus und Tastatur, Ansagen, Fehlermeldung hörbar, Farbtabelle, Ausgabe, ruhige
+  Bewegung; iPad quer und hoch, iPhone hoch, mit beiden Bedienungshilfen) – zugleich Ziel der Gegenprobe `--gegenprobe bedienung`
+  (21 eingeschleuste Fehler, jeder mit genau seiner Meldung rot). `hig` zusätzlich in den Teilen ‚hell/dunkel Bedienungshilfen‘,
+  Navigation, Fenster, iPhone, Suche in der Liste und Seitenleiste zusätzlich mit beiden Bedienungshilfen (Bewegungswächter).
+
+Prüfliste P-73 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**. VoiceOver wird nur automatisch geprüft (deine Vorgabe vom 23.10.2026).
+
+**P-73/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.33.0 · erstellt am … · AppDesign 4.35.0‘.
+
+**P-73/1 – kein blauer Rahmen in Textfeldern (iPad und iPhone)**
+1. Ein Reiselogbuch öffnen, oben ‚…‘ (Mehr) → ‚Einstellungen‘.
+2. In ‚Reisetitel‘ tippen, danach in ‚Reiseteilnehmer‘.
+3. Erwartet: kein blauer Rahmen um das Feld – nur der blinkende Cursor (und das graue ⓧ rechts).
+4. Fenster mit x schließen, einen Tag antippen, in ‚Programm‘ tippen; dann oben die Lupe tippen.
+5. Erwartet: auch im Tagesfenster und im Suchfeld kein blauer Rahmen.
+
+**P-73/2 – Antippen wie bisher (iPhone hoch)**
+1. ‚…‘ (Mehr) tippen, ‚Darstellung ›‘ tippen, ‚Dunkel‘ wählen; danach wieder ‚Automatisch‘.
+2. Erwartet: Menü und Untermenü wie bisher, kein Rahmen um ‚…‘ nach dem Schließen.
+3. ‚Einstellungen‘ öffnen, in ‚Reisetitel‘ ein Zeichen anhängen (Tastatur offen), dann das x tippen.
+4. Erwartet: die Sprechblase ‚Die Änderungen in diesem Fenster gehen verloren.‘ erscheint, die Tastatur geht dabei zu (neu);
+   ‚Weiter bearbeiten‘ lässt das Fenster offen, x → ‚Änderungen verwerfen‘ schließt es.
+
+**P-73/3 – Hardware-Tastatur (iPad mit Tastatur, falls vorhanden)**
+1. Oben ‚…‘ (Mehr) antippen, dann ↓ ↓ ↑ drücken.
+2. Erwartet: der markierte Eintrag ist hellblau hinterlegt (ohne Rahmen) und wandert mit; am Ende läuft er nach oben um.
+3. Zu ‚Darstellung‘ wandern, → drücken, dann ←; danach Esc.
+4. Erwartet: → öffnet das Untermenü (erster Eintrag markiert), ← schließt es wieder, Esc schließt das Menü; ‚…‘ hat danach einen
+   blauen Ring (nur mit Tastatur).
+5. ‚Einstellungen‘ öffnen, im Reisetitel ein Zeichen anhängen, Esc drücken.
+6. Erwartet: Sprechblase ‚Die Änderungen in diesem Fenster gehen verloren.‘; Eingabe drücken → sie schließt, das Fenster bleibt
+   offen (nie ‚Änderungen verwerfen‘); noch einmal Esc, dann Esc → nur die Sprechblase geht zu.
+7. ⌘. (Befehl + Punkt) drücken – mit der Sprechblase bzw. ohne.
+8. Erwartet: wie Esc. Falls ⌘. gar nichts tut, gibt Safari die Taste nicht weiter – bitte melden.
+9. Fenster schließen, auf der Seite mehrmals Tab drücken.
+10. Erwartet: falls Tab Knöpfe erreicht (je nach Einstellung ‚Tastatursteuerung‘), steht ein blauer Ring um den Knopf – in Feldern nie.
+
+**P-73/4 – Fehlermeldung beim Häkchen (iPad quer)**
+1. ‚…‘ (Mehr) → ‚Einstellungen‘, den Reisetitel ganz löschen, dann das Häkchen tippen.
+2. Erwartet: rot ‚Bitte einen Reisetitel eingeben.‘ unter dem Feld, Feld rot umrandet, der Abschnitt steht in der Mitte und der
+   Cursor steht im Reisetitel; mit x → ‚Änderungen verwerfen‘ schließen.
+
+**P-73/5 – ‚Kontrast erhöhen‘ (iPhone, hell und dunkel)**
+1. Einstellungen des iPhone → Bedienungshilfen → Anzeige & Textgröße → ‚Kontrast erhöhen‘ einschalten, zurück in die App.
+2. Erwartet: Blau, Rot und Grau etwas dunkler, die gewählte Kachel dunkelblau, Haarlinien um Knöpfe und Felder deutlich sichtbar,
+   › rechts in den Kacheln dunkelgrau; alles gut lesbar.
+3. Im Kontrollzentrum auf dunkel umschalten (oder in der App ‚Darstellung‘ → ‚Dunkel‘), zurück in die App.
+4. Erwartet: helleres Blau für Schrift und Icons, die gewählte Kachel kräftig blau mit weißer Schrift, alles gut lesbar.
+5. Im Reiselogbuch oben das Teilen-Icon (share) tippen → ‚Vorschau‘.
+6. Erwartet: die Vorschau ist unverändert weiß mit schwarzer Schrift.
+7. ‚Kontrast erhöhen‘ wieder ausschalten (oder an lassen, wie du magst).
+
+**P-73/6 – ‚Bewegung reduzieren‘ (iPhone hoch)**
+1. Einstellungen des iPhone → Bedienungshilfen → Bewegung → ‚Bewegung reduzieren‘ einschalten, zurück in die App.
+2. Ein Reiselogbuch öffnen und mit dem Zurück-Knopf zurück.
+3. Erwartet: die Seiten blenden über statt zu schieben.
+4. Im Reiselogbuch etwas nach unten rollen, ‚Nach oben‘ tippen, dann ‚Ans Ende‘.
+5. Erwartet: springt sofort, mit kurzem Überblenden – kein Rollen.
+6. ‚…‘ (Mehr) → ‚Einstellungen‘; am Kopf etwas nach unten ziehen und loslassen.
+7. Erwartet: das Blatt blendet ein, die Seite dahinter bleibt groß (nicht verkleinert); nach dem Loslassen steht es sofort wieder
+   oben, ohne Nachfedern. ‚Bewegung reduzieren‘ danach wieder ausschalten.
+
 ## 3.32.0 – 24.10.2026
 
 Reiselogbuch 3.32.0 · AppDesign 4.34.0 (Designrichtlinie allgemein 4.34.0) · Designrichtlinie Reiselogbuch 3.32.0 · Zusammenarbeit allgemein 2.19.0
