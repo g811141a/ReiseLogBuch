@@ -1,6 +1,6 @@
 # Reiselogbuch – Hinweise für Claude
 
-**Version 3.6.0** · Stand 21.10.2026
+**Version 3.7.0** · Stand 25.10.2026
 
 ## Zuerst lesen (gezielt, Zusammenarbeit 0 Nr. 15)
 
@@ -10,7 +10,7 @@ Die allgemeinen Regeln liegen im Design-Repo **AppDesign** (g811141a/AppDesign, 
 2. `AppDesign/README - Zusammenarbeit allgemein.md` – nur Abschnitte 0 (Arbeitsmodell) und 1 (Sprache und Ton: per du)
 3. Überschriften (`grep -n '^##'`) von `AppDesign/README - Designrichtlinie allgemein.md` und
    `README - Designrichtlinie Reiselogbuch.md` (nur Abweichungen); einzelne Abschnitte erst, wenn die Aufgabe sie braucht
-4. Nur bei Bedarf: `PROMPT.md` (Funktionsbeschreibung), `CHANGELOG.md` (Prüfliste der neuesten Version oben), `BACKLOG.md`
+4. Nur bei Bedarf: `PROMPT.md` (Funktionsbeschreibung), `CHANGELOG.md` (Testfälle der neuesten Version oben), `BACKLOG.md`
 
 ## Verpflichtend
 
@@ -28,7 +28,7 @@ Wiederholung.
 - Repo `g811141a/ReiseLogBuch`, Branch `main`, GitHub Pages: https://g811141a.github.io/ReiseLogBuch/
 - Versionen: `node ../AppDesign/werkzeug/veroeffentlichen.mjs vorbereiten --app reiselogbuch=X.Y.Z` (mit `--ad`, wenn AppDesign
   mitkommt) erhöht `APP_VERSION`, `APP_BUILT`, Cache-Name, Fassungs-Pfad, README ‚Verwendete Versionen‘ (R-10.4),
-  PROMPT-Versionszeile und Backlog-Kopf; CHANGELOG und Prüfliste schreibt Claude, dann `… los`.
+  PROMPT-Versionszeile und Backlog-Kopf; CHANGELOG und Testfälle schreibt Claude, dann `… los`.
 - Daten im localStorage unter `reiselogbuch.v1`; Änderungen am Datenmodell immer mit Übernahme alter Daten (`normalize`).
 - Ausgabe (HTML/PDF) mit eigener, immer heller Gestaltung (`.rt`, Mustertabelle `outputCss`, R-6.2).
 - Bedienung im Code: Seitenleiste `#side` (`renderSide`), Kopfzeile `.nb` mit Kapsel, Menüs `openMenu` (Untermenüs über
@@ -45,16 +45,17 @@ Wiederholung.
 
 | Version | Datum | Inhalt |
 |---|---|---|
-| 3.6.0 | 21.10.2026 | AppDesign A-39 Konsolidierung: Verpflichtendes und Einrichten der Tests nur noch in der Zusammenarbeit bzw. der AppDesign-`CLAUDE.md`; App-Richtlinie enthält nur Abweichungen |
+| 3.7.0 | 25.10.2026 | AppDesign APD-78 Nummernschema: Themen RLB-n, Usertest, Testfälle P-n, Testfall-Liste |
+| 3.6.0 | 21.10.2026 | AppDesign APD-39 Konsolidierung: Verpflichtendes und Einrichten der Tests nur noch in der Zusammenarbeit bzw. der AppDesign-`CLAUDE.md`; App-Richtlinie enthält nur Abweichungen |
 | 3.5.0 | 20.10.2026 | Zu Beginn Abschnitte 0 und 1 der Zusammenarbeit (Sprache und Ton: per du) – AppDesign Zusammenarbeit 2.14.0 |
 | 3.4.0 | 16.10.2026 | Startfrage zu Beginn einer Sitzung ohne Auftrag (Zusammenarbeit 0 Nr. 19) |
-| 3.3.0 | 15.10.2026 | Gezielt lesen (nur Abschnitt 0 und Überschriften), ein voller Prüflauf je Version (AppDesign A-07) |
-| 3.2.0 | 14.10.2026 | Feste AppDesign-Fassung `fassung/X.Y.Z/` statt `v4/…?v=`, Versionen mit dem Veröffentlichungs-Skript (A-05 Version B) |
-| 3.1.0 | 14.10.2026 | Prüfen mit `node tests/alle.mjs` (A-05 Version A: parallel, Chromium und WebKit) |
-| 3.0.0 | 14.10.2026 | Neu gefasst (A-02 Schritt 4): zuerst UEBERGABE.md, Regeln nur als Verweis auf AppDesign (ohne ‚etwa 5 Punkte‘, Antwortzeile und ‚Gesamt‘ in der Zeitzeile), Einbindung mit `?v=`, Prüfung mit `sh tests/alle.sh` |
+| 3.3.0 | 15.10.2026 | Gezielt lesen (nur Abschnitt 0 und Überschriften), ein voller Prüflauf je Version (AppDesign APD-7) |
+| 3.2.0 | 14.10.2026 | Feste AppDesign-Fassung `fassung/X.Y.Z/` statt `v4/…?v=`, Versionen mit dem Veröffentlichungs-Skript (APD-5 Version B) |
+| 3.1.0 | 14.10.2026 | Prüfen mit `node tests/alle.mjs` (APD-5 Version A: parallel, Chromium und WebKit) |
+| 3.0.0 | 14.10.2026 | Neu gefasst (APD-2 Schritt 4): zuerst UEBERGABE.md, Regeln nur als Verweis auf AppDesign (ohne ‚etwa 5 Punkte‘, Antwortzeile und ‚Gesamt‘ in der Zeitzeile), Einbindung mit `?v=`, Prüfung mit `sh tests/alle.sh` |
 | 2.1.0 | 10.10.2026 | Pflicht: Zeitmessung je Aktion |
 | 2.0.0 | 09.10.2026 | Allgemeine Regeln und Bausteine im Design-Repo AppDesign |
-| 1.7.0 | 09.10.2026 | Verpflichtend: erst Prüfpunkte, dann Neues; Auswahlfenster immer wieder |
+| 1.7.0 | 09.10.2026 | Verpflichtend: erst Usertests, dann Neues; Auswahlfenster immer wieder |
 | 1.6.0 | 09.10.2026 | Pflicht: Antwortvorschläge im Auswahlfenster und als Antwortzeile |
 | 1.5.1 | 09.10.2026 | Darstellung `settings.appearance`, HIG-Prüfskript |
 | 1.5.0 | 09.10.2026 | Pflicht: Apple-Abgleich vor Mustern, Apple-Review nach Versionen |

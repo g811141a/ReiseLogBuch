@@ -7,8 +7,8 @@
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
 // Bewusste Abweichungen (Abschnitt 16) werden nicht gezählt. Ergebnis: Abweichungsliste, Exit-Code 1 bei Funden.
 import * as pw from 'playwright';
-import { pruefung, rolle } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
+import { pruefung, rolle } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
 const long = 'a'.repeat(100); // R-6.3: zu lange Wörter müssen im Wort umbrechen
@@ -30,7 +30,7 @@ const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .l
 const { measure, note } = hig;
 
 const browser = await pruefung('hig', pw).browser();
-// Seit 3.33.0 (AppDesign A-43 P1): PRUEF_BEDIENUNG=beide – alle Ansichten mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (4,5 : 1 ohne Ausnahmen)
+// Seit 3.33.0 (AppDesign APD-43 P1): PRUEF_BEDIENUNG=beide – alle Ansichten mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (4,5 : 1 ohne Ausnahmen)
 const hilfen = process.env.PRUEF_BEDIENUNG === 'beide' ? { contrast: 'more', reducedMotion: 'reduce' } : {}, hilfenTag = hilfen.contrast ? ' Bedienungshilfen' : '';
 const darstellungen = process.env.PRUEF_DARSTELLUNG ? [process.env.PRUEF_DARSTELLUNG] : ['light', 'dark'];
 for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 1180]]) {
@@ -50,7 +50,7 @@ for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 118
   await M('Start');
   if (w > h) await hig.shape(p, '#side', 'Seitenleiste / Startliste', 'iPad', ['#sideHide']);
   await p.click('#sideMore'); await p.waitForTimeout(150); await stays('#sideMore', 'Menü Seitenleiste'); await M('Menü Seitenleiste'); await away();
-  // Abfrage beim Laden eines Backups (T-03): Abgleichen · Ersetzen · Abbrechen
+  // Abfrage beim Laden eines Backups (RLB-3): Abgleichen · Ersetzen · Abbrechen
   await p.click('#sideMore'); await p.waitForTimeout(150);
   const [chooser] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
   await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: {}, trips, savedAt: Date.now(), savedOn: 'iPhone' })) });
@@ -148,7 +148,7 @@ for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]
   await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);
   await M('Sprechblase Löschen'); await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
   await p.click('#back'); await p.waitForTimeout(250); await M('Startliste');
-  // Abfrage beim Laden eines Backups (T-03), auch iPhone quer: muss ganz auf den Bildschirm passen (R-4.5)
+  // Abfrage beim Laden eines Backups (RLB-3), auch iPhone quer: muss ganz auf den Bildschirm passen (R-4.5)
   await p.evaluate(() => db.trips.forEach(t => { t.changedAt = Date.now(); t.changedOn = 'iPhone'; }));   // mit Vergleich ‚neuer/älter‘ wie im Alltag
   await p.click('#sideMore'); await p.waitForTimeout(150);
   const [chooser] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);

@@ -1,4 +1,4 @@
-// Reiselogbuch-Test: ablauf-backup-kachel – T-105 (seit 3.32.0, AppDesign A-74, R-9.1; Fall-Liste AppDesign arbeit/A-74 Fall-Liste.md
+// Reiselogbuch-Test: ablauf-backup-kachel – RLB-105 (seit 3.32.0, AppDesign APD-74, R-9.1; Testfall-Liste AppDesign arbeit/APD-74 Testfall-Liste.md
 // B1–B28): die Backup-Kachel steht nur, solange heute auf diesem Gerät noch kein Backup erstellt wurde und es Einträge gibt; nach dem
 // Backup verschwindet sie (Fokus auf ‚Mehr‘), um 0:00 und bei der Rückkehr am nächsten Tag kommt sie wieder; Backup laden/Abgleich
 // zählt nicht; leere Liste ohne Kachel, die Offline-Zeile steht auch ohne Kachel unten, der letzte Eintrag endet darüber; Suche,
@@ -6,9 +6,9 @@
 // Grundregeln nach jedem Schritt. Uhr gestellt (Playwright clock), Tageswechsel ohne Neuladen.
 // Aufruf im Repo-Ordner: node tests/ablauf-backup-kachel.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
-import { checkContextMenus } from '../../AppDesign/fassung/4.35.0/tests/kontextmenue.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
+import { checkContextMenus } from '../../AppDesign/fassung/4.36.0/tests/kontextmenue.mjs';
 const t = pruefung('ablauf-backup-kachel', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const trips = Array.from({ length: 14 }, (_, i) => ({ id: 't' + i, title: 'Reise ' + (i + 1), participants: 'A', start: `${2026 - i}-06-01`, end: `${2026 - i}-06-10`, transport: ['pkw'], days: {} }));

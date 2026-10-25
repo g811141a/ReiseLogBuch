@@ -1,13 +1,13 @@
-// Reiselogbuch-Test: ablauf-kapsel-pfeile – T-106 (seit 3.31.0, AppDesign A-75, R-5.4; Fall-Liste AppDesign arbeit/A-75 Fall-Liste.md
+// Reiselogbuch-Test: ablauf-kapsel-pfeile – RLB-106 (seit 3.31.0, AppDesign APD-75, R-5.4; Testfall-Liste AppDesign arbeit/APD-75 Testfall-Liste.md
 // K1–K16): Auswahl-Kapsel mit Verlauf (48 px, die äußeren 28 px frei) und kleinen Pfeilen am Rand, die am jeweiligen Ende verschwinden –
 // Reisemittel (Reise bearbeiten), Wetter und Smileys (Erfassen); iPhone hoch und quer, dunkel (K13), ‚Bewegung reduzieren‘ (K12), iPad
 // (K5 alles passt, K7 schmaler); Drehen mit offenem Blatt (K6), Smiley entfernen und zurücksetzen (K11), rotate-ccw neben der Kapsel
 // (K8); Grundregeln nach jedem Schritt (K16, mit hig.mjs: Pfeil genau dann, wenn es weitergeht, aria-hidden – K15).
 // Aufruf im Repo-Ordner: node tests/ablauf-kapsel-pfeile.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
-import { checkKapsel } from '../../AppDesign/fassung/4.35.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
+import { checkKapsel } from '../../AppDesign/fassung/4.36.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-kapsel-pfeile', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 const days = {}; for (let i = 0; i < 10; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1}`, place: 'Hafen' };

@@ -13,12 +13,52 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.34.0 – 25.10.2026
+
+Reiselogbuch 3.34.0 · AppDesign 4.36.0 (Designrichtlinie allgemein 4.36.0) · Designrichtlinie Reiselogbuch 3.34.0 · Zusammenarbeit allgemein 2.20.0
+
+**Nummernschema** (AppDesign APD-78 mit APD-79, dein Ja vom 25.10.2026; Testfall-Liste AppDesign `arbeit/APD-78 Testfall-Liste.md`).
+In der App ändert sich nur die Versionszeile.
+
+- **Themen heißen RLB-n** (z. B. RLB-101), die AppDesign-Themen APD-n; die Erledigt-Tabelle hat keine eigene
+  Nummer mehr (Spalte ‚Nr.‘ = Thema, Usertest oder Version); frühe Punkte der Versionen 2.1.x stehen als ‚RLB 2.1.3/F-8‘.
+- **Begriffe:** Usertest P-n, Testfälle P-n (die Liste hier im CHANGELOG), Testfall-Liste – in Backlog,
+  CHANGELOG, PROMPT.md, CLAUDE.md, Richtlinie und in den Kommentaren und Meldungen der Prüfungen; lokale Nummern mit Elternnummer
+  (z. B. `start-regeln.mjs` RLB-84/F-1, `ablauf-tastatur-still.mjs` APD-36/T-8).
+- **Fassung 4.36.0:** die Prüfungen kommen aus der neuen Fassung; die Doku-Prüfung prüft jetzt auch das Nummernschema
+  (`checkSchema`, Gegenprobe `node tests/alle.mjs --gegenprobe schema`).
+
+Testfälle P-74 (Schritt für Schritt, Zusammenarbeit allgemein 2.20.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**. Der Rest ist auf GitHub nachzusehen.
+
+**P-74/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.34.0 · erstellt am … · AppDesign 4.36.0‘.
+
+**P-74/1 – Backlog AppDesign mit den neuen Nummern**
+1. https://github.com/g811141a/AppDesign/blob/main/BACKLOG.md öffnen (iPad oder iPhone, Safari).
+2. Die Tabellen ‚1. Auf iPad und iPhone prüfen‘, ‚2. Weitere Themen‘ und ‚Erledigt‘ ansehen.
+3. Erwartet: alle Themen heißen APD-n (z. B. APD-43, APD-80), unter ‚1.‘ steht der Usertest P-74, die Erledigt-Zeilen beginnen mit
+   dem Thema, dem Usertest oder der Version (z. B. ‚APD-78, APD-79‘, ‚P-73‘, ‚APD 4.0.0‘) – keine E-Nummer mehr.
+
+**P-74/2 – Tabelle ‚Nummern und Präfixe‘**
+1. https://github.com/g811141a/AppDesign/blob/main/README%20-%20Zusammenarbeit%20allgemein.md öffnen.
+2. Zu 2.4 ‚Backlog‘ rollen, darunter ‚Nummern und Präfixe‘ lesen.
+3. Erwartet: jede Zeile der Tabelle (APD-, RLB-, RLI-, P-, R-, G-, I-, K-) und jeder Punkt darunter ist verständlich; wo nicht,
+   kurz die Zeile nennen.
+
+**P-74/3 – Uhrzeitzeile in der ersten Zeile**
+1. In der nächsten Sitzung (oder in diesem Chat) eine Antwort von Claude ansehen.
+2. Erwartet: die erste Zeile ist klein ‚Aktuelle Uhrzeit: hh:mm     (Zeitabstand zu vorher: hh:mm)‘ in deutscher Zeit, bei der
+   ersten Antwort einer Sitzung ‚(Zeitabstand zu vorher: –)‘.
+
 ## 3.33.0 – 25.10.2026
 
 Reiselogbuch 3.33.0 · AppDesign 4.35.0 (Designrichtlinie allgemein 4.35.0) · Designrichtlinie Reiselogbuch 3.33.0 · Zusammenarbeit allgemein 2.19.0
 
-**Barrierefreiheit Teil 1 mit Fokus-Rahmen** (T-100, AppDesign A-43 Teil 1, dein Ja vom 24.10.2026; Fall-Liste AppDesign
-`arbeit/A-43 Teil 1 Fall-Liste.md`).
+**Barrierefreiheit Teil 1 mit Fokus-Rahmen** (RLB-100, AppDesign APD-43 Teil 1, dein Ja vom 24.10.2026; Testfall-Liste AppDesign
+`arbeit/APD-43 Teil 1 Testfall-Liste.md`).
 
 - **Kein blauer Rahmen mehr in Textfeldern:** Safari zeichnete um jedes angetippte Textfeld eine blaue Umrandung – jetzt zeigt nur
   der Cursor, wo du tippst (wie in Kontakte und Kalender). Einen Ring gibt es nur noch, wenn du mit einer Hardware-Tastatur
@@ -43,7 +83,7 @@ Reiselogbuch 3.33.0 · AppDesign 4.35.0 (Designrichtlinie allgemein 4.35.0) · D
   (21 eingeschleuste Fehler, jeder mit genau seiner Meldung rot). `hig` zusätzlich in den Teilen ‚hell/dunkel Bedienungshilfen‘,
   Navigation, Fenster, iPhone, Suche in der Liste und Seitenleiste zusätzlich mit beiden Bedienungshilfen (Bewegungswächter).
 
-Prüfliste P-73 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+Testfälle P-73 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**. VoiceOver wird nur automatisch geprüft (deine Vorgabe vom 23.10.2026).
 
 **P-73/0 – Version prüfen**
@@ -108,8 +148,8 @@ Prüfliste P-73 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: h
 
 Reiselogbuch 3.32.0 · AppDesign 4.34.0 (Designrichtlinie allgemein 4.34.0) · Designrichtlinie Reiselogbuch 3.32.0 · Zusammenarbeit allgemein 2.19.0
 
-**Backup-Kachel nur, solange heute noch kein Backup erstellt wurde** (T-105, AppDesign A-74, dein Ja vom 24.10.2026; Variante A,
-Fall-Liste AppDesign `arbeit/A-74 Fall-Liste.md` B1–B28).
+**Backup-Kachel nur, solange heute noch kein Backup erstellt wurde** (RLB-105, AppDesign APD-74, dein Ja vom 24.10.2026; Variante A,
+Testfall-Liste AppDesign `arbeit/APD-74 Testfall-Liste.md` B1–B28).
 
 - **Kachel nur, wenn fällig:** die gelbe Kachel ‚Backup erstellen‘ unten in der Seitenleiste (iPad) bzw. Startliste (iPhone) steht
   nur noch, solange du heute auf diesem Gerät noch kein Backup erstellt hast. Nach dem Backup verschwindet sie (statt weiß zu
@@ -128,7 +168,7 @@ Fall-Liste AppDesign `arbeit/A-74 Fall-Liste.md` B1–B28).
   den Mitternachts-Haken rot (B6, B7), jetzt grün in Chromium und WebKit. `ablauf-gesamt` und `ablauf-abgleich-ui` an die neue Regel
   angepasst.
 
-Prüfliste P-72 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+Testfälle P-72 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**. Steht die gelbe Kachel bei einem Schritt gar nicht da, hast du heute auf diesem Gerät schon ein Backup
 erstellt – dann den Schritt morgen prüfen.
 
@@ -175,7 +215,7 @@ erstellt – dann den Schritt morgen prüfen.
 
 Reiselogbuch 3.31.0 · AppDesign 4.33.0 (Designrichtlinie allgemein 4.33.0) · Designrichtlinie Reiselogbuch 3.31.0 · Zusammenarbeit allgemein 2.19.0
 
-**Pfeile an der Auswahl-Kapsel, Smiley-Leiste ziehen ohne Abfrage** (T-106, AppDesign A-75 und A-76, dein Ja vom 24.10.2026).
+**Pfeile an der Auswahl-Kapsel, Smiley-Leiste ziehen ohne Abfrage** (RLB-106, AppDesign APD-75 und APD-76, dein Ja vom 24.10.2026).
 
 - **Pfeile am Rand:** reicht der Platz in einer Auswahl-Kapsel nicht (Reisemittel, Wetter, Smileys), steht am Rand, wo es
   weitergeht, im weichen Verlauf ein kleiner grauer Pfeil ‹ bzw. ›. Am Anfang nur ›, in der Mitte beide, am Ende nur ‹ – am
@@ -190,7 +230,7 @@ Reiselogbuch 3.31.0 · AppDesign 4.33.0 (Designrichtlinie allgemein 4.33.0) · D
   und am Ende, Antippen unter dem Pfeil, Drehen mit offenem Blatt, Smiley entfernen und zurücksetzen, dunkel, ‚Bewegung reduzieren‘,
   iPad schmaler.
 
-Prüfliste P-71 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+Testfälle P-71 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**.
 
 **P-71/0 – Version prüfen**
@@ -234,7 +274,7 @@ Prüfliste P-71 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: h
 
 Reiselogbuch 3.30.2 · AppDesign 4.32.2 (Designrichtlinie allgemein 4.32.2) · Designrichtlinie Reiselogbuch 3.30.2 · Zusammenarbeit allgemein 2.19.0
 
-**Korrektur – Tastatur beim Zug erst nach oben, Fokusring quer** (T-104, AppDesign A-73, P-69/3, dein Ja vom 24.10.2026).
+**Korrektur – Tastatur beim Zug erst nach oben, Fokusring quer** (RLB-104, AppDesign APD-73, P-69/3, dein Ja vom 24.10.2026).
 
 - **Tastatur geht zu:** ziehst du auf dem iPhone in einem Blatt bei offener Tastatur neben dem Feld nach unten, geht die Tastatur
   jetzt auch zu, wenn der Finger zuerst ein Stück nach oben geht (so war es am Rand gemessen); der Inhalt rollt dabei weiter, das
@@ -249,7 +289,7 @@ Reiselogbuch 3.30.2 · AppDesign 4.32.2 (Designrichtlinie allgemein 4.32.2) · D
   `oeffnen-position.mjs` D2 wartet nach dem Ausblenden der Seitenleiste, bis sie ausgeglitten ist – im vollen Lauf stellte das
   Ende der Bewegung sonst den vorigen Rollstand wieder her (60 px vor dem Ende statt ganz unten; einzeln grün).
 
-Prüfliste P-70 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+Testfälle P-70 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**.
 
 **P-70/0 – Version prüfen**
@@ -282,7 +322,7 @@ Prüfliste P-70 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: h
 
 Reiselogbuch 3.30.1 · AppDesign 4.32.1 (Designrichtlinie allgemein 4.32.1) · Designrichtlinie Reiselogbuch 3.30.1 · Zusammenarbeit allgemein 2.19.0
 
-**Korrektur – Ziehen auf einem Feld bei offener Tastatur** (T-102, AppDesign A-71, P-68/2.3, dein Ja vom 24.10.2026).
+**Korrektur – Ziehen auf einem Feld bei offener Tastatur** (RLB-102, AppDesign APD-71, P-68/2.3, dein Ja vom 24.10.2026).
 
 - **Ein Zug genügt:** tippst du auf dem iPhone in einem Blatt (die Tastatur ist offen) und ziehst auf dem Feld nach unten, geht die
   Tastatur zu und das Blatt folgt im selben Zug – ohne Änderungen schließt es, mit Änderungen federt es zurück und fragt
@@ -292,7 +332,7 @@ Reiselogbuch 3.30.1 · AppDesign 4.32.1 (Designrichtlinie allgemein 4.32.1) · D
   Zug – gegen 3.30.0 rot (16 Meldungen, wie am Gerät), jetzt grün. Warum die Prüfung es übersah: sie setzte nur den Fokus, ohne
   Tastatur rollte nichts.
 
-Prüfliste P-69 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+Testfälle P-69 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**.
 
 **P-69/0 – Version prüfen**
@@ -323,13 +363,13 @@ Prüfliste P-69 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: h
 
 Reiselogbuch 3.30.0 · AppDesign 4.32.0 (Designrichtlinie allgemein 4.32.0) · Designrichtlinie Reiselogbuch 3.30.0 · Zusammenarbeit allgemein 2.19.0
 
-**Sammelversion – Startposition und Blatt auf dem iPhone** (T-98 und T-99, AppDesign A-69 und A-61 Teil 2, dein Ja vom 23.10.2026).
+**Sammelversion – Startposition und Blatt auf dem iPhone** (RLB-98 und RLB-99, AppDesign APD-69 und APD-61 Teil 2, dein Ja vom 23.10.2026).
 
-- **Startposition beim Öffnen (T-98):** wie bisher steht die erste Lücke gelb oben. Neu: läuft die Reise und ist bis heute alles
+- **Startposition beim Öffnen (RLB-98):** wie bisher steht die erste Lücke gelb oben. Neu: läuft die Reise und ist bis heute alles
   erfasst (danach Lücken oder auch alles erfasst), steht der **heutige Tag** oben, **ohne Gelb** – er trägt ‚heute‘. Eine Reise in der
   **Zukunft** öffnet **ganz oben**, nichts ist gelb. Gelb gibt es nur bis heute, künftige Tage sind nie gelb. Vergangene Reisen wie
   bisher.
-- **Blatt auf dem iPhone (T-99):** Tag erfassen, Einstellungen, Neues Reiselogbuch, Fazit und Vorschau kommen auf dem iPhone als
+- **Blatt auf dem iPhone (RLB-99):** Tag erfassen, Einstellungen, Neues Reiselogbuch, Fazit und Vorschau kommen auf dem iPhone als
   Blatt von unten, das Reiselogbuch dahinter weicht etwas zurück (quer volle Höhe). **Nach unten ziehen schließt** – am Kopf oder im
   Inhalt, wenn er ganz oben steht; schnell wischen genügt. Hast du etwas geändert, federt das Blatt zurück und fragt wie das x
   ‚Änderungen verwerfen‘ / ‚Weiter bearbeiten‘ – auch beim Erfassen. Bei offener Tastatur schließt der Zug zuerst die Tastatur.
@@ -339,7 +379,7 @@ Reiselogbuch 3.30.0 · AppDesign 4.32.0 (Designrichtlinie allgemein 4.32.0) · D
   reduzieren‘, iPad). `ablauf-iphone.mjs` erwartet das Blatt statt des bildschirmfüllenden Fensters; `ablauf-abgleich-ui.mjs` wartet, bis das Blatt ruht, bevor es
   darin tippt; `kapsel-iphone.mjs` wartet nach ‚Nach oben / Ans Ende‘, bis das Rollen ruht (Chrome 153 der Prüfumgebung rollt langsamer – auch 3.29.0 war damit rot).
 
-Prüfliste P-68 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+Testfälle P-68 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**.
 
 **P-68/0 – Version prüfen**
@@ -402,20 +442,20 @@ Prüfliste P-68 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: h
 
 Reiselogbuch 3.29.0 · AppDesign 4.31.0 (Designrichtlinie allgemein 4.31.0) · Designrichtlinie Reiselogbuch 3.29.0 · Zusammenarbeit allgemein 2.19.0
 
-**Sammelversion – Seitenleiste quer wischen, Leerzeichen und Großschreibung** (AppDesign A-68, A-64, A-65, dein Ja vom 23.10.2026).
+**Sammelversion – Seitenleiste quer wischen, Leerzeichen und Großschreibung** (AppDesign APD-68, APD-64, APD-65, dein Ja vom 23.10.2026).
 
-- **Seitenleiste am iPad quer (A-68, Variante B):** hast du die Seitenleiste mit panel-left ausgeblendet, holt Wischen nach rechts
+- **Seitenleiste am iPad quer (APD-68, Variante B):** hast du die Seitenleiste mit panel-left ausgeblendet, holt Wischen nach rechts
   irgendwo im Reiselogbuch sie wieder herein – der Inhalt rückt dabei mit dem Finger nach rechts. Ab der halben Breite oder bei
   schnellem Wischen rastet sie links ein und der Inhalt wird schmaler, derselbe Tag bleibt oben; sonst federt sie zurück.
   panel-left lässt sie quer jetzt gleiten statt springen. Ausblenden quer weiter nur mit panel-left.
-- **Großschreibung zurücknehmen (A-65):** schreibt das Reiselogbuch einen Buchstaben groß und du änderst ihn von Hand in einen
+- **Großschreibung zurücknehmen (APD-65):** schreibt das Reiselogbuch einen Buchstaben groß und du änderst ihn von Hand in einen
   kleinen (markieren und überschreiben oder löschen und neu tippen), bleibt er klein.
-- **Keine doppelten Leerzeichen (A-64):** in allen Textfeldern und im Suchfeld wird ein zweites Leerzeichen nicht eingefügt; beim
+- **Keine doppelten Leerzeichen (APD-64):** in allen Textfeldern und im Suchfeld wird ein zweites Leerzeichen nicht eingefügt; beim
   Einfügen werden mehrere Leerzeichen zu einem.
 - **Prüfungen:** `ablauf-navigation.mjs` prüft jetzt auch iPad quer (hell, dunkel, ‚Bewegung reduzieren‘) mit Maus und Berührung
   wie Safari; `regeln-ablauf.mjs` mit `checkSpaces` und der Korrektur von Hand in `checkCapital` – gegen 3.28.2 rot, jetzt grün.
 
-Prüfliste P-67 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+Testfälle P-67 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**.
 
 **P-67/0 – Version prüfen**
@@ -469,7 +509,7 @@ Prüfliste P-67 (Schritt für Schritt, Zusammenarbeit allgemein 2.19.0). Link: h
 
 Reiselogbuch 3.28.2 · AppDesign 4.30.2 (Designrichtlinie allgemein 4.30.2) · Designrichtlinie Reiselogbuch 3.28.2 · Zusammenarbeit allgemein 2.18.0
 
-**Korrektur – Zurückwischen federt zurück (P-64/5, P-65)** (AppDesign A-67, dein Ja vom 23.10.2026). Deine Messung hat es gezeigt:
+**Korrektur – Zurückwischen federt zurück (P-64/5, P-65)** (AppDesign APD-67, dein Ja vom 23.10.2026). Deine Messung hat es gezeigt:
 weicht der Finger beim Zurückwischen etwa 10 px nach oben oder unten ab, fängt Safari an zu rollen und bricht das Wischen ab – über
 den Tageskästen und daneben.
 
@@ -480,7 +520,7 @@ den Tageskästen und daneben.
   Tageskasten und daneben) – gegen 3.28.1 rot, jetzt grün.
 - **Messmodus:** zeigt zusätzlich, ob Safari noch rollen darf (‚touchmove‘).
 
-Prüfliste P-66 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+Testfälle P-66 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**.
 
 **P-66/0 – Version prüfen**
@@ -520,17 +560,17 @@ Prüfliste P-66 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: h
 
 Reiselogbuch 3.28.1 · AppDesign 4.30.1 (Designrichtlinie allgemein 4.30.1) · Designrichtlinie Reiselogbuch 3.28.1 · Zusammenarbeit allgemein 2.18.0
 
-**Korrektur – Messung zu P-64/5** (AppDesign A-67 Schritt 1 und A-66, dein Ja vom 22.10.2026): Über einem Tageskasten federt das
+**Korrektur – Messung zu P-64/5** (AppDesign APD-67 Schritt 1 und APD-66, dein Ja vom 22.10.2026): Über einem Tageskasten federt das
 Zurückwischen am iPhone zurück, in der Prüfung nicht. Diese Version **misst** den Fehler, sie behebt ihn noch nicht – erst mit deiner
 Messung wird der Ablauf als feste Prüfung nachgebaut und behoben (3.28.2).
 
 - **Messmodus:** die Messung zeichnet jetzt auch jede Berührung auf (Finger auf, bewegt, hoch, von Safari abgebrochen – mit Lage und
   dem berührten Element, ohne Texte) und was die Wischgeste daraus macht (aktiv, fertig, zurückgefedert, abgebrochen, mit Weg und
   Tempo). Sonst bleibt alles wie in 3.28.0.
-- **Prüfungen:** `ablauf-navigation.mjs` prüft über Fassung 4.30.1 die neuen Zeilen der Messung (F-22) und wartet bei ‚Bewegung
-  reduzieren‘ das Ende der Bewegung ab (AppDesign A-66).
+- **Prüfungen:** `ablauf-navigation.mjs` prüft über Fassung 4.30.1 die neuen Zeilen der Messung (APD-67/F-22) und wartet bei ‚Bewegung
+  reduzieren‘ das Ende der Bewegung ab (AppDesign APD-66).
 
-Prüfliste P-65 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+Testfälle P-65 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm** auf dem **iPhone** (wie bei P-64/5).
 
 **P-65/0 – Version prüfen**
@@ -561,7 +601,7 @@ Prüfliste P-65 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: h
 
 Reiselogbuch 3.28.0 · AppDesign 4.30.0 (Designrichtlinie allgemein 4.30.0) · Designrichtlinie Reiselogbuch 3.28.0 · Zusammenarbeit allgemein 2.18.0
 
-**AppDesign A-37 B+C und A-61 Teil 1 ‚Überall‘** (dein Ja vom 22.10.2026): die Kapsel zeigt nur noch, was etwas bewirkt, dazu ein
+**AppDesign APD-37 B+C und APD-61 Teil 1 ‚Überall‘** (dein Ja vom 22.10.2026): die Kapsel zeigt nur noch, was etwas bewirkt, dazu ein
 Schnellroll-Griff wie in Apple Fotos; Seiten schieben sich wie in iOS 26, zurück geht es auch durch Wischen von überall.
 
 - **Nach oben / Ans Ende:** ganz oben steht nur ‚Ans Ende‘, ganz unten nur ‚Nach oben‘, dazwischen beide; kurz vor einem Ende fehlt
@@ -574,13 +614,13 @@ Schnellroll-Griff wie in Apple Fotos; Seiten schieben sich wie in iOS 26, zurüc
   gewischt, federt sie zurück. Senkrechtes Wischen rollt wie bisher, die Zeile ‚Reisemittel‘ lässt sich weiter seitlich wischen.
 - **iPad hoch – Seitenleiste:** Wischen nach rechts von überall im Reiselogbuch holt die Seitenleiste herein, nach links wischen
   schiebt sie weg; panel-left und Antippen der Abdunkelung lassen sie gleiten. iPad quer bleibt wie bisher.
-- **Prüfungen:** neu `ablauf-navigation.mjs` (alle Fälle von A-61 in iPhone hoch und quer, iPad hoch und quer, hell und dunkel,
+- **Prüfungen:** neu `ablauf-navigation.mjs` (alle Fälle von APD-61 in iPhone hoch und quer, iPad hoch und quer, hell und dunkel,
   ‚Bewegung reduzieren‘); `kapsel-iphone.mjs` mit den Pfeilen je Rollstand, dem Griff, den Marken und einem Reiselogbuch mit 365
   Tagen; Prüfungen, die nach ‚Zurück‘ bzw. dem Öffnen sofort messen, warten jetzt das Ende des Seitenwechsels ab.
   `ablauf-abspielen.mjs` überspringt Messungen ohne Kopf- und Suchzeile (die Ränder-Messungen aus P-63/9 – ihr Nachspielen tippte
   bei offenem Menü auf eine Kachel und war seit dem Ablegen nach 3.27.0 rot).
 
-Prüfliste P-64 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/ – die Gesten
+Testfälle P-64 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/ – die Gesten
 bitte in der **App vom Home-Bildschirm** prüfen (in Safari selbst gehört das Wischen vom linken Rand Safari).
 
 **P-64/0 – Version prüfen**
@@ -663,7 +703,7 @@ bitte in der **App vom Home-Bildschirm** prüfen (in Safari selbst gehört das W
 
 Reiselogbuch 3.27.0 · AppDesign 4.29.0 (Designrichtlinie allgemein 4.29.0) · Designrichtlinie Reiselogbuch 3.27.0 · Zusammenarbeit allgemein 2.18.0
 
-**AppDesign A-63 Paket C** (dein Ja vom 22.10.2026): vier kleine Verbesserungen nach dem Vorbild von Apple, alle als allgemeine
+**AppDesign APD-63 Paket C** (dein Ja vom 22.10.2026): vier kleine Verbesserungen nach dem Vorbild von Apple, alle als allgemeine
 Regeln in AppDesign 4.29.0.
 
 - **Suche ohne Akzente:** ‚Zurich‘ findet ‚Zürich‘, ‚Sao Paulo‘ findet ‚São Paulo‘, ‚cafe creme‘ findet ‚Café Crème‘ – im Reiselogbuch
@@ -681,7 +721,7 @@ Regeln in AppDesign 4.29.0.
 - **Prüfungen:** `regeln-ablauf.mjs` mit dem ⓧ (Titel, Teilnehmer, Ort, Quartier, Gesamtausgaben), `ablauf-suche-woerter.mjs` mit
   ‚Zürich‘ und ‚Café Crème‘, `hig.mjs` mit den sicheren Rändern und den Schaltern in jeder Ansicht.
 
-Prüfliste P-63 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/
+Testfälle P-63 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: https://g811141a.github.io/ReiseLogBuch/
 
 **P-63/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
@@ -750,7 +790,7 @@ Prüfliste P-63 (Schritt für Schritt, Zusammenarbeit allgemein 2.18.0). Link: h
 
 Reiselogbuch 3.26.2 · AppDesign 4.28.2 (Designrichtlinie allgemein 4.28.2) · Designrichtlinie Reiselogbuch 3.26.2 · Zusammenarbeit allgemein 2.17.0
 
-**AppDesign A-39 Konsolidierung:** nur Texte – die App funktioniert genau wie 3.26.1; sie lädt die neue Fassung AppDesign 4.28.2
+**AppDesign APD-39 Konsolidierung:** nur Texte – die App funktioniert genau wie 3.26.1; sie lädt die neue Fassung AppDesign 4.28.2
 (darin nur die neu geordneten Regeln, die Bausteine sind dieselben).
 
 - **Designrichtlinie Reiselogbuch 3.26.2:** enthält nur noch die drei Abweichungen (Maps-Links der Lokale 19 px, Wetter am iPhone
@@ -761,7 +801,7 @@ Reiselogbuch 3.26.2 · AppDesign 4.28.2 (Designrichtlinie allgemein 4.28.2) · D
   ‚erfasst‘ ohne Essen, Treffer unter der Suchzeile, Maps-Link endet an ‚ – ‘, Komma, Doppelpunkt, Klammer).
 - `CLAUDE.md` 3.6.0 und `tests/README.md` (jede Prüfung mit ihrer Regel, sieben fehlende Prüfungen ergänzt).
 
-Prüfliste P-62 (Schritt für Schritt, Zusammenarbeit allgemein 2.17.0). Link: https://g811141a.github.io/ReiseLogBuch/
+Testfälle P-62 (Schritt für Schritt, Zusammenarbeit allgemein 2.17.0). Link: https://g811141a.github.io/ReiseLogBuch/
 
 **P-62/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
@@ -778,7 +818,7 @@ Prüfliste P-62 (Schritt für Schritt, Zusammenarbeit allgemein 2.17.0). Link: h
 
 Reiselogbuch 3.26.1 · AppDesign 4.28.1 (Designrichtlinie allgemein 4.28.1) · Designrichtlinie Reiselogbuch 3.26.1 · Zusammenarbeit allgemein 2.16.0
 
-Korrektur aus P-60 (AppDesign A-36): Beim Antippen eines Felds sprangen Kopfzeile, Suchzeile, Seitenleiste und Fenster um die ganze
+Korrektur aus P-60 (AppDesign APD-36): Beim Antippen eines Felds sprangen Kopfzeile, Suchzeile, Seitenleiste und Fenster um die ganze
 Tastaturhöhe. Jetzt rollt das Feld beim Antippen in die obere Hälfte, und Safari verschiebt nichts mehr – wie Muster 9 am Gerät. In
 der Nachbildung behoben, **am Gerät zu bestätigen** (P-61, mit Messmodus).
 
@@ -792,12 +832,12 @@ der Nachbildung behoben, **am Gerät zu bestätigen** (P-61, mit Messmodus).
   hoch, wie in den Apps von Apple – so bleibt über der Tastatur mehr Platz.
 - **Prüfungen:** `ablauf-tastatur-still.mjs` prüft jedes Bild in allen vier Lagen (iPhone hoch und quer, iPad quer und hoch):
   Fenster ‚Ort‘ und Wechsel, Gesamtausgaben, Tastatur-Taste am iPad, ‚Nach oben‘ bei offener Tastatur, Wischen über das Feld,
-  ein Reiselogbuch mit nur einem Tag – gegen 3.26.0 rot (177 Fehler), jetzt grün; die drei Messungen laufen weiter mit (T-8).
+  ein Reiselogbuch mit nur einem Tag – gegen 3.26.0 rot (177 Fehler), jetzt grün; die drei Messungen laufen weiter mit (APD-36/T-8).
 - **Warum die Prüfung es übersehen hatte:** sie prüfte nur den Zustand am Ende, nicht jedes Bild, und die Nachbildung von Safari
   kannte das Verschieben bei Feldern in Fenstern nicht.
 - Intern: feste Fassung AppDesign 4.28.1; Designrichtlinie Reiselogbuch 3.26.1.
 
-Prüfliste P-61 (Schritt für Schritt, Zusammenarbeit allgemein 2.16.0). Link: https://g811141a.github.io/ReiseLogBuch/
+Testfälle P-61 (Schritt für Schritt, Zusammenarbeit allgemein 2.16.0). Link: https://g811141a.github.io/ReiseLogBuch/
 
 **P-61/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
@@ -834,9 +874,9 @@ Prüfliste P-61 (Schritt für Schritt, Zusammenarbeit allgemein 2.16.0). Link: h
 
 Reiselogbuch 3.26.0 · AppDesign 4.28.0 (Designrichtlinie allgemein 4.28.0) · Designrichtlinie Reiselogbuch 3.26.0 · Zusammenarbeit allgemein 2.14.1
 
-Fehler aus deiner Messung iPhone quer vom 19.10.2026 (T-97, AppDesign A-35): Beim Antippen von Gesamtausgaben verdeckte die
+Fehler aus deiner Messung iPhone quer vom 19.10.2026 (RLB-97, AppDesign APD-35): Beim Antippen von Gesamtausgaben verdeckte die
 Tastatur das Feld. Jetzt rollt der Inhalt, bis das Feld ganz sichtbar über der Tastatur steht. Dazu spielt eine neue Prüfung deine
-Messung nach (AppDesign A-31). In der Nachbildung behoben, **am Gerät zu bestätigen** (P-60).
+Messung nach (AppDesign APD-31). In der Nachbildung behoben, **am Gerät zu bestätigen** (P-60).
 
 - **Gesamtausgaben über der Tastatur:** Tippst du in das Feld Gesamtausgaben (ganz unten im Reiselogbuch), rollt der Inhalt, bis
   es 16 px über der Tastatur steht – am iPhone hoch und quer und am iPad (allgemeine Regel R-4.5). Ist die Suchzeile offen und das
@@ -847,10 +887,10 @@ Messung nach (AppDesign A-31). In der Nachbildung behoben, **am Gerät zu bestä
   wird rot (Gegenprobe).
 - **Warum die Prüfung es übersehen hat:** sie tippte Gesamtausgaben an, maß aber nicht, ob das Feld über der Tastatur zu sehen ist;
   die Nachbildung von Safari kannte das Verschieben des sichtbaren Bereichs zum Feld nicht.
-- **Datumsfelder:** bleiben wie bisher (T-95 (3) entfällt, AppDesign A-26).
+- **Datumsfelder:** bleiben wie bisher (RLB-95 (3) entfällt, AppDesign APD-26).
 - Intern: feste Fassung AppDesign 4.28.0; Designrichtlinie Reiselogbuch 3.26.0.
 
-Prüfliste P-60 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: https://g811141a.github.io/ReiseLogBuch/
+Testfälle P-60 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: https://g811141a.github.io/ReiseLogBuch/
 
 **P-60/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
@@ -895,7 +935,7 @@ schicken.
 
 Reiselogbuch 3.25.1 · AppDesign 4.27.1 (Designrichtlinie allgemein 4.27.1) · Designrichtlinie Reiselogbuch 3.25.1 · Zusammenarbeit allgemein 2.12.0
 
-Korrektur aus P-58/2 (T-96, AppDesign A-33, Weg A): Am iPhone quer mit offener Tastatur verdeckte die Kapsel ‚Nach oben / Ans Ende‘
+Korrektur aus P-58/2 (RLB-96, AppDesign APD-33, Weg A): Am iPhone quer mit offener Tastatur verdeckte die Kapsel ‚Nach oben / Ans Ende‘
 ⌄ der Suche und ‚…‘ der Kopfzeile. Jetzt ist sie dort ausgeblendet und kommt nach dem Schließen der Tastatur wieder. In der
 Nachbildung behoben, **am Gerät zu bestätigen** (P-59).
 
@@ -912,7 +952,7 @@ Nachbildung behoben, **am Gerät zu bestätigen** (P-59).
   und nie, ob sie dabei eine Leiste überdeckt.
 - Intern: feste Fassung AppDesign 4.27.1; Designrichtlinie Reiselogbuch 3.25.1.
 
-Prüfliste P-59 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: https://g811141a.github.io/ReiseLogBuch/
+Testfälle P-59 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: https://g811141a.github.io/ReiseLogBuch/
 
 **P-59/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
@@ -950,7 +990,7 @@ Prüfliste P-59 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: h
 
 Reiselogbuch 3.25.0 · AppDesign 4.27.0 (Designrichtlinie allgemein 4.27.0) · Designrichtlinie Reiselogbuch 3.25.0 · Zusammenarbeit allgemein 2.12.0
 
-Umbau B (AppDesign A-28, Variante B1) und Suche nach oben (A-29): Die Seite rollt nicht mehr, nur noch der Inhalt unter Kopf- und
+Umbau B (AppDesign APD-28, Variante B1) und Suche nach oben (APD-29): Die Seite rollt nicht mehr, nur noch der Inhalt unter Kopf- und
 Suchzeile. Damit hat Safari beim Tippen nichts mehr zu verschieben – das Zittern nach ⓧ ist in der Nachbildung weg, **am Gerät zu
 bestätigen** (P-58).
 
@@ -969,7 +1009,7 @@ bestätigen** (P-58).
   Schritt.
 - Intern: feste Fassung AppDesign 4.27.0 (Ja vom 19.10.2026); Designrichtlinie Reiselogbuch 3.25.0.
 
-Prüfliste P-58 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: https://g811141a.github.io/ReiseLogBuch/
+Testfälle P-58 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: https://g811141a.github.io/ReiseLogBuch/
 
 **P-58/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen
@@ -1026,7 +1066,7 @@ Prüfliste P-58 (Schritt für Schritt, Zusammenarbeit allgemein 2.12.0). Link: h
 
 Reiselogbuch 3.24.0 · AppDesign 4.26.0 (Designrichtlinie allgemein 4.26.0) · Designrichtlinie Reiselogbuch 3.24.0 · Zusammenarbeit allgemein 2.11.0
 
-Messmodus (T-95 (1), allgemein AppDesign A-27): bevor wir die Suche am iPhone umbauen (A-28), misst die App auf deinem Gerät, was
+Messmodus (RLB-95 (1), allgemein AppDesign APD-27): bevor wir die Suche am iPhone umbauen (APD-28), misst die App auf deinem Gerät, was
 Safari beim Tippen wirklich tut – statt dass ich es wieder errate.
 
 - **Mehr-Menü der Seitenleiste bzw. Startliste:** nach ‚Backup laden‘ neu **‚Messung starten‘** (grau ‚Für Claude: Bewegungen
@@ -1044,7 +1084,7 @@ Safari beim Tippen wirklich tut – statt dass ich es wieder errate.
   mit Texten in der Datei bzw. Zeilen in Ruhe rot.
 - Intern: feste Fassung AppDesign 4.26.0 (gehoben mit deinem Ja); Designrichtlinie Reiselogbuch 3.24.0.
 
-Prüfliste P-57 (Schritt für Schritt, Zusammenarbeit allgemein 2.11.0).
+Testfälle P-57 (Schritt für Schritt, Zusammenarbeit allgemein 2.11.0).
 
 **P-57/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1082,7 +1122,7 @@ Prüfliste P-57 (Schritt für Schritt, Zusammenarbeit allgemein 2.11.0).
 
 Reiselogbuch 3.23.1 · AppDesign 4.25.1 (Designrichtlinie allgemein 4.25.1) · Designrichtlinie Reiselogbuch 3.23.1 · Zusammenarbeit allgemein 2.10.1
 
-Zwei Korrekturen aus deiner Rückmeldung vom 18.10.2026 (T-95, allgemein AppDesign A-24 und A-25).
+Zwei Korrekturen aus deiner Rückmeldung vom 18.10.2026 (RLB-95, allgemein AppDesign APD-24 und APD-25).
 
 - **Kopf- und Suchzeile stehen beim Tippen fest (iPhone):** bisher baute jeder Buchstabe die ganze Seite samt Suchfeld neu auf;
   Safari schloss dabei die Tastatur kurz und verschob den sichtbaren Bereich – die Leisten zitterten. Jetzt bleibt das Suchfeld
@@ -1099,7 +1139,7 @@ Zwei Korrekturen aus deiner Rückmeldung vom 18.10.2026 (T-95, allgemein AppDesi
 - Intern: Seitenleiste und Backup-Kachel binden ihre Schaltflächen mit `onclick` (ein beibehaltenes Element bekommt sonst die
   Aktion doppelt). Feste Fassung AppDesign 4.25.1 (gehoben mit deinem Ja); Designrichtlinie Reiselogbuch 3.23.1.
 
-Prüfliste P-56 (Schritt für Schritt, Zusammenarbeit allgemein 2.10.1).
+Testfälle P-56 (Schritt für Schritt, Zusammenarbeit allgemein 2.10.1).
 
 **P-56/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1133,7 +1173,7 @@ Prüfliste P-56 (Schritt für Schritt, Zusammenarbeit allgemein 2.10.1).
 
 Reiselogbuch 3.23.0 · AppDesign 4.25.0 (Designrichtlinie allgemein 4.25.0) · Designrichtlinie Reiselogbuch 3.23.0 · Zusammenarbeit allgemein 2.10.1
 
-Suchen mit mehreren Wörtern (T-93, allgemein AppDesign A-21) und die Lupe am Ende der Kapsel (A-22).
+Suchen mit mehreren Wörtern (RLB-93, allgemein AppDesign APD-21) und die Lupe am Ende der Kapsel (APD-22).
 
 - **Mehrere Wörter:** ‚sydney opera‘ findet ein Reiselogbuch, wenn **beide Wörter irgendwo darin** vorkommen – auch an
   verschiedenen Tagen (deine Wahl: Einheit = Reiselogbuch); Reihenfolge und Groß/klein egal. Gezeigt werden die Tage mit
@@ -1147,7 +1187,7 @@ Suchen mit mehreren Wörtern (T-93, allgemein AppDesign A-21) und die Lupe am En
   Treffer‘, Lupe am Ende; iPad quer und hoch, iPhone hoch und quer, hell und dunkel. Gegenprobe mit 3.22.0: rot.
 - Feste Fassung AppDesign 4.25.0 (gehoben mit deinem Ja); Designrichtlinie Reiselogbuch 3.23.0.
 
-Prüfliste P-55 (Schritt für Schritt, Zusammenarbeit allgemein 2.10.1).
+Testfälle P-55 (Schritt für Schritt, Zusammenarbeit allgemein 2.10.1).
 
 **P-55/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1188,19 +1228,19 @@ Reiselogbuch 3.22.0 · AppDesign 4.24.0 (Designrichtlinie allgemein 4.24.0) · D
 
 Zwei Wünsche vom 18.10.2026: der erfasste Tag fällt nach dem Fenster deutlicher auf, und im Verlauf gibt es zwei neue Vorschläge.
 
-- **Hervorhebung länger (allgemein, AppDesign 4.24.0, A-23):** nach dem Fenster ‚Tag‘ bleibt die Zeile bzw. der Kasten **2 s voll
+- **Hervorhebung länger (allgemein, AppDesign 4.24.0, APD-23):** nach dem Fenster ‚Tag‘ bleibt die Zeile bzw. der Kasten **2 s voll
   blau** und blendet in 1 s aus (vorher ~1 s); ‚Bewegung reduzieren‘: 2 s ohne Ausblenden; öffnest du gleich den nächsten Tag,
   endet sie sofort.
-- **Verlauf im Fenster ‚Tag‘ (T-94):** nach ‚Freetour …‘ neu **‚Tour …‘** (wie die anderen: ‚Tour ‘ als eigene Zeile an der
+- **Verlauf im Fenster ‚Tag‘ (RLB-94):** nach ‚Freetour …‘ neu **‚Tour …‘** (wie die anderen: ‚Tour ‘ als eigene Zeile an der
   Cursorstelle, danach groß weiter) und **‚Sonstiges …‘**: fügt **am Anfang** des Felds eine leere Zeile ein und setzt den
   Cursor dorthin – ist die erste Zeile schon leer, keine zweite. Die Vorschläge brechen wie bisher um (Variante 1).
-- **Neue feste Prüfung `tests/verlauf-vorschlaege.mjs`** (Fall-Liste V1–V13): Reihenfolge, Tour im leeren Feld und mitten im Text,
+- **Neue feste Prüfung `tests/verlauf-vorschlaege.mjs`** (Testfall-Liste V1–V13): Reihenfolge, Tour im leeren Feld und mitten im Text,
   Sonstiges leer / mit Text / erste Zeile leer / Cursor mitten im Text / zweimal, danach groß weiter, Feld wächst mit, Häkchen
   blau; iPad quer und hoch, iPhone hoch und quer, hell und dunkel. Gegenprobe mit 3.21.2: rot. `ablauf-liste-still` prüft jetzt
   auch Farbe und Dauer der Hervorhebung.
 - Feste Fassung AppDesign 4.24.0 (gehoben mit deinem Ja); Designrichtlinie Reiselogbuch 3.22.0 (Vorschläge im Verlauf).
 
-Prüfliste P-54 (Schritt für Schritt, Zusammenarbeit allgemein 2.9.0).
+Testfälle P-54 (Schritt für Schritt, Zusammenarbeit allgemein 2.9.0).
 
 **P-54/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1247,7 +1287,7 @@ Korrektur aus P-52/2–4 (allgemein in AppDesign 4.23.2, R-7.3).
   rot. R-7.3 wird nur noch hier geprüft (nicht mehr zusätzlich in `regeln-ablauf`).
 - Feste Fassung AppDesign 4.23.2 (Korrektur); Designrichtlinie Reiselogbuch 3.21.2 (nur Version).
 
-Prüfliste P-53 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
+Testfälle P-53 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
 
 **P-53/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1291,7 +1331,7 @@ Korrektur aus P-51/5 (allgemein in AppDesign 4.23.1, R-7.3).
   Bereich, und nahm nur Zeilen oben. Jetzt mit nachgebildeter Tastatur und Zeilen aus der unteren Hälfte; Gegenprobe rot.
 - Feste Fassung AppDesign 4.23.1 (Korrektur, mit Zustimmung); Designrichtlinie Reiselogbuch 3.21.1 (nur Version).
 
-Prüfliste P-52 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
+Testfälle P-52 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
 
 **P-52/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1321,8 +1361,8 @@ Prüfliste P-52 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
 
 Reiselogbuch 3.21.0 · AppDesign 4.23.0 (Designrichtlinie allgemein 4.23.0) · Designrichtlinie Reiselogbuch 3.21.0 · Zusammenarbeit allgemein 2.8.0
 
-T-92 Suche über alle Reiselogbücher (Variante C; allgemein als AppDesign A-19, R-2.3 erweitert; Fall-Liste AppDesign
-`arbeit/T-92 Fall-Liste.md`, Muster bestätigt).
+RLB-92 Suche über alle Reiselogbücher (Variante C; allgemein als AppDesign APD-19, R-2.3 erweitert; Testfall-Liste AppDesign
+`arbeit/RLB-92 Testfall-Liste.md`, Muster bestätigt).
 
 - **Lupe in der Seitenleiste bzw. Startliste:** Kapsel oben [Lupe | + | …]; die Lupe blendet unter ‚Reiselogbücher‘ die
   Suchzeile ‚In allen suchen‘ ein. Beim Tippen bleiben nur Reiselogbücher mit Treffer; jede Kachel zeigt statt ‚geändert am …‘
@@ -1334,15 +1374,15 @@ T-92 Suche über alle Reiselogbücher (Variante C; allgemein als AppDesign A-19,
   Suche im rechts offenen Reiselogbuch zu, bleibt es unberührt.
 - Eingabetaste ‚Suchen‘ schließt nur die Tastatur (R-5.5); Neuladen beginnt ohne Suche; ohne Reiselogbuch keine Lupe.
 - Neue Prüfung `tests/ablauf-suche-liste.mjs` (AppDesign `checkListSearch` in iPad quer/hoch und iPhone, hell und dunkel, dazu
-  F-3, F-9, F-10, F-11, F-15, F-16, F-19); Gegenprobe (Zählung +1, ohne 1:1) rot.
-  F-11 misst den besten von 3 Durchgängen (Grenze 50 ms): im vollen Lauf lag ein einzelner Durchgang in WebKit unter Last bei 54 ms.
+  RLB-92/F-3, F-9, F-10, F-11, F-15, F-16, F-19); Gegenprobe (Zählung +1, ohne 1:1) rot.
+  RLB-92/F-11 misst den besten von 3 Durchgängen (Grenze 50 ms): im vollen Lauf lag ein einzelner Durchgang in WebKit unter Last bei 54 ms.
 - **Korrektur R-7.3 (aus AppDesign 4.23.0):** nach dem Fenster ‚Tag‘ rollte eine ganz sichtbare Zeile direkt unter dem
   Tabellenkopf um bis zu 6 px nach; jetzt steht die Liste genau wie vorher. Die Prüfung sah es bisher nicht, weil bei 340 px
   Seitenleiste zufällig keine Zeile so lag – erst die Lupe machte die Seitenleiste breiter; die Prüfung rollt jetzt gezielt
   eine Zeile 2 px unter den Kopf.
 - Feste Fassung AppDesign 4.23.0 (gehoben mit Zustimmung, Zusammenarbeit 0 Nr. 10); Designrichtlinie Reiselogbuch 3.21.0 (nur Version).
 
-Prüfliste P-51 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
+Testfälle P-51 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
 
 **P-51/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1383,7 +1423,7 @@ Prüfliste P-51 (Schritt für Schritt, Zusammenarbeit allgemein 2.8.0).
 
 Reiselogbuch 3.20.1 · AppDesign 4.21.1 (Designrichtlinie allgemein 4.21.1) · Designrichtlinie Reiselogbuch 3.20.1 · Zusammenarbeit allgemein 2.7.0
 
-Korrektur aus P-48/3 (Fall-Liste AppDesign `arbeit/A-17 Korrektur Fall-Liste.md`).
+Korrektur aus P-48/3 (Testfall-Liste AppDesign `arbeit/APD-17 Korrektur Testfall-Liste.md`).
 
 - **Fehler behoben:** Tabelle ans Ende, dann hoch ↔ quer drehen – die Seite stand danach nicht mehr am Ende, mit und ohne
   Seitenleiste. Ursache: Beim Drehen hält die App den obersten **Tag** fest; am Ende der Seite (Fazit, Gesamtausgaben,
@@ -1394,7 +1434,7 @@ Korrektur aus P-48/3 (Fall-Liste AppDesign `arbeit/A-17 Korrektur Fall-Liste.md`
   Seitenleiste, iPad hoch, iPhone hoch; ganz am Ende und kurz davor). Gegenprobe ohne die Korrektur rot.
 - Feste Fassung AppDesign 4.21.1; Designrichtlinie Reiselogbuch 3.20.1 (nur Version).
 
-Prüfliste P-49 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+Testfälle P-49 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 **P-49/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1415,20 +1455,20 @@ Prüfliste P-49 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 Reiselogbuch 3.20.0 · AppDesign 4.21.0 (Designrichtlinie allgemein 4.21.0) · Designrichtlinie Reiselogbuch 3.20.0 · Zusammenarbeit allgemein 2.7.0
 
-T-89 und T-90 (neue allgemeine Regel R-7.4, R-8.1 erweitert; Fall-Liste AppDesign `arbeit/A-16 A-17 Fall-Liste.md`).
+RLB-89 und RLB-90 (neue allgemeine Regel R-7.4, R-8.1 erweitert; Testfall-Liste AppDesign `arbeit/APD-16 APD-17 Testfall-Liste.md`).
 
-- **Öffnen eines Reiselogbuchs (T-89):** Sind alle Tage erfasst, beginnt die Tabelle (iPhone: die Tageskästen) ganz oben und
+- **Öffnen eines Reiselogbuchs (RLB-89):** Sind alle Tage erfasst, beginnt die Tabelle (iPhone: die Tageskästen) ganz oben und
   kein Tag ist hervorgehoben. Sonst steht der erste nicht erfasste Tag hervorgehoben **direkt unter dem Tabellenkopf** (iPad)
   bzw. **direkt unter der Leiste** (iPhone). Bisher stand er in der Mitte; ohne offenen Tag blieb die Seite dort stehen, wo
   das vorige Reiselogbuch war. Gilt auch beim Start der App.
-- **Seitenleiste ein/aus (T-90, iPad):** Der oberste sichtbare Tag bleibt an seiner Stelle. Bisher rutschte die Seite, weil
+- **Seitenleiste ein/aus (RLB-90, iPad):** Der oberste sichtbare Tag bleibt an seiner Stelle. Bisher rutschte die Seite, weil
   die Zeilen bei anderer Breite anders hoch sind; nahe dem Ende sprang sie ans Ende. Ganz oben bleibt ganz oben, am Ende
   (Fazit, Statistik) bleibt der Abstand zum Ende gleich.
 - Neue Prüfung `tests/oeffnen-position.mjs` (Gegenprobe mit dem alten Verhalten rot: 40 Fehler).
 - Feste Fassung AppDesign 4.21.0; Designrichtlinie Reiselogbuch 3.20.0 (nur Version).
-- Offen bleibt T-91 (Tastatur im Fenster ‚Tag‘, Version B).
+- Offen bleibt RLB-91 (Tastatur im Fenster ‚Tag‘, Version B).
 
-Prüfliste P-48 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+Testfälle P-48 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 **P-48/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1456,7 +1496,7 @@ Prüfliste P-48 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 Reiselogbuch 3.19.0 · AppDesign 4.20.0 (Designrichtlinie allgemein 4.20.0) · Designrichtlinie Reiselogbuch 3.19.0 · Zusammenarbeit allgemein 2.7.0
 
-AppDesign A-15 (R-3.2 erweitert; Fall-Liste AppDesign `arbeit/A-15 Fall-Liste.md`).
+AppDesign APD-15 (R-3.2 erweitert; Testfall-Liste AppDesign `arbeit/APD-15 Testfall-Liste.md`).
 
 - **iPhone: Kapsel ‚Nach oben / Ans Ende‘:** In einem geöffneten Reiselogbuch steht unten rechts dieselbe senkrechte Kapsel
   wie am iPad – ein Tippen rollt ganz nach oben bzw. ganz ans Ende. In der Startliste ‚Reiselogbücher‘ gibt es sie nicht.
@@ -1467,7 +1507,7 @@ AppDesign A-15 (R-3.2 erweitert; Fall-Liste AppDesign `arbeit/A-15 Fall-Liste.md
 - Neue Prüfung `tests/kapsel-iphone.mjs` (iPhone hoch und quer, iPad schmal und quer, hell und dunkel, Chromium und WebKit;
   Gegenprobe rot: 14 Fehler). Feste Fassung AppDesign 4.20.0; Designrichtlinie Reiselogbuch 3.19.0 (HIG-Abweichung eingetragen).
 
-Prüfliste P-47 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+Testfälle P-47 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 **P-47/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1489,7 +1529,7 @@ Prüfliste P-47 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 Reiselogbuch 3.18.0 · AppDesign 4.19.0 (Designrichtlinie allgemein 4.19.0) · Designrichtlinie Reiselogbuch 3.18.0 · Zusammenarbeit allgemein 2.7.0
 
-T-86 (Fall-Liste AppDesign `arbeit/T-86 Fall-Liste.md`).
+RLB-86 (Testfall-Liste AppDesign `arbeit/RLB-86 Testfall-Liste.md`).
 
 - **Link nur über den Namen:** Bei ‚Essen und Trinken‘ und beim Quartier ist nur noch der Name des Lokals bzw. Hotels der
   Google-Maps-Link. Der Name endet jetzt auch an **Komma**, **Doppelpunkt** und **öffnender Klammer** – bisher nur an
@@ -1501,7 +1541,7 @@ T-86 (Fall-Liste AppDesign `arbeit/T-86 Fall-Liste.md`).
 - Neue Prüfung `tests/link-name.mjs` (Chromium und WebKit, Gegenprobe mit der alten Trennung rot: 16 Fehler).
 - Fassung AppDesign bleibt 4.19.0; Designrichtlinie Reiselogbuch 3.18.0 (Abschnitt 2: Maps-Links).
 
-Prüfliste P-46 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+Testfälle P-46 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 **P-46/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1523,23 +1563,23 @@ Prüfliste P-46 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 Reiselogbuch 3.17.0 · AppDesign 4.19.0 (Designrichtlinie allgemein 4.19.0) · Designrichtlinie Reiselogbuch 3.17.0 · Zusammenarbeit allgemein 2.7.0
 
-T-87 (neue allgemeine Regel R-5.5, AppDesign A-14) und T-88 (Fall-Liste AppDesign `arbeit/A-14 T-88 Fall-Liste.md`).
+RLB-87 (neue allgemeine Regel R-5.5, AppDesign APD-14) und RLB-88 (Testfall-Liste AppDesign `arbeit/APD-14 RLB-88 Testfall-Liste.md`).
 
-- **Eingabetaste ‚Fertig‘ (T-87):** In einzeiligen Feldern (Gesamtausgaben, Reisetitel, Reiseteilnehmer, Quartier, Ort)
+- **Eingabetaste ‚Fertig‘ (RLB-87):** In einzeiligen Feldern (Gesamtausgaben, Reisetitel, Reiseteilnehmer, Quartier, Ort)
   heißt die Eingabetaste ‚Fertig‘; sie bestätigt die Eingabe und schließt die Tastatur. Bei den Gesamtausgaben wird der
   Betrag dabei gleich formatiert (‚4.850,00‘). In Fenstern bleibt das Fenster offen – gespeichert wird erst mit dem Häkchen.
 - **Fehler behoben:** Bisher hat die Eingabetaste in den Fenstern ‚Tag‘ und ‚Einstellungen‘ das ganze Fenster geschlossen
-  (das Fenster ist technisch ein Formular, die Eingabetaste schickte es ab). Gefunden bei der Gegenprobe zu T-87.
+  (das Fenster ist technisch ein Formular, die Eingabetaste schickte es ab). Gefunden bei der Gegenprobe zu RLB-87.
 - **Mehrzeilige Felder** (Verlauf, Wie war was?, Essen und Trinken, Fazit): die Eingabetaste macht wie bisher eine neue
   Zeile; die Tastatur schließt mit Häkchen oder x. Das Suchfeld behält ‚Suchen‘ (nächster Treffer).
-- **Zuletzt verwendetes Reiselogbuch (T-88):** Die App merkt sich je Gerät das zuletzt geöffnete Reiselogbuch. Auf dem iPad
+- **Zuletzt verwendetes Reiselogbuch (RLB-88):** Die App merkt sich je Gerät das zuletzt geöffnete Reiselogbuch. Auf dem iPad
   öffnet es beim Start und ist in der Seitenleiste blau – auch während einer laufenden Reise. Gibt es keines (alte Daten,
   gelöscht), wählt die App wie bisher nach Datum (laufende Reise, sonst die zuletzt beendete, sonst die nächste geplante).
   Mit dem Backup hatte das nichts zu tun. Backup laden und Abgleichen übernehmen den Wert des anderen Geräts nicht.
 - **iPhone:** die Startliste bleibt beim Start ohne blauen Eintrag (R-7.2, Entscheidung 17.10.2026).
 - Feste Fassung AppDesign 4.19.0; Designrichtlinie Reiselogbuch 3.17.0 (nur Version).
 
-Prüfliste P-45 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+Testfälle P-45 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 **P-45/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1574,7 +1614,7 @@ Prüfliste P-45 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 Reiselogbuch 3.16.0 · AppDesign 4.18.0 (Designrichtlinie allgemein 4.18.0) · Designrichtlinie Reiselogbuch 3.16.0 · Zusammenarbeit allgemein 2.7.0
 
-A-13 (neue allgemeine Regel R-7.3). Gilt auf iPad und iPhone gleich.
+APD-13 (neue allgemeine Regel R-7.3). Gilt auf iPad und iPhone gleich.
 
 - **Fehler behoben:** Nach dem Erfassen eines Tages stand die Tabelle weiter unten, der erfasste Tag war nach oben
   verschwunden. Ursache: Beim Schreiben im Fenster ‚Tag‘ schiebt Safari für die Tastatur die ganze Seite und schiebt sie
@@ -1586,7 +1626,7 @@ A-13 (neue allgemeine Regel R-7.3). Gilt auf iPad und iPhone gleich.
   Tabelle rollt nur so weit wie nötig.
 - Feste Fassung AppDesign 4.18.0; Designrichtlinie Reiselogbuch 3.16.0 (nur Version).
 
-Prüfliste P-44 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
+Testfälle P-44 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 **P-44/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1618,10 +1658,10 @@ Prüfliste P-44 (Schritt für Schritt, Zusammenarbeit allgemein 2.7.0).
 
 Reiselogbuch 3.15.1 · AppDesign 4.16.1 (Designrichtlinie allgemein 4.16.1) · Designrichtlinie Reiselogbuch 3.15.1 · Zusammenarbeit allgemein 2.5.0
 
-AppDesign A-10. In der App ändert sich nichts.
+AppDesign APD-10. In der App ändert sich nichts.
 
 - **Feste Fassung 4.16.1:** der volle Prüflauf (`tests/alle.mjs`) startet höchstens so viele Browser gleichzeitig, wie der
-  Rechner Kerne hat (4 statt 8), und erst alle in Chromium, dann alle in WebKit (A-11) – beim Veröffentlichen von 3.15.0
+  Rechner Kerne hat (4 statt 8), und erst alle in Chromium, dann alle in WebKit (APD-11) – beim Veröffentlichen von 3.15.0
   und 3.15.1 war er mehrmals rot durch WebKit unter Last. Ursache: der Netzprozess von WebKit stürzt in der Prüfumgebung
   unter Last ab und verliert den Speicher des Service Workers – `offline-regeln` erkennt das jetzt und prüft die Ansicht
   einmal neu (kein Fehler der App).
@@ -1629,7 +1669,7 @@ AppDesign A-10. In der App ändert sich nichts.
   ausdrücklicher Umsetzungspflicht um.
 - Designrichtlinie Reiselogbuch 3.15.1 (nur Version).
 
-Prüfliste P-42 (Schritt für Schritt, Zusammenarbeit allgemein 2.5.0).
+Testfälle P-42 (Schritt für Schritt, Zusammenarbeit allgemein 2.5.0).
 
 **P-42/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1654,7 +1694,7 @@ Prüfliste P-42 (Schritt für Schritt, Zusammenarbeit allgemein 2.5.0).
 
 Reiselogbuch 3.15.0 · AppDesign 4.16.0 (Designrichtlinie allgemein 4.16.0) · Designrichtlinie Reiselogbuch 3.15.0 · Zusammenarbeit allgemein 2.4.0
 
-T-84 – seit 15.10.2026 allgemeine Regel R-7.2 (AppDesign A-09). Fall-Liste F-1 bis F-18: `AppDesign/arbeit/T-84 Fall-Liste.md`.
+RLB-84 – seit 15.10.2026 allgemeine Regel R-7.2 (AppDesign APD-9). Testfall-Liste RLB-84/F-1 bis F-18: `AppDesign/arbeit/RLB-84 Testfall-Liste.md`.
 
 - **iPhone startet in der Startliste (R-7.2):** Jedes Neuladen der App beginnt im iPhone-Aufbau in der Startliste
   ‚Reiselogbücher‘, ganz oben, **kein Eintrag blau** (es ist noch nichts geöffnet). Ein Reiselogbuch antippen öffnet es wie
@@ -1663,11 +1703,11 @@ T-84 – seit 15.10.2026 allgemeine Regel R-7.2 (AppDesign A-09). Fall-Liste F-1
   wird; Designrichtlinie allgemein 13).
 - **Der Aufbau entscheidet:** auch ein iPad im schmalen Fenster (iPhone-Aufbau) beginnt in der Startliste; iPad quer und
   hoch bleiben unverändert (laufende Reise offen, Seitenleiste eingeblendet).
-- **Prüfungen:** neu `tests/start-regeln.mjs` (F-1 bis F-11, F-13 bis F-17, hell und dunkel; Gegenprobe: altes
+- **Prüfungen:** neu `tests/start-regeln.mjs` (RLB-84/F-1 bis F-11, F-13 bis F-17, hell und dunkel; Gegenprobe: altes
   Startverhalten und blauer Eintrag beim Start werden rot), dazu die allgemeine Prüfung `start.mjs` aus AppDesign;
   `ablauf-iphone`, `hig`, `backup-regeln`, `kontextmenue-regeln` und `ablauf-seitenleiste-position` beginnen am iPhone
-  jetzt in der Startliste. F-12 (Start ohne Netz) prüft `offline-regeln`, F-18 (Löschen) `ablauf-iphone`.
-- **Arbeitsweise (AppDesign A-07, Zusammenarbeit 2.4.0):** zu Beginn gezielt lesen, ein voller Prüflauf je Version;
+  jetzt in der Startliste. RLB-84/F-12 (Start ohne Netz) prüft `offline-regeln`, F-18 (Löschen) `ablauf-iphone`.
+- **Arbeitsweise (AppDesign APD-7, Zusammenarbeit 2.4.0):** zu Beginn gezielt lesen, ein voller Prüflauf je Version;
   `CLAUDE.md` 3.3.0.
 - **Feste Fassung 4.16.0**; Designrichtlinie Reiselogbuch 3.15.0.
 
@@ -1675,7 +1715,7 @@ Apple-Review: Apple stellt nach einem Neustart meist den letzten Ort wieder her 
 die Startliste auf dem kleinen Bildschirm der feste Ausgangspunkt sein soll (entschieden 14./15.10.2026); kein Eintrag blau
 **entspricht HIG** 4 (Auswahl nur, solange der Inhalt offen ist); Aufbau statt Gerät **entspricht** R-1.1.
 
-Prüfliste P-41 (Schritt für Schritt, Zusammenarbeit allgemein 2.4.0).
+Testfälle P-41 (Schritt für Schritt, Zusammenarbeit allgemein 2.4.0).
 
 **P-41/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1724,12 +1764,12 @@ Korrektur zu P-39 (ok bis auf /1 und /2; Auswertung `AppDesign/arbeit/P-39 Rück
   Home-Bildschirm-App nicht zuverlässig sendet. Meldung und Zeile kommen damit spätestens nach etwa 10–15 s.
 - **Service Worker (`sw.js`):** prüft mit einem kleinen Abruf ohne Inhalt (`HEAD`) und gibt jeder Antwort die Nummer der
   Frage mit.
-- **Prüfung** `tests/offline-regeln.mjs`: neuer Fall F-17 ‚Gerät ohne Safari-Meldung‘ (erst rot, dann grün).
+- **Prüfung** `tests/offline-regeln.mjs`: neuer Fall APD-6/F-17 ‚Gerät ohne Safari-Meldung‘ (erst rot, dann grün).
   **Warum übersehen:** die Prüfung schaltete das Netz so ab, dass der Browser immer ‚offline‘ meldet – wie es das iPad
   nicht tut.
 - **Feste Fassung 4.15.1**; Designrichtlinie Reiselogbuch 3.14.1 (nur Version).
 
-Prüfliste P-40 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
+Testfälle P-40 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
 
 **P-40/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1756,7 +1796,7 @@ Prüfliste P-40 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
 
 Reiselogbuch 3.14.0 · AppDesign 4.15.0 (Designrichtlinie allgemein 4.15.0) · Designrichtlinie Reiselogbuch 3.14.0 · Zusammenarbeit allgemein 2.3.2
 
-A-06 Offline-Hinweis (Variante c, allgemeine Regel R-1.5; Muster und Fall-Liste `AppDesign/arbeit/A-06 Muster und Fall-Liste.md`).
+APD-6 Offline-Hinweis (Variante c, allgemeine Regel R-1.5; Muster und Testfall-Liste `AppDesign/arbeit/APD-6 Muster und Testfall-Liste.md`).
 
 - **Graue Zeile unter der Backup-Kachel** (Seitenleiste iPad, Startliste iPhone): solange die App offline arbeitet,
   ‚Offline – alles bleibt auf diesem Gerät‘ mit Icon `wifi-off`; die Liste läuft auch hinter der Zeile durch.
@@ -1765,14 +1805,14 @@ A-06 Offline-Hinweis (Variante c, allgemeine Regel R-1.5; Muster und Fall-Liste 
   der Backup-Kachel, verschwindet nach 4 s, Antippen schließt sie, auch über einem offenen Fenster sichtbar.
 - **Service Worker (`sw.js`):** meldet der App, ob sie aus dem Speicher kommt (kein Netz oder Netz hängt länger als 3 s)
   und ob das Netz wieder antwortet; die App fragt beim Start und bei der Rückkehr in die App.
-- **Prüfung `tests/offline-regeln.mjs`** mit den Fällen F-1 bis F-16 (iPad und iPhone, Chromium und WebKit, mit langer
+- **Prüfung `tests/offline-regeln.mjs`** mit den Fällen APD-6/F-1 bis F-16 (iPad und iPhone, Chromium und WebKit, mit langer
   Liste). Beim Bauen gefunden und behoben: ‚Wieder online‘ fehlte (der Service Worker meldete nur Änderungen aus seiner
   Sicht); bei schnellem Hin und Her überschrieb eine verspätete Antwort ‚an‘ den Zustand ‚offline‘; bei hängendem Netz kam
   die Meldung in WebKit zu spät (wartete auf Manifest und Icons); auf dem iPhone verdeckte die Meldung die Backup-Kachel
   und wurde beim Wechsel in die Startliste nicht neu ausgerichtet. Gegenprobe: ohne Meldung 32 Fehler.
 - **Feste Fassung 4.15.0**; Designrichtlinie Reiselogbuch 3.14.0 (nur Version).
 
-Prüfliste P-39 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
+Testfälle P-39 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
 
 **P-39/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
@@ -1835,9 +1875,9 @@ Korrektur zu P-37 (ok bis auf /2 und /3; Auswertung `AppDesign/arbeit/P-37 Rück
   Dateien frisch. Warum übersehen: die Prüfungen luden die App als Datei, ohne Service Worker – offline wurde nur am Gerät
   geprüft. Neu: `tests/offline-regeln.mjs` (eigener Webserver, echter Service Worker, iPad und iPhone; erst rot, dann grün).
 - **Feste Fassung 4.14.2** (mit dem Skript `vorbereiten`); Designrichtlinie Reiselogbuch 3.13.2 (nur Version).
-- **Neu im Backlog von AppDesign:** A-06 Offline-Hinweis (Prio 1, allgemeine Regel, zuerst Muster).
+- **Neu im Backlog von AppDesign:** APD-6 Offline-Hinweis (Prio 1, allgemeine Regel, zuerst Muster).
 
-Prüfliste P-38 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
+Testfälle P-38 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
 
 **P-38/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
@@ -1871,7 +1911,7 @@ Prüfliste P-38 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2).
 
 Reiselogbuch 3.13.1 · AppDesign 4.14.1 (Designrichtlinie allgemein 4.14.1) · Designrichtlinie Reiselogbuch 3.13.1 · Zusammenarbeit allgemein 2.3.2
 
-Korrektur zu 3.13.0 (Fund `AppDesign/arbeit/A-05 Fund Markierung.md`, Entscheidung a). Die App sieht unverändert aus.
+Korrektur zu 3.13.0 (Fund `AppDesign/arbeit/APD-5 Fund Markierung.md`, Entscheidung a). Die App sieht unverändert aus.
 
 - **README ‚Verwendete Versionen‘:** Die Links auf Designrichtlinie allgemein, Zusammenarbeit und Bausteine zeigten auf die
   Git-Markierung `v4.14.0`, die es auf GitHub nicht gibt (aus der Cloud gesperrt) – Fehlerseite. Jetzt zeigen sie auf
@@ -1880,7 +1920,7 @@ Korrektur zu 3.13.0 (Fund `AppDesign/arbeit/A-05 Fund Markierung.md`, Entscheidu
 - **Feste Fassung 4.14.1:** `index.html`, `sw.js` und alle Prüfskripte auf `fassung/4.14.1/` (mit dem Skript `vorbereiten`).
 - Designrichtlinie Reiselogbuch 3.13.1 (nur Version).
 
-Prüfliste P-37 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2) – **ersetzt P-36** (noch nicht geprüft). Kein sichtbarer
+Testfälle P-37 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2) – **ersetzt P-36** (noch nicht geprüft). Kein sichtbarer
 Unterschied erwartet.
 
 **P-37/0 – Version prüfen**
@@ -1922,23 +1962,23 @@ Unterschied erwartet.
 
 Reiselogbuch 3.13.0 · AppDesign 4.14.0 (Designrichtlinie allgemein 4.14.0) · Designrichtlinie Reiselogbuch 3.13.0 · Zusammenarbeit allgemein 2.3.2
 
-A-05 Version B – feste AppDesign-Fassung und Veröffentlichungs-Skript (Fall-Liste `AppDesign/arbeit/A-05 Fall-Liste.md`,
+APD-5 Version B – feste AppDesign-Fassung und Veröffentlichungs-Skript (Testfall-Liste `AppDesign/arbeit/APD-5 Testfall-Liste.md`,
 Teile D und E). Die App sieht unverändert aus; sie lädt die Bausteine jetzt aus ihrer festen Fassung.
 
-- **Feste Fassung (D-2, D-8):** `index.html` und `sw.js` laden `../AppDesign/fassung/4.14.0/design.css` und `…/ui.js`
+- **Feste Fassung (APD-5/D-2, D-8):** `index.html` und `sw.js` laden `../AppDesign/fassung/4.14.0/design.css` und `…/ui.js`
   statt `../AppDesign/v4/…?v=4.13.0`; `AD_NEEDED` = 4.14.0. Eine neue AppDesign-Version ändert das Reiselogbuch nicht mehr,
   bis es nach Rückfrage gehoben wird (Zusammenarbeit 0 Nr. 10). Offline aus dem Zwischenspeicher wie bisher.
-- **Prüfungen der eigenen Fassung (D-1):** alle Prüfskripte binden `../../AppDesign/fassung/4.14.0/tests/…` ein.
+- **Prüfungen der eigenen Fassung (APD-5/D-1):** alle Prüfskripte binden `../../AppDesign/fassung/4.14.0/tests/…` ein.
 - **Neue Prüfungen (version-regeln, doku-regeln):** Pfad = `AD_NEEDED` in `index.html` und `sw.js`, nichts aus `v4/`; ein
-  absichtlich geänderter Arbeitsstand `v4/` (roter Knopf, Skriptfehler) erreicht die App nicht (D-3); Prüfsummen der
-  Fassungen (D-1); README verlinkt die Richtlinien der Markierung `v4.14.0` (D-6); ‚gilt sofort für alle Apps‘ und `?v=`
-  nirgends mehr (D-7, W-4).
-- **Versionen mit dem Skript (E-1):** `node ../AppDesign/werkzeug/veroeffentlichen.mjs vorbereiten --ad 4.14.0 --app
+  absichtlich geänderter Arbeitsstand `v4/` (roter Knopf, Skriptfehler) erreicht die App nicht (APD-5/D-3); Prüfsummen der
+  Fassungen (APD-5/D-1); README verlinkt die Richtlinien der Markierung `v4.14.0` (D-6); ‚gilt sofort für alle Apps‘ und `?v=`
+  nirgends mehr (APD-5/D-7, W-4).
+- **Versionen mit dem Skript (APD-5/E-1):** `node ../AppDesign/werkzeug/veroeffentlichen.mjs vorbereiten --ad 4.14.0 --app
   reiselogbuch=3.13.0` hat `APP_VERSION`, `APP_BUILT`, Cache-Name, Pfade, README-Tabelle, PROMPT-Zeile, Richtlinien- und
   Backlog-Kopf erhöht; veröffentlicht wird mit `… los` (erst AppDesign, dann das Reiselogbuch).
 - **CLAUDE.md 3.2.0**, Designrichtlinie Reiselogbuch 3.13.0 (nur Version und Verweis auf allgemein 4.14.0).
 
-Prüfliste P-36 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2). Kein sichtbarer Unterschied erwartet.
+Testfälle P-36 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2). Kein sichtbarer Unterschied erwartet.
 
 **P-36/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
@@ -1972,7 +2012,7 @@ Prüfliste P-36 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.2). Kein sic
 
 Reiselogbuch 3.12.0 · AppDesign 4.13.0 (Designrichtlinie allgemein 4.13.0) · Designrichtlinie Reiselogbuch 3.12.0 · Zusammenarbeit allgemein 2.3.1
 
-A-05 Version A – Prüfungen 2.0 (Fall-Liste `AppDesign/arbeit/A-05 Fall-Liste.md`). Sichtbar ändert sich nichts; neu ist nur
+APD-5 Version A – Prüfungen 2.0 (Testfall-Liste `AppDesign/arbeit/APD-5 Testfall-Liste.md`). Sichtbar ändert sich nichts; neu ist nur
 eine unsichtbare, größere Antippfläche an kurzen Quartiernamen.
 
 - **Quartier-Link (R-3.1, Fund der neuen Grundregeln):** Der Maps-Link eines Quartiers war nur so breit wie sein Name –
@@ -1989,7 +2029,7 @@ eine unsichtbare, größere Antippfläche an kurzen Quartiernamen.
   Test kann rot werden.
 - **CLAUDE.md 3.1.0**, Designrichtlinie Reiselogbuch 3.12.0 (Ausprägung R-3.1 Maps-Link).
 
-Prüfliste P-35 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.1). Bis auf P-35/1 kein sichtbarer Unterschied erwartet.
+Testfälle P-35 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.1). Bis auf P-35/1 kein sichtbarer Unterschied erwartet.
 
 **P-35/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
@@ -2011,7 +2051,7 @@ Prüfliste P-35 (Schritt für Schritt, Zusammenarbeit allgemein 2.3.1). Bis auf 
 
 Reiselogbuch 3.11.7 · AppDesign 4.12.2 (Designrichtlinie allgemein 4.12.2) · Designrichtlinie Reiselogbuch 3.11.7 · Zusammenarbeit allgemein 2.2.0
 
-A-02 Schritte 3 und 4 – nur Texte und Prüfungen, die App sieht gleich aus:
+APD-2 Schritte 3 und 4 – nur Texte und Prüfungen, die App sieht gleich aus:
 
 - **Designrichtlinie Reiselogbuch 3.11.7:** Wiederholungen allgemeiner Regeln durch Verweise ersetzt (Backup-Kachel R-9.1,
   Suche R-2.3, Vorschau R-6.4, Abfragen R-4.3, Diktieren und Großbuchstaben R-5.2); alter Text ‚Backup laden … werden
@@ -2024,7 +2064,7 @@ A-02 Schritte 3 und 4 – nur Texte und Prüfungen, die App sieht gleich aus:
 - **Prüfungen:** `doku-regeln.mjs` ruft `checkCollab` auf (AppDesign 4.12.2; vorher rot, jetzt grün); `regeln-ablauf.mjs`
   prüft die Vorschau (R-6.4) jetzt auch am iPad hoch und am iPhone quer – mit nicht wischbarer Vorschau rot, dann grün.
 
-Prüfliste P-34 (Schritt für Schritt, Zusammenarbeit allgemein 2.2.0). Kein sichtbarer Unterschied in der App erwartet.
+Testfälle P-34 (Schritt für Schritt, Zusammenarbeit allgemein 2.2.0). Kein sichtbarer Unterschied in der App erwartet.
 
 **P-34/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
@@ -2055,7 +2095,7 @@ Korrekturen aus P-32 (1, 2, 4 nicht ok; 0 und 3 ok) und eine neue Bezeichnung:
 - **‚Gesamtausgaben‘** statt ‚Gesamtkosten‘ – in der App (iPad und iPhone), in Ausgabe und Vorschau und als Feldname im
   Abgleichbericht.
 
-Prüfliste P-33 (Schritt für Schritt, Zusammenarbeit allgemein 2.1.1). Sie ersetzt P-32.
+Testfälle P-33 (Schritt für Schritt, Zusammenarbeit allgemein 2.1.1). Sie ersetzt P-32.
 
 **P-33/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
@@ -2101,16 +2141,16 @@ Prüfliste P-33 (Schritt für Schritt, Zusammenarbeit allgemein 2.1.1). Sie erse
 
 Reiselogbuch 3.11.5 · AppDesign 4.12.0 (Designrichtlinie allgemein 4.12.0) · Designrichtlinie Reiselogbuch 3.11.5 · Zusammenarbeit allgemein 2.1.1
 
-- **AppDesign 4.12.0 – Regelkatalog neu (A-02a):** Die allgemeinen Regeln sind nach Themen geordnet (R-1.1 bis R-10.4,
+- **AppDesign 4.12.0 – Regelkatalog neu (APD-2a):** Die allgemeinen Regeln sind nach Themen geordnet (R-1.1 bis R-10.4,
   vorher R-01 bis R-52). Alle Prüfskripte melden die neuen Nummern; jede Regel hat genau eine Prüfung. Neu geprüft werden
   Suche (R-2.3), Fenster-Kopfzeile (R-4.4), Großbuchstaben (R-5.2), Fehlermeldungen (R-5.3), Auswahl-Kapsel (R-5.4),
   Vorschau (R-6.4), Zebra je Tabellenzeile in der Tagestabelle (R-6.1), höchstens eine blaue Hauptaktion (R-3.3), gleiches
   Icon für gleiche Aktion (R-10.1) und die Leisten bei offener Tastatur (R-2.1). Die App selbst ändert sich dadurch nicht.
-- **T-83:** Im Abgleichbericht heißt das Feld jetzt ‚Reisemittel‘ wie im Fenster ‚Einstellungen‘ (vorher ‚Verkehrsmittel‘).
+- **RLB-83:** Im Abgleichbericht heißt das Feld jetzt ‚Reisemittel‘ wie im Fenster ‚Einstellungen‘ (vorher ‚Verkehrsmittel‘).
   Eine neue Prüfung vergleicht die Feldnamen des Berichts mit denen im Fenster; sie meldete den Fehler, dann behoben.
 - AppDesign wird mit `?v=4.12.0` geladen; README ‚Verwendete Versionen‘ nachgeführt (nannte noch Zusammenarbeit 2.0.0).
 
-Prüfliste P-32 (Schritt für Schritt, Zusammenarbeit allgemein 2.1.1).
+Testfälle P-32 (Schritt für Schritt, Zusammenarbeit allgemein 2.1.1).
 
 **P-32/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
@@ -2120,7 +2160,7 @@ Prüfliste P-32 (Schritt für Schritt, Zusammenarbeit allgemein 2.1.1).
 5. Erwartet: dieselbe Zeile mit ‚Version 3.11.5‘ und ‚AppDesign 4.12.0‘.
 6. Erscheint ‚Neue Version wird geladen‘ oder eine andere Version: App schließen, ein paar Minuten warten, neu öffnen.
 
-**P-32/1 – Abgleichbericht nennt ‚Reisemittel‘ (T-83)**
+**P-32/1 – Abgleichbericht nennt ‚Reisemittel‘ (RLB-83)**
 1. iPad quer, hell: ein Reiselogbuch öffnen → ‚…‘ (Mehr) → ‚Einstellungen‘ → bei ‚Reisemittel‘ ein weiteres Mittel
    antippen (z. B. ‚Zug‘) → Häkchen.
 2. iPad: Seitenleiste ‚…‘ → ‚Backup erstellen‘ → ‚In Dateien sichern‘.
@@ -2157,11 +2197,11 @@ Prüfliste P-32 (Schritt für Schritt, Zusammenarbeit allgemein 2.1.1).
 
 Reiselogbuch 3.11.4 · AppDesign 4.11.4 (Designrichtlinie allgemein 4.11.4) · Designrichtlinie Reiselogbuch 3.11.4 · Zusammenarbeit allgemein 1.16.0
 
-- T-82: Im Abgleichbericht ist jedes Reiselogbuch eine Tabellenzeile – sein Name ist in der ersten Spalte über alle seine
+- RLB-82: Im Abgleichbericht ist jedes Reiselogbuch eine Tabellenzeile – sein Name ist in der ersten Spalte über alle seine
   Zeilen zusammengefasst, alle Zellen dahinter haben dieselbe Farbe, weiß und grau wechseln je Reiselogbuch (R-52).
   3.11.3 färbte innerhalb eines Reiselogbuchs abwechselnd; die Prüfung erkennt das jetzt.
 
-Prüfliste P-31 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0). Sie ersetzt P-30.
+Testfälle P-31 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0). Sie ersetzt P-30.
 
 **P-31/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
@@ -2187,12 +2227,12 @@ Prüfliste P-31 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0). Sie ers
 
 Reiselogbuch 3.11.3 · AppDesign 4.11.3 (Designrichtlinie allgemein 4.11.3) · Designrichtlinie Reiselogbuch 3.11.3 · Zusammenarbeit allgemein 1.16.0
 
-- T-81 (P-29/3): Der Abgleichbericht wich von der Tabelle der HTML-Ausgabe ab (dickere Linie zwischen den
+- RLB-81 (P-29/3): Der Abgleichbericht wich von der Tabelle der HTML-Ausgabe ab (dickere Linie zwischen den
   Reiselogbüchern, keine grauen Zeilen, Kopf nur halbfett). Jetzt verwenden Ausgabe und Bericht dieselbe Mustertabelle aus
   AppDesign (neue Regel R-52); die Prüfung vergleicht jede Tabelle Eigenschaft für Eigenschaft mit ihr. Jede zweite Zeile ist
   über die ganze Breite grau; Reiselogbuch, Tag, Gerät und Zeitpunkt stehen nur in der ersten Zeile ihrer Gruppe.
 
-Prüfliste P-30 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0).
+Testfälle P-30 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0).
 
 **P-30/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
@@ -2218,14 +2258,14 @@ Prüfliste P-30 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0).
 
 Reiselogbuch 3.11.2 · AppDesign 4.11.2 (Designrichtlinie allgemein 4.11.2) · Designrichtlinie Reiselogbuch 3.11.2 · Zusammenarbeit allgemein 1.16.0
 
-- T-79 (P-27/8): Im Abgleichbericht ragten Datum und Uhrzeit in die Nachbarzellen (iPhone, iPad hoch). Jetzt bricht jede
+- RLB-79 (P-27/8): Im Abgleichbericht ragten Datum und Uhrzeit in die Nachbarzellen (iPhone, iPad hoch). Jetzt bricht jede
   Zelle um. Warum die Prüfung es übersah: R-37 prüfte nur Tabellen der App-Seite, nicht in Fenstern und Vorschauen – jetzt
   jede Zelle überall, auch nach seitlichem Wischen.
-- T-80 (P-27/8): Der Abgleichbericht hat oben rechts die Kapsel wie die Vorschau der Ausgabe: PDF und Teilen.
-- T-78: Beim Drehen (quer ↔ hoch) bleibt oben derselbe Tag stehen – iPad und iPhone (neue Regel R-51, Baustein in
+- RLB-80 (P-27/8): Der Abgleichbericht hat oben rechts die Kapsel wie die Vorschau der Ausgabe: PDF und Teilen.
+- RLB-78: Beim Drehen (quer ↔ hoch) bleibt oben derselbe Tag stehen – iPad und iPhone (neue Regel R-51, Baustein in
   AppDesign). Die Prüfung bildet jetzt Safari nach, das keinen Scroll-Anker kennt.
 
-Prüfliste P-29 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0).
+Testfälle P-29 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0).
 
 **P-29/0 – Version prüfen**
 1. Auf iPad und iPhone die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.
@@ -2273,13 +2313,13 @@ Prüfliste P-29 (Schritt für Schritt, Zusammenarbeit allgemein 1.16.0).
 
 Reiselogbuch 3.11.1 · AppDesign 4.11.1 (Designrichtlinie allgemein 4.11.1) · Designrichtlinie Reiselogbuch 3.11.1 · Zusammenarbeit allgemein 1.15.0
 
-- T-77 (Vorbeugen gegen P-26/6, 7, 9):
+- RLB-77 (Vorbeugen gegen P-26/6, 7, 9):
   - Die README zeigt ganz oben ‚Verwendete Versionen‘ mit Links zu allen allgemeinen Regelwerken (R-49).
-  - Jede Prüfliste beginnt mit /0 ‚Version prüfen‘, und jeder Schritt nennt die Meldung je Gerät (R-50).
+  - Jede Testfälle beginnen mit /0 ‚Version prüfen‘, und jeder Schritt nennt die Meldung je Gerät (R-50).
   - ‚Fertig‘ gibt es erst nach den erfolgreichen Pages-Läufen beider Repos (Zusammenarbeit allgemein 1.15.0).
 - Neue Prüfung `tests/doku-regeln.mjs` (R-49, R-50). Die App selbst ist unverändert, nur auf AppDesign 4.11.1 umgestellt.
 
-Prüfliste P-28 (Schritt für Schritt, Zusammenarbeit allgemein 1.15.0). Danach die offenen Prüfpunkte P-27/1 bis P-27/9
+Testfälle P-28 (Schritt für Schritt, Zusammenarbeit allgemein 1.15.0). Danach die offenen Usertests P-27/1 bis P-27/9
 aus 3.11.0 mit dieser Version prüfen.
 
 **P-28/0 – Version prüfen**
@@ -2303,15 +2343,15 @@ aus 3.11.0 mit dieser Version prüfen.
 
 Reiselogbuch 3.11.0 · AppDesign 4.11.0 (Designrichtlinie allgemein 4.11.0) · Designrichtlinie Reiselogbuch 3.11.0 · Zusammenarbeit allgemein 1.14.0
 
-- T-73 (P-26/6, P-26/7): Auf dem Gerät lief beim Test noch die alte AppDesign-Fassung (Hinweise mit ‚drüben‘). Neu (R-48):
+- RLB-73 (P-26/6, P-26/7): Auf dem Gerät lief beim Test noch die alte AppDesign-Fassung (Hinweise mit ‚drüben‘). Neu (R-48):
   Die App lädt `ui.js` und `design.css` mit der Versionsnummer (`?v=4.11.0`) und meldet beim Start ‚Neue Version wird
   geladen‘, wenn eine andere Fassung geladen ist. Die Versionszeile im Mehr-Menü nennt jetzt auch ‚AppDesign 4.11.0‘.
-- T-74 (P-26/1): Die Seitenleiste hat einen einzigen Zustand für quer und hoch. Nur Tippen ändert ihn, Drehen nie – auch
+- RLB-74 (P-26/1): Die Seitenleiste hat einen einzigen Zustand für quer und hoch. Nur Tippen ändert ihn, Drehen nie – auch
   nicht die Zwischengrößen, die iOS beim Drehen meldet (R-47).
-- T-75 (P-26/4): Das Kontextmenü des letzten Eintrags wird nach dem Loslassen noch einmal ausgerichtet. Rückt die Liste
+- RLB-75 (P-26/4): Das Kontextmenü des letzten Eintrags wird nach dem Loslassen noch einmal ausgerichtet. Rückt die Liste
   trotzdem nicht, steht es über der Kachel, nie hinter ‚Backup erstellen‘ (R-40). Der Platz unter der Liste verschwindet
   beim Schließen wieder.
-- T-76 (P-26/8, P-26/9): Ergebnis des Abgleichs neu (R-44):
+- RLB-76 (P-26/8, P-26/9): Ergebnis des Abgleichs neu (R-44):
   - Ein kleines Fenster ‚Abgleichen‘ ohne Einzelheiten zeigt die Schaltfläche ‚Abgleichbericht anzeigen‘.
   - Der Abgleichbericht ist eine Vorschau wie die Ausgabe und lässt sich als HTML teilen. Er enthält die Tabelle der
     Änderungen (Reiselogbuch · Tag · Feld · Neu · Vorher · Vom Gerät · Geändert am). Darunter stehen die Anzahl der
@@ -2321,7 +2361,7 @@ Reiselogbuch 3.11.0 · AppDesign 4.11.0 (Designrichtlinie allgemein 4.11.0) · D
 - Neue Prüfung `tests/version-regeln.mjs` (R-48). Das Prüfskript misst jetzt auch das Ergebnisfenster und den
   Abgleichbericht.
 
-Prüfliste P-27 (Schritt für Schritt, Zusammenarbeit allgemein 1.14.0). **Vorher auf beiden Geräten die App ganz schließen
+Testfälle P-27 (Schritt für Schritt, Zusammenarbeit allgemein 1.14.0). **Vorher auf beiden Geräten die App ganz schließen
 (vom unteren Rand nach oben wischen und wegschieben) und neu öffnen.**
 
 **P-27/0 – richtige Version auf beiden Geräten**
@@ -2419,15 +2459,15 @@ Prüfliste P-27 (Schritt für Schritt, Zusammenarbeit allgemein 1.14.0). **Vorhe
 
 Reiselogbuch 3.10.1 · AppDesign 4.10.1 (Designrichtlinie allgemein 4.10.1) · Designrichtlinie Reiselogbuch 3.10.1 · Zusammenarbeit allgemein 1.14.0
 
-- T-68 (P-25/4): Am iPad behält die Seitenleiste beim Drehen ihren Zustand (neue Regel R-47).
-- T-69 (P-25/6): Das Kontextmenü einer Reise ist am iPhone nie mehr abgeschnitten oder hinter der Backup-Kachel;
+- RLB-68 (P-25/4): Am iPad behält die Seitenleiste beim Drehen ihren Zustand (neue Regel R-47).
+- RLB-69 (P-25/6): Das Kontextmenü einer Reise ist am iPhone nie mehr abgeschnitten oder hinter der Backup-Kachel;
   am iPad endet es über der Backup-Kachel.
-- T-70 (P-25/14): Die Hinweise beim Abgleich nennen iPad bzw. iPhone beim Namen.
-- T-71 (P-25/15, 16): Leere Felder aus dem Fenster ‚Tag‘ überschreiben beim Abgleich nichts mehr (z. B. das Wetter
+- RLB-70 (P-25/14): Die Hinweise beim Abgleich nennen iPad bzw. iPhone beim Namen.
+- RLB-71 (P-25/15, 16): Leere Felder aus dem Fenster ‚Tag‘ überschreiben beim Abgleich nichts mehr (z. B. das Wetter
   vom anderen Gerät).
-- T-72: Zusammenarbeit allgemein 1.14.0 – Prüfpunkte am Ende jeder Umsetzung Schritt für Schritt.
+- RLB-72: Zusammenarbeit allgemein 1.14.0 – Usertests am Ende jeder Umsetzung Schritt für Schritt.
 
-Prüfliste P-26 (Schritt für Schritt, Zusammenarbeit allgemein 1.14.0):
+Testfälle P-26 (Schritt für Schritt, Zusammenarbeit allgemein 1.14.0):
 
 **P-26/1 – iPad: sichtbare Seitenleiste bleibt beim Drehen**
 1. iPad quer halten, die Seitenleiste ist links sichtbar.
@@ -2499,18 +2539,18 @@ Reiselogbuch 3.10.0 · AppDesign 4.10.0 (Designrichtlinie allgemein 4.10.0) · D
 
 Sammelversion:
 
-- T-63: Menüs und Untermenüs werden beim Drehen neu ausgerichtet – unter ihrer Schaltfläche, ganz sichtbar;
+- RLB-63: Menüs und Untermenüs werden beim Drehen neu ausgerichtet – unter ihrer Schaltfläche, ganz sichtbar;
   die Seitenleiste bleibt dabei sichtbar (neue allgemeine Regel R-40, automatische Drehprüfung).
-- T-65: iPhone – das Kontextmenü einer Reise steht linksbündig unter der Kachel, über ‚Backup erstellen‘;
+- RLB-65: iPhone – das Kontextmenü einer Reise steht linksbündig unter der Kachel, über ‚Backup erstellen‘;
   die Liste rückt dafür nötigenfalls nach oben.
-- T-64: Abgleich je Feld (auch am selben Tag und in den Kopfdaten); hier Gelöschtes bleibt gelöscht, mit Hinweis
+- RLB-64: Abgleich je Feld (auch am selben Tag und in den Kopfdaten); hier Gelöschtes bleibt gelöscht, mit Hinweis
   ‚im Backup noch vorhanden‘; Hinweis, wenn drüben Gelöschtes hier weiter geändert wurde.
-- T-66: Abgleich als allgemeine Regeln R-41 bis R-44 mit gemeinsamem Baustein und allgemeiner Prüfung; die Tabelle
+- RLB-66: Abgleich als allgemeine Regeln R-41 bis R-44 mit gemeinsamem Baustein und allgemeiner Prüfung; die Tabelle
   der Anwendungsfälle steht in der Designrichtlinie allgemein, Abschnitt 15.18.
-- T-67: ‚Backup laden‘ besser lesbar – je eine Kachel für Abgleichen und Ersetzen mit Erklärung; Backup erstellen
+- RLB-67: ‚Backup laden‘ besser lesbar – je eine Kachel für Abgleichen und Ersetzen mit Erklärung; Backup erstellen
   und laden als allgemeiner Standard R-45, R-46 (Abschnitt 15.19) mit allgemeiner Prüfung.
 
-Prüfliste P-25 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
+Testfälle P-25 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
 
 1. Mehr-Menü (…) öffnen, ‚Darstellung‘ antippen (Untermenü), dann drehen – Menü steht unter ‚…‘, Untermenü
    daneben, beides ganz sichtbar; zurückdrehen ebenso (R-40). Ebenso Teilen-Menü und Menü der Seitenleiste.
@@ -2527,11 +2567,11 @@ Prüfliste P-25 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mi
 
 Reiselogbuch 3.9.1 · AppDesign 4.9.1 (Designrichtlinie allgemein 4.9.1) · Designrichtlinie Reiselogbuch 3.9.1 · Zusammenarbeit allgemein 1.13.0
 
-- T-62: Am iPhone quer war die Abfrage ‚Backup laden‘ höher als der Bildschirm (‚Abbrechen‘ nicht
+- RLB-62: Am iPhone quer war die Abfrage ‚Backup laden‘ höher als der Bildschirm (‚Abbrechen‘ nicht
   erreichbar) – jetzt breiter mit Knöpfen nebeneinander, sie passt ganz auf den Bildschirm. Am iPad
   hoch ragte das Fenster ‚Tag‘ 10 px über den unteren Rand – behoben. Neue Regel R-39 mit Prüfung.
 
-Prüfliste: weiter P-24 (bei Version 3.9.0) – dazu Punkt 7:
+Testfälle: weiter P-24 (bei Version 3.9.0) – dazu Punkt 7:
 
 7. iPhone quer: ‚Backup laden‘ – die Abfrage ist ganz zu sehen, alle drei Knöpfe erreichbar (R-39);
    iPad hoch: Fenster ‚Tag‘ öffnen – es endet über dem unteren Rand.
@@ -2540,7 +2580,7 @@ Prüfliste: weiter P-24 (bei Version 3.9.0) – dazu Punkt 7:
 
 Reiselogbuch 3.9.0 · AppDesign 4.9.0 (Designrichtlinie allgemein 4.9.0) · Designrichtlinie Reiselogbuch 3.9.0 · Zusammenarbeit allgemein 1.13.0
 
-- T-03: Abgleich zwischen iPad und iPhone über ein Backup (z. B. in iCloud Drive). Jede Änderung
+- RLB-3: Abgleich zwischen iPad und iPhone über ein Backup (z. B. in iCloud Drive). Jede Änderung
   bekommt Zeitpunkt und Gerät – je Reiselogbuch und je Tag; gelöschte Reiselogbücher werden gemerkt.
   ‚Backup laden‘ zeigt Zeitpunkt und Gerät des Backups und ob es neuer oder älter ist als die Daten
   hier, und fragt: **Abgleichen** · **Ersetzen** · **Abbrechen**. Abgleichen nimmt je Reiselogbuch
@@ -2552,7 +2592,7 @@ Reiselogbuch 3.9.0 · AppDesign 4.9.0 (Designrichtlinie allgemein 4.9.0) · Desi
 So geht der Abgleich: auf dem einen Gerät ‚Backup erstellen‘ → ‚In Dateien sichern‘ → iCloud Drive;
 auf dem anderen ‚Backup laden‘ → die Datei in iCloud Drive wählen → ‚Abgleichen‘.
 
-Prüfliste P-24 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
+Testfälle P-24 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
 
 1. Auf dem iPad einen Tag ändern – die Kachel zeigt ‚geändert am … · iPad‘ (gleich am iPhone: ‚· iPhone‘).
 2. iPad: ‚Backup erstellen‘ → ‚In Dateien sichern‘ → iCloud Drive.
@@ -2569,12 +2609,12 @@ Prüfliste P-24 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mi
 
 Reiselogbuch 3.8.1 · AppDesign 4.8.1 (Designrichtlinie allgemein 4.8.1) · Designrichtlinie Reiselogbuch 3.8.1 · Zusammenarbeit allgemein 1.13.0
 
-- T-60: Regel R-05 verschärft – eine Symbolleiste, mit oder ohne Suchzeile, bewegt sich beim
+- RLB-60: Regel R-05 verschärft – eine Symbolleiste, mit oder ohne Suchzeile, bewegt sich beim
   Wischen keinen Millimeter. Ist die Tastatur der Suche offen, schließt das erste Wischen nur die
   Tastatur, die Seite bleibt dabei stehen; das nächste Wischen scrollt. Das Prüfskript misst die
   Lage jeder Leiste beim Scrollen (iPad und iPhone, mit und ohne Suchzeile).
 
-Prüfliste P-23 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – ersetzt P-22/5:
+Testfälle P-23 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – ersetzt P-22/5:
 
 1. Ohne Suche: Reiselogbuch langsam, schnell und über den Rand hinaus wischen – die Leiste bewegt
    sich keinen Millimeter (R-05).
@@ -2589,16 +2629,16 @@ Reiselogbuch 3.8.0 · AppDesign 4.8.0 (Designrichtlinie allgemein 4.8.0) · Desi
 
 Sammelversion:
 
-- T-57 (P-21/3, 5): Reihen von Smileys ohne Leerzeichen ragen nicht mehr über die Zelle hinaus –
+- RLB-57 (P-21/3, 5): Reihen von Smileys ohne Leerzeichen ragen nicht mehr über die Zelle hinaus –
   mehr als drei Smileys am Zeilenanfang sind Text und brechen am Rand um; lange Wörter werden nicht
   mehr zu einer schmalen Spalte gequetscht, die Suche markiert dort richtig. Spaltenköpfe bleiben
   in einer Zeile. Das Prüfskript prüft jetzt auch mit Smiley-Reihen wie in deinem Reiselogbuch.
-- T-58 (P-21/2): Die Seitenleiste behält ihre Position – ein weiter unten gewähltes Reiselogbuch
+- RLB-58 (P-21/2): Die Seitenleiste behält ihre Position – ein weiter unten gewähltes Reiselogbuch
   bleibt nach dem Öffnen sichtbar (iPad und iPhone).
-- T-59: iPhone – Wischen bei offener Suche schließt die Tastatur (wie Apple); die Leiste mit der
+- RLB-59: iPhone – Wischen bei offener Suche schließt die Tastatur (wie Apple); die Leiste mit der
   Suchzeile zittert nicht mehr.
 
-Prüfliste P-22 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
+Testfälle P-22 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
 
 1. Tag mit langen Smiley-Reihen ohne Leerzeichen (wie im Bildschirmfoto) in Wie war was? und
    Essen – alles bricht am Rand der Spalte um, nichts ragt in die Nachbarspalte (R-37).
@@ -2615,14 +2655,14 @@ Reiselogbuch 3.7.0 · AppDesign 4.7.0 (Designrichtlinie allgemein 4.7.0) · Desi
 
 Sammelversion:
 
-- T-55 (P-20/2): Die Startliste am iPhone ist jetzt dieselbe Seitenleiste wie am iPad (ein
+- RLB-55 (P-20/2): Die Startliste am iPhone ist jetzt dieselbe Seitenleiste wie am iPad (ein
   Baustein). Die Reisekacheln verschwinden auf beiden Geräten nach unten hinter der
   Backup-Kachel – keine starre Begrenzung mehr am iPad. Neue Regel R-36 mit Gerätevergleich.
-- T-56 (P-20/3): Zu lange Wörter (z. B. 100 × ‚a‘) brechen in der Tabelle, in den Kästen und
+- RLB-56 (P-20/3): Zu lange Wörter (z. B. 100 × ‚a‘) brechen in der Tabelle, in den Kästen und
   Kacheln im Wort um und laufen in der nächsten Zeile weiter. Neue Regel R-37; das Prüfskript
   prüft mit 100 × ‚a‘ in allen Spalten.
 
-Prüfliste P-21 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
+Testfälle P-21 (iPad und iPhone, jeweils hell und dunkel, quer und hoch) – mit den betroffenen Geräte-Regeln:
 
 1. iPad quer: In der Seitenleiste die Kacheln wischen – sie verschwinden nach unten hinter der
    Backup-Kachel, Kopf und Backup-Kachel bleiben stehen, nichts federt (R-36, R-05).
@@ -2639,12 +2679,12 @@ Reiselogbuch 3.6.0 · AppDesign 4.6.0 (Designrichtlinie allgemein 4.6.0) · Desi
 
 Sammelversion:
 
-- T-53 (P-19/3): Am iPad stehen Kopfzeile und Backup-Kachel fest – die Kopfzeile ist fest
+- RLB-53 (P-19/3): Am iPad stehen Kopfzeile und Backup-Kachel fest – die Kopfzeile ist fest
   positioniert, in der Seitenleiste scrollen nur die Kacheln.
-- T-54: Regelkatalog R-01 bis R-35 (AppDesign); das Prüfskript prüft jetzt auch alle
+- RLB-54: Regelkatalog R-01 bis R-35 (AppDesign); das Prüfskript prüft jetzt auch alle
   automatisch prüfbaren Regeln (29) in jeder Ansicht – es hätte den Fehler aus P-19/3 gefunden.
 
-Prüfliste P-20 (iPad und iPhone, jeweils hell und dunkel) – mit den betroffenen Geräte-Regeln:
+Testfälle P-20 (iPad und iPhone, jeweils hell und dunkel) – mit den betroffenen Geräte-Regeln:
 
 1. iPad quer: Tabelle nach oben und unten wischen, auch über den Rand hinaus – die Kopfzeile
    bleibt stehen, nichts federt (R-05).
@@ -2660,12 +2700,12 @@ Reiselogbuch 3.5.0 · AppDesign 4.5.0 (Designrichtlinie allgemein 4.5.0) · Desi
 
 Aus der Prüfung von 3.4.0 (P-18):
 
-- T-51: Vorschau am iPad wie am iPhone in voller Seitenbreite – im Hochformat ragt nichts mehr
+- RLB-51: Vorschau am iPad wie am iPhone in voller Seitenbreite – im Hochformat ragt nichts mehr
   über die Tabelle hinaus, man wischt seitlich.
-- T-52: Leisten bewegen sich nie – die Seite federt beim Wischen nicht nach; die Leiste der
+- RLB-52: Leisten bewegen sich nie – die Seite federt beim Wischen nicht nach; die Leiste der
   iPhone-Startliste steht fest (P-18/4).
 
-Prüfliste P-19 (iPad und iPhone, jeweils hell und dunkel):
+Testfälle P-19 (iPad und iPhone, jeweils hell und dunkel):
 
 1. iPad hoch und quer: Vorschau – die Seite in voller Breite, alles innerhalb der Tabelle; im
    Hochformat lässt sie sich seitlich wischen.
@@ -2680,17 +2720,17 @@ Reiselogbuch 3.4.0 · AppDesign 4.4.0 (Designrichtlinie allgemein 4.4.0) · Desi
 
 Sammelversion aus der Prüfung von 3.3.0 (P-17):
 
-- T-46: Der Titel des Reiselogbuchs steht auf iPad und iPhone in der Leiste; die Überschrift
+- RLB-46: Der Titel des Reiselogbuchs steht auf iPad und iPhone in der Leiste; die Überschrift
   über den Reiseteilnehmern entfällt (in der Ausgabe bleibt sie).
-- T-47: iPhone – ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ wie am iPad, Wert in der
+- RLB-47: iPhone – ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ wie am iPad, Wert in der
   nächsten Zeile; Reisemittel in einer Zeile, seitlich wischen.
-- T-48: Backup-Kachel immer sichtbar – gelb mit blauem Knopf, solange heute noch kein Backup
+- RLB-48: Backup-Kachel immer sichtbar – gelb mit blauem Knopf, solange heute noch kein Backup
   erstellt wurde, sonst weiß (P-17/4: sie fehlte, weil heute schon gesichert war).
-- T-49: Unter ‚Reiselogbücher‘ klein und grau die Anzahl (Seitenleiste und iPhone-Startliste).
-- T-50: Großschreibung schon vor der Eingabe; nach einem Vorschlag (z. B. ‚Freetour …‘) beginnt
+- RLB-49: Unter ‚Reiselogbücher‘ klein und grau die Anzahl (Seitenleiste und iPhone-Startliste).
+- RLB-50: Großschreibung schon vor der Eingabe; nach einem Vorschlag (z. B. ‚Freetour …‘) beginnt
   das nächste Wort groß.
 
-Prüfliste P-18 (iPad und iPhone, jeweils hell und dunkel):
+Testfälle P-18 (iPad und iPhone, jeweils hell und dunkel):
 
 1. iPad und iPhone: Der Name des Reiselogbuchs steht in der Leiste, darunter direkt die
    Reiseteilnehmer (ohne Überschrift); in Vorschau/Ausgabe steht die Überschrift weiterhin.
@@ -2707,17 +2747,17 @@ Reiselogbuch 3.3.0 · AppDesign 4.3.0 (Designrichtlinie allgemein 4.3.0) · Desi
 
 Sammelversion aus der Prüfung von 3.2.0 (P-16):
 
-- T-37: Doppeltippen (z. B. auf ein Reisemittel) vergrößert die Ansicht nicht mehr.
-- T-38: Reisezeitraum – ‚Bis‘ mit Datum steht auf dem iPhone unter ‚Von‘ (Bezeichnung bleibt beim Feld).
-- T-39: Erster offener Tag gelb ohne blauen Rand (Tabelle und Kacheln).
-- T-40/T-43: Startliste (iPhone) und Seitenleiste (iPad) gleich – Titel links in der fest
+- RLB-37: Doppeltippen (z. B. auf ein Reisemittel) vergrößert die Ansicht nicht mehr.
+- RLB-38: Reisezeitraum – ‚Bis‘ mit Datum steht auf dem iPhone unter ‚Von‘ (Bezeichnung bleibt beim Feld).
+- RLB-39: Erster offener Tag gelb ohne blauen Rand (Tabelle und Kacheln).
+- RLB-40/RLB-43: Startliste (iPhone) und Seitenleiste (iPad) gleich – Titel links in der fest
   stehenden Leiste, Reiselogbücher als Kacheln, gelbe Backup-Kachel fest unten.
-- T-41: Eigene Mikrofon-Knöpfe entfernt; Diktieren über die Mikrofon-Taste der Tastatur.
-- T-42: Der erste Buchstabe jeder Zeile wird groß – auch nach einem Smiley, auf iPad und iPhone.
-- T-44: ‚Verlauf‘ in den Tageskacheln halbfett.
-- T-45: Nach oben / Ans Ende in einer senkrechten Kapsel.
+- RLB-41: Eigene Mikrofon-Knöpfe entfernt; Diktieren über die Mikrofon-Taste der Tastatur.
+- RLB-42: Der erste Buchstabe jeder Zeile wird groß – auch nach einem Smiley, auf iPad und iPhone.
+- RLB-44: ‚Verlauf‘ in den Tageskacheln halbfett.
+- RLB-45: Nach oben / Ans Ende in einer senkrechten Kapsel.
 
-Prüfliste P-17 (iPad und iPhone, jeweils hell und dunkel):
+Testfälle P-17 (iPad und iPhone, jeweils hell und dunkel):
 
 1. iPad und iPhone: Doppeltippen auf ein Reisemittel (Einstellungen) oder einen Smiley vergrößert nichts.
 2. iPhone: Einstellungen – ‚Bis‘ mit Datum steht unter ‚Von‘.
@@ -2737,24 +2777,24 @@ Reiselogbuch 3.2.0 · AppDesign 4.2.0 (Designrichtlinie allgemein 4.2.0) · Desi
 
 Sammelversion aus der Prüfung von 3.1.0 (P-15):
 
-- T-32: **‚Verlauf‘** statt ‚Programm‘ überall (Tabelle, Tageserfassung, Ausgabe, Einstellungen).
+- RLB-32: **‚Verlauf‘** statt ‚Programm‘ überall (Tabelle, Tageserfassung, Ausgabe, Einstellungen).
   iPhone: in den Tageskacheln als Wort in normaler Schrift; Felder durch Linien getrennt
   (waagrecht und senkrecht).
-- T-34: Suche auf dem iPhone wie am iPad (`search` in der Kapsel, Suchzeile mit ‚1 von 4‘, ⌃ ⌄).
-- T-25: iPhone – großer Titel wandert beim Hochschieben in die Leiste (wie Notizen).
-- T-27/T-35: iPhone-Startliste mit Kapsel [plus | ellipsis] oben, jedes Reiselogbuch als Kachel
+- RLB-34: Suche auf dem iPhone wie am iPad (`search` in der Kapsel, Suchzeile mit ‚1 von 4‘, ⌃ ⌄).
+- RLB-25: iPhone – großer Titel wandert beim Hochschieben in die Leiste (wie Notizen).
+- RLB-27/RLB-35: iPhone-Startliste mit Kapsel [plus | ellipsis] oben, jedes Reiselogbuch als Kachel
   (zuletzt geöffnetes blau), Backup-Hinweis fest unten als gelbe Kachel mit blauem Knopf – am
   iPad in der Seitenleiste ebenso fest unten und gelb.
-- T-28: Wischen in Fenstern, Menüs und Sprechblasen bewegt die Seite dahinter nicht mehr.
-- T-33: x beim Öffnen eines Fensters ohne blauen Rahmen.
-- T-36: Vorschau auf dem iPhone – Kapsel [PDF | share] vollständig, Seite in voller Breite
+- RLB-28: Wischen in Fenstern, Menüs und Sprechblasen bewegt die Seite dahinter nicht mehr.
+- RLB-33: x beim Öffnen eines Fensters ohne blauen Rahmen.
+- RLB-36: Vorschau auf dem iPhone – Kapsel [PDF | share] vollständig, Seite in voller Breite
   (seitlich wischen) statt zerrissener Wörter.
-- T-26: Backup-Abfrage ‚Backup mit 3 Reiselogbüchern laden?‘ mit Zeilenumbruch.
-- T-30: ‚Letztes Backup erstellt am …‘ gilt je Gerät (wird beim Laden nicht übernommen).
-- T-29: Textfelder mit Großbuchstaben am Satzanfang, Autokorrektur und Rechtschreibprüfung.
-- T-31: Spracheingabe – jede Störung wird mit Ursache und Abhilfe gemeldet (Fehlersuche).
+- RLB-26: Backup-Abfrage ‚Backup mit 3 Reiselogbüchern laden?‘ mit Zeilenumbruch.
+- RLB-30: ‚Letztes Backup erstellt am …‘ gilt je Gerät (wird beim Laden nicht übernommen).
+- RLB-29: Textfelder mit Großbuchstaben am Satzanfang, Autokorrektur und Rechtschreibprüfung.
+- RLB-31: Spracheingabe – jede Störung wird mit Ursache und Abhilfe gemeldet (Fehlersuche).
 
-Prüfliste P-16 (iPad und iPhone, jeweils hell und dunkel):
+Testfälle P-16 (iPad und iPhone, jeweils hell und dunkel):
 
 1. iPad: Spalte, Tageserfassung, Ausgabe und Einstellungen heißen ‚Verlauf‘ statt ‚Programm‘.
 2. iPad: Backup-Hinweis in der Seitenleiste gelb mit blauem Knopf, fest unten (bei vielen
@@ -2782,17 +2822,17 @@ Reiselogbuch 3.1.0 · AppDesign 4.1.0 (Designrichtlinie allgemein 4.1.0) · Desi
 
 Sammelversion:
 
-- T-02: **iPhone-Ansicht** (hoch und quer) wie Notizen auf dem iPhone – Startliste
+- RLB-2: **iPhone-Ansicht** (hoch und quer) wie Notizen auf dem iPhone – Startliste
   ‚Reiselogbücher‘ als eigene Seite mit großem Titel, rundem `plus` unten rechts und Menü oben
   rechts; ein Reiselogbuch zeigt die Tage als Kästen, die Suche steht unten; Tageserfassung und
   alle Fenster bildschirmfüllend; runder Zurück-Knopf ohne Text. Bausteine dafür neu in AppDesign
   4.1.0. iPad unverändert (Fenster ‚Hochformat‘ legt die Seitenleiste wie bisher darüber).
-- T-24: Mehr-Menü ‚Alle Tage‘ / ‚Nur erfasste Tage‘ wieder mit Icons – Häkchen vorne, dann Icon
+- RLB-24: Mehr-Menü ‚Alle Tage‘ / ‚Nur erfasste Tage‘ wieder mit Icons – Häkchen vorne, dann Icon
   und Text.
 - Beim Start springt die App auch nach einem Neuladen zuverlässig zum ersten offenen Tag.
 - Tests: neuer Ablauf-Test `ablauf-iphone.mjs`; HIG-Prüfung zusätzlich für iPhone hoch/quer.
 
-Prüfliste P-15 (auf dem iPad und dem iPhone, jeweils hell und dunkel):
+Testfälle P-15 (auf dem iPad und dem iPhone, jeweils hell und dunkel):
 
 1. iPad: Mehr-Menü – ‚Alle Tage‘ / ‚Nur erfasste Tage‘ mit Häkchen vorne, dann Icon und Text.
 2. iPad quer und hoch: sonst alles wie bisher.
@@ -2816,7 +2856,7 @@ Prüfliste P-15 (auf dem iPad und dem iPhone, jeweils hell und dunkel):
 
 Reiselogbuch 3.0.0 · AppDesign 4.0.0 (Designrichtlinie allgemein 4.0.0) · Designrichtlinie Reiselogbuch 3.0.0 · Zusammenarbeit allgemein 1.10.0
 
-- T-23: Gemeinsame Bausteine kommen aus dem neuen Design-Repo **AppDesign**:
+- RLB-23: Gemeinsame Bausteine kommen aus dem neuen Design-Repo **AppDesign**:
   `../AppDesign/v4/design.css` (Farben und Komponenten) und `../AppDesign/v4/ui.js` (Icons, Menüs,
   Sprechblasen, Fenster, Darstellung …). `index.html` enthält nur noch, was zum Reiselogbuch gehört.
 - Aussehen und Bedienung **unverändert** – 40 Ansichten (hell/dunkel, quer/hoch) pixelgenau mit 2.4.0
@@ -2831,9 +2871,9 @@ Reiselogbuch 2.4.0 · Designrichtlinie allgemein 3.6.1 · Designrichtlinie Reise
 
 Sammelversion aus der Prüfung von 2.3.0:
 
-- T-20: Menüs ohne Linien zwischen den einzelnen Punkten – nur die eingerückte Linie zwischen
+- RLB-20: Menüs ohne Linien zwischen den einzelnen Punkten – nur die eingerückte Linie zwischen
   Gruppen (wie iOS 26).
-- T-21: Suchfeld ohne blauen Fokus-Rahmen; beim Blättern mit ⌃ ⌄ geht die Tastatur zu wie bisher.
+- RLB-21: Suchfeld ohne blauen Fokus-Rahmen; beim Blättern mit ⌃ ⌄ geht die Tastatur zu wie bisher.
 - HIG-Prüfskript prüft zusätzlich Linien in Menüs und den Fokus-Rahmen des Suchfelds;
   Essen-Links als bewusste Abweichung.
 
@@ -2843,35 +2883,35 @@ Reiselogbuch 2.3.0 · Designrichtlinie allgemein 3.6.0 · Designrichtlinie Reise
 
 Sammelversion aus der HIG-Prüfung der ganzen App:
 
-- T-18: Darstellung folgt automatisch dem iPad; im Mehr-Menü Untermenü ‚Darstellung ›‘ mit
+- RLB-18: Darstellung folgt automatisch dem iPad; im Mehr-Menü Untermenü ‚Darstellung ›‘ mit
   Automatisch · Hell · Dunkel (ersetzt ‚Modus dunkel/hell‘).
-- T-12: Gruppen in allen Menüs durch eine dünne, eingerückte Linie getrennt (wie iOS 26).
-- T-07: Alle Kapseln gleich gebaut – die Markierung liegt immer innerhalb des Randes.
-- T-15: Kontextmenü in der Seitenleiste ohne ‚Öffnen‘ (Tippen öffnet).
-- T-17: Schaltflächen in Sprechblasen ohne Icons; ‚Abbrechen‘ in normaler Schrift.
-- T-16: Graue Hinweistexte kontrastreicher; Löschen-Schaltfläche im Dunkelmodus gut lesbar.
-- T-13: Größere Antippflächen für Maps-Links (Quartier, ‚In Google Maps prüfen‘) und ⓧ in der Suche.
-- T-11/T-14: Verständlichere Texte – Überschneidung (‚Wähle einen Zeitraum, …‘),
+- RLB-12: Gruppen in allen Menüs durch eine dünne, eingerückte Linie getrennt (wie iOS 26).
+- RLB-7: Alle Kapseln gleich gebaut – die Markierung liegt immer innerhalb des Randes.
+- RLB-15: Kontextmenü in der Seitenleiste ohne ‚Öffnen‘ (Tippen öffnet).
+- RLB-17: Schaltflächen in Sprechblasen ohne Icons; ‚Abbrechen‘ in normaler Schrift.
+- RLB-16: Graue Hinweistexte kontrastreicher; Löschen-Schaltfläche im Dunkelmodus gut lesbar.
+- RLB-13: Größere Antippflächen für Maps-Links (Quartier, ‚In Google Maps prüfen‘) und ⓧ in der Suche.
+- RLB-11/RLB-14: Verständlichere Texte – Überschneidung (‚Wähle einen Zeitraum, …‘),
   Quartier-Hinweis ohne ‚Cursor‘, Download-Meldung.
-- T-10: HIG-Prüfskript `tests/hig.mjs` prüft jede Version (hell/dunkel, quer/hoch).
+- RLB-10: HIG-Prüfskript `tests/hig.mjs` prüft jede Version (hell/dunkel, quer/hoch).
 
 ## 2.2.2 – 09.10.2026 (Korrektur)
 
 Reiselogbuch 2.2.2 · Designrichtlinie allgemein 3.4.1 · Designrichtlinie Reiselogbuch 2.2.2 · Zusammenarbeit allgemein 1.5.0
 
-- T-09: Alle Texte der App verwenden einfache Anführungszeichen ‚…‘ statt doppelter (z. B.
+- RLB-9: Alle Texte der App verwenden einfache Anführungszeichen ‚…‘ statt doppelter (z. B.
   ‚In Dateien sichern‘, ‚Tag‘ und ‚Programm‘, ‚keinen Google-Maps Link‘, Reisetitel in Abfragen).
-- T-08: Teilen-Menü wie das Menü der Seitenleiste: durchgehender Strich vor der grauen Zeile
+- RLB-8: Teilen-Menü wie das Menü der Seitenleiste: durchgehender Strich vor der grauen Zeile
   ‚N erfasste Tage · Dateiname …‘, ohne Leerzeilen.
 
 ## 2.2.1 – 09.10.2026 (Korrektur)
 
 Reiselogbuch 2.2.1 · Designrichtlinie allgemein 3.3.1 · Designrichtlinie Reiselogbuch 2.2.1 · Zusammenarbeit allgemein 1.5.0
 
-- F-11: Ein Reiselogbuch bleibt in der Seitenleiste blau, solange seine Einstellungen (über
+- RLB 2.2.1/F-11: Ein Reiselogbuch bleibt in der Seitenleiste blau, solange seine Einstellungen (über
   langes Drücken geöffnet) offen sind; ebenso die Tageszeile (wandert beim Blättern mit) und
   das Fazit, solange ihr Fenster offen ist.
-- F-12: Menü der Seitenleiste: technische Informationen nach einem durchgehenden Strich, ohne
+- RLB 2.2.1/F-12: Menü der Seitenleiste: technische Informationen nach einem durchgehenden Strich, ohne
   Leerzeilen; statt „Speicher: dauerhaft“ der Satz „Die Daten bleiben in Safari gespeichert,
   solange das Reiselogbuch auf dem Home-Bildschirm nicht entfernt wird.“ (sonst „Safari kann
   die Daten bei Speichermangel löschen – bitte regelmäßig ein Backup erstellen.“).
@@ -2880,9 +2920,9 @@ Reiselogbuch 2.2.1 · Designrichtlinie allgemein 3.3.1 · Designrichtlinie Reise
 
 Reiselogbuch 2.2.0 · Designrichtlinie allgemein 3.3.0 · Designrichtlinie Reiselogbuch 2.2.0 · Zusammenarbeit allgemein 1.5.0
 
-- T-01: Langes Drücken auf ein Reiselogbuch in der Seitenleiste öffnet ein Kontextmenü:
+- RLB-1: Langes Drücken auf ein Reiselogbuch in der Seitenleiste öffnet ein Kontextmenü:
   Öffnen · Einstellungen (für genau dieses Reiselogbuch) · Reiselogbuch löschen.
-- T-04: Die App fordert dauerhaften Speicher an, damit Safari die Daten nicht von selbst löscht;
+- RLB-4: Die App fordert dauerhaften Speicher an, damit Safari die Daten nicht von selbst löscht;
   im Menü der Seitenleiste steht, ob der Speicher dauerhaft ist, und ein Hinweis, dass beim
   Entfernen vom Home-Bildschirm alle Daten verloren gehen.
 
@@ -2890,7 +2930,7 @@ Reiselogbuch 2.2.0 · Designrichtlinie allgemein 3.3.0 · Designrichtlinie Reise
 
 Reiselogbuch 2.1.5 · Designrichtlinie allgemein 3.2.3 · Designrichtlinie Reiselogbuch 2.1.2 · Zusammenarbeit allgemein 1.5.0
 
-- F-10: Bei sichtbarer Tastatur bleiben die Kopfzeilen aller Fenster (Einstellungen,
+- RLB 2.1.5/F-10: Bei sichtbarer Tastatur bleiben die Kopfzeilen aller Fenster (Einstellungen,
   Tageserfassung, Fazit, Neues Reiselogbuch, Meldungen) und der Hauptansicht sichtbar; das
   Fenster passt sich dem Bereich über der Tastatur an, nur der Inhalt scrollt.
 
@@ -2898,7 +2938,7 @@ Reiselogbuch 2.1.5 · Designrichtlinie allgemein 3.2.3 · Designrichtlinie Reise
 
 Reiselogbuch 2.1.4 · Designrichtlinie allgemein 3.2.2 · Designrichtlinie Reiselogbuch 2.1.2 · Zusammenarbeit allgemein 1.4.0
 
-- F-09: Markierung in den Auswahl-Kapseln wie bei Apple (Tapback): bei Wetter und Smileys ein
+- RLB 2.1.4/F-9: Markierung in den Auswahl-Kapseln wie bei Apple (Tapback): bei Wetter und Smileys ein
   runder Kreis statt eines „Eis“, bei Reisemitteln eine Kapsel mit Abstand nach innen; markierte
   Nachbarn haben jetzt Abstand zueinander.
 
@@ -2906,28 +2946,28 @@ Reiselogbuch 2.1.4 · Designrichtlinie allgemein 3.2.2 · Designrichtlinie Reise
 
 Reiselogbuch 2.1.3 · Designrichtlinie allgemein 3.2.1 · Designrichtlinie Reiselogbuch 2.1.2 · Zusammenarbeit allgemein 1.4.0
 
-- F-08: In den Auswahl-Kapseln (Reisemittel, Wetter, Smileys) wurde die blaue Markierung unten
+- RLB 2.1.3/F-8: In den Auswahl-Kapseln (Reisemittel, Wetter, Smileys) wurde die blaue Markierung unten
   abgeschnitten – die Schaltflächen füllen jetzt genau den Innenraum der Kapsel.
 
 ## 2.1.2 – 08.10.2026 (Korrektur)
 
 Reiselogbuch 2.1.2 · Designrichtlinie allgemein 3.2.1 · Designrichtlinie Reiselogbuch 2.1.2 · Zusammenarbeit allgemein 1.4.0
 
-- F-06: Beim Start ist die Seitenleiste immer eingeblendet (hoch über den Inhalt gelegt); die
+- RLB 2.1.2/F-6: Beim Start ist die Seitenleiste immer eingeblendet (hoch über den Inhalt gelegt); die
   laufende Reise ist geöffnet.
-- F-07: Seitenleiste reicht wie in Safari bis 4 px über den unteren Rand.
+- RLB 2.1.2/F-7: Seitenleiste reicht wie in Safari bis 4 px über den unteren Rand.
 
 ## 2.1.1 – 08.10.2026 (Korrektur)
 
 Reiselogbuch 2.1.1 · Designrichtlinie allgemein 3.2.0 · Designrichtlinie Reiselogbuch 2.1.1 · Zusammenarbeit allgemein 1.4.0
 
-- F-01: PDF/Drucken bei eingeblendeter Seitenleiste – jetzt nur das Reiselogbuch, ohne
+- RLB 2.1.1/F-1: PDF/Drucken bei eingeblendeter Seitenleiste – jetzt nur das Reiselogbuch, ohne
   freien Platz links.
-- F-02: Suche – Markierung sofort, Sprung nach kurzer Tipp-Pause; Treffer direkt unter der
+- RLB 2.1.1/F-2: Suche – Markierung sofort, Sprung nach kurzer Tipp-Pause; Treffer direkt unter der
   Suchzeile; Kopf- und Suchzeile bleiben bei offener Tastatur fest.
-- F-03: Ausgabe – Wetter in der Spalte „Tag“ unter dem Datum, die Spalte wird schmäler.
-- F-04: Gesamtkosten – Feld so breit wie „100.000,00“, wächst bei längeren Beträgen mit.
-- F-05: Smileys, Wetter-Symbole und Reisemittel in je einer wischbaren Kapsel.
+- RLB 2.1.1/F-3: Ausgabe – Wetter in der Spalte „Tag“ unter dem Datum, die Spalte wird schmäler.
+- RLB 2.1.1/F-4: Gesamtkosten – Feld so breit wie „100.000,00“, wächst bei längeren Beträgen mit.
+- RLB 2.1.1/F-5: Smileys, Wetter-Symbole und Reisemittel in je einer wischbaren Kapsel.
 
 ## 2.1.0 – 08.10.2026 (Nebenversion)
 

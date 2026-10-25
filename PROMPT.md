@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 25.10.2026, Version 3.33.0)
+# Reiselogbuch – Funktionsbeschreibung (Stand 25.10.2026, Version 3.34.0)
 
-Reiselogbuch 3.33.0 · AppDesign 4.35.0 (Designrichtlinie allgemein 4.35.0) · Designrichtlinie Reiselogbuch 3.33.0 · Zusammenarbeit allgemein 2.19.0
+Reiselogbuch 3.34.0 · AppDesign 4.36.0 (Designrichtlinie allgemein 4.36.0) · Designrichtlinie Reiselogbuch 3.34.0 · Zusammenarbeit allgemein 2.20.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -111,7 +111,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
 - **Darunter** (ohne Überschrift – der Titel steht in der Kopfzeile): Reiseteilnehmer, Reisezeitraum, Reisemittel und die dezente
   Fortschrittsanzeige ‚Tag 42 von 80 · 38 erfasst‘.
 - **Tagestabelle:** eine Zeile je Tag im Zeitraum (‚Mo, 24.08.‘): Tag · Verlauf · sichtbare konfigurierte Spalten; Tabellenkopf
-  haftet unter der Kopfzeile. Vergangene Tage ohne Eintrag tragen ‚fehlt‘ (Farbe `--warn`). **Startposition** (R-7.4, seit 3.30.0 T-98): beim
+  haftet unter der Kopfzeile. Vergangene Tage ohne Eintrag tragen ‚fehlt‘ (Farbe `--warn`). **Startposition** (R-7.4, seit 3.30.0 RLB-98): beim
   Öffnen steht der erste nicht erfasste Tag bis heute (die erste Lücke, auch wenn spätere Tage schon erfasst sind) gelb markiert
   (ohne blauen Rand) direkt unter dem Tabellenkopf; läuft die Reise und ist bis heute alles erfasst, steht der heutige Tag dort, ohne
   Gelb; sonst (Reise in der Zukunft, vergangen und vollständig) beginnt die Tabelle ganz oben ohne Markierung. Künftige Tage sind nie
@@ -148,7 +148,7 @@ wie am iPad (R-1.1):
   1 Nacht‘), Statistik. ‚Nach oben / Ans Ende‘ und Schnellroll-Griff wie am iPad (nicht in der Startliste).
 - **Seitenwechsel:** ein Reiselogbuch schiebt sich über die Startliste; zurück mit `chevron-left` oder Wischen nach rechts von überall
   im Reiselogbuch (R-7.5) – die Zeile ‚Reisemittel‘ behält ihr seitliches Wischen.
-- **Fenster als Blatt** (R-4.6, seit 3.30.0 T-99): Tageserfassung, Einstellungen, Neues Reiselogbuch, Fazit und Vorschau gleiten
+- **Fenster als Blatt** (R-4.6, seit 3.30.0 RLB-99): Tageserfassung, Einstellungen, Neues Reiselogbuch, Fazit und Vorschau gleiten
   von unten; nach unten ziehen schließt wie x, mit Änderungen fragt es (auch beim Erfassen).
 - **Tageserfassung** als Blatt, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘; Wetter-Symbole 40 px breit (Abweichung 2).
 

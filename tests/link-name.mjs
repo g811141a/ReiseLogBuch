@@ -1,9 +1,9 @@
-// Reiselogbuch-Test: link-name – T-86 (seit 3.18.0, Fall-Liste AppDesign arbeit/T-86 Fall-Liste.md): nur der Name ist der
+// Reiselogbuch-Test: link-name – RLB-86 (seit 3.18.0, Testfall-Liste AppDesign arbeit/RLB-86 Testfall-Liste.md): nur der Name ist der
 // Maps-Link; er endet am ersten ‚ – ‘, Komma, Doppelpunkt oder an einer öffnenden Klammer (nicht vor einer Ziffer) – Essen und
 // Quartier, in Tabelle (iPad), Tageskästen (iPhone) und Vorschau. Aufruf im Repo-Ordner: node tests/link-name.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
 const t = pruefung('link-name', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 // [Zeile, Link (null = kein Link), Fall]
 const ESSEN = [['😋 Krone – sehr gut', 'Krone', 'L1'], ['😋 Linde, sehr gut', 'Linde', 'L2'], ['😋 Adler: Schnitzel', 'Adler', 'L3'],
@@ -25,21 +25,21 @@ for (const [ansicht, sel] of [['iPad quer', 'table.days tbody [data-day] a'], ['
   if (await p.locator('#side.page').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(300); }
   await t.schritt(p, 'Reiselogbuch', async () => {});
   const ist = await links(p, sel);
-  soll.forEach(([zeile, link, fall], i) => t.ist(`${fall} ${ansicht}: Link in ‚${zeile}‘`, ist[i], link, 'T-86'));
-  t.ist(`L9 ${ansicht}: Anzahl Links`, ist.length, soll.length, 'T-86');
+  soll.forEach(([zeile, link, fall], i) => t.ist(`${fall} ${ansicht}: Link in ‚${zeile}‘`, ist[i], link, 'RLB-86'));
+  t.ist(`L9 ${ansicht}: Anzahl Links`, ist.length, soll.length, 'RLB-86');
   // Rest bleibt normaler Text: ganze Zeile steht weiter da.
   const text = await p.evaluate(sel => [...document.querySelectorAll(sel.replace(/ a$/, ''))].map(e => e.textContent).join(' '), sel);
-  for (const [zeile, , fall] of [...ESSEN, ...QUARTIER]) t.wahr(`${fall} ${ansicht}: Text ‚${zeile}‘ unvollständig`, text.includes(zeile.replace(/^[^\p{L}]+/u, '')), 'T-86');
+  for (const [zeile, , fall] of [...ESSEN, ...QUARTIER]) t.wahr(`${fall} ${ansicht}: Text ‚${zeile}‘ unvollständig`, text.includes(zeile.replace(/^[^\p{L}]+/u, '')), 'RLB-86');
   // L11: Suche findet Name (Link) und Rest (normaler Text)
   for (const wort of ['Linde', 'Schnitzel']) {
     await p.click('#searchBtn'); await p.waitForTimeout(150); await p.locator('#search').fill(wort); await p.waitForTimeout(900);
-    t.wahr(`L11 ${ansicht}: ‚${wort}‘ nicht markiert`, await p.evaluate(w => [...document.querySelectorAll('mark')].some(m => m.textContent === w), wort), 'T-86');
+    t.wahr(`L11 ${ansicht}: ‚${wort}‘ nicht markiert`, await p.evaluate(w => [...document.querySelectorAll('mark')].some(m => m.textContent === w), wort), 'RLB-86');
     await p.click('#searchBtn'); await p.waitForTimeout(200);
   }
   // Vorschau (Ausgabe HTML/PDF): dieselben Links
   await p.click('#shareBtn'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); await p.waitForTimeout(400);
   const aus = await links(p, '#dlg .preview table.grid a');
-  t.ist(`L12 ${ansicht}: Links der Vorschau`, aus.join(' | '), soll.map(x => x[1]).join(' | '), 'T-86');
+  t.ist(`L12 ${ansicht}: Links der Vorschau`, aus.join(' | '), soll.map(x => x[1]).join(' | '), 'RLB-86');
   await t.schritt(p, 'Vorschau', async () => {});
   await p.close();
 }
