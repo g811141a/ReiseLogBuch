@@ -91,7 +91,8 @@ for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 118
     if (await p.locator('.pop').count()) { await p.locator('.pop button').first().click(); await p.waitForTimeout(200); }
   };
   await dialog(async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); }, 'Fenster Einstellungen', '#mainMore');
-  await dialog(() => p.locator('table.days tbody tr').first().click(), 'Fenster Tag', 'table.days tbody tr[data-day="2026-08-24"]');
+  // seit 3.35.0 (RLB-101): ab AX1 stehen die Tage auch am iPad als Kästen
+  await dialog(() => p.locator('#app [data-day="2026-08-24"]').first().click(), 'Fenster Tag', '#app [data-day="2026-08-24"]');
   await dialog(async () => { await p.locator('#fazit').scrollIntoViewIfNeeded(); await p.click('#fazit'); }, 'Fenster Fazit', '#fazit');
   await dialog(() => p.evaluate(() => openTripDialog(null)), 'Fenster Neues Reiselogbuch');
   await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);
@@ -145,9 +146,10 @@ for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]
   };
   await dialog(async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); }, 'Fenster Einstellungen', '#mainMore');
   await dialog(async () => { await p.click('#shareBtn'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); }, 'Fenster Vorschau', '#shareBtn');
-  await dialog(() => p.locator('#pdays [data-day="2026-08-24"]').click(), 'Fenster Tag', '#pdays [data-day="2026-08-24"]');
+  // auf den Kopf des Kastens tippen – bei großer Schrift läge in der Mitte womöglich der Maps-Link des Quartiers (seit 3.35.0)
+  await dialog(() => p.locator('#pdays [data-day="2026-08-24"] .h').click(), 'Fenster Tag', '#pdays [data-day="2026-08-24"]');
   // Seit 3.13.2 (P-37/2): Folgetag – im Kopf ‚Quartier‘ stehen zwei Schaltflächen (‚Quartier wie Vortag‘, ‚keinen Google-Maps Link‘).
-  await dialog(() => p.locator('#pdays [data-day="2026-08-27"]').click(), 'Fenster Folgetag', '#pdays [data-day="2026-08-27"]');
+  await dialog(() => p.locator('#pdays [data-day="2026-08-27"] .h').click(), 'Fenster Folgetag', '#pdays [data-day="2026-08-27"]');
   await dialog(async () => { await p.locator('#fazit').scrollIntoViewIfNeeded(); await p.click('#fazit'); }, 'Fenster Fazit', '#fazit');
   await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);
   await M('Sprechblase Löschen'); await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);

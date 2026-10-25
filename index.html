@@ -94,7 +94,10 @@
   html.ts-um .meta { display: block; }
   html.ts-um .meta dd { margin: 0 0 6px; }
   html.ts-um .box.day .h { flex-wrap: wrap; }
-  html.ts-um .box.day .h .wx { flex: 1 0 100%; margin-left: 0; }
+  html.ts-um .box.day .h .wx { flex: 1 0 100%; margin-left: 0; overflow-wrap: anywhere; }
+  html.ts-um .meta.trip dd.swipe { white-space: normal; }
+  /* Zeichen vor der Zeile (🕛☕📍 …) dürfen bei großer Schrift umbrechen, statt hinauszuragen (R-6.3) */
+  html.ts-um .ln .m { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }
 
   .qrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
   .dlg-body.preview { margin: 0; padding: 24px; background: #fff; color: #000; color-scheme: light; }
@@ -634,7 +637,7 @@ function insertEmoji(ta, emoji) {
 
 /* ---------- Hauptansicht ---------- */
 
-function render({ scrollToGap = false } = {}) {
+function render({ scrollToGap = false, kaesten = false } = {}) {
   if (isPhone()) return renderPhone({ scrollToGap });
   const trip = getTrip(currentTripId);
   if (!trip) return renderEmpty();
@@ -675,7 +678,8 @@ function render({ scrollToGap = false } = {}) {
   }).join('');
 
   const progress = progressText(trip);
-  const ax = isAx();
+  // Kästen ab AX1 – und schon vorher, wenn die Tabelle bei großer Schrift nicht in ihren Platz passt (render mit kaesten: true)
+  const ax = isAx() || kaesten;
 
   const transport = transportText(trip);
   const stays = c.quarter ? quarterStays(trip) : [];
@@ -728,6 +732,9 @@ function render({ scrollToGap = false } = {}) {
     <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
     </div>`);
 
+  const tabelle = app.querySelector('table.days:not(.static)');
+  if (!ax && tabelle && (tabelle.offsetWidth > tabelle.parentElement.clientWidth + 1 || [...tabelle.querySelectorAll('td')].some(td => td.scrollWidth > td.clientWidth + 1)))
+    return render({ scrollToGap, kaesten: true });
   fab.hidden = false;
   const bar = app.querySelector('#bar');
   updateBar();
