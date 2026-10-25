@@ -1,18 +1,18 @@
-// Reiselogbuch-Test: ablauf-tastatur-still – AppDesign A-36 (R-4.5 Tastatur ohne Springen; Fall-Liste AppDesign arbeit/A-36
-// Fall-Liste.md T-1 bis T-7 und B-1 bis B-18): die Abläufe aus P-60 und den Versuchen mit dem Muster – Fenster eines Tages, Ort antippen,
+// Reiselogbuch-Test: ablauf-tastatur-still – AppDesign APD-36 (R-4.5 Tastatur ohne Springen; Testfall-Liste AppDesign arbeit/APD-36
+// Testfall-Liste.md APD-36/T-1 bis APD-36/T-7 und APD-36/B-1 bis APD-36/B-18): die Abläufe aus P-60 und den Versuchen mit dem Muster – Fenster eines Tages, Ort antippen,
 // Feld wechseln, Tastatur zu (alle vier Lagen; iPad mit Tastatur-Taste und erneutem Antippen); Gesamtausgaben unten im Inhalt (alle vier
 // Lagen; iPhone hoch und iPad mit ↑ bei offener Tastatur und danach ↓; iPhone quer mit Wischen über das Feld; iPhone hoch auch mit nur
-// einem Tag, B-15); Suche oben (iPhone hoch, darf nichts bewegen). In jedem Bild stehen Kopfzeile, Suchzeile, Seitenleiste und Fenster
-// still, das Feld springt nie. T-8: dazu werden die Messungen aus AppDesign/tests/messungen/ mit dem Safari-Modell nachgespielt
+// einem Tag, APD-36/B-15); Suche oben (iPhone hoch, darf nichts bewegen). In jedem Bild stehen Kopfzeile, Suchzeile, Seitenleiste und Fenster
+// still, das Feld springt nie. APD-36/T-8: dazu werden die Messungen aus AppDesign/tests/messungen/ mit dem Safari-Modell nachgespielt
 // (spieleAb modell: Safari entscheidet selbst, ob es verschiebt) – jedes Bild jedes Schritts mit Tastatur.
 // Gegen 3.26.0 (AppDesign 4.28.0) rot. iPhone quer: Wechsel zu ‚Quartier‘ (gleiche Zeile wie Ort) – ‚Programm‘ ist dort höher als der
-// sichtbare Fensterinhalt (96 von 84 px), wie Safari dann verschiebt, ist nicht gemessen (Prüfliste).
+// sichtbare Fensterinhalt (96 von 84 px), wie Safari dann verschiebt, ist nicht gemessen (Testfälle).
 // Aufruf im Repo-Ordner: node tests/ablauf-tastatur-still.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS } from '../../AppDesign/fassung/4.35.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.35.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.35.0/tests/abspielen.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS } from '../../AppDesign/fassung/4.36.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.36.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.36.0/tests/abspielen.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 const t = pruefung('ablauf-tastatur-still', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
@@ -42,7 +42,7 @@ const FAELLE = [
   { ansicht: 'iPhone hoch', name: 'Gesamtausgaben', field: '#kosten', kapsel: KAPSEL, vorher: kostenUnten },
   { ansicht: 'iPad quer', name: 'Gesamtausgaben', field: '#kosten', taste: true, kapsel: KAPSEL, vorher: kostenUnten },
   { ansicht: 'iPad hoch', name: 'Gesamtausgaben', field: '#kosten', kapsel: KAPSEL, vorher: kostenUnten },
-  // B-15: Inhalt kürzer als der Bildschirm – das Feld rollt trotzdem in die obere Hälfte (Platz darunter)
+  // APD-36/B-15: Inhalt kürzer als der Bildschirm – das Feld rollt trotzdem in die obere Hälfte (Platz darunter)
   { ansicht: 'iPhone hoch', name: 'Gesamtausgaben, 1 Tag', field: '#kosten', ein: true, vorher: async () => {} },
   { ansicht: 'iPhone hoch', name: 'Suche', field: '#search', vorher: async p => { await p.click('#searchBtn'); await p.evaluate(() => document.activeElement?.blur()); } },
 ];
@@ -63,7 +63,7 @@ for (const theme of ['light', 'dark']) {
     await p.close();
   }
 }
-// T-8: die Messungen der Rückmeldung, Bild für Bild (bis vor das Beenden der Messung im Menü)
+// APD-36/T-8: die Messungen der Rückmeldung, Bild für Bild (bis vor das Beenden der Messung im Menü)
 const ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);
 const BIS = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt': 133000, '2026-10-20 iPhone hoch Fenster Ort.txt': 35000, '2026-10-20 iPad quer Fenster Ort.txt': 25000 };
 const tage = {}; for (let i = 0; i < 40; i++) tage[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, ...(i % 3 ? {} : { place: 'Sydney' }) };
@@ -79,13 +79,13 @@ for (const datei of readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort()) 
   const m = lies(readFileSync(new URL(encodeURIComponent(datei), ORDNER), 'utf8'));
   if (!m.app.startsWith('Reiselogbuch')) continue;
   const p = await t.seite(b, ansicht(m));
-  t.ort = `T-8 ${datei.replace(/\.txt$/, '')}`;
+  t.ort = `APD-36/T-8 ${datei.replace(/\.txt$/, '')}`;
   await p.goto(APP);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: x })), [{ ...trips[0], end: '2026-10-02', days: tage }]);
   await p.reload(); await p.waitForTimeout(400);
   await safariModell(p, `${m.geraet} ${m.lage}`, { auto: true });
   t.liste(await spieleAb(p, m, { ziele: { button: ['#side .side-row[data-id="a"]'], '-': [tagSichtbar] }, woerter: { search: 'Sydney', fPlace: 'Perth', kosten: '4850123456' },
-    bis: BIS[datei] ?? Infinity, modell: true, where: t.ort }).then(f => f.filter(x => /: T-8 |nicht nachspielbar|Vorbereitung/.test(x))));
+    bis: BIS[datei] ?? Infinity, modell: true, where: t.ort }).then(f => f.filter(x => /: APD-36\/T-8 |nicht nachspielbar|Vorbereitung/.test(x))));
   await p.close();
 }
 await t.ende(b);

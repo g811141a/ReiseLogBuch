@@ -1,10 +1,10 @@
-// Ablauf-Test T-03: Abgleich zwischen iPad und iPhone über ein Backup.
+// Ablauf-Test RLB-3: Abgleich zwischen iPad und iPhone über ein Backup.
 // iPad ändert einen Tag, löscht ein Reiselogbuch und legt eines an; das iPhone ändert inzwischen einen anderen Tag
 // und einen Titel. Nach ‚Abgleichen‘ muss je Tag die neuere Fassung gelten, gelöschte verschwinden, neue dazukommen.
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-abgleich', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
@@ -69,7 +69,7 @@ check(await iphone.locator('#msg[open] [data-act]', { hasText: 'Abgleichbericht 
 await iphone.click('#msg [data-act]'); await iphone.waitForTimeout(400);
 const result = await iphone.locator('#dlg .sync-report').innerHTML();
 check(['updated" data-title="Island', 'added" data-title="Kreta', 'removed" data-title="Malta'].every(x => result.includes(`<tbody data-kind="${x}"`)) && result.includes('1 Reiselogbuch ist unverändert.'), `Bericht: ${result.slice(0, 400)}`);
-// T-80: Kapsel oben rechts wie die Vorschau der Ausgabe – PDF und Teilen; PDF füllt #printout und öffnet das Drucken-Menü.
+// RLB-80: Kapsel oben rechts wie die Vorschau der Ausgabe – PDF und Teilen; PDF füllt #printout und öffnet das Drucken-Menü.
 check(await iphone.locator('#dlg .grp #repPdf', { hasText: 'PDF' }).count() === 1 && await iphone.locator('#dlg .grp #repShare').count() === 1, 'Kapsel mit PDF und Teilen fehlt');
 await iphone.evaluate(() => { window.__printed = 0; window.print = () => { window.__printed++; }; });
 await iphone.click('#repPdf'); await iphone.waitForTimeout(300);

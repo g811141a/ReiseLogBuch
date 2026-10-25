@@ -1,16 +1,16 @@
-// Reiselogbuch-Test: kapsel-iphone – AppDesign A-15 (seit 3.19.0, R-3.2; Fall-Liste AppDesign arbeit/A-15 Fall-Liste.md):
+// Reiselogbuch-Test: kapsel-iphone – AppDesign APD-15 (seit 3.19.0, R-3.2; Testfall-Liste AppDesign arbeit/APD-15 Testfall-Liste.md):
 // Kapsel ‚Nach oben / Ans Ende‘ auch im iPhone-Aufbau – im Reiselogbuch unten rechts, nicht in der Startliste, ausgeblendet ohne
-// Scrollen; iPad unverändert. Seit 3.25.1 (AppDesign A-33, Fall-Liste arbeit/A-33 Fall-Liste.md K-1 bis K-5): bei offener Tastatur
+// Scrollen; iPad unverändert. Seit 3.25.1 (AppDesign APD-33, Testfall-Liste arbeit/APD-33 Testfall-Liste.md APD-33/H-1 bis APD-33/H-5): bei offener Tastatur
 // überdeckt die Kapsel nie Kopf- oder Suchzeile – nachgebaut ist der Ablauf aus P-58/2 (iPhone quer, Suche offen, Tastatur offen,
-// sichtbar 126 px nach der Messung A-27; Safari-Modell safari.mjs), dazu checkFab mit den gemessenen Höhen. Gegen 3.25.0 rot.
-// Seit 3.28.0 (AppDesign A-37 B+C, Fall-Liste arbeit/A-37 Fall-Liste.md): nur wirksame Pfeile, Schnellroll-Griff (checkFab, checkGriff),
-// Marken der Tage und Abschnitte (data-marke), sehr langes Reiselogbuch mit 365 Tagen (F-11).
+// sichtbar 126 px nach der Messung APD-27; Safari-Modell safari.mjs), dazu checkFab mit den gemessenen Höhen. Gegen 3.25.0 rot.
+// Seit 3.28.0 (AppDesign APD-37 B+C, Testfall-Liste arbeit/APD-37 Testfall-Liste.md): nur wirksame Pfeile, Schnellroll-Griff (checkFab, checkGriff),
+// Marken der Tage und Abschnitte (data-marke), sehr langes Reiselogbuch mit 365 Tagen (APD-37/F-11).
 // Aufruf im Repo-Ordner: node tests/kapsel-iphone.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, rollRuht } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
-import { checkFab, checkGriff } from '../../AppDesign/fassung/4.35.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.35.0/tests/safari.mjs';
+import { pruefung, navFertig, rollRuht } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
+import { checkFab, checkGriff } from '../../AppDesign/fassung/4.36.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.36.0/tests/safari.mjs';
 const t = pruefung('kapsel-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const viele = {}; for (let i = 0; i < 30; i++) viele[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Sydney' };
@@ -46,26 +46,26 @@ for (const theme of ['light', 'dark']) {
     await t.schritt(p, 'ganz unten', async () => {});
     await p.click('#toTop'); await p.waitForTimeout(300); await rollRuht(p);   // K3
     t.ist('K3 ‚Nach oben‘ rollt ganz nach oben', (await kapsel(p)).y, 0, 'R-3.2');
-    // A-33 K-1 bis K-5: Tastatur offen (sichtbarer Bereich wie gemessen, A-27), mit und ohne Suche – Kapsel schneidet keine Leiste
+    // 3 APD-33/H-1 bis APD-33/H-5: Tastatur offen (sichtbarer Bereich wie gemessen, APD-27), mit und ohne Suche – Kapsel schneidet keine Leiste
     for (const x of await checkFab(p, { top: '#toTop', end: '#toEnd', suche: '#searchBtn', sichtbar: { 'iPhone hoch': 409, 'iPhone quer': 126 }[name] ?? null,
       fenster: () => p.locator('#app [data-day]').first().click(), where: t.ort })) t.fehler('', x);
-    // Seit 3.28.0 (AppDesign A-37 F-19): Marken für die Blase des Schnellroll-Griffs – Tage mit Nummer und Datum, danach die Abschnitte
+    // Seit 3.28.0 (AppDesign 7 APD-37/F-19): Marken für die Blase des Schnellroll-Griffs – Tage mit Nummer und Datum, danach die Abschnitte
     const marken = await p.evaluate(() => [...document.querySelectorAll('#app [data-marke]')].map(e => e.dataset.marke));
-    t.ist('A-37 erste Marke', marken[0], 'Tag 1 · Mo 24.08.', 'R-3.2');
-    t.ist('A-37 Marke des 19. Tags', marken[18], 'Tag 19 · Fr 11.09.', 'R-3.2');
-    t.ist('A-37 Marken der Abschnitte', marken.slice(30), ['Fazit', 'Quartierliste', 'Statistik'], 'R-3.2');
+    t.ist('APD-37 erste Marke', marken[0], 'Tag 1 · Mo 24.08.', 'R-3.2');
+    t.ist('APD-37 Marke des 19. Tags', marken[18], 'Tag 19 · Fr 11.09.', 'R-3.2');
+    t.ist('APD-37 Marken der Abschnitte', marken.slice(30), ['Fazit', 'Quartierliste', 'Statistik'], 'R-3.2');
     }
-    if (phone && name.startsWith('iPhone')) {   // A-33 K-1/K-2: Ablauf aus P-58/2 mit dem Safari-Modell – Suche öffnen, Tastatur auf; Grundregeln (Kapsel schneidet keine Leiste)
+    if (phone && name.startsWith('iPhone')) {   // 3 APD-33/H-1/K-2: Ablauf aus P-58/2 mit dem Safari-Modell – Suche öffnen, Tastatur auf; Grundregeln (Kapsel schneidet keine Leiste)
       await safariModell(p, name);
       await p.click('#searchBtn'); await p.waitForTimeout(100);
       await p.evaluate(() => __safari.tastatur(true)); await p.waitForTimeout(300);
       await t.schritt(p, 'Suche mit Tastatur', async () => {});
       const kb = await p.evaluate(() => { const f = document.getElementById('fab'), r = f.getBoundingClientRect(), s = document.querySelector('#bar').getBoundingClientRect();
         return { sichtbar: getComputedStyle(f).display !== 'none' && r.height > 0, top: Math.round(r.top), leiste: Math.round(s.bottom), h: visualViewport.height }; });
-      if (name === 'iPhone quer') t.ist(`K-1 Kapsel bei offener Tastatur ausgeblendet (sichtbar ${kb.h} px)`, kb.sichtbar, false, 'R-3.2');
-      else t.wahr(`K-2 Kapsel fehlt bei offener Tastatur oder steht nicht unter der Suchzeile (oben ${kb.top} px, Suchzeile bis ${kb.leiste} px)`, kb.sichtbar && kb.top >= kb.leiste + 16, 'R-3.2');
+      if (name === 'iPhone quer') t.ist(`APD-33/H-1 Kapsel bei offener Tastatur ausgeblendet (sichtbar ${kb.h} px)`, kb.sichtbar, false, 'R-3.2');
+      else t.wahr(`APD-33/H-2 Kapsel fehlt bei offener Tastatur oder steht nicht unter der Suchzeile (oben ${kb.top} px, Suchzeile bis ${kb.leiste} px)`, kb.sichtbar && kb.top >= kb.leiste + 16, 'R-3.2');
       await p.evaluate(() => __safari.tastatur(false)); await p.waitForTimeout(300);
-      t.ist('K-5 Kapsel nach dem Schließen der Tastatur wieder da', (await kapsel(p)).sichtbar, true, 'R-3.2');
+      t.ist('APD-33/H-5 Kapsel nach dem Schließen der Tastatur wieder da', (await kapsel(p)).sichtbar, true, 'R-3.2');
       await p.click('#searchBtn'); await p.waitForTimeout(250);
     }
     if (phone && name === 'iPhone hoch') {   // K8: Suche offen – Kapsel verdeckt die Suchzeile nicht
@@ -73,7 +73,7 @@ for (const theme of ['light', 'dark']) {
       await t.schritt(p, 'Suche offen', async () => {});
       await p.click('#searchBtn'); await p.waitForTimeout(250);
     }
-    if (theme === 'light' && (name === 'iPhone hoch' || name === 'iPad quer')) {   // A-37 F-11: sehr langes Reiselogbuch (365 Tage)
+    if (theme === 'light' && (name === 'iPhone hoch' || name === 'iPad quer')) {   // 7 APD-37/F-11: sehr langes Reiselogbuch (365 Tage)
       if (phone) { await p.click('#back'); await navFertig(p); await p.locator('#side .side-row[data-id="j"]').click(); }
       else await p.locator('#side .side-row[data-id="j"]').click();
       await navFertig(p); await p.waitForTimeout(400);

@@ -1,14 +1,14 @@
-// Reiselogbuch-Test: oeffnen-position – T-89/T-90 (seit 3.20.0, AppDesign A-16/A-17; Fall-Liste AppDesign arbeit/A-16 A-17
-// Fall-Liste.md, Korrektur 3.20.1: arbeit/A-17 Korrektur Fall-Liste.md): Position beim Öffnen (R-7.4) – alles erfasst ganz oben, sonst der erste nicht erfasste Tag hervorgehoben direkt
+// Reiselogbuch-Test: oeffnen-position – RLB-89/RLB-90 (seit 3.20.0, AppDesign APD-16/APD-17; Testfall-Liste AppDesign arbeit/APD-16 APD-17
+// Testfall-Liste.md, Korrektur 3.20.1: arbeit/APD-17 Korrektur Testfall-Liste.md): Position beim Öffnen (R-7.4) – alles erfasst ganz oben, sonst der erste nicht erfasste Tag hervorgehoben direkt
 // unter dem Tabellenkopf (iPad) bzw. der Leiste (iPhone); Seitenleiste ein/aus (R-8.1) – oben bleibt derselbe Tag; Drehen am
-// Ende der Seite (seit 3.20.1) – ganz unten bleibt ganz unten. Seit 3.30.0 (T-98, AppDesign A-69, Fall-Liste AppDesign
-// arbeit/A-69 T-98 Fall-Liste.md): Startposition mit festem Datum (Playwright-Uhr, heute = 23.10.2026) – Gelb nur bis heute;
+// Ende der Seite (seit 3.20.1) – ganz unten bleibt ganz unten. Seit 3.30.0 (RLB-98, AppDesign APD-69, Testfall-Liste AppDesign
+// arbeit/APD-69 RLB-98 Testfall-Liste.md): Startposition mit festem Datum (Playwright-Uhr, heute = 23.10.2026) – Gelb nur bis heute;
 // läuft die Reise und ist bis heute alles erfasst, steht heute oben ohne Gelb; Reise in der Zukunft ganz oben, nichts gelb (F1–F11).
 // Aufruf im Repo-Ordner: node tests/oeffnen-position.mjs
 import * as pw from 'playwright';
-import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
-import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.35.0/tests/ablauf.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
+import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.36.0/tests/ablauf.mjs';
 const t = pruefung('oeffnen-position', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const iso = (start, i) => new Date(Date.parse(start + 'T00:00:00Z') + i * 864e5).toISOString().slice(0, 10);
@@ -18,7 +18,7 @@ const reise = (id, title, start, n, luecke) => {
   const days = {}; for (let i = 0; i < n; i++) if (erfasst(i)) days[iso(start, i)] = { weather: '☀️', program: `Programm ${i + 1}\nzweite Zeile`, quarter: 'Hotel ' + i };
   return { id, title, participants: 'Anna', start, end: iso(start, n - 1), transport: ['pkw'], quarterColumn: true, days };
 };
-const HEUTE = '2026-10-23';   // T-98: feste Uhr, damit ‚heute‘ in jedem Lauf gleich ist
+const HEUTE = '2026-10-23';   // RLB-98: feste Uhr, damit ‚heute‘ in jedem Lauf gleich ist
 const TRIPS = [reise('v', 'Voll', '2025-06-01', 30, -1), reise('g', 'Lücke', '2025-03-01', 30, 14), reise('f', 'Erster', '2024-06-01', 30, 0),
   reise('l', 'Letzter', '2024-03-01', 30, 29),
   reise('a', 'F3 Lücke vor heute', '2026-10-10', 30, 5), reise('h', 'F4 heute fehlt', '2026-10-10', 30, i => i < 13),
@@ -58,7 +58,7 @@ for (const theme of ['light', 'dark']) {
       await rolle(p, 'ende');
       t.liste(await pruefeOeffnen(id, `${where} · ${id}`, oeffne(id)));
     }
-    // A3 Gegenprobe (AppDesign A-69): ist heute gelb, obwohl nichts gelb sein darf, meldet checkOpenAt das
+    // A3 Gegenprobe (AppDesign APD-69): ist heute gelb, obwohl nichts gelb sein darf, meldet checkOpenAt das
     if (theme === 'light') {
       const f = await pruefeOeffnen('r', `${where} · A3`, async () => { await oeffne('r')(); await p.waitForTimeout(400);
         await p.evaluate(d => document.querySelector(`#app [data-day="${d}"]`).classList.add('gap'), HEUTE); });

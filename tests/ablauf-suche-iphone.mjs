@@ -1,4 +1,4 @@
-// Reiselogbuch-Test: ablauf-suche-iphone – A-24/A-27 (Nutzer 18.10.2026 T-95, Messung P-57 19.10.2026): am iPhone stehen Kopf-
+// Reiselogbuch-Test: ablauf-suche-iphone – APD-24/APD-27 (Nutzer 18.10.2026 RLB-95, Messung P-57 19.10.2026): am iPhone stehen Kopf-
 // und Suchzeile beim Tippen in der Suche fest (R-2.1, R-2.3). Nachgebaut ist genau der gemessene Ablauf des Nutzers
 // (Zusammenarbeit 0 Nr. 1 und 20): Reiselogbuch mit vielen Tagen öffnen, in die Mitte (bzw. ans Ende) rollen, Lupe antippen,
 // Tastatur offen, Buchstabe für Buchstabe tippen – je nach Fall schnell (ein Sprung zum Treffer am Ende) oder mit Pausen wie am
@@ -8,8 +8,8 @@
 // das Suchfeld bleibt dasselbe Feld und behält den Fokus. Gegen 3.24.0 rot: ±120 px (hoch) bzw. ±21 px (quer) nach ⓧ.
 // Aufruf im Repo-Ordner: node tests/ablauf-suche-iphone.mjs. Meldet Fehler (pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.35.0/tests/safari.mjs';
+import { pruefung, rolle } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.36.0/tests/safari.mjs';
 const t = pruefung('ablauf-suche-iphone', pw, { out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 30 ? 'Fahrt nach Sydney' : i % 7 === 0 ? 'Bus nach Sydney' : 'Programm ' + i, comment: '😉 ok', quarter: 'Hotel', place: 'Ort' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, days }];

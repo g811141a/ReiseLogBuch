@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.35.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.36.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -68,7 +68,7 @@
   td a { text-decoration: none; }
   /* Maps-Links: Antippfläche unsichtbar auf 44 px Höhe vergrößert (Innenabstand eines Inline-Links ändert das Layout nicht) */
   .ln.q a, #qHint a { padding: 12px 0; position: relative; }
-  /* R-3.1 (seit 3.12.0, Fund A-05): kurze Quartiernamen (‚Hotel‘) gaben eine Antippfläche unter 44 px. Wie iOS wird die Fläche
+  /* R-3.1 (seit 3.12.0, Fund APD-5): kurze Quartiernamen (‚Hotel‘) gaben eine Antippfläche unter 44 px. Wie iOS wird die Fläche
      unsichtbar auf mindestens 44 px verbreitert – Schrift und Abstände bleiben gleich. */
   .ln.q a::after, #qHint a::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: max(100%, 44px); transform: translateX(-50%); }
 
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.35.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.36.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.33.0';
-const APP_BUILT = '25.10.2026 um 01:54';
+const APP_VERSION = '3.34.0';
+const APP_BUILT = '25.10.2026 um 12:16';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.35.0';
+const AD_NEEDED = '4.36.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -173,7 +173,7 @@ const PROGRAM_SUGGESTIONS = [
   { label: 'Besichtigung …', text: 'Besichtigung ' },
   { label: 'Freetour …', text: 'Freetour ' },
   { label: 'Tour …', text: 'Tour ' },
-  // T-94 (seit 3.22.0): keine Vorlage – nur eine leere erste Zeile, der Cursor steht darin
+  // RLB-94 (seit 3.22.0): keine Vorlage – nur eine leere erste Zeile, der Cursor steht darin
   { label: 'Sonstiges …', top: true },
 ];
 const AUTOSAVE_MS = 10000;
@@ -184,7 +184,7 @@ function onDialogOpen() { clearInterval(autosaveTimer); }
 
 /* ---------- Speicher ---------- */
 
-// Abgleich zwischen iPad und iPhone (T-03, Regeln R-9.2 bis R-9.4): gemeinsamer Baustein createSync aus AppDesign (ui.js).
+// Abgleich zwischen iPad und iPhone (RLB-3, Regeln R-9.2 bis R-9.4): gemeinsamer Baustein createSync aus AppDesign (ui.js).
 // Je Feld Zeitpunkt und Gerät – Kopfdaten (metaAt) und Tage (dayAt); gelöschte Reiselogbücher in db.deleted.
 const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields: ['outputCounter'],
   nouns: ['Reiselogbuch', 'Reiselogbücher', 'Reiselogbüchern'], app: 'Reiselogbuch',
@@ -249,7 +249,7 @@ let searchTerm = '';
 let searchIndex = 0;
 let autosaveTimer = null;
 let searchOpen = false;
-// T-92 (AppDesign A-19, R-2.3): Suche in der Startliste bzw. Seitenleiste – Lupe in der Kopfzeile, ein Begriff für beide Suchen.
+// RLB-92 (AppDesign APD-19, R-2.3): Suche in der Startliste bzw. Seitenleiste – Lupe in der Kopfzeile, ein Begriff für beide Suchen.
 let listOpen = false;
 let listTerm = '';
 let searchJump = null;     // Zeitgeber für den Sprung zum ersten Treffer    // Suchzeile unter der Kopfzeile eingeblendet
@@ -281,7 +281,7 @@ function dayLabel(iso) {
   const d = parseISO(iso);
   return `${WEEKDAYS[d.getUTCDay()]}, ${pad(d.getUTCDate())}.${pad(d.getUTCMonth() + 1)}.`;
 }
-// Seit 3.28.0 (AppDesign A-37): Marke für den Schnellroll-Griff – ‚Tag 19 · Fr 20.03.‘ (Nummer im ganzen Reisezeitraum)
+// Seit 3.28.0 (AppDesign APD-37): Marke für den Schnellroll-Griff – ‚Tag 19 · Fr 20.03.‘ (Nummer im ganzen Reisezeitraum)
 const dayNumbers = days => new Map(days.map((iso, i) => [iso, i + 1]));
 const dayMark = (iso, nr) => `Tag ${nr.get(iso)} · ${dayLabel(iso).replace(',', '')}`;
 function longDayLabel(iso) {
@@ -316,7 +316,7 @@ const getTrip = id => db.trips.find(t => t.id === id);
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
 // Startreise: die Reise, in die heute fällt; sonst die zuletzt beendete; sonst die nächste geplante.
-// T-88 (seit 3.17.0): zuerst das zuletzt verwendete Reiselogbuch dieses Geräts, sonst nach Datum.
+// RLB-88 (seit 3.17.0): zuerst das zuletzt verwendete Reiselogbuch dieses Geräts, sonst nach Datum.
 function pickStartTrip() {
   const last = getTrip(db.settings.lastTrip);
   if (last) return last;
@@ -373,7 +373,7 @@ function firstGap(trip) {
   return tripDays(trip).find(d => !isRecorded(trip, d)) || null;
 }
 
-// T-98 (seit 3.30.0, AppDesign A-69, R-7.4): Startposition beim Öffnen. Die erste Lücke bis heute steht gelb oben (top = mark);
+// RLB-98 (seit 3.30.0, AppDesign APD-69, R-7.4): Startposition beim Öffnen. Die erste Lücke bis heute steht gelb oben (top = mark);
 // läuft die Reise und ist bis heute alles erfasst, steht heute oben, ohne Gelb; sonst (Reise in der Zukunft, vergangen und
 // vollständig) ganz oben. Künftige Tage sind nie gelb.
 function startDay(trip, today = todayISO()) {
@@ -390,14 +390,14 @@ function dayText(trip, iso) {
   const c = cols(trip);
   return [e.program, c.mood && e.comment, c.food && e.food, c.quarter && q.name, c.quarter && q.place].filter(Boolean).join('\n');
 }
-// T-93 / AppDesign A-21 (seit 3.23.0): mehrere Wörter (und „…“) – ein Reiselogbuch passt, wenn jedes Wort irgendwo darin
+// RLB-93 / AppDesign APD-21 (seit 3.23.0): mehrere Wörter (und „…“) – ein Reiselogbuch passt, wenn jedes Wort irgendwo darin
 // vorkommt (Entscheidung des Nutzers 18.10.2026: Einheit = Reiselogbuch); gezeigt werden dann die Tage mit mindestens einem Wort.
 const tripFinds = (trip, term) => findsAll(tripDays(trip).map(iso => dayText(trip, iso)).join('\n'), searchWords(term));
 function matchesSearch(trip, iso, term, whole = tripFinds(trip, term)) {
   return whole && findsAny(dayText(trip, iso), searchWords(term));
 }
 
-// T-92: Treffer eines Reiselogbuchs je Fundstelle – gezählt wie ‚1 von N‘ im Reiselogbuch: jede Markierung in denselben
+// RLB-92: Treffer eines Reiselogbuchs je Fundstelle – gezählt wie ‚1 von N‘ im Reiselogbuch: jede Markierung in denselben
 // Feldern (Verlauf, ‚Wie war was?‘, Essen, Quartier), nur in den eingeschalteten Spalten.
 function hitCount(trip, term) {
   const c = cols(trip);
@@ -456,7 +456,7 @@ function commentItems(text) {
 
 // Trennt den Namen vom Rest: am ersten " - " (bzw. – —), optional auch am ersten Komma.
 // "Santai Resort - Kingscliff" → ["Santai Resort", " - Kingscliff"]
-// T-86 (seit 3.18.0): der Name (Maps-Link) endet am ersten ‚ – ‘, Komma, Doppelpunkt oder an einer öffnenden Klammer –
+// RLB-86 (seit 3.18.0): der Name (Maps-Link) endet am ersten ‚ – ‘, Komma, Doppelpunkt oder an einer öffnenden Klammer –
 // gleich für Essen und Quartier; Bindestrich ohne Leerzeichen, Punkt, Uhrzeit (8:30) und Betrag (4,50) gehören zum Namen.
 function splitName(text) {
   const m = text.match(/\s+[–—-]\s+|\s*[,:](?!\d)|\s*\(/);
@@ -571,7 +571,7 @@ function insertAtCursor(ta, text, ownLine) {
   ta.selectionStart = ta.selectionEnd = pos + ins.length;
   autoGrow(ta);
 }
-// T-94: leere Zeile am Anfang des Felds, Cursor dorthin – ist die erste Zeile schon leer, keine zweite.
+// RLB-94: leere Zeile am Anfang des Felds, Cursor dorthin – ist die erste Zeile schon leer, keine zweite.
 function insertLineTop(ta) {
   if (ta.value && !ta.value.startsWith('\n')) ta.value = '\n' + ta.value;
   ta.focus();
@@ -732,7 +732,7 @@ function render({ scrollToGap = false } = {}) {
   app.querySelectorAll('tbody tr').forEach(tr => tr.onclick = () => openDayDialog(trip, tr.dataset.day));
   bindTripEnd(trip);
 
-  // R-7.4 (seit 3.20.0, T-89; seit 3.30.0 T-98): beim Öffnen steht der Starttag direkt unter dem Tabellenkopf; sonst ganz oben.
+  // R-7.4 (seit 3.20.0, RLB-89; seit 3.30.0 RLB-98): beim Öffnen steht der Starttag direkt unter dem Tabellenkopf; sonst ganz oben.
   if (scrollToGap) openAt(startTop && app.querySelector(`tr[data-day="${startTop}"]`));
 }
 
@@ -760,7 +760,7 @@ function bindSearch(term) {
     searchOpen = !searchOpen;
     if (!searchOpen) { searchTerm = ''; searchIndex = 0; }
     render();
-    // A-29 (seit 3.25.0, R-2.3): Suche öffnen rollt den Inhalt ganz nach oben.
+    // APD-29 (seit 3.25.0, R-2.3): Suche öffnen rollt den Inhalt ganz nach oben.
     if (searchOpen) { rolle.to(0); app.querySelector('#search').focus(); }
   };
   const search = app.querySelector('#search');
@@ -774,7 +774,7 @@ function bindSearch(term) {
     search.oninput = () => {
       searchTerm = search.value;
       searchIndex = 0;
-      if (listOpen) listTerm = searchTerm;   // T-92: ein Begriff für beide Suchen
+      if (listOpen) listTerm = searchTerm;   // RLB-92: ein Begriff für beide Suchen
       render();
       refocus();
       clearTimeout(searchJump);
@@ -785,7 +785,7 @@ function bindSearch(term) {
     search.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); stepHit(1); } };
   }
   if (term) {
-    // A-29: ⓧ leert die Suche und rollt den Inhalt ganz nach oben; der Fokus bleibt im Feld.
+    // APD-29: ⓧ leert die Suche und rollt den Inhalt ganz nach oben; der Fokus bleibt im Feld.
     app.querySelector('#sclear').onclick = () => { clearTimeout(searchJump); searchTerm = ''; searchIndex = 0; if (listOpen) listTerm = ''; render(); rolle.to(0); refocus(); };
     app.querySelector('#sprev').onclick = () => stepHit(-1);
     app.querySelector('#snext').onclick = () => stepHit(1);
@@ -832,7 +832,7 @@ let startList = false;   // R-7.2: Startliste nach dem Neuladen – noch nichts 
 
 function renderPhone({ scrollToGap = false } = {}) {
   const trip = getTrip(currentTripId);
-  // Seit 3.19.0 (AppDesign A-15, R-3.2): ‚Nach oben / Ans Ende‘ auch auf dem iPhone – im Reiselogbuch, nicht in der Startliste.
+  // Seit 3.19.0 (AppDesign APD-15, R-3.2): ‚Nach oben / Ans Ende‘ auch auf dem iPhone – im Reiselogbuch, nicht in der Startliste.
   fab.hidden = phoneList || !trip;
   // Startliste = Seitenleiste als ganze Seite (derselbe Baustein wie am iPad, R-1.1)
   if (phoneList || !trip) {
@@ -892,14 +892,14 @@ function renderPhone({ scrollToGap = false } = {}) {
     <h2 data-marke="Statistik">Statistik</h2>
     <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
     </div>`);
-  app.querySelector('#back').onclick = navZurueck;   // seit 3.28.0 (AppDesign A-61): der Inhalt schiebt sich hinaus
+  app.querySelector('#back').onclick = navZurueck;   // seit 3.28.0 (AppDesign APD-61): der Inhalt schiebt sich hinaus
   app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
   app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
   bindSearch(term);
   bindTripEnd(trip);
   app.querySelectorAll('#pdays [data-day]').forEach(b => b.onclick = () => openDayDialog(trip, b.dataset.day));
   markOpener();
-  if (scrollToGap) openAt(startTop && app.querySelector(`#pdays [data-day="${startTop}"]`));   // R-7.4, T-98: direkt unter der Leiste, sonst ganz oben
+  if (scrollToGap) openAt(startTop && app.querySelector(`#pdays [data-day="${startTop}"]`));   // R-7.4, RLB-98: direkt unter der Leiste, sonst ganz oben
   updateBar();
 }
 
@@ -929,7 +929,7 @@ function showHit(scroll) {
 }
 
 // Treffer direkt unter die Suchzeile (und den Tabellenkopf) rollen, mit einer halben Zeile Abstand.
-// Seit 3.25.0 (AppDesign A-28): nur der Rollbereich rollt – gemessen ab seiner Oberkante (= Unterkante der Leiste), ohne offsetTop.
+// Seit 3.25.0 (AppDesign APD-28): nur der Rollbereich rollt – gemessen ab seiner Oberkante (= Unterkante der Leiste), ohne offsetTop.
 function scrollUnderBar(el) {
   const row = el.closest('tr, .kv') || el;
   const head = app.querySelector('table.days:not(.static) thead');
@@ -943,9 +943,9 @@ function stepHit(dir) {
   if (next < 0 || next >= n) return;
   searchIndex = next;
   showHit(true);
-  ansagen(`Treffer ${searchIndex + 1} von ${n}`);   // T-100 (R-1.8, V9)
+  ansagen(`Treffer ${searchIndex + 1} von ${n}`);   // RLB-100 (R-1.8, V9)
 }
-// T-100 (AppDesign R-1.8, V9): nach einer Tipp-Pause von 0,7 s die Zahl der Treffer ansagen (höflich, VoiceOver)
+// RLB-100 (AppDesign R-1.8, V9): nach einer Tipp-Pause von 0,7 s die Zahl der Treffer ansagen (höflich, VoiceOver)
 const ansageTreffer = () => { if (!searchTerm.trim()) return; const n = hitMarks().length; ansagen(n ? `${n} Treffer` : 'Keine Treffer', { warten: 700 }); };
 
 // Ohne Reiselogbuch: leere Seite mit Hinweis; "Neues Reiselogbuch" öffnet sich einmal von selbst.
@@ -962,13 +962,13 @@ function renderEmpty() {
 
 function showTrip(id, term = '') {
   currentTripId = id;
-  // T-88: zuletzt verwendetes Reiselogbuch merken (je Gerät, wie lastBackup) – beim nächsten Start öffnet es (iPad-Aufbau).
+  // RLB-88: zuletzt verwendetes Reiselogbuch merken (je Gerät, wie lastBackup) – beim nächsten Start öffnet es (iPad-Aufbau).
   if (id && db.settings.lastTrip !== id) { db.settings.lastTrip = id; save(); }
   phoneList = false;
   startList = false;
   // Beim Öffnen eines Reiselogbuchs (und beim Start) immer alle Tage zeigen.
   db.settings.hideEmpty = false;
-  // T-92: aus der gefilterten Liste geöffnet – Suche gefüllt, erster Treffer unter der Suchzeile.
+  // RLB-92: aus der gefilterten Liste geöffnet – Suche gefüllt, erster Treffer unter der Suchzeile.
   searchTerm = term;
   searchIndex = 0;
   searchOpen = Boolean(term);
@@ -987,9 +987,9 @@ const sideVisible = () => sideOpen;
 const sideToggleHtml = () => sideVisible() && isWide() ? ''
   : `<button type="button" class="round" data-side-toggle aria-label="Seitenleiste einblenden">${ic('panel-left')}</button>`;
 
-// R-8.1 (seit 3.20.0, T-90): beim Ein- und Ausblenden bleibt oben derselbe Tag stehen.
-// Seit 3.28.0 (AppDesign A-61): am iPad hoch gleitet die darübergelegte Seitenleiste herein und hinaus (navSeite);
-// seit 3.29.0 (AppDesign A-68) auch quer – der Inhalt rückt mit und wird beim Einrasten schmaler.
+// R-8.1 (seit 3.20.0, RLB-90): beim Ein- und Ausblenden bleibt oben derselbe Tag stehen.
+// Seit 3.28.0 (AppDesign APD-61): am iPad hoch gleitet die darübergelegte Seitenleiste herein und hinaus (navSeite);
+// seit 3.29.0 (AppDesign APD-68) auch quer – der Inhalt rückt mit und wird beim Einrasten schmaler.
 function toggleSide() {
   if (sideOver() || sideFest()) return navSeite(!sideOpen);
   keepPlace(() => { sideOpen = !sideOpen; render(); });
@@ -998,7 +998,7 @@ const bindSideToggle = root => root.querySelectorAll('[data-side-toggle]').forEa
 
 // Anzahl unter dem Titel der Seitenleiste bzw. Startliste: ‚3 Reiselogbücher‘.
 const tripCount = n => n ? `${n} Reiselogb${n === 1 ? 'uch' : 'ücher'}` : '';
-// T-92: während der Suche ‚2 von 5 Reiselogbüchern‘.
+// RLB-92: während der Suche ‚2 von 5 Reiselogbüchern‘.
 const hitTripCount = (n, all) => `${n} von ${all} Reiselogb${all === 1 ? 'uch' : 'üchern'}`;
 const hitText = n => `${n} Treffer`;
 
@@ -1009,7 +1009,7 @@ function tripState(t, today) {
 // Backup: einmal am Tag erstellen; Datum und Uhrzeit des letzten Backups.
 function backedUpToday() { return backupToday(db.settings.lastBackup); }
 function lastBackupText() { return backupLastText(db.settings.lastBackup); }
-// T-105 (AppDesign A-74): um 0:00 und bei der Rückkehr am nächsten Tag die Liste neu zeichnen – die Backup-Kachel kommt wieder.
+// RLB-105 (AppDesign APD-74): um 0:00 und bei der Rückkehr am nächsten Tag die Liste neu zeichnen – die Backup-Kachel kommt wieder.
 onNeuerTag(() => { if (isPhone()) render(); else renderSide(); });
 
 function renderSide() {
@@ -1033,7 +1033,7 @@ function renderSide() {
   const today = todayISO();
   const all = [...db.trips].sort((a, b) => b.start.localeCompare(a.start));
   if (!all.length) { listOpen = false; listTerm = ''; }
-  // T-92: Suche in der Liste – nur Reiselogbücher mit Treffer, je Kachel die Zahl statt ‚geändert am …‘.
+  // RLB-92: Suche in der Liste – nur Reiselogbücher mit Treffer, je Kachel die Zahl statt ‚geändert am …‘.
   const term = listOpen ? listTerm.trim().toLocaleLowerCase('de') : '';
   const hits = new Map(term ? all.map(t => [t.id, hitCount(t, term)]) : []);
   const trips = term ? all.filter(t => hits.get(t.id)) : all;
@@ -1050,7 +1050,7 @@ function renderSide() {
   side.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
   side.querySelector('#sideMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
   side.querySelector('#sideHide').onclick = toggleSide;
-  const hb = side.querySelector('#hintBackup'); if (hb) hb.onclick = () => saveBackup('#hintBackup');   // onclick: setHtml behält das Element (A-24)
+  const hb = side.querySelector('#hintBackup'); if (hb) hb.onclick = () => saveBackup('#hintBackup');   // onclick: setHtml behält das Element (APD-24)
   held.forEach(sel => side.querySelector(sel)?.classList.add('on'));
   markOpener();
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Öffnen · Einstellungen · Reiselogbuch löschen).
@@ -1062,7 +1062,7 @@ function renderSide() {
   keepSideScroll();
 }
 
-// T-92 (AppDesign A-19): Suchzeile der Liste wie 15.2, ohne Pfeile – die Kacheln zeigen die Treffer.
+// RLB-92 (AppDesign APD-19): Suchzeile der Liste wie 15.2, ohne Pfeile – die Kacheln zeigen die Treffer.
 const listSearchHtml = () => `<div class="nb2 side-search">
     <span class="searchbox active">${ic('search')}<input type="search" id="lsearch" placeholder="In allen suchen" value="${esc(listTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${listTerm ? `
       <span class="smeta"><button type="button" class="sclear" id="lsclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
@@ -1083,8 +1083,8 @@ function bindListSearch() {
     s.focus();
     s.selectionStart = s.selectionEnd = s.value.length;
   };
-  // Ist im offenen Reiselogbuch die Suche zu, bleibt es, wie es ist (T-92, Frage 1); ist sie offen, wird der Begriff
-  // 1:1 übernommen (T-92, Zusatz 17.10.2026) – Markierung sofort, Sprung zum ersten Treffer nach der Tipp-Pause.
+  // Ist im offenen Reiselogbuch die Suche zu, bleibt es, wie es ist (RLB-92, Frage 1); ist sie offen, wird der Begriff
+  // 1:1 übernommen (RLB-92, Zusatz 17.10.2026) – Markierung sofort, Sprung zum ersten Treffer nach der Tipp-Pause.
   const both = () => searchOpen && !isPhone() && getTrip(currentTripId);
   const update = () => {
     sideScroll = 0;
@@ -1094,7 +1094,7 @@ function bindListSearch() {
       searchJump = setTimeout(() => showHit(true), 500);
     } else renderSide();
     refocus();
-    // T-100 (R-1.8, V9): ‚2 von 5 Reiselogbüchern‘ bzw. ‚Keine Treffer‘ nach der Tipp-Pause
+    // RLB-100 (R-1.8, V9): ‚2 von 5 Reiselogbüchern‘ bzw. ‚Keine Treffer‘ nach der Tipp-Pause
     if (listTerm.trim()) ansagen(side.querySelector('.side-row') ? side.querySelector('.side-head small').textContent : 'Keine Treffer', { warten: 700 });
   };
   input.oninput = () => { listTerm = input.value; update(); };
@@ -1128,7 +1128,7 @@ let importAnchor = '#sideMore'; // Schaltfläche, von der ‚Backup laden‘ kom
 const backupMenuItems = sel => [
   ...backupMenuEntries({ last: db.settings.lastBackup, disabled: !db.trips.length, onSave: () => saveBackup(sel),
     onLoad: () => { importAnchor = sel; hold(sel); importFile.click(); } }),
-  // Messmodus (seit 3.24.0, AppDesign A-27): Kopf- und Suchzeile von Inhalt und Liste, erster Tag, Rollstand der Liste.
+  // Messmodus (seit 3.24.0, AppDesign APD-27): Kopf- und Suchzeile von Inhalt und Liste, erster Tag, Rollstand der Liste.
   'sep',
   ...messungMenuItems({ app: `Reiselogbuch ${APP_VERSION}`, teile: { kopf: '#bar', such: '#app .nb2', tag: '#app [data-day]', lkopf: '.side-head', lsuch: '.side-search' },
     rollen: { lroll: '.side-list' } }),
@@ -1190,11 +1190,11 @@ function openShareMenu(anchor, trip) {
 
 document.getElementById('toTop').innerHTML = ic('arrow-up-to-line');
 document.getElementById('toEnd').innerHTML = ic('arrow-down-to-line');
-// Nach oben / Ans Ende rollen den Inhalt (Rollbereich, AppDesign A-28).
+// Nach oben / Ans Ende rollen den Inhalt (Rollbereich, AppDesign APD-28).
 document.getElementById('toTop').onclick = fabTop;
 document.getElementById('toEnd').onclick = fabEnd;
-// Seit 3.28.0 (AppDesign A-61 Teil 1): Seitenwechsel als Schieben, Zurückwischen am iPhone, Seitenleiste am iPad hoch per Wischen;
-// seit 3.29.0 (AppDesign A-68) die ausgeblendete Seitenleiste auch am iPad quer.
+// Seit 3.28.0 (AppDesign APD-61 Teil 1): Seitenwechsel als Schieben, Zurückwischen am iPhone, Seitenleiste am iPad hoch per Wischen;
+// seit 3.29.0 (AppDesign APD-68) die ausgeblendete Seitenleiste auch am iPad quer.
 // darunter: die Startliste unter dem Inhalt aufbauen, ohne den Zustand zu ändern (phoneList nur für renderSide).
 navAnmelden({
   zurueck: {
@@ -1326,7 +1326,7 @@ function openTripDialog(trip) {
       if (text) valid = false;
       // Sobald ein Titel da ist, wird auch ein Problem beim Zeitraum gezeigt (z. B. Überschneidung durch das vorgeschlagene Datum).
       const on = Boolean(text) && (c.touched || (key === 'dates' && hadTitle));
-      // T-100 (AppDesign R-5.3, seit 3.33.0): roter Rand, aria-invalid, Meldung mit dem Feld verknüpft und einmal angesagt
+      // RLB-100 (AppDesign R-5.3, seit 3.33.0): roter Rand, aria-invalid, Meldung mit dem Feld verknüpft und einmal angesagt
       feldFehler(c.fields, c.box, on ? text : '');
     }
     return valid;
@@ -1337,7 +1337,7 @@ function openTripDialog(trip) {
     ev.preventDefault();
     Object.values(checks).forEach(c => { c.touched = true; });
     validate();
-    // T-100: Fokus aufs erste fehlerhafte Feld (sein Abschnitt rollt in die Mitte, mit ‚Bewegung reduzieren‘ springt er, R-1.9);
+    // RLB-100: Fokus aufs erste fehlerhafte Feld (sein Abschnitt rollt in die Mitte, mit ‚Bewegung reduzieren‘ springt er, R-1.9);
     // fehlt nur das Reisemittel, auf seinen ersten Knopf
     if (!ersterFehler(dlg)) {
       const st = dlg.querySelector('.warn:not([hidden])')?.closest('.step');
@@ -1849,7 +1849,7 @@ async function saveBackup(anchor) {
   const text = shareResultText(result, file.name);
   if (!dlg.querySelector('#reminder')) await inform('Backup', text);
   release(anchor);
-  // T-105: nach dem Backup ist die Kachel weg – der Fokus geht auf ‚Mehr‘ statt ins Leere
+  // RLB-105: nach dem Backup ist die Kachel weg – der Fokus geht auf ‚Mehr‘ statt ins Leere
   if (anchor && !document.querySelector(anchor)) side.querySelector('#sideMore')?.focus({ preventScroll: true });
   return text;
 }
@@ -1907,7 +1907,7 @@ if (navigator.storage?.persist) {
 }
 // Beim Start ist die Seitenleiste immer eingeblendet (im Hochformat über den Inhalt gelegt).
 sideOpen = true;
-// R-7.2 (seit 3.15.0, T-84): Im iPhone-Aufbau (auch iPad im schmalen Fenster) beginnt jedes Neuladen in der Startliste,
+// R-7.2 (seit 3.15.0, RLB-84): Im iPhone-Aufbau (auch iPad im schmalen Fenster) beginnt jedes Neuladen in der Startliste,
 // ohne blauen Eintrag; der iPad-Aufbau öffnet wie bisher die laufende (sonst zuletzt beendete, sonst nächste) Reise.
 // Die Startreise bleibt gewählt, damit ein breiteres Fenster sie mit der Seitenleiste zeigt.
 showTrip(pickStartTrip()?.id);

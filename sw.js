@@ -1,9 +1,9 @@
 // Offline-Cache: App-Dateien zuerst aus dem Netz holen, ohne Netz aus dem Cache.
 // "no-cache" fragt immer bei GitHub nach (umgeht den 10-Minuten-Zwischenspeicher), eine neue Version ist sofort da.
-const CACHE = 'reiselogbuch-3.33.0';
+const CACHE = 'reiselogbuch-3.34.0';
 // Ab 3.0.0 kommen die gemeinsamen Bausteine aus AppDesign (gleiche Adresse g811141a.github.io) – auch offline.
 // Seit 3.13.0 (R-10.3) aus der festen Fassung ../AppDesign/fassung/X.Y.Z/ wie in index.html: eine neue AppDesign-Version ändert die App nicht.
-const FILES = ['./', 'index.html', 'manifest.json', 'icon-180.png', 'icon-512.png', '../AppDesign/fassung/4.35.0/design.css', '../AppDesign/fassung/4.35.0/ui.js'];
+const FILES = ['./', 'index.html', 'manifest.json', 'icon-180.png', 'icon-512.png', '../AppDesign/fassung/4.36.0/design.css', '../AppDesign/fassung/4.36.0/ui.js'];
 
 // Seit 3.13.2 (R-1.5, Fund P-37/3 – iPad startete offline mit weißer Seite): Die App fragt das Netz höchstens 3 s, dann
 // kommt sie aus dem Speicher; die Fassung aus AppDesign ist unveränderlich und kommt zuerst aus dem Speicher. Wird die App
@@ -24,7 +24,7 @@ const merke = (req, res) => { if (res.ok) { const copy = res.clone(); caches.ope
 const ausSpeicher = async req => (await caches.match(req, { ignoreSearch: true })) ||
   (req.mode === 'navigate' ? (await caches.match('index.html', { ignoreSearch: true })) || caches.match('./') : undefined);
 
-// Seit 3.14.0 (R-1.5, A-06): Der Service Worker meldet der Seite, ob die App offline arbeitet ({ netz: 'aus' | 'an' }) –
+// Seit 3.14.0 (R-1.5, APD-6): Der Service Worker meldet der Seite, ob die App offline arbeitet ({ netz: 'aus' | 'an' }) –
 // ‚aus‘, sobald er aus dem Speicher liefert (kein Netz oder Netz hängt länger als die Frist), ‚an‘, sobald das Netz antwortet.
 // Die Seite (AppDesign ui.js) fragt beim Start ({ netz: '?' }) und lässt bei der Rückkehr in die App prüfen ({ netz: 'pruefe' }).
 let netz = 'an';

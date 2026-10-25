@@ -1,13 +1,13 @@
-// Reiselogbuch-Test: ablauf-smiley-leiste – AppDesign A-76 (seit 3.31.0, R-3.5; Fall-Liste AppDesign arbeit/A-76 Fall-Liste.md L1–L9):
+// Reiselogbuch-Test: ablauf-smiley-leiste – AppDesign APD-76 (seit 3.31.0, R-3.5; Testfall-Liste AppDesign arbeit/APD-76 Testfall-Liste.md L1–L9):
 // Ziehen ist kein langes Drücken – wer die Smiley-Leiste mit dem Finger auf einem Smiley seitlich zieht, bekommt keine Abfrage
 // ‚… entfernen?‘; still halten fragt wie bisher, kurz antippen fügt ein. Nachgebaut ist der Ablauf vom Gerät (24.10.2026): iPhone, Tag
 // öffnen, auf einem Smiley aufsetzen, die Leiste ziehen (L1, gegen 3.30.2 rot); dasselbe in der Essen-Leiste und im Fazit (L6), am iPad
 // mit Maus (L8); Grundregeln nach jedem Schritt (L9). L7 (Zurückwischen, Blatt ziehen) prüfen ablauf-navigation und ablauf-blatt.
 // Aufruf im Repo-Ordner: node tests/ablauf-smiley-leiste.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
-import { checkLangDruecken } from '../../AppDesign/fassung/4.35.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
+import { checkLangDruecken } from '../../AppDesign/fassung/4.36.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-smiley-leiste', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 const days = {}; for (let i = 0; i < 10; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1}`, place: 'Hafen' };

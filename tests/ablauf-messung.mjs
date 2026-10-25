@@ -1,10 +1,10 @@
-// Messmodus (seit 3.24.0, AppDesign A-27, R-1.6): Fall-Liste AppDesign/arbeit/A-27 Fall-Liste.md F1–F12 über checkMessung –
+// Messmodus (seit 3.24.0, AppDesign APD-27, R-1.6): Testfall-Liste AppDesign/arbeit/APD-27 Testfall-Liste.md F1–F12 über checkMessung –
 // iPad quer, iPhone hoch und quer, hell und dunkel, viele Tage; F10 leere App (nur starten und teilen).
 // Aufruf im Repo-Ordner: node tests/ablauf-messung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
-import { checkMessung } from '../../AppDesign/fassung/4.35.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
+import { checkMessung } from '../../AppDesign/fassung/4.36.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-messung', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 60; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { program: 'Programm ' + i, comment: 'Ausflug ans Meer' };
 const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '2026-08-24', end: '2026-10-22', transport: ['flug'], days },

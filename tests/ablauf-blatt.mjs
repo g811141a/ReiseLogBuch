@@ -1,11 +1,11 @@
-// Reiselogbuch-Test: ablauf-blatt – T-99 (seit 3.30.0, AppDesign A-61 Teil 2, R-4.6; Fall-Liste AppDesign arbeit/A-61 Teil 2 Fall-Liste.md):
+// Reiselogbuch-Test: ablauf-blatt – RLB-99 (seit 3.30.0, AppDesign APD-61 Teil 2, R-4.6; Testfall-Liste AppDesign arbeit/APD-61 Teil 2 Testfall-Liste.md):
 // im iPhone-Aufbau ist jedes Fenster außer Meldungen ein Blatt – Erfassen, Einstellungen (Bearbeiten), Neues Reiselogbuch, Fazit und
 // Vorschau; Ziehen schließt, mit Änderungen fragt es wie x (B8–B10 für jedes Fenster mit Eingaben); iPhone hoch und quer, hell und
 // dunkel, ‚Bewegung reduzieren‘; am iPad bleibt das Fenster in der Mitte (B18). Aufruf im Repo-Ordner: node tests/ablauf-blatt.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
-import { checkSheet } from '../../AppDesign/fassung/4.35.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.36.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.36.0/tests/hig.mjs';
+import { checkSheet } from '../../AppDesign/fassung/4.36.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-blatt', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 const days = {}; for (let i = 0; i < 20; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1}\nzweite Zeile`, comment: '😉 schöner Tag', quarter: 'Hotel Bellevue', place: 'Hafen' };
