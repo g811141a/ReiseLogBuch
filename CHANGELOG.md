@@ -30,7 +30,10 @@ Reiselogbuch 3.35.0 · AppDesign 4.37.0 (Designrichtlinie allgemein 4.37.0) · D
   unter dem Titel; Menüs und Sprechblasen werden breiter, Knöpfe in Sprechblasen stehen untereinander.
 - **iPad ab AX1: die Tage als Kästen** wie am iPhone (statt der Tabelle), die Quartierliste als Liste – schon vorher, wenn die
   Tabelle bei großer Schrift nicht in ihren Platz passt (z. B. XXXL mit fester Seitenleiste); beim Wechsel bleibt derselbe Tag oben.
-  Bei großer Schrift dürfen die Zeichen vor einer Zeile (🕛☕📍) umbrechen, die Reisemittel stehen umbrochen statt seitlich wischbar.
+  Bei großer Schrift dürfen die Zeichen vor einer Zeile (🕛☕📍) umbrechen, die Reisemittel stehen umbrochen statt seitlich wischbar;
+  ein einzelnes langes Wort (‚Reiseteilnehmer:‘, ‚Gesamtausgaben‘) bricht im Wort um, statt den Inhalt breiter als den Bildschirm zu
+  machen (sonst ging das Zurückwischen vom Rand nicht). Ist eine Kachel der Startliste höher als der Platz, rückt die Liste nur, wenn
+  ihr Anfang nicht zu sehen ist.
 - **Betragsfeld** so breit wie ‚4.850,00 €‘ in der aktuellen Schrift (statt fest 130 px); **Wetter am iPhone** 40 px breit nur bei
   Standard – größer wachsen die Knöpfe, passt es nicht, wischt die Kapsel seitlich. Smileys, Häkchen und Icons wachsen mit.
 - **Ausgabe (HTML/PDF) und Vorschau** bleiben unverändert.
@@ -40,7 +43,9 @@ Reiselogbuch 3.35.0 · AppDesign 4.37.0 (Designrichtlinie allgemein 4.37.0) · D
   `hig` zusätzlich in den Textgrößen 14, 23, 33 und 53 px, die Abläufe mit Bewegung zusätzlich bei 53 px (`PRUEF_TEXT`). Die
   WebKit-Prüfung fand beim Bau, dass beim Wechsel der oberste Tag wegsprang (Safari hält die Rollposition nicht selbst) – behoben.
   hig öffnet seine Seiten selbst und bekommt die Textgröße jetzt über `textSeite` (AppDesign); auf den Kopf eines Kastens wird getippt,
-  weil bei großer Schrift in seiner Mitte der Maps-Link liegen kann.
+  weil bei großer Schrift in seiner Mitte der Maps-Link liegen kann; die Abläufe Navigation, iPhone und Seitenleiste kennen hohe
+  Kästen und Kacheln, breite Menüs und die umbrochenen Reisemittel. Gefunden und behoben: am iPad hoch wurde die Backup-Kachel
+  gemessen, solange die Seitenleiste verborgen war – der letzte Eintrag lag dann bei großer Schrift dahinter.
 
 Testfälle P-75 (Schritt für Schritt, Zusammenarbeit allgemein 2.20.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**. Die Textgröße stellst du am schnellsten über das Kontrollzentrum ein: einmalig Einstellungen →

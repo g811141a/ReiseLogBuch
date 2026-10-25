@@ -57,7 +57,10 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
     await p.mouse.move(rb.x + 40, rb.y + 20); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); await p.waitForTimeout(250);
     const g = await p.evaluate(id => { const r = document.querySelector(`#side .side-row[data-id="${id}"]`).getBoundingClientRect(), m = document.querySelector('.menu').getBoundingClientRect(),
       t = document.querySelector('#side .bhint').getBoundingClientRect(), l = document.querySelector('#side .side-list').getBoundingClientRect();
-      return { below: m.top >= r.bottom - 1, left: Math.abs(m.left - r.left) < 2, aboveTile: m.bottom <= t.top + 1, rowVisible: r.top >= l.top - 1, inView: m.top >= 0 && m.bottom <= innerHeight }; }, id);
+      // seit 3.35.0 (AppDesign APD-43 Teil 2): bei großer Schrift ist das Menü so breit wie der Bildschirm minus Rand (B1) – dann zählt das
+      // als linksbündig; passen Kachel und Menü zusammen nicht über die Backup-Kachel, darf die Kachel oben hinausrücken
+      const breit = m.width >= innerWidth - 2 * r.left - 1, passt = r.height + m.height <= t.top - l.top;
+      return { below: m.top >= r.bottom - 1, left: Math.abs(m.left - r.left) < 2 || breit, aboveTile: m.bottom <= t.top + 1, rowVisible: r.top >= l.top - 1 || !passt, inView: m.top >= 0 && m.bottom <= innerHeight }; }, id);
     check(g.below, `iPhone: Kontextmenü (${which} Kachel) nicht unter der Kachel`);
     check(g.left, `iPhone: Kontextmenü (${which} Kachel) nicht linksbündig`);
     check(g.aboveTile && g.inView, `iPhone: Kontextmenü (${which} Kachel) nicht ganz über der Backup-Kachel sichtbar`);

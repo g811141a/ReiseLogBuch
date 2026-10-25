@@ -145,7 +145,8 @@ await G('Island angelegt');
 
 // Wechsel iPhone → iPad hoch → iPhone quer
 await p.setViewportSize({ width: 820, height: 1180 }); await p.waitForTimeout(300);
-check(!(await p.evaluate(() => document.documentElement.classList.contains('phone'))) && await p.locator('table.days').count() === 1, 'iPad-Ansicht fehlt nach Wechsel');
+// seit 3.35.0 (RLB-101): bei großer Schrift zeigt auch das iPad die Tage als Kästen (#pdays) statt der Tabelle
+check(!(await p.evaluate(() => document.documentElement.classList.contains('phone'))) && await p.locator('table.days, #pdays').count() === 1, 'iPad-Ansicht fehlt nach Wechsel');
 await p.setViewportSize({ width: 852, height: 393 }); await p.waitForTimeout(300);
 check(await p.locator('#pdays').count() === 1, 'iPhone quer nicht kompakt');
 await G('iPhone quer');

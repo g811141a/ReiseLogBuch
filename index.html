@@ -1139,7 +1139,9 @@ function keepSideScroll() {
     const lr = list.getBoundingClientRect(), r = cur.getBoundingClientRect();
     const tile = side.querySelector('.side-foot .bhint')?.getBoundingClientRect();
     const bottom = Math.min(lr.bottom, tile ? tile.top : lr.bottom);
-    if (r.top < lr.top + 6) list.scrollTop += r.top - lr.top - 6;
+    // seit 3.35.0 (RLB-101): ist die Kachel bei großer Schrift höher als der Platz, genügt ihr Anfang – steht er im Bild, bleibt die Liste
+    if (r.height > bottom - lr.top - 12) { if (r.top < lr.top + 6 || r.top > bottom - 40) list.scrollTop += r.top - lr.top - 6; }
+    else if (r.top < lr.top + 6) list.scrollTop += r.top - lr.top - 6;
     else if (r.bottom > bottom - 6) list.scrollTop += r.bottom - bottom + 6;
   }
   sideScroll = list.scrollTop;

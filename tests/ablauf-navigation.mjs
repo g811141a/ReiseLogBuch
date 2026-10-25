@@ -27,7 +27,8 @@ for (const [ansicht, theme, bewegung] of faelle) {
   // iPad hoch: Start mit offenem Reiselogbuch, die darübergelegte Seitenleiste weg (nach der Auswahl schließt sie, 15.4)
   if (ansicht === 'iPad hoch' && await p.locator('#side .side-row[data-id="a"]').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(300); await navFertig(p); }
   await t.schritt(p, 'Start', async () => {});
-  for (const x of await checkNavigation(p, { eintrag: '#side .side-row[data-id="a"]', titel: 'Japan', zurueck: '#back', waagrecht: ansicht === 'iPhone hoch' ? '#app dd.swipe' : null,
+  for (const x of await checkNavigation(p, { eintrag: '#side .side-row[data-id="a"]', titel: 'Japan', zurueck: '#back', waagrecht: ansicht === 'iPhone hoch' && !await p.evaluate(() => document.documentElement.classList.contains('ts-um')) ? '#app dd.swipe' : null,   // bei großer Schrift umbrochen statt wischbar (RLB-101)
+   
     knopf: '#shareBtn', menue: '#mainMore', suche: '#searchBtn', kasten: '#app .box.day', where: t.ort })) t.fehler('', x);
   await navFertig(p);
   await t.schritt(p, 'nach den Gesten', async () => {});
