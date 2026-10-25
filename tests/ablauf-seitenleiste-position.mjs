@@ -51,7 +51,9 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   await p.reload(); await p.waitForTimeout(300);   // Start in der Startliste (R-7.2)
   for (const which of ['oberste', 'unterste']) {
     const id = await p.evaluate(w => { const t = document.querySelector('#side .bhint').getBoundingClientRect().top, lt = document.querySelector('#side .side-list').getBoundingClientRect().top;
-      const rows = [...document.querySelectorAll('#side .side-row')].filter(r => { const b = r.getBoundingClientRect(); return b.top >= lt - 1 && b.bottom <= t; });
+      let rows = [...document.querySelectorAll('#side .side-row')].filter(r => { const b = r.getBoundingClientRect(); return b.top >= lt - 1 && b.bottom <= t; });
+      // seit 3.35.0: bei großer Schrift passt womöglich keine Kachel ganz hinein – dann zählt, wessen Anfang zu sehen ist
+      if (!rows.length) rows = [...document.querySelectorAll('#side .side-row')].filter(r => { const b = r.getBoundingClientRect(); return b.top >= lt - 1 && b.top < t - 20; });
       return (w === 'oberste' ? rows[0] : rows[rows.length - 1]).dataset.id; }, which);
     const row = p.locator(`#side .side-row[data-id="${id}"]`), rb = await row.boundingBox();
     await p.mouse.move(rb.x + 40, rb.y + 20); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); await p.waitForTimeout(250);
