@@ -1,0 +1,112 @@
+// Reiselogbuch-Test: ablauf-bedienung – Bedienungshilfen (seit 3.33.0, AppDesign A-43 Teil 1, T-100; Fall-Liste AppDesign
+// arbeit/A-43 Teil 1 Fall-Liste.md): VoiceOver (Namen, Rollen, Fokus, Sperre, Ansagen), Hardware-Tastatur, ‚Kontrast erhöhen‘ und
+// ‚Bewegung reduzieren‘. Die Seiten öffnen mit beiden Bedienungshilfen (Bewegungswächter, pruefe.mjs). Dieselbe Prüfung läuft für die
+// Gegenprobe der Bedienungshilfen (node tests/alle.mjs --gegenprobe bedienung): je eingeschleustem Fehler wird genau seine Meldung rot.
+// Aufruf im Repo-Ordner: node tests/ablauf-bedienung.mjs
+import * as pw from 'playwright';
+import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
+import { checkFokus, checkKontrast, checkRuhig, checkFieldErrors, ansage } from '../../AppDesign/fassung/4.35.0/tests/ablauf.mjs';
+const t = pruefung('ablauf-bedienung', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
+const days = {};
+for (let i = 0; i < 30; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 20 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok', place: i % 3 ? 'Hafen' : 'Sydney' }; }
+const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-09-22', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days },
+  { id: 'b', title: 'Toskana', participants: 'G', start: '2027-05-03', end: '2027-05-17', transport: ['pkw'], days: {} }];
+const b = await t.browser();
+const errs = m => m.forEach(x => t.fehler('', x));
+const G = (p, name, fn = async () => {}) => t.schritt(p, name, fn);
+const warte = (p, ms = 250) => p.waitForTimeout(ms);
+const settings = p => async () => { await p.click('#mainMore'); await warte(p, 150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); };
+
+for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
+  const p = await t.seite(b, ansicht, { contrast: 'more', reducedMotion: 'reduce' });
+  if (!t.ort.includes('Kontrast')) t.ort += ' · Kontrast · ruhig';
+  await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));
+  await p.goto(new URL('../index.html', import.meta.url).href);
+  await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() - 864e5 * 2 }, trips: x })), trips);
+  await G(p, 'Start', async () => { await p.reload(); await warte(p, 400); });
+
+  if (ansicht === 'iPad quer') {
+    // V1, V3, V7: Menü offen – Namen, ‚öffnet Menü‘, alles daneben gesperrt; V4: Untermenü mit Häkchen
+    await G(p, 'Mehr-Menü offen', async () => { await p.click('#mainMore'); await warte(p, 200); });
+    await G(p, 'Untermenü Darstellung', async () => { await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await warte(p, 200); });
+    await G(p, 'Menü daneben geschlossen', async () => { await p.evaluate(() => document.querySelector('.layer')?.click()); await warte(p, 200); });
+    // V2, V8: Fenster mit Titel, modal
+    await G(p, 'Fenster Einstellungen', settings(p));
+    await p.evaluate(() => dlg.close()); await warte(p);
+    // V11: ‚Automatisch gespeichert‘ steht im Fensterkopf, wird nicht angesagt
+    await G(p, 'Tag erfassen, automatisch gespeichert', async () => {
+      await p.evaluate(() => openDayDialog(db.trips.find(x => x.id === 'a'), '2026-08-25')); await warte(p, 300);
+      await p.locator('#dlg textarea').first().focus(); await p.keyboard.type(' mehr'); await p.locator('#dlg textarea').first().blur(); await warte(p, 600); });
+    t.wahr('‚Automatisch gespeichert‘ steht im Fensterkopf', /gespeichert um/.test(await p.textContent('#dlgSub')), 'R-1.8');
+    await p.evaluate(() => dlg.close()); await warte(p);
+    // K1–K6, K9, V5, V6
+    errs(await checkFokus(p, { menue: '#mainMore', untermenue: 'Darstellung', felder: [],
+      fenster: { open: settings(p), change: () => p.locator('#fTitle').fill('Australien 2'), feld: '#fTitle' }, where: t.ort }));
+    // K9: Textfelder im Fenster nie mit Fokus-Rahmen (antippen)
+    await settings(p)(); await warte(p, 300);
+    errs(await checkFokus(p, { felder: ['#fTitle', '#fPeople'], tab: false, where: t.ort + ' · Fenster' }));
+    await G(p, 'Feld im Fenster angetippt', () => p.locator('#fPeople').tap());
+    await p.evaluate(() => dlg.close()); await warte(p);
+    // V10: Fehlermeldung hörbar, Häkchen → Fokus aufs Feld
+    errs(await checkFieldErrors(p, { open: settings(p), field: '#fTitle', where: t.ort }));
+    // V9: Ansagen der Suche
+    await p.click('#searchBtn'); await warte(p, 200);
+    await p.locator('#search').pressSequentially('Sydney', { delay: 30 });
+    const n = await p.evaluate(() => document.querySelectorAll('table.days:not(.static) mark').length);
+    const a1 = await ansage(p, 1100);
+    if (a1 !== `${n} Treffer`) t.fehler('R-1.8', `Suche: Ansage ‚${a1}‘ statt ‚${n} Treffer‘ (nach der Tipp-Pause)`);
+    await p.click('#snext'); const a2 = await ansage(p, 300);
+    if (a2 !== `Treffer 2 von ${n}`) t.fehler('R-1.8', `Suche: Ansage ‚${a2}‘ statt ‚Treffer 2 von ${n}‘`);
+    await p.locator('#search').fill('Xyzzy'); await p.locator('#search').dispatchEvent('input');
+    const a3 = await ansage(p, 1100);
+    if (a3 !== 'Keine Treffer') t.fehler('R-1.8', `Suche: Ansage ‚${a3}‘ statt ‚Keine Treffer‘`);
+    await p.click('#searchBtn'); await warte(p, 200);
+    // Seitenleiste filtern: ‚1 von 2 Reiselogbüchern‘
+    await p.click('#listSearchBtn'); await warte(p, 200);
+    await p.locator('#lsearch').pressSequentially('Toskana', { delay: 30 });
+    const a4 = await ansage(p, 1100);
+    if (a4 !== '1 von 2 Reiselogbüchern') t.fehler('R-1.8', `Seitenleiste: Ansage ‚${a4}‘ statt ‚1 von 2 Reiselogbüchern‘`);
+    await p.click('#listSearchBtn'); await warte(p, 200);
+    // V13: offline und wieder online – angesagt, auch bei offenem Fenster (dort im Fenster)
+    await p.evaluate(() => setNet('aus'));
+    const a5 = await ansage(p, 200);
+    if (!/offline/.test(a5 || '')) t.fehler('R-1.8', `Offline: Ansage ‚${a5}‘ statt ‚Du bist offline …‘`);
+    await settings(p)(); await warte(p, 300);
+    await p.evaluate(() => setNet('an'));
+    const a6 = await ansage(p, 200);
+    if (a6 !== 'Wieder online') t.fehler('R-1.8', `Wieder online bei offenem Fenster: Ansage ‚${a6}‘ im Fenster statt ‚Wieder online‘`);
+    await p.evaluate(() => dlg.close()); await warte(p);
+    // H1–H5: zweite Farbtabelle, Ausgabe hell, Umschalten ohne Neuaufbau
+    errs(await checkKontrast(p, { where: t.ort,
+      vorschau: async () => { await p.click('#shareBtn'); await warte(p, 150); await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); },
+      fenster: { open: settings(p), feld: '#fPeople' } }));
+    await G(p, 'nach dem Umschalten');
+    // M2, M4: ‚Nach oben / Ans Ende‘ springen, Mikrofon ruhig
+    errs(await checkRuhig(p, { fab: true, mic: true, where: t.ort }));
+    await G(p, 'nach ‚Nach oben / Ans Ende‘');
+  }
+
+  if (ansicht === 'iPad hoch') {
+    // K7: Esc schließt die darübergelegte Seitenleiste, der Fokus geht auf panel-left
+    if (!await p.isVisible('#side')) { await p.locator('[data-side-toggle]').first().click(); await warte(p, 500); }
+    await p.locator('#side .side-row').first().focus();
+    await p.keyboard.press('Escape'); await warte(p, 600);
+    t.ist('Esc schließt die darübergelegte Seitenleiste', await p.evaluate(() => !side.getClientRects().length || side.hidden), true, 'R-4.7');
+    t.ist('Fokus danach auf panel-left', await p.evaluate(() => document.activeElement?.matches('[data-side-toggle]')), true, 'R-4.7');
+  }
+
+  if (ansicht === 'iPhone hoch') {
+    // V12: Eintrag öffnen → Fokus auf den Seitentitel; zurück → auf die blaue Zeile bzw. den Titel der Startliste
+    await G(p, 'Eintrag öffnen', async () => { await p.click('#side .side-row[data-id="a"]'); await warte(p, 500); });
+    t.ist('Fokus nach dem Öffnen auf dem Seitentitel', await p.evaluate(() => !!document.activeElement?.matches('.pnav')), true, 'R-1.8');
+    await G(p, 'zurück', async () => { await p.click('#back'); await warte(p, 500); });
+    t.ist('Fokus nach dem Zurück auf der blauen Zeile bzw. dem Titel', await p.evaluate(() => !!document.activeElement?.closest('#side') && document.activeElement.matches('.current, h2, .pnav-head')), true, 'R-1.8');
+    // M5: Blatt ohne Verkleinerung der Seite
+    await p.click('#side .side-row[data-id="a"]'); await warte(p, 500);
+    errs(await checkRuhig(p, { fab: false, fenster: settings(p), where: t.ort }));
+    await G(p, 'Blatt geschlossen');
+  }
+  await p.close();
+}
+await t.ende(b);
