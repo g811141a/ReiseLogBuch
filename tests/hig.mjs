@@ -7,7 +7,7 @@
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
 // Bewusste Abweichungen (Abschnitt 16) werden nicht gezählt. Ergebnis: Abweichungsliste, Exit-Code 1 bei Funden.
 import * as pw from 'playwright';
-import { pruefung, rolle } from '../../AppDesign/fassung/4.37.0/tests/pruefe.mjs';
+import { pruefung, rolle, textSeite } from '../../AppDesign/fassung/4.37.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.37.0/tests/hig.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
@@ -34,8 +34,10 @@ const browser = await pruefung('hig', pw).browser();
 const hilfen = process.env.PRUEF_BEDIENUNG === 'beide' ? { contrast: 'more', reducedMotion: 'reduce' } : {}, hilfenTag = hilfen.contrast ? ' Bedienungshilfen' : '';
 const darstellungen = process.env.PRUEF_DARSTELLUNG ? [process.env.PRUEF_DARSTELLUNG] : ['light', 'dark'];
 for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 1180]]) {
-  const tag = `${scheme === 'light' ? 'hell' : 'dunkel'} ${w > h ? 'quer' : 'hoch'}${hilfenTag}`;
+  const tag0 = `${scheme === 'light' ? 'hell' : 'dunkel'} ${w > h ? 'quer' : 'hoch'}${hilfenTag}`;
   const p = await browser.newPage({ viewport: { width: w, height: h }, hasTouch: true, colorScheme: scheme, ...hilfen });
+  // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): PRUEF_TEXT – Textgröße des Geräts nachgebildet
+  const tag = tag0 + await textSeite(p);
   const errors = [];
   p.on('pageerror', e => errors.push(e.message));
   await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));
@@ -100,8 +102,10 @@ for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 118
 }
 // iPhone (AppDesign html.phone): hoch und quer, hell und dunkel.
 for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]]) {
-  const tag = `iPhone ${scheme === 'light' ? 'hell' : 'dunkel'} ${w > h ? 'quer' : 'hoch'}${hilfenTag}`;
+  const tag0 = `iPhone ${scheme === 'light' ? 'hell' : 'dunkel'} ${w > h ? 'quer' : 'hoch'}${hilfenTag}`;
   const p = await browser.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: true, colorScheme: scheme, ...hilfen });
+  // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): PRUEF_TEXT – Textgröße des Geräts nachgebildet
+  const tag = tag0 + await textSeite(p);
   const errors = [];
   p.on('pageerror', e => errors.push(e.message));
   await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));

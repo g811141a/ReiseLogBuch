@@ -2,7 +2,7 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.37.0/tests/pruefe.mjs';
+import { pruefung, textSeite } from '../../AppDesign/fassung/4.37.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.37.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-seitenleiste-position', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
@@ -22,6 +22,7 @@ const visible = p => p.evaluate(() => {
 });
 for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [393, 852, 'iPhone']]) {
   const p = await b.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700 });
+  await textSeite(p);   // seit 3.35.0: PRUEF_TEXT (AppDesign APD-43 Teil 2 P1)
   p.on('pageerror', e => errors.push(`${dev}: ${e.message}`));
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
@@ -43,6 +44,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
 // für die oberste und die unterste sichtbare Kachel; die Liste rückt dafür nötigenfalls nach oben.
 {
   const p = await b.newPage({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
+  await textSeite(p);   // seit 3.35.0: PRUEF_TEXT (AppDesign APD-43 Teil 2 P1)
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: {}, trips: t })), trips);
@@ -69,6 +71,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
 // iPhone: Suche offen, Inhalt wischen → Tastatur schließt (Suchfeld verliert den Fokus), Leiste bleibt stehen
 {
   const p = await b.newPage({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
+  await textSeite(p);   // seit 3.35.0: PRUEF_TEXT (AppDesign APD-43 Teil 2 P1)
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: {}, trips: t })), trips);

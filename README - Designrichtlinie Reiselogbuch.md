@@ -14,7 +14,7 @@
 | Nr. | Was | allgemein gilt | Grund | Prüfung | Entschieden |
 |---|---|---|---|---|---|
 | 1 | Maps-Links der Lokale in der Spalte ‚Essen und Trinken‘ nur so hoch wie der Text (ca. 19 px) – auf dem iPhone auch in den Tageskästen; Quartier-Links haben die unsichtbare Antippfläche von 44 px | Antippfläche 44 pt, kleine Links unsichtbar größer (R-3.1, HIG 1) | mehr Zeilenabstand in der Tabelle nicht gewünscht; im Kasten würde eine größere Fläche das Antippen des Tages behindern | `hig.mjs` zählt sie nicht (`skipTargets` `.ln:not(.q) a` in den Prüfskripten) | 09.10.2026 · iPhone 10.10.2026 |
-| 2 | Wetter-Symbole in der Tageserfassung auf dem iPhone 40 px breit (in der Kapsel, über dem Minimum von 28 pt) | Icon- und Emoji-Schaltflächen 44 × 44 (4, R-3.1) | alle sieben passen ohne Wischen | `hig.mjs` (Kapsel ab 28) | 10.10.2026 |
+| 2 | Wetter-Symbole in der Tageserfassung auf dem iPhone 40 px breit (in der Kapsel, über dem Minimum von 28 pt) – seit 3.35.0 nur bei Standard; bei größerer Schrift wachsen sie (R-1.10) und die Kapsel wischt seitlich | Icon- und Emoji-Schaltflächen 44 × 44 (4, R-3.1) | alle sieben passen ohne Wischen | `hig.mjs` (Kapsel ab 28) | 10.10.2026 |
 | 3 | Tagestabelle der Ausgabe mit festen Spaltenanteilen: ‚Tag‘ so schmal wie das Datum, Verlauf und ‚Wie war was?‘ je 28, Essen und Quartier je 22 – unabhängig von der Textmenge, die letzten beiden Spalten gleich breit; fehlt eine Spalte, teilen sich die übrigen den Platz im selben Verhältnis | Spaltenbreiten passen sich dem Inhalt an (9) | Entscheidung des Nutzers mit 3.11.6 (gilt nur für das Reiselogbuch, nicht allgemein) | Sicht | 14.10.2026 |
 
 ## 2. Abgleich – Feldnamen
@@ -29,6 +29,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.35.0 | 25.10.2026 | Neben | AppDesign 4.37.0 (APD-43 Teil 2, R-1.10 Textgröße; RLB-101): Abweichung 2 (Wetter 40 px) gilt nur noch bei Standard; ab AX1 am iPad die Tage als Kästen wie am iPhone |
 | 3.34.0 | 25.10.2026 | Neben | AppDesign 4.36.0 (APD-78 Nummernschema, APD-79): keine eigene Abweichung – Nummern und Begriffe nach Zusammenarbeit 2.4 (RLB-n, Usertest, Testfall-Liste) |
 | 3.33.0 | 25.10.2026 | Neben | AppDesign 4.35.0 (APD-43 Teil 1, RLB-100): keine eigene Abweichung – Barrierefreiheit (R-1.8 VoiceOver, R-1.9 ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘, R-4.7 Hardware-Tastatur), Fokus-Rahmen nur mit Tastatur, Textfelder nie (R-3.4); Fehlermeldungen über `feldFehler`, Ansagen der Suche und der Seitenleiste |
 | 3.32.0 | 24.10.2026 | Neben | AppDesign 4.34.0 (APD-74): keine eigene Abweichung – Backup-Kachel nur, solange heute noch kein Backup erstellt wurde (R-9.1), Offline-Zeile auch ohne Kachel und bei leerer Liste (R-1.5); die Liste wird um 0:00 neu gezeichnet (RLB-105) |

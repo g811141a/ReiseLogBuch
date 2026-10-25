@@ -150,7 +150,7 @@ wie am iPad (R-1.1):
   im Reiselogbuch (R-7.5) – die Zeile ‚Reisemittel‘ behält ihr seitliches Wischen.
 - **Fenster als Blatt** (R-4.6, seit 3.30.0 RLB-99): Tageserfassung, Einstellungen, Neues Reiselogbuch, Fazit und Vorschau gleiten
   von unten; nach unten ziehen schließt wie x, mit Änderungen fragt es (auch beim Erfassen).
-- **Tageserfassung** als Blatt, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘; Wetter-Symbole 40 px breit (Abweichung 2).
+- **Tageserfassung** als Blatt, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘; Wetter-Symbole 40 px breit (Abweichung 2, bei Standard-Textgröße).
 
 ## 6. Suche
 
