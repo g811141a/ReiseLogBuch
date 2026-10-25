@@ -7,8 +7,8 @@
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
 // Bewusste Abweichungen (Abschnitt 16) werden nicht gezählt. Ergebnis: Abweichungsliste, Exit-Code 1 bei Funden.
 import * as pw from 'playwright';
-import { pruefung, rolle } from '../../AppDesign/fassung/4.34.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.34.0/tests/hig.mjs';
+import { pruefung, rolle } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
 const long = 'a'.repeat(100); // R-6.3: zu lange Wörter müssen im Wort umbrechen
@@ -30,10 +30,12 @@ const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .l
 const { measure, note } = hig;
 
 const browser = await pruefung('hig', pw).browser();
+// Seit 3.33.0 (AppDesign A-43 P1): PRUEF_BEDIENUNG=beide – alle Ansichten mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (4,5 : 1 ohne Ausnahmen)
+const hilfen = process.env.PRUEF_BEDIENUNG === 'beide' ? { contrast: 'more', reducedMotion: 'reduce' } : {}, hilfenTag = hilfen.contrast ? ' Bedienungshilfen' : '';
 const darstellungen = process.env.PRUEF_DARSTELLUNG ? [process.env.PRUEF_DARSTELLUNG] : ['light', 'dark'];
 for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 1180]]) {
-  const tag = `${scheme === 'light' ? 'hell' : 'dunkel'} ${w > h ? 'quer' : 'hoch'}`;
-  const p = await browser.newPage({ viewport: { width: w, height: h }, hasTouch: true, colorScheme: scheme });
+  const tag = `${scheme === 'light' ? 'hell' : 'dunkel'} ${w > h ? 'quer' : 'hoch'}${hilfenTag}`;
+  const p = await browser.newPage({ viewport: { width: w, height: h }, hasTouch: true, colorScheme: scheme, ...hilfen });
   const errors = [];
   p.on('pageerror', e => errors.push(e.message));
   await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));
@@ -98,8 +100,8 @@ for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 118
 }
 // iPhone (AppDesign html.phone): hoch und quer, hell und dunkel.
 for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]]) {
-  const tag = `iPhone ${scheme === 'light' ? 'hell' : 'dunkel'} ${w > h ? 'quer' : 'hoch'}`;
-  const p = await browser.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: true, colorScheme: scheme });
+  const tag = `iPhone ${scheme === 'light' ? 'hell' : 'dunkel'} ${w > h ? 'quer' : 'hoch'}${hilfenTag}`;
+  const p = await browser.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: true, colorScheme: scheme, ...hilfen });
   const errors = [];
   p.on('pageerror', e => errors.push(e.message));
   await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));

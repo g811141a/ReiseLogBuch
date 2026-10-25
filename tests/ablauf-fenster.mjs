@@ -1,8 +1,8 @@
 // Reiselogbuch-Test: ablauf-fenster – Seitenleiste beim Start (quer fest, hoch darübergelegt), Titel, Abstand unten.
 // Aufruf im Repo-Ordner: node tests/ablauf-fenster.mjs (Bildschirmfotos in tests/out/). Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.34.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.34.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
 const t = pruefung('ablauf-fenster', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const trips = [{ id: 'a', title: 'Australien', participants: 'G', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], days: {} },
   { id: 'b', title: 'Toskana', participants: 'G', start: '2027-05-03', end: '2027-05-17', transport: ['pkw'], days: {} }];

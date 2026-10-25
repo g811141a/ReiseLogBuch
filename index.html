@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.34.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.35.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -36,7 +36,7 @@
   td.day .wx { display: block; font-size: 18px; }
   td.day .wx.empty { opacity: .25; }
   .tag { display: inline-block; font-size: 12px; border-radius: 6px; padding: 0 6px; margin-left: 4px; vertical-align: 1px; }
-  .tag.today { background: var(--accent); color: var(--accent-ink); }
+  .tag.today { background: var(--accent-fill); color: var(--accent-ink); }
   .tag.miss { color: var(--warn); border: 1px solid var(--warn); }
   td.quarter a { text-decoration: none; }
   .empty-note { padding: 20px; text-align: center; color: var(--muted); }
@@ -118,18 +118,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.34.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.35.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.32.0';
-const APP_BUILT = '24.10.2026 um 17:57';
+const APP_VERSION = '3.33.0';
+const APP_BUILT = '25.10.2026 um 01:54';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.34.0';
+const AD_NEEDED = '4.35.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -751,7 +751,7 @@ function progressText(trip) {
 // gezeigt werden nur passende Tage, die Treffer sind gelb, der aktuelle hellorange.
 const searchRowHtml = term => `<div class="nb2">
     <span class="searchbox active">${ic('search')}<input type="search" id="search" placeholder="Suchen" value="${esc(searchTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${term ? `
-      <span class="smeta"><span class="scount" id="scount"></span><button type="button" class="sclear" id="sclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
+      <span class="smeta"><span class="scount" id="scount"></span><button type="button" class="sclear" id="sclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
     <span class="navgrp"><button type="button" id="sprev" aria-label="Voriger Treffer" ${term ? '' : 'disabled'}>${ic('chevron-up')}</button><button type="button" id="snext" aria-label="Nächster Treffer" ${term ? '' : 'disabled'}>${ic('chevron-down')}</button></span>
   </div>`;
 
@@ -779,6 +779,7 @@ function bindSearch(term) {
       refocus();
       clearTimeout(searchJump);
       searchJump = setTimeout(() => showHit(true), 500);
+      ansageTreffer();
     };
     // Eingabetaste springt zum nächsten Treffer (wie in Safari).
     search.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); stepHit(1); } };
@@ -818,7 +819,7 @@ const fazitHtml = trip => `<h2 data-marke="Fazit">Fazit</h2>
       : `<span class="muted" style="display:inline-flex;gap:6px;align-items:center">${ic('pencil')}Antippen, um das Fazit zu schreiben.</span>`}</button>
     <h2>Gesamtausgaben</h2>
     <div class="kosten">
-      <input type="text" id="kosten" inputmode="decimal" placeholder="0,00" value="${trip.kosten == null ? '' : money(trip.kosten)}">
+      <input type="text" id="kosten" inputmode="decimal" placeholder="0,00" aria-label="Gesamtausgaben" value="${trip.kosten == null ? '' : money(trip.kosten)}">
       <span>€</span>
     </div>`;
 
@@ -942,7 +943,10 @@ function stepHit(dir) {
   if (next < 0 || next >= n) return;
   searchIndex = next;
   showHit(true);
+  ansagen(`Treffer ${searchIndex + 1} von ${n}`);   // T-100 (R-1.8, V9)
 }
+// T-100 (AppDesign R-1.8, V9): nach einer Tipp-Pause von 0,7 s die Zahl der Treffer ansagen (höflich, VoiceOver)
+const ansageTreffer = () => { if (!searchTerm.trim()) return; const n = hitMarks().length; ansagen(n ? `${n} Treffer` : 'Keine Treffer', { warten: 700 }); };
 
 // Ohne Reiselogbuch: leere Seite mit Hinweis; "Neues Reiselogbuch" öffnet sich einmal von selbst.
 function renderEmpty() {
@@ -1061,7 +1065,7 @@ function renderSide() {
 // T-92 (AppDesign A-19): Suchzeile der Liste wie 15.2, ohne Pfeile – die Kacheln zeigen die Treffer.
 const listSearchHtml = () => `<div class="nb2 side-search">
     <span class="searchbox active">${ic('search')}<input type="search" id="lsearch" placeholder="In allen suchen" value="${esc(listTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${listTerm ? `
-      <span class="smeta"><button type="button" class="sclear" id="lsclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
+      <span class="smeta"><button type="button" class="sclear" id="lsclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
   </div>`;
 
 function bindListSearch() {
@@ -1090,6 +1094,8 @@ function bindListSearch() {
       searchJump = setTimeout(() => showHit(true), 500);
     } else renderSide();
     refocus();
+    // T-100 (R-1.8, V9): ‚2 von 5 Reiselogbüchern‘ bzw. ‚Keine Treffer‘ nach der Tipp-Pause
+    if (listTerm.trim()) ansagen(side.querySelector('.side-row') ? side.querySelector('.side-head small').textContent : 'Keine Treffer', { warten: 700 });
   };
   input.oninput = () => { listTerm = input.value; update(); };
   // Eingabetaste ‚Suchen‘ schließt nur die Tastatur (R-5.5).
@@ -1320,9 +1326,8 @@ function openTripDialog(trip) {
       if (text) valid = false;
       // Sobald ein Titel da ist, wird auch ein Problem beim Zeitraum gezeigt (z. B. Überschneidung durch das vorgeschlagene Datum).
       const on = Boolean(text) && (c.touched || (key === 'dates' && hadTitle));
-      c.box.textContent = on ? text : '';
-      c.box.hidden = !on;
-      c.fields.forEach(f => f.classList.toggle('invalid', on));
+      // T-100 (AppDesign R-5.3, seit 3.33.0): roter Rand, aria-invalid, Meldung mit dem Feld verknüpft und einmal angesagt
+      feldFehler(c.fields, c.box, on ? text : '');
     }
     return valid;
   };
@@ -1332,7 +1337,13 @@ function openTripDialog(trip) {
     ev.preventDefault();
     Object.values(checks).forEach(c => { c.touched = true; });
     validate();
-    dlg.querySelector('.warn:not([hidden])')?.closest('.step').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // T-100: Fokus aufs erste fehlerhafte Feld (sein Abschnitt rollt in die Mitte, mit ‚Bewegung reduzieren‘ springt er, R-1.9);
+    // fehlt nur das Reisemittel, auf seinen ersten Knopf
+    if (!ersterFehler(dlg)) {
+      const st = dlg.querySelector('.warn:not([hidden])')?.closest('.step');
+      st?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
+      fokus(st?.querySelector('button'));
+    }
   });
 
   dlg.querySelectorAll('#transport button').forEach(b => b.onclick = () => {
@@ -1440,7 +1451,7 @@ function openDayDialog(trip, iso) {
           <div class="step-head"><label for="fQuarter"><span class="step-num">${c.quarter ? nextNo() : ''}</span>Quartier</label><span class="head-checks">${isFirst ? '' : `<label class="check chip head-check"><input type="checkbox" id="fSame" ${same ? 'checked' : ''}> Quartier wie Vortag</label>`}<label class="check chip head-check"><input type="checkbox" id="fNoMap" ${e.noMap && !same ? 'checked' : ''}> keinen Google-Maps Link</label></span></div>
           <div class="qrow"><input type="text" id="fQuarter" autocapitalize="sentences" autocorrect="on" spellcheck="true" list="quarterList" placeholder="z. B. Oaks Townsville Hotel">
           <datalist id="quarterList">${knownQuarters.map(q => `<option value="${esc(q)}">`).join('')}</datalist>
-          <input type="text" id="fPlace" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Ort für Google Maps, z. B. Cairns, Australien"></div>
+          <input type="text" id="fPlace" aria-label="Ort für Google Maps" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Ort für Google Maps, z. B. Cairns, Australien"></div>
           <div class="hint" id="qHint"></div>
         </div>
         ${micHint()}

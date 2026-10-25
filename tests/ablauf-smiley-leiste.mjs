@@ -5,9 +5,9 @@
 // mit Maus (L8); Grundregeln nach jedem Schritt (L9). L7 (Zurückwischen, Blatt ziehen) prüfen ablauf-navigation und ablauf-blatt.
 // Aufruf im Repo-Ordner: node tests/ablauf-smiley-leiste.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.34.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.34.0/tests/hig.mjs';
-import { checkLangDruecken } from '../../AppDesign/fassung/4.34.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.35.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.35.0/tests/hig.mjs';
+import { checkLangDruecken } from '../../AppDesign/fassung/4.35.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-smiley-leiste', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 const days = {}; for (let i = 0; i < 10; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1}`, place: 'Hafen' };

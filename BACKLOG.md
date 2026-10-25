@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 24.10.2026** · Aktuelle Version: Reiselogbuch 3.32.0 · AppDesign 4.34.0
+**Stand 25.10.2026** · Aktuelle Version: Reiselogbuch 3.33.0 · AppDesign 4.35.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,14 +29,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit nichts zu prüfen | – |
+| P-73 | 2 | **Barrierefreiheit Teil 1 mit Fokus-Rahmen (3.33.0, T-100, AppDesign A-43/1):** Prüfliste P-73/0–6 im CHANGELOG – kein blauer Rahmen in Textfeldern, Antippen wie bisher, Hardware-Tastatur, Fehlermeldung beim Häkchen, ‚Kontrast erhöhen‘, ‚Bewegung reduzieren‘ | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
 | T-103 | 2 | **Prüfung `ablauf-tastatur-still.mjs` reparieren und in den vollen Lauf aufnehmen (Nutzer 24.10.2026):** sie steht nicht in `tests/alle.mjs`; beim Nachspielen der Messung ‚2026-10-22 iPhone hoch Ränder‘ bricht sie ab – das Menü von ‚…‘ (sideMore) liegt über der Zeile, auf die der Schritt ‚tippen button‘ abgebildet ist (auch mit 4.32.0); Abbildung der Messschritte bzw. Menü vorher schließen, dann in die Liste des vollen Laufs | App | offen |
-| T-100 | 2 | **Barrierefreiheit Teil 1 in der App (AppDesign A-43/1, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung Felder mit Fehlermeldung über `feldFehler` (rot, hörbar, Fokus aufs erste fehlerhafte Feld beim Häkchen); Ansagen der Suche („3 Treffer“, „Treffer 2 von 3“, „Keine Treffer“) und der Seitenleiste („2 von 5 Reiselogbüchern“); sanftes Rollen zum Fehler beim Häkchen (index.html:1323) springt mit ‚Bewegung reduzieren‘; Prüfungen der App mit `PRUEF_BEDIENUNG` (Fall-Liste AppDesign `arbeit/A-43 Teil 1 Fall-Liste.md`) | App | bereit – für die nächste Version |
 | T-101 | 2 | **Barrierefreiheit Teil 2 Textgröße in der App (AppDesign A-43/2, Nutzer 23.10.2026):** mit der neuen AppDesign-Fassung folgt die Schrift der Einstellung ‚Textgröße‘ (R-1.10); in der App: die 6 eigenen Schriftgrößen einem Textstil zugeordnet, keine Schrift mehr in px außer Ausgabe (G4); Tage am iPad ab AX1 als dieselben Kästen wie am iPhone (`.box.day` aus `renderPhone` statt `table.days`), Kopf mit Wetter unter dem Datum, beim Wechsel Tabelle ↔ Kästen bleibt derselbe Tag oben (U4, W1); Reisedaten `.meta` ab AX1 untereinander (U1); Betragsfeld `#kosten` in Zeichenbreite statt fest 130 px (B5); Wetter-Knöpfe wachsen, die 40-px-Ausnahme gilt nur bei Standard, passt es nicht → seitlich wischen (B6); Prüfungen der App mit `PRUEF_TEXT` (Fall-Liste AppDesign `arbeit/A-43 Teil 2 Fall-Liste.md`) | App | bereit – für die Version nach T-100 |
 | T-06 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
@@ -52,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| E-134 | **T-100 (AppDesign A-43 Teil 1):** kein blauer Rahmen mehr in Textfeldern, Hardware-Tastatur in Menüs, Sprechblasen und Fenstern, VoiceOver-Namen und Ansagen (Suche, Seitenleiste, Fehlermeldungen, offline), Fehlermeldungen über `feldFehler` mit Fokus beim Häkchen, ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (Sprung zum Fehler springt); neue Prüfung `ablauf-bedienung.mjs` mit Gegenprobe `bedienung`; Prüfpunkt P-73 | 3.33.0 | 25.10.2026 |
 | E-133 | Geprüft **P-72 (3.32.0)**: alles ok – Kachel nach dem Backup weg, Mehr-Menü mit heutigem Datum, offline nur die graue Zeile, Abgleich zählt nicht, Kontextmenü ohne Kachel ganz sichtbar (**T-105 abgeschlossen**) | 3.32.0 | 24.10.2026 |
 | E-132 | **T-105 (AppDesign A-74):** die gelbe Backup-Kachel steht nur noch, solange heute auf diesem Gerät kein Backup erstellt wurde; danach verschwindet sie (Fokus auf ‚Mehr‘), um 0:00 bzw. bei der Rückkehr am neuen Tag kommt sie wieder; Abgleich zählt nicht; Offline-Zeile auch ohne Kachel und bei leerer Liste; neue Prüfung `ablauf-backup-kachel.mjs` (gegen 3.31.0 rot); Prüfpunkt P-72 | 3.32.0 | 24.10.2026 |
 | E-131 | Geprüft **P-71 (3.31.0)**: alles ok – Pfeile an der Reisemittel-Kapsel am Anfang, in der Mitte und am Ende, quer und gedreht; Smiley-Leiste ziehen ohne Abfrage, langes Drücken und Antippen wie bisher (**T-106 abgeschlossen**) | Reiselogbuch 3.31.0 | 24.10.2026 |
