@@ -139,7 +139,7 @@ await p.click('#newTrip'); await p.waitForTimeout(300);
 await p.fill('#fTitle', 'Island'); await p.fill('#fPeople', 'Anna');
 await p.fill('#fStart', '2027-07-01'); await p.fill('#fEnd', '2027-07-10');
 await p.locator('#transport button').first().click();
-await p.click('#dlgOk'); await p.waitForTimeout(300);
+await p.click('#dlgOk'); await p.waitForTimeout(300); await navFertig(p);   // seit 3.35.0: bei großer Schrift dauert der Aufbau länger
 check((await p.locator('.pnav-title').textContent()) === 'Island', 'Neues Reiselogbuch nicht geöffnet');
 await G('Island angelegt');
 
