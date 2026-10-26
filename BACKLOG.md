@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 25.10.2026** · Aktuelle Version: Reiselogbuch 3.35.0 · AppDesign 4.37.0
+**Stand 26.10.2026** · Aktuelle Version: Reiselogbuch 3.36.0 · AppDesign 4.38.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,16 +22,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-103 | 2 | **Prüfung `ablauf-tastatur-still.mjs` reparieren und in den vollen Lauf aufnehmen (Nutzer 24.10.2026):** sie steht nicht in `tests/alle.mjs`; beim Nachspielen der Messung ‚2026-10-22 iPhone hoch Ränder‘ bricht sie ab – das Menü von ‚…‘ (sideMore) liegt über der Zeile, auf die der Schritt ‚tippen button‘ abgebildet ist (auch mit 4.32.0); Abbildung der Messschritte bzw. Menü vorher schließen, dann in die Liste des vollen Laufs. **Befund (Sitzung 0048, 26.10.2026):** jede Messung endet mit dem Beenden im Mehr-Menü – Vorschlag: `spieleAb` erkennt das Ende selbst (AppDesign `abspielen.mjs`); ohne den Abbruch 17 Fehler in Chromium (iPhone quer, Tag-Fenster: Kopf springt 1–2 Bilder um 23–70 px; Messung 19.10.; zweites ‚tippen -‘ der Messung 24.10. ohne Abbildung). **Am Gerät steht der Kopf still (Nutzer 26.10.2026)** → Abweichung des Safari-Modells, dort korrigieren (0 Nr. 20); Einzelheiten `AppDesign/arbeit/APD-77 Testfall-Liste.md` 3–4. Eingegrenzt (26.10.2026): Chromium und WebKit gleich, ab 3.30.0 (Blatt) – das Modell meldet die Verschiebung 2 Bilder zu spät (`safari.mjs` `melde`). **Messung am Gerät da (26.10.2026, 08:57, iPhone quer, Blatt):** beim Antippen von ‚Ort‘ verschiebt Safari nichts, beim Wechsel zu ‚Quartier‘ 167 px und meldet es im selben Augenblick, Tastatur zu ebenso – kein Bild springt. Modell danach ausrichten (`safari.mjs`), Messung nach `tests/messungen/`, Ende der Messung erkennen, in den vollen Lauf; Testfall-Liste `AppDesign/arbeit/APD-77 Testfall-Liste.md` 3–4 (APD-77/F-11 bis F-18) | 26.10.2026 |
-
-1 Punkt bereit (RLB-103). **Ja (Nutzer 26.10.2026): Reiselogbuch 3.36.0 / AppDesign 4.38.0 mit RLB-103 und AppDesign APD-72** (Bau in Sitzung 0049).
-
+| – | – | zurzeit nichts gesammelt | – | – |
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit kein Usertest offen | – |
+| P-76 | 2 | **AppDesign APD-72 iPad: Fenster nach unten ziehen (3.36.0, AppDesign 4.38.0):** Version, Hereingleiten und Ziehen am Kopf, weit ziehen schließt, im Inhalt wischen, mit Änderung und Tastatur, x / Häkchen / Abdunkelung, iPhone unverändert – Testfälle P-76/0 bis /6 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-103 | **RLB-103 `ablauf-tastatur-still` repariert und im vollen Lauf:** das Beenden der Messung im Menü wird nicht mehr nachgespielt (AppDesign `abspielen.mjs`), Messung 26.10.2026 (iPhone quer, Tag, ‚Ort‘, ‚Quartier‘, Tastatur zu) aufgenommen, Safari-Modell danach ausgerichtet (die 17 Fehler waren eine Abweichung des Modells), feste Zeitgrenze nur noch für 19.10.; dazu AppDesign APD-72 (iPad: Fenster nach unten ziehen), `ablauf-blatt` am iPad | 3.36.0 | 26.10.2026 |
 | P-75 | Geprüft **P-75 (3.35.0)**: alles ok – Version, Standard wie bisher, iPhone bis AX5, iPad Tage als Kästen ab AX1, Wechsel bei offenem Fenster, xS und Notiz bei AX5, Einstellung pro App (/6: die Einstellung für Safari wirkt auch auf die Web-App), Mac (RLB-101 und AppDesign APD-43 Teil 2 bestätigt) | 3.35.0 | 25.10.2026 |
 | RLB-101 | **RLB-101 (AppDesign APD-43 Teil 2): Textgröße folgt dem Gerät** – die 6 eigenen Schriftgrößen als Textstile, iPad ab AX1 Tage als Kästen (`dayBoxesHtml`, wie am iPhone) und Quartierliste als Liste, Reisedaten untereinander, Betragsfeld in Zeichenbreite, Wetter 40 px nur bei Standard; Prüfung `text-regeln.mjs`, hig und Abläufe in mehreren Textgrößen | Reiselogbuch 3.35.0 · AppDesign 4.37.0 | 25.10.2026 |
 | P-74 | Geprüft **P-74 (3.34.0)**: alles ok – Version, Nummernschema im Backlog AppDesign, Tabelle ‚Nummern und Präfixe‘, Uhrzeitzeile (AppDesign APD-78 und APD-79 abgeschlossen) | 3.34.0 | 25.10.2026 |

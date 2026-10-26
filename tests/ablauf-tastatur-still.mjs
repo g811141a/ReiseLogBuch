@@ -9,10 +9,10 @@
 // sichtbare Fensterinhalt (96 von 84 px), wie Safari dann verschiebt, ist nicht gemessen (Testfälle).
 // Aufruf im Repo-Ordner: node tests/ablauf-tastatur-still.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.37.0/tests/pruefe.mjs';
-import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS } from '../../AppDesign/fassung/4.37.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.37.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.37.0/tests/abspielen.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.38.0/tests/pruefe.mjs';
+import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS } from '../../AppDesign/fassung/4.38.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.38.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.38.0/tests/abspielen.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 const t = pruefung('ablauf-tastatur-still', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
@@ -63,9 +63,10 @@ for (const theme of ['light', 'dark']) {
     await p.close();
   }
 }
-// APD-36/T-8: die Messungen der Rückmeldung, Bild für Bild (bis vor das Beenden der Messung im Menü)
+// APD-36/T-8: die Messungen der Rückmeldung, Bild für Bild (das Beenden der Messung im Menü spielt spieleAb seit AppDesign 4.38.0 nicht
+// mehr nach, RLB-103). BIS nur noch, wo eine Messung vorher endet: 19.10. ohne die Suche am Ende.
 const ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);
-const BIS = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt': 133000, '2026-10-20 iPhone hoch Fenster Ort.txt': 35000, '2026-10-20 iPad quer Fenster Ort.txt': 25000 };
+const BIS = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt': 133000 };
 const tage = {}; for (let i = 0; i < 40; i++) tage[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, ...(i % 3 ? {} : { place: 'Sydney' }) };
 const tagSichtbar = async p => {   // wie ablauf-abspielen: ein sichtbarer Tag, sonst der letzte in den Inhalt gerollt
   const sel = await p.evaluate(() => { const r = document.querySelector('#app > .rolle').getBoundingClientRect();
@@ -75,6 +76,11 @@ const tagSichtbar = async p => {   // wie ablauf-abspielen: ein sichtbarer Tag, 
     return e ? `#app [data-day="${e.dataset.day}"]` : null; });
   if (sel) await p.click(sel);
 };
+// Ziele ohne id der Reihe nach (seit 3.36.0, RLB-103): ‚-‘ = ein sichtbarer Tag, das Etikett eines Felds (ein Antippen meldet zwei Klicks)
+// bzw. die Fläche hinter einem Menü; ‚button‘ = Reiselogbuch in der Liste bzw. ‚Änderungen verwerfen‘
+const schliesseMenue = p => p.evaluate(() => document.querySelector('.layer')?.click());
+const ZIELE = { '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { '-': [tagSichtbar, p => p.click('label[for="fProgram"]'), async () => {}, tagSichtbar, schliesseMenue] },
+  '2026-10-26 iPhone quer Blatt Ort Quartier.txt': { button: ['#side .side-row[data-id="a"]', '.pop button.danger'], '-': [tagSichtbar, schliesseMenue] } };
 for (const datei of readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort()) {
   const m = lies(readFileSync(new URL(encodeURIComponent(datei), ORDNER), 'utf8'));
   if (!m.app.startsWith('Reiselogbuch')) continue;
@@ -84,7 +90,7 @@ for (const datei of readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort()) 
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: x })), [{ ...trips[0], end: '2026-10-02', days: tage }]);
   await p.reload(); await p.waitForTimeout(400);
   await safariModell(p, `${m.geraet} ${m.lage}`, { auto: true });
-  t.liste(await spieleAb(p, m, { ziele: { button: ['#side .side-row[data-id="a"]'], '-': [tagSichtbar] }, woerter: { search: 'Sydney', fPlace: 'Perth', kosten: '4850123456' },
+  t.liste(await spieleAb(p, m, { ziele: { button: ['#side .side-row[data-id="a"]'], '-': [tagSichtbar], ...ZIELE[datei] }, woerter: { search: 'Sydney', fPlace: 'Perth', kosten: '4850123456' },
     bis: BIS[datei] ?? Infinity, modell: true, where: t.ort }).then(f => f.filter(x => /: APD-36\/T-8 |nicht nachspielbar|Vorbereitung/.test(x))));
   await p.close();
 }
