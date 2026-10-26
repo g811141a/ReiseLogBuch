@@ -3,7 +3,7 @@
 // und einen Titel. Nach ‚Abgleichen‘ muss je Tag die neuere Fassung gelten, gelöschte verschwinden, neue dazukommen.
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.38.0/tests/pruefe.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.38.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.38.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-abgleich', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
@@ -67,6 +67,9 @@ await iphone.locator('.pop button', { hasText: 'Abgleichen' }).click(); await ip
 // R-9.4: kurzes Fenster mit Schaltfläche; die Einzelheiten stehen im Abgleichbericht (Vorschau).
 check(await iphone.locator('#msg[open] [data-act]', { hasText: 'Abgleichbericht anzeigen' }).count() === 1, 'Schaltfläche ‚Abgleichbericht anzeigen‘ fehlt');
 await iphone.click('#msg [data-act]'); await iphone.waitForTimeout(400);
+// seit 3.36.0: warten, bis das Blatt ruht – WebKit hielt das Hereingleiten des Blatts gelegentlich an seinem Anfang fest, Playwright berechnete
+// den Klick auf ‚PDF‘ dort (y 832 statt 21–63) und er traf das Formular (2 von 8 Läufen schon mit AppDesign 4.37.0)
+await navFertig(iphone);
 const result = await iphone.locator('#dlg .sync-report').innerHTML();
 check(['updated" data-title="Island', 'added" data-title="Kreta', 'removed" data-title="Malta'].every(x => result.includes(`<tbody data-kind="${x}"`)) && result.includes('1 Reiselogbuch ist unverändert.'), `Bericht: ${result.slice(0, 400)}`);
 // RLB-80: Kapsel oben rechts wie die Vorschau der Ausgabe – PDF und Teilen; PDF füllt #printout und öffnet das Drucken-Menü.

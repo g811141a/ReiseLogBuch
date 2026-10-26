@@ -31,7 +31,9 @@ dein Ja vom 26.10.2026; Testfall-Listen AppDesign `arbeit/APD-72 Testfall-Liste.
   danach ausgerichtet (am Gerät springt nichts – die 17 Fehler der Prüfung waren eine Abweichung des Modells), und die Prüfung läuft
   im vollen Lauf mit. Feste Zeitgrenzen nur noch für die Messung vom 19.10. (endet vorher).
 - **Prüfungen:** `ablauf-blatt` am iPad in allen Fenstern bzw. Lagen (quer: Erfassen, Vorschau; hoch: Einstellungen, Erfassen; dunkel;
-  ‚Bewegung reduzieren‘), Häkchen im Erfassen; `ablauf-abspielen` mit der neuen Messung und der Selbstprüfung der Ende-Erkennung.
+  ‚Bewegung reduzieren‘), Häkchen im Erfassen; `ablauf-abspielen` mit der neuen Messung und der Selbstprüfung der Ende-Erkennung. `ablauf-abgleich`
+  wartet nach dem Öffnen des Abgleichberichts am iPhone, bis das Blatt ruht: WebKit hielt das Hereingleiten gelegentlich an seinem Anfang
+  fest, der Klick auf ‚PDF‘ traf dann das Formular (2 von 8 Läufen schon mit AppDesign 4.37.0, im vierten vollen Lauf rot; danach 0 von 12).
 
 Testfälle P-76 (Schritt für Schritt, Zusammenarbeit allgemein 2.20.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
