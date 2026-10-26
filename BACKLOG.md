@@ -22,7 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts gesammelt | – | – |
+| RLB-103 | 2 | **Prüfung `ablauf-tastatur-still.mjs` reparieren und in den vollen Lauf aufnehmen (Nutzer 24.10.2026):** sie steht nicht in `tests/alle.mjs`; beim Nachspielen der Messung ‚2026-10-22 iPhone hoch Ränder‘ bricht sie ab – das Menü von ‚…‘ (sideMore) liegt über der Zeile, auf die der Schritt ‚tippen button‘ abgebildet ist (auch mit 4.32.0); Abbildung der Messschritte bzw. Menü vorher schließen, dann in die Liste des vollen Laufs. **Befund (Sitzung 0048, 26.10.2026):** jede Messung endet mit dem Beenden im Mehr-Menü – Vorschlag: `spieleAb` erkennt das Ende selbst (AppDesign `abspielen.mjs`); ohne den Abbruch 17 Fehler in Chromium (iPhone quer, Tag-Fenster: Kopf springt 1–2 Bilder um 23–70 px; Messung 19.10.; zweites ‚tippen -‘ der Messung 24.10. ohne Abbildung). **Am Gerät steht der Kopf still (Nutzer 26.10.2026)** → Abweichung des Safari-Modells, dort korrigieren (0 Nr. 20); Einzelheiten `AppDesign/arbeit/APD-77 Testfall-Liste.md` 3–4. Eingegrenzt (26.10.2026): Chromium und WebKit gleich, ab 3.30.0 (Blatt) – das Modell meldet die Verschiebung 2 Bilder zu spät (`safari.mjs` `melde`). **Messung am Gerät da (26.10.2026, 08:57, iPhone quer, Blatt):** beim Antippen von ‚Ort‘ verschiebt Safari nichts, beim Wechsel zu ‚Quartier‘ 167 px und meldet es im selben Augenblick, Tastatur zu ebenso – kein Bild springt. Modell danach ausrichten (`safari.mjs`), Messung nach `tests/messungen/`, Ende der Messung erkennen, in den vollen Lauf; Testfall-Liste `AppDesign/arbeit/APD-77 Testfall-Liste.md` 3–4 (APD-77/F-11 bis F-18) | 26.10.2026 |
+
+1 Punkt bereit (RLB-103).
 
 
 ## 1. Auf iPad und iPhone prüfen
@@ -35,7 +37,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-103 | 2 | **Prüfung `ablauf-tastatur-still.mjs` reparieren und in den vollen Lauf aufnehmen (Nutzer 24.10.2026):** sie steht nicht in `tests/alle.mjs`; beim Nachspielen der Messung ‚2026-10-22 iPhone hoch Ränder‘ bricht sie ab – das Menü von ‚…‘ (sideMore) liegt über der Zeile, auf die der Schritt ‚tippen button‘ abgebildet ist (auch mit 4.32.0); Abbildung der Messschritte bzw. Menü vorher schließen, dann in die Liste des vollen Laufs. **Befund (Sitzung 0048, 26.10.2026):** jede Messung endet mit dem Beenden im Mehr-Menü – Vorschlag: `spieleAb` erkennt das Ende selbst (AppDesign `abspielen.mjs`); ohne den Abbruch 17 Fehler in Chromium (iPhone quer, Tag-Fenster: Kopf springt 1–2 Bilder um 23–70 px; Messung 19.10.; zweites ‚tippen -‘ der Messung 24.10. ohne Abbildung). **Am Gerät steht der Kopf still (Nutzer 26.10.2026)** → Abweichung des Safari-Modells, dort korrigieren (0 Nr. 20); Einzelheiten `AppDesign/arbeit/APD-77 Testfall-Liste.md` 3–4. Eingegrenzt (26.10.2026): Chromium und WebKit gleich, ab 3.30.0 (Blatt) – das Modell meldet die Verschiebung 2 Bilder zu spät (`safari.mjs` `melde`). **Wartet auf eine Messung am Gerät** (iPhone quer: Tag öffnen, ‚Ort‘, ‚Quartier‘, Tastatur zu – Nutzer ‚später‘, 26.10.2026), dann Modell ausrichten und mit APD-77 bauen | App | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
