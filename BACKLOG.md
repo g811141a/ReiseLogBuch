@@ -50,7 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
-| P-75 | Geprüft **P-75 (3.35.0)**: alles ok – Version, Standard wie bisher, iPhone bis AX5, iPad Tage als Kästen ab AX1, Wechsel bei offenem Fenster, xS und Notiz bei AX5, Einstellung pro App, Mac (RLB-101 und AppDesign APD-43 Teil 2 bestätigt) | 3.35.0 | 25.10.2026 |
+| P-75 | Geprüft **P-75 (3.35.0)**: alles ok – Version, Standard wie bisher, iPhone bis AX5, iPad Tage als Kästen ab AX1, Wechsel bei offenem Fenster, xS und Notiz bei AX5, Einstellung pro App (/6: die Einstellung für Safari wirkt auch auf die Web-App), Mac (RLB-101 und AppDesign APD-43 Teil 2 bestätigt) | 3.35.0 | 25.10.2026 |
 | RLB-101 | **RLB-101 (AppDesign APD-43 Teil 2): Textgröße folgt dem Gerät** – die 6 eigenen Schriftgrößen als Textstile, iPad ab AX1 Tage als Kästen (`dayBoxesHtml`, wie am iPhone) und Quartierliste als Liste, Reisedaten untereinander, Betragsfeld in Zeichenbreite, Wetter 40 px nur bei Standard; Prüfung `text-regeln.mjs`, hig und Abläufe in mehreren Textgrößen | Reiselogbuch 3.35.0 · AppDesign 4.37.0 | 25.10.2026 |
 | P-74 | Geprüft **P-74 (3.34.0)**: alles ok – Version, Nummernschema im Backlog AppDesign, Tabelle ‚Nummern und Präfixe‘, Uhrzeitzeile (AppDesign APD-78 und APD-79 abgeschlossen) | 3.34.0 | 25.10.2026 |
 | APD-78 | **AppDesign APD-78 Nummernschema:** Themen RLB-n (bisher T-), Erledigt ohne eigene Nummer, Begriffe Usertest / Testfälle P-n / Testfall-Liste in Backlog, CHANGELOG, PROMPT.md, Richtlinie und Prüfungen; Fassung 4.36.0 (Doku-Prüfung mit `checkSchema`) | Reiselogbuch 3.34.0 · AppDesign 4.36.0 | 25.10.2026 |
