@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.35.0** · Stand 25.10.2026
+**Version 3.36.0** · Stand 26.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.37.0)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.38.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -29,6 +29,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.36.0 | 26.10.2026 | Neben | AppDesign 4.38.0 (APD-72, R-4.6 am iPad: Fenster nach unten ziehen; RLB-103 Prüfung `ablauf-tastatur-still` im vollen Lauf) – keine Abweichung neu |
 | 3.35.0 | 25.10.2026 | Neben | AppDesign 4.37.0 (APD-43 Teil 2, R-1.10 Textgröße; RLB-101): Abweichung 2 (Wetter 40 px) gilt nur noch bei Standard; ab AX1 am iPad die Tage als Kästen wie am iPhone |
 | 3.34.0 | 25.10.2026 | Neben | AppDesign 4.36.0 (APD-78 Nummernschema, APD-79): keine eigene Abweichung – Nummern und Begriffe nach Zusammenarbeit 2.4 (RLB-n, Usertest, Testfall-Liste) |
 | 3.33.0 | 25.10.2026 | Neben | AppDesign 4.35.0 (APD-43 Teil 1, RLB-100): keine eigene Abweichung – Barrierefreiheit (R-1.8 VoiceOver, R-1.9 ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘, R-4.7 Hardware-Tastatur), Fokus-Rahmen nur mit Tastatur, Textfelder nie (R-3.4); Fehlermeldungen über `feldFehler`, Ansagen der Suche und der Seitenleiste |

@@ -13,6 +13,80 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.36.0 – 26.10.2026
+
+Reiselogbuch 3.36.0 · AppDesign 4.38.0 (Designrichtlinie allgemein 4.38.0) · Designrichtlinie Reiselogbuch 3.36.0 · Zusammenarbeit allgemein 2.20.0
+
+**iPad: Fenster nach unten ziehen** (AppDesign APD-72, Variante B) und **Prüfung `ablauf-tastatur-still` im vollen Lauf** (RLB-103) –
+dein Ja vom 26.10.2026; Testfall-Listen AppDesign `arbeit/APD-72 Testfall-Liste.md` und `arbeit/APD-77 Testfall-Liste.md` 3–4.
+
+- **iPad: jedes Fenster außer Meldungen lässt sich nach unten wegziehen** wie ein Formblatt in iPadOS (Tageserfassung, Einstellungen,
+  Neues Reiselogbuch, Fazit, Vorschau): es bleibt in der Mitte, gleitet beim Öffnen und Schließen (x, Häkchen, Escape) von unten; am
+  Kopf immer, im Inhalt, wenn er ganz oben steht, auch kurz gewischt; nur das Fenster fährt mit, die Abdunkelung wird heller, die
+  Seite bleibt. Mit Änderungen zieht es sich zäh, federt zurück und fragt am x; bei offener Tastatur schließt der Zug zuerst die
+  Tastatur. Antippen der Abdunkelung schließt am iPad weiter nicht. Am iPhone bleibt alles wie bisher.
+- **RLB-103:** `ablauf-tastatur-still` brach beim Nachspielen der neueren Messungen ab (das Beenden der Messung im Menü wurde
+  nachgespielt) und stand nicht in `tests/alle.mjs`. Jetzt erkennt das Nachspielen das Ende selbst (AppDesign `abspielen.mjs`), die
+  Messung vom 26.10.2026 (iPhone quer, Tag, ‚Ort‘, ‚Quartier‘, Tastatur zu) liegt in AppDesign `tests/messungen/`, das Safari-Modell ist
+  danach ausgerichtet (am Gerät springt nichts – die 17 Fehler der Prüfung waren eine Abweichung des Modells), und die Prüfung läuft
+  im vollen Lauf mit. Feste Zeitgrenzen nur noch für die Messung vom 19.10. (endet vorher).
+- **Prüfungen:** `ablauf-blatt` am iPad in allen Fenstern bzw. Lagen (quer: Erfassen, Vorschau; hoch: Einstellungen, Erfassen; dunkel;
+  ‚Bewegung reduzieren‘), Häkchen im Erfassen; `ablauf-abspielen` mit der neuen Messung und der Selbstprüfung der Ende-Erkennung. `ablauf-abgleich`
+  wartet nach dem Öffnen des Abgleichberichts am iPhone, bis das Blatt ruht: WebKit hielt das Hereingleiten gelegentlich an seinem Anfang
+  fest, der Klick auf ‚PDF‘ traf dann das Formular (2 von 8 Läufen schon mit AppDesign 4.37.0, im vierten vollen Lauf rot; danach 0 von 12).
+
+Testfälle P-76 (Schritt für Schritt, Zusammenarbeit allgemein 2.20.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-76/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.36.0 · erstellt am … · AppDesign 4.38.0‘.
+
+**P-76/1 – iPad quer: Fenster gleitet herein und folgt dem Finger**
+1. iPad quer, hell, ein Reiselogbuch geöffnet.
+2. Einen Tag antippen.
+3. Erwartet: das Fenster des Tages gleitet von unten in die Mitte, die Seite dahinter bleibt stehen und wird abgedunkelt.
+4. Am Titel des Fensters ein Stück (etwa 3 cm) nach unten ziehen, festhalten, dann langsam loslassen.
+5. Erwartet: nur das Fenster fährt mit dem Finger, die Abdunkelung wird dabei heller, die Seite bewegt sich nicht; beim Loslassen
+   federt das Fenster zurück in die Mitte.
+
+**P-76/2 – iPad quer: weit nach unten ziehen schließt**
+1. iPad quer, einen Tag öffnen.
+2. Am Titel des Fensters weit nach unten ziehen (über die halbe Höhe) und loslassen.
+3. Erwartet: das Fenster gleitet unten hinaus, die Abdunkelung verschwindet, der Tag steht an derselben Stelle wie vorher.
+
+**P-76/3 – iPad hoch: im Inhalt wischen**
+1. iPad hoch, einen Tag öffnen (der Inhalt steht ganz oben).
+2. Im Inhalt des Fensters kurz und schnell nach unten wischen.
+3. Erwartet: das Fenster gleitet unten hinaus und ist geschlossen.
+4. Den Tag wieder öffnen, den Inhalt ein Stück nach oben rollen (der Kasten ‚Verlauf‘ rückt nach oben), dann im Inhalt nach unten wischen.
+5. Erwartet: der Inhalt rollt zurück, das Fenster bleibt stehen und offen.
+
+**P-76/4 – iPad: mit Änderung und Tastatur**
+1. iPad quer, in der Seitenleiste ‚Reiselogbücher‘ oben auf plus tippen.
+2. Erwartet: das Fenster ‚Neues Reiselogbuch‘ gleitet von unten herein.
+3. In ‚Reisetitel‘ tippen und ‚Test‘ schreiben (die Tastatur ist offen).
+4. Am Titel des Fensters nach unten ziehen und loslassen.
+5. Erwartet: die Tastatur schließt sich, das Fenster folgt nur zäh, federt zurück, und am x erscheint die Sprechblase mit ‚Änderungen
+   verwerfen‘ und ‚Weiter bearbeiten‘.
+6. ‚Änderungen verwerfen‘ antippen.
+7. Erwartet: das Fenster gleitet unten hinaus; in der Seitenleiste steht kein neues Reiselogbuch ‚Test‘.
+
+**P-76/5 – iPad: x, Häkchen und Abdunkelung**
+1. iPad quer, einen Tag öffnen, nichts ändern, x antippen.
+2. Erwartet: das Fenster gleitet nach unten hinaus.
+3. Den Tag wieder öffnen, das Häkchen antippen.
+4. Erwartet: das Fenster gleitet nach unten hinaus.
+5. Den Tag wieder öffnen und neben das Fenster auf die Abdunkelung tippen.
+6. Erwartet: nichts geschieht – das Fenster bleibt offen in der Mitte.
+
+**P-76/6 – iPhone hoch: unverändert**
+1. iPhone hoch, ein Reiselogbuch öffnen, einen Tag antippen.
+2. Erwartet: wie bisher – das Blatt gleitet von unten bis knapp unter die Statusleiste, die Seite dahinter weicht verkleinert zurück.
+3. Am Kopf des Blatts weit nach unten ziehen und loslassen.
+4. Erwartet: das Blatt gleitet hinaus, die Seite kommt wieder groß nach vorn.
+
 ## 3.35.0 – 25.10.2026
 
 Reiselogbuch 3.35.0 · AppDesign 4.37.0 (Designrichtlinie allgemein 4.37.0) · Designrichtlinie Reiselogbuch 3.35.0 · Zusammenarbeit allgemein 2.20.0

@@ -6,9 +6,9 @@
 // Grundregeln nach jedem Schritt. Uhr gestellt (Playwright clock), Tageswechsel ohne Neuladen.
 // Aufruf im Repo-Ordner: node tests/ablauf-backup-kachel.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.37.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.37.0/tests/hig.mjs';
-import { checkContextMenus } from '../../AppDesign/fassung/4.37.0/tests/kontextmenue.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.38.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.38.0/tests/hig.mjs';
+import { checkContextMenus } from '../../AppDesign/fassung/4.38.0/tests/kontextmenue.mjs';
 const t = pruefung('ablauf-backup-kachel', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const trips = Array.from({ length: 14 }, (_, i) => ({ id: 't' + i, title: 'Reise ' + (i + 1), participants: 'A', start: `${2026 - i}-06-01`, end: `${2026 - i}-06-10`, transport: ['pkw'], days: {} }));
