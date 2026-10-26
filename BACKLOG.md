@@ -22,13 +22,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts gesammelt | – | – |
+| RLB-107 | 1 | **Prüfung `ablauf-fenster-breite` (Rückmeldung P-76/4 Schritt 3, Nutzer 26.10.2026, Sitzung 0050):** dein Ablauf als feste Prüfung (0 Nr. 1) – iPad quer und hoch, hell und dunkel, laufende Reise mit langem Titel, plus, ‚Reisetitel‘ antippen, ‚Test‘ Buchstabe für Buchstabe: Breite und Lage des Fensters bleiben; dazu Einstellungen (Zeitraum überschneidet sich), Erfassen, Fazit. Liegt in `tests/`, rot gegen 3.36.0 (je 6 Fehler in Chromium und WebKit); kommt mit der Korrektur AppDesign APD-83 in `tests/alle.mjs` und `tests/README.md` | Reiselogbuch | 26.10.2026 |
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-76 | 2 | **AppDesign APD-72 iPad: Fenster nach unten ziehen (3.36.0, AppDesign 4.38.0):** Version, Hereingleiten und Ziehen am Kopf, weit ziehen schließt, im Inhalt wischen, mit Änderung und Tastatur, x / Häkchen / Abdunkelung, iPhone unverändert – Testfälle P-76/0 bis /6 im CHANGELOG | prüfen |
+| – | – | zurzeit nichts zu prüfen | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -48,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-76 | Geprüft **P-76 (3.36.0)**: nicht ok bei /4 Schritt 3 – mit dem ersten Buchstaben im Reisetitel wird ‚Neues Reiselogbuch‘ am iPad breiter (→ AppDesign APD-83, RLB-107); alle übrigen ok (AppDesign APD-72 bestätigt) | 3.36.0 | 26.10.2026 |
 | RLB-103 | **RLB-103 `ablauf-tastatur-still` repariert und im vollen Lauf:** das Beenden der Messung im Menü wird nicht mehr nachgespielt (AppDesign `abspielen.mjs`), Messung 26.10.2026 (iPhone quer, Tag, ‚Ort‘, ‚Quartier‘, Tastatur zu) aufgenommen, Safari-Modell danach ausgerichtet (die 17 Fehler waren eine Abweichung des Modells), feste Zeitgrenze nur noch für 19.10.; dazu AppDesign APD-72 (iPad: Fenster nach unten ziehen), `ablauf-blatt` am iPad | 3.36.0 | 26.10.2026 |
 | P-75 | Geprüft **P-75 (3.35.0)**: alles ok – Version, Standard wie bisher, iPhone bis AX5, iPad Tage als Kästen ab AX1, Wechsel bei offenem Fenster, xS und Notiz bei AX5, Einstellung pro App (/6: die Einstellung für Safari wirkt auch auf die Web-App), Mac (RLB-101 und AppDesign APD-43 Teil 2 bestätigt) | 3.35.0 | 25.10.2026 |
 | RLB-101 | **RLB-101 (AppDesign APD-43 Teil 2): Textgröße folgt dem Gerät** – die 6 eigenen Schriftgrößen als Textstile, iPad ab AX1 Tage als Kästen (`dayBoxesHtml`, wie am iPhone) und Quartierliste als Liste, Reisedaten untereinander, Betragsfeld in Zeichenbreite, Wetter 40 px nur bei Standard; Prüfung `text-regeln.mjs`, hig und Abläufe in mehreren Textgrößen | Reiselogbuch 3.35.0 · AppDesign 4.37.0 | 25.10.2026 |
