@@ -28,7 +28,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-77 | 1 | **Usertest 3.37.0** (AppDesign 4.39.0): /0 Version prüfen · /1 iPad quer: ‚Neues Reiselogbuch‘ bleibt beim Tippen gleich breit (P-76/4 Schritt 3) · /2 Regelwächter im Setup-Skript einrichten · /3 Regelwächter in der nächsten Sitzung – Schritte im CHANGELOG ‚Testfälle P-77‘ | prüfen |
+| P-77 | 1 | **Usertest 3.37.0** (AppDesign 4.39.0): /0 Version prüfen · /1 iPad quer: ‚Neues Reiselogbuch‘ bleibt beim Tippen gleich breit (P-76/4 Schritt 3) · /2 Regelwächter im Setup-Skript einrichten · /3 Regelwächter in der nächsten Sitzung – Schritte im CHANGELOG ‚Testfälle P-77‘; **/0–/2 ok (Nutzer 29.10.2026, Sitzung 0052)**, /3 offen (erst in der Sitzung nach dem Eintrag ins Setup-Skript) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
