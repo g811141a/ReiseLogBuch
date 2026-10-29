@@ -28,8 +28,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-78 | 1 | **Usertest 3.38.0** (AppDesign 4.40.0): /0 Version prüfen · /1 iPhone hoch: Reisemittel laufen weich aus mit Pfeil (AppDesign APD-86) · /2 Reisemittel, wenn alles passt · /3 ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile (AppDesign APD-77) · /4 nach dem Neustart wieder versteckt – Schritte im CHANGELOG ‚Testfälle P-78‘; **/0–/4 ok (Nutzer 29.10.2026, Sitzung 0053)** | prüfen |
-| P-77 | 1 | **Usertest 3.37.0** (AppDesign 4.39.0): /0 Version prüfen · /1 iPad quer: ‚Neues Reiselogbuch‘ bleibt beim Tippen gleich breit (P-76/4 Schritt 3) · /2 Regelwächter im Setup-Skript einrichten · /3 Regelwächter in der nächsten Sitzung – Schritte im CHANGELOG ‚Testfälle P-77‘; **/0–/2 ok (Nutzer 29.10.2026, Sitzung 0052)**, /3 offen (erst in der Sitzung nach dem Eintrag ins Setup-Skript) | prüfen |
+| – | – | zurzeit kein offener Usertest | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -49,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-78, P-77 | Geprüft **P-78 (3.38.0): alles ok** – Reisemittel am iPhone als Wischzeile mit Verlauf und Pfeilen, ‚Messung starten‘ erst nach langem Drücken, nach dem Neustart wieder versteckt (AppDesign APD-86 und APD-77 bestätigt) · **P-77 (3.37.0): alles ok** – /0–/2 in Sitzung 0052, /3 Regelwächter in der Sitzung 0053 (Antwort ohne Fenster mit APD-84/W-4 zurückgewiesen) | 3.38.0 | 29.10.2026 |
 | APD-86, APD-77 | AppDesign 4.40.0 im Reiselogbuch: die Zeile ‚Reisemittel‘ am iPhone als Wischzeile mit Verlauf und Pfeilen (deine Rückmeldung 29.10.2026, Prüfung `ablauf-reisemittel-zeile`); ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile | 3.38.0 | 29.10.2026 |
 | RLB-107 | Prüfung `ablauf-fenster-breite` (Rückmeldung P-76/4) im vollen Lauf, mit der Korrektur AppDesign APD-83 | 3.37.0 | 26.10.2026 |
 | P-76 | Geprüft **P-76 (3.36.0)**: nicht ok bei /4 Schritt 3 – mit dem ersten Buchstaben im Reisetitel wird ‚Neues Reiselogbuch‘ am iPad breiter (→ AppDesign APD-83, RLB-107); alle übrigen ok (AppDesign APD-72 bestätigt) | 3.36.0 | 26.10.2026 |
