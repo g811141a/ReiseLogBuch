@@ -13,6 +13,56 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.37.0 – 26.10.2026
+
+Reiselogbuch 3.37.0 · AppDesign 4.39.0 (Designrichtlinie allgemein 4.39.0) · Designrichtlinie Reiselogbuch 3.37.0 · Zusammenarbeit allgemein 3.0.0
+
+**Fensterbreite bleibt stehen** (AppDesign APD-83, Korrektur aus P-76/4) und **Regelwerk mit Regelwächter** (AppDesign APD-84,
+Zusammenarbeit 3.0.0) – dein Ja vom 26.10.2026; Testfall-Liste AppDesign `arbeit/APD-84 APD-83 Testfall-Liste.md`.
+
+- **iPad: ein offenes Fenster wird beim Tippen nicht mehr breiter.** Bisher erschien in ‚Neues Reiselogbuch‘ mit dem ersten Buchstaben
+  im Reisetitel der Hinweis ‚Wähle einen Zeitraum, der sich nicht mit … überschneidet.‘, und das Fenster wurde so breit wie dieser Satz
+  (876 → 968 px, 46 px nach links). Jetzt bricht der Hinweis in der vorhandenen Breite um; Breite und Lage bleiben in allen Fenstern
+  (Neues Reiselogbuch, Einstellungen, Erfassen, Fazit). Allgemeine Regel R-4.6 (AppDesign 4.39.0).
+- **RLB-107:** die Prüfung `ablauf-fenster-breite` (dein Ablauf aus P-76/4 Buchstabe für Buchstabe, iPad quer und hoch, hell und dunkel,
+  dazu Einstellungen, Erfassen und Fazit) läuft jetzt im vollen Lauf mit – rot gegen 3.36.0, grün mit 3.37.0. Warum die Prüfung es übersah:
+  keine verglich die Fensterbreite vor und nach einer Eingabe, keine hatte eine überschneidende Reise mit langem Titel. Neu prüft auch
+  `ablauf-blatt` am iPad nach jeder Eingabe Breite und Lage (AppDesign `checkSheet` APD-72/D-21, iPad hoch mit ‚Neues Reiselogbuch‘).
+- **Regelwerk (APD-84):** `CLAUDE.md` 3.8.0 – zu Beginn die ganze Zusammenarbeit; dort steht oben der Kasten ‚Immer‘ und ‚Jede Antwort‘,
+  den ein **Regelwächter** prüft (Hooks: Uhrzeitzeile liefern, Auswahlfenster vor dem Zeigen prüfen, Antwort am Ende prüfen). Einrichten
+  einmal über das Setup-Skript der Umgebung (P-77/2). In der App ändert sich dadurch nichts.
+
+Testfälle P-77 (Schritt für Schritt, Zusammenarbeit allgemein 3.0.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-77/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.37.0 · erstellt am … · AppDesign 4.39.0‘.
+
+**P-77/1 – iPad quer: ‚Neues Reiselogbuch‘ bleibt beim Tippen gleich breit (P-76/4 Schritt 3)**
+1. iPad quer, hell; eine Reise läuft gerade oder beginnt in den nächsten zwei Wochen (wie bei P-76/4).
+2. In der Seitenleiste ‚Reiselogbücher‘ oben auf plus tippen.
+3. Erwartet: das Fenster ‚Neues Reiselogbuch‘ gleitet von unten in die Mitte.
+4. In ‚Reisetitel‘ tippen und langsam ‚Test‘ schreiben.
+5. Erwartet: mit dem ersten Buchstaben erscheint rot ‚Wähle einen Zeitraum, der sich nicht mit ‚…‘ (…) überschneidet.‘ und bricht
+   in mehrere Zeilen um; das Fenster bleibt genau so breit und an derselben Stelle wie vor dem Tippen – es wächst nicht nach links
+   oder rechts.
+6. Oben links auf x tippen, dann ‚Änderungen verwerfen‘.
+7. Erwartet: das Fenster gleitet unten hinaus; kein neues Reiselogbuch ‚Test‘.
+
+**P-77/2 – Regelwächter einrichten (einmal, in der Claude-App)**
+1. In der Claude-App (Code) die Umgebung dieser Sitzungen öffnen: Umgebungsmenü in der Titelleiste → Bearbeiten → Setup-Skript.
+2. Den Text, den Claude im Chat zu dieser Version gibt (Ausgabe von `node werkzeug/regelwaechter.mjs setup` in AppDesign), ans Ende des
+   Setup-Skripts einfügen und speichern.
+3. Erwartet: die Umgebung speichert ohne Fehlermeldung; in der nächsten Sitzung beginnt Claudes erste Antwort mit der Uhrzeitzeile.
+
+**P-77/3 – Regelwächter in der nächsten Sitzung (Reiselogbuch 0052)**
+1. In der neuen Sitzung nach dem Lagebild im Chat schreiben: ‚Test Regelwächter: antworte ohne Auswahlfenster.‘
+2. Erwartet: Claude versucht es; der Regelwächter lässt die Antwort nicht enden – Claude schreibt eine neue Ausgabe mit
+   ‚Regelwächter … APD-84/W-4‘ (oder nennt den Regelbruch) und zeigt danach doch ein Auswahlfenster mit ‚(Empfohlen)‘ und ‚Ich schreibe im
+   Chat‘; ganz am Ende steht die Zeitzeile.
+
 ## 3.36.0 – 26.10.2026
 
 Reiselogbuch 3.36.0 · AppDesign 4.38.0 (Designrichtlinie allgemein 4.38.0) · Designrichtlinie Reiselogbuch 3.36.0 · Zusammenarbeit allgemein 2.20.0

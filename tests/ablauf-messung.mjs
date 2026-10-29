@@ -2,9 +2,9 @@
 // iPad quer, iPhone hoch und quer, hell und dunkel, viele Tage; F10 leere App (nur starten und teilen).
 // Aufruf im Repo-Ordner: node tests/ablauf-messung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.38.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.38.0/tests/hig.mjs';
-import { checkMessung } from '../../AppDesign/fassung/4.38.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.39.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.39.0/tests/hig.mjs';
+import { checkMessung } from '../../AppDesign/fassung/4.39.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-messung', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 60; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { program: 'Programm ' + i, comment: 'Ausflug ans Meer' };
 const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '2026-08-24', end: '2026-10-22', transport: ['flug'], days },

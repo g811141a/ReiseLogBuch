@@ -3,11 +3,12 @@
 // Vorschau; Ziehen schließt, mit Änderungen fragt es wie x (B8–B10 für jedes Fenster mit Eingaben); iPhone hoch und quer, hell und
 // dunkel, ‚Bewegung reduzieren‘. Seit 3.36.0 (AppDesign APD-72, Testfall-Liste AppDesign arbeit/APD-72 Testfall-Liste.md D-1 bis D-20): am iPad
 // dieselben Fälle mit dem Fenster in der Mitte (quer und hoch, hell und dunkel, ‚Bewegung reduzieren‘, Tastatur im Erfassen), Häkchen im
-// Erfassen (D-11). Aufruf im Repo-Ordner: node tests/ablauf-blatt.mjs
+// Erfassen (D-11). Seit 3.37.0 (AppDesign APD-83, APD-72/D-21): am iPad ändert eine Eingabe Breite und Lage nicht – iPad hoch auch
+// ‚Neues Reiselogbuch‘ (die Meldung zum überschneidenden Zeitraum erscheint). Aufruf im Repo-Ordner: node tests/ablauf-blatt.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.38.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.38.0/tests/hig.mjs';
-import { checkSheet } from '../../AppDesign/fassung/4.38.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.39.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.39.0/tests/hig.mjs';
+import { checkSheet } from '../../AppDesign/fassung/4.39.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-blatt', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 const days = {}; for (let i = 0; i < 20; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1}\nzweite Zeile`, comment: '😉 schöner Tag', quarter: 'Hotel Bellevue', place: 'Hafen' };
@@ -21,7 +22,7 @@ const FENSTER = [
 ];
 const b = await t.browser();
 for (const [ansicht, theme, ruhig, auswahl] of [['iPhone hoch', 'light', false, null], ['iPhone quer', 'light', false, null], ['iPhone hoch', 'dark', false, ['Erfassen', 'Vorschau']],
-  ['iPhone hoch', 'light', true, ['Erfassen']], ['iPad quer', 'light', false, ['Erfassen', 'Vorschau']], ['iPad hoch', 'light', false, ['Einstellungen', 'Erfassen']],
+  ['iPhone hoch', 'light', true, ['Erfassen']], ['iPad quer', 'light', false, ['Erfassen', 'Vorschau']], ['iPad hoch', 'light', false, ['Einstellungen', 'Erfassen', 'Neues Reiselogbuch']],
   ['iPad quer', 'dark', false, ['Erfassen']], ['iPad quer', 'light', true, ['Erfassen']]]) {
   const p = await t.seite(b, ansicht, { theme, ...(ruhig ? { reducedMotion: 'reduce' } : {}) });
   const where = `${t.ort}${ruhig ? ' Bewegung reduzieren' : ''}`; t.ort = where;

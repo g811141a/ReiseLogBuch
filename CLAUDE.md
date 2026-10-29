@@ -1,13 +1,14 @@
 # Reiselogbuch – Hinweise für Claude
 
-**Version 3.7.0** · Stand 25.10.2026
+**Version 3.8.0** · Stand 26.10.2026
 
 ## Zuerst lesen (gezielt, Zusammenarbeit 0 Nr. 15)
 
 Die allgemeinen Regeln liegen im Design-Repo **AppDesign** (g811141a/AppDesign, lokal neben diesem Repo):
 
 1. `AppDesign/UEBERGABE.md` – Stand der letzten Sitzung, nächster Schritt, Chatnummer
-2. `AppDesign/README - Zusammenarbeit allgemein.md` – nur Abschnitte 0 (Arbeitsmodell) und 1 (Sprache und Ton: per du)
+2. `AppDesign/README - Zusammenarbeit allgemein.md` – die ganze Datei; der Kasten ‚Immer‘ und ‚Jede Antwort‘ oben in
+   Abschnitt 0 gilt ab der ersten Antwort
 3. Überschriften (`grep -n '^##'`) von `AppDesign/README - Designrichtlinie allgemein.md` und
    `README - Designrichtlinie Reiselogbuch.md` (nur Abweichungen); einzelne Abschnitte erst, wenn die Aufgabe sie braucht
 4. Nur bei Bedarf: `PROMPT.md` (Funktionsbeschreibung), `CHANGELOG.md` (Testfälle der neuesten Version oben), `BACKLOG.md`
@@ -45,6 +46,7 @@ Wiederholung.
 
 | Version | Datum | Inhalt |
 |---|---|---|
+| 3.8.0 | 26.10.2026 | AppDesign APD-84: zu Beginn die ganze Zusammenarbeit (Kasten ‚Jede Antwort‘) |
 | 3.7.0 | 25.10.2026 | AppDesign APD-78 Nummernschema: Themen RLB-n, Usertest, Testfälle P-n, Testfall-Liste |
 | 3.6.0 | 21.10.2026 | AppDesign APD-39 Konsolidierung: Verpflichtendes und Einrichten der Tests nur noch in der Zusammenarbeit bzw. der AppDesign-`CLAUDE.md`; App-Richtlinie enthält nur Abweichungen |
 | 3.5.0 | 20.10.2026 | Zu Beginn Abschnitte 0 und 1 der Zusammenarbeit (Sprache und Ton: per du) – AppDesign Zusammenarbeit 2.14.0 |
