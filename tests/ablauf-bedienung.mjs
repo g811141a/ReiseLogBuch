@@ -4,9 +4,9 @@
 // Gegenprobe der Bedienungshilfen (node tests/alle.mjs --gegenprobe bedienung): je eingeschleustem Fehler wird genau seine Meldung rot.
 // Aufruf im Repo-Ordner: node tests/ablauf-bedienung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.38.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.38.0/tests/hig.mjs';
-import { checkFokus, checkKontrast, checkRuhig, checkFieldErrors, ansage } from '../../AppDesign/fassung/4.38.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.39.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.39.0/tests/hig.mjs';
+import { checkFokus, checkKontrast, checkRuhig, checkFieldErrors, ansage } from '../../AppDesign/fassung/4.39.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-bedienung', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const days = {};
 for (let i = 0; i < 30; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 20 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok', place: i % 3 ? 'Hafen' : 'Sydney' }; }
