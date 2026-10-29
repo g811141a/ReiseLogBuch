@@ -22,8 +22,9 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   const row = n => p.locator('.side-row', { hasText: n });
   const on = l => l.evaluate(e => e.classList.contains('on'));
   await t.schritt(p, 'Mehr-Menü der Seitenleiste', async () => { await p.click('#sideMore'); await p.waitForTimeout(150); });
-  // seit 3.24.0: Backup · Strich · Messung (eigene Gruppe, R-4.1) · Strich · graue Zeilen
-  t.ist('Menü: zwei eingerückte Striche (Gruppen Backup, Messung, Hinweise)', [await p.locator('.menu .line').count(), await p.locator('.menu .sep').count()], [1, 1], 'R-4.1');
+  // seit 3.24.0: Backup · Strich · Messung (eigene Gruppe, R-4.1) · Strich · graue Zeilen; seit 3.38.0 (AppDesign APD-77) die Messung erst nach
+  // langem Drücken auf die Versionszeile – bis dahin Backup · Strich · graue Zeilen, ohne zweiten Strich
+  t.ist('Menü: ein eingerückter Strich (Gruppen Backup, Hinweise; Messung versteckt)', [await p.locator('.menu .line').count(), await p.locator('.menu .sep').count()], [1, 0], 'R-4.1');
   t.ist('Menü: graue Zusatzinfos unten', await p.locator('.menu .note').allTextContents(), [
     new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · erstellt am .+ · AppDesign ${AD.replace(/\./g, '\\.')}$`),
     'Safari kann die Daten bei Speichermangel löschen – bitte regelmäßig ein Backup erstellen.'], 'R-4.1');
