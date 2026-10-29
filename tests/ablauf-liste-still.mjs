@@ -4,9 +4,9 @@
 // derselben Stelle wie beim Öffnen. Tastatur wie Safari nachgebildet (AppDesign checkListStill). iPad quer und hoch, iPhone
 // hoch und quer. Aufruf im Repo-Ordner: node tests/ablauf-liste-still.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.39.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.39.0/tests/hig.mjs';
-import { checkListStill } from '../../AppDesign/fassung/4.39.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.40.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.40.0/tests/hig.mjs';
+import { checkListStill } from '../../AppDesign/fassung/4.40.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-liste-still', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const iso = (start, i) => new Date(Date.parse(start + 'T00:00:00Z') + i * 864e5).toISOString().slice(0, 10);

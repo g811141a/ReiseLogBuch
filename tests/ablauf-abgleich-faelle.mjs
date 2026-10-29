@@ -3,7 +3,7 @@
 // Richtungen abgeglichen (iPhone lädt das Backup vom iPad, iPad lädt das Backup vom iPhone) und das Ergebnis geprüft.
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich-faelle.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.39.0/tests/pruefe.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.40.0/tests/pruefe.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-abgleich-faelle', pw, { out: new URL('out/', import.meta.url) });
 // Reine Datenprüfung über mergeWith (keine Bedienung) – deshalb ohne Grundregeln.

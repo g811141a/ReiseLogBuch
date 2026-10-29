@@ -13,6 +13,64 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.38.0 – 29.10.2026
+
+Reiselogbuch 3.38.0 · AppDesign 4.40.0 (Designrichtlinie allgemein 4.40.0) · Designrichtlinie Reiselogbuch 3.38.0 · Zusammenarbeit allgemein 3.0.0
+
+**Reisemittel laufen weich aus** (AppDesign APD-86, deine Rückmeldung vom 29.10.2026) und **‚Messung starten‘ versteckt** (AppDesign
+APD-77) – dein Ja vom 29.10.2026, Sitzung 0052; Testfall-Listen AppDesign `arbeit/APD-86 Testfall-Liste.md` und `arbeit/APD-77 Testfall-Liste.md` 1–2.
+
+- **iPhone: die Zeile ‚Reisemittel‘ im Kopf eines Reiselogbuchs zeigt, wo es weitergeht.** Bisher lief sie am rechten Rand hart ab
+  (abgeschnitten mitten im Wort). Jetzt läuft sie dort weich aus, mit einem kleinen grauen Pfeil ›; beim Wischen erscheint links ‹, am
+  Ende verschwindet ›, genau wie in der Auswahl-Kapsel beim Bearbeiten. Passt alles (ein Reisemittel, iPhone quer, iPad, große Schrift),
+  gibt es weder Verlauf noch Pfeil. Allgemeine Regel R-5.4 (AppDesign 4.40.0): jeder seitlich wischbare Bereich zeigt das.
+  Warum die Prüfung es übersah: R-5.4 und ihre Prüfung galten nur der Auswahl-Kapsel; `ablauf-navigation` wischt die Zeile zwar, prüfte
+  dort aber nicht, ob man sieht, dass es weitergeht. Neu: `ablauf-reisemittel-zeile` (dein Ablauf, rot gegen 3.37.0) und in `hig.mjs` nach
+  jedem Schritt jeder Prüfung: kein seitlich wischbarer Bereich ohne Verlauf und Pfeil.
+- **‚Messung starten‘ steht nicht mehr ständig im Mehr-Menü** (Reiselogbücher bzw. Startliste) – der Messmodus ist ein Werkzeug für Claude.
+  Er erscheint erst, wenn du im selben Menü lange auf die graue Zeile ‚Reiselogbuch · Version …‘ drückst; das Menü bleibt dabei offen.
+  Die Freischaltung gilt bis zum Neustart der App. Eine laufende oder noch nicht geteilte Messung (‚Messung beenden und teilen‘) steht
+  immer da. Allgemeine Regel R-1.6 (AppDesign 4.40.0).
+- **Prüfungen:** `ablauf-reisemittel-zeile` neu im vollen Lauf; `ablauf-messung` und `checkMessung` (AppDesign) mit dem Freischalten
+  (kurz tippen, dabei wegziehen, lang drücken, neu laden, laufende Messung); `ablauf-gesamt` erwartet das Menü ohne ‚Messung starten‘;
+  `ablauf-navigation` wischt die neue Wischzeile `#reisemittel`.
+
+Testfälle P-78 (Schritt für Schritt, Zusammenarbeit allgemein 3.0.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-78/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.38.0 · erstellt am … · AppDesign 4.40.0‘.
+
+**P-78/1 – iPhone hoch: Reisemittel laufen weich aus**
+1. iPhone hoch, hell; ein Reiselogbuch mit mehreren Reisemitteln öffnen (die Zeile ‚Reisemittel:‘ passt nicht ganz in die Breite).
+2. Erwartet: die Zeile läuft rechts weich aus, darin ein kleiner grauer Pfeil ›; links kein Pfeil.
+3. Die Zeile nach links wischen, bis sie in der Mitte steht.
+4. Erwartet: links und rechts weicher Verlauf mit Pfeil ‹ bzw. ›.
+5. Bis ans Ende wischen.
+6. Erwartet: rechts kein Verlauf und kein Pfeil mehr, links ‹.
+
+**P-78/2 – Reisemittel, wenn alles passt**
+1. Dasselbe Reiselogbuch am iPhone quer und am iPad ansehen, dazu am iPhone hoch eines mit nur einem Reisemittel.
+2. Erwartet: die Reisemittel stehen ganz da (am iPad bei Bedarf in mehreren Zeilen); weder Verlauf noch Pfeil.
+
+**P-78/3 – ‚Messung starten‘ erst nach langem Drücken**
+1. iPhone hoch: in der Startliste oben auf ‚…‘ (Mehr) tippen.
+2. Erwartet: ‚Backup erstellen‘, ‚Backup laden‘ und unten grau die Versionszeile – kein ‚Messung starten‘.
+3. Kurz auf die graue Zeile ‚Reiselogbuch · Version 3.38.0 …‘ tippen.
+4. Erwartet: nichts passiert, das Menü bleibt offen.
+5. Lange (etwa eine halbe Sekunde) auf dieselbe Zeile drücken, ohne den Finger zu bewegen.
+6. Erwartet: das Menü bleibt offen, über dem Strich erscheint ‚Messung starten‘ (grau ‚Für Claude: Bewegungen aufzeichnen‘); keine
+   Textauswahl, keine Lupe, kein Safari-Menü.
+7. Daneben tippen, dann noch einmal auf ‚…‘ tippen.
+8. Erwartet: ‚Messung starten‘ steht weiter da.
+
+**P-78/4 – nach dem Neustart wieder versteckt**
+1. Die App ganz schließen und neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) auf ‚…‘ (Mehr) tippen.
+3. Erwartet: kein ‚Messung starten‘ – erst wieder nach langem Drücken auf die Versionszeile (auch am iPad).
+
 ## 3.37.0 – 26.10.2026
 
 Reiselogbuch 3.37.0 · AppDesign 4.39.0 (Designrichtlinie allgemein 4.39.0) · Designrichtlinie Reiselogbuch 3.37.0 · Zusammenarbeit allgemein 3.0.0
