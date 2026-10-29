@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.39.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.40.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -81,11 +81,11 @@
   .box.day.gap { background: var(--focus); }
   .box.day.on { background: var(--sel-bg); }
   .box.day a { text-decoration: none; }
-  /* iPhone: Bezeichnung mit Doppelpunkt, darunter der Wert; Reisemittel in einer Zeile, seitlich wischen */
+  /* iPhone: Bezeichnung mit Doppelpunkt, darunter der Wert; Reisemittel in einer Zeile, seitlich wischen – seit 3.38.0 (AppDesign APD-86)
+     als Wischzeile mit Verlauf und Pfeilen am Rand (R-5.4); am iPad umbrochen wie bisher */
   html.phone .meta.trip { display: block; margin-top: 8px; }
   html.phone .meta.trip dd { margin: 0 0 6px; }
-  html.phone .meta.trip dd.swipe { white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
-  html.phone .meta.trip dd.swipe::-webkit-scrollbar { display: none; }
+  html:not(.phone) .meta.trip #reisemittel { white-space: normal; }
   html.phone .fazit-box { width: 100%; }
   /* Wetter auf dem iPhone 40 px breit, damit alle sieben ohne Wischen nebeneinander passen (bewusste Abweichung) – seit 3.35.0
      (RLB-101, AppDesign APD-43 B6) nur bei Standard; bei größerer Schrift wachsen die Knöpfe, passt es nicht, wischt die Kapsel seitlich */
@@ -95,7 +95,7 @@
   html.ts-um .meta dd { margin: 0 0 6px; }
   html.ts-um .box.day .h { flex-wrap: wrap; }
   html.ts-um .box.day .h .wx { flex: 1 0 100%; margin-left: 0; overflow-wrap: anywhere; }
-  html.ts-um .meta.trip dd.swipe { white-space: normal; }
+  html.ts-um .meta.trip #reisemittel { white-space: normal; }
   /* Zeichen vor der Zeile (🕛☕📍 …) dürfen bei großer Schrift umbrechen, statt hinauszuragen (R-6.3) */
   html.ts-um .ln .m { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }
 
@@ -128,18 +128,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.39.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.40.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.37.0';
-const APP_BUILT = '26.10.2026 um 16:09';
+const APP_VERSION = '3.38.0';
+const APP_BUILT = '29.10.2026 um 16:50';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.39.0';
+const AD_NEEDED = '4.40.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -885,7 +885,7 @@ function renderPhone({ scrollToGap = false } = {}) {
     <dl class="meta trip">
       <dt>Reiseteilnehmer:</dt><dd>${esc(trip.participants)}</dd>
       <dt>Reisezeitraum:</dt><dd>${fullDate(trip.start)} - ${fullDate(trip.end)}</dd>
-      ${transport ? `<dt>Reisemittel:</dt><dd class="swipe">${esc(transport)}</dd>` : ''}
+      ${transport ? `<dt>Reisemittel:</dt><dd>${wischHtml(esc(transport), 'reisemittel')}</dd>` : ''}
     </dl>
     <p class="progress">${progressText(trip)}</p>
     <div id="pdays">${boxes || `<div class="empty-note">${term ? 'Keine Treffer.' : 'Noch keine Tage erfasst.'}</div>`}</div>
@@ -894,6 +894,7 @@ function renderPhone({ scrollToGap = false } = {}) {
     <h2 data-marke="Statistik">Statistik</h2>
     <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
     </div>`);
+  mountCap(app);   // seit 3.38.0 (AppDesign APD-86): Verlauf und Pfeile der Zeile Reisemittel
   app.querySelector('#back').onclick = navZurueck;   // seit 3.28.0 (AppDesign APD-61): der Inhalt schiebt sich hinaus
   app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
   app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
@@ -1154,12 +1155,13 @@ let importAnchor = '#sideMore'; // Schaltfläche, von der ‚Backup laden‘ kom
 const backupMenuItems = sel => [
   ...backupMenuEntries({ last: db.settings.lastBackup, disabled: !db.trips.length, onSave: () => saveBackup(sel),
     onLoad: () => { importAnchor = sel; hold(sel); importFile.click(); } }),
-  // Messmodus (seit 3.24.0, AppDesign APD-27): Kopf- und Suchzeile von Inhalt und Liste, erster Tag, Rollstand der Liste.
+  // Messmodus (seit 3.24.0, AppDesign APD-27): Kopf- und Suchzeile von Inhalt und Liste, erster Tag, Rollstand der Liste – seit 3.38.0
+  // (AppDesign APD-77) versteckt, bis langes Drücken auf die Versionszeile ihn freischaltet.
   'sep',
   ...messungMenuItems({ app: `Reiselogbuch ${APP_VERSION}`, teile: { kopf: '#bar', such: '#app .nb2', tag: '#app [data-day]', lkopf: '.side-head', lsuch: '.side-search' },
     rollen: { lroll: '.side-list' } }),
   'line',
-  { note: `Reiselogbuch · Version ${APP_VERSION} · erstellt am ${APP_BUILT} · AppDesign ${adLoaded().js}` },
+  { note: `Reiselogbuch · Version ${APP_VERSION} · erstellt am ${APP_BUILT} · AppDesign ${adLoaded().js}`, halten: true },   // seit 3.38.0 (AppDesign APD-77): langes Drücken schaltet den Messmodus frei
   { note: storagePersistent ? `Die Daten bleiben in Safari gespeichert, solange das Reiselogbuch auf dem Home-Bildschirm nicht entfernt wird.`
     : 'Safari kann die Daten bei Speichermangel löschen – bitte regelmäßig ein Backup erstellen.' },
 ];

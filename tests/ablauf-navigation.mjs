@@ -1,12 +1,12 @@
 // Reiselogbuch-Test: ablauf-navigation – AppDesign APD-61 Teil 1 (seit 3.28.0, R-7.5; Testfall-Liste AppDesign arbeit/APD-61 Teil 1 Testfall-Liste.md
 // APD-61/F-1 bis APD-61/F-21, Variante ‚Überall‘): Seitenwechsel als Schieben, Zurückwischen am iPhone von überall im Inhalt, Seitenleiste am iPad hoch
 // per Wischen; seit 3.29.0 (AppDesign APD-68, Variante B, APD-68/Q-1 bis APD-68/Q-12) am iPad quer die ausgeblendete Seitenleiste per Wischen – iPhone hoch und quer, iPad hoch und quer, hell und dunkel, dazu ‚Bewegung reduzieren‘ (APD-68/F-19).
-// Waagrecht rollender Bereich am iPhone: die Zeile Reisemittel (dd.swipe). Grundregeln nach den Schritten (pruefe.mjs).
+// Waagrecht rollender Bereich am iPhone: die Zeile Reisemittel (#reisemittel, seit 3.38.0 Wischzeile, AppDesign APD-86). Grundregeln nach den Schritten (pruefe.mjs).
 // Aufruf im Repo-Ordner: node tests/ablauf-navigation.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.39.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.39.0/tests/hig.mjs';
-import { checkNavigation } from '../../AppDesign/fassung/4.39.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.40.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.40.0/tests/hig.mjs';
+import { checkNavigation } from '../../AppDesign/fassung/4.40.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-navigation', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const tage = {}; for (let i = 0; i < 40; i++) tage[new Date(Date.UTC(2019, 2, 2 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Tokio' };
@@ -27,7 +27,7 @@ for (const [ansicht, theme, bewegung] of faelle) {
   // iPad hoch: Start mit offenem Reiselogbuch, die darübergelegte Seitenleiste weg (nach der Auswahl schließt sie, 15.4)
   if (ansicht === 'iPad hoch' && await p.locator('#side .side-row[data-id="a"]').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(300); await navFertig(p); }
   await t.schritt(p, 'Start', async () => {});
-  for (const x of await checkNavigation(p, { eintrag: '#side .side-row[data-id="a"]', titel: 'Japan', zurueck: '#back', waagrecht: ansicht === 'iPhone hoch' && !await p.evaluate(() => document.documentElement.classList.contains('ts-um')) ? '#app dd.swipe' : null,   // bei großer Schrift umbrochen statt wischbar (RLB-101)
+  for (const x of await checkNavigation(p, { eintrag: '#side .side-row[data-id="a"]', titel: 'Japan', zurueck: '#back', waagrecht: ansicht === 'iPhone hoch' && !await p.evaluate(() => document.documentElement.classList.contains('ts-um')) ? '#reisemittel' : null,   // bei großer Schrift umbrochen statt wischbar (RLB-101)
    
     knopf: '#shareBtn', menue: '#mainMore', suche: '#searchBtn', kasten: '#app .box.day', where: t.ort })) t.fehler('', x);
   await navFertig(p);

@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 26.10.2026** · Aktuelle Version: Reiselogbuch 3.37.0 · AppDesign 4.39.0
+**Stand 29.10.2026** · Aktuelle Version: Reiselogbuch 3.38.0 · AppDesign 4.40.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -28,6 +28,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-78 | 1 | **Usertest 3.38.0** (AppDesign 4.40.0): /0 Version prüfen · /1 iPhone hoch: Reisemittel laufen weich aus mit Pfeil (AppDesign APD-86) · /2 Reisemittel, wenn alles passt · /3 ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile (AppDesign APD-77) · /4 nach dem Neustart wieder versteckt – Schritte im CHANGELOG ‚Testfälle P-78‘ | prüfen |
 | P-77 | 1 | **Usertest 3.37.0** (AppDesign 4.39.0): /0 Version prüfen · /1 iPad quer: ‚Neues Reiselogbuch‘ bleibt beim Tippen gleich breit (P-76/4 Schritt 3) · /2 Regelwächter im Setup-Skript einrichten · /3 Regelwächter in der nächsten Sitzung – Schritte im CHANGELOG ‚Testfälle P-77‘; **/0–/2 ok (Nutzer 29.10.2026, Sitzung 0052)**, /3 offen (erst in der Sitzung nach dem Eintrag ins Setup-Skript) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
@@ -48,6 +49,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| APD-86, APD-77 | AppDesign 4.40.0 im Reiselogbuch: die Zeile ‚Reisemittel‘ am iPhone als Wischzeile mit Verlauf und Pfeilen (deine Rückmeldung 29.10.2026, Prüfung `ablauf-reisemittel-zeile`); ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile | 3.38.0 | 29.10.2026 |
 | RLB-107 | Prüfung `ablauf-fenster-breite` (Rückmeldung P-76/4) im vollen Lauf, mit der Korrektur AppDesign APD-83 | 3.37.0 | 26.10.2026 |
 | P-76 | Geprüft **P-76 (3.36.0)**: nicht ok bei /4 Schritt 3 – mit dem ersten Buchstaben im Reisetitel wird ‚Neues Reiselogbuch‘ am iPad breiter (→ AppDesign APD-83, RLB-107); alle übrigen ok (AppDesign APD-72 bestätigt) | 3.36.0 | 26.10.2026 |
 | RLB-103 | **RLB-103 `ablauf-tastatur-still` repariert und im vollen Lauf:** das Beenden der Messung im Menü wird nicht mehr nachgespielt (AppDesign `abspielen.mjs`), Messung 26.10.2026 (iPhone quer, Tag, ‚Ort‘, ‚Quartier‘, Tastatur zu) aufgenommen, Safari-Modell danach ausgerichtet (die 17 Fehler waren eine Abweichung des Modells), feste Zeitgrenze nur noch für 19.10.; dazu AppDesign APD-72 (iPad: Fenster nach unten ziehen), `ablauf-blatt` am iPad | 3.36.0 | 26.10.2026 |

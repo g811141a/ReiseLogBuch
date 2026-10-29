@@ -1,10 +1,11 @@
 // Messmodus (seit 3.24.0, AppDesign APD-27, R-1.6): Testfall-Liste AppDesign/arbeit/APD-27 Testfall-Liste.md F1–F12 über checkMessung –
-// iPad quer, iPhone hoch und quer, hell und dunkel, viele Tage; F10 leere App (nur starten und teilen).
+// iPad quer, iPhone hoch und quer, hell und dunkel, viele Tage; F10 leere App (nur starten und teilen). Seit 3.38.0 (AppDesign APD-77) erst nach
+// langem Drücken auf die Versionszeile (checkMessung F-1 bis F-9).
 // Aufruf im Repo-Ordner: node tests/ablauf-messung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.39.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.39.0/tests/hig.mjs';
-import { checkMessung } from '../../AppDesign/fassung/4.39.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.40.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.40.0/tests/hig.mjs';
+import { checkMessung } from '../../AppDesign/fassung/4.40.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-messung', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 60; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { program: 'Programm ' + i, comment: 'Ausflug ans Meer' };
 const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '2026-08-24', end: '2026-10-22', transport: ['flug'], days },
@@ -21,7 +22,11 @@ for (const [w, h, cs, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852, 'da
     const menu = async () => { if (!await p.locator('#sideMore').isVisible()) { await p.locator('#back, [data-side-toggle]').first().click(); await p.waitForTimeout(300); } await p.click('#sideMore'); };
     if (leer) {   // F10: leere App – starten, Menü zeigt ‚läuft‘, teilen liefert eine Datei (das Fenster ‚Neues Reiselogbuch‘ vorher schließen)
       await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
-      await menu(); await p.waitForTimeout(200); await p.locator('.menu .mi', { hasText: 'Messung starten' }).click(); await p.waitForTimeout(300);
+      // seit 3.38.0 (AppDesign APD-77): zuerst lange auf die Versionszeile drücken – dann erscheint ‚Messung starten‘
+      await menu(); await p.waitForTimeout(200);
+      const v = await p.locator('.menu .note.halten').boundingBox();
+      await p.mouse.move(v.x + v.width / 2, v.y + v.height / 2); await p.mouse.down(); await p.waitForTimeout(900); await p.mouse.up(); await p.waitForTimeout(300);
+      await p.locator('.menu .mi', { hasText: 'Messung starten' }).click(); await p.waitForTimeout(300);
       if (!await p.evaluate(() => mess?.an)) t.fehler('', 'R-1.6 leere App: ‚Messung starten‘ startet keine Messung');
       await menu(); await p.waitForTimeout(200);
       const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.locator('.menu .mi', { hasText: 'Messung beenden und teilen' }).click()]);

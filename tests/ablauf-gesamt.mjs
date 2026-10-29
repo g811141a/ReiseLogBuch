@@ -3,8 +3,8 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.39.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.39.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.40.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.40.0/tests/hig.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-gesamt', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -105,7 +105,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Toskana offen', await p.textContent('.nb-title'), 'Toskana');
   await S(p, 'Menü der Seitenleiste', () => p.click('#sideMore'));
   t.ist('Menü der Seitenleiste', [await p.locator('.menu .mi').allTextContents(), await p.locator('.menu .note').first().textContent(), await p.locator('.menu .sub').first().textContent()],
-    [['Backup erstellen', 'Backup laden', 'Messung starten'], new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · .+ · AppDesign ${AD.replace(/\./g, '\\.')}$`), 'Noch kein Backup erstellt.'], 'R-9.1');
+    [['Backup erstellen', 'Backup laden'], new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · .+ · AppDesign ${AD.replace(/\./g, '\\.')}$`), 'Noch kein Backup erstellt.'], 'R-9.1');
   await S(p, 'daneben tippen', () => p.click('.layer'));
   t.ist('Backup-Kachel da', await p.locator('.bhint').count(), 1, 'R-9.1');
   // Löschen
@@ -154,7 +154,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Seitenleiste schwebt', await p.evaluate(() => { const s = getComputedStyle(side); return [s.borderRadius, s.left, s.top, s.boxShadow.slice(0, 30)]; }), ['22px', '10px', '10px', /^rgba\(0, 0, 0, 0\.\d+\) 0px 3px 28/], 'R-3.2');
   t.ist('Backup-Kachel', (await p.textContent('.bhint')).replace(/\s+/g, ' ').trim(), 'Noch kein Backup erstellt. Backup erstellen', 'R-9.1');
   await S(p, 'Menü der Seitenleiste', () => p.click('#sideMore'));
-  t.ist('Menü', [await p.locator('.menu .mi').allTextContents(), await p.locator('.menu .sub').first().textContent()], [['Backup erstellen', 'Backup laden', 'Messung starten'], 'Noch kein Backup erstellt.'], 'R-9.1');   // seit 3.24.0 mit Messung (R-1.6)
+  t.ist('Menü', [await p.locator('.menu .mi').allTextContents(), await p.locator('.menu .sub').first().textContent()], [['Backup erstellen', 'Backup laden'], 'Noch kein Backup erstellt.'], 'R-9.1');   // seit 3.38.0 ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile (AppDesign APD-77, R-1.6)
   await S(p, 'Backup erstellen', async () => { await p.click('.menu .mi:has-text("Backup erstellen")'); await p.waitForTimeout(300); });
   t.ist('Meldung offen, Mehr bleibt blau', [await p.evaluate(() => msg.open), await cls(p, '#sideMore', 'on')], [true, true], 'R-3.3');
   await S(p, 'Meldung schließen', async () => { await p.click('#msg [data-x]'); await p.waitForTimeout(100); });
