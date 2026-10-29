@@ -35,6 +35,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
 | RLB-108 | 2 | **‚Darstellung‘ ins Mehr-Menü der Seitenleiste (Nutzer 30.10.2026, Sitzung 0053):** ‚Darstellung‘ (Automatisch / Hell / Dunkel) aus dem Mehr-Menü der Reiselogbuch-Seite (`openMainMenu`) in das Mehr-Menü der Seitenleiste (iPhone: Startliste) verschieben – die Darstellung gilt für die ganze App, nicht für ein Reiselogbuch. Bestehend: keiner. Zu klären: allgemeine Regel (0 Nr. 4) | App (Regel offen) | offen |
+| RLB-109 | 2 | **Preis beim Quartier (Nutzer 30.10.2026, Sitzung 0053):** neues Feld ‚Preis‘ beim Quartier, auch in der Statistik ausgegeben. Bestehend: keiner (Statistik hat Quartiere und Nächte). Zu klären: Preis je Nacht oder gesamt, Währung, Summe und Durchschnitt je Nacht in der Statistik, Quartierliste und Ausgabe, Abgleich und Backup (`normalize`) | App | offen |
+| RLB-110 | 2 | **Spalte ‚Kilometer‘ (Nutzer 30.10.2026, Sitzung 0053):** neue Spalte nach ‚Wie war was?‘, durchgehend ausgegeben, wenn in den Einstellungen eingeschaltet (wie ‚Spalte Essen‘, ‚Spalte Quartier‘). Bestehend: keiner. Zu klären: Kilometer je Tag als Zahl, Summe in der Statistik, feste Spaltenbreiten der Ausgabe (index.html:367–370), Abgleich und Backup (`normalize`) | App | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
