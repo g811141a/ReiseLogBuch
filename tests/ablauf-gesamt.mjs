@@ -3,9 +3,9 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.44.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.44.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-gesamt', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');

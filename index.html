@@ -11,14 +11,13 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.44.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.44.1/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
   .meta dt { font-weight: 600; }
   .meta dd { margin: 0; }
   .avg { display: inline-flex; flex-wrap: wrap; } .avg > span { white-space: nowrap; }   /* RLB-112: Ø unter dem Wert, statHtml */
-  .box .kv .k b { font-size: var(--t-headline); font-weight: 600; color: var(--ink); }   /* seit 3.42.1 (RLB-112): ‚km‘ der Kachel wie ‚Verlauf‘ */
   .progress { font-size: calc(14px * var(--f-subhead)); color: var(--muted); margin: 0 0 12px; }
 
   /* Tabelle */
@@ -134,18 +133,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.44.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.44.1/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.42.0';
-const APP_BUILT = '30.10.2026 um 14:02';
+const APP_VERSION = '3.42.1';
+const APP_BUILT = '30.10.2026 um 18:16';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.44.0';
+const AD_NEEDED = '4.44.1';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -948,7 +947,8 @@ function renderPhone({ scrollToGap = false } = {}) {
 // Umsetzung auf beiden Geräten (R-1.1). Felder eines Tages; ‚Verlauf‘ als Wort in normaler Schrift, die anderen mit den Spalten-Emojis.
 function dayBoxesHtml(trip, visible, { today, gap, term, nr }) {
   const c = cols(trip);
-  const line = (k, v, word) => v ? `<div class="kv"><span class="k ${word ? 'word' : ''}">${k}</span><span class="v">${v}</span></div>` : '';
+  // seit 3.42.1 (AppDesign APD-98, R-6.5): Bezeichnung in .l, Buchstaben neben einem Emoji in .w – normal, mittig zur ersten Zeile des Werts
+  const line = (k, v, word) => v ? `<div class="kv"><span class="k ${word ? 'word' : ''}"><span class="l">${word ? k : k.replace(/\p{L}+/gu, w => `<span class="w">${w}</span>`)}</span></span><span class="v">${v}</span></div>` : '';
   return visible.map(iso => {
     const e = rawEntry(trip, iso);
     const q = quarterOf(trip, iso);
@@ -958,7 +958,7 @@ function dayBoxesHtml(trip, visible, { today, gap, term, nr }) {
       <div class="h">${dayLabel(iso)}${tags}${e.weather ? `<span class="wx">${esc(e.weather)}</span>` : '<span class="wx empty">☀️🌤🌦🌧</span>'}</div>
       ${line('Verlauf', e.program ? linesHtml(programItems(e.program), term) : '', true)}
       ${c.mood ? line('🙂☹️😉', e.comment ? linesHtml(commentItems(e.comment), term) : '') : ''}
-      ${c.km ? line('🚶🏽‍♂️<b>km</b>', e.km ? fmtKm(e.km) : '') : ''}
+      ${c.km ? line('🚶🏽‍♂️km', e.km ? fmtKm(e.km) : '') : ''}
       ${c.food ? line('🍽️🍷☕️', e.food ? foodHtml(foodItems(e.food, q.place), term, true) : '') : ''}
       ${c.quarter ? line('😴💤', withPrice(trip, iso, q, quarterHtml(q, term, true))) : ''}
     </div>`;
