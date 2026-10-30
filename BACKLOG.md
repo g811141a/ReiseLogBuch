@@ -22,15 +22,15 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts gesammelt | – | – |
+| RLB-112 | 1 | **Korrektur aus P-82 (Nutzer 30.10.2026, Sitzung 0058) – zuerst den Ablauf als feste Prüfung nachbauen, rot gegen 3.42.0 (0 Nr. 1):** 1) Einstellungen: ‚Preis der Quartiere erfassen‘ einschalten macht das Häkchen nicht blau; einschalten lässt er sich erst, wenn vorher ‚Quartierliste in der Ausgabe‘ eingeschaltet wurde (P-82/1) · 2) Kachel am iPhone: ‚km‘ in der ersten Spalte (‚🚶🏽‍♂️km‘) fett (P-82/3) · 3) Statistik: im Ø nur **ein** Leerzeichen zwischen ‚Ø‘ und Wert (P-82/5) · 4) Statistik: passt der Ø nicht in die Zeile, Umbruch vor der ersten Klammer, der Ø steht dann genau linksbündig unter dem Gesamtwert (ersetzt ‚immer in einer Zeile‘, P-82/5) | App | 30.10.2026 |
 
-0 Punkte bereit.
+1 Punkt bereit (Korrekturversion, vor allem Neuen – 0 Nr. 8).
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-82 | 1 | **Usertest P-82 (3.42.0):** Schalter ‚Preis der Quartiere erfassen‘, Preis in Klammern beim Quartier, Kilometer mit Komma (iPhone, iPad), Kilometerfeld rechtsbündig, Statistik mit Ø in Klammern, PDF, Bezeichnungen normal – Testfälle im CHANGELOG | prüfen |
+| P-82 | 1 | **Rückmeldung 30.10.2026: P-82/1, /3, /5 nicht ok → RLB-112; zu P-82/0, /2, /4, /6, /7 keine Rückmeldung (in 0059 nachfragen).** **Usertest P-82 (3.42.0):** Schalter ‚Preis der Quartiere erfassen‘, Preis in Klammern beim Quartier, Kilometer mit Komma (iPhone, iPad), Kilometerfeld rechtsbündig, Statistik mit Ø in Klammern, PDF, Bezeichnungen normal – Testfälle im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
