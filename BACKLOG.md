@@ -36,6 +36,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| RLB-111 | 1 | **Rückmeldung P-81/6 und P-81/7 (Nutzer 30.10.2026, Sitzung 0058):** 1) Preis nur, wenn in den Einstellungen der Reise eingeschaltet · 2) Bezeichnung ‚Preis‘ normal statt fett (allgemein: APD-95) · 3) ‚€‘ nach dem Feld nicht fett · 4) Preis in der Spalte Quartier nach dem Quartier in Klammern ‚(123,99 €)‘, Klammern bleiben beim Betrag · 5) Statistik: Ø je Nacht hinter ‚Quartierkosten‘ mit 5 Leerzeichen in Klammern ‚(Ø 1.234,99 €)‘ · 6) Kilometer mit einer Nachkommastelle (Eingabe und Ausgabe) · 7) Statistik: Ø hinter ‚Gegangene Kilometer‘ mit 5 Leerzeichen in Klammern ‚(Ø 17,2 km)‘ · P-81/7: in der Kachel am iPhone ‚🚶🏽‍♂️km 12,5‘ (Wert ohne ‚km‘). **Geklärt (Nutzer 30.10.2026):** Schalter ‚Preis der Quartiere erfassen‘ in den Einstellungen der Reise, Voreinstellung aus (aus: kein Feld, keine Spalte ‚Preis‘, keine Quartierkosten; Eingetragenes bleibt) · Statistik: 5 geschützte Leerzeichen vor der Klammer, immer in einer Zeile · Kilometer immer mit einer Stelle (12 → ‚12,0‘), Eingabe 0,1–99,9. P-81/0 bis /5 und /8 ok | App | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
