@@ -3,10 +3,13 @@
 // L-1 bis L-13 Spalte ‚Gegangene Kilometer‘ mit schmalem Zahlenfeld (RLB-110, APD-93). D-7 (Darstellung je Gerät) prüft abgleich-regeln,
 // D-8 hig (R-1.2). Seit 3.42.0 Testfall-Liste AppDesign arbeit/RLB-111 APD-95 Testfall-Liste.md: RLB-111/H-1 bis H-8 Preis nur auf Wunsch, in
 // Klammern hinter dem Quartier, Ø in Klammern (RLB-111); RLB-111/M-1 bis M-6 Kilometer mit einer Nachkommastelle; APD-95/B-1 bis B-5 Bezeichnungen normal
-// (APD-95, R-5.8 – hig `bezeichnungen` nach jedem Schritt, Gegenprobe hier). Aufruf im Repo-Ordner: node tests/ablauf-preis-km.mjs
+// (APD-95, R-5.8 – hig `bezeichnungen` nach jedem Schritt, Gegenprobe hier). Seit 3.42.1 Korrektur aus P-82 (RLB-112, 0 Nr. 1 – der Ablauf des
+// Nutzers nachgebaut): RLB-112/U-1 Schalter Preis allein antippen, Häkchen blau, gespeichert; U-2 Bezeichnungen der Kachel normal (R-6.5),
+// U-5 Gegenprobe; U-3 im Ø ein Leerzeichen nach ‚Ø‘; U-4 Umbruch vor der Klammer, Ø linksbündig unter dem Gesamtwert (App und Ausgabe). Aufruf im Repo-Ordner:
+// node tests/ablauf-preis-km.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.44.0/tests/pruefe.mjs';
-import { createCheck, bezeichnungen } from '../../AppDesign/fassung/4.44.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
+import { createCheck, bezeichnungen, kastenBezeichnung } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
 const t = pruefung('ablauf-preis-km', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 // 24.–28.08.: Quartier A 3 Nächte (Preis 300), Quartier B 2 Nächte (Preis 200); 29.08. Quartier C ohne Preis; km an 3 Tagen, ein Tag nur km
 const days = {
@@ -28,6 +31,12 @@ const start = async (p, trips = [trip, alt]) => {
   await p.reload(); await p.waitForTimeout(400);
 };
 const oeffne = async (p, id = 'a') => { if (await p.locator(`#side .side-row[data-id="${id}"]`).isVisible()) { await p.locator(`#side .side-row[data-id="${id}"]`).click(); await p.waitForTimeout(400); await navFertig(p); } };
+// RLB-112/U-4: Lage der Zeichen einer Statistikzelle – erste Zeile, Anfang des Ø (‚(‘) und alle Zeichen ab dort (eine Zeile, linksbündig unter dem Wert)
+const umbruch = el => { const r = document.createRange(), pos = [], txt = [];
+  const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); for (let n; (n = w.nextNode());) for (let i = 0; i < n.length; i++) { pos.push([n, i]); txt.push(n.data[i]); }
+  const box = i => { r.setStart(pos[i][0], pos[i][1]); r.setEnd(pos[i][0], pos[i][1] + 1); const b = r.getClientRects()[0]; return b && { l: Math.round(b.left), t: Math.round(b.top) }; };
+  const k = txt.indexOf('('), a = box(0), o = box(k), rest = [...Array(txt.length - k).keys()].map(j => box(k + j)).filter(Boolean);
+  return { umgebrochen: o.t > a.t + 2, linksbuendig: Math.abs(o.l - a.l) <= 1, ozeile: rest.every(b => Math.abs(b.t - o.t) <= 2) }; };
 const stats = p => p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#app .rolle > dl.meta:not(.trip) dt')].map(d => [d.textContent.replace(/:$/, ''), d.nextElementSibling.textContent])));
 const tag = async (p, iso) => { await p.evaluate(iso => openDayDialog(db.trips.find(x => x.id === 'a'), iso), iso); await p.waitForTimeout(400); await navFertig(p); };
 const zu = async p => { await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(250); };
@@ -80,15 +89,31 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
     t.ist('RLB-111/H-5 Klammer bricht nie um', await p.evaluate(() => getComputedStyle(document.querySelector('tr[data-day="2026-08-24"] td.quarter .t > span:last-child')).whiteSpace), 'nowrap');
   } else {
     t.ist('RLB-111/M-4 Kachel ‚🚶🏽‍♂️km‘ · ‚14,0‘', await p.evaluate(() => [...document.querySelectorAll('#pdays [data-day="2026-08-25"] .kv')].map(k => [k.querySelector('.k').textContent, k.querySelector('.v').textContent]).find(x => x[0].startsWith('🚶'))), ['🚶🏽‍♂️km', '14,0']);
+    // U-2 (P-82/3, Nutzer 30.10.2026: Variante B1 – AppDesign APD-98, R-6.5): ‚km‘ wie ‚Verlauf‘ und wie der Wert – normal, Textgröße, Textfarbe;
+    // Bezeichnung mittig zur ersten Zeile des Werts. R-6.5 prüft hig nach jedem Schritt, hier einzeln und die Gegenprobe U-5
+    t.ist('RLB-112/U-2 Kachel: ‚km‘ wie ‚Verlauf‘ und der Wert (Größe, Stärke 400, Farbe)', await p.evaluate(() => { const ks = [...document.querySelectorAll('#pdays [data-day="2026-08-25"] .kv .k')], k = ks.find(x => x.textContent.startsWith('🚶'));
+      const km = k.querySelector('.w'), s = e => { const c = getComputedStyle(e); return [c.fontSize, c.fontWeight, c.color].join(' '); };
+      return km ? [s(km) === s(ks.find(x => x.textContent === 'Verlauf')), s(km) === s(k.nextElementSibling), getComputedStyle(km).fontWeight] : 'kein eigenes Element'; }), [true, true, '400'], 'R-6.5');
+    t.ist('RLB-112/U-2 R-6.5 Kachel: Bezeichnungen normal, mittig zur ersten Zeile', await p.evaluate(kastenBezeichnung), [], 'R-6.5');
+    await p.evaluate(() => { const s = document.createElement('style'); s.id = 'gp65'; s.textContent = '.box .kv .k.word, .box .kv .k .w { font-weight: 600 } .box .kv .k > .l { margin-top: 8px }'; document.head.append(s); });
+    t.wahr('RLB-112/U-5 Gegenprobe: halbfette, verschobene Bezeichnung wird gemeldet', (x => x.some(s => s.includes('600 statt')) && x.some(s => s.includes('neben der Mitte')))(await p.evaluate(kastenBezeichnung)), 'R-6.5');
+    await p.evaluate(() => document.getElementById('gp65').remove());
     t.ist('RLB-111/H-4 Kachel: Klammer nur am Tag des Eintrags', await p.evaluate(() => ['2026-08-24', '2026-08-25'].map(d => [...document.querySelectorAll(`#pdays [data-day="${d}"] .kv .v`)].pop().textContent.replace(/\s+/g, ' ').includes('(300,00 €)'))), [true, false]);
     t.ist('RLB-109/Q-3 Quartierliste (iPhone): Preis hinter den Nächten', await p.locator('.ilist .irow small').allTextContents(), [/3 Nächte · 300,00 €$/, /2 Nächte · 200,00 €$/, /1 Nacht$/]);
   }
   // Q-4, L-8: Statistik
   const st = await stats(p);
-  // H-6, M-5: Ø in Klammern hinter dem Wert – 5 geschützte Leerzeichen davor, 2 nach ‚Ø‘, eine Nachkommastelle bei km; keine eigenen Ø-Zeilen
+  // H-6, M-5, RLB-112/U-3: Ø in Klammern hinter dem Wert – 5 geschützte Leerzeichen davor, 1 nach ‚Ø‘ (P-82/5), eine Nachkommastelle bei km;
+  // keine eigenen Ø-Zeilen; vor der Klammer darf umbrechen (U-4)
   const nb = '\u00a0', ab = nb.repeat(5);
-  t.ist('RLB-111/H-6 Statistik Quartierkosten (Ø nur über Nächte mit Preis)', st['Quartierkosten'], `500,00${nb}€${ab}(Ø${nb}${nb}100,00${nb}€)`);
-  t.ist('RLB-111/M-5 Statistik Gegangene Kilometer (Ø nur Tage mit km)', st['Gegangene Kilometer'], `32,0${nb}km${ab}(Ø${nb}${nb}8,0${nb}km)`);
+  t.ist('RLB-111/H-6, RLB-112/U-3 Statistik Quartierkosten (Ø nur über Nächte mit Preis)', st['Quartierkosten'], `500,00${nb}€${ab}(Ø${nb}100,00${nb}€)`);
+  t.ist('RLB-111/M-5, RLB-112/U-3 Statistik Gegangene Kilometer (Ø nur Tage mit km)', st['Gegangene Kilometer'], `32,0${nb}km${ab}(Ø${nb}8,0${nb}km)`);
+  // U-4 (P-82/5): passt die Zeile, steht der Ø daneben; sonst bricht sie vor der Klammer um, der Ø steht ganz linksbündig unter dem Wert
+  const zelle = (w = '') => p.evaluate(([fn, w]) => { const dd = [...document.querySelectorAll('#app .rolle > dl.meta:not(.trip) dt')].find(d => d.textContent.startsWith('Quartierkosten')).nextElementSibling;
+    dd.style.maxWidth = w; const x = eval(fn)(dd); dd.style.maxWidth = ''; return x; }, [umbruch.toString(), w]);
+  if (!phone) t.ist('RLB-112/U-4 iPad, genug Platz: Ø in derselben Zeile', (await zelle()).umgebrochen, false);
+  else t.ist('RLB-112/U-4 iPhone: steht der Ø darunter, dann linksbündig in einer Zeile', await zelle().then(z => !z.umgebrochen || (z.linksbuendig && z.ozeile)), true);
+  t.ist('RLB-112/U-4 zu schmal: Umbruch vor der Klammer, Ø linksbündig unter dem Wert, in einer Zeile', await zelle('110px'), { umgebrochen: true, linksbuendig: true, ozeile: true });
   t.ist('Statistik: Reihenfolge', Object.keys(st), ['Reisetage', 'Gegangene Kilometer', 'Quartiere', 'Nächte', 'Quartierkosten', 'Wetter', 'Smileys']);
   // H-2: ‚Preis der Quartiere erfassen‘ aus – keine Spalte, keine Klammer, keine Quartierkosten; Werte bleiben, wieder ein → wieder da
   await p.evaluate(() => { db.trips.find(x => x.id === 'a').priceOn = false; render(); }); await p.waitForTimeout(300);
@@ -160,7 +185,10 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   // Q-6, L-11: Ausgabe – Quartierliste mit ‚Preis‘, Statistik mit allen Zeilen, Spaltenanteile 28 · 28 · 8 · 22 · 22 (von 108)
   const out = await p.evaluate(() => outputBody(db.trips.find(x => x.id === 'a'), 1, nowStamp()));
   t.wahr('RLB-109/Q-6 Ausgabe: Quartierliste mit ‚Preis‘', /<th class="num">Nächte<\/th><th class="num">Preis<\/th>/.test(out) && out.includes('1.240,00 €'), 'R-6.2');
-  t.wahr('RLB-111/H-7 Ausgabe: Statistik ohne Ø-Zeilen, Ø in Klammern', ['Quartierkosten:', 'Gegangene Kilometer:'].every(k => out.includes(`<b>${k}</b>`)) && !out.includes('Ø je') && out.includes('(Ø\u00a0\u00a0'), 'R-6.2');
+  t.wahr('RLB-111/H-7 Ausgabe: Statistik ohne Ø-Zeilen, Ø in Klammern', ['Quartierkosten:', 'Gegangene Kilometer:'].every(k => out.includes(`<b>${k}</b>`)) && !out.includes('Ø je') && out.includes('(Ø\u00a0') && !out.includes('(Ø\u00a0\u00a0'), 'R-6.2');
+  t.ist('RLB-112/U-4 Ausgabe zu schmal: Umbruch vor der Klammer, Ø linksbündig unter dem Wert', await p.evaluate(([fn, out]) => { const d = document.createElement('div'); d.style.width = '230px';
+    d.innerHTML = out; document.body.append(d); const x = eval(fn)([...d.querySelectorAll('.stats td')].find(td => td.previousElementSibling?.textContent === 'Quartierkosten:')); d.remove(); return x; }, [umbruch.toString(), out]),
+    { umgebrochen: true, linksbuendig: true, ozeile: true }, 'R-6.2');
   t.wahr('RLB-111/H-7 Ausgabe: Preis in Klammern hinter dem Quartier', out.includes('(1.240,00\u00a0€)'), 'R-6.2');
   t.ist('RLB-110/L-11 Spaltenanteile der Ausgabe', [...out.matchAll(/<col style="width:([\d.]+)%">/g)].map(m => m[1]), ['25.93', '25.93', '7.41', '20.37', '20.37'], 'R-6.2');
   t.wahr('RLB-110/L-11 Kopf ‚🚶🏽‍♂️km‘ in einer Zeile (th.num)', out.includes('<th class="num">🚶🏽‍♂️km</th>'), 'R-6.2');
@@ -183,6 +211,23 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   // L-1: neues Reiselogbuch – Voreinstellung aus
   await p.evaluate(() => openTripDialog(null)); await p.waitForTimeout(400);
   t.ist('RLB-110/L-1, RLB-111/H-1 neues Reiselogbuch: Spalte km und Preis aus', [await p.locator('#fKm').isChecked(), await p.locator('#fPriceOn').isChecked()], [false, false]);
+  await zu(p);
+  await p.close();
+}
+// RLB-112/U-1 (P-82/1, Ablauf des Nutzers): Preis und Quartierliste aus – in den Einstellungen nur ‚Preis der Quartiere erfassen‘ antippen
+// (echtes Tippen auf die Zeile) → Schalter an, Häkchen blau; Häkchen tippen → gespeichert, Preisfeld am ersten Tag eines Aufenthalts
+for (const ansicht of ['iPad quer', 'iPhone hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' }); t.ort = `${ansicht} hell U-1`;
+  await start(p, [{ ...trip, priceOn: false, quarterList: false }]); await oeffne(p);
+  await t.schritt(p, 'U-1 Einstellungen', async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); await p.waitForTimeout(400); await navFertig(p); });
+  await p.locator('label:has(#fPriceOn)').scrollIntoViewIfNeeded();
+  await t.schritt(p, 'U-1 Preis der Quartiere erfassen antippen', () => p.locator('label:has(#fPriceOn)').click());
+  t.ist('RLB-112/U-1 Schalter an, Quartierliste bleibt aus', [await p.locator('#fPriceOn').isChecked(), await p.locator('#fQuarterList').isChecked()], [true, false]);
+  t.ist('RLB-112/U-1 Häkchen blau', await p.evaluate(() => document.getElementById('dlgOk').classList.contains('primary')), true, 'R-4.4');
+  await p.click('#dlgOk'); await p.waitForTimeout(400);
+  t.ist('RLB-112/U-1 gespeichert: Preis an, Quartierliste aus', await p.evaluate(() => { const x = db.trips.find(t => t.id === 'a'); return [x.priceOn, x.quarterList]; }), [true, false]);
+  await tag(p, '2026-08-27');
+  t.ist('RLB-112/U-1 Preisfeld am ersten Tag eines Aufenthalts', await p.locator('#fPrice').isVisible(), true);
   await zu(p);
   await p.close();
 }

@@ -4,9 +4,9 @@
 // Waagrecht rollender Bereich am iPhone: die Zeile Reisemittel (#reisemittel, seit 3.38.0 Wischzeile, AppDesign APD-86). Grundregeln nach den Schritten (pruefe.mjs).
 // Aufruf im Repo-Ordner: node tests/ablauf-navigation.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.44.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.0/tests/hig.mjs';
-import { checkNavigation } from '../../AppDesign/fassung/4.44.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
+import { checkNavigation } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
 const t = pruefung('ablauf-navigation', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const tage = {}; for (let i = 0; i < 40; i++) tage[new Date(Date.UTC(2019, 2, 2 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Tokio' };

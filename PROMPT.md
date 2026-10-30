@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 30.10.2026, Version 3.42.0)
+# Reiselogbuch – Funktionsbeschreibung (Stand 30.10.2026, Version 3.42.1)
 
-Reiselogbuch 3.42.0 · AppDesign 4.44.0 (Designrichtlinie allgemein 4.44.0) · Designrichtlinie Reiselogbuch 3.42.0 · Zusammenarbeit allgemein 3.2.0
+Reiselogbuch 3.42.1 · AppDesign 4.44.1 (Designrichtlinie allgemein 4.44.1) · Designrichtlinie Reiselogbuch 3.42.1 · Zusammenarbeit allgemein 3.3.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -142,7 +142,8 @@ wie am iPad (R-1.1):
   Reisetitel steht in der Mitte der Leiste. Darunter ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ – der Wert jeweils in der
   nächsten Zeile, die Reisemittel in einer Zeile, bei Bedarf seitlich wischen (Verlauf und kleiner Pfeil am Rand, R-5.4); dann die Fortschrittsanzeige.
 - **Tage als Kästen:** Kopf ‚Mo, 24.08.‘ mit ‚heute‘/‚fehlt‘ und Wetter rechts (leer: blasse Platzhalter); Felder ‚Verlauf‘ (als
-  Wort, normale Größe, halbfett), dann die Spalten-Emojis 🙂☹️😉 · 🚶🏽‍♂️ (‚14 km‘) · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt;
+  Wort), dann die Spalten-Emojis 🙂☹️😉 · 🚶🏽‍♂️ km · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt; seit 3.42.1 (AppDesign R-6.5)
+  Text der Bezeichnungen normal in Textgröße und Textfarbe, Emojis klein, mittig zur ersten Zeile des Werts;
   Linien wie im Kasten mit Feldern (R-6.1). Startposition wie am iPad (4), direkt unter der Leiste; der angetippte Kasten
   bleibt blau, solange die Tageserfassung offen ist.
 - Darunter Fazit (volle Breite), Gesamtausgaben, Quartierliste als Liste (Quartier mit Maps-Link, darunter ‚24.08. - 25.08.2026 ·
@@ -227,8 +228,8 @@ wie am iPad (R-1.1):
   ‚Nächte‘ und ‚Preis‘ rechtsbündig; in der App immer, in der
   Ausgabe nur mit ‚Quartierliste in der Ausgabe‘.
 - **Statistik** (schlichte Liste): Reisetage gesamt und davon erfasst, ‚Gegangene Kilometer‘ (seit 3.42.0, RLB-111: Summe mit einer
-  Nachkommastelle, dahinter der Ø je Tag in Klammern – ‚35,5 km     (Ø  8,9 km)‘, 5 geschützte Leerzeichen davor, 2 nach ‚Ø‘, immer eine
-  Zeile; nur Tage mit Kilometern, nur mit sichtbarer Spalte und Werten), Anzahl der Quartiere, darunter Anzahl der Nächte (Summe),
+  Nachkommastelle, dahinter der Ø je Tag in Klammern – ‚35,5 km     (Ø 8,9 km)‘, 5 geschützte Leerzeichen davor, seit 3.42.1 (RLB-112)
+  1 nach ‚Ø‘; passt der Ø nicht in die Zeile, steht er ganz linksbündig unter dem Gesamtwert, selbst in einer Zeile; nur Tage mit Kilometern, nur mit sichtbarer Spalte und Werten), Anzahl der Quartiere, darunter Anzahl der Nächte (Summe),
   ‚Quartierkosten‘ (Summe der Preise, dahinter der Ø je Nacht in Klammern wie bei den Kilometern – nur Nächte von Aufenthalten mit Preis;
   nur mit ‚Preis der Quartiere erfassen‘ und Preisen),
   Wetter-Verteilung (z. B. ‚40×🌤 · 12×☀️ · 5×🌧‘), Smileys aus Tagen und Fazit absteigend nach Anzahl (z. B. ‚5×😊 · 3×😉 · 2×☹️‘;

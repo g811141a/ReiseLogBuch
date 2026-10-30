@@ -13,6 +13,64 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.42.1 – 30.10.2026
+
+Reiselogbuch 3.42.1 · AppDesign 4.44.1 (Designrichtlinie allgemein 4.44.1) · Designrichtlinie Reiselogbuch 3.42.1 · Zusammenarbeit allgemein 3.3.0
+
+**Korrektur aus P-82** (RLB-112, P-82/1, /3, /5) und **Bezeichnung im Kasten mit Feldern** (AppDesign APD-98, R-6.5) – dein Ja vom 30.10.2026,
+Sitzung 0059; Muster (hell, Variante B1) und Testfall-Liste AppDesign `arbeit/RLB-112 Testfall-Liste.md` (RLB-112/U-1 bis U-5) bestätigt.
+Jeder Punkt zuerst als feste Prüfung nachgebaut – rot gegen 3.42.0 (28 Fehler), dann behoben.
+
+- **‚Preis der Quartiere erfassen‘ allein (P-82/1):** Einschalten macht das Häkchen blau und wird gespeichert – auch ohne ‚Quartierliste in
+  der Ausgabe‘. Ursache: der Schalter fehlte im Vergleich ‚geändert?‘ des Einstellungsfensters; ohne andere Änderung schloss das Häkchen
+  das Fenster nur. Warum die Prüfung es übersah: sie schaltete den Preis über die Daten bzw. zusammen mit anderen Schaltern und prüfte
+  Häkchen und Speichern mit diesem einen Schalter nicht (jetzt RLB-112/U-1 mit echtem Tippen).
+- **Kachel am iPhone (P-82/3, AppDesign APD-98, R-6.5):** die Bezeichnungen der ersten Spalte – ‚Verlauf‘ und ‚km‘ in ‚🚶🏽‍♂️ km‘ – in normaler
+  Schrift, Textgröße und Textfarbe wie der Wert (Apple-Standard, R-5.8; bisher ‚Verlauf‘ halbfett, ‚km‘ klein grau); Emojis bleiben klein;
+  Icon und Text stehen waagrecht mittig zur ersten Zeile des Werts, auch bei mehrzeiligem Verlauf oder Quartier.
+- **Statistik (P-82/5):** im Ø ein Leerzeichen nach ‚Ø‘ – ‚35,5 km     (Ø 8,9 km)‘; passt der Ø nicht in die Zeile, steht er ganz
+  linksbündig unter dem Gesamtwert, selbst in einer Zeile (App und Ausgabe; ersetzt ‚immer in einer Zeile‘). Ein unsichtbarer Trennpunkt
+  im Text brach in WebKit nicht um – deshalb Wert und Ø als zwei Teile (`statHtml`).
+- **Prüfungen:** `ablauf-preis-km` mit RLB-112/U-1 bis U-5 (U-5 Gegenprobe R-6.5); neue Regel R-6.5 in `hig` nach jedem Schritt aller Prüfungen.
+
+Testfälle P-83 (Schritt für Schritt, Zusammenarbeit allgemein 3.3.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-83/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.42.1 · erstellt am … · AppDesign 4.44.1‘.
+
+**P-83/1 – ‚Preis der Quartiere erfassen‘ allein einschalten**
+1. iPad quer; ein Reiselogbuch, in dem ‚Quartierliste in der Ausgabe‘ und ‚Preis der Quartiere erfassen‘ aus sind; ‚…‘ (Mehr) →
+   ‚Einstellungen‘, ganz nach unten rollen.
+2. Nur ‚Preis der Quartiere erfassen‘ antippen.
+3. Erwartet: der Schalter ist an, ‚Quartierliste in der Ausgabe‘ bleibt aus, das Häkchen oben rechts ist blau.
+4. Häkchen tippen, dann einen Tag mit eigenem Quartier öffnen (ohne ‚Quartier wie Vortag‘).
+5. Erwartet: unter ‚Ort‘ das Feld ‚Preis‘ mit ‚€‘. Mit x schließen.
+
+**P-83/2 – Kachel: Bezeichnungen normal und auf einer Linie**
+1. iPhone hoch; ein Reiselogbuch mit Spalte ‚Gegangene Kilometer‘ und einem Tag mit Kilometern und mehrzeiligem Verlauf öffnen.
+2. Erwartet: in der Kachel links ‚Verlauf‘ und ‚km‘ (hinter 🚶🏽‍♂️) in normaler Schrift, so groß und so dunkel wie der Text rechts; die
+   Emojis (🚶🏽‍♂️, 😴💤 …) klein.
+3. Erwartet: in jeder Zeile stehen Icon und Text links waagrecht mittig zur ersten Zeile rechts – z. B. ‚🚶🏽‍♂️ km‘ auf gleicher Höhe wie ‚14,0‘,
+   ‚Verlauf‘ auf Höhe der ersten Zeile des Verlaufs.
+
+**P-83/3 – Statistik am iPhone (Umbruch)**
+1. iPhone hoch; im Reiselogbuch aus P-83/1 an einem Tag einen Preis eintragen (z. B. ‚1240‘), dann ganz nach unten zur Statistik rollen.
+2. Erwartet: ‚Gegangene Kilometer:‘ z. B. ‚35,5 km‘ und ‚Quartierkosten:‘ z. B. ‚1.240,00 €‘; passt der Ø nicht daneben, steht ‚(Ø 8,9 km)‘
+   bzw. ‚(Ø 413,33 €)‘ in der nächsten Zeile genau linksbündig unter dem Wert, selbst nicht getrennt; nach ‚Ø‘ genau ein Leerzeichen.
+
+**P-83/4 – Statistik am iPad (eine Zeile)**
+1. iPad quer; dasselbe Reiselogbuch ganz nach unten zur Statistik rollen.
+2. Erwartet: ‚35,5 km     (Ø 8,9 km)‘ und ‚1.240,00 €     (Ø 413,33 €)‘ je in einer Zeile, nach ‚Ø‘ ein Leerzeichen.
+
+**P-83/5 – Ausgabe (PDF)**
+1. iPad quer; share (Ausgabe) → ‚PDF‘ tippen.
+2. Erwartet: in der Statistik ‚Gegangene Kilometer‘ und ‚Quartierkosten‘ mit dem Ø in Klammern, nach ‚Ø‘ ein Leerzeichen; bricht eine
+   Zeile um, steht der Ø linksbündig unter dem Wert.
+3. Das Drucken-Menü schließen.
+
 ## 3.42.0 – 30.10.2026
 
 Reiselogbuch 3.42.0 · AppDesign 4.44.0 (Designrichtlinie allgemein 4.44.0) · Designrichtlinie Reiselogbuch 3.42.0 · Zusammenarbeit allgemein 3.2.0

@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 30.10.2026** · Aktuelle Version: Reiselogbuch 3.42.0 · AppDesign 4.44.0
+**Stand 30.10.2026** · Aktuelle Version: Reiselogbuch 3.42.1 · AppDesign 4.44.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,15 +22,14 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-112 | 1 | **Korrektur aus P-82 (Nutzer 30.10.2026, Sitzung 0058) – zuerst den Ablauf als feste Prüfung nachbauen, rot gegen 3.42.0 (0 Nr. 1):** 1) Einstellungen: ‚Preis der Quartiere erfassen‘ einschalten macht das Häkchen nicht blau; einschalten lässt er sich erst, wenn vorher ‚Quartierliste in der Ausgabe‘ eingeschaltet wurde (P-82/1) · 2) Kachel am iPhone: ‚km‘ in der ersten Spalte (‚🚶🏽‍♂️km‘) fett (P-82/3) · 3) Statistik: im Ø nur **ein** Leerzeichen zwischen ‚Ø‘ und Wert (P-82/5) · 4) Statistik: passt der Ø nicht in die Zeile, Umbruch vor der ersten Klammer, der Ø steht dann genau linksbündig unter dem Gesamtwert (ersetzt ‚immer in einer Zeile‘, P-82/5) | App | 30.10.2026 |
 
-1 Punkt bereit (Korrekturversion, vor allem Neuen – 0 Nr. 8).
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-82 | 1 | **Rückmeldung 30.10.2026: P-82/1, /3, /5 nicht ok → RLB-112; zu P-82/0, /2, /4, /6, /7 keine Rückmeldung (in 0059 nachfragen).** **Usertest P-82 (3.42.0):** Schalter ‚Preis der Quartiere erfassen‘, Preis in Klammern beim Quartier, Kilometer mit Komma (iPhone, iPad), Kilometerfeld rechtsbündig, Statistik mit Ø in Klammern, PDF, Bezeichnungen normal – Testfälle im CHANGELOG | prüfen |
+| P-83 | 1 | **Usertest P-83 (3.42.1 · AppDesign 4.44.1):** ‚Preis der Quartiere erfassen‘ allein einschalten, Kachel mit Bezeichnungen normal und mittig, Statistik mit einem Leerzeichen nach ‚Ø‘ und Umbruch unter den Wert (iPhone, iPad, PDF) – Testfälle im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +49,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-112, P-82 | **RLB-112 (Korrektur aus P-82/1, /3, /5):** ‚Preis der Quartiere erfassen‘ allein einschalten und speichern; Kachel ‚🚶🏽‍♂️ km‘ und ‚Verlauf‘ normal, mittig zur ersten Zeile (AppDesign APD-98, R-6.5); Statistik ein Leerzeichen nach ‚Ø‘, Umbruch vor der Klammer, Ø linksbündig unter dem Wert – Usertest P-83 | 3.42.1 | 30.10.2026 |
 | RLB-111 | **RLB-111 (Rückmeldung P-81/6, P-81/7):** Schalter ‚Preis der Quartiere erfassen‘ (Voreinstellung aus); Preis in Klammern hinter dem Quartier am Tag des Eintrags; Statistik mit Ø in Klammern (5 geschützte Leerzeichen, 2 nach ‚Ø‘), ohne Ø-Zeilen; Kilometer mit einer Nachkommastelle, Feld bündig rechts; Kachel ‚🚶🏽‍♂️km‘ – mit AppDesign 4.44.0 (APD-95 Bezeichnungen normal) – Usertest P-82 | 3.42.0 | 30.10.2026 |
 | P-81 | Geprüft **P-81 (3.41.0): ok bis auf P-81/6 und P-81/7** (Nutzer 30.10.2026, Sitzung 0058) – umgesetzt als RLB-111 und AppDesign APD-95 | 3.41.0 | 30.10.2026 |
 | RLB-108, RLB-109, RLB-110 | **RLB-108:** ‚Darstellung‘ im Mehr-Menü der Seitenleiste bzw. Startliste nach Backup (AppDesign APD-92) · **RLB-109:** Preis beim Quartier (erster Tag des Aufenthalts, Quartierliste ‚Preis‘, Statistik ‚Quartierkosten‘ und ‚Ø je Nacht‘) · **RLB-110:** Spalte ‚Gegangene Kilometer‘ (Einstellung, Schritt mit schmalem Feld bis 99 – AppDesign APD-93, Spalte 🚶🏽‍♂️km, iPhone-Zeile, Statistik, Ausgabe) · AppDesign 4.43.0: ‚Suchen‘ im Mehr-Menü, x ‚Suche beenden‘, ⌘F (APD-91) · Usertest P-81 | 3.41.0 | 30.10.2026 |
