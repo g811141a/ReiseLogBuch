@@ -32,7 +32,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-80 | 1 | **Usertest P-80 (3.40.0):** Mehr-Knopf offen senkrecht und blau (iPad, iPhone, mit Untermenü), Reisemittel brechen nur nach dem Komma (iPad hoch und quer, PDF) – Testfälle im CHANGELOG | prüfen |
+| – | – | zurzeit kein offener Usertest | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-80 | Geprüft **P-80 (3.40.0): alles ok** (Nutzer 30.10.2026, Sitzung 0056) – Mehr-Knopf offen senkrecht und blau, Reisemittel brechen nur nach dem Komma (auch PDF) | 3.40.0 | 30.10.2026 |
 | 3.40.0 | AppDesign 4.42.0: Mehr-Knopf offen senkrecht und blau (APD-87), Reisemittel – Icon und Name bleiben zusammen, auch in der Ausgabe (APD-90), Prüflauf wiederholt rote Läufe einmal allein (APD-85 Teil 1) · Usertest P-80 | 3.40.0 | 30.10.2026 |
 | P-79 | Geprüft **P-79 (3.39.0): alles ok** (Nutzer 30.10.2026, Sitzung 0054) – ⓧ in Verlauf, ‚Wie war was?‘, Essen und Trinken und Fazit, Rückgängig mit Undo-Taste, drei Fingern und Schütteln, auch im Reisetitel (AppDesign APD-81 bestätigt) | 3.39.0 | 30.10.2026 |
 | APD-81, APD-89 | AppDesign 4.41.0 im Reiselogbuch: das ⓧ auch in Verlauf, ‚Wie war was?‘, Essen und Trinken und Fazit (mehr als eine Zeile mit Sprechblase ‚Text löschen?‘), Rückgängig nach dem ⓧ in allen Feldern; Zusammenarbeit 3.1.0 (Regeln nur mit Genehmigung); Prüfung `regeln-ablauf` | 3.39.0 | 30.10.2026 |
