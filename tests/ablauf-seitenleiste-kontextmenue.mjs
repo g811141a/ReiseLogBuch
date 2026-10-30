@@ -2,8 +2,8 @@
 // Einstellungen daraus, Löschen mit Abfrage, Mehr-Menü der Seitenleiste mit Versionszeile.
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-kontextmenue.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.40.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.40.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.41.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.41.0/tests/hig.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-seitenleiste-kontextmenue', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');

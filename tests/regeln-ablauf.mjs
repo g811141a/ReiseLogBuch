@@ -1,13 +1,13 @@
 // Ablauf-Prüfungen der allgemeinen Regeln (AppDesign/tests/ablauf.mjs): R-2.3 Suche, R-4.4 Fenster-Kopfzeile, R-5.2 Texteingabe,
 // R-5.3 Fehlermeldungen, R-5.5 Eingabetaste (seit 3.17.0), R-6.4 Vorschau, seit 3.25.0 (AppDesign APD-28/APD-29) Suche nach oben (APD-28/F-3/F-4),
-// Nach oben / Ans Ende im Rollbereich (APD-28/F-12) und Drucken der ganzen Liste (APD-28/F-16), seit 3.27.0 R-5.6 ⓧ in Feldern (AppDesign APD-63) – iPad und iPhone quer und hoch, Vorschau hell und dunkel. Aufruf im Repo-Ordner: node tests/regeln-ablauf.mjs
+// Nach oben / Ans Ende im Rollbereich (APD-28/F-12) und Drucken der ganzen Liste (APD-28/F-16), seit 3.27.0 R-5.6 ⓧ in Feldern (AppDesign APD-63), seit 3.39.0 auch mehrzeilig (APD-81) – iPad und iPhone quer und hoch, Vorschau hell und dunkel. Aufruf im Repo-Ordner: node tests/regeln-ablauf.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.40.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.40.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.41.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.41.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('regeln-ablauf', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
-import { checkSearch, checkDialogHead, checkFieldErrors, checkCapital, checkSpaces, checkPreview, checkEnterDone, checkSearchTop, checkFab, checkPrint, checkClear } from '../../AppDesign/fassung/4.40.0/tests/ablauf.mjs';
+import { checkSearch, checkDialogHead, checkFieldErrors, checkCapital, checkSpaces, checkPreview, checkEnterDone, checkSearchTop, checkFab, checkPrint, checkClear } from '../../AppDesign/fassung/4.41.0/tests/ablauf.mjs';
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i >= 30 && i < 34 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok ' + 'sehr schöner Tag mit viel Sonne '.repeat(i % 3 + 1), food: '😋 Restaurant Zum Hafen – Fisch', quarter: 'Hotel Bellevue am Meer', place: 'Hafenviertel' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }];
 const b = await t.browser(); const errs = { push: (...m) => m.forEach(x => t.fehler('', x)) };
@@ -30,6 +30,12 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
   await G(p, 'Vorschau offen');
   await p.evaluate(() => dlg.close()); await p.waitForTimeout(200);
   if (await p.evaluate(() => /Gesamtkosten/.test(document.getElementById('app').textContent) || !/Gesamtausgaben/.test(document.getElementById('app').textContent))) errs.push(`${where}: App nennt nicht ‚Gesamtausgaben‘`);
+  if (scheme === 'dark' || /iPad hoch|iPhone quer/.test(dev)) {
+    // AppDesign APD-81/C10–C12 (seit 3.39.0): ⓧ im mehrzeiligen Feld auch dunkel, iPad hoch und iPhone quer (Sprechblase ganz zu sehen)
+    errs.push(...await checkClear(p, { where, open: () => p.evaluate(() => openDayDialog(db.trips[0], '2026-08-26')), fields: [{ sel: '#fProgram' }] }));
+    await G(p, 'nach dem ⓧ im Verlauf');
+    await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
+  }
   if (scheme === 'light' && !/iPad hoch|iPhone quer/.test(dev)) {   // iPad hoch und iPhone quer: nur Vorschau und Spalten
     errs.push(...await checkSearch(p, { where, term: 'Sydney', item: w < 700 ? '#pdays [data-day]' : 'table.days tbody [data-day]' }));
     await G(p, 'nach der Suche');
@@ -45,7 +51,7 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     // R-5.5 (seit 3.17.0, RLB-87 / AppDesign APD-14): Eingabetaste schließt die Tastatur in einzeiligen Feldern, das Fenster bleibt offen.
     errs.push(...await checkEnterDone(p, { where, open: settings, fields: [{ sel: '#fTitle', text: ' X' }, { sel: '#fPeople', text: ' Y' }] }));
     // R-5.6 (seit 3.27.0, AppDesign APD-63 C3): ⓧ in einzeiligen Feldern – Titel (Pflichtfeld) und Teilnehmer
-    errs.push(...await checkClear(p, { where, open: settings, fields: [{ sel: '#fTitle', warn: true }, { sel: '#fPeople' }] }));
+    errs.push(...await checkClear(p, { where, open: settings, fields: [{ sel: '#fTitle', warn: true }, { sel: '#fPeople' }], ohne: ['#fStart', '#fEnd'] }));   // APD-81/C14: Datum ohne ⓧ
     await G(p, 'nach dem ⓧ in den Einstellungen');
     await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
     // R-10.1 (RLB-83): gleiche Sache, gleiche Bezeichnung – die Feldnamen im Abgleichbericht heißen wie im Fenster ‚Einstellungen‘.
@@ -78,6 +84,12 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
       fields: [{ sel: '#fQuarter', text: ' X' }, { sel: '#fPlace', text: ' Y' }], multi: '#fProgram' }));
     errs.push(...await checkClear(p, { where, open: () => p.evaluate(() => openDayDialog(db.trips[0], '2026-08-25')), fields: [{ sel: '#fQuarter' }, { sel: '#fPlace' }] }));
     await G(p, 'nach dem ⓧ im Fenster Tag');
+    // R-5.6 (seit 3.39.0, AppDesign APD-81/C16): ⓧ auch in den mehrzeiligen Feldern – Verlauf (Programm), ‚Wie war was?‘, Essen und Trinken, Fazit
+    errs.push(...await checkClear(p, { where, open: () => p.evaluate(() => { dlg.open && dlg.close(); openDayDialog(db.trips[0], '2026-08-26'); }),
+      fields: [{ sel: '#fProgram' }, { sel: '#fComment' }, { sel: '#fFoodText' }] }));
+    await G(p, 'nach dem ⓧ in den mehrzeiligen Feldern');
+    errs.push(...await checkClear(p, { where, open: () => p.evaluate(() => { dlg.open && dlg.close(); openFazitDialog(db.trips[0]); }), fields: [{ sel: '#fFazit' }] }));
+    await G(p, 'nach dem ⓧ im Fazit');
     // E1: Gesamtausgaben – Eingabetaste schließt die Tastatur, Betrag wird formatiert und gespeichert.
     if (await p.evaluate(() => dlg.open)) { await p.evaluate(() => dlg.close()); await p.waitForTimeout(200); }
     if (w < 700 && await p.evaluate(() => phoneList)) { await p.locator('.irow, .side-row', { hasText: 'Australien' }).first().click(); await p.waitForTimeout(300); }
