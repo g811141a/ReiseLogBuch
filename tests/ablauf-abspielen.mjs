@@ -5,9 +5,10 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-abspielen.mjs
 import * as pw from 'playwright';
 import { readFileSync, readdirSync } from 'node:fs';
-import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.42.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.42.0/tests/abspielen.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.43.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.43.0/tests/abspielen.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-abspielen', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href, ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);
 const days = {}; for (let i = 0; i < 40; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, ...(i % 3 ? {} : { place: 'Sydney' }) };   // Suche ‚Sydne…‘ findet jeden 3. Tag
@@ -31,8 +32,11 @@ const tagSichtbar = async p => {
 };
 // seit 3.36.0 (RLB-103) je Messung der Reihe nach: ‚button‘ auch ‚Änderungen verwerfen‘, ‚-‘ auch die Fläche hinter einem Menü
 const schliesseMenue = p => p.evaluate(() => document.querySelector('.layer')?.click());
+// seit 3.41.0 (AppDesign APD-91): die Lupe der Messungen (searchBtn) gibt es nicht mehr – nachgespielt öffnet ‚Suchen‘ im Mehr-Menü die
+// Suche, ist sie offen, schließt sie das x ‚Suche beenden‘ (wie früher das zweite Antippen der Lupe)
+const lupe = async p => (await p.locator('#search').count()) ? p.click('#sclose') : sucheAuf(p);
 const ZIELE = { '2026-10-26 iPhone quer Blatt Ort Quartier.txt': { button: ['#side .side-row[data-id="a"]', '.pop button.danger'], '-': [tagSichtbar, schliesseMenue] } };
-const ziele = datei => ({ button: ['#side .side-row[data-id="a"]'], '-': [tagSichtbar], ...ZIELE[datei] });
+const ziele = datei => ({ button: ['#side .side-row[data-id="a"]'], '-': [tagSichtbar], searchBtn: lupe, ...ZIELE[datei] });
 const woerter = { search: 'Sydney', fPlace: 'Perth', kosten: '4850123456' };
 // APD-34/F-11: nach dem Antippen von Gesamtausgaben (und jeder Eingabe dort) steht das Feld ganz über der Tastatur
 const nachSchritt = async (p, s) => {

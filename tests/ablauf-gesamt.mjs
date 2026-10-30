@@ -1,10 +1,11 @@
-// Reiselogbuch-Test: ablauf-gesamt – Gesamtablauf: Seitenleiste, Mehr-Menü (Filter, Darstellung), Einstellungen mit
+// Reiselogbuch-Test: ablauf-gesamt – Gesamtablauf: Seitenleiste, Mehr-Menüs (Suchen, Filter; Darstellung in der Seitenleiste), Einstellungen mit
 // ‚Änderungen verwerfen‘, Tag erfassen (Textfeld wächst, Blättern speichert), Smiley-Abfrage, Fazit, Teilen/Vorschau, Suche,
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-gesamt', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -35,15 +36,23 @@ for (const theme of ['light', 'dark']) {
   t.ist('Titel und angedockte Seitenleiste', [await p.textContent('.nb-title'), await p.evaluate(() => document.body.classList.contains('docked'))], ['Australien', true], 'R-2.2');
   // Mehr-Menü
   await S(p, 'Mehr-Menü', () => p.click('#mainMore'));
-  t.ist('Mehr-Menü', await p.locator('.menu .mi').allTextContents(), ['Alle Tage', 'Nur erfasste Tage', 'Einstellungen', 'DarstellungAutomatisch', 'Reiselogbuch löschen'], 'R-4.1');
+  // seit 3.41.0: ‚Suchen‘ zuerst (AppDesign APD-91), ‚Darstellung‘ nicht mehr hier (RLB-108, APD-92/D-3)
+  t.ist('Mehr-Menü', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Einstellungen', 'Reiselogbuch löschen'], 'R-4.1');
   t.ist('Mehr bleibt blau', await cls(p, '#mainMore', 'on'), true, 'R-3.3');
   await S(p, 'Nur erfasste Tage', () => p.click('.menu .mi:has-text("Nur erfasste Tage")'));
   t.ist('Zeilen nur erfasste Tage', await p.locator('table.days tbody tr').count(), 5);
   await S(p, 'Alle Tage', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Alle Tage")'); });
   t.ist('Zeilen alle Tage', await p.locator('table.days tbody tr').count(), 82);
-  await S(p, 'Darstellung Dunkel', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Darstellung")'); await p.click('.submenu .mi:has-text("Dunkel")'); });
+  // APD-92/D-1, APD-92/D-4 (RLB-108): ‚Darstellung ›‘ im Mehr-Menü der Seitenleiste nach Backup, Strich davor und danach, rechts grau der Wert
+  await S(p, 'Mehr-Menü der Seitenleiste', () => p.click('#sideMore'));
+  t.ist('Mehr-Menü der Seitenleiste', await p.evaluate(() => [...document.querySelector('.menu').children].map(e => e.matches('.mi') ? e.textContent.trim() : e.className)
+    .filter(x => x !== 'sub' && x !== 'note' && x !== 'note halten')), ['Suchen', 'line', 'Backup erstellen', 'Backup laden', 'sep', 'DarstellungAutomatisch', 'line'], 'R-1.2');
+  await p.keyboard.press('Escape');
+  await S(p, 'Darstellung Dunkel', async () => { await p.click('#sideMore'); await p.click('.menu .mi:has-text("Darstellung")'); await p.click('.submenu .mi:has-text("Dunkel")'); });
   t.ist('Darstellung dunkel', await p.evaluate(() => document.documentElement.dataset.theme), 'dark', 'R-1.2');
-  await S(p, 'Untermenü Darstellung', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Darstellung")'); });
+  await S(p, 'Untermenü Darstellung', async () => { await p.click('#sideMore'); await p.click('.menu .mi:has-text("Darstellung")'); });
+  t.ist('Wert im Menü grau: Dunkel', await p.textContent('.menu:not(.submenu) .mi:has-text("Darstellung") .val'), 'Dunkel', 'R-1.2');
+  t.ist('Häkchen bei Dunkel', await p.evaluate(() => [...document.querySelectorAll('.submenu .mi')].map(b => b.getAttribute('aria-checked'))), ['false', 'false', 'true'], 'R-1.2');
   t.ist('Untermenü Darstellung', await p.locator('.submenu .mi').allTextContents(), ['Automatisch', 'Hell', 'Dunkel'], 'R-1.2');
   await S(p, 'Darstellung Automatisch', () => p.click('.submenu .mi:has-text("Automatisch")'));
   // Einstellungen
@@ -90,11 +99,11 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'Vorschau schließen', () => p.click('#dlgX'));
   t.ist('Teilen danach nicht mehr blau', await cls(p, '#shareBtn', 'on'), false, 'R-3.3');
   // Suche
-  await S(p, 'Suche Sydney', async () => { await p.click('#searchBtn'); await p.fill('#search', 'Sydney'); await p.waitForTimeout(100); });
+  await S(p, 'Suche Sydney', async () => { await sucheAuf(p); await p.fill('#search', 'Sydney'); await p.waitForTimeout(100); });
   t.ist('Treffer', await p.textContent('#scount'), '1 von 3', 'R-2.3');
   await S(p, 'nächster Treffer', () => p.click('#snext'));
   t.ist('nächster Treffer', await p.textContent('#scount'), '2 von 3', 'R-2.3');
-  await S(p, 'Suche schließen', () => p.click('#searchBtn'));
+  await S(p, 'Suche schließen', () => p.click('#sclose'));
   t.ist('Suchfeld weg', await p.locator('#search').count(), 0, 'R-2.3');
   // Seitenleiste
   await S(p, 'Seitenleiste ausblenden', () => p.click('#sideHide'));
@@ -105,7 +114,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Toskana offen', await p.textContent('.nb-title'), 'Toskana');
   await S(p, 'Menü der Seitenleiste', () => p.click('#sideMore'));
   t.ist('Menü der Seitenleiste', [await p.locator('.menu .mi').allTextContents(), await p.locator('.menu .note').first().textContent(), await p.locator('.menu .sub').first().textContent()],
-    [['Backup erstellen', 'Backup laden'], new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · .+ · AppDesign ${AD.replace(/\./g, '\\.')}$`), 'Noch kein Backup erstellt.'], 'R-9.1');
+    [['Suchen', 'Backup erstellen', 'Backup laden', 'DarstellungAutomatisch'], new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · .+ · AppDesign ${AD.replace(/\./g, '\\.')}$`), 'Noch kein Backup erstellt.'], 'R-9.1');
   await S(p, 'daneben tippen', () => p.click('.layer'));
   t.ist('Backup-Kachel da', await p.locator('.bhint').count(), 1, 'R-9.1');
   // Löschen
@@ -154,7 +163,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Seitenleiste schwebt', await p.evaluate(() => { const s = getComputedStyle(side); return [s.borderRadius, s.left, s.top, s.boxShadow.slice(0, 30)]; }), ['22px', '10px', '10px', /^rgba\(0, 0, 0, 0\.\d+\) 0px 3px 28/], 'R-3.2');
   t.ist('Backup-Kachel', (await p.textContent('.bhint')).replace(/\s+/g, ' ').trim(), 'Noch kein Backup erstellt. Backup erstellen', 'R-9.1');
   await S(p, 'Menü der Seitenleiste', () => p.click('#sideMore'));
-  t.ist('Menü', [await p.locator('.menu .mi').allTextContents(), await p.locator('.menu .sub').first().textContent()], [['Backup erstellen', 'Backup laden'], 'Noch kein Backup erstellt.'], 'R-9.1');   // seit 3.38.0 ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile (AppDesign APD-77, R-1.6)
+  t.ist('Menü', [await p.locator('.menu .mi').allTextContents(), await p.locator('.menu .sub').first().textContent()], [['Suchen', 'Backup erstellen', 'Backup laden', 'DarstellungAutomatisch'], 'Noch kein Backup erstellt.'], 'R-9.1');   // seit 3.38.0 ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile (AppDesign APD-77, R-1.6)
   await S(p, 'Backup erstellen', async () => { await p.click('.menu .mi:has-text("Backup erstellen")'); await p.waitForTimeout(300); });
   t.ist('Meldung offen, Mehr bleibt blau', [await p.evaluate(() => msg.open), await cls(p, '#sideMore', 'on')], [true, true], 'R-3.3');
   await S(p, 'Meldung schließen', async () => { await p.click('#msg [data-x]'); await p.waitForTimeout(100); });

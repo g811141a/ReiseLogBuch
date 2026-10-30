@@ -3,8 +3,9 @@
 // Blättern, Kontextmenü, Löschen zurück zur Startliste, neues Reiselogbuch, Wechsel iPhone ↔ iPad. Hell und dunkel.
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const OUT = new URL('./out/', import.meta.url).pathname;
@@ -34,11 +35,11 @@ await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.w
 check(await p.locator('.pnav-title').textContent() === 'Australien', 'Laufendes Reiselogbuch öffnet nicht');
 check(await p.locator('#side').isHidden(), 'Seitenleiste sichtbar');
 check(await p.locator('#pdays .box.gap').count() === 1, 'erster offener Tag nicht markiert');
-check(await p.locator('.pnav .grp #searchBtn').count() === 1, 'search fehlt in der Kapsel');
+check(await p.locator('.pnav .grp button[aria-label="Suchen"]').count() === 0, 'eigene Lupe in der Kapsel (seit 3.41.0 im Mehr-Menü, APD-91)');
 await G('Start');
 
-// Suche wie am iPad: Suchzeile unter der Leiste, ‚1 von n‘, ⌃ ⌄, ⓧ; search schließt
-await p.click('#searchBtn'); await p.waitForTimeout(150);
+// Suche wie am iPad: ‚Suchen‘ im Mehr-Menü, Suchzeile unter der Leiste, ‚1 von n‘, ⌃ ⌄, ⓧ; x ‚Suche beenden‘ schließt
+await sucheAuf(p); await p.waitForTimeout(150);
 check(await p.evaluate(() => document.activeElement?.id === 'search'), 'Suchfeld hat keinen Fokus');
 await p.locator('#search').pressSequentially('Rocks'); await p.waitForTimeout(700);
 check(await p.locator('#pdays .box').count() === 1, 'Suche filtert nicht');
@@ -46,7 +47,7 @@ check(await p.evaluate(() => document.activeElement?.id === 'search'), 'Suchfeld
 check((await p.locator('#scount').textContent()) === '1 von 1', 'Trefferanzeige fehlt');
 await G('Suche Rocks');
 await p.click('#sclear'); check(await p.locator('#search').inputValue() === '', 'ⓧ leert nicht');
-await p.click('#searchBtn'); await p.waitForTimeout(150);
+await p.click('#sclose'); await p.waitForTimeout(150);
 check(await p.locator('#search').count() === 0, 'Suche nicht beendet');
 
 // Großer Titel wandert beim Hochschieben in die Leiste

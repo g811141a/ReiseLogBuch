@@ -9,10 +9,10 @@
 // sichtbare Fensterinhalt (96 von 84 px), wie Safari dann verschiebt, ist nicht gemessen (Testfälle).
 // Aufruf im Repo-Ordner: node tests/ablauf-tastatur-still.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.42.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.42.0/tests/abspielen.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS, sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.43.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.43.0/tests/abspielen.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 const t = pruefung('ablauf-tastatur-still', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
@@ -44,7 +44,7 @@ const FAELLE = [
   { ansicht: 'iPad hoch', name: 'Gesamtausgaben', field: '#kosten', kapsel: KAPSEL, vorher: kostenUnten },
   // APD-36/B-15: Inhalt kürzer als der Bildschirm – das Feld rollt trotzdem in die obere Hälfte (Platz darunter)
   { ansicht: 'iPhone hoch', name: 'Gesamtausgaben, 1 Tag', field: '#kosten', ein: true, vorher: async () => {} },
-  { ansicht: 'iPhone hoch', name: 'Suche', field: '#search', vorher: async p => { await p.click('#searchBtn'); await p.evaluate(() => document.activeElement?.blur()); } },
+  { ansicht: 'iPhone hoch', name: 'Suche', field: '#search', vorher: async p => { await sucheAuf(p); await p.evaluate(() => document.activeElement?.blur()); } },
 ];
 const einTag = [{ ...trips[0], end: '2026-08-24', days: { '2026-08-24': trips[0].days['2026-08-24'] } }];
 const b = await t.browser();
@@ -79,6 +79,9 @@ const tagSichtbar = async p => {   // wie ablauf-abspielen: ein sichtbarer Tag, 
 // Ziele ohne id der Reihe nach (seit 3.36.0, RLB-103): ‚-‘ = ein sichtbarer Tag, das Etikett eines Felds (ein Antippen meldet zwei Klicks)
 // bzw. die Fläche hinter einem Menü; ‚button‘ = Reiselogbuch in der Liste bzw. ‚Änderungen verwerfen‘
 const schliesseMenue = p => p.evaluate(() => document.querySelector('.layer')?.click());
+// seit 3.41.0 (AppDesign APD-91): die Lupe der Messungen (searchBtn) gibt es nicht mehr – nachgespielt öffnet ‚Suchen‘ im Mehr-Menü die
+// Suche, ist sie offen, schließt sie das x ‚Suche beenden‘ (wie früher das zweite Antippen der Lupe)
+const lupe = async p => (await p.locator('#search').count()) ? p.click('#sclose') : sucheAuf(p);
 const ZIELE = { '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { '-': [tagSichtbar, p => p.click('label[for="fProgram"]'), async () => {}, tagSichtbar, schliesseMenue] },
   '2026-10-26 iPhone quer Blatt Ort Quartier.txt': { button: ['#side .side-row[data-id="a"]', '.pop button.danger'], '-': [tagSichtbar, schliesseMenue] } };
 for (const datei of readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort()) {
@@ -90,7 +93,7 @@ for (const datei of readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort()) 
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: x })), [{ ...trips[0], end: '2026-10-02', days: tage }]);
   await p.reload(); await p.waitForTimeout(400);
   await safariModell(p, `${m.geraet} ${m.lage}`, { auto: true });
-  t.liste(await spieleAb(p, m, { ziele: { button: ['#side .side-row[data-id="a"]'], '-': [tagSichtbar], ...ZIELE[datei] }, woerter: { search: 'Sydney', fPlace: 'Perth', kosten: '4850123456' },
+  t.liste(await spieleAb(p, m, { ziele: { button: ['#side .side-row[data-id="a"]'], '-': [tagSichtbar], searchBtn: lupe, ...ZIELE[datei] }, woerter: { search: 'Sydney', fPlace: 'Perth', kosten: '4850123456' },
     bis: BIS[datei] ?? Infinity, modell: true, where: t.ort }).then(f => f.filter(x => /: APD-36\/T-8 |nicht nachspielbar|Vorbereitung/.test(x))));
   await p.close();
 }

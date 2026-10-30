@@ -2,8 +2,9 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung, textSeite } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
+import { pruefung, textSeite } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-seitenleiste-position', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
@@ -83,7 +84,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   await p.reload(); await p.waitForTimeout(300);
   // Start in der Startliste (R-7.2, seit 3.15.0) – das Startreiselogbuch daraus öffnen
   await p.locator(`#side .side-row[data-id="${await p.evaluate(() => pickStartTrip().id)}"]`).click(); await p.waitForTimeout(300);
-  await p.click('#searchBtn'); await p.waitForTimeout(150); await p.fill('#search', 'Stadt'); await p.waitForTimeout(300);
+  await sucheAuf(p); await p.waitForTimeout(150); await p.fill('#search', 'Stadt'); await p.waitForTimeout(300);
   check(await p.evaluate(() => document.activeElement?.id === 'search'), 'iPhone: Suchfeld hat keinen Fokus');
   const top0 = await p.locator('.pnav').evaluate(e => e.getBoundingClientRect().top);
   const blocked = await p.evaluate(() => { const t = document.querySelector('#pdays') || document.getElementById('app'); // WebKit unter Linux kennt new Touch() nicht – dann ein touchmove-Ereignis ohne Touch-Liste (die App braucht nur das Ereignis).

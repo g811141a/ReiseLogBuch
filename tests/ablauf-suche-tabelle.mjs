@@ -2,8 +2,9 @@
 // Ausgabe-Zelle, Druck ohne Seitenleisten-Abstand, Reisemittel und Wetter wählen.
 // Aufruf im Repo-Ordner: node tests/ablauf-suche-tabelle.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle, rollstand } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
+import { pruefung, rolle, rollstand } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-tabelle', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 30 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok', quarter: 'Hotel', place: 'Ort' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, days, kosten: 4850 }];
@@ -17,7 +18,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Kostenfeld so breit wie der Betrag (px)', await p.evaluate(() => document.getElementById('kosten').offsetWidth), w => w >= 100 && w <= 150, 'R-5.1');
   await rolle(p, 0);
   // Hier ohne Grundregeln direkt nach dem Tippen: deren Messung wartet, und die Pause der Suche (R-2.3) wäre schon vorbei.
-  await p.click('#searchBtn'); await p.locator('#search').pressSequentially('Sydney');
+  await sucheAuf(p); await p.locator('#search').pressSequentially('Sydney');
   const y0 = (await rollstand(p)).y;
   await p.clock.runFor(200);
   t.ist('Inhalt bleibt während des Tippens stehen', (await rollstand(p)).y === y0, true, 'R-2.3');
@@ -35,7 +36,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Reisemittel in einer Auswahl-Kapsel', await p.locator('#dlg .chips .cap').count(), 1, 'R-5.4');
   t.ist('Reisemittel passen quer ohne Wischen', await p.evaluate(() => { const s = document.getElementById('transport'); return s.scrollWidth <= s.clientWidth + 1; }), true, 'R-5.4');
   await t.schritt(p, 'Änderungen verwerfen', async () => { await p.click('#dlgX'); await p.click('.pop button:has-text("Änderungen verwerfen")'); });
-  await t.schritt(p, 'Tag öffnen, Wetter wählen', async () => { await p.click('#searchBtn'); await p.click('tr[data-day="2026-08-25"]'); await p.waitForTimeout(200); await p.click('#wx [data-w="🌧"]'); });
+  await t.schritt(p, 'Tag öffnen, Wetter wählen', async () => { await p.click('#sclose'); await p.click('tr[data-day="2026-08-25"]'); await p.waitForTimeout(200); await p.click('#wx [data-w="🌧"]'); });
   t.ist('Wetter 🌧 gewählt', await p.getAttribute('#wx [data-w="🌧"]', 'aria-pressed'), 'true', 'R-5.4');
   await p.close();
 }

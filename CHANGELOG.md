@@ -13,6 +13,118 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.41.0 – 30.10.2026
+
+Reiselogbuch 3.41.0 · AppDesign 4.43.0 (Designrichtlinie allgemein 4.43.0) · Designrichtlinie Reiselogbuch 3.41.0 · Zusammenarbeit allgemein 3.2.0
+
+**Suche im Mehr-Menü** (AppDesign APD-91), **Darstellung im Mehr-Menü der Seitenleiste** (RLB-108, AppDesign APD-92), **Preis beim
+Quartier** (RLB-109) und **Spalte ‚Gegangene Kilometer‘** (RLB-110, AppDesign APD-93) – dein Ja vom 30.10.2026, Sitzung 0057; Testfall-Listen
+AppDesign `arbeit/APD-91 Testfall-Liste.md` (APD-91/S-1 bis S-18) und `arbeit/APD-92 APD-93 RLB-108 RLB-109 RLB-110 Testfall-Liste.md`.
+
+- **Suche:** die Lupe in den Kapseln entfällt. ‚Suchen‘ steht als erster Punkt im Mehr-Menü – in der Seitenleiste bzw. Startliste (Suche in
+  allen Reiselogbüchern, nur wenn es welche gibt) und im Reiselogbuch –, darunter ein Strich. Rechts in der Suchzeile beendet der runde
+  Knopf x ‚Suche beenden‘ die Suche (Filter und Markierung weg, ganz oben). Der Mehr-Knopf bleibt bei offener Suche normal. Mit
+  Hardware-Tastatur öffnet ⌘F die Suche im offenen Reiselogbuch, ohne offenes Reiselogbuch (iPhone-Startliste, iPad hoch mit
+  darübergelegter Seitenleiste) die Suche in allen; bei offener Suche setzt ⌘F nur den Cursor ins Feld, bei offenem Menü oder Fenster wirkt
+  es nicht.
+- **Darstellung:** ‚Darstellung ›‘ (Automatisch · Hell · Dunkel) steht nicht mehr im Mehr-Menü eines Reiselogbuchs, sondern im Mehr-Menü
+  der Seitenleiste bzw. Startliste nach ‚Backup erstellen‘ und ‚Backup laden‘, mit Strich davor und danach – auch ohne Reiselogbuch.
+- **Preis beim Quartier:** am ersten Tag eines Aufenthalts steht im Schritt Quartier unter ‚Ort‘ das Feld ‚Preis‘ (Gesamtpreis in Euro,
+  € daneben, Tausenderpunkt beim Tippen, ‚,00‘ beim Verlassen); bei ‚Quartier wie Vortag‘ ist es ausgeblendet. Die Quartierliste hat die
+  Spalte ‚Preis‘ nach ‚Nächte‘ (iPhone: hinter ‚N Nächte‘), die Statistik unter ‚Nächte‘ ‚Quartierkosten‘ und ‚Ø je Nacht‘ (nur
+  Aufenthalte mit Preis) – auch in der Ausgabe.
+- **Gegangene Kilometer:** neuer Schalter ‚Spalte 🚶🏽‍♂️km ‚Gegangene Kilometer‘‘ in den Einstellungen (Voreinstellung aus). Eingeschaltet:
+  Schritt ‚Gegangene Kilometer‘ nach ‚Wie war was?‘ mit schmalem Feld (höchstens 99, nur Ziffern, ‚km‘ daneben; das ⓧ hat immer seinen
+  Platz, die Zahl springt nicht), Spalte ‚🚶🏽‍♂️km‘ nach ‚Wie war was?‘ (nur die Zahl), am iPhone die Zeile ‚🚶🏽‍♂️ 14 km‘, in der Statistik
+  ‚Gegangene Kilometer‘ und ‚Ø je Tag‘ (gerundet, nur Tage mit Kilometern). Ein Tag nur mit Kilometern zählt nicht als erfasst. Ausgabe:
+  Spaltenanteile Verlauf 28 · Wie war was? 28 · km 8 · Essen 22 · Quartier 22.
+- **Daten:** Preis und Kilometer werden abgeglichen und gesichert; alte Backups laden ohne Änderung (Spalte aus, Unbrauchbares fällt weg).
+- **Prüfungen:** neu `ablauf-suche-menue` (APD-91/S-1 bis S-18, iPad quer und hoch, iPhone hoch und quer) und `ablauf-preis-km` (APD-92/D-1 bis D-6,
+  RLB-109/Q-1 bis Q-9, RLB-110/L-1 bis L-13, hell und dunkel); die Abläufe mit Suche und Darstellung öffnen sie über das Mehr-Menü. Gegenproben: ‚Suchen‘
+  nicht zuerst, Lupe in der Kapsel, ⌘F aus, x ohne Wirkung (APD-91/S-17) bzw. ‚Darstellung‘ im Menü des Reiselogbuchs (APD-92/D-8) werden rot (einmal in
+  dieser Sitzung in Chromium geprüft).
+
+Testfälle P-81 (Schritt für Schritt, Zusammenarbeit allgemein 3.2.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-81/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.41.0 · erstellt am … · AppDesign 4.43.0‘.
+
+**P-81/1 – iPad: Mehr-Menü der Seitenleiste**
+1. iPad quer, hell; in der Seitenleiste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+2. Erwartet: in der Kapsel oben nur plus und ‚…‘ (keine Lupe); im Menü zuerst ‚Suchen‘ mit Lupe, darunter ein Strich, dann ‚Backup
+   erstellen‘, ‚Backup laden‘, ein Strich, ‚Darstellung ›‘ mit dem Wert grau rechts, ein Strich, die grauen Zeilen.
+3. ‚Suchen‘ antippen und ‚Sydney‘ (oder ein Wort aus deinen Reisen) tippen.
+4. Erwartet: das Menü ist zu, unter dem Kopf die Suchzeile ‚In allen suchen‘ mit Cursor, rechts daneben ein runder Knopf x; nur
+   Reiselogbücher mit Treffer, je Kachel ‚N Treffer‘.
+5. Den runden Knopf x rechts tippen.
+6. Erwartet: die Suchzeile ist zu, alle Reiselogbücher wieder da.
+
+**P-81/2 – iPad: Suche im Reiselogbuch beenden**
+1. iPad quer, dunkel; ein Reiselogbuch öffnen, oben rechts auf ‚…‘ (Mehr) tippen.
+2. Erwartet: keine Lupe in der Kapsel; im Menü zuerst ‚Suchen‘, darunter ein Strich, dann ‚Alle Tage‘ … – keine ‚Darstellung‘ mehr.
+3. ‚Suchen‘ antippen und ein Wort tippen, das vorkommt.
+4. Erwartet: die Suchzeile mit ‚1 von N‘, ⌃ ⌄ und rechts dem runden x; der Mehr-Knopf ist normal (waagrechte Punkte, nicht blau).
+5. Den runden x rechts tippen.
+6. Erwartet: die Suchzeile ist zu, keine gelben Markierungen, alle Tage, die Tabelle steht ganz oben.
+
+**P-81/3 – iPhone: Suche oben**
+1. iPhone hoch, hell; in der Startliste auf ‚…‘ (Mehr) → ‚Suchen‘ tippen, ein Wort tippen.
+2. Erwartet: die Suchzeile steht oben unter dem Kopf, springt beim Tippen nicht; Kacheln mit ‚N Treffer‘. Mit dem runden x schließen.
+3. Ein Reiselogbuch öffnen, ‚…‘ (Mehr) → ‚Suchen‘, ein Wort tippen.
+4. Erwartet: die Suchzeile oben unter dem Kopf, rechts das runde x; die Tastatur ist offen, nichts springt.
+5. Das iPhone quer drehen.
+6. Erwartet: Begriff und Treffer bleiben, die Suchzeile ist niedrig (wie der Kopf quer).
+
+**P-81/4 – iPad mit Hardware-Tastatur: ⌘F**
+1. iPad mit angeschlossener Tastatur, App vom Home-Bildschirm; ein Reiselogbuch offen, keine Suche offen.
+2. ⌘F drücken.
+3. Erwartet: die Suchzeile des Reiselogbuchs öffnet sich mit dem Cursor im Feld (kommt das Kürzel nicht an, bitte melden).
+4. ‚ab‘ tippen, irgendwo in den Inhalt tippen, dann wieder ⌘F drücken.
+5. Erwartet: der Cursor steht wieder im Suchfeld, ‚ab‘ bleibt stehen.
+6. Den runden x tippen, ‚…‘ (Mehr) öffnen und ⌘F drücken.
+7. Erwartet: nichts passiert, das Menü bleibt offen.
+
+**P-81/5 – Darstellung im Mehr-Menü der Seitenleiste**
+1. iPhone hoch: in der Startliste ‚…‘ (Mehr) → ‚Darstellung ›‘ → ‚Dunkel‘ tippen.
+2. Erwartet: die App wird sofort dunkel; wieder ‚…‘ geöffnet steht bei ‚Darstellung‘ grau ‚Dunkel‘.
+3. ‚Darstellung ›‘ → ‚Automatisch‘ tippen.
+4. Erwartet: die App folgt wieder dem iPhone (hell bzw. dunkel wie eingestellt).
+5. Auf dem iPad quer dasselbe in der Seitenleiste.
+6. Erwartet: wie Schritt 2 und 4.
+
+**P-81/6 – Preis beim Quartier**
+1. iPad quer; den ersten Tag eines Aufenthalts öffnen (ein Tag mit eigenem Quartier, ohne ‚Quartier wie Vortag‘).
+2. Erwartet: im Schritt Quartier unter ‚Ort‘ das Feld ‚Preis‘ mit € rechts daneben.
+3. In ‚Preis‘ tippen, ‚1240‘ eingeben.
+4. Erwartet: die Zahlentastatur mit Komma; im Feld ‚1.240‘ rechtsbündig.
+5. In ein anderes Feld tippen.
+6. Erwartet: ‚1.240,00‘.
+7. Zum Folgetag (›) blättern, an dem ‚Quartier wie Vortag‘ gesetzt ist.
+8. Erwartet: kein Feld ‚Preis‘. Häkchen oben rechts tippen.
+
+**P-81/7 – iPhone: Gegangene Kilometer**
+1. iPhone hoch; im Reiselogbuch ‚…‘ (Mehr) → ‚Einstellungen‘, ‚Spalte 🚶🏽‍♂️km ‚Gegangene Kilometer‘‘ einschalten, Häkchen tippen.
+2. Einen Tag öffnen.
+3. Erwartet: nach ‚Wie war was?‘ der Schritt ‚Gegangene Kilometer‘ mit schmalem Feld und ‚km‘ rechts daneben; die Schritte danach haben
+   die nächste Nummer.
+4. Ins Feld tippen, ‚123‘ eingeben.
+5. Erwartet: die Zifferntastatur; im Feld ‚12‘ (höchstens zwei Ziffern), die Zahl steht rechtsbündig und springt nicht, wenn das ⓧ
+   erscheint.
+6. Häkchen tippen.
+7. Erwartet: in der Kachel des Tages nach ‚Wie war was?‘ die Zeile ‚🚶🏽‍♂️ 12 km‘.
+
+**P-81/8 – iPad: Quartierliste und Statistik**
+1. iPad quer; im Reiselogbuch aus P-81/6 und P-81/7 nach unten rollen.
+2. Erwartet: in der Tabelle die Spalte ‚🚶🏽‍♂️km‘ nach ‚Wie war was?‘ (nur Zahlen); in der Quartierliste die Spalte ‚Preis‘ nach
+   ‚Nächte‘ mit ‚1.240,00 €‘; in der Statistik ‚Gegangene Kilometer‘ und ‚Ø je Tag‘ sowie unter ‚Nächte‘ ‚Quartierkosten‘ und ‚Ø je Nacht‘.
+3. share (Ausgabe) → ‚PDF‘ tippen.
+4. Erwartet: in der Vorschau die schmale Spalte ‚🚶🏽‍♂️km‘ (Kopf in einer Zeile), die Quartierliste mit ‚Preis‘, die Statistik mit den
+   vier neuen Zeilen.
+5. Das Drucken-Menü schließen; den Preis und die Spalte ‚Gegangene Kilometer‘ bei Bedarf wieder entfernen bzw. ausschalten.
+
 ## 3.40.0 – 30.10.2026
 
 Reiselogbuch 3.40.0 · AppDesign 4.42.0 (Designrichtlinie allgemein 4.42.0) · Designrichtlinie Reiselogbuch 3.40.0 · Zusammenarbeit allgemein 3.2.0

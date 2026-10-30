@@ -3,9 +3,9 @@
 // langem Drücken auf die Versionszeile (checkMessung F-1 bis F-9).
 // Aufruf im Repo-Ordner: node tests/ablauf-messung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
-import { checkMessung } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { checkMessung, sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-messung', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 60; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { program: 'Programm ' + i, comment: 'Ausflug ans Meer' };
 const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '2026-08-24', end: '2026-10-22', transport: ['flug'], days },
@@ -32,7 +32,7 @@ for (const [w, h, cs, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852, 'da
       const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.locator('.menu .mi', { hasText: 'Messung beenden und teilen' }).click()]);
       if (!dl) t.fehler('', 'R-1.6 leere App: ‚Messung beenden und teilen‘ liefert keine Datei');
     } else {
-      const search = async () => { await p.click('#listSearchBtn'); await p.waitForTimeout(300); return '#lsearch'; };
+      const search = async () => { await sucheAuf(p, '#sideMore'); await p.waitForTimeout(300); return '#lsearch'; };
       t.liste(await checkMessung(p, { menu, search, secret: ['Australien', 'Neuseeland', 'Programm', 'Ausflug'], where: t.ort }));
     }
     await t.schritt(p, 'nach der Messung', async () => {});   // Grundregeln im Endzustand

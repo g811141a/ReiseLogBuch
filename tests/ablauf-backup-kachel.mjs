@@ -6,9 +6,10 @@
 // Grundregeln nach jedem Schritt. Uhr gestellt (Playwright clock), Tageswechsel ohne Neuladen.
 // Aufruf im Repo-Ordner: node tests/ablauf-backup-kachel.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
-import { checkContextMenus } from '../../AppDesign/fassung/4.42.0/tests/kontextmenue.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { checkContextMenus } from '../../AppDesign/fassung/4.43.0/tests/kontextmenue.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-backup-kachel', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const trips = Array.from({ length: 14 }, (_, i) => ({ id: 't' + i, title: 'Reise ' + (i + 1), participants: 'A', start: `${2026 - i}-06-01`, end: `${2026 - i}-06-10`, transport: ['pkw'], days: {} }));
@@ -79,9 +80,9 @@ for (const [ansicht, theme, voll] of [['iPad quer', 'light', true], ['iPad quer'
   });
   // B21: Suche offen, Kachel fällig – bleibt
   if (voll) await t.schritt(p, 'B21 Suche offen', async () => {
-    await p.click('#listSearchBtn'); await p.waitForTimeout(200); await p.fill('#lsearch', 'Reise 1'); await p.clock.runFor(1000); await p.waitForTimeout(200);
+    await sucheAuf(p, '#sideMore'); await p.waitForTimeout(200); await p.fill('#lsearch', 'Reise 1'); await p.clock.runFor(1000); await p.waitForTimeout(200);
     t.wahr('B21 Kachel fehlt bei offener Suche', (await fuss(p)).kachel !== null, 'R-9.1');
-    await p.click('#listSearchBtn'); await p.waitForTimeout(200);
+    await p.click('#lsclose'); await p.waitForTimeout(200);
   });
   // B19: Kontextmenü mit Kachel (R-4.2)
   if (voll) await t.schritt(p, 'B19 Kontextmenü mit Kachel', async () => t.liste(await checkContextMenus(p, `${t.ort} mit Kachel`)));

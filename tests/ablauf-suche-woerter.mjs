@@ -2,12 +2,12 @@
 // arbeit/APD-21 APD-22 Testfall-Liste.md S1–S19, L1–L9) – Suche mit mehreren Wörtern und „…“: ein Reiselogbuch passt, wenn jedes Wort
 // irgendwo darin vorkommt (Entscheidung des Nutzers: Einheit = Reiselogbuch); gezeigt werden die Tage mit mindestens einem
 // Wort, markiert und gezählt werden alle Wörter. Dazu die Bausteine (checkSearchWords), Pfeile ohne Umlauf (checkSearch),
-// zentrale Liste 1:1 (checkListSearch) und die Lupe am Ende der Kapsel (checkSearchPlace). iPad quer und hoch, iPhone hoch
+// zentrale Liste 1:1 (checkListSearch) und ‚Suchen‘ zuerst im Mehr-Menü (checkSearchPlace, seit 3.41.0 APD-91). iPad quer und hoch, iPhone hoch
 // und quer, hell und dunkel. Seit 3.27.0 ohne Akzente (AppDesign APD-63 C2). Aufruf im Repo-Ordner: node tests/ablauf-suche-woerter.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
-import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace, sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-woerter', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const trip = (id, start, list) => ({ id, title: id, participants: 'G & A', start, end: new Date(Date.parse(start) + (list.length - 1) * 864e5).toISOString().slice(0, 10),
   transport: ['flug'], foodColumn: true, moodColumn: false, quarterColumn: false,
@@ -37,15 +37,15 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
     await p.waitForTimeout(350);
   };
   const open = async id => { await toList(); await p.locator(`#side .side-row[data-id="${id}"]`).click(); await p.waitForTimeout(450); };
-  // L1/L3: Lupe am Ende der Kapsel – in der Liste und im Eintrag
+  // L1/L3 (seit 3.41.0, AppDesign APD-91/S-1 bis S-3): ‚Suchen‘ zuerst im Mehr-Menü, keine Lupe in der Kapsel – in der Liste und im Eintrag
   await toList();
-  t.liste(await checkSearchPlace(p, { where: `${where} Liste` }));
+  t.liste(await checkSearchPlace(p, { mehr: '#sideMore', where: `${where} Liste` }));
   t.liste(await checkSearchWords(p, { where }));
   await open('Australien');
   t.liste(await checkSearchPlace(p, { where: `${where} Eintrag` }));
   const item = phone ? '#pdays [data-day]' : 'table.days tbody [data-day]';
   const suche = async term => {
-    if (!await p.locator('#search').isVisible()) { await p.click('#searchBtn'); await p.waitForTimeout(200); }
+    if (!await p.locator('#search').isVisible()) { await sucheAuf(p); await p.waitForTimeout(200); }
     await p.locator('#search').fill(''); await p.locator('#search').pressSequentially(term, { delay: 10 }); await p.waitForTimeout(900);
     return p.evaluate(item => ({ n: document.querySelector('#scount')?.textContent.trim() || '',
       days: [...document.querySelectorAll(item)].filter(e => e.getClientRects().length).map(e => e.dataset.day.slice(8)),
@@ -74,7 +74,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   const fo = await suche('„opera house“');
   t.ist('S14 Markierung der Folge', fo.marks, ['Opera House'], 'R-2.3');
   await t.schritt(p, 'Suche mit zwei Wörtern', async () => { await suche('sydney opera'); });
-  await p.click('#searchBtn'); await p.waitForTimeout(200);
+  await p.click('#sclose'); await p.waitForTimeout(200);
   await open('Lang');
   // S11: ‚1 von N‘ und Pfeile ohne Umlauf durch alle Markierungen beider Wörter (allgemeine Prüfung)
   t.liste(await checkSearch(p, { term: 'opera sydney', item, where }));
@@ -83,7 +83,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   const back = phone ? () => p.click('#back') : ansicht === 'iPad hoch' ? () => p.locator('[data-side-toggle]').first().click() : null;
   for (const e of await checkListSearch(p, { term: 'pizza rundgang', where, back })) t.fehler('R-2.3', e);
   await toList();
-  if (!await p.locator('#lsearch').isVisible()) { await p.click('#listSearchBtn'); await p.waitForTimeout(200); }
+  if (!await p.locator('#lsearch').isVisible()) { await sucheAuf(p, '#sideMore'); await p.waitForTimeout(200); }
   const liste = async term => { await p.locator('#lsearch').fill(''); await p.locator('#lsearch').pressSequentially(term, { delay: 10 }); await p.waitForTimeout(400);
     return p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#side .side-row')].filter(r => r.getClientRects().length).map(r => [r.dataset.id, r.querySelector('small.hits')?.textContent.trim()]))); };
   t.ist('S12 Liste ‚pizza rundgang‘', await liste('pizza rundgang'), { Australien: '3 Treffer', Italien: '2 Treffer' }, 'R-2.3');

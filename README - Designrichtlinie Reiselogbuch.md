@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.40.0** · Stand 30.10.2026
+**Version 3.41.0** · Stand 30.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.42.0)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.43.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -15,13 +15,13 @@
 |---|---|---|---|---|---|
 | 1 | Maps-Links der Lokale in der Spalte ‚Essen und Trinken‘ nur so hoch wie der Text (ca. 19 px) – auf dem iPhone auch in den Tageskästen; Quartier-Links haben die unsichtbare Antippfläche von 44 px | Antippfläche 44 pt, kleine Links unsichtbar größer (R-3.1, HIG 1) | mehr Zeilenabstand in der Tabelle nicht gewünscht; im Kasten würde eine größere Fläche das Antippen des Tages behindern | `hig.mjs` zählt sie nicht (`skipTargets` `.ln:not(.q) a` in den Prüfskripten) | 09.10.2026 · iPhone 10.10.2026 |
 | 2 | Wetter-Symbole in der Tageserfassung auf dem iPhone 40 px breit (in der Kapsel, über dem Minimum von 28 pt) – seit 3.35.0 nur bei Standard; bei größerer Schrift wachsen sie (R-1.10) und die Kapsel wischt seitlich | Icon- und Emoji-Schaltflächen 44 × 44 (4, R-3.1) | alle sieben passen ohne Wischen | `hig.mjs` (Kapsel ab 28) | 10.10.2026 |
-| 3 | Tagestabelle der Ausgabe mit festen Spaltenanteilen: ‚Tag‘ so schmal wie das Datum, Verlauf und ‚Wie war was?‘ je 28, Essen und Quartier je 22 – unabhängig von der Textmenge, die letzten beiden Spalten gleich breit; fehlt eine Spalte, teilen sich die übrigen den Platz im selben Verhältnis | Spaltenbreiten passen sich dem Inhalt an (9) | Entscheidung des Nutzers mit 3.11.6 (gilt nur für das Reiselogbuch, nicht allgemein) | Sicht | 14.10.2026 |
+| 3 | Tagestabelle der Ausgabe mit festen Spaltenanteilen: ‚Tag‘ so schmal wie das Datum, Verlauf und ‚Wie war was?‘ je 28, ‚Gegangene Kilometer‘ 8, Essen und Quartier je 22 – unabhängig von der Textmenge, die letzten beiden Spalten gleich breit; fehlt eine Spalte, teilen sich die übrigen den Platz im selben Verhältnis | Spaltenbreiten passen sich dem Inhalt an (9) | Entscheidung des Nutzers mit 3.11.6 (gilt nur für das Reiselogbuch, nicht allgemein) | Sicht | 14.10.2026 |
 
 ## 2. Abgleich – Feldnamen
 
 Es gelten R-9.2 bis R-9.4 und die Fall-Tabelle der Designrichtlinie allgemein (15.18); wie das Reiselogbuch Einträge, Tage und
 Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier, weil die Prüfung sie mit der App vergleicht
-(R-10.1, `doku.mjs`). Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Reisemittel, Quartierliste, Spalte Essen, Spalte Wie war was?, Spalte Quartier, Fazit, Gesamtausgaben; je Tag Wetter, Verlauf, Wie war was?, Essen und Trinken, Quartier, Ort, Quartier wie Vortag, Google-Maps-Link.
+(R-10.1, `doku.mjs`). Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Reisemittel, Quartierliste, Spalte Essen, Spalte Wie war was?, Spalte Quartier, Spalte Gegangene Kilometer, Fazit, Gesamtausgaben; je Tag Wetter, Verlauf, Wie war was?, Gegangene Kilometer, Essen und Trinken, Quartier, Ort, Preis, Quartier wie Vortag, Google-Maps-Link.
 
 ---
 
@@ -29,6 +29,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.41.0 | 30.10.2026 | Neben | AppDesign 4.43.0 (APD-91 ‚Suchen‘ im Mehr-Menü, x ‚Suche beenden‘, ⌘F; APD-92/R-1.2 ‚Darstellung‘ im Mehr-Menü der Seitenleiste – RLB-108; APD-93 schmale Zahlenfelder – Feld ‚Gegangene Kilometer‘, RLB-110); Preis beim Quartier (RLB-109); Abweichung 3 mit ‚Gegangene Kilometer‘ 8, Feldnamen mit Spalte Gegangene Kilometer, Gegangene Kilometer und Preis (Nutzer 30.10.2026, Wortlaut bestätigt) |
 | 3.40.0 | 30.10.2026 | Neben | AppDesign 4.42.0 (APD-87 Mehr-Knopf offen senkrecht, APD-90/R-10.5 Reisemittel: Icon und Name bleiben zusammen, auch in der Ausgabe) |
 | 3.39.0 | 30.10.2026 | Neben | AppDesign 4.41.0 (APD-81, R-5.6: das ⓧ auch in den mehrzeiligen Feldern Verlauf, ‚Wie war was?‘, Essen und Trinken, Fazit; Rückgängig nach dem ⓧ in allen Feldern) – keine Abweichung im Reiselogbuch |
 | 3.38.0 | 29.10.2026 | Neben | AppDesign 4.40.0 (APD-86, R-5.4: die Zeile ‚Reisemittel‘ im Kopf ist am iPhone eine Wischzeile mit Verlauf und Pfeilen; APD-77, R-1.6: ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile) |
