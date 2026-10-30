@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 30.10.2026, Version 3.41.0)
+# Reiselogbuch – Funktionsbeschreibung (Stand 30.10.2026, Version 3.42.0)
 
-Reiselogbuch 3.41.0 · AppDesign 4.43.0 (Designrichtlinie allgemein 4.43.0) · Designrichtlinie Reiselogbuch 3.41.0 · Zusammenarbeit allgemein 3.2.0
+Reiselogbuch 3.42.0 · AppDesign 4.44.0 (Designrichtlinie allgemein 4.44.0) · Designrichtlinie Reiselogbuch 3.42.0 · Zusammenarbeit allgemein 3.2.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -181,8 +181,9 @@ wie am iPad (R-1.1):
      sondern eine leere Zeile am Anfang des Felds und setzt den Cursor dorthin (ist die erste Zeile schon leer, keine zweite).
   3. **Wie war was?:** Smiley + kurzer Text, mehrere Smiley-Zeilen möglich, alle Smileys der Emoji-Tastatur; Smiley-Leiste.
   - **Gegangene Kilometer** (seit 3.41.0, RLB-110; nur mit sichtbarer Spalte, als eigener Schritt nach ‚Wie war was?‘, die folgenden
-     Schritte eine Nummer weiter): schmales Zahlenfeld (AppDesign APD-93) mit ‚km‘ rechts daneben, nur Ziffern, höchstens 99;
-     Zifferntastatur. Zählt nicht als ‚erfasst‘.
+     Schritte eine Nummer weiter): schmales Zahlenfeld (AppDesign APD-93) mit ‚km‘ rechts daneben, seit 3.42.0 (RLB-111) mit einer
+     Nachkommastelle 0,1–99,9 (Komma-Tastatur, Punkt wird Komma, beim Verlassen ‚6‘ → ‚6,0‘), bündig rechts, mit Fokus rückt die Zahl
+     für das ⓧ nach links. Zählt nicht als ‚erfasst‘.
   4. **Essen und Trinken** (nur mit sichtbarer Spalte): eine Zeile pro Lokal im Format ‚Smiley(s) Name – Kommentar‘, z. B.
      ‚🕛😋 Hard Rock Café – Steak war super‘; eigene Smiley-Leiste mit eigener Häufigkeit, Standard 🕗 🕙 🕛 🕒 🕕 😋 👌 👍 😕 🤮 👎
      ⭐️ 🍕 🍔 🥩 🍷 🍺 ☕️; Options-Kapsel ‚keinen Google-Maps Link‘ rechts im Schrittkopf (8). Essen wird gesucht, zählt nicht als
@@ -192,7 +193,10 @@ wie am iPad (R-1.1):
      Felder Name und ‚Ort für Google Maps, z. B. Cairns, Australien‘ **nebeneinander in einer Zeile (halb und halb)**, bei schmalem
      Bildschirm untereinander; darunter der Link ‚📍 In Google Maps prüfen‘ (nicht unterstrichen). Darunter (seit 3.41.0, RLB-109)
      ‚Preis‘ – Gesamtpreis des Aufenthalts in Euro, Betragsfeld wie Gesamtausgaben (R-5.1, € rechts daneben); nicht bei ‚Quartier
-     wie Vortag‘ (der Preis gilt für den Aufenthalt ab dem Tag, an dem das Quartier eingetragen ist).
+     wie Vortag‘ (der Preis gilt für den Aufenthalt ab dem Tag, an dem das Quartier eingetragen ist); seit 3.42.0 (RLB-111) nur mit
+     dem Schalter ‚Preis der Quartiere erfassen‘ in den Einstellungen (nach ‚Quartierliste in der Ausgabe‘, Voreinstellung aus, ohne
+     Spalte Quartier gesperrt). Mit Preis steht er am Tag des Eintrags in Klammern hinter dem Quartier – ‚Hotel Adlon, Cairns
+     (1.240,00 €)‘ – in Tabelle, Kachel und Ausgabe; die Klammer bricht nie um.
 - **Smiley-Leisten** bei ‚Wie war was?‘, ‚Essen und Trinken‘ und im Fazit (Verhalten wie Designrichtlinie allgemein 8: wischen,
   Häufigkeit, lange drücken entfernt – Ziehen nicht (R-3.5) –, rotate-ccw setzt zurück, Anhängen in der Zeile); ‚Wie war was?‘ und Fazit teilen die
   Häufigkeit. Mehrere Smileys pro Zeile stehen in Tabelle und Ausgabe zusammen vorne.
@@ -219,12 +223,14 @@ wie am iPad (R-1.1):
   offen ist.
 - **Gesamtausgaben:** ein Betragsfeld in Euro (R-5.1, Designrichtlinie allgemein 8), Anzeige z. B. ‚4.850,00 €‘; die Eingabetaste
   heißt ‚Fertig‘ und schließt die Tastatur (R-5.5).
-- **Quartierliste:** Quartier (mit Maps-Link), Zeitraum, Anzahl Nächte, Preis (seit 3.41.0, ‚1.240,00 €‘, ohne Preis leer); kompakt,
+- **Quartierliste:** Quartier (mit Maps-Link), Zeitraum, Anzahl Nächte, Preis (seit 3.41.0, ‚1.240,00 €‘, ohne Preis leer; seit 3.42.0 nur mit ‚Preis der Quartiere erfassen‘); kompakt,
   ‚Nächte‘ und ‚Preis‘ rechtsbündig; in der App immer, in der
   Ausgabe nur mit ‚Quartierliste in der Ausgabe‘.
-- **Statistik** (schlichte Liste): Reisetage gesamt und davon erfasst, ‚Gegangene Kilometer‘ (Summe mit Tausenderpunkt, ‚1.234 km‘) und
-  ‚Ø je Tag‘ (gerundet, nur Tage mit Kilometern; beide nur mit sichtbarer Spalte und Werten), Anzahl der Quartiere, darunter Anzahl der
-  Nächte (Summe), ‚Quartierkosten‘ (Summe der Preise) und ‚Ø je Nacht‘ (nur Nächte von Aufenthalten mit Preis; beide nur mit Preisen),
+- **Statistik** (schlichte Liste): Reisetage gesamt und davon erfasst, ‚Gegangene Kilometer‘ (seit 3.42.0, RLB-111: Summe mit einer
+  Nachkommastelle, dahinter der Ø je Tag in Klammern – ‚35,5 km     (Ø  8,9 km)‘, 5 geschützte Leerzeichen davor, 2 nach ‚Ø‘, immer eine
+  Zeile; nur Tage mit Kilometern, nur mit sichtbarer Spalte und Werten), Anzahl der Quartiere, darunter Anzahl der Nächte (Summe),
+  ‚Quartierkosten‘ (Summe der Preise, dahinter der Ø je Nacht in Klammern wie bei den Kilometern – nur Nächte von Aufenthalten mit Preis;
+  nur mit ‚Preis der Quartiere erfassen‘ und Preisen),
   Wetter-Verteilung (z. B. ‚40×🌤 · 12×☀️ · 5×🌧‘), Smileys aus Tagen und Fazit absteigend nach Anzahl (z. B. ‚5×😊 · 3×😉 · 2×☹️‘;
   Varianten wie ☹️/☹ zählen gemeinsam, Anzahl vor dem Symbol ohne Leerzeichen).
 

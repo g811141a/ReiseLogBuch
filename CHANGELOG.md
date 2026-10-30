@@ -13,6 +13,91 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.42.0 – 30.10.2026
+
+Reiselogbuch 3.42.0 · AppDesign 4.44.0 (Designrichtlinie allgemein 4.44.0) · Designrichtlinie Reiselogbuch 3.42.0 · Zusammenarbeit allgemein 3.2.0
+
+**Rückmeldung P-81/6 und P-81/7** (RLB-111) und **Bezeichnungen normal statt fett** (AppDesign APD-95) – dein Ja vom 30.10.2026, Sitzung
+0058; Muster (hell) und Testfall-Liste AppDesign `arbeit/RLB-111 APD-95 Testfall-Liste.md` (RLB-111/H-1 bis H-8, RLB-111/M-1 bis M-6, APD-95/B-1 bis B-5) bestätigt.
+
+- **Preis nur auf Wunsch:** neuer Schalter ‚Preis der Quartiere erfassen‘ in den Einstellungen nach ‚Quartierliste in der Ausgabe‘
+  (Voreinstellung aus, ohne Spalte Quartier gesperrt). Aus: kein Feld ‚Preis‘, keine Spalte ‚Preis‘ in der Quartierliste, keine Klammer,
+  keine Quartierkosten – eingetragene Preise bleiben erhalten.
+- **Preis beim Quartier:** am Tag, an dem der Preis eingetragen ist, steht er in Klammern hinter dem Quartier – ‚Hotel Adlon, Cairns
+  (1.240,00 €)‘ – in der Tabelle, in der Kachel am iPhone und in der Ausgabe; die Klammer mit dem Betrag bricht nie um.
+- **Statistik:** keine eigenen Zeilen ‚Ø je Nacht‘ und ‚Ø je Tag‘ mehr; der Durchschnitt steht in Klammern hinter dem Wert, mit 5 geschützten
+  Leerzeichen davor und 2 nach ‚Ø‘, immer in einer Zeile: ‚1.440,00 €     (Ø  288,00 €)‘ · ‚35,5 km     (Ø  8,9 km)‘.
+- **Gegangene Kilometer mit einer Nachkommastelle:** Eingabe 0,1 bis 99,9 mit Komma-Tastatur (Punkt wird Komma), beim Verlassen ‚6‘ → ‚6,0‘;
+  Anzeige immer mit einer Stelle in Feld, Tabelle, Kachel, Statistik und Ausgabe. Das Feld steht bündig rechts, mit Fokus rückt die Zahl für
+  das ⓧ nach links (wie beim Preis). Kachel am iPhone: links ‚🚶🏽‍♂️km‘, rechts nur der Wert.
+- **Bezeichnungen normal (AppDesign APD-95, R-5.8):** ‚Preis‘ und alle anderen Feldbezeichnungen in normaler Schrift, ‚€‘ und ‚km‘ normal
+  und in Textgröße (auch bei ‚Gesamtausgaben‘); Schritt- und Kasten-Überschriften bleiben halbfett.
+- **Daten:** der Schalter wird abgeglichen und gesichert (Feldname ‚Preis der Quartiere erfassen‘); alte Backups laden ohne Änderung
+  (Schalter aus, ganze Kilometer bleiben – 14 → ‚14,0‘).
+- **Prüfungen:** `ablauf-preis-km` erweitert (RLB-111/H-1 bis H-8, RLB-111/M-1 bis M-6, APD-95/B-1 bis B-5) mit Gegenprobe APD-95/B-5; neue Regel R-5.8 in `hig` nach
+  jedem Schritt aller Prüfungen.
+
+Testfälle P-82 (Schritt für Schritt, Zusammenarbeit allgemein 3.2.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-82/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.42.0 · erstellt am … · AppDesign 4.44.0‘.
+
+**P-82/1 – Schalter ‚Preis der Quartiere erfassen‘**
+1. iPad quer; ein Reiselogbuch öffnen, ‚…‘ (Mehr) → ‚Einstellungen‘ tippen und ganz nach unten rollen.
+2. Erwartet: unter ‚Quartierliste in der Ausgabe‘ der Schalter ‚Preis der Quartiere erfassen‘, ausgeschaltet.
+3. Einen Tag mit eigenem Quartier öffnen (ohne ‚Quartier wie Vortag‘).
+4. Erwartet: im Schritt Quartier kein Feld ‚Preis‘; in der Quartierliste keine Spalte ‚Preis‘, in der Statistik keine ‚Quartierkosten‘.
+5. In den Einstellungen ‚Preis der Quartiere erfassen‘ einschalten, Häkchen tippen.
+6. Erwartet: am ersten Tag eines Aufenthalts unter ‚Ort‘ das Feld ‚Preis‘ mit ‚€‘ daneben; ‚Preis‘ und ‚€‘ in normaler Schrift (nicht fett).
+
+**P-82/2 – Preis in Klammern beim Quartier**
+1. iPad quer; am ersten Tag eines Aufenthalts in ‚Preis‘ ‚1240‘ eingeben, Häkchen tippen.
+2. Erwartet: in der Tabelle in der Spalte 😴💤 an diesem Tag ‚Hotel …, Ort (1.240,00 €)‘; an den Folgetagen mit ‚Quartier wie Vortag‘ ohne
+   Klammer.
+3. iPad hoch drehen (die Spalte wird schmaler).
+4. Erwartet: bricht die Zeile um, steht ‚(1.240,00 €)‘ ganz in der neuen Zeile, nie getrennt.
+5. Auf dem iPhone hoch dasselbe Reiselogbuch öffnen.
+6. Erwartet: in der Kachel des Tages bei 😴💤 ebenfalls ‚(1.240,00 €)‘ hinter dem Quartier.
+
+**P-82/3 – Gegangene Kilometer mit Komma**
+1. iPhone hoch; in einem Reiselogbuch mit eingeschalteter Spalte ‚Gegangene Kilometer‘ einen Tag öffnen.
+2. Ins Feld ‚Gegangene Kilometer‘ tippen.
+3. Erwartet: die Zahlentastatur mit Komma; die Zahl steht rechts im Feld, mit dem ⓧ rückt sie etwas nach links.
+4. ‚12,5‘ eingeben, dann ‚3‘ dazu tippen.
+5. Erwartet: im Feld bleibt ‚12,5‘ (nur eine Stelle nach dem Komma).
+6. Häkchen tippen.
+7. Erwartet: in der Kachel des Tages die Zeile ‚🚶🏽‍♂️km‘ mit dem Wert ‚12,5‘ (ohne ‚km‘ dahinter); ein Tag mit ganzen Kilometern zeigt z. B.
+   ‚14,0‘.
+
+**P-82/4 – Kilometerfeld rechtsbündig (iPad)**
+1. iPad quer; einen Tag mit Kilometern öffnen (z. B. ‚6,0‘), nicht ins Feld tippen.
+2. Erwartet: ‚6,0‘ steht rechts im Feld, mit normalem Abstand zum rechten Rand.
+3. Ins Feld tippen.
+4. Erwartet: das ⓧ erscheint rechts im Feld, die Zahl rückt dafür nach links.
+5. ‚99,9‘ eingeben.
+6. Erwartet: ‚99,9‘ und das ⓧ passen ganz ins Feld. Mit x schließen ohne Speichern.
+
+**P-82/5 – Statistik**
+1. iPad quer; im Reiselogbuch aus P-82/2 und P-82/3 ganz nach unten zur Statistik rollen.
+2. Erwartet: ‚Gegangene Kilometer:‘ z. B. ‚35,5 km     (Ø  8,9 km)‘ und ‚Quartierkosten:‘ z. B. ‚1.440,00 €     (Ø  288,00 €)‘ – jeweils in einer
+   Zeile, nach ‚Ø‘ zwei Leerzeichen; keine Zeilen ‚Ø je Tag‘ und ‚Ø je Nacht‘.
+3. Dasselbe auf dem iPhone hoch.
+4. Erwartet: beide Zeilen wie in Schritt 2, jede in einer Zeile.
+
+**P-82/6 – Ausgabe (PDF)**
+1. iPad quer; share (Ausgabe) → ‚PDF‘ tippen.
+2. Erwartet: in der Tabelle ‚(1.240,00 €)‘ hinter dem Quartier und die Kilometer mit einer Stelle (‚12,5‘, ‚14,0‘); in der Statistik
+   ‚Gegangene Kilometer‘ und ‚Quartierkosten‘ mit dem Ø in Klammern, keine Zeilen ‚Ø je …‘.
+3. Das Drucken-Menü schließen.
+
+**P-82/7 – Bezeichnungen normal**
+1. iPad quer; ‚…‘ (Mehr) → ‚Einstellungen‘ öffnen, dann einen Tag öffnen; zuletzt im Reiselogbuch ‚Gesamtausgaben‘ ansehen.
+2. Erwartet: ‚Von‘ · ‚Bis‘, ‚Preis‘ und die Einheiten ‚€‘ und ‚km‘ in normaler Schrift; Kasten-Überschriften (z. B. ‚Reisezeitraum‘) und
+   Schritt-Titel mit Nummer (z. B. ‚4 Gegangene Kilometer‘) halbfett; das ‚€‘ bei ‚Gesamtausgaben‘ so groß wie die Zahl im Feld.
+
 ## 3.41.0 – 30.10.2026
 
 Reiselogbuch 3.41.0 · AppDesign 4.43.0 (Designrichtlinie allgemein 4.43.0) · Designrichtlinie Reiselogbuch 3.41.0 · Zusammenarbeit allgemein 3.2.0

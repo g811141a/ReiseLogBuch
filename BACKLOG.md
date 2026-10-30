@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 30.10.2026** · Aktuelle Version: Reiselogbuch 3.41.0 · AppDesign 4.43.0
+**Stand 30.10.2026** · Aktuelle Version: Reiselogbuch 3.42.0 · AppDesign 4.44.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,13 +30,12 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-81 | 1 | **Usertest P-81 (3.41.0):** ‚Suchen‘ im Mehr-Menü (iPad, iPhone), x ‚Suche beenden‘, ⌘F mit Hardware-Tastatur, ‚Darstellung‘ im Mehr-Menü der Seitenleiste, Preis beim Quartier, Gegangene Kilometer (iPhone), Quartierliste, Statistik und PDF – Testfälle im CHANGELOG | prüfen |
+| P-82 | 1 | **Usertest P-82 (3.42.0):** Schalter ‚Preis der Quartiere erfassen‘, Preis in Klammern beim Quartier, Kilometer mit Komma (iPhone, iPad), Kilometerfeld rechtsbündig, Statistik mit Ø in Klammern, PDF, Bezeichnungen normal – Testfälle im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-111 | 1 | **Rückmeldung P-81/6 und P-81/7 (Nutzer 30.10.2026, Sitzung 0058):** 1) Preis nur, wenn in den Einstellungen der Reise eingeschaltet · 2) Bezeichnung ‚Preis‘ normal statt fett (allgemein: APD-95) · 3) ‚€‘ nach dem Feld nicht fett · 4) Preis in der Spalte Quartier nach dem Quartier in Klammern ‚(123,99 €)‘, Klammern bleiben beim Betrag · 5) Statistik: Ø je Nacht hinter ‚Quartierkosten‘ mit 5 Leerzeichen in Klammern ‚(Ø 1.234,99 €)‘ · 6) Kilometer mit einer Nachkommastelle (Eingabe und Ausgabe) · 7) Statistik: Ø hinter ‚Gegangene Kilometer‘ mit 5 Leerzeichen in Klammern ‚(Ø 17,2 km)‘ · P-81/7: in der Kachel am iPhone ‚🚶🏽‍♂️km 12,5‘ (Wert ohne ‚km‘). **Geklärt (Nutzer 30.10.2026):** Schalter ‚Preis der Quartiere erfassen‘ in den Einstellungen der Reise, Voreinstellung aus (aus: kein Feld, keine Spalte ‚Preis‘, keine Quartierkosten; Eingetragenes bleibt) · Statistik: 5 geschützte Leerzeichen vor der Klammer, immer in einer Zeile · Kilometer immer mit einer Stelle (12 → ‚12,0‘), Eingabe 0,1–99,9. P-81/0 bis /5 und /8 ok | App | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -51,6 +50,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-111 | **RLB-111 (Rückmeldung P-81/6, P-81/7):** Schalter ‚Preis der Quartiere erfassen‘ (Voreinstellung aus); Preis in Klammern hinter dem Quartier am Tag des Eintrags; Statistik mit Ø in Klammern (5 geschützte Leerzeichen, 2 nach ‚Ø‘), ohne Ø-Zeilen; Kilometer mit einer Nachkommastelle, Feld bündig rechts; Kachel ‚🚶🏽‍♂️km‘ – mit AppDesign 4.44.0 (APD-95 Bezeichnungen normal) – Usertest P-82 | 3.42.0 | 30.10.2026 |
+| P-81 | Geprüft **P-81 (3.41.0): ok bis auf P-81/6 und P-81/7** (Nutzer 30.10.2026, Sitzung 0058) – umgesetzt als RLB-111 und AppDesign APD-95 | 3.41.0 | 30.10.2026 |
 | RLB-108, RLB-109, RLB-110 | **RLB-108:** ‚Darstellung‘ im Mehr-Menü der Seitenleiste bzw. Startliste nach Backup (AppDesign APD-92) · **RLB-109:** Preis beim Quartier (erster Tag des Aufenthalts, Quartierliste ‚Preis‘, Statistik ‚Quartierkosten‘ und ‚Ø je Nacht‘) · **RLB-110:** Spalte ‚Gegangene Kilometer‘ (Einstellung, Schritt mit schmalem Feld bis 99 – AppDesign APD-93, Spalte 🚶🏽‍♂️km, iPhone-Zeile, Statistik, Ausgabe) · AppDesign 4.43.0: ‚Suchen‘ im Mehr-Menü, x ‚Suche beenden‘, ⌘F (APD-91) · Usertest P-81 | 3.41.0 | 30.10.2026 |
 | P-80 | Geprüft **P-80 (3.40.0): alles ok** (Nutzer 30.10.2026, Sitzung 0056) – Mehr-Knopf offen senkrecht und blau, Reisemittel brechen nur nach dem Komma (auch PDF) | 3.40.0 | 30.10.2026 |
 | 3.40.0 | AppDesign 4.42.0: Mehr-Knopf offen senkrecht und blau (APD-87), Reisemittel – Icon und Name bleiben zusammen, auch in der Ausgabe (APD-90), Prüflauf wiederholt rote Läufe einmal allein (APD-85 Teil 1) · Usertest P-80 | 3.40.0 | 30.10.2026 |

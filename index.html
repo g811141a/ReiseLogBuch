@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.43.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.44.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -56,7 +56,7 @@
 
   .fazit-box { display: inline-block; width: auto; max-width: 100%; text-align: left; padding: 12px 14px; min-height: 60px; border-radius: 14px; background: var(--card); }
   .kosten { display: flex; align-items: center; gap: 10px; }
-  .kosten span { font-size: var(--t-title3); }
+  /* seit 3.42.0 (AppDesign APD-95, R-5.8): ‚€‘ normal und in Textgröße wie das Feld */
   /* RLB-101 (AppDesign APD-43 B5): Betragsfeld in Zeichenbreite (‚4.850,00 €‘ plus Luft) statt fest 130 px – wächst mit der Textgröße */
   #kosten, #fPrice { text-align: right; width: calc(11.5ch + 24px); flex: none; }
   /* seit 3.41.0 (RLB-109): Preis des Quartiers unter ‚Ort‘ – Bezeichnung, Betragsfeld, € (R-5.1) */
@@ -132,18 +132,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.43.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.44.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.41.0';
-const APP_BUILT = '30.10.2026 um 10:20';
+const APP_VERSION = '3.42.0';
+const APP_BUILT = '30.10.2026 um 14:02';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.43.0';
+const AD_NEEDED = '4.44.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -205,7 +205,7 @@ const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields:
   // Namen der Felder für die Tabelle der Änderungen nach dem Abgleich (R-9.4) – wie im Fenster (R-10.1).
   labels: { title: 'Reisetitel', participants: 'Reiseteilnehmer', start: 'Beginn', end: 'Ende', transport: 'Reisemittel',
     quarterList: 'Quartierliste', foodColumn: 'Spalte Essen', moodColumn: 'Spalte Wie war was?', quarterColumn: 'Spalte Quartier',
-    kmColumn: 'Spalte Gegangene Kilometer', km: 'Gegangene Kilometer', price: 'Preis',
+    kmColumn: 'Spalte Gegangene Kilometer', km: 'Gegangene Kilometer', price: 'Preis', priceOn: 'Preis der Quartiere erfassen',
     fazit: 'Fazit', kosten: 'Gesamtausgaben', weather: 'Wetter', program: 'Verlauf', comment: 'Wie war was?', food: 'Essen und Trinken',
     sameQuarter: 'Quartier wie Vortag', quarter: 'Quartier', place: 'Ort', noMap: 'Google-Maps-Link' },
   // Seit 3.11.6: Werte wie in der App – Reisemittel mit Symbol und Namen statt der gespeicherten Kürzel (R-10.1).
@@ -234,13 +234,14 @@ function normalize(data) {
     t.moodColumn ??= true;
     t.quarterColumn ??= true;
     t.kmColumn ??= false;   // seit 3.41.0 (RLB-110): Spalte ‚Gegangene Kilometer‘, Voreinstellung aus
+    t.priceOn ??= false;    // seit 3.42.0 (RLB-111): Preis der Quartiere nur auf Wunsch, Voreinstellung aus
     t.outputCounter ||= 0;
     t.dayAt ||= {};
-    // seit 3.41.0: Preis des Quartiers (RLB-109, Euro, am ersten Tag des Aufenthalts) und gegangene Kilometer (RLB-110, 1–99) –
-    // alte Backups haben beides nicht; Unbrauchbares fällt weg
+    // seit 3.41.0: Preis des Quartiers (RLB-109, Euro, am ersten Tag des Aufenthalts) und gegangene Kilometer (RLB-110; seit 3.42.0,
+    // RLB-111, mit einer Nachkommastelle 0,1–99,9) – alte Backups haben beides nicht; Unbrauchbares fällt weg
     for (const e of Object.values(t.days)) {
       if (e && 'price' in e && !(Number.isFinite(e.price) && e.price >= 0)) delete e.price;
-      if (e && 'km' in e && !(Number.isInteger(e.km) && e.km >= 1 && e.km <= 99)) delete e.km;
+      if (e && 'km' in e) { if (Number.isFinite(e.km) && e.km >= 0.05 && e.km < 99.95) e.km = Math.round(e.km * 10) / 10; else delete e.km; }
     }
   }
   return data;
@@ -496,6 +497,12 @@ const linkAttrs = inApp => inApp ? ' target="_blank" rel="noopener" onclick="eve
 
 // Quartier: 📍 als Zeichen, nur der Hotelname ist der Link; Ort danach ist normaler Text.
 // Gesucht wird mit dem ganzen Eintrag. Mit "Kein Maps-Link" weder 📍 noch Link.
+// Kilometer mit einer Nachkommastelle (seit 3.42.0, RLB-111): 6 → ‚6,0‘, 12.5 → ‚12,5‘
+const fmtKm = n => money(Math.round(n * 10) / 10).slice(0, -1);
+// Preis in Klammern hinter dem Quartier (seit 3.42.0, RLB-111) – nur mit ‚Preis der Quartiere erfassen‘ und nur am Tag, an dem er
+// eingetragen ist; die Klammer mit dem Betrag bricht nie um
+const withPrice = (trip, iso, q, html) => trip.priceOn && q.src === iso && q.price != null && html
+  ? html.replace(/<\/span><\/div>$/, ` <span style="white-space:nowrap">(${money(q.price)}\u00a0€)</span></span></div>`) : html;
 function quarterHtml(q, term = '', inApp = false) {
   if (!q.name) return '';
   // Ein eingetragener Ort steht nach einem Komma hinter dem Namen; Teile, die dort schon vorkommen, entfallen.
@@ -684,13 +691,13 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
     const wx = e.weather
       ? `<span class="wx">${esc(e.weather)}</span>`
       : `<span class="wx empty">☀️🌤🌦🌧</span>`;
-    const link = quarterHtml(q, term, true);
+    const link = withPrice(trip, iso, q, quarterHtml(q, term, true));
     const cls = [i % 2 ? 'alt' : '', iso === gap ? 'gap' : ''].join(' ').trim();
     return `<tr data-day="${iso}" data-marke="${dayMark(iso, nr)}" class="${cls}">
       <td class="day">${dayLabel(iso)}${tags}${wx}</td>
       <td>${linesHtml(programItems(e.program), term)}</td>
       ${c.mood ? `<td>${linesHtml(commentItems(e.comment), term)}</td>` : ''}
-      ${c.km ? `<td class="num">${e.km ?? ''}</td>` : ''}
+      ${c.km ? `<td class="num">${e.km != null ? fmtKm(e.km) : ''}</td>` : ''}
       ${c.food ? `<td>${foodHtml(foodItems(e.food, q.place), term, true)}</td>` : ''}
       ${c.quarter ? `<td class="quarter">${link}</td>` : ''}
     </tr>`;
@@ -737,12 +744,12 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
       <h2 data-marke="Quartierliste">Quartierliste</h2>
       <div class="table-wrap fit">
         <table class="days static">
-          <thead><tr><th>Quartier</th><th>Zeitraum</th><th class="num">Nächte</th><th class="num">Preis</th></tr></thead>
+          <thead><tr><th>Quartier</th><th>Zeitraum</th><th class="num">Nächte</th>${trip.priceOn ? '<th class="num">Preis</th>' : ''}</tr></thead>
           <tbody>${stays.map((st, i) => `<tr class="${i % 2 ? 'alt' : ''}">
             <td>${quarterHtml(st.q, '', true)}</td>
             <td class="nw">${shortDate(st.firstNight)} - ${fullDate(addDays(st.lastNight, 1))}</td>
             <td class="num">${st.nights}</td>
-            <td class="num">${st.price == null ? '' : formatEuro(st.price)}</td>
+            ${trip.priceOn ? `<td class="num">${st.price == null ? '' : formatEuro(st.price)}</td>` : ''}
           </tr>`).join('')}</tbody>
         </table>
       </div>` : ''}
@@ -949,9 +956,9 @@ function dayBoxesHtml(trip, visible, { today, gap, term, nr }) {
       <div class="h">${dayLabel(iso)}${tags}${e.weather ? `<span class="wx">${esc(e.weather)}</span>` : '<span class="wx empty">☀️🌤🌦🌧</span>'}</div>
       ${line('Verlauf', e.program ? linesHtml(programItems(e.program), term) : '', true)}
       ${c.mood ? line('🙂☹️😉', e.comment ? linesHtml(commentItems(e.comment), term) : '') : ''}
-      ${c.km ? line('🚶🏽‍♂️', e.km ? `${e.km} km` : '') : ''}
+      ${c.km ? line('🚶🏽‍♂️km', e.km ? fmtKm(e.km) : '') : ''}
       ${c.food ? line('🍽️🍷☕️', e.food ? foodHtml(foodItems(e.food, q.place), term, true) : '') : ''}
-      ${c.quarter ? line('😴💤', quarterHtml(q, term, true)) : ''}
+      ${c.quarter ? line('😴💤', withPrice(trip, iso, q, quarterHtml(q, term, true))) : ''}
     </div>`;
   }).join('');
 }
@@ -962,7 +969,7 @@ function isAx() { return document.documentElement.classList.contains('ts-ax'); }
 function phoneStaysHtml(trip) {
   const stays = cols(trip).quarter ? quarterStays(trip) : [];
   return stays.length ? `<h2 data-marke="Quartierliste">Quartierliste</h2><div class="ilist">${stays.map(st => `<div class="irow"><span class="t">${quarterHtml(st.q, '', true)}
-    <small>${shortDate(st.firstNight)} - ${fullDate(addDays(st.lastNight, 1))} · ${st.nights} ${st.nights === 1 ? 'Nacht' : 'Nächte'}${st.price == null ? '' : ` · ${formatEuro(st.price)}`}</small></span></div>`).join('')}</div>` : '';
+    <small>${shortDate(st.firstNight)} - ${fullDate(addDays(st.lastNight, 1))} · ${st.nights} ${st.nights === 1 ? 'Nacht' : 'Nächte'}${!trip.priceOn || st.price == null ? '' : ` · ${formatEuro(st.price)}`}</small></span></div>`).join('')}</div>` : '';
 }
 
 
@@ -1363,8 +1370,8 @@ function openTripDialog(trip) {
           <div class="hint">Ausgeblendete Spalten fehlen in Tabelle, Tageserfassung und Ausgabe. Vorhandene Einträge bleiben erhalten.</div>
         </div>
         <div class="step">
-          <div class="swlist" style="margin:0"><label class="check sw"><input type="checkbox" switch role="switch" id="fQuarterList" ${t.quarterList ? 'checked' : ''}> Quartierliste in der Ausgabe</label></div>
-          <div class="hint">Am Ende der Ausgabe: alle Quartiere mit Zeitraum, Anzahl Nächte und Maps-Link. Nur mit Spalte Quartier.</div>
+          <div class="swlist" style="margin:0"><label class="check sw"><input type="checkbox" switch role="switch" id="fQuarterList" ${t.quarterList ? 'checked' : ''}> Quartierliste in der Ausgabe</label><label class="check sw"><input type="checkbox" switch role="switch" id="fPriceOn" ${t.priceOn ? 'checked' : ''}> Preis der Quartiere erfassen</label></div>
+          <div class="hint">Quartierliste am Ende der Ausgabe: alle Quartiere mit Zeitraum, Anzahl Nächte und Maps-Link. Preis: Feld beim Quartier, Spalte ‚Preis‘ in der Quartierliste und Quartierkosten in der Statistik. Nur mit Spalte Quartier.</div>
         </div>
       </div>
     </form>`);
@@ -1447,6 +1454,7 @@ function openTripDialog(trip) {
   const fQuarterList = dlg.querySelector('#fQuarterList');
   const syncQuarterList = () => {
     fQuarterList.disabled = !fQuarterCol.checked;
+    dlg.querySelector('#fPriceOn').disabled = !fQuarterCol.checked;   // seit 3.42.0 (RLB-111)
     fQuarterList.closest('.step').classList.toggle('off', !fQuarterCol.checked);
   };
   fQuarterCol.onchange = syncQuarterList;
@@ -1471,6 +1479,7 @@ function openTripDialog(trip) {
     target.foodColumn = dlg.querySelector('#fFood').checked;
     target.moodColumn = dlg.querySelector('#fMood').checked;
     target.kmColumn = dlg.querySelector('#fKm').checked;
+    target.priceOn = dlg.querySelector('#fPriceOn').checked;
     target.quarterColumn = fQuarterCol.checked;
     if (isNew) db.trips.push(target);
     save();
@@ -1522,7 +1531,7 @@ function openDayDialog(trip, iso) {
         </div>
         ${c.km ? `<div class="step">
           <div class="step-head"><label for="fKmDay"><span class="step-num">${nextNo()}</span>Gegangene Kilometer</label></div>
-          <div class="zahl-einheit"><input type="text" id="fKmDay" class="zahl-schmal" inputmode="numeric" autocomplete="off" value="${e.km ?? ''}"><span>km</span></div>
+          <div class="zahl-einheit"><input type="text" id="fKmDay" class="zahl-schmal" style="--ziffern:3.5" inputmode="decimal" autocomplete="off" value="${e.km != null ? fmtKm(e.km) : ''}"><span>km</span></div>
         </div>` : ''}
         ${trip.foodColumn ? `<div class="step">
           <div class="step-head"><label for="fFoodText"><span class="step-num">${nextNo()}</span>Essen und Trinken</label><span class="head-checks"><label class="check chip head-check"><input type="checkbox" id="noLink"> keinen Google-Maps Link</label></span></div>
@@ -1587,8 +1596,12 @@ function openDayDialog(trip, iso) {
     syncNoLink();
   }
 
-  // Gegangene Kilometer (seit 3.41.0, RLB-110, AppDesign APD-93): nur Ziffern, höchstens zwei (1–99)
-  if (fKmDay) fKmDay.oninput = () => { const v = fKmDay.value.replace(/\D/g, '').replace(/^0+/, '').slice(0, 2); if (v !== fKmDay.value) fKmDay.value = v; };
+  // Gegangene Kilometer (seit 3.41.0, RLB-110, AppDesign APD-93; seit 3.42.0, RLB-111, mit einer Nachkommastelle): höchstens zwei Ziffern,
+  // Komma (Punkt wird Komma) und eine Stelle danach; beim Verlassen ‚6‘ → ‚6,0‘
+  if (fKmDay) {
+    fKmDay.oninput = () => { const m = fKmDay.value.replace(/\./g, ',').match(/^0*(\d{0,2})(,\d?)?/), v = m ? m[1] + (m[1] ? m[2] || '' : '') : ''; if (v !== fKmDay.value) fKmDay.value = v; };
+    fKmDay.addEventListener('blur', () => { const n = Number(fKmDay.value.replace(',', '.')); fKmDay.value = n > 0 ? fmtKm(n) : ''; });
+  }
 
   // Schritt Quartier – seit 3.41.0 (RLB-109) mit Preis des Aufenthalts unter ‚Ort‘, nicht bei ‚Quartier wie Vortag‘
   const fNoMap = dlg.querySelector('#fNoMap');
@@ -1600,7 +1613,7 @@ function openDayDialog(trip, iso) {
     const q = useSame ? prev : { ...own, noMap: ownNoMap };
     fQuarter.value = q.name;
     fPlace.value = q.place;
-    dlg.querySelector('#qPrice').hidden = useSame;
+    dlg.querySelector('#qPrice').hidden = useSame || !trip.priceOn;   // seit 3.42.0 (RLB-111): nur auf Wunsch
     if (document.activeElement !== fPrice) { fPrice.value = useSame || own.price == null ? '' : money(own.price); fitMoney(fPrice); }
     fNoMap.checked = Boolean(q.noMap);
     if (useSame && !prev.name) qHint.textContent = 'Am Vortag ist noch kein Quartier eingetragen.';
@@ -1628,7 +1641,7 @@ function openDayDialog(trip, iso) {
     };
     // seit 3.41.0: Preis und Kilometer nur, wenn eingetragen (sonst bleibt ein alter Tag unverändert); bei ausgeblendeter Spalte bleiben sie
     const price = useSame ? null : c.quarter ? own.price : (e.price ?? null);
-    const km = fKmDay ? (Number(fKmDay.value) || null) : (e.km ?? null);
+    const km = fKmDay ? (Math.round(Number(fKmDay.value.replace(',', '.')) * 10) / 10 || null) : (e.km ?? null);
     if (price != null) next.price = price;
     if (km != null) next.km = km;
     return (next.weather || next.program || next.comment || next.sameQuarter || next.quarter || next.place || next.food || next.price != null || next.km) ? next : null;
@@ -1761,17 +1774,20 @@ function tripStats(trip) {
   const c = cols(trip);
   const moods = count([...(c.mood ? rec.map(d => rawEntry(trip, d).comment) : []), trip.fazit].flatMap(emojisIn));
   const fmt = list => list.map(([e, n]) => `${n}×${e}`).join(' · ') || '–';
-  // seit 3.41.0 (RLB-110): Summe und Ø der gegangenen Kilometer (nur Tage mit Kilometern, gerundet)
+  // seit 3.41.0 (RLB-110): Summe und Ø der gegangenen Kilometer (nur Tage mit Kilometern); seit 3.42.0 (RLB-111) mit einer Nachkommastelle,
+  // Ø in Klammern hinter dem Wert: 5 geschützte Leerzeichen davor, 2 nach ‚Ø‘, immer in einer Zeile
   const kms = c.km ? days.map(d => rawEntry(trip, d).km).filter(Boolean) : [];
   const kmSum = kms.reduce((a, x) => a + x, 0);
-  // seit 3.41.0 (RLB-109): Quartierkosten und Ø je Nacht – nur Aufenthalte mit Preis
-  const stays = c.quarter ? quarterStays(trip) : [], priced = stays.filter(st => st.price != null);
+  // seit 3.41.0 (RLB-109): Quartierkosten und Ø je Nacht – nur Aufenthalte mit Preis; seit 3.42.0 (RLB-111) nur mit ‚Preis der Quartiere
+  // erfassen‘, Ø in Klammern wie bei den Kilometern
+  const stays = c.quarter ? quarterStays(trip) : [], priced = trip.priceOn ? stays.filter(st => st.price != null) : [];
   const cost = priced.reduce((a, st) => a + st.price, 0), costNights = priced.reduce((a, st) => a + st.nights, 0);
+  const avg = (v, d, unit) => `${v}\u00a0${unit}${'\u00a0'.repeat(5)}(Ø\u00a0\u00a0${d}\u00a0${unit})`;
   return [
     ['Reisetage', `${days.length}, davon erfasst ${rec.length}`],
-    ...(kms.length ? [['Gegangene Kilometer', `${thousands(kmSum)} km`], ['Ø je Tag', `${thousands(kmSum / kms.length)} km`]] : []),
+    ...(kms.length ? [['Gegangene Kilometer', avg(fmtKm(kmSum), fmtKm(kmSum / kms.length), 'km')]] : []),
     ...(c.quarter ? [['Quartiere', String(quarters.size)], ['Nächte', String(stays.reduce((n, st) => n + st.nights, 0))]] : []),
-    ...(priced.length ? [['Quartierkosten', formatEuro(cost)], ['Ø je Nacht', formatEuro(cost / costNights)]] : []),
+    ...(priced.length ? [['Quartierkosten', avg(money(cost), money(cost / costNights), '€')]] : []),
     ['Wetter', fmt(weather)],
     ['Smileys', fmt(moods)],
   ];
@@ -1806,9 +1822,9 @@ function outputBody(trip, version, stamp) {
       <td class="nw">${dayLabel(iso)}${e.weather ? `<br>${esc(e.weather)}` : ''}</td>
       <td>${linesHtml(programItems(e.program))}</td>
       ${c.mood ? `<td>${linesHtml(commentItems(e.comment))}</td>` : ''}
-      ${c.km ? `<td class="num">${e.km ?? ''}</td>` : ''}
+      ${c.km ? `<td class="num">${e.km != null ? fmtKm(e.km) : ''}</td>` : ''}
       ${c.food ? `<td>${foodHtml(foodItems(e.food, q.place))}</td>` : ''}
-      ${c.quarter ? `<td>${quarterHtml(q)}</td>` : ''}
+      ${c.quarter ? `<td>${withPrice(trip, iso, q, quarterHtml(q))}</td>` : ''}
     </tr>`;
   }).join('');
   const transport = transportText(trip);
@@ -1832,12 +1848,12 @@ function outputBody(trip, version, stamp) {
     ${stays.length ? `
       <h2>Quartierliste</h2>
       <table class="grid fit">
-        <thead><tr><th>Quartier</th><th>Zeitraum</th><th class="num">Nächte</th><th class="num">Preis</th></tr></thead>
+        <thead><tr><th>Quartier</th><th>Zeitraum</th><th class="num">Nächte</th>${trip.priceOn ? '<th class="num">Preis</th>' : ''}</tr></thead>
         <tbody>${stays.map(s => `<tr>
           <td>${quarterHtml(s.q)}</td>
           <td class="nw">${shortDate(s.firstNight)} - ${fullDate(addDays(s.lastNight, 1))}</td>
           <td class="num">${s.nights}</td>
-          <td class="num">${s.price == null ? '' : formatEuro(s.price)}</td>
+          ${trip.priceOn ? `<td class="num">${s.price == null ? '' : formatEuro(s.price)}</td>` : ''}
         </tr>`).join('')}</tbody>
       </table>` : ''}
     <h2>Statistik</h2>
