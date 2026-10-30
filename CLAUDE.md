@@ -1,6 +1,6 @@
 # Reiselogbuch – Hinweise für Claude
 
-**Version 3.8.0** · Stand 26.10.2026
+**Version 3.9.0** · Stand 30.10.2026
 
 ## Zuerst lesen (gezielt, Zusammenarbeit 0 Nr. 15)
 
@@ -37,7 +37,7 @@ Wiederholung.
   `.on`; Seitenleiste ein/aus `settings.sidebar`; Darstellung `settings.appearance`; Abgleich `createSync`; Schnittstelle zu ui.js
   `db.settings.appearance`, `save()`, `render()`, `onDialogOpen()`.
 - Prüfen: `node tests/alle.mjs` (oder `sh tests/alle.sh`) im Repo-Ordner – alle Prüfungen parallel in Chromium und WebKit, Abbruch
-  beim ersten Fehler, `--alle` zeigt alle roten, Gegenprobe `--gegenprobe`; Einrichten: AppDesign-`CLAUDE.md`; die Prüfungen:
+  ab dem dritten roten Lauf, rote Läufe am Ende einmal allein (‚wackelt‘), `--alle` zeigt alle roten, Gegenprobe `--gegenprobe`; Einrichten: AppDesign-`CLAUDE.md`; die Prüfungen:
   `tests/README.md`.
 
 ---
@@ -46,6 +46,7 @@ Wiederholung.
 
 | Version | Datum | Inhalt |
 |---|---|---|
+| 3.9.0 | 30.10.2026 | AppDesign APD-85 Teil 1: Prüflauf bricht erst ab dem dritten roten Lauf ab, rote Läufe am Ende einmal allein (‚wackelt‘) |
 | 3.8.0 | 26.10.2026 | AppDesign APD-84: zu Beginn die ganze Zusammenarbeit (Kasten ‚Jede Antwort‘) |
 | 3.7.0 | 25.10.2026 | AppDesign APD-78 Nummernschema: Themen RLB-n, Usertest, Testfälle P-n, Testfall-Liste |
 | 3.6.0 | 21.10.2026 | AppDesign APD-39 Konsolidierung: Verpflichtendes und Einrichten der Tests nur noch in der Zusammenarbeit bzw. der AppDesign-`CLAUDE.md`; App-Richtlinie enthält nur Abweichungen |

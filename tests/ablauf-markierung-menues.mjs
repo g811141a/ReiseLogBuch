@@ -1,9 +1,11 @@
 // Reiselogbuch-Test: ablauf-markierung-menues – blaue Markierung bleibt, solange Menü oder Fenster offen ist, und geht danach weg;
-// Menü der Seitenleiste mit eingerücktem Strich und Zusatzinfos. Hell und dunkel, quer und hoch.
+// Menü der Seitenleiste mit eingerücktem Strich und Zusatzinfos. Hell und dunkel, quer und hoch. Seit 3.40.0 (AppDesign APD-87, R-4.1):
+// Mehr-Knopf offen senkrecht und hervorgehoben (APD-87/E-1 bis APD-87/E-11, iPad, iPhone, ‚Bewegung reduzieren‘, Drehen mit offenem Menü).
 // Aufruf im Repo-Ordner: node tests/ablauf-markierung-menues.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.41.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.41.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
+import { checkMehrKnopf } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -21,6 +23,9 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   await p.reload(); await p.waitForTimeout(300);
   const row = n => p.locator('.side-row', { hasText: n });
   const on = l => l.evaluate(e => e.classList.contains('on'));
+  // APD-87 APD-87/E-1, APD-87/E-2, APD-87/E-5, APD-87/E-6, APD-87/E-11: Mehr der Seitenleiste und eines Reiselogbuchs (mit Untermenü ‚Darstellung‘)
+  t.liste(await checkMehrKnopf(p, { sel: '#sideMore', where: 'Mehr der Seitenleiste' }));
+  if (ansicht === 'iPad quer') t.liste(await checkMehrKnopf(p, { sel: '#mainMore', untermenue: 'Darstellung', where: 'Mehr des Reiselogbuchs' }));   // iPad hoch: Seitenleiste liegt darüber
   await t.schritt(p, 'Mehr-Menü der Seitenleiste', async () => { await p.click('#sideMore'); await p.waitForTimeout(150); });
   // seit 3.24.0: Backup · Strich · Messung (eigene Gruppe, R-4.1) · Strich · graue Zeilen; seit 3.38.0 (AppDesign APD-77) die Messung erst nach
   // langem Drücken auf die Versionszeile – bis dahin Backup · Strich · graue Zeilen, ohne zweiten Strich
@@ -49,6 +54,29 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   t.ist('Fazit blau, solange offen', await on(p.locator('#fazit')), true, 'R-3.3');
   await t.schritt(p, 'Fazit schließen', async () => { await p.click('#dlgX'); await p.waitForTimeout(200); });
   t.ist('Fazit danach nicht mehr blau', await on(p.locator('#fazit')), false, 'R-3.3');
+  await p.close();
+}
+// APD-87 APD-87/E-3 iPhone (Startliste und Seite), APD-87/E-8 ‚Bewegung reduzieren‘, APD-87/E-7 Drehen mit offenem Menü
+for (const [ansicht, ruhig] of [['iPhone hoch', false], ['iPhone quer', false], ['iPad quer', true]]) {
+  const p = await t.seite(b, ansicht, { theme: 'light', ...(ruhig ? { reducedMotion: 'reduce' } : {}) });
+  t.ort = `${t.ort}${ruhig ? ' Bewegung reduzieren' : ''} · Mehr-Knopf`;
+  await p.goto(new URL('../index.html', import.meta.url).href);
+  await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
+  await p.reload(); await p.waitForTimeout(400);
+  const phone = ansicht.startsWith('iPhone');
+  if (phone && await p.locator('#back').count()) { await p.click('#back'); await p.waitForTimeout(400); }
+  t.liste(await checkMehrKnopf(p, { sel: '#sideMore', where: phone ? 'Mehr der Startliste' : 'Mehr der Seitenleiste' }));
+  if (phone) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); }
+  t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));
+  if (!phone) {
+    // hoch öffnen (Seitenleiste zu), dann quer drehen – die darübergelegte Seitenleiste erscheint dabei nicht
+    await p.setViewportSize({ width: 820, height: 1180 }); await p.waitForTimeout(500);
+    if (await p.locator('.side-shade').isVisible().catch(() => false)) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(500); }
+    await t.schritt(p, 'Mehr offen, dann drehen', async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.setViewportSize({ width: 1180, height: 820 }); await p.waitForTimeout(500); });
+    t.ist('APD-87 APD-87/E-7: nach dem Drehen mit offenem Menü noch senkrecht', await p.evaluate(() => { const c = [...document.querySelectorAll('#mainMore > svg circle')]; return c.length === 3 && new Set(c.map(k => k.getAttribute('cx'))).size === 1; }), true, 'R-4.1');
+    await p.keyboard.press('Escape'); await p.waitForTimeout(150);
+    t.ist('APD-87 APD-87/E-7: nach dem Schließen wieder waagrecht', await p.evaluate(() => { const c = [...document.querySelectorAll('#mainMore > svg circle')]; return c.length === 3 && new Set(c.map(k => k.getAttribute('cy'))).size === 1; }), true, 'R-4.1');
+  }
   await p.close();
 }
 await t.ende(b);

@@ -7,10 +7,10 @@
 // Marken der Tage und Abschnitte (data-marke), sehr langes Reiselogbuch mit 365 Tagen (APD-37/F-11).
 // Aufruf im Repo-Ordner: node tests/kapsel-iphone.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, rollRuht } from '../../AppDesign/fassung/4.41.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.41.0/tests/hig.mjs';
-import { checkFab, checkGriff } from '../../AppDesign/fassung/4.41.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.41.0/tests/safari.mjs';
+import { pruefung, navFertig, rollRuht } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
+import { checkFab, checkGriff } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.42.0/tests/safari.mjs';
 const t = pruefung('kapsel-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const viele = {}; for (let i = 0; i < 30; i++) viele[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Sydney' };

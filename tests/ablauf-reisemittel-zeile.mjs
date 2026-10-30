@@ -3,11 +3,13 @@
 // Rand wie in der Auswahl-Kapsel, am jeweiligen Ende verschwinden beide; passt alles bzw. bricht die Zeile um (iPad, große Schrift), weder
 // Verlauf noch Pfeil und nichts abgeschnitten. Ablauf des Nutzers (29.10.2026): iPhone hoch, Reiselogbuch mit vielen Reisemitteln öffnen.
 // Grundregeln nach jedem Schritt (mit hig.mjs: jeder seitlich wischbare Bereich zeigt, wo es weitergeht).
+// Seit 3.40.0 (AppDesign APD-90, R-10.5; Testfall-Liste U-1 bis U-6): auf dem iPad, mit großer Schrift, nach dem Drehen und in der Ausgabe
+// bleiben Icon und Text jedes Reisemittels zusammen, die Zeile bricht nur nach dem Komma; ein zu langer Eintrag bricht im Text.
 // Aufruf im Repo-Ordner: node tests/ablauf-reisemittel-zeile.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.41.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.41.0/tests/hig.mjs';
-import { checkKapsel } from '../../AppDesign/fassung/4.41.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
+import { checkKapsel, checkIconText } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-reisemittel-zeile', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 const days = {}; for (let i = 0; i < 6; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1}`, place: 'Hafen' };
@@ -27,16 +29,18 @@ const zeile = p => p.evaluate(() => {
     sel: roll.id ? `#${roll.id}` : null };
 });
 const b = await t.browser();
-for (const [ansicht, theme, ruhig, transport, soll] of [
+for (const [ansicht, theme, ruhig, transport, soll, gross] of [
   ['iPhone hoch', 'light', false, ALLE, 'wischt'],              // W1–W4, W6: der Ablauf des Nutzers
   ['iPhone hoch', 'dark', false, ALLE, 'wischt'],               // W7
   ['iPhone hoch', 'light', true, ALLE, 'wischt'],               // W8 ‚Bewegung reduzieren‘
   ['iPhone quer', 'light', false, ALLE, 'egal'],                // W5 quer: wischt nur, wenn es nicht passt
   ['iPhone hoch', 'light', false, ['flug'], 'passt'],           // W5 ein Reisemittel passt
   ['iPad quer', 'light', false, ALLE, 'passt'],                 // W9 iPad: umbrochen, nichts abgeschnitten
-  ['iPad hoch', 'dark', false, ALLE, 'passt']]) {
+  ['iPad hoch', 'dark', false, ALLE, 'passt'],
+  ['iPad quer', 'light', false, ALLE, 'passt', true]]) {         // U-2 große Schrift
   const p = await t.seite(b, ansicht, { theme, ...(ruhig ? { reducedMotion: 'reduce' } : {}) });
-  t.ort = `${t.ort}${ruhig ? ' Bewegung reduzieren' : ''} · ${transport.length} Reisemittel`;
+  t.ort = `${t.ort}${ruhig ? ' Bewegung reduzieren' : ''}${gross ? ' · große Schrift' : ''} · ${transport.length} Reisemittel`;
+  if (gross) await p.addInitScript(() => addEventListener('DOMContentLoaded', () => { const s = document.createElement('style'); s.id = 'pruef-text'; s.textContent = 'html { font-size: 28px !important; }'; document.head.append(s); }));
   await p.clock.setFixedTime(new Date('2026-09-02T10:00:00'));
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), reise(transport));
@@ -46,7 +50,25 @@ for (const [ansicht, theme, ruhig, transport, soll] of [
     const z = await zeile(p);
     if (!t.wahr('Zeile ‚Reisemittel‘ fehlt im Kopf des Reiselogbuchs', z, 'R-5.4')) return;
     t.wahr(`W9: in der Zeile ‚Reisemittel‘ ist Text abgeschnitten, ohne dass sie wischt`, !z.abgeschnitten, 'R-5.4');
-    if (soll === 'passt') { t.wahr(`W5/W9: Zeile ‚Reisemittel‘ soll ganz passen, wischt aber (${z.max} px mehr)`, !z.wischt, 'R-5.4'); return; }
+    if (soll === 'passt') {
+      t.wahr(`W5/W9: Zeile ‚Reisemittel‘ soll ganz passen, wischt aber (${z.max} px mehr)`, !z.wischt, 'R-5.4');
+      // APD-90 U-1, U-2, U-5: Icon und Text bleiben zusammen (iPad); U-6 nach dem Drehen; U-3 in der Ausgabe (Vorschau)
+      if (ansicht.startsWith('iPad')) {
+        const dd = '#app .meta.trip dd[data-pruef]';
+        await p.evaluate(() => [...document.querySelectorAll('#app .meta.trip dt')].find(d => d.textContent.startsWith('Reisemittel')).nextElementSibling.dataset.pruef = '');
+        t.liste(await checkIconText(p, { sel: dd, lang: !gross, where: 'Reisemittel' }));
+        if (!gross) {
+          const [w, h] = ansicht === 'iPad hoch' ? [1180, 820] : [820, 1180];
+          await p.setViewportSize({ width: w, height: h }); await p.waitForTimeout(500);
+          await p.evaluate(() => [...document.querySelectorAll('#app .meta.trip dt')].find(d => d.textContent.startsWith('Reisemittel')).nextElementSibling.dataset.pruef = '');
+          t.liste(await checkIconText(p, { sel: dd, where: 'Reisemittel nach dem Drehen' }));
+          await p.evaluate(() => openPreview(db.trips[0])); await p.waitForTimeout(500);
+          await p.evaluate(() => { const td = [...document.querySelectorAll('.rt td')].find(d => d.textContent.trim() === 'Reisemittel:'); if (td) td.nextElementSibling.dataset.pruef = ''; });
+          t.liste(await checkIconText(p, { sel: '.rt td[data-pruef]', where: 'Reisemittel in der Ausgabe' }));
+        }
+      }
+      return;
+    }
     if (soll === 'wischt' && !t.wahr('W1: Zeile ‚Reisemittel‘ mit allen Reisemitteln soll am iPhone hoch seitlich wischen', z.wischt, 'R-5.4')) return;
     if (!z.wischt) return;
     t.wahr('W1: Zeile ‚Reisemittel‘ geht rechts weiter, aber ohne Verlauf am Rand (läuft hart ab)', z.mask, 'R-5.4');

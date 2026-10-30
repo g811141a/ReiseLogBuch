@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.39.0** · Stand 30.10.2026
+**Version 3.40.0** · Stand 30.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.41.0)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.42.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -29,6 +29,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.40.0 | 30.10.2026 | Neben | AppDesign 4.42.0 (APD-87 Mehr-Knopf offen senkrecht, APD-90/R-10.5 Reisemittel: Icon und Name bleiben zusammen, auch in der Ausgabe) |
 | 3.39.0 | 30.10.2026 | Neben | AppDesign 4.41.0 (APD-81, R-5.6: das ⓧ auch in den mehrzeiligen Feldern Verlauf, ‚Wie war was?‘, Essen und Trinken, Fazit; Rückgängig nach dem ⓧ in allen Feldern) – keine Abweichung im Reiselogbuch |
 | 3.38.0 | 29.10.2026 | Neben | AppDesign 4.40.0 (APD-86, R-5.4: die Zeile ‚Reisemittel‘ im Kopf ist am iPhone eine Wischzeile mit Verlauf und Pfeilen; APD-77, R-1.6: ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile) |
 | 3.37.0 | 26.10.2026 | Neben | AppDesign 4.39.0 (APD-83, R-4.6: ein offenes Fenster ändert durch Eingaben weder Breite noch Lage; APD-84 Regelwerk) – keine Abweichung neu |

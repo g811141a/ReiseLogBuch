@@ -13,6 +13,62 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.40.0 – 30.10.2026
+
+Reiselogbuch 3.40.0 · AppDesign 4.42.0 (Designrichtlinie allgemein 4.42.0) · Designrichtlinie Reiselogbuch 3.40.0 · Zusammenarbeit allgemein 3.2.0
+
+**Mehr-Knopf zeigt, ob das Menü offen ist** (AppDesign APD-87), **Icon und Text bleiben zusammen** (AppDesign APD-90) und **Prüflauf
+wackelt** (AppDesign APD-85 Teil 1) – dein Ja vom 30.10.2026, Sitzung 0056.
+
+- **Mehr-Knopf:** solange ein Mehr-Menü offen ist (Seitenleiste bzw. Startliste, Reiselogbuch), ist der Knopf blau getönt und zeigt drei
+  senkrechte Punkte; beim Schließen wieder drei waagrechte.
+- **Reisemittel:** im Kopf eines Reiselogbuchs (iPad) und in der Ausgabe (Vorschau, HTML, PDF) bleiben Icon und Name jedes Reisemittels
+  zusammen – die Zeile bricht nur nach dem Komma um (vorher z. B. zwischen 🚐 und ‚Wohnmobil‘). Am iPhone bleibt die Wischzeile.
+- **Prüfungen:** `ablauf-markierung-menues` prüft den Mehr-Knopf (iPad quer und hoch, iPhone hoch und quer, ‚Bewegung reduzieren‘, mit
+  Untermenü, Drehen mit offenem Menü); `ablauf-reisemittel-zeile` prüft Icon und Text (iPad quer und hoch, große Schrift, nach dem
+  Drehen, Ausgabe, zu langer Eintrag). Der volle Prüflauf wiederholt rote Läufe am Ende einmal allein (‚wackelt‘).
+
+Testfälle P-80 (Schritt für Schritt, Zusammenarbeit allgemein 3.2.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-80/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.40.0 · erstellt am … · AppDesign 4.42.0‘.
+
+**P-80/1 – iPad: Mehr-Knopf der Seitenleiste**
+1. iPad quer, hell; in der Seitenleiste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+2. Erwartet: das Menü ist offen, der Knopf ist blau getönt und zeigt drei senkrechte Punkte.
+3. Neben das Menü tippen.
+4. Erwartet: das Menü ist zu, der Knopf zeigt wieder drei waagrechte Punkte, nicht mehr blau.
+
+**P-80/2 – iPad: Mehr-Knopf eines Reiselogbuchs mit Untermenü**
+1. iPad quer, dunkel; ein Reiselogbuch öffnen, oben rechts auf ‚…‘ (Mehr) tippen.
+2. Erwartet: blau getönt, drei senkrechte Punkte.
+3. ‚Darstellung ›‘ antippen.
+4. Erwartet: das Untermenü öffnet sich, der Knopf zeigt weiter drei senkrechte Punkte.
+5. Neben die Menüs tippen.
+6. Erwartet: beide Menüs zu, drei waagrechte Punkte.
+
+**P-80/3 – iPhone: Mehr-Knopf der Startliste und eines Reiselogbuchs**
+1. iPhone hoch, hell; in der Startliste oben auf ‚…‘ (Mehr) tippen.
+2. Erwartet: blau getönt, drei senkrechte Punkte; daneben tippen – wieder waagrecht.
+3. Ein Reiselogbuch öffnen, oben rechts auf ‚…‘ (Mehr) tippen.
+4. Erwartet: blau getönt, drei senkrechte Punkte; daneben tippen – wieder waagrecht.
+
+**P-80/4 – iPad hoch: Reisemittel brechen nur nach dem Komma um**
+1. iPad hoch, hell; in einem Reiselogbuch über ‚…‘ (Mehr) → ‚Einstellungen‘ alle Reisemittel auswählen und mit dem Häkchen sichern.
+2. Erwartet: im Kopf in der Zeile ‚Reisemittel:‘ steht jedes Icon in derselben Zeile wie sein Name (z. B. ‚🚐 Wohnmobil‘ zusammen);
+   eine neue Zeile beginnt nur nach einem Komma.
+3. Das iPad quer drehen.
+4. Erwartet: wie in Schritt 2.
+
+**P-80/5 – Ausgabe: Reisemittel zusammen**
+1. iPad hoch; im selben Reiselogbuch auf share (Ausgabe) → ‚PDF‘ tippen.
+2. Erwartet: in der Vorschau des Drucken-Menüs stehen in ‚Reisemittel:‘ Icon und Name jedes Reisemittels zusammen; eine neue Zeile
+   beginnt nur nach einem Komma.
+3. Das Drucken-Menü schließen; danach in den Einstellungen die Reisemittel wieder wie vorher einstellen.
+
 ## 3.39.0 – 30.10.2026
 
 Reiselogbuch 3.39.0 · AppDesign 4.41.0 (Designrichtlinie allgemein 4.41.0) · Designrichtlinie Reiselogbuch 3.39.0 · Zusammenarbeit allgemein 3.1.0
