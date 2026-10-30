@@ -3,9 +3,9 @@
 // Mehr-Knopf offen senkrecht und hervorgehoben (APD-87/E-1 bis APD-87/E-11, iPad, iPhone, ‚Bewegung reduzieren‘, Drehen mit offenem Menü).
 // Aufruf im Repo-Ordner: node tests/ablauf-markierung-menues.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
-import { checkMehrKnopf } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { checkMehrKnopf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -23,13 +23,15 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   await p.reload(); await p.waitForTimeout(300);
   const row = n => p.locator('.side-row', { hasText: n });
   const on = l => l.evaluate(e => e.classList.contains('on'));
-  // APD-87 APD-87/E-1, APD-87/E-2, APD-87/E-5, APD-87/E-6, APD-87/E-11: Mehr der Seitenleiste und eines Reiselogbuchs (mit Untermenü ‚Darstellung‘)
-  t.liste(await checkMehrKnopf(p, { sel: '#sideMore', where: 'Mehr der Seitenleiste' }));
-  if (ansicht === 'iPad quer') t.liste(await checkMehrKnopf(p, { sel: '#mainMore', untermenue: 'Darstellung', where: 'Mehr des Reiselogbuchs' }));   // iPad hoch: Seitenleiste liegt darüber
+  // APD-87 APD-87/E-1, APD-87/E-2, APD-87/E-5, APD-87/E-6, APD-87/E-11: Mehr der Seitenleiste (seit 3.41.0 mit Untermenü ‚Darstellung‘, RLB-108)
+  // und eines Reiselogbuchs
+  t.liste(await checkMehrKnopf(p, { sel: '#sideMore', untermenue: 'Darstellung', where: 'Mehr der Seitenleiste' }));
+  if (ansicht === 'iPad quer') t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));   // iPad hoch: Seitenleiste liegt darüber
   await t.schritt(p, 'Mehr-Menü der Seitenleiste', async () => { await p.click('#sideMore'); await p.waitForTimeout(150); });
   // seit 3.24.0: Backup · Strich · Messung (eigene Gruppe, R-4.1) · Strich · graue Zeilen; seit 3.38.0 (AppDesign APD-77) die Messung erst nach
-  // langem Drücken auf die Versionszeile – bis dahin Backup · Strich · graue Zeilen, ohne zweiten Strich
-  t.ist('Menü: ein eingerückter Strich (Gruppen Backup, Hinweise; Messung versteckt)', [await p.locator('.menu .line').count(), await p.locator('.menu .sep').count()], [1, 0], 'R-4.1');
+  // langem Drücken auf die Versionszeile; seit 3.41.0 ‚Suchen‘ mit Strich zuerst (APD-91) und ‚Darstellung‘ nach Backup (RLB-108) –
+  // Suchen · Strich · Backup · Strich · Darstellung · Strich · graue Zeilen
+  t.ist('Menü: Striche nach Suchen, Backup und Darstellung (Messung versteckt)', [await p.locator('.menu .line').count(), await p.locator('.menu .sep').count()], [2, 1], 'R-4.1');
   t.ist('Menü: graue Zusatzinfos unten', await p.locator('.menu .note').allTextContents(), [
     new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · erstellt am .+ · AppDesign ${AD.replace(/\./g, '\\.')}$`),
     'Safari kann die Daten bei Speichermangel löschen – bitte regelmäßig ein Backup erstellen.'], 'R-4.1');

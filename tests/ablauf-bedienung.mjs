@@ -4,9 +4,9 @@
 // Gegenprobe der Bedienungshilfen (node tests/alle.mjs --gegenprobe bedienung): je eingeschleustem Fehler wird genau seine Meldung rot.
 // Aufruf im Repo-Ordner: node tests/ablauf-bedienung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
-import { checkFokus, checkKontrast, checkRuhig, checkFieldErrors, ansage } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { checkFokus, checkKontrast, checkRuhig, checkFieldErrors, ansage, sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-bedienung', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const days = {};
 for (let i = 0; i < 30; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 20 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok', place: i % 3 ? 'Hafen' : 'Sydney' }; }
@@ -29,8 +29,11 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
   try {
 
   if (ansicht === 'iPad quer') {
-    // V1, V3, V7: Menü offen – Namen, ‚öffnet Menü‘, alles daneben gesperrt; V4: Untermenü mit Häkchen
+    // V1, V3, V7: Menü offen – Namen, ‚öffnet Menü‘, alles daneben gesperrt; V4: Untermenü mit Häkchen (seit 3.41.0 ‚Darstellung‘ im
+    // Mehr-Menü der Seitenleiste, RLB-108)
     await G(p, 'Mehr-Menü offen', async () => { await p.click('#mainMore'); await warte(p, 200); });
+    await p.keyboard.press('Escape'); await warte(p, 200);
+    await G(p, 'Mehr-Menü der Seitenleiste offen', async () => { await p.click('#sideMore'); await warte(p, 200); });
     await G(p, 'Untermenü Darstellung', async () => { await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await warte(p, 200); });
     await G(p, 'Menü daneben geschlossen', async () => { await p.evaluate(() => document.querySelector('.layer')?.click()); await warte(p, 200); });
     // V2, V8: Fenster mit Titel, modal
@@ -43,7 +46,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     t.wahr('‚Automatisch gespeichert‘ steht im Fensterkopf', /gespeichert um/.test(await p.textContent('#dlgSub')), 'R-1.8');
     await p.evaluate(() => dlg.close()); await warte(p);
     // K1–K6, K9, V5, V6
-    errs(await checkFokus(p, { menue: '#mainMore', untermenue: 'Darstellung', felder: [],
+    errs(await checkFokus(p, { menue: '#sideMore', untermenue: 'Darstellung', felder: [],
       fenster: { open: settings(p), change: () => p.locator('#fTitle').fill('Australien 2'), feld: '#fTitle' } }));
     // K9: Textfelder im Fenster nie mit Fokus-Rahmen (antippen)
     await settings(p)(); await warte(p, 300);
@@ -53,7 +56,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     // V10: Fehlermeldung hörbar, Häkchen → Fokus aufs Feld
     errs(await checkFieldErrors(p, { open: settings(p), field: '#fTitle' }));
     // V9: Ansagen der Suche
-    await p.click('#searchBtn'); await warte(p, 200);
+    await sucheAuf(p); await warte(p, 200);
     await p.locator('#search').pressSequentially('Programm', { delay: 30 });
     const n = await p.evaluate(() => hitMarks().length);
     const a1 = await ansage(p, 1100);
@@ -65,13 +68,13 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     await p.locator('#search').fill('Xyzzy'); await p.locator('#search').dispatchEvent('input');
     const a3 = await ansage(p, 1100);
     if (a3 !== 'Keine Treffer') t.fehler('R-1.8', `Suche: Ansage ‚${a3}‘ statt ‚Keine Treffer‘`);
-    await p.click('#searchBtn'); await warte(p, 200);
+    await p.click('#sclose'); await warte(p, 200);
     // Seitenleiste filtern: ‚1 von 2 Reiselogbüchern‘
-    await p.click('#listSearchBtn'); await warte(p, 200);
+    await sucheAuf(p, '#sideMore'); await warte(p, 200);
     await p.locator('#lsearch').pressSequentially('Sydney', { delay: 30 });
     const a4 = await ansage(p, 1100);
     if (a4 !== '1 von 2 Reiselogbüchern') t.fehler('R-1.8', `Seitenleiste: Ansage ‚${a4}‘ statt ‚1 von 2 Reiselogbüchern‘`);
-    await p.click('#listSearchBtn'); await warte(p, 200);
+    await p.click('#lsclose'); await warte(p, 200);
     // V13: offline und wieder online – angesagt, auch bei offenem Fenster (dort im Fenster)
     await p.evaluate(() => setNet('aus'));
     const a5 = await ansage(p, 200);

@@ -7,10 +7,10 @@
 // Marken der Tage und Abschnitte (data-marke), sehr langes Reiselogbuch mit 365 Tagen (APD-37/F-11).
 // Aufruf im Repo-Ordner: node tests/kapsel-iphone.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, rollRuht } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
-import { checkFab, checkGriff } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.42.0/tests/safari.mjs';
+import { pruefung, navFertig, rollRuht } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { checkFab, checkGriff, sucheAuf } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.43.0/tests/safari.mjs';
 const t = pruefung('kapsel-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const viele = {}; for (let i = 0; i < 30; i++) viele[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Sydney' };
@@ -47,7 +47,7 @@ for (const theme of ['light', 'dark']) {
     await p.click('#toTop'); await p.waitForTimeout(300); await rollRuht(p);   // K3
     t.ist('K3 ‚Nach oben‘ rollt ganz nach oben', (await kapsel(p)).y, 0, 'R-3.2');
     // 3 APD-33/H-1 bis APD-33/H-5: Tastatur offen (sichtbarer Bereich wie gemessen, APD-27), mit und ohne Suche – Kapsel schneidet keine Leiste
-    for (const x of await checkFab(p, { top: '#toTop', end: '#toEnd', suche: '#searchBtn', sichtbar: { 'iPhone hoch': 409, 'iPhone quer': 126 }[name] ?? null,
+    for (const x of await checkFab(p, { top: '#toTop', end: '#toEnd', suche: '#mainMore', sichtbar: { 'iPhone hoch': 409, 'iPhone quer': 126 }[name] ?? null,
       fenster: () => p.locator('#app [data-day]').first().click(), where: t.ort })) t.fehler('', x);
     // Seit 3.28.0 (AppDesign 7 APD-37/F-19): Marken für die Blase des Schnellroll-Griffs – Tage mit Nummer und Datum, danach die Abschnitte
     const marken = await p.evaluate(() => [...document.querySelectorAll('#app [data-marke]')].map(e => e.dataset.marke));
@@ -57,7 +57,7 @@ for (const theme of ['light', 'dark']) {
     }
     if (phone && name.startsWith('iPhone')) {   // 3 APD-33/H-1/K-2: Ablauf aus P-58/2 mit dem Safari-Modell – Suche öffnen, Tastatur auf; Grundregeln (Kapsel schneidet keine Leiste)
       await safariModell(p, name);
-      await p.click('#searchBtn'); await p.waitForTimeout(100);
+      await sucheAuf(p); await p.waitForTimeout(100);
       await p.evaluate(() => __safari.tastatur(true)); await p.waitForTimeout(300);
       await t.schritt(p, 'Suche mit Tastatur', async () => {});
       const kb = await p.evaluate(() => { const f = document.getElementById('fab'), r = f.getBoundingClientRect(), s = document.querySelector('#bar').getBoundingClientRect();
@@ -66,12 +66,12 @@ for (const theme of ['light', 'dark']) {
       else t.wahr(`APD-33/H-2 Kapsel fehlt bei offener Tastatur oder steht nicht unter der Suchzeile (oben ${kb.top} px, Suchzeile bis ${kb.leiste} px)`, kb.sichtbar && kb.top >= kb.leiste + 16, 'R-3.2');
       await p.evaluate(() => __safari.tastatur(false)); await p.waitForTimeout(300);
       t.ist('APD-33/H-5 Kapsel nach dem Schließen der Tastatur wieder da', (await kapsel(p)).sichtbar, true, 'R-3.2');
-      await p.click('#searchBtn'); await p.waitForTimeout(250);
+      await p.click('#sclose'); await p.waitForTimeout(250);
     }
     if (phone && name === 'iPhone hoch') {   // K8: Suche offen – Kapsel verdeckt die Suchzeile nicht
-      await p.click('#searchBtn'); await p.waitForTimeout(250);
+      await sucheAuf(p); await p.waitForTimeout(250);
       await t.schritt(p, 'Suche offen', async () => {});
-      await p.click('#searchBtn'); await p.waitForTimeout(250);
+      await p.click('#sclose'); await p.waitForTimeout(250);
     }
     if (theme === 'light' && (name === 'iPhone hoch' || name === 'iPad quer')) {   // 7 APD-37/F-11: sehr langes Reiselogbuch (365 Tage)
       if (phone) { await p.click('#back'); await navFertig(p); await p.locator('#side .side-row[data-id="j"]').click(); }

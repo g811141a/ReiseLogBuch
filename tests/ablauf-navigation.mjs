@@ -4,9 +4,9 @@
 // Waagrecht rollender Bereich am iPhone: die Zeile Reisemittel (#reisemittel, seit 3.38.0 Wischzeile, AppDesign APD-86). Grundregeln nach den Schritten (pruefe.mjs).
 // Aufruf im Repo-Ordner: node tests/ablauf-navigation.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
-import { checkNavigation } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { checkNavigation } from '../../AppDesign/fassung/4.43.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-navigation', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const tage = {}; for (let i = 0; i < 40; i++) tage[new Date(Date.UTC(2019, 2, 2 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Tokio' };
@@ -29,7 +29,7 @@ for (const [ansicht, theme, bewegung] of faelle) {
   await t.schritt(p, 'Start', async () => {});
   for (const x of await checkNavigation(p, { eintrag: '#side .side-row[data-id="a"]', titel: 'Japan', zurueck: '#back', waagrecht: ansicht === 'iPhone hoch' && !await p.evaluate(() => document.documentElement.classList.contains('ts-um')) ? '#reisemittel' : null,   // bei großer Schrift umbrochen statt wischbar (RLB-101)
    
-    knopf: '#shareBtn', menue: '#mainMore', suche: '#searchBtn', kasten: '#app .box.day', where: t.ort })) t.fehler('', x);
+    knopf: '#shareBtn', menue: '#mainMore', suche: '#mainMore', kasten: '#app .box.day', where: t.ort })) t.fehler('', x);
   await navFertig(p);
   await t.schritt(p, 'nach den Gesten', async () => {});
   await p.close();
