@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-83 | 1 | **Usertest P-83 (3.42.1 · AppDesign 4.44.1):** ‚Preis der Quartiere erfassen‘ allein einschalten, Kachel mit Bezeichnungen normal und mittig, Statistik mit einem Leerzeichen nach ‚Ø‘ und Umbruch unter den Wert (iPhone, iPad, PDF) – Testfälle im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -49,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-83 | Geprüft **P-83 (3.42.1): alles ok** (Nutzer 30.10.2026, Sitzung 0059) | 3.42.1 | 30.10.2026 |
 | RLB-112, P-82 | **RLB-112 (Korrektur aus P-82/1, /3, /5):** ‚Preis der Quartiere erfassen‘ allein einschalten und speichern; Kachel ‚🚶🏽‍♂️ km‘ und ‚Verlauf‘ normal, mittig zur ersten Zeile (AppDesign APD-98, R-6.5); Statistik ein Leerzeichen nach ‚Ø‘, Umbruch vor der Klammer, Ø linksbündig unter dem Wert – Usertest P-83 | 3.42.1 | 30.10.2026 |
 | RLB-111 | **RLB-111 (Rückmeldung P-81/6, P-81/7):** Schalter ‚Preis der Quartiere erfassen‘ (Voreinstellung aus); Preis in Klammern hinter dem Quartier am Tag des Eintrags; Statistik mit Ø in Klammern (5 geschützte Leerzeichen, 2 nach ‚Ø‘), ohne Ø-Zeilen; Kilometer mit einer Nachkommastelle, Feld bündig rechts; Kachel ‚🚶🏽‍♂️km‘ – mit AppDesign 4.44.0 (APD-95 Bezeichnungen normal) – Usertest P-82 | 3.42.0 | 30.10.2026 |
 | P-81 | Geprüft **P-81 (3.41.0): ok bis auf P-81/6 und P-81/7** (Nutzer 30.10.2026, Sitzung 0058) – umgesetzt als RLB-111 und AppDesign APD-95 | 3.41.0 | 30.10.2026 |
