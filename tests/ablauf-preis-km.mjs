@@ -89,8 +89,9 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
     t.ist('RLB-111/H-5 Klammer bricht nie um', await p.evaluate(() => getComputedStyle(document.querySelector('tr[data-day="2026-08-24"] td.quarter .t > span:last-child')).whiteSpace), 'nowrap');
   } else {
     t.ist('RLB-111/M-4 Kachel ‚🚶🏽‍♂️km‘ · ‚14,0‘', await p.evaluate(() => [...document.querySelectorAll('#pdays [data-day="2026-08-25"] .kv')].map(k => [k.querySelector('.k').textContent, k.querySelector('.v').textContent]).find(x => x[0].startsWith('🚶'))), ['🚶🏽‍♂️km', '14,0']);
-    t.ist('RLB-112/K-2 Kachel: ‚km‘ halbfett (P-82/3)', await p.evaluate(() => { const k = [...document.querySelectorAll('#pdays [data-day="2026-08-25"] .kv .k')].find(x => x.textContent.startsWith('🚶'));
-      const km = [...k.querySelectorAll('*')].find(e => e.textContent === 'km'); return km ? getComputedStyle(km).fontWeight : 'kein eigenes Element'; }), '600');
+    t.ist('RLB-112/K-2 Kachel: ‚km‘ wie ‚Verlauf‘ (Größe, halbfett, Farbe – P-82/3)', await p.evaluate(() => { const ks = [...document.querySelectorAll('#pdays [data-day="2026-08-25"] .kv .k')], k = ks.find(x => x.textContent.startsWith('🚶'));
+      const km = [...k.querySelectorAll('*')].find(e => e.textContent === 'km'), s = e => { const c = getComputedStyle(e); return [c.fontSize, c.fontWeight, c.color]; };
+      return km ? JSON.stringify(s(km)) === JSON.stringify(s(ks.find(x => x.textContent === 'Verlauf'))) : 'kein eigenes Element'; }), true);
     t.ist('RLB-111/H-4 Kachel: Klammer nur am Tag des Eintrags', await p.evaluate(() => ['2026-08-24', '2026-08-25'].map(d => [...document.querySelectorAll(`#pdays [data-day="${d}"] .kv .v`)].pop().textContent.replace(/\s+/g, ' ').includes('(300,00 €)'))), [true, false]);
     t.ist('RLB-109/Q-3 Quartierliste (iPhone): Preis hinter den Nächten', await p.locator('.ilist .irow small').allTextContents(), [/3 Nächte · 300,00 €$/, /2 Nächte · 200,00 €$/, /1 Nacht$/]);
   }
