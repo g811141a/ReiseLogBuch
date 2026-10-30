@@ -13,6 +13,82 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.39.0 – 30.10.2026
+
+Reiselogbuch 3.39.0 · AppDesign 4.41.0 (Designrichtlinie allgemein 4.41.0) · Designrichtlinie Reiselogbuch 3.39.0 · Zusammenarbeit allgemein 3.1.0
+
+**ⓧ auch in mehrzeiligen Feldern** (AppDesign APD-81, deine Rückmeldung P-73/1, geklärt am 26. und 29.10.2026 mit der Messung am iPad) und
+**Regeln nur mit Genehmigung** (AppDesign APD-89, Zusammenarbeit 3.1.0) – dein Ja vom 30.10.2026, Sitzung 0053; Testfall-Liste AppDesign
+`arbeit/APD-81 Testfall-Liste.md` (APD-81/C1 bis C16).
+
+- **Das graue ⓧ zum Leeren gibt es jetzt auch in den mehrzeiligen Feldern** – Verlauf, ‚Wie war was?‘, Essen und Trinken (Fenster ‚Tag‘)
+  und Fazit. Es steht oben rechts auf Höhe der ersten Zeile, solange das Feld den Fokus hat und etwas drinsteht; der Text läuft in
+  keiner Zeile darunter. Steht nur eine Zeile im Feld, leert es sofort; bei mehr als einer Zeile fragt zuerst die Sprechblase ‚Text
+  löschen?‘ mit ‚Löschen‘ (rot) und ‚Abbrechen‘. Fokus und Tastatur bleiben.
+- **Rückgängig nach dem ⓧ – in allen Feldern:** das ⓧ leert jetzt über den Bearbeiten-Befehl des Browsers (wie Auswählen und Löschen).
+  Die Undo-Taste der iPad-Tastatur und drei Finger nach links holen den ganzen Text zurück – auch in den einzeiligen Feldern
+  (Reisetitel, Reiseteilnehmer, Quartier, Ort, Gesamtausgaben), wo bisher nichts zurückkam (gemessen am 29.10.2026, APD-81/M-1 bis M-4).
+- **Regeln (AppDesign 4.41.0):** R-5.6 gilt für ein- und mehrzeilige Felder, Designrichtlinie 13 (Safari: Leeren und Rückgängig) und 16
+  (bewusste Abweichung: Apple hat in mehrzeiligen Feldern kein ⓧ); Zusammenarbeit 3.1.0 mit der neuen Pflicht 29 ‚Regeln nur mit
+  Genehmigung‘.
+- **Prüfungen:** `regeln-ablauf` prüft das ⓧ in Verlauf, ‚Wie war was?‘, Essen und Trinken und Fazit (iPad und iPhone, quer und hoch,
+  hell und dunkel): Lage auf der ersten Zeile, auch wenn das Feld wächst, Sprechblase, Abbrechen, Löschen, Rückgängig (input
+  `historyUndo`), in WebKit ‚nach dem Leeren getippt‘ mit einem Schritt; Datumsfelder ohne ⓧ.
+
+Testfälle P-79 (Schritt für Schritt, Zusammenarbeit allgemein 3.1.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Die Undo-Taste ist die Taste mit dem gebogenen Pfeil links
+oben auf der iPad-Bildschirmtastatur (in der Leiste über den Buchstaben).
+
+**P-79/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.39.0 · erstellt am … · AppDesign 4.41.0‘.
+
+**P-79/1 – iPad: eine Zeile leert sofort, Undo-Taste holt sie zurück**
+1. iPad quer, hell; in einem Reiselogbuch einen Tag antippen (Fenster ‚Tag‘), ins Feld ‚Verlauf‘ tippen und eine Zeile schreiben,
+   z. B. ‚Stadtrundgang‘.
+2. Erwartet: oben rechts im Feld, auf Höhe der Zeile, ein graues ⓧ.
+3. Das ⓧ antippen.
+4. Erwartet: das Feld ist sofort leer, ohne Sprechblase; Cursor und Tastatur bleiben.
+5. Auf der Tastatur die Undo-Taste antippen.
+6. Erwartet: ‚Stadtrundgang‘ steht wieder im Feld.
+
+**P-79/2 – iPad: mehrere Zeilen – Sprechblase, dann drei Finger**
+1. iPad quer; im Fenster ‚Tag‘ ins Feld ‚Verlauf‘ drei Zeilen schreiben (nach jeder Zeile die Eingabetaste).
+2. Erwartet: das ⓧ steht oben rechts auf Höhe der ersten Zeile; der Text läuft in keiner Zeile darunter.
+3. Das ⓧ antippen.
+4. Erwartet: Sprechblase ‚Text löschen?‘ am ⓧ mit ‚Löschen‘ (rot) und ‚Abbrechen‘; der Text ist noch da, die Tastatur bleibt offen.
+5. ‚Abbrechen‘ antippen.
+6. Erwartet: die Sprechblase ist weg, der Text unverändert, der Cursor im Feld.
+7. Noch einmal das ⓧ antippen, dann ‚Löschen‘.
+8. Erwartet: das Feld ist leer, Cursor und Tastatur bleiben.
+9. Mit drei Fingern auf dem Feld nach links wischen.
+10. Erwartet: alle drei Zeilen stehen wieder im Feld.
+
+**P-79/3 – iPad: Reisetitel zurückholen**
+1. iPad quer; im Mehr-Menü (‚…‘) des Reiselogbuchs ‚Einstellungen‘ antippen, ins Feld ‚Reisetitel‘ tippen.
+2. Das ⓧ rechts im Feld antippen.
+3. Erwartet: das Feld ist leer, Cursor und Tastatur bleiben.
+4. Ohne das Feld zu verlassen die Undo-Taste der Tastatur antippen.
+5. Erwartet: der Reisetitel steht wieder im Feld.
+6. Das Fenster mit dem x (links oben) schließen, ‚Änderungen verwerfen‘ falls gefragt.
+
+**P-79/4 – iPhone: Sprechblase über der Tastatur, Schütteln holt den Text zurück**
+1. iPhone hoch; einen Tag antippen, ins Feld ‚Verlauf‘ drei Zeilen schreiben.
+2. Das ⓧ oben rechts im Feld antippen.
+3. Erwartet: die Sprechblase ‚Text löschen?‘ steht ganz auf dem Bildschirm, über der Tastatur; die Tastatur bleibt offen.
+4. ‚Löschen‘ antippen.
+5. Erwartet: das Feld ist leer.
+6. Das iPhone schütteln.
+7. Erwartet: iOS fragt ‚Widerrufen: Löschen‘ bzw. ‚Eingabe widerrufen‘; ‚Widerrufen‘ antippen – alle drei Zeilen stehen wieder im Feld
+   (am Gerät nicht gemessen – zeigt erst das iPhone).
+
+**P-79/5 – kein Aufblitzen beim Leeren**
+1. iPad quer; im Fenster ‚Tag‘ ins Feld ‚Wie war was?‘ eine Zeile schreiben.
+2. Das ⓧ antippen und dabei auf das Feld schauen.
+3. Erwartet: das Feld wird leer, ohne dass vorher der Text blau ausgewählt aufblitzt; keine Lupe, kein Bearbeiten-Menü (‚Ausschneiden‘,
+   ‚Kopieren‘ …).
+
 ## 3.38.0 – 29.10.2026
 
 Reiselogbuch 3.38.0 · AppDesign 4.40.0 (Designrichtlinie allgemein 4.40.0) · Designrichtlinie Reiselogbuch 3.38.0 · Zusammenarbeit allgemein 3.0.0

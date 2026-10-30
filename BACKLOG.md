@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 29.10.2026** · Aktuelle Version: Reiselogbuch 3.38.0 · AppDesign 4.40.0
+**Stand 30.10.2026** · Aktuelle Version: Reiselogbuch 3.39.0 · AppDesign 4.41.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -28,7 +28,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit kein offener Usertest | – |
+| P-79 | 1 | **Usertest P-79 (3.39.0):** ⓧ in Verlauf, ‚Wie war was?‘, Essen und Trinken und Fazit – eine Zeile sofort, mehr als eine Sprechblase ‚Text löschen?‘; Undo-Taste, drei Finger und Schütteln holen den Text zurück, auch im Reisetitel (AppDesign APD-81); P-79/0 bis P-79/5 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| APD-81, APD-89 | AppDesign 4.41.0 im Reiselogbuch: das ⓧ auch in Verlauf, ‚Wie war was?‘, Essen und Trinken und Fazit (mehr als eine Zeile mit Sprechblase ‚Text löschen?‘), Rückgängig nach dem ⓧ in allen Feldern; Zusammenarbeit 3.1.0 (Regeln nur mit Genehmigung); Prüfung `regeln-ablauf` | 3.39.0 | 30.10.2026 |
 | P-78, P-77 | Geprüft **P-78 (3.38.0): alles ok** – Reisemittel am iPhone als Wischzeile mit Verlauf und Pfeilen, ‚Messung starten‘ erst nach langem Drücken, nach dem Neustart wieder versteckt (AppDesign APD-86 und APD-77 bestätigt) · **P-77 (3.37.0): alles ok** – /0–/2 in Sitzung 0052, /3 Regelwächter in der Sitzung 0053 (Antwort ohne Fenster mit APD-84/W-4 zurückgewiesen) | 3.38.0 | 29.10.2026 |
 | APD-86, APD-77 | AppDesign 4.40.0 im Reiselogbuch: die Zeile ‚Reisemittel‘ am iPhone als Wischzeile mit Verlauf und Pfeilen (deine Rückmeldung 29.10.2026, Prüfung `ablauf-reisemittel-zeile`); ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile | 3.38.0 | 29.10.2026 |
 | RLB-107 | Prüfung `ablauf-fenster-breite` (Rückmeldung P-76/4) im vollen Lauf, mit der Korrektur AppDesign APD-83 | 3.37.0 | 26.10.2026 |
