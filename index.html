@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.41.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.42.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -128,18 +128,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.41.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.42.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.39.0';
-const APP_BUILT = '30.10.2026 um 01:07';
+const APP_VERSION = '3.40.0';
+const APP_BUILT = '30.10.2026 um 08:31';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.41.0';
+const AD_NEEDED = '4.42.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -345,6 +345,10 @@ function overlappingTrip(start, end, ignoreId) {
 
 function transportText(trip) {
   return TRANSPORT.filter(t => trip.transport.includes(t.id)).map(t => `${t.icon} ${t.name}`).join(', ');
+}
+// Seit 3.40.0 (AppDesign APD-90, R-10.5): je Reisemittel Icon und Name zusammen – die Zeile bricht nur nach dem Komma um.
+function transportHtml(trip) {
+  return TRANSPORT.filter(t => trip.transport.includes(t.id)).map(t => iconText(t.icon, t.name)).join(', ');
 }
 
 /* ---------- Tage ---------- */
@@ -701,7 +705,7 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
     <dl class="meta trip">
       <dt>Reiseteilnehmer:</dt><dd>${esc(trip.participants)}</dd>
       <dt>Reisezeitraum:</dt><dd>${fullDate(trip.start)} - ${fullDate(trip.end)}</dd>
-      ${transport ? `<dt>Reisemittel:</dt><dd>${esc(transport)}</dd>` : ''}
+      ${transport ? `<dt>Reisemittel:</dt><dd>${transportHtml(trip)}</dd>` : ''}
     </dl>
     <p class="progress">${progress}</p>
     ${ax ? `<div id="pdays">${dayBoxesHtml(trip, visible, { today, gap, term, nr }) || `<div class="empty-note">${term ? 'Keine Treffer.' : 'Noch keine Tage erfasst.'}</div>`}</div>` : `
@@ -1738,7 +1742,7 @@ function outputBody(trip, version, stamp) {
     <table class="meta">
       <tr><td><b>Reiseteilnehmer:</b></td><td>${esc(trip.participants)}</td></tr>
       <tr><td><b>Reisezeitraum:</b></td><td>${fullDate(trip.start)} - ${fullDate(trip.end)}</td></tr>
-      ${transport ? `<tr><td><b>Reisemittel:</b></td><td>${esc(transport)}</td></tr>` : ''}
+      ${transport ? `<tr><td><b>Reisemittel:</b></td><td>${transportHtml(trip)}</td></tr>` : ''}
     </table>
     <table class="grid">
       ${outCols(trip)}

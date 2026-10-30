@@ -3,8 +3,8 @@
 // Backup laden → Abgleichen, in beide Richtungen. Fälle 8, 9, 9a–9c der Tabelle (15.18).
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich-ui.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.41.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.41.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.42.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-abgleich-ui', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand

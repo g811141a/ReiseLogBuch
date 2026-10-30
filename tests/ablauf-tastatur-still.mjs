@@ -9,10 +9,10 @@
 // sichtbare Fensterinhalt (96 von 84 px), wie Safari dann verschiebt, ist nicht gemessen (Testfälle).
 // Aufruf im Repo-Ordner: node tests/ablauf-tastatur-still.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.41.0/tests/pruefe.mjs';
-import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS } from '../../AppDesign/fassung/4.41.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.41.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.41.0/tests/abspielen.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.42.0/tests/pruefe.mjs';
+import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS } from '../../AppDesign/fassung/4.42.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.42.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.42.0/tests/abspielen.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 const t = pruefung('ablauf-tastatur-still', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;

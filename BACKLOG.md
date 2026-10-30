@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 30.10.2026** · Aktuelle Version: Reiselogbuch 3.39.0 · AppDesign 4.41.0
+**Stand 30.10.2026** · Aktuelle Version: Reiselogbuch 3.40.0 · AppDesign 4.42.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -26,13 +26,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 | RLB-109 | 2 | **Preis beim Quartier (Nutzer 30.10.2026, Sitzung 0053):** neues Feld ‚Preis‘ beim Quartier, auch in der Statistik ausgegeben. Bestehend: keiner (Statistik hat Quartiere und Nächte). Zu klären: Preis je Nacht oder gesamt, Währung, Summe und Durchschnitt je Nacht in der Statistik, Quartierliste und Ausgabe, Abgleich und Backup (`normalize`). **Geklärt (Nutzer 30.10.2026, Sitzung 0055):** Gesamtpreis je Aufenthalt, eingegeben am ersten Tag beim Quartier (Preis je Nacht rechnet die App); immer Euro (Beträge R-5.1, „1.240,00 €“); Statistik unter ‚Nächte‘: ‚Quartierkosten‘ (Summe) und ‚Ø je Nacht‘ (nur Nächte mit Preis); Ausgabe nur in der Quartierliste (neue Spalte ‚Preis‘ nach ‚Nächte‘), Tagestabelle unverändert. Feld ‚Preis‘ im Schritt Quartier unter ‚Ort‘, bei ‚Quartier wie Vortag‘ ausgeblendet. Testfall-Liste: AppDesign `arbeit/APD-92 APD-93 RLB-108 RLB-109 RLB-110 Testfall-Liste.md` (bestätigt 30.10.2026: mit iPhone-Kachel ‚🚶🏽‍♂️ 14 km‘, nur km zählt nicht als erfasst, Statistik ‚Gegangene Kilometer‘) | App | 30.10.2026 |
 | RLB-110 | 2 | **Spalte ‚Kilometer‘ (Nutzer 30.10.2026, Sitzung 0053):** neue Spalte nach ‚Wie war was?‘, durchgehend ausgegeben, wenn in den Einstellungen eingeschaltet (wie ‚Spalte Essen‘, ‚Spalte Quartier‘). Bestehend: keiner. Zu klären: Kilometer je Tag als Zahl, Summe in der Statistik, feste Spaltenbreiten der Ausgabe (index.html:367–370), Abgleich und Backup (`normalize`). **Geklärt (Nutzer 30.10.2026, Sitzung 0055):** Einstellung ‚Spalte Kilometer‘ (Voreinstellung aus); Eingabe als eigener Schritt nach ‚Wie war was?‘, ganze Zahl, rechtsbündig mit Tausenderpunkt, „km“ rechts neben dem Feld; Ausgabe schmale Spalte (Anteil 8) nach ‚Wie war was?‘, rechtsbündig „1.234 km“; Statistik ‚Kilometer‘ (Summe) und ‚Ø je Tag‘ (nur Tage mit Kilometern); `normalize` ergänzt, alte Backups gültig. **Ergänzt (Nutzer 30.10.2026, Sitzung 0055):** in den Einstellungen ein- und ausschaltbar; Spaltenkopf „🚶🏽‍♂️km“; Zellen nur die Zahl („14“); Eingabe rechtsbündig, höchstens 99 km (zwei Ziffern), Feld schmal – so breit wie „99“ plus Platz für das ⓧ, der immer frei bleibt (die Zahl springt nicht). Muster mit Varianten A (eigene Zeile, „km“ daneben), B (im Schrittkopf), C („km“ im Feld) gezeigt. **Variante A** (eigene Zeile, „km“ rechts neben dem Feld) und Bezeichnung **‚Gegangene Kilometer‘** in Einstellungen (‚Spalte 🚶🏽‍♂️km ‚Gegangene Kilometer‘‘) und Tageserfassung (Nutzer 30.10.2026). Allgemeine Regel schmale Zahlenfelder → AppDesign APD-93. Testfall-Liste: AppDesign `arbeit/APD-92 APD-93 RLB-108 RLB-109 RLB-110 Testfall-Liste.md` (bestätigt 30.10.2026: mit iPhone-Kachel ‚🚶🏽‍♂️ 14 km‘, nur km zählt nicht als erfasst, Statistik ‚Gegangene Kilometer‘) | App | 30.10.2026 |
 
-3 Punkte bereit.
+3 Punkte bereit (mit AppDesign 4.43.0: Reiselogbuch 3.41.0).
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | – | zurzeit kein offener Usertest | – |
+| P-80 | 1 | **Usertest P-80 (3.40.0):** Mehr-Knopf offen senkrecht und blau (iPad, iPhone, mit Untermenü), Reisemittel brechen nur nach dem Komma (iPad hoch und quer, PDF) – Testfälle im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| 3.40.0 | AppDesign 4.42.0: Mehr-Knopf offen senkrecht und blau (APD-87), Reisemittel – Icon und Name bleiben zusammen, auch in der Ausgabe (APD-90), Prüflauf wiederholt rote Läufe einmal allein (APD-85 Teil 1) · Usertest P-80 | 3.40.0 | 30.10.2026 |
 | P-79 | Geprüft **P-79 (3.39.0): alles ok** (Nutzer 30.10.2026, Sitzung 0054) – ⓧ in Verlauf, ‚Wie war was?‘, Essen und Trinken und Fazit, Rückgängig mit Undo-Taste, drei Fingern und Schütteln, auch im Reisetitel (AppDesign APD-81 bestätigt) | 3.39.0 | 30.10.2026 |
 | APD-81, APD-89 | AppDesign 4.41.0 im Reiselogbuch: das ⓧ auch in Verlauf, ‚Wie war was?‘, Essen und Trinken und Fazit (mehr als eine Zeile mit Sprechblase ‚Text löschen?‘), Rückgängig nach dem ⓧ in allen Feldern; Zusammenarbeit 3.1.0 (Regeln nur mit Genehmigung); Prüfung `regeln-ablauf` | 3.39.0 | 30.10.2026 |
 | P-78, P-77 | Geprüft **P-78 (3.38.0): alles ok** – Reisemittel am iPhone als Wischzeile mit Verlauf und Pfeilen, ‚Messung starten‘ erst nach langem Drücken, nach dem Neustart wieder versteckt (AppDesign APD-86 und APD-77 bestätigt) · **P-77 (3.37.0): alles ok** – /0–/2 in Sitzung 0052, /3 Regelwächter in der Sitzung 0053 (Antwort ohne Fenster mit APD-84/W-4 zurückgewiesen) | 3.38.0 | 29.10.2026 |
