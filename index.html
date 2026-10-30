@@ -17,6 +17,8 @@
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
   .meta dt { font-weight: 600; }
   .meta dd { margin: 0; }
+  .avg { display: inline-flex; flex-wrap: wrap; } .avg > span { white-space: nowrap; }   /* RLB-112: Ø unter dem Wert, statHtml */
+  .box .kv .k b { font-weight: 600; }   /* seit 3.42.1 (RLB-112): ‚km‘ der Kachel halbfett wie im Spaltenkopf */
   .progress { font-size: calc(14px * var(--f-subhead)); color: var(--muted); margin: 0 0 12px; }
 
   /* Tabelle */
@@ -755,7 +757,7 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
       </div>` : ''}
 
     <h2 data-marke="Statistik">Statistik</h2>
-    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${statHtml(v)}</dd>`).join('')}</dl>
     </div>`);
 
   const tabelle = app.querySelector('table.days:not(.static)');
@@ -928,7 +930,7 @@ function renderPhone({ scrollToGap = false } = {}) {
     ${fazitHtml(trip)}
     ${phoneStaysHtml(trip)}
     <h2 data-marke="Statistik">Statistik</h2>
-    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${statHtml(v)}</dd>`).join('')}</dl>
     </div>`);
   mountCap(app);   // seit 3.38.0 (AppDesign APD-86): Verlauf und Pfeile der Zeile Reisemittel
   app.querySelector('#back').onclick = navZurueck;   // seit 3.28.0 (AppDesign APD-61): der Inhalt schiebt sich hinaus
@@ -956,7 +958,7 @@ function dayBoxesHtml(trip, visible, { today, gap, term, nr }) {
       <div class="h">${dayLabel(iso)}${tags}${e.weather ? `<span class="wx">${esc(e.weather)}</span>` : '<span class="wx empty">☀️🌤🌦🌧</span>'}</div>
       ${line('Verlauf', e.program ? linesHtml(programItems(e.program), term) : '', true)}
       ${c.mood ? line('🙂☹️😉', e.comment ? linesHtml(commentItems(e.comment), term) : '') : ''}
-      ${c.km ? line('🚶🏽‍♂️km', e.km ? fmtKm(e.km) : '') : ''}
+      ${c.km ? line('🚶🏽‍♂️<b>km</b>', e.km ? fmtKm(e.km) : '') : ''}
       ${c.food ? line('🍽️🍷☕️', e.food ? foodHtml(foodItems(e.food, q.place), term, true) : '') : ''}
       ${c.quarter ? line('😴💤', withPrice(trip, iso, q, quarterHtml(q, term, true))) : ''}
     </div>`;
@@ -1462,7 +1464,7 @@ function openTripDialog(trip) {
 
   // Geändert: Vergleich mit dem Stand beim Öffnen.
   const state = () => JSON.stringify([fTitle.value, fPeople.value, fStart.value, fEnd.value, [...transport].sort(),
-    ...['#fMood', '#fKm', '#fFood', '#fQuarterCol', '#fQuarterList'].map(id => dlg.querySelector(id).checked)]);
+    ...['#fMood', '#fKm', '#fFood', '#fQuarterCol', '#fQuarterList', '#fPriceOn'].map(id => dlg.querySelector(id).checked)]);   // seit 3.42.1 mit Preis (RLB-112)
   const initial = state();
   dlgDirty = () => state() !== initial;
 
@@ -1748,11 +1750,19 @@ const OUTPUT_CSS = outputCss('.rt') + `
   .rt .ln .m { flex: none; }
   .rt .ln .t { min-width: 0; overflow-wrap: anywhere; }
   .rt .stats td { border: none; padding: 1px 16px 1px 0; }
+  .rt .avg { display: inline-flex; flex-wrap: wrap; } .rt .avg > span { white-space: nowrap; }
   .rt a { color: #1a5fb4; }
   .rt a.m { text-decoration: none; }
   .rt p { white-space: pre-line; }
   @media print { body { margin: 0; } }
 `;
+
+// Zelle der Statistik (App und Ausgabe): Wert und Ø als zwei Teile, die je in einer Zeile bleiben; passen beide nicht in die Zeile, steht
+// der Ø linksbündig unter dem Wert (seit 3.42.1, RLB-112 – ein Trennpunkt im Text bricht in Safari nach geschützten Leerzeichen nicht um)
+function statHtml(v) {
+  const m = v.match(/^(.*?\u00a0{5})(\(Ø.*)$/);
+  return m ? `<span class="avg"><span>${esc(m[1])}</span><span>${esc(m[2])}</span></span>` : esc(v);
+}
 
 function tripStats(trip) {
   const days = tripDays(trip);
@@ -1775,14 +1785,15 @@ function tripStats(trip) {
   const moods = count([...(c.mood ? rec.map(d => rawEntry(trip, d).comment) : []), trip.fazit].flatMap(emojisIn));
   const fmt = list => list.map(([e, n]) => `${n}×${e}`).join(' · ') || '–';
   // seit 3.41.0 (RLB-110): Summe und Ø der gegangenen Kilometer (nur Tage mit Kilometern); seit 3.42.0 (RLB-111) mit einer Nachkommastelle,
-  // Ø in Klammern hinter dem Wert: 5 geschützte Leerzeichen davor, 2 nach ‚Ø‘, immer in einer Zeile
+  // Ø in Klammern hinter dem Wert: 5 geschützte Leerzeichen davor, seit 3.42.1 (RLB-112) 1 nach ‚Ø‘; passt es nicht, bricht die Zeile vor der
+  // Klammer um, der Ø steht dann linksbündig unter dem Wert (statHtml)
   const kms = c.km ? days.map(d => rawEntry(trip, d).km).filter(Boolean) : [];
   const kmSum = kms.reduce((a, x) => a + x, 0);
   // seit 3.41.0 (RLB-109): Quartierkosten und Ø je Nacht – nur Aufenthalte mit Preis; seit 3.42.0 (RLB-111) nur mit ‚Preis der Quartiere
   // erfassen‘, Ø in Klammern wie bei den Kilometern
   const stays = c.quarter ? quarterStays(trip) : [], priced = trip.priceOn ? stays.filter(st => st.price != null) : [];
   const cost = priced.reduce((a, st) => a + st.price, 0), costNights = priced.reduce((a, st) => a + st.nights, 0);
-  const avg = (v, d, unit) => `${v}\u00a0${unit}${'\u00a0'.repeat(5)}(Ø\u00a0\u00a0${d}\u00a0${unit})`;
+  const avg = (v, d, unit) => `${v}\u00a0${unit}${'\u00a0'.repeat(5)}(Ø\u00a0${d}\u00a0${unit})`;
   return [
     ['Reisetage', `${days.length}, davon erfasst ${rec.length}`],
     ...(kms.length ? [['Gegangene Kilometer', avg(fmtKm(kmSum), fmtKm(kmSum / kms.length), 'km')]] : []),
@@ -1858,7 +1869,7 @@ function outputBody(trip, version, stamp) {
       </table>` : ''}
     <h2>Statistik</h2>
     <table class="stats">
-      ${tripStats(trip).map(([k, v]) => `<tr><td><b>${k}:</b></td><td>${esc(v)}</td></tr>`).join('')}
+      ${tripStats(trip).map(([k, v]) => `<tr><td><b>${k}:</b></td><td>${statHtml(v)}</td></tr>`).join('')}
     </table>
     <p class="created">Ausgabe V${pad(version, 3)} erstellt am ${stamp.date} um ${stamp.time}</p>
   </div>`;
