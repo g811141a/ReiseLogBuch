@@ -22,7 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| – | – | zurzeit nichts gesammelt | – | – |
+| RLB-108 | 2 | **‚Darstellung‘ ins Mehr-Menü der Seitenleiste (Nutzer 30.10.2026, Sitzung 0053; geklärt 30.10.2026, Sitzung 0055):** ‚Darstellung ›‘ (Automatisch / Hell / Dunkel) aus dem Mehr-Menü der Reiselogbuch-Seite (`openMainMenu`) entfernen und ins Mehr-Menü der Seitenleiste (iPhone: Startliste, `backupMenuItems`) **nach Backup erstellen / Backup laden** setzen, mit Trennlinie davor und danach (Reihenfolge: Backup · Darstellung · Messmodus · Versionszeile). Verschieben statt entfernen (HIG rät von einer eigenen Darstellung ab – bestehende Abweichung R-1.2 bleibt, wird nicht größer). Ohne Muster (Nutzer 30.10.2026). Allgemeine Regel → AppDesign APD-92 | allgemein | 30.10.2026 |
+
+1 Punkt bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
@@ -34,9 +36,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-108 | 2 | **‚Darstellung‘ ins Mehr-Menü der Seitenleiste (Nutzer 30.10.2026, Sitzung 0053):** ‚Darstellung‘ (Automatisch / Hell / Dunkel) aus dem Mehr-Menü der Reiselogbuch-Seite (`openMainMenu`) in das Mehr-Menü der Seitenleiste (iPhone: Startliste) verschieben – die Darstellung gilt für die ganze App, nicht für ein Reiselogbuch. Bestehend: keiner. **Allgemeine Regel (Nutzer 30.10.2026) → AppDesign APD-92**; hier die Umsetzung im Reiselogbuch | allgemein | offen |
-| RLB-109 | 2 | **Preis beim Quartier (Nutzer 30.10.2026, Sitzung 0053):** neues Feld ‚Preis‘ beim Quartier, auch in der Statistik ausgegeben. Bestehend: keiner (Statistik hat Quartiere und Nächte). Zu klären: Preis je Nacht oder gesamt, Währung, Summe und Durchschnitt je Nacht in der Statistik, Quartierliste und Ausgabe, Abgleich und Backup (`normalize`) | App | offen |
-| RLB-110 | 2 | **Spalte ‚Kilometer‘ (Nutzer 30.10.2026, Sitzung 0053):** neue Spalte nach ‚Wie war was?‘, durchgehend ausgegeben, wenn in den Einstellungen eingeschaltet (wie ‚Spalte Essen‘, ‚Spalte Quartier‘). Bestehend: keiner. Zu klären: Kilometer je Tag als Zahl, Summe in der Statistik, feste Spaltenbreiten der Ausgabe (index.html:367–370), Abgleich und Backup (`normalize`) | App | offen |
+| RLB-109 | 2 | **Preis beim Quartier (Nutzer 30.10.2026, Sitzung 0053):** neues Feld ‚Preis‘ beim Quartier, auch in der Statistik ausgegeben. Bestehend: keiner (Statistik hat Quartiere und Nächte). Zu klären: Preis je Nacht oder gesamt, Währung, Summe und Durchschnitt je Nacht in der Statistik, Quartierliste und Ausgabe, Abgleich und Backup (`normalize`). **Geklärt (Nutzer 30.10.2026, Sitzung 0055):** Gesamtpreis je Aufenthalt, eingegeben am ersten Tag beim Quartier (Preis je Nacht rechnet die App); immer Euro (Beträge R-5.1, „1.240,00 €“); Statistik unter ‚Nächte‘: ‚Quartierkosten‘ (Summe) und ‚Ø je Nacht‘ (nur Nächte mit Preis); Ausgabe nur in der Quartierliste (neue Spalte ‚Preis‘ nach ‚Nächte‘), Tagestabelle unverändert. Feld ‚Preis‘ im Schritt Quartier unter ‚Ort‘, bei ‚Quartier wie Vortag‘ ausgeblendet. Offen: Testfall-Liste | App | offen |
+| RLB-110 | 2 | **Spalte ‚Kilometer‘ (Nutzer 30.10.2026, Sitzung 0053):** neue Spalte nach ‚Wie war was?‘, durchgehend ausgegeben, wenn in den Einstellungen eingeschaltet (wie ‚Spalte Essen‘, ‚Spalte Quartier‘). Bestehend: keiner. Zu klären: Kilometer je Tag als Zahl, Summe in der Statistik, feste Spaltenbreiten der Ausgabe (index.html:367–370), Abgleich und Backup (`normalize`). **Geklärt (Nutzer 30.10.2026, Sitzung 0055):** Einstellung ‚Spalte Kilometer‘ (Voreinstellung aus); Eingabe als eigener Schritt nach ‚Wie war was?‘, ganze Zahl, rechtsbündig mit Tausenderpunkt, „km“ rechts neben dem Feld; Ausgabe schmale Spalte (Anteil 8) nach ‚Wie war was?‘, rechtsbündig „1.234 km“; Statistik ‚Kilometer‘ (Summe) und ‚Ø je Tag‘ (nur Tage mit Kilometern); `normalize` ergänzt, alte Backups gültig. Offen: Spaltenkopf (Nutzer schreibt im Chat), Testfall-Liste | App | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
