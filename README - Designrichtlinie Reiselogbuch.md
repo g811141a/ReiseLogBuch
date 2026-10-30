@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.41.0** · Stand 30.10.2026
+**Version 3.42.0** · Stand 30.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.43.0)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.44.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -21,7 +21,7 @@
 
 Es gelten R-9.2 bis R-9.4 und die Fall-Tabelle der Designrichtlinie allgemein (15.18); wie das Reiselogbuch Einträge, Tage und
 Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier, weil die Prüfung sie mit der App vergleicht
-(R-10.1, `doku.mjs`). Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Reisemittel, Quartierliste, Spalte Essen, Spalte Wie war was?, Spalte Quartier, Spalte Gegangene Kilometer, Fazit, Gesamtausgaben; je Tag Wetter, Verlauf, Wie war was?, Gegangene Kilometer, Essen und Trinken, Quartier, Ort, Preis, Quartier wie Vortag, Google-Maps-Link.
+(R-10.1, `doku.mjs`). Feldnamen im Abgleichbericht (`labels`): Reisetitel, Reiseteilnehmer, Beginn, Ende, Reisemittel, Quartierliste, Spalte Essen, Spalte Wie war was?, Spalte Quartier, Spalte Gegangene Kilometer, Preis der Quartiere erfassen, Fazit, Gesamtausgaben; je Tag Wetter, Verlauf, Wie war was?, Gegangene Kilometer, Essen und Trinken, Quartier, Ort, Preis, Quartier wie Vortag, Google-Maps-Link.
 
 ---
 
@@ -29,6 +29,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.42.0 | 30.10.2026 | Neben | AppDesign 4.44.0 (APD-95, R-5.8: Bezeichnungen und Einheiten normal; schmales Zahlenfeld bündig rechts) – keine Abweichung neu; Feldname ‚Preis der Quartiere erfassen‘ (RLB-111) |
 | 3.41.0 | 30.10.2026 | Neben | AppDesign 4.43.0 (APD-91 ‚Suchen‘ im Mehr-Menü, x ‚Suche beenden‘, ⌘F; APD-92/R-1.2 ‚Darstellung‘ im Mehr-Menü der Seitenleiste – RLB-108; APD-93 schmale Zahlenfelder – Feld ‚Gegangene Kilometer‘, RLB-110); Preis beim Quartier (RLB-109); Abweichung 3 mit ‚Gegangene Kilometer‘ 8, Feldnamen mit Spalte Gegangene Kilometer, Gegangene Kilometer und Preis (Nutzer 30.10.2026, Wortlaut bestätigt) |
 | 3.40.0 | 30.10.2026 | Neben | AppDesign 4.42.0 (APD-87 Mehr-Knopf offen senkrecht, APD-90/R-10.5 Reisemittel: Icon und Name bleiben zusammen, auch in der Ausgabe) |
 | 3.39.0 | 30.10.2026 | Neben | AppDesign 4.41.0 (APD-81, R-5.6: das ⓧ auch in den mehrzeiligen Feldern Verlauf, ‚Wie war was?‘, Essen und Trinken, Fazit; Rückgängig nach dem ⓧ in allen Feldern) – keine Abweichung im Reiselogbuch |

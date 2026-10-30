@@ -1,10 +1,12 @@
 // Reiselogbuch-Test: ablauf-preis-km (seit 3.41.0) – Testfall-Liste AppDesign arbeit/APD-92 APD-93 RLB-108 RLB-109 RLB-110 Testfall-Liste.md:
 // D-1 bis D-6 ‚Darstellung‘ im Mehr-Menü der Seitenleiste (RLB-108, APD-92, R-1.2); Q-1 bis Q-9 Preis beim Quartier (RLB-109, R-5.1);
 // L-1 bis L-13 Spalte ‚Gegangene Kilometer‘ mit schmalem Zahlenfeld (RLB-110, APD-93). D-7 (Darstellung je Gerät) prüft abgleich-regeln,
-// D-8 hig (R-1.2). Aufruf im Repo-Ordner: node tests/ablauf-preis-km.mjs
+// D-8 hig (R-1.2). Seit 3.42.0 Testfall-Liste AppDesign arbeit/RLB-111 APD-95 Testfall-Liste.md: RLB-111/H-1 bis H-8 Preis nur auf Wunsch, in
+// Klammern hinter dem Quartier, Ø in Klammern (RLB-111); RLB-111/M-1 bis M-6 Kilometer mit einer Nachkommastelle; APD-95/B-1 bis B-5 Bezeichnungen normal
+// (APD-95, R-5.8 – hig `bezeichnungen` nach jedem Schritt, Gegenprobe hier). Aufruf im Repo-Ordner: node tests/ablauf-preis-km.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.43.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.43.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.44.0/tests/pruefe.mjs';
+import { createCheck, bezeichnungen } from '../../AppDesign/fassung/4.44.0/tests/hig.mjs';
 const t = pruefung('ablauf-preis-km', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 // 24.–28.08.: Quartier A 3 Nächte (Preis 300), Quartier B 2 Nächte (Preis 200); 29.08. Quartier C ohne Preis; km an 3 Tagen, ein Tag nur km
 const days = {
@@ -17,7 +19,7 @@ const days = {
   '2026-08-31': { km: 9 },
 };
 const trip = { id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-09-02', transport: ['flug'], foodColumn: true, moodColumn: true,
-  quarterColumn: true, kmColumn: true, quarterList: true, days };
+  quarterColumn: true, kmColumn: true, priceOn: true, quarterList: true, days };
 const alt = { id: 'b', title: 'Altes Backup', participants: 'G', start: '2025-05-01', end: '2025-05-03', transport: ['pkw'], days: { '2025-05-01': { program: 'x', quarter: 'Q', price: 'teuer', km: 120 } } };
 const start = async (p, trips = [trip, alt]) => {
   await p.clock.setFixedTime(new Date('2026-09-05T10:00:00'));
@@ -58,7 +60,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   await p.locator('.submenu .mi', { hasText: 'Automatisch' }).click(); await p.waitForTimeout(200);
   t.ist('APD-92/D-4 Automatisch folgt wieder dem Gerät', await p.evaluate(() => document.documentElement.dataset.theme), theme, 'R-1.2');
   // L-12, Q-8: altes Backup – kmColumn aus, unbrauchbarer Preis und km > 99 fallen weg
-  t.ist('RLB-110/L-12 altes Reiselogbuch: kmColumn aus, Felder bereinigt', await p.evaluate(() => { const x = db.trips.find(t => t.id === 'b'); return [x.kmColumn, 'price' in x.days['2025-05-01'], 'km' in x.days['2025-05-01']]; }), [false, false, false]);
+  t.ist('RLB-110/L-12, RLB-111/H-8, K-6 altes Reiselogbuch: kmColumn und priceOn aus, Felder bereinigt', await p.evaluate(() => { const x = db.trips.find(t => t.id === 'b'); return [x.kmColumn, x.priceOn, 'price' in x.days['2025-05-01'], 'km' in x.days['2025-05-01']]; }), [false, false, false, false]);
   await oeffne(p);
   // D-3: Mehr eines Reiselogbuchs ohne ‚Darstellung‘
   await p.click('#mainMore'); await p.waitForTimeout(150);
@@ -68,19 +70,31 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   if (!phone) {
     t.ist('RLB-110/L-2 Spaltenköpfe', await p.locator('table.days:not(.static) thead th').allTextContents(), ['Tag', 'Verlauf', '🙂☹️😉', '🚶🏽‍♂️km', '🍽️🍷☕️', '😴💤']);
     t.ist('RLB-110/L-2 Zellen: nur die Zahl, rechtsbündig, ohne Wert leer', await p.evaluate(() => ['2026-08-24', '2026-08-25', '2026-08-26'].map(d => { const c = document.querySelector(`tr[data-day="${d}"] td:nth-child(4)`); return [c.textContent.trim(), getComputedStyle(c).textAlign]; })),
-      [['6', 'right'], ['14', 'right'], ['', 'right']]);
+      [['6,0', 'right'], ['14,0', 'right'], ['', 'right']]);
     // Q-3 Quartierliste (iPad): Spalte ‚Preis‘ nach ‚Nächte‘
     t.ist('RLB-109/Q-3 Quartierliste Kopf', await p.locator('table.days.static thead th').allTextContents(), ['Quartier', 'Zeitraum', 'Nächte', 'Preis']);
     t.ist('RLB-109/Q-3 Quartierliste Preise', await p.locator('table.days.static tbody td:nth-child(4)').allTextContents(), ['300,00 €', '200,00 €', '']);
+    // H-4, H-5: Preis in Klammern hinter dem Quartier nur am Tag des Eintrags, die Klammer bricht nie um
+    t.ist('RLB-111/H-4 Tabelle: Klammer nur am Tag des Eintrags', await p.evaluate(() => ['2026-08-24', '2026-08-25', '2026-08-27'].map(d => document.querySelector(`tr[data-day="${d}"] td.quarter`).textContent.replace(/\s+/g, ' ').trim())),
+      ['📍Hotel A, Cairns (300,00 €)', '📍Hotel A, Cairns', '📍Hotel B, Townsville (200,00 €)']);
+    t.ist('RLB-111/H-5 Klammer bricht nie um', await p.evaluate(() => getComputedStyle(document.querySelector('tr[data-day="2026-08-24"] td.quarter .t > span:last-child')).whiteSpace), 'nowrap');
   } else {
-    t.ist('RLB-110/L-9 Kachel ‚🚶🏽‍♂️ 14 km‘', await p.evaluate(() => [...document.querySelectorAll('#pdays [data-day="2026-08-25"] .kv')].map(k => k.textContent.replace(/\s+/g, ' ').trim()).find(x => x.startsWith('🚶'))), '🚶🏽‍♂️14 km');
+    t.ist('RLB-111/M-4 Kachel ‚🚶🏽‍♂️km‘ · ‚14,0‘', await p.evaluate(() => [...document.querySelectorAll('#pdays [data-day="2026-08-25"] .kv')].map(k => [k.querySelector('.k').textContent, k.querySelector('.v').textContent]).find(x => x[0].startsWith('🚶'))), ['🚶🏽‍♂️km', '14,0']);
+    t.ist('RLB-111/H-4 Kachel: Klammer nur am Tag des Eintrags', await p.evaluate(() => ['2026-08-24', '2026-08-25'].map(d => [...document.querySelectorAll(`#pdays [data-day="${d}"] .kv .v`)].pop().textContent.replace(/\s+/g, ' ').includes('(300,00 €)'))), [true, false]);
     t.ist('RLB-109/Q-3 Quartierliste (iPhone): Preis hinter den Nächten', await p.locator('.ilist .irow small').allTextContents(), [/3 Nächte · 300,00 €$/, /2 Nächte · 200,00 €$/, /1 Nacht$/]);
   }
   // Q-4, L-8: Statistik
   const st = await stats(p);
-  t.ist('RLB-109/Q-4 Statistik Quartierkosten und Ø je Nacht (nur Nächte mit Preis)', [st['Quartierkosten'], st['Ø je Nacht']], ['500,00 €', '100,00 €']);
-  t.ist('RLB-110/L-8 Statistik Gegangene Kilometer und Ø je Tag (gerundet, nur Tage mit km)', [st['Gegangene Kilometer'], st['Ø je Tag']], ['32 km', '8 km']);
-  t.ist('Statistik: Reihenfolge', Object.keys(st), ['Reisetage', 'Gegangene Kilometer', 'Ø je Tag', 'Quartiere', 'Nächte', 'Quartierkosten', 'Ø je Nacht', 'Wetter', 'Smileys']);
+  // H-6, M-5: Ø in Klammern hinter dem Wert – 5 geschützte Leerzeichen davor, 2 nach ‚Ø‘, eine Nachkommastelle bei km; keine eigenen Ø-Zeilen
+  const nb = '\u00a0', ab = nb.repeat(5);
+  t.ist('RLB-111/H-6 Statistik Quartierkosten (Ø nur über Nächte mit Preis)', st['Quartierkosten'], `500,00${nb}€${ab}(Ø${nb}${nb}100,00${nb}€)`);
+  t.ist('RLB-111/M-5 Statistik Gegangene Kilometer (Ø nur Tage mit km)', st['Gegangene Kilometer'], `32,0${nb}km${ab}(Ø${nb}${nb}8,0${nb}km)`);
+  t.ist('Statistik: Reihenfolge', Object.keys(st), ['Reisetage', 'Gegangene Kilometer', 'Quartiere', 'Nächte', 'Quartierkosten', 'Wetter', 'Smileys']);
+  // H-2: ‚Preis der Quartiere erfassen‘ aus – keine Spalte, keine Klammer, keine Quartierkosten; Werte bleiben, wieder ein → wieder da
+  await p.evaluate(() => { db.trips.find(x => x.id === 'a').priceOn = false; render(); }); await p.waitForTimeout(300);
+  t.ist('RLB-111/H-2 aus: nichts vom Preis sichtbar, Werte bleiben', await p.evaluate(() => [document.querySelector('#app').textContent.includes('300,00'), 'Quartierkosten' in Object.fromEntries([...document.querySelectorAll('#app .rolle > dl.meta:not(.trip) dt')].map(d => [d.textContent.replace(/:$/, ''), 1])), db.trips.find(x => x.id === 'a').days['2026-08-24'].price]), [false, false, 300]);
+  await p.evaluate(() => { db.trips.find(x => x.id === 'a').priceOn = true; render(); }); await p.waitForTimeout(300);
+  t.ist('RLB-111/H-2 wieder ein: wieder da', 'Quartierkosten' in await stats(p), true);
   // L-10: ein Tag nur mit km zählt nicht als erfasst
   t.ist('RLB-110/L-10 Tag nur mit km nicht erfasst', await p.evaluate(() => isRecorded(db.trips.find(x => x.id === 'a'), '2026-08-31')), false);
   // L-3: Schritt ‚Gegangene Kilometer‘ nach ‚Wie war was?‘, Nummern +1, Feld mit ‚km‘ rechts daneben
@@ -89,22 +103,32 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
     ['1Wetter', '2Verlauf', '3Wie war was?', '4Gegangene Kilometer', '5Essen und Trinken', '6Quartier']);
   const km = await p.evaluate(() => { const f = document.getElementById('fKmDay'), e = f.nextElementSibling, r = f.getBoundingClientRect(), er = e.getBoundingClientRect();
     return { wert: f.value, mode: f.inputMode, einheit: e.textContent, daneben: er.left >= r.right && er.left - r.right < 20 && Math.abs((er.top + er.bottom) / 2 - (r.top + r.bottom) / 2) < 4, align: getComputedStyle(f).textAlign, breite: Math.round(r.width) }; });
-  t.ist('RLB-110/L-3, L-4 Feld: Wert, Ziffernblock, ‚km‘ rechts daneben, rechtsbündig', [km.wert, km.mode, km.einheit, km.daneben, km.align], ['6', 'numeric', 'km', true, 'right']);
-  // L-6 (APD-93): Breite = ‚99‘ + Innenabstände + ⓧ-Platz – ‚99‘ passt ohne Rollen, das Feld ist schmal
-  await p.locator('#fKmDay').fill('99'); await p.locator('#fKmDay').dispatchEvent('input');
-  t.wahr(`APD-93/L-6 ‚99‘ passt ins Feld (${km.breite} px breit)`, await p.evaluate(() => { const f = document.getElementById('fKmDay'); return f.scrollWidth <= f.clientWidth; }), 'R-5.1');
-  t.wahr(`APD-93/L-6 Feld schmal (${km.breite} px, höchstens 2 Ziffern + Innenabstände + ⓧ)`, km.breite < 140, 'R-5.1');
-  // L-4: nur Ziffern, höchstens zwei
-  for (const [ein, aus] of [['123', '12'], ['1,5', '15'], ['a', ''], ['07', '7']]) {
+  t.ist('RLB-110/L-3, RLB-111/M-1, K-3 Feld: Wert, Komma-Tastatur, ‚km‘ rechts daneben, rechtsbündig', [km.wert, km.mode, km.einheit, km.daneben, km.align], ['6,0', 'decimal', 'km', true, 'right']);
+  // B-1 bis B-3 (APD-95, R-5.8): Bezeichnungen und Einheiten normal – Gegenprobe APD-95/B-5: mit halbfetten Bezeichnungen meldet die Prüfung
+  t.ist('APD-95/B-1, B-3 Bezeichnungen und Einheiten normal', await p.evaluate(bezeichnungen), [], 'R-5.8');
+  t.ist('APD-95/B-2 Schritt-Überschrift bleibt halbfett', await p.evaluate(() => getComputedStyle(document.querySelector('label[for="fKmDay"]')).fontWeight), '600', 'R-5.8');
+  await p.evaluate(() => { const s = document.createElement('style'); s.id = 'gp58'; s.textContent = 'label { font-weight: 600 !important } .kosten > span { font-size: 20px }'; document.head.append(s); });
+  t.wahr('APD-95/B-5 Gegenprobe: halbfette Bezeichnung und große Einheit werden gemeldet', (await p.evaluate(bezeichnungen)).some(x => x.startsWith('Bezeichnung ‚Preis‘')) && (await p.evaluate(bezeichnungen)).some(x => x.startsWith('Einheit ‚€‘')), 'R-5.8');
+  await p.evaluate(() => document.getElementById('gp58').remove());
+  // M-2 (APD-93 geändert): ohne Fokus bündig am rechten Rand (Innenabstand 16 px wie beim Preis), ‚99,9‘ passt auch mit ⓧ, das Feld ist schmal
+  t.ist('RLB-111/M-2 ohne Fokus bündig rechts (Innenabstand 16 px)', await p.evaluate(() => getComputedStyle(document.getElementById('fKmDay')).paddingRight), '16px', 'R-5.1');
+  await p.locator('#fKmDay').focus(); await p.locator('#fKmDay').fill('99,9'); await p.locator('#fKmDay').dispatchEvent('input'); await p.waitForTimeout(150);
+  t.wahr(`RLB-111/M-2 ‚99,9‘ passt mit ⓧ ins Feld (${km.breite} px breit)`, await p.evaluate(() => { const f = document.getElementById('fKmDay'); return !!document.querySelector('#fKmDay + .fclear') && f.scrollWidth <= f.clientWidth; }), 'R-5.1');
+  t.wahr(`APD-93/L-6 Feld schmal (${km.breite} px)`, km.breite < 160, 'R-5.1');
+  // M-1: höchstens zwei Ziffern, Komma (Punkt wird Komma), eine Stelle danach
+  for (const [ein, aus] of [['12,5', '12,5'], ['123', '12'], ['1,25', '1,2'], ['a', ''], ['07', '7'], ['12.5', '12,5']]) {
     await p.locator('#fKmDay').fill(''); await p.locator('#fKmDay').pressSequentially(ein, { delay: 10 });
-    t.ist(`RLB-110/L-4 Eingabe ‚${ein}‘`, await p.inputValue('#fKmDay'), aus);
+    t.ist(`RLB-111/M-1 Eingabe ‚${ein}‘`, await p.inputValue('#fKmDay'), aus);
   }
-  // L-5: Fokus mit ‚14‘ – ⓧ erscheint, die Ziffern bleiben an derselben Stelle (Innenabstand rechts gleich); ⓧ leert, Fokus bleibt
+  // L-5, M-2: Fokus mit ‚14‘ – ⓧ erscheint, die Zahl rückt dafür nach links (Innenabstand rechts größer, wie beim Preis); ⓧ leert, Fokus bleibt
   await p.locator('#fKmDay').fill('14'); await p.evaluate(() => document.activeElement?.blur()); await p.waitForTimeout(100);
   const vorher = await p.evaluate(() => getComputedStyle(document.getElementById('fKmDay')).paddingRight);
   await p.locator('#fKmDay').focus(); await p.waitForTimeout(150);
   const x = await p.evaluate(() => ({ pad: getComputedStyle(document.getElementById('fKmDay')).paddingRight, x: !!document.querySelector('#fKmDay + .fclear') }));
-  t.ist('APD-93/L-5 ⓧ erscheint, Ziffern springen nicht (Innenabstand rechts gleich)', [x.x, x.pad], [true, vorher], 'R-5.6');
+  t.ist('RLB-111/M-2 ⓧ erscheint, die Zahl rückt nach links', [x.x, parseFloat(x.pad) > parseFloat(vorher)], [true, true], 'R-5.6');
+  await p.evaluate(() => document.activeElement?.blur()); await p.waitForTimeout(100);
+  t.ist('RLB-111/M-3 beim Verlassen ‚14‘ → ‚14,0‘', await p.inputValue('#fKmDay'), '14,0');
+  await p.locator('#fKmDay').focus(); await p.waitForTimeout(150);
   await p.click('#fKmDay + .fclear'); await p.waitForTimeout(150);
   t.ist('APD-93/L-5 ⓧ leert, Fokus bleibt', [await p.inputValue('#fKmDay'), await p.evaluate(() => document.activeElement?.id)], ['', 'fKmDay'], 'R-5.6');
   await p.locator('#fKmDay').pressSequentially('12', { delay: 10 });
@@ -136,14 +160,18 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   // Q-6, L-11: Ausgabe – Quartierliste mit ‚Preis‘, Statistik mit allen Zeilen, Spaltenanteile 28 · 28 · 8 · 22 · 22 (von 108)
   const out = await p.evaluate(() => outputBody(db.trips.find(x => x.id === 'a'), 1, nowStamp()));
   t.wahr('RLB-109/Q-6 Ausgabe: Quartierliste mit ‚Preis‘', /<th class="num">Nächte<\/th><th class="num">Preis<\/th>/.test(out) && out.includes('1.240,00 €'), 'R-6.2');
-  t.wahr('RLB-109/Q-6, RLB-110 Ausgabe: Statistik', ['Quartierkosten:', 'Ø je Nacht:', 'Gegangene Kilometer:', 'Ø je Tag:'].every(k => out.includes(`<b>${k}</b>`)), 'R-6.2');
+  t.wahr('RLB-111/H-7 Ausgabe: Statistik ohne Ø-Zeilen, Ø in Klammern', ['Quartierkosten:', 'Gegangene Kilometer:'].every(k => out.includes(`<b>${k}</b>`)) && !out.includes('Ø je') && out.includes('(Ø\u00a0\u00a0'), 'R-6.2');
+  t.wahr('RLB-111/H-7 Ausgabe: Preis in Klammern hinter dem Quartier', out.includes('(1.240,00\u00a0€)'), 'R-6.2');
   t.ist('RLB-110/L-11 Spaltenanteile der Ausgabe', [...out.matchAll(/<col style="width:([\d.]+)%">/g)].map(m => m[1]), ['25.93', '25.93', '7.41', '20.37', '20.37'], 'R-6.2');
   t.wahr('RLB-110/L-11 Kopf ‚🚶🏽‍♂️km‘ in einer Zeile (th.num)', out.includes('<th class="num">🚶🏽‍♂️km</th>'), 'R-6.2');
   // L-1, L-7, Q-5: Einstellungen – Schalter nach ‚Wie war was?‘; Spalten aus – Schritt, Spalte, Statistikzeilen weg, Werte bleiben
   await t.schritt(p, 'L-1 Einstellungen', async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); await p.waitForTimeout(400); await navFertig(p); });
   t.ist('RLB-110/L-1 Schalter', await p.evaluate(() => [...dlg.querySelectorAll('.swlist .check')].map(l => l.textContent.trim()).slice(0, 4)),
     ['Spalte 🙂☹️😉 ‚Wie war was?‘', 'Spalte 🚶🏽‍♂️km ‚Gegangene Kilometer‘', 'Spalte 🍽️🍷☕️ ‚Essen und Trinken‘', 'Spalte 😴💤 ‚Quartier‘']);
+  // H-1, H-3: Schalter ‚Preis der Quartiere erfassen‘ nach ‚Quartierliste in der Ausgabe‘, gesperrt ohne Spalte Quartier
+  t.ist('RLB-111/H-1 Schalter Preis', await p.evaluate(() => [...dlg.querySelectorAll('.swlist .check')].map(l => l.textContent.trim()).slice(4)), ['Quartierliste in der Ausgabe', 'Preis der Quartiere erfassen']);
   await p.locator('#fKm').evaluate(e => e.click()); await p.locator('#fQuarterCol').evaluate(e => e.click());
+  t.ist('RLB-111/H-3 ohne Spalte Quartier gesperrt', await p.locator('#fPriceOn').isDisabled(), true);
   await p.click('#dlgOk'); await p.waitForTimeout(400);
   const st2 = await stats(p);
   t.ist('RLB-110/L-7, RLB-109/Q-5 Statistik ohne km- und Preiszeilen', ['Gegangene Kilometer', 'Ø je Tag', 'Quartierkosten', 'Ø je Nacht'].filter(k => k in st2), []);
@@ -154,7 +182,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.ist('RLB-110/L-7, RLB-109/Q-5 Werte bleiben', await p.evaluate(() => { const d = db.trips.find(x => x.id === 'a').days; return [d['2026-08-24'].price, d['2026-08-24'].km, d['2026-08-25'].km]; }), [1240, 12, 14]);
   // L-1: neues Reiselogbuch – Voreinstellung aus
   await p.evaluate(() => openTripDialog(null)); await p.waitForTimeout(400);
-  t.ist('RLB-110/L-1 neues Reiselogbuch: Spalte km aus', await p.locator('#fKm').isChecked(), false);
+  t.ist('RLB-110/L-1, RLB-111/H-1 neues Reiselogbuch: Spalte km und Preis aus', [await p.locator('#fKm').isChecked(), await p.locator('#fPriceOn').isChecked()], [false, false]);
   await zu(p);
   await p.close();
 }
