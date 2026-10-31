@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-86 | 1 | **Usertest 3.45.0 (AppDesign 4.47.0, APD-101):** gekürzter Titel – Sprechblase beim langen Drücken auf Fenstertitel, Titel der Reise und Titel des Tages; bei normaler Schrift nichts – Testfälle P-86/0 bis P-86/5 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -49,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-86 | **Usertest P-86 (3.45.0 · AppDesign 4.47.0): alles ok** – gekürzter Titel mit Sprechblase am Gerät bestätigt (Nutzer 31.10.2026, Sitzung 0066) | 3.45.0 | 31.10.2026 |
 | APD-101 | **AppDesign APD-101 gebaut – gekürzter Titel:** langes Drücken auf einen mit ‚…‘ gekürzten Titel (Fenster, Kopfzeile) zeigt den ganzen Titel in einer Sprechblase darunter (R-2.5); neue Prüfung `ablauf-titel-blase` (rot gegen 3.44.0); Usertest P-86 | 3.45.0 | 31.10.2026 |
 | P-85 | **Usertest P-85 (3.44.0 · AppDesign 4.46.0): alles ok** – RLB-113, RLB-114 und APD-100 am Gerät bestätigt (Nutzer 31.10.2026, Sitzung 0065) | 3.44.0 | 31.10.2026 |
 | RLB-113, RLB-114 | **RLB-113 ‚Reiselogbuch einstellen‘ statt ‚Einstellungen‘** (Mehr-Menü, Kontextmenü, Fenstertitel; Abweichung 4) und **RLB-114 Jahr des Reisebeginns als Kopf in der Seitenleiste bzw. Startliste** (AppDesign APD-100, R-7.6); neue Prüfungen `ablauf-einstellen` und `ablauf-jahre`, 13 Prüfungen umgestellt; Usertest P-85 | 3.44.0 | 31.10.2026 |
