@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 31.10.2026** · Aktuelle Version: Reiselogbuch 3.45.0 · AppDesign 4.47.0
+**Stand 31.10.2026** · Aktuelle Version: Reiselogbuch 3.46.0 · AppDesign 4.48.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,6 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-87 | 1 | **Usertest 3.46.0 (AppDesign 4.48.0, APD-104, APD-105):** Großanzeige ab AX1 (Kopfzeile, Fenster, gleiten, daneben loslassen, normale Schrift nichts) und Berühren (Knopf blass, Zeile grau, Rollen ohne Aufblitzen, Smiley hebt sich) – Testfälle P-87/0 bis P-87/7 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -48,6 +49,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| APD-104, APD-105 | **AppDesign APD-104 und APD-105 gebaut:** Großanzeige für Leisten-Knöpfe ab AX1 (R-2.6) und Rückmeldung beim Berühren – Knöpfe blass, Zeilen grau, Smiley hebt sich beim Halten an (R-3.6, R-3.5); neue Prüfungen `ablauf-grossanzeige` und `ablauf-beruehren` (rot gegen 3.45.0); Usertest P-87 | 3.46.0 | 31.10.2026 |
 | P-86 | **Usertest P-86 (3.45.0 · AppDesign 4.47.0): alles ok** – gekürzter Titel mit Sprechblase am Gerät bestätigt (Nutzer 31.10.2026, Sitzung 0066) | 3.45.0 | 31.10.2026 |
 | APD-101 | **AppDesign APD-101 gebaut – gekürzter Titel:** langes Drücken auf einen mit ‚…‘ gekürzten Titel (Fenster, Kopfzeile) zeigt den ganzen Titel in einer Sprechblase darunter (R-2.5); neue Prüfung `ablauf-titel-blase` (rot gegen 3.44.0); Usertest P-86 | 3.45.0 | 31.10.2026 |
 | P-85 | **Usertest P-85 (3.44.0 · AppDesign 4.46.0): alles ok** – RLB-113, RLB-114 und APD-100 am Gerät bestätigt (Nutzer 31.10.2026, Sitzung 0065) | 3.44.0 | 31.10.2026 |

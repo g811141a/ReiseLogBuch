@@ -4,8 +4,8 @@
 // Leistenüberschrift (Variante A2). Y-1 bis Y-11; Y-12 (Gegenprobe) mit PRUEF_GEGENPROBE=jahre:oben|ende|halbfett.
 // Aufruf im Repo-Ordner: node tests/ablauf-jahre.mjs (PRUEF_APP=../_alt.html prüft eine andere Fassung der App, z. B. die veröffentlichte).
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.47.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.47.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
 const t = pruefung('ablauf-jahre', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const gp = (process.env.PRUEF_GEGENPROBE || '').match(/^jahre:(.+)$/)?.[1];

@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.45.0** · Stand 31.10.2026
+**Version 3.46.0** · Stand 31.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.47.0)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.48.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -30,6 +30,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.46.0 | 31.10.2026 | Neben | AppDesign 4.48.0 (APD-104 Großanzeige R-2.6, APD-105 Berühren R-3.6 und Anheben R-3.5) – keine Abweichung |
 | 3.44.0 | 31.10.2026 | Neben | AppDesign 4.46.0 (APD-100, R-7.6 Abschnittsköpfe in der Liste): Jahr des Reisebeginns als Kopf in der Seitenleiste bzw. Startliste (RLB-114) – keine Abweichung; neu Abweichung 4 ‚Reiselogbuch einstellen‘ statt ‚Einstellungen‘ (RLB-113, Nutzer 31.10.2026, Wortlaut bestätigt) |
 | 3.43.0 | 31.10.2026 | Neben | AppDesign 4.45.0 (APD-97, R-6.6, R-7.5): am iPad hoch Seitenleiste fest neben dem Inhalt, Tage im schmalen Inhalt als Kästen – keine Abweichung |
 | 3.42.1 | 30.10.2026 | Korrektur | AppDesign 4.44.1 (APD-98, R-6.5: Bezeichnung im Kasten mit Feldern normal, mittig zur ersten Zeile des Werts) – keine Abweichung neu |

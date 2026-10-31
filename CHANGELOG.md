@@ -13,6 +13,83 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.46.0 – 31.10.2026
+
+Reiselogbuch 3.46.0 · AppDesign 4.48.0 (Designrichtlinie allgemein 4.48.0) · Designrichtlinie Reiselogbuch 3.46.0 · Zusammenarbeit allgemein 3.5.0
+
+**Großanzeige für Leisten-Knöpfe** (AppDesign APD-104) und **Antippen und langes Drücken** (AppDesign APD-105) – dein Ja vom 31.10.2026,
+Sitzung 0068; Variante A bzw. C (Muster AppDesign `arbeit/APD-104 Muster.html`, `arbeit/APD-105 Muster.html`), Wortlaut und Testfall-Listen
+AppDesign `arbeit/APD-104 Testfall-Liste.md` (APD-104/L-1 bis L-9) und `arbeit/APD-105 Testfall-Liste.md` (APD-105/B-1 bis B-8) bestätigt.
+
+- **Großanzeige (R-2.6):** bei sehr großer Schrift (ab AX1) zeigt langes Drücken auf einen Knopf oben (Ausgabe, Mehr, Zurück, Seitenleiste,
+  im Fenster x und Häkchen, in der Seitenleiste + und Mehr) oder auf ‚Nach oben‘ / ‚Ans Ende‘ Icon und Namen groß in der Mitte des
+  Bildschirms – wie Apple. Gleitet der Finger zu einem anderen Knopf, wechselt die Anzeige; Loslassen über einem Knopf löst ihn aus,
+  daneben geht sie nur zu. Esc und Drehen schließen sie. Bei normaler Schrift und bei kurzem Antippen ändert sich nichts.
+- **Berühren (R-3.6):** solange der Finger liegt, wird ein Knopf blass, eine Zeile grau (Tag in der Tabelle, Tageskasten am iPhone, Eintrag der
+  Seitenleiste bzw. Startliste, Menüzeile) – Knöpfe oben sofort, Zeilen und Kapseln (Wetter, Reisemittel, Smileys) erst nach 80 ms, damit
+  beim Rollen nichts aufblitzt. Wegziehen oder Rollen hebt es auf, ohne etwas auszulösen; Loslassen blendet in 0,15 s aus.
+- **Smiley hebt sich an (R-3.5):** beim Halten eines Smileys wächst er ab 0,15 s und wirft einen Schatten, nach 0,6 s kommt wie bisher die
+  Frage ‚… aus der Schnellauswahl entfernen?‘; Ziehen der Leiste senkt ihn wieder. ‚Bewegung reduzieren‘: nur der Schatten. Ebenso hebt sich
+  ein Eintrag der Seitenleiste beim Halten (Kontextmenü) leicht an.
+- **Prüfungen:** neu `ablauf-grossanzeige` (APD-104/L-1 bis L-9 in allen vier Ansichten bei Text 28, Text 53 und Text 17, mit Menü, Drehen und
+  echtem Auslösen) und `ablauf-beruehren` (APD-105/B-1 bis B-8, iPad quer und iPhone hoch, hell und dunkel, ‚Bewegung reduzieren‘) – grün in
+  Chromium und WebKit, rot gegen 3.45.0; beide im vollen Lauf.
+
+Testfälle P-87 (Schritt für Schritt, Zusammenarbeit allgemein 3.5.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-87/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.46.0 · erstellt am … · AppDesign 4.48.0‘.
+
+**P-87/1 – Großanzeige in der Kopfzeile (größte Schrift)**
+1. iPhone hoch, hell; Einstellungen (iPhone) → Bedienungshilfen → Anzeige & Textgröße → Größerer Text: ‚Größere dynamische Schrift‘ ein,
+   Regler ganz nach rechts.
+2. Ein Reiselogbuch öffnen; oben rechts auf ‚…‘ (ellipsis) den Finger etwa eine Sekunde liegen lassen, noch nicht loslassen.
+3. Erwartet: in der Mitte des Bildschirms groß die drei Punkte und darunter ‚Mehr‘; keine Lupe, kein Safari-Menü, keine Textauswahl.
+4. Loslassen. Erwartet: die Großanzeige geht zu, das Mehr-Menü öffnet sich (genau einmal). Menü mit einem Tipp daneben schließen.
+
+**P-87/2 – Gleiten und daneben loslassen**
+1. Wie P-87/1 (größte Schrift, Reiselogbuch offen).
+2. Auf ‚Ausgabe‘ (share) den Finger etwa eine Sekunde liegen lassen. Erwartet: groß das Teilen-Icon und ‚Ausgabe‘.
+3. Den Finger ohne Loslassen nach rechts auf ‚…‘ gleiten lassen. Erwartet: die Anzeige wechselt zu ‚Mehr‘.
+4. Weiter nach links auf den Titel gleiten und dort loslassen. Erwartet: die Anzeige geht zu, es öffnet sich nichts.
+
+**P-87/3 – Fenster-Kopfzeile**
+1. Wie P-87/1 (größte Schrift); einen Tag antippen (Fenster des Tages), nichts ändern.
+2. Auf x oben links den Finger etwa eine Sekunde liegen lassen. Erwartet: groß das x und ‚Abbrechen‘.
+3. Loslassen. Erwartet: die Anzeige geht zu, das Fenster schließt sich (wie Antippen von x).
+
+**P-87/4 – Seitenleiste am iPad**
+1. iPad quer, hell; Einstellungen (iPad) → Bedienungshilfen → Anzeige & Textgröße → Größerer Text: ‚Größere dynamische Schrift‘ ein, Regler
+   ganz nach rechts; Reiselogbuch öffnen, die Seitenleiste ist links zu sehen.
+2. Oben in der Seitenleiste auf + den Finger etwa eine Sekunde liegen lassen. Erwartet: groß das Plus und ‚Neues Reiselogbuch‘.
+3. Nach rechts auf ‚…‘ gleiten. Erwartet: ‚Mehr‘. Dann nach unten auf die Liste gleiten und loslassen. Erwartet: nur zu, nichts öffnet sich.
+
+**P-87/5 – Normale Schrift: keine Großanzeige**
+1. Auf beiden Geräten die Textgröße zurückstellen (‚Größere dynamische Schrift‘ aus, Regler in der Mitte).
+2. iPhone hoch: Reiselogbuch offen, auf ‚…‘ den Finger etwa eine Sekunde liegen lassen, dann loslassen.
+3. Erwartet: keine Großanzeige; beim Loslassen öffnet sich das Mehr-Menü wie beim Antippen. Menü schließen.
+
+**P-87/6 – Berühren: Knopf blass, Zeile grau**
+1. iPad quer, hell, normale Schrift; ein Reiselogbuch mit erfassten Tagen offen.
+2. Den Finger auf ‚…‘ oben rechts legen und liegen lassen. Erwartet: der Knopf wird sofort blass.
+3. Den Finger gut einen Zentimeter wegziehen und loslassen. Erwartet: der Knopf ist wieder normal, es öffnet sich nichts.
+4. Den Finger auf eine Tageszeile legen und liegen lassen. Erwartet: die Zeile wird grau; loslassen – das Fenster des Tages öffnet sich.
+   Mit x schließen.
+5. Mit dem Finger auf einer Tageszeile beginnend die Tage zügig nach oben und unten rollen. Erwartet: beim Rollen blitzt keine Zeile grau auf,
+   es öffnet sich nichts.
+6. iPhone hoch, dunkel: einen Tageskasten berühren und liegen lassen. Erwartet: er wird dunkelgrau; loslassen öffnet das Fenster des Tages.
+
+**P-87/7 – Smiley hebt sich beim Halten**
+1. iPhone hoch, hell, normale Schrift; einen Tag antippen (Fenster des Tages).
+2. In der Smiley-Leiste auf einem Smiley den Finger liegen lassen. Erwartet: nach einem kurzen Moment wird er größer und wirft einen Schatten;
+   nach etwa einer halben Sekunde kommt die Sprechblase ‚… aus der Schnellauswahl entfernen?‘ und er wird wieder normal groß.
+3. In der Sprechblase ‚Abbrechen‘ tippen. Erwartet: der Smiley bleibt in der Leiste, im Kommentar steht nichts Neues.
+4. Auf einem Smiley aufsetzen und die Leiste sofort seitlich ziehen. Erwartet: die Leiste rollt, der Smiley hebt sich nicht bzw. senkt sich
+   gleich wieder, keine Sprechblase.
+
 ## 3.45.0 – 31.10.2026
 
 Reiselogbuch 3.45.0 · AppDesign 4.47.0 (Designrichtlinie allgemein 4.47.0) · Designrichtlinie Reiselogbuch 3.45.0 · Zusammenarbeit allgemein 3.4.0
