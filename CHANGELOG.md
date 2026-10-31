@@ -38,6 +38,10 @@ APD-97/D-1 bis D-11) bestätigt.
   links an – in der Mitte des Kastens liegt hoch der Link ‚Fischmarkt‘ (öffnet Google Maps statt des Fensters, die App war richtig);
   `ablauf-seitenleiste-hoch` läuft jetzt im vollen Lauf mit (fehlte in `alle.mjs`). Übersehen, weil vor `los` die geänderten Prüfungen nicht
   mit großer Schrift liefen.
+- **Korrektur der Prüfung vor der Veröffentlichung** (Sitzung 0062 – `los` in 0061 rot, nur WebKit am iPad hoch): in
+  `ablauf-navigation` begann der Zug ‚nach links‘ (AppDesign APD-68/Q-7) auf einem Link in einem Tag; der Mauszug startete Ziehen-und-Ablegen,
+  danach öffnete der Klick auf das Menü nicht (APD-68/Q-8, Q-9 als Folge). Die Prüfung wischt jetzt wie ein Finger (AppDesign `safari.mjs`
+  `mausWieFinger`); die App ist unverändert. Übersehen, weil die Q-Fälle vor 3.43.0 nur quer liefen (dort liegt kein Link an der Stelle).
 
 Testfälle P-84 (Schritt für Schritt, Zusammenarbeit allgemein 3.3.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
