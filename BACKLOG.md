@@ -23,8 +23,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
 | RLB-113 | 1 | **‚Reiselogbuch einstellen‘ statt ‚Einstellungen‘:** in beiden Menüs (Mehr-Menü `#mainMore`, Kontextmenü der Zeile in Seitenleiste bzw. Startliste) und als Fenstertitel, Icon `settings` bleibt (Designrichtlinie allgemein 6); 13 Prüfdateien und `PROMPT.md` nachziehen; Testfall-Liste AppDesign `arbeit/RLB-113 Testfall-Liste.md` (RLB-113/E-1 bis E-7) bestätigt | App | 31.10.2026 |
+| RLB-114 | 1 | **Jahr als Zwischenüberschrift in der Seitenleiste bzw. Startliste:** vor dem ersten Reiselogbuch jedes Jahres das Jahr des Reisebeginns, auch über dem obersten; bei der Suche nur Jahre mit Treffern; rollt mit; Aussehen A2 wie die Leistenüberschrift über den AppDesign-Baustein (APD-100, R-7.6); Muster AppDesign `arbeit/bilder/RLB-114 4–6 …`, Testfall-Liste `arbeit/RLB-114 Testfall-Liste.md` (RLB-114/Y-1 bis Y-12) bestätigt; Abweichung 4 der App-Richtlinie (RLB-113) Wortlaut bestätigt | App (Aussehen allgemein) | 31.10.2026 |
 
-1 Punkt bereit.
+2 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
@@ -35,7 +36,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-114 | 1 | **Jahr als Zwischenüberschrift in der Seitenleiste (Nutzer 31.10.2026, Sitzungen 0062 und 0063):** in der Liste der Reiselogbücher (iPad Seitenleiste, iPhone Startliste) vor dem ersten Reiselogbuch jedes Jahres eine Überschrift mit dem Jahr. Geklärt (0063): es zählt das **Jahr des Reisebeginns** (Sortierung nach Beginn); **auch über dem obersten**; bei der Suche **nur Jahre mit Treffern**; **rollt mit** (nicht haftend – APD-46 bleibt später). Aussehen **Variante A2** wie die Leistenüberschrift (Title 3, fett, Textfarbe; Muster AppDesign `arbeit/bilder/RLB-114 4–6 …`). Offen: Bestätigung Muster hoch/iPhone und Testfall-Liste AppDesign `arbeit/RLB-114 Testfall-Liste.md` (RLB-114/Y-1 bis Y-12), allgemein oder App | App oder allgemein | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
