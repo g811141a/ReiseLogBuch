@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-84 | 1 | **Usertest 3.43.0 (AppDesign 4.45.0, APD-97):** iPad hoch Seitenleiste neben dem Inhalt, Tage als Kästen – Testfälle P-84/0 bis P-84/7 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-84 | **Usertest P-84 (3.43.0 · AppDesign 4.45.0): alles ok** – APD-97 am Gerät bestätigt (Nutzer 31.10.2026, Sitzung 0063) | 3.43.0 | 31.10.2026 |
 | APD-97 | **AppDesign APD-97 gebaut:** iPad hoch Seitenleiste fest neben dem Inhalt (ohne Abdunkelung, Gesten wie quer), Inhalt unter 700 px mit Tagen als Kästen (R-6.6); neue Prüfung `ablauf-seitenleiste-hoch`, 11 Prüfungen angepasst; Usertest P-84 | 3.43.0 | 31.10.2026 |
 | P-83 | Geprüft **P-83 (3.42.1): alles ok** (Nutzer 30.10.2026, Sitzung 0059) | 3.42.1 | 30.10.2026 |
 | RLB-112, P-82 | **RLB-112 (Korrektur aus P-82/1, /3, /5):** ‚Preis der Quartiere erfassen‘ allein einschalten und speichern; Kachel ‚🚶🏽‍♂️ km‘ und ‚Verlauf‘ normal, mittig zur ersten Zeile (AppDesign APD-98, R-6.5); Statistik ein Leerzeichen nach ‚Ø‘, Umbruch vor der Klammer, Ø linksbündig unter dem Wert – Usertest P-83 | 3.42.1 | 30.10.2026 |
