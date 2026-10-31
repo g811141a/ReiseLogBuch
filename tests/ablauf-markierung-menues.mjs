@@ -3,9 +3,9 @@
 // Mehr-Knopf offen senkrecht und hervorgehoben (APD-87/E-1 bis APD-87/E-11, iPad, iPhone, ‚Bewegung reduzieren‘, Drehen mit offenem Menü).
 // Aufruf im Repo-Ordner: node tests/ablauf-markierung-menues.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
-import { checkMehrKnopf } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { checkMehrKnopf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -26,7 +26,8 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   // APD-87 APD-87/E-1, APD-87/E-2, APD-87/E-5, APD-87/E-6, APD-87/E-11: Mehr der Seitenleiste (seit 3.41.0 mit Untermenü ‚Darstellung‘, RLB-108)
   // und eines Reiselogbuchs
   t.liste(await checkMehrKnopf(p, { sel: '#sideMore', untermenue: 'Darstellung', where: 'Mehr der Seitenleiste' }));
-  if (ansicht === 'iPad quer') t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));   // iPad hoch: Seitenleiste liegt darüber
+  // seit 3.43.0 (AppDesign APD-97): auch hoch steht die Seitenleiste daneben – das Reiselogbuch ist bedienbar
+  t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));
   await t.schritt(p, 'Mehr-Menü der Seitenleiste', async () => { await p.click('#sideMore'); await p.waitForTimeout(150); });
   // seit 3.24.0: Backup · Strich · Messung (eigene Gruppe, R-4.1) · Strich · graue Zeilen; seit 3.38.0 (AppDesign APD-77) die Messung erst nach
   // langem Drücken auf die Versionszeile; seit 3.41.0 ‚Suchen‘ mit Strich zuerst (APD-91) und ‚Darstellung‘ nach Backup (RLB-108) –
@@ -46,12 +47,12 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   await t.schritt(p, 'Fenster schließen', async () => { await p.click('#dlgX'); await p.waitForTimeout(200); });
   t.ist('Kachel nach dem Schließen nicht mehr blau', await on(row('Toskana')), false, 'R-3.3');
   await t.schritt(p, 'Australien öffnen', async () => { await row('Australien').click(); await p.waitForTimeout(200); });
-  await t.schritt(p, 'Tag öffnen', async () => { await p.locator('table.days tbody tr').nth(2).click(); await p.waitForTimeout(300); });
-  t.ist('gewählter Tag gelb markiert', await p.locator('table.days tbody tr.on').evaluateAll(es => es.map(e => e.dataset.day)), ['2026-08-26'], 'R-3.3');
+  await t.schritt(p, 'Tag öffnen', async () => { await p.locator('#app table.days tbody tr, #app .box.day').nth(2).click(); await p.waitForTimeout(300); });
+  t.ist('gewählter Tag gelb markiert', await p.locator('#app table.days tbody tr.on, #app .box.day.on').evaluateAll(es => es.map(e => e.dataset.day)), ['2026-08-26'], 'R-3.3');
   await t.schritt(p, 'nächster Tag', async () => { await p.locator('dialog [data-nav="1"]').click(); await p.waitForTimeout(300); });
-  t.ist('Markierung wandert mit', await p.locator('table.days tbody tr.on').evaluateAll(es => es.map(e => e.dataset.day)), ['2026-08-27'], 'R-3.3');
+  t.ist('Markierung wandert mit', await p.locator('#app table.days tbody tr.on, #app .box.day.on').evaluateAll(es => es.map(e => e.dataset.day)), ['2026-08-27'], 'R-3.3');
   await t.schritt(p, 'Tag schließen', async () => { await p.click('#dlgX'); await p.waitForTimeout(200); if (await p.locator('.pop').count()) { await p.locator('.pop button').first().click(); await p.waitForTimeout(200); } });
-  t.ist('keine Markierung nach dem Schließen', await p.locator('table.days tbody tr.on').count(), 0, 'R-3.3');
+  t.ist('keine Markierung nach dem Schließen', await p.locator('#app table.days tbody tr.on, #app .box.day.on').count(), 0, 'R-3.3');
   await t.schritt(p, 'Fazit öffnen', async () => { await p.locator('#fazit').scrollIntoViewIfNeeded(); await p.click('#fazit'); await p.waitForTimeout(300); });
   t.ist('Fazit blau, solange offen', await on(p.locator('#fazit')), true, 'R-3.3');
   await t.schritt(p, 'Fazit schließen', async () => { await p.click('#dlgX'); await p.waitForTimeout(200); });
@@ -71,7 +72,7 @@ for (const [ansicht, ruhig] of [['iPhone hoch', false], ['iPhone quer', false], 
   if (phone) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); }
   t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));
   if (!phone) {
-    // hoch öffnen (Seitenleiste zu), dann quer drehen – die darübergelegte Seitenleiste erscheint dabei nicht
+    // hoch öffnen, dann quer drehen (seit 3.43.0, APD-97: die Seitenleiste steht dabei fest daneben)
     await p.setViewportSize({ width: 820, height: 1180 }); await p.waitForTimeout(500);
     if (await p.locator('.side-shade').isVisible().catch(() => false)) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(500); }
     await t.schritt(p, 'Mehr offen, dann drehen', async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.setViewportSize({ width: 1180, height: 820 }); await p.waitForTimeout(500); });

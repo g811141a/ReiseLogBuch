@@ -4,9 +4,9 @@
 // (AppDesign arbeit/RLB-92 Testfall-Liste.md): RLB-92/F-3 ausgeblendete Spalte, RLB-92/F-9 Groß/klein, RLB-92/F-10 ohne Reiselogbuch, RLB-92/F-11 viele,
 // RLB-92/F-15 Drehen, RLB-92/F-16 Eingabetaste, RLB-92/F-19 Neuladen. Aufruf im Repo-Ordner: node tests/ablauf-suche-liste.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
-import { checkListSearch, sucheAuf } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { checkListSearch, sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-liste', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const mk = (id, start, n, f, extra = {}) => { const days = {}; for (let i = 0; i < n; i++) days[new Date(Date.parse(start) + i * 864e5).toISOString().slice(0, 10)] = f(i);
   return { id, title: id, participants: 'G & A', start, end: Object.keys(days).at(-1), transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days, ...extra }; };
@@ -28,8 +28,8 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad quer', 'dark'], [
   const p = await t.seite(b, ansicht, { theme });
   const where = `${ansicht} ${theme === 'dark' ? 'dunkel' : 'hell'}`; t.ort = where;
   await start(p);
-  const phone = ansicht.startsWith('iPhone'), over = ansicht === 'iPad hoch';
-  // iPad hoch: die Seitenleiste liegt beim Start über dem Inhalt; nach dem Antippen ist sie zu – zurück über panel-left.
+  // seit 3.43.0 (AppDesign APD-97): iPad hoch wie quer – die Seitenleiste steht fest daneben und bleibt nach dem Antippen
+  const phone = ansicht.startsWith('iPhone'), over = false;
   const back = phone ? () => p.click('#back') : over ? () => p.locator('[data-side-toggle]').first().click() : null;
   for (const e of await checkListSearch(p, { term: 'Paella', where, back })) t.fehler('R-2.3', e);
   if (over || phone) { if (phone) await p.click('#back').catch(() => {}); else if (!await p.locator('#side:not([hidden])').count()) await p.locator('[data-side-toggle]').first().click(); await p.waitForTimeout(300); }

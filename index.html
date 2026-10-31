@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.44.1/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.45.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -133,18 +133,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.44.1/ui.js"></script>
+<script src="../AppDesign/fassung/4.45.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.42.1';
-const APP_BUILT = '30.10.2026 um 18:16';
+const APP_VERSION = '3.43.0';
+const APP_BUILT = '31.10.2026 um 01:13';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.44.1';
+const AD_NEEDED = '4.45.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -282,6 +282,7 @@ let searchJump = null;     // Zeitgeber für den Sprung zum ersten Treffer    //
 // R-8.1 (seit 3.11.0): ein einziger Zustand für quer und hoch – sichtbar bleibt beim Drehen sichtbar (quer fest links,
 // hoch über den Inhalt gelegt), ausgeblendet bleibt ausgeblendet. Nur Tippen ändert ihn, nie das Drehen.
 let sideOpen = true;
+let wasSchmal = false;   // R-6.6: Breite des Inhalts beim letzten Aufbau (render)
 let emptyPrompted = false; // Ohne Reiselogbuch öffnet sich "Neues Reiselogbuch" einmal von selbst
 let storagePersistent = false; // Safari löscht dauerhaften Speicher nicht von selbst (z. B. bei knappem Speicher)
 
@@ -760,6 +761,9 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
     </div>`);
 
   const tabelle = app.querySelector('table.days:not(.static)');
+  // R-6.6 (seit 3.43.0, AppDesign APD-97): schmaler Inhalt (z. B. iPad hoch neben der Seitenleiste) zeigt die Tage als Kästen
+  wasSchmal = inhaltSchmal(app);
+  if (!ax && tabelle && wasSchmal) return render({ scrollToGap, kaesten: true });
   if (!ax && tabelle && (tabelle.offsetWidth > tabelle.parentElement.clientWidth + 1 || [...tabelle.querySelectorAll('td')].some(td => td.scrollWidth > td.clientWidth + 1)))
     return render({ scrollToGap, kaesten: true });
   fab.hidden = false;
@@ -1042,10 +1046,11 @@ function showTrip(id, term = '') {
 
 /* ---------- Seitenleiste ---------- */
 
-// Quer (breiter Bildschirm) steht die Seitenleiste fest links und lässt sich aus- und einblenden;
-// im Hochformat wird sie über den Inhalt gelegt und schließt sich nach der Auswahl wieder.
-const isWide = () => window.innerWidth >= 1100;
-const sideOver = () => !isPhone() && !isWide() && Boolean(getTrip(currentTripId));   // iPad hoch: darübergelegt
+// Seit 3.43.0 (AppDesign APD-97): am iPad steht die Seitenleiste quer und hoch fest links neben dem Inhalt (Apple ‚tile‘) und lässt sich
+// mit panel-left aus- und einblenden; keine Abdunkelung, die Auswahl lässt sie stehen. Ist der Inhalt daneben schmaler als 700 px,
+// zeigt er die Tage als Kästen (render, inhaltSchmal aus ui.js, R-6.6).
+const isWide = () => !isPhone();
+const sideOver = () => !isPhone() && !isWide() && Boolean(getTrip(currentTripId));   // seit 3.43.0 (APD-97) nie: hoch steht sie fest wie quer
 const sideFest = () => !isPhone() && isWide() && Boolean(getTrip(currentTripId));    // iPad quer: fest links
 const sideVisible = () => sideOpen;
 const sideToggleHtml = () => sideVisible() && isWide() ? ''
@@ -2057,7 +2062,10 @@ window.addEventListener('resize', () => {
   if (document.querySelector('#side .on') && document.querySelector('.menu, .pop')) sideOpen = true;
   // Wechsel fest ↔ darübergelegt bzw. iPad- ↔ iPhone-Aufbau: neu aufbauen; der Zustand sideOpen bleibt (R-8.1).
   // seit 3.35.0 (RLB-101, AppDesign APD-43 W1): ebenso beim Wechsel der Textgröße über AX1 (Tabelle ↔ Kästen, oberster Tag bleibt – ui.js)
-  if (isPhone() !== wasPhone || isWide() !== wasWide || isAx() !== wasAx) { wasPhone = isPhone(); wasWide = isWide(); wasAx = isAx(); render(); return; }
+  // seit 3.43.0 (AppDesign APD-97, R-6.6): ebenso, wenn der Inhalt die Grenze 700 px überschreitet (Tabelle ↔ Kästen)
+  if (isPhone() !== wasPhone || isWide() !== wasWide || isAx() !== wasAx || (!isPhone() && inhaltSchmal(app) !== wasSchmal)) {
+    wasPhone = isPhone(); wasWide = isWide(); wasAx = isAx(); render(); return;
+  }
   const bar = document.getElementById('bar');
   if (bar) document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
   if (!side.hidden) document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');

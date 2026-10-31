@@ -8,8 +8,8 @@
 // U-5 Gegenprobe; U-3 im Ø ein Leerzeichen nach ‚Ø‘; U-4 Umbruch vor der Klammer, Ø linksbündig unter dem Gesamtwert (App und Ausgabe). Aufruf im Repo-Ordner:
 // node tests/ablauf-preis-km.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck, bezeichnungen, kastenBezeichnung } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck, bezeichnungen, kastenBezeichnung } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
 const t = pruefung('ablauf-preis-km', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 // 24.–28.08.: Quartier A 3 Nächte (Preis 300), Quartier B 2 Nächte (Preis 200); 29.08. Quartier C ohne Preis; km an 3 Tagen, ein Tag nur km
 const days = {
@@ -76,7 +76,8 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.ist('APD-92/D-3 Mehr des Reiselogbuchs', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Einstellungen', 'Reiselogbuch löschen'], 'R-1.2');
   await p.keyboard.press('Escape'); await p.waitForTimeout(150);
   // L-2 (iPad) bzw. L-9 (iPhone): Spalte bzw. Zeile ‚🚶🏽‍♂️ 14 km‘
-  if (!phone) {
+  // seit 3.43.0 (AppDesign APD-97, R-6.6): iPad hoch neben der Seitenleiste Kästen wie am iPhone
+  if (!phone && await p.locator('table.days:not(.static)').count()) {
     t.ist('RLB-110/L-2 Spaltenköpfe', await p.locator('table.days:not(.static) thead th').allTextContents(), ['Tag', 'Verlauf', '🙂☹️😉', '🚶🏽‍♂️km', '🍽️🍷☕️', '😴💤']);
     t.ist('RLB-110/L-2 Zellen: nur die Zahl, rechtsbündig, ohne Wert leer', await p.evaluate(() => ['2026-08-24', '2026-08-25', '2026-08-26'].map(d => { const c = document.querySelector(`tr[data-day="${d}"] td:nth-child(4)`); return [c.textContent.trim(), getComputedStyle(c).textAlign]; })),
       [['6,0', 'right'], ['14,0', 'right'], ['', 'right']]);

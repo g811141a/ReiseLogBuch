@@ -5,8 +5,8 @@
 // Textgröße (node tests/alle.mjs --gegenprobe text): je eingeschleustem Fehler wird genau seine Meldung rot.
 // Aufruf im Repo-Ordner: node tests/text-regeln.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
 const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] });
 const t = pruefung('text-regeln', pw, { hig, out: new URL('out/', import.meta.url) });
 const days = {};
@@ -45,7 +45,8 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
       if (!phone) t.ist('U4 Tage am iPad bei AX5 als Kästen', await p.evaluate(() => [!!document.querySelector('table.days:not(.static)'), document.querySelectorAll('#pdays .box.day').length > 0]), [false, true], 'R-1.10');
       await G(p, 'Textgröße zurück', () => groesse(p, 0));
       t.ist('W1 oberster Tag nach dem Zurückstellen', await oben(), vorher, 'R-8.1');
-      if (!phone) t.ist('U4 Tage am iPad bei Standard als Tabelle', await p.evaluate(() => !!document.querySelector('table.days:not(.static)')), true, 'R-1.10');
+      // seit 3.43.0 (AppDesign APD-97, R-6.6): Tabelle nur, wenn der Inhalt mindestens 700 px breit ist (iPad hoch neben der Seitenleiste: Kästen)
+      if (!phone) t.ist('U4 Tage am iPad bei Standard als Tabelle bzw. im schmalen Inhalt als Kästen', await p.evaluate(() => !!document.querySelector('table.days:not(.static)') === !inhaltSchmal(app)), true, 'R-1.10');
       await p.evaluate(() => rolle.to(0)); await warte(p);
     }
     await G(p, 'Tag-Fenster', async () => { await p.evaluate(() => openDayDialog(db.trips.find(x => x.id === 'a'), '2026-08-25')); await warte(p, 400); });

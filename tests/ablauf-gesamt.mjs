@@ -3,9 +3,9 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-gesamt', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -138,11 +138,11 @@ for (const theme of ['light', 'dark']) {
   t.ist('angelegt', await p.textContent('.nb-title'), 'Neu');
   await p.close();
 
-  // Hoch: Seitenleiste darübergelegt
+  // Hoch (seit 3.43.0, AppDesign APD-97): Seitenleiste fest neben dem Inhalt, ohne Abdunkelung; die Auswahl lässt sie stehen; Tage als Kästen (R-6.6)
   p = await page('iPad hoch', { theme });
-  t.ist('hoch: Seitenleiste darübergelegt mit Schatten', [await p.evaluate(() => side.classList.contains('over')), await p.locator('.side-shade').count()], [true, 1], 'R-8.1');
+  t.ist('hoch: Seitenleiste fest ohne Abdunkelung', [await p.evaluate(() => side.classList.contains('over')), await p.locator('.side-shade').count(), await p.evaluate(() => document.body.classList.contains('docked'))], [false, 0, true], 'R-8.1');
   await S(p, 'Wien antippen', () => p.click('.side-row:has-text("Wien")'));
-  t.ist('Seitenleiste zu, Wien offen', [await p.isHidden('#side'), await p.textContent('.nb-title')], [true, 'Wien Kurztrip']);
+  t.ist('Seitenleiste bleibt, Wien offen, Kästen', [await p.isVisible('#side'), await p.textContent('.nb-title'), await p.locator('#app table.days:not(.static)').count() === 0], [true, 'Wien Kurztrip', true], 'R-6.6');
   await p.close();
 
   // Kosten, Statistik, Backup aus dem Menü
