@@ -3,9 +3,9 @@
 // Mehr-Knopf offen senkrecht und hervorgehoben (APD-87/E-1 bis APD-87/E-11, iPad, iPhone, ‚Bewegung reduzieren‘, Drehen mit offenem Menü).
 // Aufruf im Repo-Ordner: node tests/ablauf-markierung-menues.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.47.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.47.0/tests/hig.mjs';
-import { checkMehrKnopf } from '../../AppDesign/fassung/4.47.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
+import { checkMehrKnopf } from '../../AppDesign/fassung/4.48.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');

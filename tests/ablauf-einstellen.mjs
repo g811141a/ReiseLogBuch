@@ -3,8 +3,8 @@
 // das Fenster ebenso; ‚Neues Reiselogbuch‘ bleibt (Abweichung 4 der App-Richtlinie). RLB-113/E-1 bis RLB-113/E-6; RLB-113/E-7 (Gegenprobe) = gegen 3.43.0
 // mit PRUEF_APP=../_alt.html. Aufruf im Repo-Ordner: node tests/ablauf-einstellen.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.47.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.47.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
 const t = pruefung('ablauf-einstellen', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const NAME = 'Reiselogbuch einstellen';

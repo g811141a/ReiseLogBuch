@@ -5,9 +5,9 @@
 // Drehen (L-11); bei normaler Schrift in allen Ansichten zeigt ein ganz sichtbarer Titel (‚Toskana‘) nichts (L-5); Grundregeln nach jedem Schritt (L-12).
 // L-13 (Gegenprobe): gegen 3.44.0 mit PRUEF_APP=../_alt.html werden L-1 bis L-3 rot. Aufruf im Repo-Ordner: node tests/ablauf-titel-blase.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.47.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.47.0/tests/hig.mjs';
-import { checkTitelBlase, titelLang, titelBlaseOffen } from '../../AppDesign/fassung/4.47.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
+import { checkTitelBlase, titelLang, titelBlaseOffen } from '../../AppDesign/fassung/4.48.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-titel-blase', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);

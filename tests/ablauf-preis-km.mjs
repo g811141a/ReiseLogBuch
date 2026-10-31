@@ -8,8 +8,8 @@
 // U-5 Gegenprobe; U-3 im Ø ein Leerzeichen nach ‚Ø‘; U-4 Umbruch vor der Klammer, Ø linksbündig unter dem Gesamtwert (App und Ausgabe). Aufruf im Repo-Ordner:
 // node tests/ablauf-preis-km.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.47.0/tests/pruefe.mjs';
-import { createCheck, bezeichnungen, kastenBezeichnung } from '../../AppDesign/fassung/4.47.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
+import { createCheck, bezeichnungen, kastenBezeichnung } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
 const t = pruefung('ablauf-preis-km', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 // 24.–28.08.: Quartier A 3 Nächte (Preis 300), Quartier B 2 Nächte (Preis 200); 29.08. Quartier C ohne Preis; km an 3 Tagen, ein Tag nur km
 const days = {
