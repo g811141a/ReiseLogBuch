@@ -2,9 +2,9 @@
 // Maps-Link; er endet am ersten ‚ – ‘, Komma, Doppelpunkt oder an einer öffnenden Klammer (nicht vor einer Ziffer) – Essen und
 // Quartier, in Tabelle (iPad), Tageskästen (iPhone) und Vorschau. Aufruf im Repo-Ordner: node tests/link-name.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.46.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.47.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.47.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.47.0/tests/ablauf.mjs';
 const t = pruefung('link-name', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 // [Zeile, Link (null = kein Link), Fall]
 const ESSEN = [['😋 Krone – sehr gut', 'Krone', 'L1'], ['😋 Linde, sehr gut', 'Linde', 'L2'], ['😋 Adler: Schnitzel', 'Adler', 'L3'],

@@ -4,8 +4,8 @@
 // Eingabe (Neues Reiselogbuch wie am Gerät über plus, Reiselogbuch einstellen mit überschneidendem Zeitraum, Erfassen, Fazit).
 // Aufruf im Repo-Ordner: node tests/ablauf-fenster-breite.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.47.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.47.0/tests/hig.mjs';
 const t = pruefung('ablauf-fenster-breite', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 // wie am Gerät: eine laufende Reise mit langem Titel – der vorgeschlagene Zeitraum (heute + 14 Tage) überschneidet sich mit ihr

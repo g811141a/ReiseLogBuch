@@ -12,11 +12,11 @@ im Mehr-Menü der Seitenleiste).
 
 | Teil | Version | Datei |
 |---|---|---|
-| Reiselogbuch | 3.44.0 | [CHANGELOG.md](https://github.com/g811141a/ReiseLogBuch/blob/main/CHANGELOG.md) |
-| AppDesign | 4.46.0 | [CHANGELOG.md (AppDesign)](https://github.com/g811141a/AppDesign/blob/main/CHANGELOG.md) · Bausteine [fassung/4.46.0/ui.js](https://github.com/g811141a/AppDesign/blob/main/fassung/4.46.0/ui.js), [fassung/4.46.0/design.css](https://github.com/g811141a/AppDesign/blob/main/fassung/4.46.0/design.css) |
-| Designrichtlinie allgemein | 4.46.0 | [README - Designrichtlinie allgemein.md](https://github.com/g811141a/AppDesign/blob/main/fassung/4.46.0/README%20-%20Designrichtlinie%20allgemein.md) |
-| Designrichtlinie Reiselogbuch | 3.44.0 | [README - Designrichtlinie Reiselogbuch.md](https://github.com/g811141a/ReiseLogBuch/blob/main/README%20-%20Designrichtlinie%20Reiselogbuch.md) |
-| Zusammenarbeit allgemein | 3.4.0 | [README - Zusammenarbeit allgemein.md](https://github.com/g811141a/AppDesign/blob/main/fassung/4.46.0/README%20-%20Zusammenarbeit%20allgemein.md) |
+| Reiselogbuch | 3.45.0 | [CHANGELOG.md](https://github.com/g811141a/ReiseLogBuch/blob/main/CHANGELOG.md) |
+| AppDesign | 4.47.0 | [CHANGELOG.md (AppDesign)](https://github.com/g811141a/AppDesign/blob/main/CHANGELOG.md) · Bausteine [fassung/4.47.0/ui.js](https://github.com/g811141a/AppDesign/blob/main/fassung/4.47.0/ui.js), [fassung/4.47.0/design.css](https://github.com/g811141a/AppDesign/blob/main/fassung/4.47.0/design.css) |
+| Designrichtlinie allgemein | 4.47.0 | [README - Designrichtlinie allgemein.md](https://github.com/g811141a/AppDesign/blob/main/fassung/4.47.0/README%20-%20Designrichtlinie%20allgemein.md) |
+| Designrichtlinie Reiselogbuch | 3.45.0 | [README - Designrichtlinie Reiselogbuch.md](https://github.com/g811141a/ReiseLogBuch/blob/main/README%20-%20Designrichtlinie%20Reiselogbuch.md) |
+| Zusammenarbeit allgemein | 3.4.0 | [README - Zusammenarbeit allgemein.md](https://github.com/g811141a/AppDesign/blob/main/fassung/4.47.0/README%20-%20Zusammenarbeit%20allgemein.md) |
 
 ## Dateien
 
