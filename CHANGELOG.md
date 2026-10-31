@@ -15,7 +15,7 @@ Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste 
 
 ## 3.43.0 – 31.10.2026
 
-Reiselogbuch 3.43.0 · AppDesign 4.45.0 (Designrichtlinie allgemein 4.45.0) · Designrichtlinie Reiselogbuch 3.43.0 · Zusammenarbeit allgemein 3.3.0
+Reiselogbuch 3.43.0 · AppDesign 4.45.0 (Designrichtlinie allgemein 4.45.0) · Designrichtlinie Reiselogbuch 3.43.0 · Zusammenarbeit allgemein 3.4.0
 
 **iPad hoch: Seitenleiste neben dem Inhalt, Tage als Kästen** (AppDesign APD-97, aus deiner Rückmeldung zu P-82 ‚Sonstiges‘) – dein Ja vom
 31.10.2026, Sitzung 0060; Wortlaut, Muster (hell) und Testfall-Liste AppDesign `arbeit/APD-97 Testfall-Liste.md` (APD-97/L-1 bis L-10,
@@ -42,8 +42,10 @@ APD-97/D-1 bis D-11) bestätigt.
   `ablauf-navigation` begann der Zug ‚nach links‘ (AppDesign APD-68/Q-7) auf einem Link in einem Tag; der Mauszug startete Ziehen-und-Ablegen,
   danach öffnete der Klick auf das Menü nicht (APD-68/Q-8, Q-9 als Folge). Die Prüfung wischt jetzt wie ein Finger (AppDesign `safari.mjs`
   `mausWieFinger`); die App ist unverändert. Übersehen, weil die Q-Fälle vor 3.43.0 nur quer liefen (dort liegt kein Link an der Stelle).
+- **`ablauf-markierung-menues` dreht mit offenem Mehr-Menü in beide Richtungen** (AppDesign APD-94, hinfällig durch APD-97): auch quer → hoch,
+  danach keine Abdunkelung (R-1.4); bisher nur hoch → quer. Dazu Zusammenarbeit 3.4.0 (AppDesign APD-99) in README und PROMPT.
 
-Testfälle P-84 (Schritt für Schritt, Zusammenarbeit allgemein 3.3.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+Testfälle P-84 (Schritt für Schritt, Zusammenarbeit allgemein 3.4.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
 
 **P-84/0 – Version prüfen**

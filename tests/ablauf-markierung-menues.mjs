@@ -72,13 +72,19 @@ for (const [ansicht, ruhig] of [['iPhone hoch', false], ['iPhone quer', false], 
   if (phone) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); }
   t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));
   if (!phone) {
-    // hoch öffnen, dann quer drehen (seit 3.43.0, APD-97: die Seitenleiste steht dabei fest daneben)
-    await p.setViewportSize({ width: 820, height: 1180 }); await p.waitForTimeout(500);
-    if (await p.locator('.side-shade').isVisible().catch(() => false)) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(500); }
-    await t.schritt(p, 'Mehr offen, dann drehen', async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.setViewportSize({ width: 1180, height: 820 }); await p.waitForTimeout(500); });
-    t.ist('APD-87 APD-87/E-7: nach dem Drehen mit offenem Menü noch senkrecht', await p.evaluate(() => { const c = [...document.querySelectorAll('#mainMore > svg circle')]; return c.length === 3 && new Set(c.map(k => k.getAttribute('cx'))).size === 1; }), true, 'R-4.1');
-    await p.keyboard.press('Escape'); await p.waitForTimeout(150);
-    t.ist('APD-87 APD-87/E-7: nach dem Schließen wieder waagrecht', await p.evaluate(() => { const c = [...document.querySelectorAll('#mainMore > svg circle')]; return c.length === 3 && new Set(c.map(k => k.getAttribute('cy'))).size === 1; }), true, 'R-4.1');
+    // in beide Richtungen drehen, das Menü offen (seit 3.43.0, APD-97: die Seitenleiste steht dabei fest daneben). Quer → hoch ist der
+    // Fall aus AppDesign APD-94 (bis 3.42.1 lag hoch die Seitenleiste mit nicht gesperrter Abdunkelung darüber, R-1.4 nach jedem Schritt)
+    const senkrecht = () => p.evaluate(() => { const c = [...document.querySelectorAll('#mainMore > svg circle')]; return c.length === 3 && new Set(c.map(k => k.getAttribute('cx'))).size === 1; });
+    const waagrecht = () => p.evaluate(() => { const c = [...document.querySelectorAll('#mainMore > svg circle')]; return c.length === 3 && new Set(c.map(k => k.getAttribute('cy'))).size === 1; });
+    for (const [von, nach] of [[[820, 1180], [1180, 820]], [[1180, 820], [820, 1180]]]) {
+      const wie = von[0] < von[1] ? 'hoch → quer' : 'quer → hoch';
+      await p.setViewportSize({ width: von[0], height: von[1] }); await p.waitForTimeout(500);
+      await t.schritt(p, `Mehr offen, dann drehen (${wie})`, async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.setViewportSize({ width: nach[0], height: nach[1] }); await p.waitForTimeout(500); });
+      t.ist(`APD-87 APD-87/E-7: nach dem Drehen (${wie}) mit offenem Menü noch senkrecht`, await senkrecht(), true, 'R-4.1');
+      t.ist(`AppDesign APD-94: nach dem Drehen (${wie}) mit offenem Menü keine Abdunkelung`, await p.evaluate(() => !document.querySelector('.side-shade')), true, 'R-1.4');
+      await p.keyboard.press('Escape'); await p.waitForTimeout(150);
+      t.ist(`APD-87 APD-87/E-7: nach dem Schließen (${wie}) wieder waagrecht`, await waagrecht(), true, 'R-4.1');
+    }
   }
   await p.close();
 }
