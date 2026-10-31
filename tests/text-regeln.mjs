@@ -5,8 +5,8 @@
 // Textgröße (node tests/alle.mjs --gegenprobe text): je eingeschleustem Fehler wird genau seine Meldung rot.
 // Aufruf im Repo-Ordner: node tests/text-regeln.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.47.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.47.0/tests/hig.mjs';
 const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] });
 const t = pruefung('text-regeln', pw, { hig, out: new URL('out/', import.meta.url) });
 const days = {};

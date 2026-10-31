@@ -3,9 +3,9 @@
 // Blättern, Kontextmenü, Löschen zurück zur Startliste, neues Reiselogbuch, Wechsel iPhone ↔ iPad. Hell und dunkel.
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.46.0/tests/ablauf.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.47.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.47.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.47.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const OUT = new URL('./out/', import.meta.url).pathname;

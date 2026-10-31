@@ -13,6 +13,64 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.45.0 – 31.10.2026
+
+Reiselogbuch 3.45.0 · AppDesign 4.47.0 (Designrichtlinie allgemein 4.47.0) · Designrichtlinie Reiselogbuch 3.45.0 · Zusammenarbeit allgemein 3.4.0
+
+**Gekürzter Titel – Sprechblase** (AppDesign APD-101, aus RLB-113/E-6) – dein Ja vom 31.10.2026, Sitzung 0065; Variante B (Muster AppDesign
+`arbeit/bilder/APD-101 4` und `5`), Wortlaut und Testfall-Liste AppDesign `arbeit/APD-101 Testfall-Liste.md` (APD-101/L-1 bis L-13) bestätigt.
+
+- **Ganzer Titel beim langen Drücken (R-2.5):** ist ein Titel mit ‚…‘ gekürzt – bei großer Schrift auf dem iPhone z. B. ‚Reiselogbuch eins…‘ im
+  Fenster, der Titel der Reise in der Kopfzeile oder der Titel eines Tages –, zeigt langes Drücken darauf den ganzen Titel in einer Sprechblase
+  direkt darunter, mit Pfeil zum Titel, in derselben Schrift, bei langen Titeln mehrzeilig. Sie bleibt nach dem Loslassen stehen; der nächste
+  Tipp irgendwo schließt nur sie (auch auf x, Häkchen oder Mehr – es wird nichts ausgelöst), ebenso Rollen, Esc und Drehen. Ein ganz
+  sichtbarer Titel und kurzes Antippen zeigen nichts. Apple zeigt hier die Großanzeige in der Mitte des Bildschirms – die Sprechblase ist eine
+  bewusste Abweichung (dein Wunsch, Designrichtlinie allgemein 16).
+- **Prüfungen:** neu `ablauf-titel-blase` (APD-101/L-1 bis L-12: iPhone hoch bei größter Schrift Fenster ‚Reiselogbuch einstellen‘, Titel der Reise,
+  Fenster eines Tages, Titel mit 80 Zeichen; Antippen, Wandern, Rollen, Tipp daneben, Esc, Drehen; normale Schrift in allen vier Ansichten;
+  Grundregeln nach jedem Schritt) – grün in Chromium und WebKit, APD-101/L-13 rot gegen 3.44.0 (L-1 bis L-4); im vollen Lauf.
+
+Testfälle P-86 (Schritt für Schritt, Zusammenarbeit allgemein 3.4.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-86/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.45.0 · erstellt am … · AppDesign 4.47.0‘.
+
+**P-86/1 – Fenstertitel lange drücken (größte Schrift)**
+1. iPhone hoch, hell; Einstellungen (iPhone) → Bedienungshilfen → Anzeige & Textgröße → Größerer Text: ganz nach rechts.
+2. Ein Reiselogbuch öffnen, ‚…‘ (ellipsis) → ‚Reiselogbuch einstellen‘. Erwartet: der Titel lautet ‚Reiselogbuch eins…‘ (gekürzt).
+3. Den Titel etwa eine Sekunde lang drücken, dann loslassen.
+4. Erwartet: direkt unter der Kopfzeile eine weiße Sprechblase mit ‚Reiselogbuch einstellen‘, der Pfeil zeigt zum Titel; sie bleibt nach dem
+   Loslassen stehen. Keine Textauswahl, keine Lupe, kein Safari-Menü.
+
+**P-86/2 – Tipp daneben schließt nur die Sprechblase**
+1. Wie P-86/1, die Sprechblase ist offen.
+2. Auf das Häkchen oben rechts tippen.
+3. Erwartet: nur die Sprechblase geht zu; das Fenster ‚Reiselogbuch einstellen‘ bleibt offen, nichts wird gespeichert.
+4. Den Titel noch einmal lange drücken, dann auf das Feld ‚Reisetitel‘ tippen. Erwartet: nur die Sprechblase geht zu, die Tastatur öffnet
+   sich nicht. Mit x schließen.
+
+**P-86/3 – Titel der Reise in der Kopfzeile**
+1. iPhone hoch, größte Schrift wie P-86/1; ein Reiselogbuch mit längerem Titel offen (z. B. ‚Australien und Neuseeland‘), oben steht er gekürzt
+   mit ‚…‘.
+2. Den Titel in der Kopfzeile etwa eine Sekunde lang drücken.
+3. Erwartet: Sprechblase mit dem ganzen Titel direkt unter der Kopfzeile, über keinem Knopf.
+4. Die Tage darunter rollen. Erwartet: die Sprechblase geht beim Rollen zu.
+
+**P-86/4 – Titel des Tages**
+1. iPhone hoch, größte Schrift wie P-86/1; einen Tag antippen (Fenster des Tages). Erwartet: der Titel (z. B. ‚Do, 27.08.2026‘) ist mit ‚…‘
+   gekürzt.
+2. Den Titel etwa eine Sekunde lang drücken.
+3. Erwartet: Sprechblase mit dem ganzen Titel des Tages darunter.
+4. Auf x tippen. Erwartet: nur die Sprechblase geht zu, das Fenster bleibt offen. Noch einmal x: das Fenster schließt.
+
+**P-86/5 – Normale Schrift: nichts**
+1. Textgröße wieder zurückstellen (Einstellungen → Bedienungshilfen → Anzeige & Textgröße → Größerer Text aus bzw. Standard).
+2. iPhone hoch und iPad quer: ‚…‘ → ‚Reiselogbuch einstellen‘; den Titel ‚Reiselogbuch einstellen‘ (ganz sichtbar) etwa eine Sekunde lang drücken.
+3. Erwartet auf beiden Geräten: es geschieht nichts – keine Sprechblase. Mit x schließen.
+
 ## 3.44.0 – 31.10.2026
 
 Reiselogbuch 3.44.0 · AppDesign 4.46.0 (Designrichtlinie allgemein 4.46.0) · Designrichtlinie Reiselogbuch 3.44.0 · Zusammenarbeit allgemein 3.4.0

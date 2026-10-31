@@ -4,8 +4,8 @@
 // iPad quer und hoch, iPhone hoch und quer, hell und dunkel (Grundregeln nach jedem Schritt).
 // Aufruf im Repo-Ordner: node tests/verlauf-vorschlaege.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.47.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.47.0/tests/hig.mjs';
 const t = pruefung('verlauf-vorschlaege', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const TRIPS = [{ id: 'a', title: 'Wien', participants: 'G & A', start: '2026-08-24', end: '2026-08-30', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true,
