@@ -35,6 +35,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| RLB-113 | 1 | **‚Einstellungen‘ heißt ‚Reiselogbuch einstellen‘ (Nutzer 31.10.2026, Sitzung 0062):** im Mehr-Menü des Reiselogbuchs (`#mainMore`) – das Icon `settings` bleibt. Zu klären: auch im Kontextmenü der Zeile in der Seitenleiste (index.html:1243) und als Titel des Fensters (index.html:1348, ‚Einstellungen‘)? So macht es Apple: recherchieren (Mehr-Menüs in Notizen, Erinnerungen, Fotos). Allgemein oder App (0 Nr. 4)? | App | offen |
+| RLB-114 | 1 | **Jahr als Zwischenüberschrift in der Seitenleiste (Nutzer 31.10.2026, Sitzung 0062):** in der Liste der Reiselogbücher vor dem ersten Reiselogbuch eines neuen Jahres eine Zwischenüberschrift mit dem Jahr (z. B. ‚2026‘). Zu klären: welches Jahr zählt (Beginn der Reise), auch vor dem ersten Eintrag, Aussehen (wie Apple Fotos/Notizen ‚Abschnittsköpfe‘), Suche, Kontextmenü, Drehen; allgemeine Regel in AppDesign (verwandt APD-46 haftende Abschnittsköpfe)? Muster nur hell | App oder allgemein | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
