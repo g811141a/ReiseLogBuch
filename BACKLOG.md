@@ -22,8 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| APD-101 | 1 | **AppDesign APD-101 im Reiselogbuch – gekürzter Titel:** langes Drücken auf einen mit ‚…‘ gekürzten Titel (Fenstertitel, Titel der Reise in der Kopfzeile, Titel des Tages) zeigt ihn ganz in einer Sprechblase darunter (R-2.5); neue Prüfung `ablauf-titel-blase` (AppDesign `arbeit/APD-101 Testfall-Liste.md`, rot gegen 3.44.0) | allgemein (AppDesign) | 31.10.2026 |
 
-0 Punkte bereit.
+1 Punkt bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
