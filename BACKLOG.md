@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 31.10.2026** · Aktuelle Version: Reiselogbuch 3.43.0 · AppDesign 4.45.0
+**Stand 31.10.2026** · Aktuelle Version: Reiselogbuch 3.44.0 · AppDesign 4.46.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,15 +22,14 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-113 | 1 | **‚Reiselogbuch einstellen‘ statt ‚Einstellungen‘:** in beiden Menüs (Mehr-Menü `#mainMore`, Kontextmenü der Zeile in Seitenleiste bzw. Startliste) und als Fenstertitel, Icon `settings` bleibt (Designrichtlinie allgemein 6); 13 Prüfdateien und `PROMPT.md` nachziehen; Testfall-Liste AppDesign `arbeit/RLB-113 Testfall-Liste.md` (RLB-113/E-1 bis E-7) bestätigt | App | 31.10.2026 |
-| RLB-114 | 1 | **Jahr als Zwischenüberschrift in der Seitenleiste bzw. Startliste:** vor dem ersten Reiselogbuch jedes Jahres das Jahr des Reisebeginns, auch über dem obersten; bei der Suche nur Jahre mit Treffern; rollt mit; Aussehen A2 wie die Leistenüberschrift über den AppDesign-Baustein (APD-100, R-7.6); Muster AppDesign `arbeit/bilder/RLB-114 4–6 …`, Testfall-Liste `arbeit/RLB-114 Testfall-Liste.md` (RLB-114/Y-1 bis Y-12) bestätigt; Abweichung 4 der App-Richtlinie (RLB-113) Wortlaut bestätigt | App (Aussehen allgemein) | 31.10.2026 |
 
-2 Punkte bereit.
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-85 | 1 | **Usertest 3.44.0 (AppDesign 4.46.0, RLB-113, RLB-114, APD-100):** ‚Reiselogbuch einstellen‘ in beiden Menüs und als Fenstertitel, Jahr als Kopf in der Liste – Testfälle P-85/0 bis P-85/9 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +49,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-113, RLB-114 | **RLB-113 ‚Reiselogbuch einstellen‘ statt ‚Einstellungen‘** (Mehr-Menü, Kontextmenü, Fenstertitel; Abweichung 4) und **RLB-114 Jahr des Reisebeginns als Kopf in der Seitenleiste bzw. Startliste** (AppDesign APD-100, R-7.6); neue Prüfungen `ablauf-einstellen` und `ablauf-jahre`, 13 Prüfungen umgestellt; Usertest P-85 | 3.44.0 | 31.10.2026 |
 | P-84 | **Usertest P-84 (3.43.0 · AppDesign 4.45.0): alles ok** – APD-97 am Gerät bestätigt (Nutzer 31.10.2026, Sitzung 0063) | 3.43.0 | 31.10.2026 |
 | APD-97 | **AppDesign APD-97 gebaut:** iPad hoch Seitenleiste fest neben dem Inhalt (ohne Abdunkelung, Gesten wie quer), Inhalt unter 700 px mit Tagen als Kästen (R-6.6); neue Prüfung `ablauf-seitenleiste-hoch`, 11 Prüfungen angepasst; Usertest P-84 | 3.43.0 | 31.10.2026 |
 | P-83 | Geprüft **P-83 (3.42.1): alles ok** (Nutzer 30.10.2026, Sitzung 0059) | 3.42.1 | 30.10.2026 |

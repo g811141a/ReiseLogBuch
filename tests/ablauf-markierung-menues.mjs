@@ -3,9 +3,9 @@
 // Mehr-Knopf offen senkrecht und hervorgehoben (APD-87/E-1 bis APD-87/E-11, iPad, iPhone, ‚Bewegung reduzieren‘, Drehen mit offenem Menü).
 // Aufruf im Repo-Ordner: node tests/ablauf-markierung-menues.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
-import { checkMehrKnopf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
+import { checkMehrKnopf } from '../../AppDesign/fassung/4.46.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -38,10 +38,10 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
     'Safari kann die Daten bei Speichermangel löschen – bitte regelmäßig ein Backup erstellen.'], 'R-4.1');
   await p.screenshot({ path: new URL(`out/R221-menue-${tag}.png`, import.meta.url).pathname });
   await p.mouse.click(w - 20, h - 20); await p.waitForTimeout(150);
-  await t.schritt(p, 'Kontextmenü Toskana → Einstellungen', async () => {
+  await t.schritt(p, 'Kontextmenü Toskana → Reiselogbuch einstellen', async () => {
     const bx = await row('Toskana').boundingBox();
     await p.mouse.move(bx.x + 40, bx.y + 20); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up(); await p.waitForTimeout(150);
-    await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); await p.waitForTimeout(300);
+    await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); await p.waitForTimeout(300);
   });
   t.ist('Kachel blau, solange ihr Fenster offen ist', await on(row('Toskana')), true, 'R-3.3');
   await t.schritt(p, 'Fenster schließen', async () => { await p.click('#dlgX'); await p.waitForTimeout(200); });

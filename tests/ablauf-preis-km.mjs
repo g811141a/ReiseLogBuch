@@ -8,8 +8,8 @@
 // U-5 Gegenprobe; U-3 im Ø ein Leerzeichen nach ‚Ø‘; U-4 Umbruch vor der Klammer, Ø linksbündig unter dem Gesamtwert (App und Ausgabe). Aufruf im Repo-Ordner:
 // node tests/ablauf-preis-km.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck, bezeichnungen, kastenBezeichnung } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck, bezeichnungen, kastenBezeichnung } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
 const t = pruefung('ablauf-preis-km', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 // 24.–28.08.: Quartier A 3 Nächte (Preis 300), Quartier B 2 Nächte (Preis 200); 29.08. Quartier C ohne Preis; km an 3 Tagen, ein Tag nur km
 const days = {
@@ -73,7 +73,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   await oeffne(p);
   // D-3: Mehr eines Reiselogbuchs ohne ‚Darstellung‘
   await p.click('#mainMore'); await p.waitForTimeout(150);
-  t.ist('APD-92/D-3 Mehr des Reiselogbuchs', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Einstellungen', 'Reiselogbuch löschen'], 'R-1.2');
+  t.ist('APD-92/D-3 Mehr des Reiselogbuchs', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Reiselogbuch einstellen', 'Reiselogbuch löschen'], 'R-1.2');
   await p.keyboard.press('Escape'); await p.waitForTimeout(150);
   // L-2 (iPad) bzw. L-9 (iPhone): Spalte bzw. Zeile ‚🚶🏽‍♂️ 14 km‘
   // seit 3.43.0 (AppDesign APD-97, R-6.6): iPad hoch neben der Seitenleiste Kästen wie am iPhone
@@ -193,8 +193,8 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.wahr('RLB-111/H-7 Ausgabe: Preis in Klammern hinter dem Quartier', out.includes('(1.240,00\u00a0€)'), 'R-6.2');
   t.ist('RLB-110/L-11 Spaltenanteile der Ausgabe', [...out.matchAll(/<col style="width:([\d.]+)%">/g)].map(m => m[1]), ['25.93', '25.93', '7.41', '20.37', '20.37'], 'R-6.2');
   t.wahr('RLB-110/L-11 Kopf ‚🚶🏽‍♂️km‘ in einer Zeile (th.num)', out.includes('<th class="num">🚶🏽‍♂️km</th>'), 'R-6.2');
-  // L-1, L-7, Q-5: Einstellungen – Schalter nach ‚Wie war was?‘; Spalten aus – Schritt, Spalte, Statistikzeilen weg, Werte bleiben
-  await t.schritt(p, 'L-1 Einstellungen', async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); await p.waitForTimeout(400); await navFertig(p); });
+  // L-1, L-7, Q-5: Reiselogbuch einstellen – Schalter nach ‚Wie war was?‘; Spalten aus – Schritt, Spalte, Statistikzeilen weg, Werte bleiben
+  await t.schritt(p, 'L-1 Reiselogbuch einstellen', async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); await p.waitForTimeout(400); await navFertig(p); });
   t.ist('RLB-110/L-1 Schalter', await p.evaluate(() => [...dlg.querySelectorAll('.swlist .check')].map(l => l.textContent.trim()).slice(0, 4)),
     ['Spalte 🙂☹️😉 ‚Wie war was?‘', 'Spalte 🚶🏽‍♂️km ‚Gegangene Kilometer‘', 'Spalte 🍽️🍷☕️ ‚Essen und Trinken‘', 'Spalte 😴💤 ‚Quartier‘']);
   // H-1, H-3: Schalter ‚Preis der Quartiere erfassen‘ nach ‚Quartierliste in der Ausgabe‘, gesperrt ohne Spalte Quartier
@@ -215,12 +215,12 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   await zu(p);
   await p.close();
 }
-// RLB-112/U-1 (P-82/1, Ablauf des Nutzers): Preis und Quartierliste aus – in den Einstellungen nur ‚Preis der Quartiere erfassen‘ antippen
+// RLB-112/U-1 (P-82/1, Ablauf des Nutzers): Preis und Quartierliste aus – im Fenster ‚Reiselogbuch einstellen‘ nur ‚Preis der Quartiere erfassen‘ antippen
 // (echtes Tippen auf die Zeile) → Schalter an, Häkchen blau; Häkchen tippen → gespeichert, Preisfeld am ersten Tag eines Aufenthalts
 for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   const p = await t.seite(b, ansicht, { theme: 'light' }); t.ort = `${ansicht} hell U-1`;
   await start(p, [{ ...trip, priceOn: false, quarterList: false }]); await oeffne(p);
-  await t.schritt(p, 'U-1 Einstellungen', async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); await p.waitForTimeout(400); await navFertig(p); });
+  await t.schritt(p, 'U-1 Reiselogbuch einstellen', async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); await p.waitForTimeout(400); await navFertig(p); });
   await p.locator('label:has(#fPriceOn)').scrollIntoViewIfNeeded();
   await t.schritt(p, 'U-1 Preis der Quartiere erfassen antippen', () => p.locator('label:has(#fPriceOn)').click());
   t.ist('RLB-112/U-1 Schalter an, Quartierliste bleibt aus', [await p.locator('#fPriceOn').isChecked(), await p.locator('#fQuarterList').isChecked()], [true, false]);

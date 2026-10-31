@@ -4,9 +4,9 @@
 // Gegenprobe der Bedienungshilfen (node tests/alle.mjs --gegenprobe bedienung): je eingeschleustem Fehler wird genau seine Meldung rot.
 // Aufruf im Repo-Ordner: node tests/ablauf-bedienung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
-import { checkFokus, checkKontrast, checkRuhig, checkFieldErrors, ansage, sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
+import { checkFokus, checkKontrast, checkRuhig, checkFieldErrors, ansage, sucheAuf } from '../../AppDesign/fassung/4.46.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-bedienung', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const days = {};
 for (let i = 0; i < 30; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 20 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok', place: i % 3 ? 'Hafen' : 'Sydney' }; }
@@ -16,7 +16,7 @@ const b = await t.browser();
 const errs = m => m.forEach(x => t.fehler('', x));
 const G = (p, name, fn = async () => {}) => t.schritt(p, name, fn);
 const warte = (p, ms = 250) => p.waitForTimeout(ms);
-const settings = p => async () => { await p.click('#mainMore'); await warte(p, 150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); };
+const settings = p => async () => { await p.click('#mainMore'); await warte(p, 150); await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); };
 
 for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
   const p = await t.seite(b, ansicht, { contrast: 'more', reducedMotion: 'reduce' });
@@ -37,7 +37,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     await G(p, 'Untermenü Darstellung', async () => { await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await warte(p, 200); });
     await G(p, 'Menü daneben geschlossen', async () => { await p.evaluate(() => document.querySelector('.layer')?.click()); await warte(p, 200); });
     // V2, V8: Fenster mit Titel, modal
-    await G(p, 'Fenster Einstellungen', settings(p));
+    await G(p, 'Fenster Reiselogbuch einstellen', settings(p));
     await p.evaluate(() => dlg.close()); await warte(p);
     // V11: ‚Automatisch gespeichert‘ steht im Fensterkopf, wird nicht angesagt
     await G(p, 'Tag erfassen, automatisch gespeichert', async () => {

@@ -13,6 +13,96 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.44.0 – 31.10.2026
+
+Reiselogbuch 3.44.0 · AppDesign 4.46.0 (Designrichtlinie allgemein 4.46.0) · Designrichtlinie Reiselogbuch 3.44.0 · Zusammenarbeit allgemein 3.4.0
+
+**‚Reiselogbuch einstellen‘ und Jahre in der Liste** (RLB-113, RLB-114, AppDesign APD-100) – dein Ja vom 31.10.2026, Sitzung 0063; Wortlaut,
+Muster A2 (hell) und Testfall-Listen AppDesign `arbeit/RLB-113 Testfall-Liste.md` (RLB-113/E-1 bis RLB-113/E-7) und
+`arbeit/RLB-114 Testfall-Liste.md` (RLB-114/Y-1 bis Y-12) bestätigt.
+
+- **‚Reiselogbuch einstellen‘ statt ‚Einstellungen‘ (RLB-113, Abweichung 4):** der Menüpunkt heißt im Mehr-Menü des Reiselogbuchs und im
+  Kontextmenü der Zeile (Seitenleiste bzw. Startliste) ‚Reiselogbuch einstellen‘, Icon `settings` bleibt; das Fenster heißt ebenso.
+  ‚Neues Reiselogbuch‘ bleibt. Wie in Notizen: Verb und Gegenstand (‚Share Folder‘, ‚Move This Folder‘), passend zu ‚Reiselogbuch löschen‘.
+- **Jahr als Kopf in der Liste (RLB-114, R-7.6):** in der Seitenleiste bzw. Startliste steht vor dem ersten Reiselogbuch jedes Jahres das Jahr
+  des Reisebeginns als Überschrift – auch ganz oben; eine Reise über Silvester steht unter dem Jahr, in dem sie beginnt. Bei der Suche nur die
+  Jahre mit Treffern. Die Köpfe rollen mit (haften nicht), sehen aus wie die Überschrift ‚Reiselogbücher‘ (Variante A2: Title 3, fett,
+  Textfarbe, wächst mit der Textgröße wie sie) und lassen sich weder antippen noch lange drücken. Vorbild Notizen (Gruppen ‚Pinned‘, ‚Notes‘).
+- **Prüfungen:** neu `ablauf-einstellen` (RLB-113/E-1 bis RLB-113/E-6; RLB-113/E-7 = rot gegen 3.43.0) und `ablauf-jahre` (RLB-114/Y-1 bis Y-11, rot gegen
+  3.43.0; RLB-114/Y-12 Gegenproben `PRUEF_GEGENPROBE=jahre:oben`, `jahre:ende`, `jahre:halbfett` – alle drei rot); beide im vollen Lauf. Auf den neuen
+  Namen umgestellt: `ablauf-bedienung`, `ablauf-blatt`, `ablauf-fenster-breite`, `ablauf-gesamt`, `ablauf-iphone`, `ablauf-markierung-menues`,
+  `ablauf-preis-km`, `ablauf-seitenleiste-kontextmenue`, `ablauf-suche-tabelle`, `hig`, `pixelvergleich`, `regeln-ablauf`, `tastatur`. Neue Regel
+  R-7.6 in `hig` nach jedem Schritt aller Prüfungen.
+- **Befund beim Bau (RLB-113/E-6):** ab der Textgröße XXXL kürzt das iPhone hoch den Fenstertitel zu ‚Reiselogbuch eins…‘ – die Kopfzeile des
+  Fensters wächst nur bis XXXL (Leistenschrift 23 px, R-1.10), dazwischen liegen x und Häkchen. ‚Einstellungen‘ passte noch ganz; gekürzt
+  wurden schon in 3.43.0 ‚Neues Reiselogbuch‘ (iPhone mit 375 px) und der Titel des Tages. Die Prüfung verlangt bei normaler Schrift den
+  ganzen Titel, bei großer Schrift den Anfang ‚Reiselogbuch‘, Auslassungspunkte und keine Überlappung (wie die Navigationsleisten von iOS).
+  Vorschlag als neues Thema im Bericht.
+- PROMPT.md (Begriffe, Seitenleiste, Startliste, Fenster) nachgezogen.
+
+Testfälle P-85 (Schritt für Schritt, Zusammenarbeit allgemein 3.4.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-85/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.44.0 · erstellt am … · AppDesign 4.46.0‘.
+
+**P-85/1 – Mehr-Menü: Reiselogbuch einstellen**
+1. iPad quer, hell; ein Reiselogbuch ist offen.
+2. Oben rechts in der Kapsel auf ‚…‘ (ellipsis) tippen.
+3. Erwartet: ‚Suchen‘ · ‚Alle Tage‘ · ‚Nur erfasste Tage‘ · ‚Reiselogbuch einstellen‘ (Icon settings) · ‚Reiselogbuch löschen‘ (rot).
+4. ‚Reiselogbuch einstellen‘ antippen.
+5. Erwartet: das Fenster heißt ‚Reiselogbuch einstellen‘, im Feld ‚Reisetitel‘ steht der Titel des offenen Reiselogbuchs. Mit x schließen.
+
+**P-85/2 – Kontextmenü: Reiselogbuch einstellen**
+1. iPad quer: in der Seitenleiste ein anderes Reiselogbuch (nicht das blaue) lange drücken; iPhone hoch: in der Startliste ein Reiselogbuch
+   lange drücken.
+2. Erwartet auf beiden Geräten: das Menü ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot); die Kachel ist blau getönt.
+3. ‚Reiselogbuch einstellen‘ antippen.
+4. Erwartet: Fenster ‚Reiselogbuch einstellen‘ mit dem Titel des gedrückten Reiselogbuchs im Feld ‚Reisetitel‘. Mit x schließen.
+
+**P-85/3 – Neues Reiselogbuch bleibt**
+1. iPad oder iPhone: oben in der Seitenleiste bzw. Startliste auf plus tippen.
+2. Erwartet: das Fenster heißt weiter ‚Neues Reiselogbuch‘. Mit x schließen.
+
+**P-85/4 – Fenstertitel bei größter Textgröße**
+1. iPhone hoch; Einstellungen (iPhone) → Bedienungshilfen → Anzeige & Textgröße → Größerer Text: ganz nach rechts.
+2. Ein Reiselogbuch öffnen, ‚…‘ → ‚Reiselogbuch einstellen‘.
+3. Erwartet: der Titel beginnt mit ‚Reiselogbuch‘ und endet mit ‚…‘ (gekürzt, Befund oben); er berührt weder x noch Häkchen.
+4. Mit x schließen; die Textgröße wieder zurückstellen.
+
+**P-85/5 – Jahre in der Seitenleiste (iPad)**
+1. iPad quer, hell; du hast Reiselogbücher aus mindestens zwei Jahren.
+2. Die Seitenleiste ‚Reiselogbücher‘ ansehen.
+3. Erwartet: über dem obersten Reiselogbuch steht sein Jahr (z. B. ‚2026‘), vor dem ersten Reiselogbuch jedes weiteren Jahres dessen Jahr;
+   jede Reise steht unter dem Jahr, in dem sie beginnt; die Jahre sind so groß, fett und schwarz wie ‚Reiselogbücher‘ oben.
+4. iPad hoch drehen. Erwartet: dasselbe; der oberste sichtbare Eintrag bleibt stehen.
+
+**P-85/6 – Jahre in der Startliste (iPhone)**
+1. iPhone hoch, hell; Startliste ‚Reiselogbücher‘.
+2. Erwartet: wie P-85/5 – Jahre über den Gruppen, auch ganz oben, so groß wie ‚Reiselogbücher‘.
+3. Die Liste nach oben und unten rollen. Erwartet: die Jahre rollen ruhig mit (bleiben nicht oben stehen) und laufen unter der Leiste und
+   hinter der gelben Backup-Kachel durch.
+
+**P-85/7 – Jahre bei größter Textgröße**
+1. iPhone hoch; Größerer Text ganz nach rechts (wie P-85/4).
+2. Startliste ansehen.
+3. Erwartet: die Jahre sind größer als bei normaler Schrift und genau so groß wie ‚Reiselogbücher‘ oben; sie stehen ganz in der Liste, nichts
+   überlappt. Danach die Textgröße zurückstellen.
+
+**P-85/8 – Suche: nur Jahre mit Treffern**
+1. iPad quer: in der Seitenleiste ‚…‘ → ‚Suchen‘ antippen.
+2. Ein Wort eingeben, das nur in einem Reiselogbuch vorkommt.
+3. Erwartet: nur das Jahr dieses Reiselogbuchs über seiner Kachel, keine anderen Jahre.
+4. Ein Wort eingeben, das es nirgends gibt. Erwartet: kein Jahr, ‚Keine Treffer‘.
+5. x ‚Suche beenden‘ antippen. Erwartet: wieder alle Reiselogbücher mit allen Jahren.
+
+**P-85/9 – Jahr antippen und lange drücken**
+1. iPad quer: ein Jahr in der Seitenleiste kurz antippen, dann lange drücken.
+2. Erwartet: nichts geschieht – kein Reiselogbuch öffnet sich, kein Menü.
+3. Eine Kachel darunter lange drücken. Erwartet: das Menü ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ wie in P-85/2.
+
 ## 3.43.0 – 31.10.2026
 
 Reiselogbuch 3.43.0 · AppDesign 4.45.0 (Designrichtlinie allgemein 4.45.0) · Designrichtlinie Reiselogbuch 3.43.0 · Zusammenarbeit allgemein 3.4.0

@@ -2,9 +2,9 @@
 // Ausgabe-Zelle, Druck ohne Seitenleisten-Abstand, Reisemittel und Wetter wählen.
 // Aufruf im Repo-Ordner: node tests/ablauf-suche-tabelle.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle, rollstand } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
+import { pruefung, rolle, rollstand } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.46.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-tabelle', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 30 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok', quarter: 'Hotel', place: 'Ort' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, days, kosten: 4850 }];
@@ -31,7 +31,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Druck: kein Abstand für die Seitenleiste', await p.evaluate(() => getComputedStyle(document.body).paddingLeft), '0px');
   t.ist('Seitenleiste angedockt', await p.evaluate(() => document.body.classList.contains('docked')), true);
   await p.emulateMedia({ media: 'screen' });
-  await t.schritt(p, 'Einstellungen: Reisemittel Pkw', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Einstellungen")'); await p.click('#transport [data-t="pkw"]'); });
+  await t.schritt(p, 'Reiselogbuch einstellen: Reisemittel Pkw', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); await p.click('#transport [data-t="pkw"]'); });
   t.ist('Reisemittel Pkw gewählt', await p.getAttribute('#transport [data-t="pkw"]', 'aria-pressed'), 'true', 'R-5.4');
   t.ist('Reisemittel in einer Auswahl-Kapsel', await p.locator('#dlg .chips .cap').count(), 1, 'R-5.4');
   t.ist('Reisemittel passen quer ohne Wischen', await p.evaluate(() => { const s = document.getElementById('transport'); return s.scrollWidth <= s.clientWidth + 1; }), true, 'R-5.4');

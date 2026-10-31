@@ -4,9 +4,9 @@
 // (AppDesign arbeit/RLB-92 Testfall-Liste.md): RLB-92/F-3 ausgeblendete Spalte, RLB-92/F-9 Groß/klein, RLB-92/F-10 ohne Reiselogbuch, RLB-92/F-11 viele,
 // RLB-92/F-15 Drehen, RLB-92/F-16 Eingabetaste, RLB-92/F-19 Neuladen. Aufruf im Repo-Ordner: node tests/ablauf-suche-liste.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
-import { checkListSearch, sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
+import { checkListSearch, sucheAuf } from '../../AppDesign/fassung/4.46.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-liste', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const mk = (id, start, n, f, extra = {}) => { const days = {}; for (let i = 0; i < n; i++) days[new Date(Date.parse(start) + i * 864e5).toISOString().slice(0, 10)] = f(i);
   return { id, title: id, participants: 'G & A', start, end: Object.keys(days).at(-1), transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days, ...extra }; };
