@@ -29,12 +29,13 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-87 | 1 | **Usertest 3.46.0 (AppDesign 4.48.0, APD-104, APD-105):** Großanzeige ab AX1 (Kopfzeile, Fenster, gleiten, daneben loslassen, normale Schrift nichts) und Berühren (Knopf blass, Zeile grau, Rollen ohne Aufblitzen, Smiley hebt sich) – Testfälle P-87/0 bis P-87/7 im CHANGELOG | prüfen |
+| P-87 | 1 | **Usertest 3.46.0 (AppDesign 4.48.0, APD-104, APD-105):** Großanzeige ab AX1 (Kopfzeile, Fenster, gleiten, daneben loslassen, normale Schrift nichts) und Berühren (Knopf blass, Zeile grau, Rollen ohne Aufblitzen, Smiley hebt sich) – Testfälle P-87/0 bis P-87/7 im CHANGELOG – **nicht ok (Nutzer 31.10.2026, Sitzung 0068):** P-87/1 bis /4 Großanzeige zeigt nichts, P-87/6 Knopf grau statt blass, Frage Textmarkierung auf der Tageszeile, P-87/7 Smiley grau ohne Schatten, Frage zu schnell – AppDesign APD-106 | nicht ok |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| RLB-115 | 1 | **iPad quer: Seitenleiste ausblenden – erster Tag nur halb zu sehen (Nutzer 31.10.2026, Sitzung 0068, ‚sonstiger Fehler‘):** nach dem Öffnen einer laufenden Reise steht der heutige Tag ganz oben (R-7.4); beim Ausblenden der Seitenleiste werden die Tage als Tabelle gezeigt und die erste Zeile (heutiger Tag) ist nur zur Hälfte zu sehen (R-8.1: oberster Eintrag bleibt). Ablauf als feste Prüfung nachbauen, rot gegen 3.46.0 (0 Nr. 1); prüfen, ob AppDesign (`keepPlace`, R-8.1) betroffen ist | Reiselogbuch / AppDesign? | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
