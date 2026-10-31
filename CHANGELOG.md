@@ -32,6 +32,12 @@ APD-97/D-1 bis D-11) bestätigt.
   hoch dieselben Gesten wie quer; angepasst an die feste Seitenleiste bzw. die Kästen hoch: `ablauf-bedienung`, `ablauf-fenster`,
   `ablauf-gesamt`, `ablauf-liste-still`, `ablauf-markierung-menues`, `ablauf-preis-km`, `ablauf-seitenleiste-position`, `ablauf-suche-liste`,
   `ablauf-suche-menue`, `ablauf-suche-woerter`, `text-regeln`; neue Regel R-6.6 in `hig` nach jedem Schritt aller Prüfungen.
+- **Korrekturen vor der Veröffentlichung** (Sitzung 0061 – der volle Prüflauf in 0060 war rot, nur bei großer Schrift am iPad hoch):
+  beim Ein- und Ausblenden der Seitenleiste bleibt der oberste Tag auf den Pixel stehen (AppDesign `keepPlace`, bei AX5 sprang er um
+  30 px); die Zeile ‚Datum - Datum · läuft gerade‘ in der Seitenleiste bricht um, statt hinauszuragen (XXL, XXXL); `hig` tippt den Tag oben
+  links an – in der Mitte des Kastens liegt hoch der Link ‚Fischmarkt‘ (öffnet Google Maps statt des Fensters, die App war richtig);
+  `ablauf-seitenleiste-hoch` läuft jetzt im vollen Lauf mit (fehlte in `alle.mjs`). Übersehen, weil vor `los` die geänderten Prüfungen nicht
+  mit großer Schrift liefen.
 
 Testfälle P-84 (Schritt für Schritt, Zusammenarbeit allgemein 3.3.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
@@ -80,6 +86,12 @@ Testfälle P-84 (Schritt für Schritt, Zusammenarbeit allgemein 3.3.0). Link: ht
 1. iPad hoch, Seitenleiste sichtbar; share (Ausgabe) → ‚PDF‘ tippen.
 2. Erwartet: im PDF stehen die Tage als Tabelle wie bisher.
 3. Das Drucken-Menü schließen.
+
+**P-84/7 – Große Schrift hoch**
+1. iPad: Einstellungen → Bedienungshilfen → Anzeige & Textgröße → Größerer Text → einschalten, Regler ganz nach rechts; die App öffnen, iPad hoch.
+2. Erwartet: in der Seitenleiste steht jede Zeile ganz in ihrer Kachel (‚… · läuft gerade‘ bricht um, nichts ragt hinaus).
+3. Im Reiselogbuch etwas nach unten rollen, den obersten Tag merken; oben in der Seitenleiste panel-left tippen, dann oben links panel-left.
+4. Erwartet: beide Male steht oben derselbe Tag an derselben Stelle – nichts springt. Danach den Regler wieder zurückstellen.
 
 ## 3.42.1 – 30.10.2026
 

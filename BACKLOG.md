@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-84 | 1 | **Usertest 3.43.0 (AppDesign 4.45.0, APD-97):** iPad hoch Seitenleiste neben dem Inhalt, Tage als Kästen – Testfälle P-84/0 bis P-84/6 im CHANGELOG | prüfen |
+| P-84 | 1 | **Usertest 3.43.0 (AppDesign 4.45.0, APD-97):** iPad hoch Seitenleiste neben dem Inhalt, Tage als Kästen – Testfälle P-84/0 bis P-84/7 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
