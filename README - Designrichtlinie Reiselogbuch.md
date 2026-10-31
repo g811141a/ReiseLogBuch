@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.42.1** · Stand 30.10.2026
+**Version 3.43.0** · Stand 31.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.44.1)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.45.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -29,6 +29,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.43.0 | 31.10.2026 | Neben | AppDesign 4.45.0 (APD-97, R-6.6, R-7.5): am iPad hoch Seitenleiste fest neben dem Inhalt, Tage im schmalen Inhalt als Kästen – keine Abweichung |
 | 3.42.1 | 30.10.2026 | Korrektur | AppDesign 4.44.1 (APD-98, R-6.5: Bezeichnung im Kasten mit Feldern normal, mittig zur ersten Zeile des Werts) – keine Abweichung neu |
 | 3.42.0 | 30.10.2026 | Neben | AppDesign 4.44.0 (APD-95, R-5.8: Bezeichnungen und Einheiten normal; schmales Zahlenfeld bündig rechts) – keine Abweichung neu; Feldname ‚Preis der Quartiere erfassen‘ (RLB-111) |
 | 3.41.0 | 30.10.2026 | Neben | AppDesign 4.43.0 (APD-91 ‚Suchen‘ im Mehr-Menü, x ‚Suche beenden‘, ⌘F; APD-92/R-1.2 ‚Darstellung‘ im Mehr-Menü der Seitenleiste – RLB-108; APD-93 schmale Zahlenfelder – Feld ‚Gegangene Kilometer‘, RLB-110); Preis beim Quartier (RLB-109); Abweichung 3 mit ‚Gegangene Kilometer‘ 8, Feldnamen mit Spalte Gegangene Kilometer, Gegangene Kilometer und Preis (Nutzer 30.10.2026, Wortlaut bestätigt) |

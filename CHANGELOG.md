@@ -13,6 +13,92 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.43.0 – 31.10.2026
+
+Reiselogbuch 3.43.0 · AppDesign 4.45.0 (Designrichtlinie allgemein 4.45.0) · Designrichtlinie Reiselogbuch 3.43.0 · Zusammenarbeit allgemein 3.4.0
+
+**iPad hoch: Seitenleiste neben dem Inhalt, Tage als Kästen** (AppDesign APD-97, aus deiner Rückmeldung zu P-82 ‚Sonstiges‘) – dein Ja vom
+31.10.2026, Sitzung 0060; Wortlaut, Muster (hell) und Testfall-Liste AppDesign `arbeit/APD-97 Testfall-Liste.md` (APD-97/L-1 bis L-10,
+APD-97/D-1 bis D-11) bestätigt.
+
+- **Seitenleiste hoch fest (R-7.5):** am iPad hoch steht die Seitenleiste wie quer fest links neben dem Inhalt – keine Abdunkelung mehr, das
+  Reiselogbuch daneben ist bedienbar, die Auswahl eines anderen Reiselogbuchs lässt sie stehen; panel-left blendet sie aus und ein,
+  Wischen nach rechts holt die ausgeblendete herein (der Inhalt rückt mit), Wischen nach links ändert nichts. Wie in Einstellungen und
+  Notizen am iPad.
+- **Tage als Kästen im schmalen Inhalt (R-6.6):** ist der Inhalt schmaler als 700 px – am iPad hoch neben der Seitenleiste (iPad mini 365,
+  11″ 441, 13″ 645 px) –, stehen die Tage und die Quartierliste als Kästen wie am iPhone; ohne Seitenleiste und quer bleibt die Tabelle.
+  Jeder Wechsel (Drehen, panel-left, Hereinwischen) lässt oben denselben Tag stehen. Ausgabe (HTML, PDF) unverändert als Tabelle.
+- **Prüfungen:** neu `ablauf-seitenleiste-hoch` (APD-97/L-1 bis L-8, D-1 bis D-5, D-8, D-10; rot gegen 3.42.1); `ablauf-navigation` prüft
+  hoch dieselben Gesten wie quer; angepasst an die feste Seitenleiste bzw. die Kästen hoch: `ablauf-bedienung`, `ablauf-fenster`,
+  `ablauf-gesamt`, `ablauf-liste-still`, `ablauf-markierung-menues`, `ablauf-preis-km`, `ablauf-seitenleiste-position`, `ablauf-suche-liste`,
+  `ablauf-suche-menue`, `ablauf-suche-woerter`, `text-regeln`; neue Regel R-6.6 in `hig` nach jedem Schritt aller Prüfungen.
+- **Korrekturen vor der Veröffentlichung** (Sitzung 0061 – der volle Prüflauf in 0060 war rot, nur bei großer Schrift am iPad hoch):
+  beim Ein- und Ausblenden der Seitenleiste bleibt der oberste Tag auf den Pixel stehen (AppDesign `keepPlace`, bei AX5 sprang er um
+  30 px); die Zeile ‚Datum - Datum · läuft gerade‘ in der Seitenleiste bricht um, statt hinauszuragen (XXL, XXXL); `hig` tippt den Tag oben
+  links an – in der Mitte des Kastens liegt hoch der Link ‚Fischmarkt‘ (öffnet Google Maps statt des Fensters, die App war richtig);
+  `ablauf-seitenleiste-hoch` läuft jetzt im vollen Lauf mit (fehlte in `alle.mjs`). Übersehen, weil vor `los` die geänderten Prüfungen nicht
+  mit großer Schrift liefen.
+- **Korrektur der Prüfung vor der Veröffentlichung** (Sitzung 0062 – `los` in 0061 rot, nur WebKit am iPad hoch): in
+  `ablauf-navigation` begann der Zug ‚nach links‘ (AppDesign APD-68/Q-7) auf einem Link in einem Tag; der Mauszug startete Ziehen-und-Ablegen,
+  danach öffnete der Klick auf das Menü nicht (APD-68/Q-8, Q-9 als Folge). Die Prüfung wischt jetzt wie ein Finger (AppDesign `safari.mjs`
+  `mausWieFinger`); die App ist unverändert. Übersehen, weil die Q-Fälle vor 3.43.0 nur quer liefen (dort liegt kein Link an der Stelle).
+- **`ablauf-markierung-menues` dreht mit offenem Mehr-Menü in beide Richtungen** (AppDesign APD-94, hinfällig durch APD-97): auch quer → hoch,
+  danach keine Abdunkelung (R-1.4); bisher nur hoch → quer. Dazu Zusammenarbeit 3.4.0 (AppDesign APD-99) in README und PROMPT.
+
+Testfälle P-84 (Schritt für Schritt, Zusammenarbeit allgemein 3.4.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-84/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.43.0 · erstellt am … · AppDesign 4.45.0‘.
+
+**P-84/1 – Seitenleiste hoch neben dem Inhalt**
+1. iPad hoch; die App öffnen.
+2. Erwartet: links die Seitenleiste ‚Reiselogbücher‘, rechts daneben das aktuelle Reiselogbuch – nichts abgedunkelt.
+3. Im Reiselogbuch rechts einen Tag antippen.
+4. Erwartet: das Fenster des Tages öffnet sich. Mit x schließen.
+5. In der Seitenleiste ein anderes Reiselogbuch antippen.
+6. Erwartet: es öffnet sich rechts, die Seitenleiste bleibt stehen.
+
+**P-84/2 – Tage als Kästen hoch, Tabelle ohne Seitenleiste**
+1. iPad hoch, Seitenleiste sichtbar; ein Reiselogbuch mit mehreren erfassten Tagen öffnen.
+2. Erwartet: die Tage stehen als Kästen untereinander wie am iPhone (Datum oben, darunter ‚Verlauf‘, Quartier …), auch die Quartierliste.
+3. Oben in der Seitenleiste panel-left tippen.
+4. Erwartet: die Seitenleiste gleitet hinaus, die Tage stehen als Tabelle; oben steht derselbe Tag wie vorher.
+5. Oben links panel-left tippen.
+6. Erwartet: die Seitenleiste gleitet herein, die Tage stehen wieder als Kästen; oben derselbe Tag.
+
+**P-84/3 – Wischen hoch**
+1. iPad hoch, Seitenleiste ausgeblendet (panel-left).
+2. Im Reiselogbuch von der Mitte langsam nach rechts wischen und über die halbe Breite ziehen, dann loslassen.
+3. Erwartet: die Seitenleiste folgt dem Finger, das Reiselogbuch rückt mit; nach dem Loslassen steht sie fest links, die Tage als Kästen.
+4. Auf der Seitenleiste nach links wischen.
+5. Erwartet: nichts ändert sich – ausblenden nur mit panel-left.
+
+**P-84/4 – Drehen**
+1. iPad hoch, Seitenleiste sichtbar, im Reiselogbuch etwas nach unten rollen und den obersten Tag merken.
+2. Das iPad quer drehen.
+3. Erwartet: die Seitenleiste bleibt links, die Tage stehen als Tabelle, oben derselbe Tag.
+4. Wieder hoch drehen.
+5. Erwartet: Seitenleiste links, Tage als Kästen, oben derselbe Tag – ruhig, ohne Springen.
+
+**P-84/5 – Drehen mit offenem Menü**
+1. iPad hoch; in der Seitenleiste oben ‚…‘ (Mehr) tippen, dann ‚Darstellung‘.
+2. Das iPad quer und wieder hoch drehen.
+3. Erwartet: das Menü steht ganz sichtbar an seinem Knopf oder ist zu; danach lässt sich alles normal antippen (nichts gesperrt).
+
+**P-84/6 – Ausgabe unverändert**
+1. iPad hoch, Seitenleiste sichtbar; share (Ausgabe) → ‚PDF‘ tippen.
+2. Erwartet: im PDF stehen die Tage als Tabelle wie bisher.
+3. Das Drucken-Menü schließen.
+
+**P-84/7 – Große Schrift hoch**
+1. iPad: Einstellungen → Bedienungshilfen → Anzeige & Textgröße → Größerer Text → einschalten, Regler ganz nach rechts; die App öffnen, iPad hoch.
+2. Erwartet: in der Seitenleiste steht jede Zeile ganz in ihrer Kachel (‚… · läuft gerade‘ bricht um, nichts ragt hinaus).
+3. Im Reiselogbuch etwas nach unten rollen, den obersten Tag merken; oben in der Seitenleiste panel-left tippen, dann oben links panel-left.
+4. Erwartet: beide Male steht oben derselbe Tag an derselben Stelle – nichts springt. Danach den Regler wieder zurückstellen.
+
 ## 3.42.1 – 30.10.2026
 
 Reiselogbuch 3.42.1 · AppDesign 4.44.1 (Designrichtlinie allgemein 4.44.1) · Designrichtlinie Reiselogbuch 3.42.1 · Zusammenarbeit allgemein 3.3.0

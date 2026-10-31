@@ -2,11 +2,12 @@
 // beim ersten Fehler – über das Lauf-Werkzeug aus AppDesign (tests/lauf.mjs). AppDesign muss neben dem Repo liegen.
 // Aufruf im Repo-Ordner: node tests/alle.mjs [--alle] [--browser chromium] [--nur hig,tastatur] [--abdeckung]
 // pixelvergleich.mjs läuft nicht mit (braucht _alt.html, Handwerkzeug). Seit 3.36.0 (RLB-103) läuft ablauf-tastatur-still mit, seit 3.37.0
-// (RLB-107, AppDesign APD-83) ablauf-fenster-breite, seit 3.41.0 ablauf-suche-menue (AppDesign APD-91) und ablauf-preis-km (RLB-108 bis RLB-110).
+// (RLB-107, AppDesign APD-83) ablauf-fenster-breite, seit 3.41.0 ablauf-suche-menue (AppDesign APD-91) und ablauf-preis-km (RLB-108 bis RLB-110),
+// seit 3.43.0 ablauf-seitenleiste-hoch (AppDesign APD-97).
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.44.1/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.45.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'ablauf-messung', 'tastatur',
-  'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
+  'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
   'verlauf-vorschlaege', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'link-name', 'kapsel-iphone', 'oeffnen-position', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-blatt', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln',
   // Seit 3.33.0 (AppDesign APD-43 P1): die Abläufe mit Bewegung zusätzlich mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (Bewegungswächter)
   // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): dieselben Abläufe zusätzlich mit der größten Textgröße (AX5, 53 px)

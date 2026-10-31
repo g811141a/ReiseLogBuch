@@ -35,6 +35,7 @@ Die Spalte ‚prüft‘ nennt die Regel (R-… = Regelkatalog, Designrichtlinie 
 | `ablauf-suche-iphone.mjs` | R-2.1, R-2.3 | am iPhone stehen Kopf- und Suchzeile beim Tippen in der Suche fest – genau der gemessene Ablauf (P-57) |
 | `ablauf-seitenleiste-kontextmenue.mjs` | R-4.2, PROMPT 4 | Seitenleiste, langes Drücken, Löschen-Abfrage |
 | `ablauf-seitenleiste-position.mjs` | R-7.1, R-2.1 | Seitenleiste/Startliste behält ihre Position, gewählter Eintrag sichtbar; iPhone: erstes Wischen bei offener Suche schließt nur die Tastatur, die Seite bleibt stehen |
+| `ablauf-seitenleiste-hoch.mjs` | R-6.6, R-7.5, R-8.1 | iPad hoch: Seitenleiste fest neben dem Inhalt (ohne Abdunkelung, Auswahl lässt sie stehen, panel-left, Drehen, Menü beim Drehen, Kontextmenü); Inhalt unter 700 px mit Tagen als Kästen, Grenze 699/700, Wechsel mit gleichem obersten Tag, Ausgabe als Tabelle (AppDesign APD-97/L-1 bis L-8, D-1 bis D-5, D-8, D-10) |
 | `ablauf-markierung-menues.mjs` | R-3.3, R-4.1 | blaue Markierung bleibt, Menüs mit Strich und Speicher-Satz |
 | `ablauf-iphone.mjs` | R-1.1, PROMPT 5 | iPhone-Ansicht: Startliste, Suche, Tag erfassen, Kontextmenü, Löschen, Wechsel iPhone ↔ iPad |
 | `start-regeln.mjs` | R-7.2, PROMPT 3 | Start nach dem Neuladen (`start.mjs`): iPhone hoch/quer und iPad im schmalen Fenster in der Startliste ohne blauen Eintrag, iPad unverändert; Rückkehr aus dem Hintergrund, Drehen, Öffnen, Zurück, leere/lange Liste, Wechsel des Aufbaus, Backup laden – RLB-84/F-1 bis F-18 |

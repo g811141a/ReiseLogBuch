@@ -4,9 +4,9 @@
 // nur der Cursor, bei offenem Menü nichts), Drehen mit offener Suche. Testfall-Liste AppDesign arbeit/APD-91 Testfall-Liste.md (S-1 bis S-18).
 // Aufruf im Repo-Ordner: node tests/ablauf-suche-menue.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
-import { checkSearchPlace, checkSucheBeenden, checkCmdF, sucheAuf } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { checkSearchPlace, checkSucheBeenden, checkCmdF, sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-menue', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const mk = (id, start, n, f) => { const days = {}; for (let i = 0; i < n; i++) days[new Date(Date.parse(start) + i * 864e5).toISOString().slice(0, 10)] = f(i);
   return { id, title: id, participants: 'G & A', start, end: Object.keys(days).at(-1), transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }; };
@@ -26,15 +26,16 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
   const p = await t.seite(b, ansicht, { theme: 'light' });
   const where = ansicht; t.ort = where;
   await start(p);
-  const phone = ansicht.startsWith('iPhone'), over = ansicht === 'iPad hoch';
-  const item = phone ? '#pdays [data-day]' : 'table.days tbody [data-day]';
-  // Seitenleiste bzw. Startliste: beim Start sichtbar (iPad hoch darübergelegt, iPhone als Startliste)
+  // seit 3.43.0 (AppDesign APD-97): iPad hoch wie quer – Seitenleiste fest daneben, ein Reiselogbuch ist offen; Tage als Kästen oder Tabelle (R-6.6)
+  const phone = ansicht.startsWith('iPhone'), over = false;
+  const item = phone ? '#pdays [data-day]' : '#app [data-day]';
+  // Seitenleiste bzw. Startliste: beim Start sichtbar (iPad fest links, iPhone als Startliste)
   t.liste(await checkSearchPlace(p, { mehr: '#sideMore', kapsel: '#side .grp', where: `${where} Liste` }));                  // S-1, S-3
   await t.schritt(p, 'Mehr der Liste offen', async () => { await p.click('#sideMore'); await p.waitForTimeout(200); });   // S-14 Grundregeln
   await p.keyboard.press('Escape'); await p.waitForTimeout(150);
   t.liste(await checkSucheBeenden(p, { mehr: '#sideMore', input: '#lsearch', close: '#lsclose', row: '#side .side-search', item: '#side .side-row',
     scroll: '#side .side-list', term: 'Sydney', where: `${where} Liste` }));                                                // S-4, S-6, S-15, S-18
-  // S-9: ⌘F ohne offenes Reiselogbuch (iPhone-Startliste; iPad hoch: die Seitenleiste liegt darüber) – Suche in allen
+  // S-9: ⌘F ohne offenes Reiselogbuch (iPhone-Startliste) – Suche in allen
   if (phone || over) t.liste(await checkCmdF(p, { input: '#lsearch', close: '#lsclose', mehr: '#sideMore', where: `${where} Liste` }));
   // Reiselogbuch öffnen
   await p.locator('#side .side-row[data-id="Australien"]').click(); await p.waitForTimeout(400); await navFertig(p);

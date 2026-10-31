@@ -5,9 +5,9 @@
 // zentrale Liste 1:1 (checkListSearch) und ‚Suchen‘ zuerst im Mehr-Menü (checkSearchPlace, seit 3.41.0 APD-91). iPad quer und hoch, iPhone hoch
 // und quer, hell und dunkel. Seit 3.27.0 ohne Akzente (AppDesign APD-63 C2). Aufruf im Repo-Ordner: node tests/ablauf-suche-woerter.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
-import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace, sucheAuf } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace, sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-woerter', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const trip = (id, start, list) => ({ id, title: id, participants: 'G & A', start, end: new Date(Date.parse(start) + (list.length - 1) * 864e5).toISOString().slice(0, 10),
   transport: ['flug'], foodColumn: true, moodColumn: false, quarterColumn: false,
@@ -43,7 +43,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.liste(await checkSearchWords(p, { where }));
   await open('Australien');
   t.liste(await checkSearchPlace(p, { where: `${where} Eintrag` }));
-  const item = phone ? '#pdays [data-day]' : 'table.days tbody [data-day]';
+  const item = phone ? '#pdays [data-day]' : '#app [data-day]'   /* seit 3.43.0 (APD-97): Tabelle oder Kästen */;
   const suche = async term => {
     if (!await p.locator('#search').isVisible()) { await sucheAuf(p); await p.waitForTimeout(200); }
     await p.locator('#search').fill(''); await p.locator('#search').pressSequentially(term, { delay: 10 }); await p.waitForTimeout(900);
@@ -80,7 +80,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.liste(await checkSearch(p, { term: 'opera sydney', item, where }));
   // S12/S13: zentrale Liste – nur Reiselogbücher mit allen Wörtern, ‚N Treffer‘ = ‚1 von N‘, beide Felder 1:1
   await toList();
-  const back = phone ? () => p.click('#back') : ansicht === 'iPad hoch' ? () => p.locator('[data-side-toggle]').first().click() : null;
+  const back = phone ? () => p.click('#back') : null;   // seit 3.43.0 (APD-97): iPad hoch bleibt die Seitenleiste wie quer stehen
   for (const e of await checkListSearch(p, { term: 'pizza rundgang', where, back })) t.fehler('R-2.3', e);
   await toList();
   if (!await p.locator('#lsearch').isVisible()) { await sucheAuf(p, '#sideMore'); await p.waitForTimeout(200); }

@@ -7,9 +7,9 @@
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
 // Bewusste Abweichungen (Abschnitt 16) werden nicht gezählt. Ergebnis: Abweichungsliste, Exit-Code 1 bei Funden.
 import * as pw from 'playwright';
-import { pruefung, rolle, textSeite } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
+import { pruefung, rolle, textSeite } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
 const long = 'a'.repeat(100); // R-6.3: zu lange Wörter müssen im Wort umbrechen
@@ -98,7 +98,9 @@ for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 118
   };
   await dialog(async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); }, 'Fenster Einstellungen', '#mainMore');
   // seit 3.35.0 (RLB-101): ab AX1 stehen die Tage auch am iPad als Kästen
-  await dialog(() => p.locator('#app [data-day="2026-08-24"]').first().click(), 'Fenster Tag', '#app [data-day="2026-08-24"]');
+  // seit 3.43.0 (APD-97): oben links antippen (Datum bzw. Kopf des Kastens) – im schmalen Inhalt am iPad hoch liegt in der Mitte des
+  // Kastens der Link ‚Fischmarkt‘, der Google Maps öffnet statt des Fensters
+  await dialog(() => p.locator('#app [data-day="2026-08-24"]').first().click({ position: { x: 12, y: 12 } }), 'Fenster Tag', '#app [data-day="2026-08-24"]');
   await dialog(async () => { await p.locator('#fazit').scrollIntoViewIfNeeded(); await p.click('#fazit'); }, 'Fenster Fazit', '#fazit');
   await dialog(() => p.evaluate(() => openTripDialog(null)), 'Fenster Neues Reiselogbuch');
   await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);

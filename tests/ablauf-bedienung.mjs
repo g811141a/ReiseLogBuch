@@ -4,9 +4,9 @@
 // Gegenprobe der Bedienungshilfen (node tests/alle.mjs --gegenprobe bedienung): je eingeschleustem Fehler wird genau seine Meldung rot.
 // Aufruf im Repo-Ordner: node tests/ablauf-bedienung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
-import { checkFokus, checkKontrast, checkRuhig, checkFieldErrors, ansage, sucheAuf } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { checkFokus, checkKontrast, checkRuhig, checkFieldErrors, ansage, sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-bedienung', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const days = {};
 for (let i = 0; i < 30; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 20 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok', place: i % 3 ? 'Hafen' : 'Sydney' }; }
@@ -95,12 +95,10 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
   }
 
   if (ansicht === 'iPad hoch') {
-    // K7: Esc schließt die darübergelegte Seitenleiste, der Fokus geht auf panel-left
-    if (!await p.isVisible('#side')) { await p.locator('[data-side-toggle]').first().click(); await warte(p, 500); }
+    // K7 (seit 3.43.0, AppDesign APD-97): hoch steht die Seitenleiste fest wie quer – Esc lässt sie stehen, ohne Abdunkelung
     await p.locator('#side .side-row').first().focus();
     await p.keyboard.press('Escape'); await warte(p, 600);
-    t.ist('Esc schließt die darübergelegte Seitenleiste', await p.evaluate(() => !side.getClientRects().length || side.hidden), true, 'R-4.7');
-    t.ist('Fokus danach auf panel-left', await p.evaluate(() => document.activeElement?.matches('[data-side-toggle]')), true, 'R-4.7');
+    t.ist('Esc lässt die feste Seitenleiste stehen', await p.evaluate(() => !!side.getClientRects().length && !side.hidden && !document.querySelector('.side-shade')), true, 'R-4.7');
   }
 
   if (ansicht === 'iPhone hoch') {

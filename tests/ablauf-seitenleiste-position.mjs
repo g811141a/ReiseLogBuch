@@ -2,9 +2,9 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung, textSeite } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
+import { pruefung, textSeite } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-seitenleiste-position', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
@@ -35,7 +35,8 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   await p.waitForTimeout(150);
   await p.locator('#side .side-row', { hasText: 'Reise 14' }).click(); await p.waitForTimeout(350);
   if (w < 700) { await p.click('#back'); await p.waitForTimeout(250); }
-  if (dev === 'iPad hoch') { await p.click('#sideShow, [aria-label="Seitenleiste einblenden"]'); await p.waitForTimeout(250); }
+  // seit 3.43.0 (AppDesign APD-97): auch hoch bleibt die Seitenleiste nach der Auswahl stehen (fest neben dem Inhalt)
+  check(await p.locator('#side').isVisible(), `${dev}: Seitenleiste nach der Auswahl nicht mehr da`);
   check(await p.locator('#side .side-row.current').textContent().then(t => t.includes('Reise 14')), `${dev}: gewählter Eintrag nicht blau`);
   check(await visible(p), `${dev}: gewählter Eintrag nach dem Öffnen nicht mehr sichtbar (Liste nach oben gesprungen)`);
   t.ort = dev; await G(p, 'Reise 14 gewählt');

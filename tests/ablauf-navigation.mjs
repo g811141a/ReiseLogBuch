@@ -4,9 +4,9 @@
 // Waagrecht rollender Bereich am iPhone: die Zeile Reisemittel (#reisemittel, seit 3.38.0 Wischzeile, AppDesign APD-86). Grundregeln nach den Schritten (pruefe.mjs).
 // Aufruf im Repo-Ordner: node tests/ablauf-navigation.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.44.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.44.1/tests/hig.mjs';
-import { checkNavigation } from '../../AppDesign/fassung/4.44.1/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { checkNavigation } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-navigation', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const tage = {}; for (let i = 0; i < 40; i++) tage[new Date(Date.UTC(2019, 2, 2 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Tokio' };
@@ -24,8 +24,7 @@ for (const [ansicht, theme, bewegung] of faelle) {
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(400);
   const phone = ansicht.startsWith('iPhone');
-  // iPad hoch: Start mit offenem Reiselogbuch, die darübergelegte Seitenleiste weg (nach der Auswahl schließt sie, 15.4)
-  if (ansicht === 'iPad hoch' && await p.locator('#side .side-row[data-id="a"]').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(300); await navFertig(p); }
+  // seit 3.43.0 (AppDesign APD-97): am iPad hoch steht die Seitenleiste wie quer fest neben dem Inhalt – Start mit offenem Reiselogbuch und Leiste
   await t.schritt(p, 'Start', async () => {});
   for (const x of await checkNavigation(p, { eintrag: '#side .side-row[data-id="a"]', titel: 'Japan', zurueck: '#back', waagrecht: ansicht === 'iPhone hoch' && !await p.evaluate(() => document.documentElement.classList.contains('ts-um')) ? '#reisemittel' : null,   // bei großer Schrift umbrochen statt wischbar (RLB-101)
    
