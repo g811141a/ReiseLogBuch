@@ -1,9 +1,9 @@
 // Reiselogbuch-Test: ablauf-seitenleiste-kontextmenue – kurz tippen öffnet, langes Drücken zeigt das Kontextmenü (ohne ‚Öffnen‘),
-// Einstellungen daraus, Löschen mit Abfrage, Mehr-Menü der Seitenleiste mit Versionszeile.
+// ‚Reiselogbuch einstellen‘ daraus (seit 3.44.0, RLB-113), Löschen mit Abfrage, Mehr-Menü der Seitenleiste mit Versionszeile.
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-kontextmenue.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-seitenleiste-kontextmenue', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -23,12 +23,12 @@ for (const theme of ['light', 'dark']) {
   await t.schritt(p, 'Wien antippen', () => row('Wien').click());
   t.ist('kurz tippen öffnet', await p.textContent('.nb-title'), 'Wien Kurztrip');
   await t.schritt(p, 'Toskana lange drücken', () => long('Toskana'));
-  t.ist('Kontextmenü', await p.locator('.menu .mi').allTextContents(), ['Einstellungen', 'Reiselogbuch löschen'], 'R-4.2');
+  t.ist('Kontextmenü', await p.locator('.menu .mi').allTextContents(), ['Reiselogbuch einstellen', 'Reiselogbuch löschen'], 'R-4.2');
   t.ist('langes Drücken öffnet nicht', await p.textContent('.nb-title'), 'Wien Kurztrip', 'R-4.2');
   t.ist('Kachel bleibt blau, solange ihr Menü offen ist', await row('Toskana').evaluate(e => e.classList.contains('on')), true, 'R-3.3');
   await p.screenshot({ path: new URL(`out/R22-1-kontextmenue-${theme}-${t.browserName}.png`, import.meta.url).pathname });
-  await t.schritt(p, 'Einstellungen aus dem Kontextmenü', () => p.click('.menu .mi:has-text("Einstellungen")'));
-  t.ist('Fenster Einstellungen der gedrückten Reise', [await p.textContent('#dlg h3'), await p.inputValue('#fTitle')], ['Einstellungen', 'Toskana']);
+  await t.schritt(p, 'Reiselogbuch einstellen aus dem Kontextmenü', () => p.click('.menu .mi:has-text("Reiselogbuch einstellen")'));
+  t.ist('Fenster Reiselogbuch einstellen der gedrückten Reise', [await p.textContent('#dlg h3'), await p.inputValue('#fTitle')], ['Reiselogbuch einstellen', 'Toskana']);
   await t.schritt(p, 'Fenster schließen', async () => { await p.click('#dlgX'); await p.waitForTimeout(200); });
   t.ist('nach x: Fenster zu, Seitenleiste da, 3 Kacheln, keine Abfrage', await p.evaluate(() => [dlg.open, side.hidden, side.querySelectorAll('.side-row').length, document.querySelectorAll('.pop').length]), [false, false, 3, 0]);
   await t.schritt(p, 'Toskana lange drücken', () => long('Toskana'));

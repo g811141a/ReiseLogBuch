@@ -1,11 +1,11 @@
-// Reiselogbuch-Test: ablauf-gesamt – Gesamtablauf: Seitenleiste, Mehr-Menüs (Suchen, Filter; Darstellung in der Seitenleiste), Einstellungen mit
+// Reiselogbuch-Test: ablauf-gesamt – Gesamtablauf: Seitenleiste, Mehr-Menüs (Suchen, Filter; Darstellung in der Seitenleiste), Reiselogbuch einstellen mit
 // ‚Änderungen verwerfen‘, Tag erfassen (Textfeld wächst, Blättern speichert), Smiley-Abfrage, Fazit, Teilen/Vorschau, Suche,
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.46.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-gesamt', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -37,7 +37,7 @@ for (const theme of ['light', 'dark']) {
   // Mehr-Menü
   await S(p, 'Mehr-Menü', () => p.click('#mainMore'));
   // seit 3.41.0: ‚Suchen‘ zuerst (AppDesign APD-91), ‚Darstellung‘ nicht mehr hier (RLB-108, APD-92/D-3)
-  t.ist('Mehr-Menü', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Einstellungen', 'Reiselogbuch löschen'], 'R-4.1');
+  t.ist('Mehr-Menü', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Reiselogbuch einstellen', 'Reiselogbuch löschen'], 'R-4.1');
   t.ist('Mehr bleibt blau', await cls(p, '#mainMore', 'on'), true, 'R-3.3');
   await S(p, 'Nur erfasste Tage', () => p.click('.menu .mi:has-text("Nur erfasste Tage")'));
   t.ist('Zeilen nur erfasste Tage', await p.locator('table.days tbody tr').count(), 5);
@@ -55,9 +55,9 @@ for (const theme of ['light', 'dark']) {
   t.ist('Häkchen bei Dunkel', await p.evaluate(() => [...document.querySelectorAll('.submenu .mi')].map(b => b.getAttribute('aria-checked'))), ['false', 'false', 'true'], 'R-1.2');
   t.ist('Untermenü Darstellung', await p.locator('.submenu .mi').allTextContents(), ['Automatisch', 'Hell', 'Dunkel'], 'R-1.2');
   await S(p, 'Darstellung Automatisch', () => p.click('.submenu .mi:has-text("Automatisch")'));
-  // Einstellungen
-  await S(p, 'Einstellungen', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Einstellungen")'); });
-  t.ist('Fenster Einstellungen, Häkchen grau, Mehr blau', [await p.textContent('#dlg h3'), await cls(p, '#dlgOk', 'primary'), await cls(p, '#mainMore', 'on')], ['Einstellungen', false, true], 'R-4.4');
+  // Reiselogbuch einstellen (seit 3.44.0, RLB-113)
+  await S(p, 'Reiselogbuch einstellen', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); });
+  t.ist('Fenster Reiselogbuch einstellen, Häkchen grau, Mehr blau', [await p.textContent('#dlg h3'), await cls(p, '#dlgOk', 'primary'), await cls(p, '#mainMore', 'on')], ['Reiselogbuch einstellen', false, true], 'R-4.4');
   t.ist('Datumsfelder so breit wie das Datum (px)', await p.evaluate(() => [fStart.offsetWidth, fEnd.offsetWidth]), x => x.every(v => v >= 120 && v <= 220), 'R-5.1');
   await S(p, 'Teilnehmer ändern', () => p.fill('#fPeople', 'Gerhild, Arnold & Lisa'));
   t.ist('Häkchen blau nach der Änderung', await cls(p, '#dlgOk', 'primary'), true, 'R-4.4');
@@ -67,9 +67,9 @@ for (const theme of ['light', 'dark']) {
   t.ist('Fenster bleibt offen mit der Eingabe', [await p.evaluate(() => dlg.open), await p.inputValue('#fPeople')], [true, 'Gerhild, Arnold & Lisa'], 'R-4.4');
   await S(p, 'Änderungen verwerfen', async () => { await p.click('#dlgX'); await p.click('#dlg .pop button:has-text("Änderungen verwerfen")'); });
   t.ist('verworfen', [await p.evaluate(() => !dlg.open), await p.evaluate(() => db.trips[0].participants)], [true, 'Gerhild & Arnold'], 'R-4.4');
-  await S(p, 'Einstellungen speichern', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Einstellungen")'); await p.fill('#fPeople', 'G & A'); await p.click('#dlgOk'); await p.waitForTimeout(100); });
+  await S(p, 'Reiselogbuch einstellen speichern', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); await p.fill('#fPeople', 'G & A'); await p.click('#dlgOk'); await p.waitForTimeout(100); });
   t.ist('gespeichert und zu', [await p.evaluate(() => db.trips[0].participants), await p.evaluate(() => !dlg.open)], ['G & A', true]);
-  await S(p, 'Häkchen ohne Änderung', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Einstellungen")'); await p.click('#dlgOk'); });
+  await S(p, 'Häkchen ohne Änderung', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); await p.click('#dlgOk'); });
   t.ist('Häkchen ohne Änderung schließt', await p.evaluate(() => !dlg.open), true, 'R-4.4');
   // Tag
   await S(p, 'Tag 25.08. öffnen', async () => { await p.click('tr[data-day="2026-08-25"]'); await p.waitForTimeout(200); });
@@ -172,7 +172,7 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'Menü der Seitenleiste nach dem Backup', () => p.click('#sideMore'));
   t.ist('Letztes Backup im Menü', await p.locator('.menu .sub').first().textContent(), /^Letztes Backup erstellt am \d\d\.\d\d\.\d{4} um \d\d:\d\d$/, 'R-9.1');
   await S(p, 'daneben tippen', () => p.click('.layer'));
-  await S(p, 'Einstellungen', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Einstellungen")'); });
+  await S(p, 'Reiselogbuch einstellen', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); });
   t.ist('Datumsfelder mit Kalender-Icon', await p.locator('#dlg .datebox .ic').count(), 2, 'R-5.1');
   await p.close();
 }

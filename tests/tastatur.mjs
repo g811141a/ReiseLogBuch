@@ -4,8 +4,8 @@
 // (visualViewport.height), nicht das Fenster – früher wurde das Fenster auf 420 px verkleinert, dadurch schaltete die App in die
 // iPhone-Ansicht und der Test prüfte am iPad die falsche Ansicht.
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
 const t = pruefung('tastatur', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const days = { '2026-08-25': { weather: '🌤', program: 'Weiterfahrt nach Sydney', comment: '😊 Oper', food: '👍 Fisch', quarter: 'Cambridge Hotel', place: 'Sydney' } };
 const b = await t.browser();
@@ -20,7 +20,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) for (const them
     if (auf) Object.defineProperty(visualViewport, 'height', { get: () => sichtbar, configurable: true }); else delete visualViewport.height;
     visualViewport.dispatchEvent(new Event('resize'));
   }, [auf, vh - kb]);
-  for (const [name, fn] of [['Tageserfassung', () => openDayDialog(db.trips[0], '2026-08-25')], ['Einstellungen', () => openTripDialog(db.trips[0])]]) {
+  for (const [name, fn] of [['Tageserfassung', () => openDayDialog(db.trips[0], '2026-08-25')], ['Reiselogbuch einstellen', () => openTripDialog(db.trips[0])]]) {
     await t.schritt(p, `${name} ohne Tastatur`, async () => { await p.evaluate(fn); await p.waitForTimeout(250); });
     t.ist(`${name} ohne Tastatur: Fenster ganz sichtbar, Kopfzeile oben im Fenster`, await box(), x => x.top >= 0 && x.bottom <= vh && x.head === x.top, 'R-4.5');
     await t.schritt(p, `${name} mit Tastatur`, async () => { await tastatur(true); await p.waitForTimeout(250); });

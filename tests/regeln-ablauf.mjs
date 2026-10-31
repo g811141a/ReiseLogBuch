@@ -2,12 +2,12 @@
 // R-5.3 Fehlermeldungen, R-5.5 Eingabetaste (seit 3.17.0), R-6.4 Vorschau, seit 3.25.0 (AppDesign APD-28/APD-29) Suche nach oben (APD-28/F-3/F-4),
 // Nach oben / Ans Ende im Rollbereich (APD-28/F-12) und Drucken der ganzen Liste (APD-28/F-16), seit 3.27.0 R-5.6 ⓧ in Feldern (AppDesign APD-63), seit 3.39.0 auch mehrzeilig (APD-81) – iPad und iPhone quer und hoch, Vorschau hell und dunkel. Aufruf im Repo-Ordner: node tests/regeln-ablauf.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('regeln-ablauf', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
-import { checkSearch, checkDialogHead, checkFieldErrors, checkCapital, checkSpaces, checkPreview, checkEnterDone, checkSearchTop, checkFab, checkPrint, checkClear, sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
+import { checkSearch, checkDialogHead, checkFieldErrors, checkCapital, checkSpaces, checkPreview, checkEnterDone, checkSearchTop, checkFab, checkPrint, checkClear, sucheAuf } from '../../AppDesign/fassung/4.46.0/tests/ablauf.mjs';
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i >= 30 && i < 34 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok ' + 'sehr schöner Tag mit viel Sonne '.repeat(i % 3 + 1), food: '😋 Restaurant Zum Hafen – Fisch', quarter: 'Hotel Bellevue am Meer', place: 'Hafenviertel' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }];
 const b = await t.browser(); const errs = { push: (...m) => m.forEach(x => t.fehler('', x)) };
@@ -45,16 +45,16 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     errs.push(...await checkFab(p, { where }));
     errs.push(...await checkPrint(p, { where, print: async () => { await p.click('#shareBtn'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'PDF' }).first().click(); } }));
     await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
-    const settings = async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); };
+    const settings = async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); };
     errs.push(...await checkDialogHead(p, { where, open: settings, change: () => p.locator('#fTitle').fill('Australien 2') }));
     errs.push(...await checkFieldErrors(p, { where, open: settings, field: '#fTitle' }));
     // R-5.5 (seit 3.17.0, RLB-87 / AppDesign APD-14): Eingabetaste schließt die Tastatur in einzeiligen Feldern, das Fenster bleibt offen.
     errs.push(...await checkEnterDone(p, { where, open: settings, fields: [{ sel: '#fTitle', text: ' X' }, { sel: '#fPeople', text: ' Y' }] }));
     // R-5.6 (seit 3.27.0, AppDesign APD-63 C3): ⓧ in einzeiligen Feldern – Titel (Pflichtfeld) und Teilnehmer
     errs.push(...await checkClear(p, { where, open: settings, fields: [{ sel: '#fTitle', warn: true }, { sel: '#fPeople' }], ohne: ['#fStart', '#fEnd'] }));   // APD-81/C14: Datum ohne ⓧ
-    await G(p, 'nach dem ⓧ in den Einstellungen');
+    await G(p, 'nach dem ⓧ im Fenster Reiselogbuch einstellen');
     await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
-    // R-10.1 (RLB-83): gleiche Sache, gleiche Bezeichnung – die Feldnamen im Abgleichbericht heißen wie im Fenster ‚Einstellungen‘.
+    // R-10.1 (RLB-83): gleiche Sache, gleiche Bezeichnung – die Feldnamen im Abgleichbericht heißen wie im Fenster ‚Reiselogbuch einstellen‘.
     await settings(); await p.waitForTimeout(300);
     for (const [k, l] of await p.evaluate(() => { const shown = [...dlg.querySelectorAll('.step > label')].map(x => x.textContent.trim());
       return ['title', 'participants', 'transport'].map(k => [k, sync.config.labels[k]]).filter(([, l]) => !shown.includes(l)); }))

@@ -13,7 +13,7 @@ const steps = [
   ['teilen', async p => { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.click('#shareBtn'); }],
   ['suche', async p => { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.click('#mainMore'); await p.waitForTimeout(100); await p.locator('.menu .mi', { hasText: 'Suchen' }).click(); await p.fill('#search', 'Opern'); await p.waitForTimeout(700); }],
   ['tag', async p => { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.locator('table.days tbody tr').first().click(); }],
-  ['einst', async p => { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.click('#mainMore'); await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); }],
+  ['einst', async p => { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.click('#mainMore'); await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); }],
   ['loeschen', async p => { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.click('#mainMore'); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); }],
   ['fazit', async p => { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.locator('#fazit').scrollIntoViewIfNeeded(); await p.click('#fazit'); }],
 ];

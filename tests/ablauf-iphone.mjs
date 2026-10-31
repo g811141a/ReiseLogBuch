@@ -3,9 +3,9 @@
 // Blättern, Kontextmenü, Löschen zurück zur Startliste, neues Reiselogbuch, Wechsel iPhone ↔ iPad. Hell und dunkel.
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.45.0/tests/ablauf.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.46.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const OUT = new URL('./out/', import.meta.url).pathname;
@@ -94,7 +94,7 @@ await p.locator('.menu .mi', { hasText: 'Nur erfasste Tage' }).click(); await p.
 check(await p.locator('#pdays .box').count() === 3, 'Nur erfasste Tage filtert nicht');
 await G('Nur erfasste Tage');
 
-// Zurück zur Startliste, Kontextmenü, Einstellungen
+// Zurück zur Startliste, Kontextmenü, Reiselogbuch einstellen
 await p.click('#back'); await p.waitForTimeout(200); await navFertig(p);   // seit 3.28.0: Seitenwechsel als Schieben (APD-61)
 // Startliste = derselbe Baustein wie die Seitenleiste am iPad (R-1.1)
 check((await p.locator('#side.page .side-head h2').textContent()) === 'Reiselogbücher', 'Startliste fehlt (Seitenleiste als ganze Seite)');
@@ -115,14 +115,14 @@ await p.screenshot({ path: SHOT('iphone-2-startliste.png') });
 const row = p.locator('.side-row', { hasText: 'Toskana' });
 const rb = await row.boundingBox();
 await p.mouse.move(rb.x + 40, rb.y + 20); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); await p.waitForTimeout(150);
-check(await p.locator('.menu .mi', { hasText: 'Einstellungen' }).count() === 1, 'Kontextmenü fehlt');
+check(await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).count() === 1, 'Kontextmenü fehlt');
 await G('Kontextmenü Toskana');
-await p.locator('.menu .mi', { hasText: 'Einstellungen' }).click(); await p.waitForTimeout(300);
-check(await row.evaluate(e => e.classList.contains('on')), 'Zeile nicht blau bei Einstellungen');
+await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); await p.waitForTimeout(300);
+check(await row.evaluate(e => e.classList.contains('on')), 'Zeile nicht blau bei Reiselogbuch einstellen');
 // Bezeichnung gehört zum Feld: ‚Bis‘ steht mit seinem Datum unter ‚Von‘
 const [von, bis] = await p.locator('.dates .pair').evaluateAll(els => els.map(e => e.getBoundingClientRect().top));
 check(bis > von + 20, 'Bis nicht unter Von');
-await G('Einstellungen Toskana');
+await G('Reiselogbuch einstellen Toskana');
 check(await p.evaluate(() => getComputedStyle(document.querySelector('#transport button')).touchAction) === 'manipulation', 'Doppeltippen kann zoomen');
 await p.click('#dlgX'); await p.waitForTimeout(200);
 

@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 31.10.2026** · Aktuelle Version: Reiselogbuch 3.43.0 · AppDesign 4.45.0
+**Stand 31.10.2026** · Aktuelle Version: Reiselogbuch 3.44.0 · AppDesign 4.46.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,14 +29,12 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-84 | 1 | **Usertest 3.43.0 (AppDesign 4.45.0, APD-97):** iPad hoch Seitenleiste neben dem Inhalt, Tage als Kästen – Testfälle P-84/0 bis P-84/7 im CHANGELOG | prüfen |
+| P-85 | 1 | **Usertest 3.44.0 (AppDesign 4.46.0, RLB-113, RLB-114, APD-100):** ‚Reiselogbuch einstellen‘ in beiden Menüs und als Fenstertitel, Jahr als Kopf in der Liste – Testfälle P-85/0 bis P-85/9 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-113 | 1 | **‚Einstellungen‘ heißt ‚Reiselogbuch einstellen‘ (Nutzer 31.10.2026, Sitzung 0062):** im Mehr-Menü des Reiselogbuchs (`#mainMore`) – das Icon `settings` bleibt. Zu klären: auch im Kontextmenü der Zeile in der Seitenleiste (index.html:1243) und als Titel des Fensters (index.html:1348, ‚Einstellungen‘)? So macht es Apple: recherchieren (Mehr-Menüs in Notizen, Erinnerungen, Fotos). Allgemein oder App (0 Nr. 4)? | App | offen |
-| RLB-114 | 1 | **Jahr als Zwischenüberschrift in der Seitenleiste (Nutzer 31.10.2026, Sitzung 0062):** in der Liste der Reiselogbücher vor dem ersten Reiselogbuch eines neuen Jahres eine Zwischenüberschrift mit dem Jahr (z. B. ‚2026‘). Zu klären: welches Jahr zählt (Beginn der Reise), auch vor dem ersten Eintrag, Aussehen (wie Apple Fotos/Notizen ‚Abschnittsköpfe‘), Suche, Kontextmenü, Drehen; allgemeine Regel in AppDesign (verwandt APD-46 haftende Abschnittsköpfe)? Muster nur hell | App oder allgemein | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -51,6 +49,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-113, RLB-114 | **RLB-113 ‚Reiselogbuch einstellen‘ statt ‚Einstellungen‘** (Mehr-Menü, Kontextmenü, Fenstertitel; Abweichung 4) und **RLB-114 Jahr des Reisebeginns als Kopf in der Seitenleiste bzw. Startliste** (AppDesign APD-100, R-7.6); neue Prüfungen `ablauf-einstellen` und `ablauf-jahre`, 13 Prüfungen umgestellt; Usertest P-85 | 3.44.0 | 31.10.2026 |
+| P-84 | **Usertest P-84 (3.43.0 · AppDesign 4.45.0): alles ok** – APD-97 am Gerät bestätigt (Nutzer 31.10.2026, Sitzung 0063) | 3.43.0 | 31.10.2026 |
 | APD-97 | **AppDesign APD-97 gebaut:** iPad hoch Seitenleiste fest neben dem Inhalt (ohne Abdunkelung, Gesten wie quer), Inhalt unter 700 px mit Tagen als Kästen (R-6.6); neue Prüfung `ablauf-seitenleiste-hoch`, 11 Prüfungen angepasst; Usertest P-84 | 3.43.0 | 31.10.2026 |
 | P-83 | Geprüft **P-83 (3.42.1): alles ok** (Nutzer 30.10.2026, Sitzung 0059) | 3.42.1 | 30.10.2026 |
 | RLB-112, P-82 | **RLB-112 (Korrektur aus P-82/1, /3, /5):** ‚Preis der Quartiere erfassen‘ allein einschalten und speichern; Kachel ‚🚶🏽‍♂️ km‘ und ‚Verlauf‘ normal, mittig zur ersten Zeile (AppDesign APD-98, R-6.5); Statistik ein Leerzeichen nach ‚Ø‘, Umbruch vor der Klammer, Ø linksbündig unter dem Wert – Usertest P-83 | 3.42.1 | 30.10.2026 |

@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.45.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.46.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -133,18 +133,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.45.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.46.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.43.0';
-const APP_BUILT = '31.10.2026 um 01:13';
+const APP_VERSION = '3.44.0';
+const APP_BUILT = '31.10.2026 um 12:01';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.45.0';
+const AD_NEEDED = '4.46.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -1106,13 +1106,16 @@ function renderSide() {
   const term = listOpen ? listTerm.trim().toLocaleLowerCase('de') : '';
   const hits = new Map(term ? all.map(t => [t.id, hitCount(t, term)]) : []);
   const trips = term ? all.filter(t => hits.get(t.id)) : all;
+  // RLB-114 (AppDesign APD-100, R-7.6): vor dem ersten Reiselogbuch jedes Jahres das Jahr des Reisebeginns als Kopf, auch ganz oben;
+  // bei der Suche nur die Jahre mit Treffern (die Liste enthält dann nur Treffer)
+  const jahrKopf = (t, i) => i && trips[i - 1].start.slice(0, 4) === t.start.slice(0, 4) ? '' : `<h3 class="side-sec">${t.start.slice(0, 4)}</h3>`;
   setHtml(side, `
     <div class="side-head"><div class="ttl"><h2>Reiselogbücher</h2><small>${term ? hitTripCount(trips.length, all.length) : tripCount(all.length)}</small></div>
       <span class="grp"><button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button><button type="button" id="sideMore" aria-label="Mehr">${ic('ellipsis')}</button></span>
       <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
     </div>
     ${listOpen ? listSearchHtml() : ''}
-    <div class="side-list">${trips.length ? trips.map(t => `<button type="button" class="side-row ${t.id === currentTripId && !(page && startList) ? 'current' : ''}" data-id="${t.id}">
+    <div class="side-list">${trips.length ? trips.map((t, i) => `${jahrKopf(t, i)}<button type="button" class="side-row ${t.id === currentTripId && !(page && startList) ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${term ? `<small class="chg hits">${hitText(hits.get(t.id))}</small>` : sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
       : `<div class="side-empty">${term ? 'Keine Treffer' : 'Noch kein Reiselogbuch angelegt.'}</div>`}</div>
     ${backupTileHtml(db.settings.lastBackup, !all.length)}`);
@@ -1122,7 +1125,7 @@ function renderSide() {
   const hb = side.querySelector('#hintBackup'); if (hb) hb.onclick = () => saveBackup('#hintBackup');   // onclick: setHtml behält das Element (APD-24)
   held.forEach(sel => side.querySelector(sel)?.classList.add('on'));
   markOpener();
-  // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Öffnen · Einstellungen · Reiselogbuch löschen).
+  // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Reiselogbuch einstellen · Reiselogbuch löschen); die Köpfe (.side-sec) tun nichts.
   side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
     () => tripContextMenu(b, getTrip(b.dataset.id)),
     () => navVor(() => { if (!isWide()) sideOpen = false; if (isPhone()) rolle.to(0); showTrip(b.dataset.id, term ? listTerm : ''); })));
@@ -1230,7 +1233,7 @@ function openMainMenu(anchor, trip) {
     { tick: !db.settings.hideEmpty, icon: 'list-chevrons-up-down', label: 'Alle Tage', act: () => setHide(false) },
     { tick: db.settings.hideEmpty, icon: 'fold-vertical', label: 'Nur erfasste Tage', act: () => setHide(true) },
     'sep',
-    { icon: 'settings', label: 'Einstellungen', act: () => { setOpener('#mainMore'); openTripDialog(trip); } },
+    { icon: 'settings', label: 'Reiselogbuch einstellen', act: () => { setOpener('#mainMore'); openTripDialog(trip); } },   // seit 3.44.0 (RLB-113, Abweichung 4)
     'sep',
     { icon: 'trash', label: 'Reiselogbuch löschen', red: true, act: () => deleteTrip(trip) },
   ]);
@@ -1240,7 +1243,7 @@ function openMainMenu(anchor, trip) {
 function tripContextMenu(row, trip) {
   if (!trip) return;
   openMenu(row, [
-    { icon: 'settings', label: 'Einstellungen', act: () => { setOpener(`#side .side-row[data-id="${trip.id}"]`); openTripDialog(trip); } },
+    { icon: 'settings', label: 'Reiselogbuch einstellen', act: () => { setOpener(`#side .side-row[data-id="${trip.id}"]`); openTripDialog(trip); } },   // seit 3.44.0 (RLB-113)
     'sep',
     { icon: 'trash', label: 'Reiselogbuch löschen', red: true, act: () => { row.classList.add('on'); deleteTrip(trip, row); } },
   ], 'beside');
@@ -1345,7 +1348,7 @@ function openTripDialog(trip) {
   const transport = new Set(t.transport);
   openDialog(`
     <form method="dialog">
-      ${dlgHead(isNew ? 'Neues Reiselogbuch' : 'Einstellungen')}
+      ${dlgHead(isNew ? 'Neues Reiselogbuch' : 'Reiselogbuch einstellen')}
       <div class="dlg-body">
         <div class="step"><label for="fTitle">Reisetitel</label>
           <input type="text" id="fTitle" autocapitalize="sentences" autocorrect="on" spellcheck="true" value="${esc(t.title)}" placeholder="z. B. Australien">
@@ -1473,7 +1476,7 @@ function openTripDialog(trip) {
   const initial = state();
   dlgDirty = () => state() !== initial;
 
-  // x schließt; das Häkchen legt ein neues Reiselogbuch an bzw. übernimmt die Einstellungen.
+  // x schließt; das Häkchen legt ein neues Reiselogbuch an bzw. übernimmt die Änderungen (Fenster ‚Reiselogbuch einstellen‘).
   dlg.onclose = () => {
     if (dlg.returnValue !== 'ok' || !validate()) return render();
     const target = trip || { id: uid(), days: {}, fazit: '', kosten: null, outputCounter: 0 };

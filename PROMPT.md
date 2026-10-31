@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 31.10.2026, Version 3.43.0)
+# Reiselogbuch – Funktionsbeschreibung (Stand 31.10.2026, Version 3.44.0)
 
-Reiselogbuch 3.43.0 · AppDesign 4.45.0 (Designrichtlinie allgemein 4.45.0) · Designrichtlinie Reiselogbuch 3.43.0 · Zusammenarbeit allgemein 3.4.0
+Reiselogbuch 3.44.0 · AppDesign 4.46.0 (Designrichtlinie allgemein 4.46.0) · Designrichtlinie Reiselogbuch 3.44.0 · Zusammenarbeit allgemein 3.4.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -37,7 +37,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
 ## 2. Begriffe, Texte und Icons
 
 - App-Name ‚Reiselogbuch‘; der Begriff ‚Reisetagebuch‘ kommt nicht vor.
-- Seitenleiste bzw. Startliste ‚Reiselogbücher‘; Fenster ‚Neues Reiselogbuch‘ (über plus) und ‚Einstellungen‘ (Mehr-Menü);
+- Seitenleiste bzw. Startliste ‚Reiselogbücher‘; Fenster ‚Neues Reiselogbuch‘ (über plus) und ‚Reiselogbuch einstellen‘ (Mehr-Menü und Kontextmenü; Abweichung 4);
   Menüpunkt ‚Reiselogbuch löschen‘.
 - Überschrift ‚Reiselogbuch – <Titel>‘ nur in der Ausgabe; in der App steht der Titel des Reiselogbuchs in der Leiste (iPad und
   iPhone, R-2.2).
@@ -52,7 +52,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   zurücksetzen (am rotate-ccw) · Änderungen verwerfen (am x). Rote Schaltflächen: ‚Reiselogbuch löschen‘, ‚Ersetzen‘,
   ‚Entfernen‘, ‚Zurücksetzen‘, ‚Änderungen verwerfen‘.
 - Die ‚Reset‘-Schaltfläche der iPad-Datumsauswahl bleibt (Systembeschriftung).
-- **Icons** (Lucide, Zuordnung der Designrichtlinie allgemein 5): Ausgabe/Teilen `share`, Einstellungen des Reiselogbuchs
+- **Icons** (Lucide, Zuordnung der Designrichtlinie allgemein 5): Ausgabe/Teilen `share`, ‚Reiselogbuch einstellen‘
   `settings`, Filter ‚Alle Tage‘ `list-chevrons-up-down` / ‚Nur erfasste Tage‘ `fold-vertical`, Vortag/Folgetag `chevron-left` /
   `chevron-right`, Smileys zurücksetzen `rotate-ccw`.
 - **Emojis als Inhalt:** Wetter ☀️ 🌤 🌦 🌧 ☁️ ⛈ ❄️ · Reisemittel 🚗 🚆 🚲 ✈️ 🚙 🚢 🚐 🚶 · 📍 vor Maps-Links (8) · ▫️ vor mehreren
@@ -69,7 +69,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   zuletzt beendete; sonst die nächste geplante.
 - Gibt es noch kein Reiselogbuch (erster Start oder letztes gelöscht), öffnet sich ‚Neues Reiselogbuch‘ einmal von selbst; mit x
   bleibt die leere Seite mit dem grauen Hinweis (2). Das Häkchen öffnet das neue Reiselogbuch.
-- **Fenster ‚Neues Reiselogbuch‘ / ‚Einstellungen‘** – Kästen: Reisetitel · Reiseteilnehmer · Reisezeitraum (grau ‚Von‘ Datum ·
+- **Fenster ‚Neues Reiselogbuch‘ / ‚Reiselogbuch einstellen‘** – Kästen: Reisetitel · Reiseteilnehmer · Reisezeitraum (grau ‚Von‘ Datum ·
   ‚Bis‘ Datum in einer Zeile; ‚Von‘ und ‚Bis‘ bleiben je mit ihrem Datum zusammen, auf dem iPhone steht ‚Bis‘ unter ‚Von‘) ·
   Reisemittel · Konfiguration Tabellenspalten · Schalter ‚Quartierliste in der Ausgabe‘ (beim Anlegen wählbar, nachträglich
   änderbar).
@@ -91,22 +91,22 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
     überschneidet.‘ (sobald ein Datum geändert oder ein Titel eingegeben wurde – das vorgeschlagene Datum kann sich mit einer
     anderen Reise überschneiden; Reisezeiträume dürfen sich nicht überschneiden, gespeichert wird erst nach der Korrektur) ·
     ‚Bitte mindestens ein Reisemittel wählen.‘ (wenn das letzte gewählte abgewählt wird).
-- Die geöffnete Reise wird über Mehr-Menü → ‚Einstellungen‘ bearbeitet und über Mehr-Menü → ‚Reiselogbuch löschen‘ gelöscht
+- Die geöffnete Reise wird über Mehr-Menü → ‚Reiselogbuch einstellen‘ bearbeitet und über Mehr-Menü → ‚Reiselogbuch löschen‘ gelöscht
   (Sprechblase mit Tipp, vorher ein Backup zu erstellen); danach öffnet die Startreise (iPhone: die Startliste).
 
 ## 4. iPad: Seitenleiste und Hauptansicht
 
-- **Seitenleiste ‚Reiselogbücher‘** (Komponente Seitenleiste): darunter klein und grau die Anzahl; Kapsel [plus | ellipsis]; Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst; je Kachel Titel · ‚TT.MM.JJJJ - TT.MM.JJJJ · läuft
+- **Seitenleiste ‚Reiselogbücher‘** (Komponente Seitenleiste): darunter klein und grau die Anzahl; Kapsel [plus | ellipsis]; Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst, vor dem ersten jedes Jahres das Jahr des Reisebeginns als Kopf (auch ganz oben, bei der Suche nur Jahre mit Treffern; seit 3.44.0, RLB-114, R-7.6); je Kachel Titel · ‚TT.MM.JJJJ - TT.MM.JJJJ · läuft
   gerade / beendet / geplant‘ und ›, dazu ‚geändert am … · Gerät‘. Fest unten die Backup-Kachel, solange heute noch kein Backup erstellt wurde (11). Beim Start eingeblendet mit
   der Startreise (3).
   - plus öffnet ‚Neues Reiselogbuch‘. ellipsis: ‚Suchen‘ (nur mit Reiselogbüchern; Suche in allen, 6) · Strich · Backup erstellen ·
     Backup laden · Strich · ‚Darstellung ›‘ (seit 3.41.0, RLB-108) · Abstand · Messung starten · Strich · Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
-  - Langes Drücken auf ein Reiselogbuch: Einstellungen · Reiselogbuch löschen (rot, Sprechblase).
+  - Langes Drücken auf ein Reiselogbuch: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase).
 - **Kopfzeile:** Titel der Reise; Kapsel [share | ellipsis].
   - share → Teilen-Menü: Vorschau · HTML · PDF (jeweils mit grauem Hinweis zum Speichern), Strich, darunter ‚N erfasste Tage ·
     Dateiname: …‘.
   - ellipsis → Mehr-Menü: ‚Suchen‘ (Suchzeile, 6) · Strich · ‚Alle Tage‘ / ‚Nur erfasste Tage‘ (Häkchen vorne, dann Icon und Text) ·
-    ‚Einstellungen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase mit Tipp zum Backup). Beim Öffnen eines Reiselogbuchs und beim Start
+    ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase mit Tipp zum Backup). Beim Öffnen eines Reiselogbuchs und beim Start
     gilt immer ‚Alle Tage‘.
 - **Darunter** (ohne Überschrift – der Titel steht in der Kopfzeile): Reiseteilnehmer, Reisezeitraum, Reisemittel und die dezente
   Fortschrittsanzeige ‚Tag 42 von 80 · 38 erfasst‘.
@@ -136,8 +136,8 @@ wie am iPad (R-1.1):
   öffnet an seiner Startposition (4). Die Startreise (3) bleibt gewählt und erscheint, wenn das Fenster in den iPad-Aufbau wechselt.
 - **Startliste = Seitenleiste:** fest stehende Leiste mit ‚Reiselogbücher‘ links (darunter klein und grau die Anzahl) und der Kapsel
   [plus | ellipsis] rechts (ellipsis wie am iPad, mit ‚Suchen‘ und ‚Darstellung ›‘), ohne großen Titel; jedes Reiselogbuch als Kachel (Titel · Zeitraum ·
-  Zustand, ›), das zuletzt geöffnete blau (nach dem Start keines); Backup-Kachel fest am unteren Rand (solange heute noch kein Backup erstellt wurde), die
-  Kacheln laufen dahinter durch. Langes Drücken: Einstellungen · Reiselogbuch löschen; nach dem Löschen geht es zur Startliste. Leertexte: 2.
+  Zustand, ›), gruppiert nach dem Jahr des Reisebeginns mit dem Jahr als Kopf wie am iPad, das zuletzt geöffnete blau (nach dem Start keines); Backup-Kachel fest am unteren Rand (solange heute noch kein Backup erstellt wurde), die
+  Kacheln laufen dahinter durch. Langes Drücken: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘; nach dem Löschen geht es zur Startliste. Leertexte: 2.
 - **Reiselogbuch:** Kopf mit rundem `chevron-left` zur Startliste und Kapsel [share | ellipsis] mit denselben Menüs; der
   Reisetitel steht in der Mitte der Leiste. Darunter ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ – der Wert jeweils in der
   nächsten Zeile, die Reisemittel in einer Zeile, bei Bedarf seitlich wischen (Verlauf und kleiner Pfeil am Rand, R-5.4); dann die Fortschrittsanzeige.
@@ -150,7 +150,7 @@ wie am iPad (R-1.1):
   1 Nacht · 120,00 €‘, der Preis nur, wenn eingetragen), Statistik. ‚Nach oben / Ans Ende‘ und Schnellroll-Griff wie am iPad (nicht in der Startliste).
 - **Seitenwechsel:** ein Reiselogbuch schiebt sich über die Startliste; zurück mit `chevron-left` oder Wischen nach rechts von überall
   im Reiselogbuch (R-7.5) – die Zeile ‚Reisemittel‘ behält ihr seitliches Wischen.
-- **Fenster als Blatt** (R-4.6, seit 3.30.0 RLB-99): Tageserfassung, Einstellungen, Neues Reiselogbuch, Fazit und Vorschau gleiten
+- **Fenster als Blatt** (R-4.6, seit 3.30.0 RLB-99): Tageserfassung, Reiselogbuch einstellen, Neues Reiselogbuch, Fazit und Vorschau gleiten
   von unten; nach unten ziehen schließt wie x, mit Änderungen fragt es (auch beim Erfassen).
 - **Tageserfassung** als Blatt, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘; Wetter-Symbole 40 px breit (Abweichung 2, bei Standard-Textgröße).
 
@@ -195,7 +195,7 @@ wie am iPad (R-1.1):
      Bildschirm untereinander; darunter der Link ‚📍 In Google Maps prüfen‘ (nicht unterstrichen). Darunter (seit 3.41.0, RLB-109)
      ‚Preis‘ – Gesamtpreis des Aufenthalts in Euro, Betragsfeld wie Gesamtausgaben (R-5.1, € rechts daneben); nicht bei ‚Quartier
      wie Vortag‘ (der Preis gilt für den Aufenthalt ab dem Tag, an dem das Quartier eingetragen ist); seit 3.42.0 (RLB-111) nur mit
-     dem Schalter ‚Preis der Quartiere erfassen‘ in den Einstellungen (nach ‚Quartierliste in der Ausgabe‘, Voreinstellung aus, ohne
+     dem Schalter ‚Preis der Quartiere erfassen‘ im Fenster ‚Reiselogbuch einstellen‘ (nach ‚Quartierliste in der Ausgabe‘, Voreinstellung aus, ohne
      Spalte Quartier gesperrt). Mit Preis steht er am Tag des Eintrags in Klammern hinter dem Quartier – ‚Hotel Adlon, Cairns
      (1.240,00 €)‘ – in Tabelle, Kachel und Ausgabe; die Klammer bricht nie um.
 - **Smiley-Leisten** bei ‚Wie war was?‘, ‚Essen und Trinken‘ und im Fazit (Verhalten wie Designrichtlinie allgemein 8: wischen,

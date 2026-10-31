@@ -1,11 +1,11 @@
 // Reiselogbuch-Test: ablauf-fenster-breite – Rückmeldung P-76/4 (Nutzer 26.10.2026): am iPad wurde das Fenster ‚Neues Reiselogbuch‘
 // mit dem ersten Buchstaben im Reisetitel breiter (der Hinweis zum überschneidenden Zeitraum erschien, das Fenster ist so breit wie
 // sein Inhalt). Ein offenes Fenster ändert Breite und Lage nicht, solange die Ansicht gleich bleibt – nach jedem Buchstaben und jeder
-// Eingabe (Neues Reiselogbuch wie am Gerät über plus, Einstellungen mit überschneidendem Zeitraum, Erfassen, Fazit).
+// Eingabe (Neues Reiselogbuch wie am Gerät über plus, Reiselogbuch einstellen mit überschneidendem Zeitraum, Erfassen, Fazit).
 // Aufruf im Repo-Ordner: node tests/ablauf-fenster-breite.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.45.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.45.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.46.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.46.0/tests/hig.mjs';
 const t = pruefung('ablauf-fenster-breite', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 // wie am Gerät: eine laufende Reise mit langem Titel – der vorgeschlagene Zeitraum (heute + 14 Tage) überschneidet sich mit ihr
@@ -42,12 +42,12 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'light'], 
   await p.screenshot({ path: new URL(`out/fenster-breite-${t.ort.replace(/ /g, '-')}-${t.browserName}.png`, import.meta.url).pathname });
   await zu();
 
-  // dieselbe Lücke in den anderen Fenstern: Einstellungen (Zeitraum überschneidet sich), Erfassen, Fazit
-  soll = await offen('Einstellungen', () => p.evaluate(() => openTripDialog(db.trips[0])));
+  // dieselbe Lücke in den anderen Fenstern: Reiselogbuch einstellen (Zeitraum überschneidet sich), Erfassen, Fazit
+  soll = await offen('Reiselogbuch einstellen', () => p.evaluate(() => openTripDialog(db.trips[0])));
   await p.evaluate(() => { const f = dlg.querySelector('#fStart'); f.value = '2027-05-01'; f.dispatchEvent(new Event('input', { bubbles: true })); });
   await p.waitForTimeout(200);
-  t.ist('Einstellungen: Zeitraum überschneidet sich mit ‚Toskana‘ – Breite und Lage', await rahmen(p), soll, 'R-4.6');
-  await tippe(p, 'Einstellungen', '#fTitle', 'x', soll);
+  t.ist('Reiselogbuch einstellen: Zeitraum überschneidet sich mit ‚Toskana‘ – Breite und Lage', await rahmen(p), soll, 'R-4.6');
+  await tippe(p, 'Reiselogbuch einstellen', '#fTitle', 'x', soll);
   await zu();
   soll = await offen('Erfassen', () => p.evaluate(d => openDayDialog(db.trips[0], d), iso(2)));
   for (const f of ['#fProgram', '#fComment', '#fQuarter', '#fPlace']) await tippe(p, 'Erfassen', f, 'Ab', soll);

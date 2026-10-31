@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.43.0** · Stand 31.10.2026
+**Version 3.44.0** · Stand 31.10.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.45.0)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.46.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -16,6 +16,7 @@
 | 1 | Maps-Links der Lokale in der Spalte ‚Essen und Trinken‘ nur so hoch wie der Text (ca. 19 px) – auf dem iPhone auch in den Tageskästen; Quartier-Links haben die unsichtbare Antippfläche von 44 px | Antippfläche 44 pt, kleine Links unsichtbar größer (R-3.1, HIG 1) | mehr Zeilenabstand in der Tabelle nicht gewünscht; im Kasten würde eine größere Fläche das Antippen des Tages behindern | `hig.mjs` zählt sie nicht (`skipTargets` `.ln:not(.q) a` in den Prüfskripten) | 09.10.2026 · iPhone 10.10.2026 |
 | 2 | Wetter-Symbole in der Tageserfassung auf dem iPhone 40 px breit (in der Kapsel, über dem Minimum von 28 pt) – seit 3.35.0 nur bei Standard; bei größerer Schrift wachsen sie (R-1.10) und die Kapsel wischt seitlich | Icon- und Emoji-Schaltflächen 44 × 44 (4, R-3.1) | alle sieben passen ohne Wischen | `hig.mjs` (Kapsel ab 28) | 10.10.2026 |
 | 3 | Tagestabelle der Ausgabe mit festen Spaltenanteilen: ‚Tag‘ so schmal wie das Datum, Verlauf und ‚Wie war was?‘ je 28, ‚Gegangene Kilometer‘ 8, Essen und Quartier je 22 – unabhängig von der Textmenge, die letzten beiden Spalten gleich breit; fehlt eine Spalte, teilen sich die übrigen den Platz im selben Verhältnis | Spaltenbreiten passen sich dem Inhalt an (9) | Entscheidung des Nutzers mit 3.11.6 (gilt nur für das Reiselogbuch, nicht allgemein) | Sicht | 14.10.2026 |
+| 4 | Menüpunkt und Fenster ‚Reiselogbuch einstellen‘ statt ‚Einstellungen‘ – im Mehr-Menü und im Kontextmenü der Seitenleiste bzw. Startliste, Icon `settings` | Kontextmenü ‚Einstellungen (settings) · … löschen‘ (15.4) | passt zu ‚Reiselogbuch löschen‘ darunter; Verb und Gegenstand wie in Notizen (‚Share Folder‘, ‚Move This Folder‘) | `ablauf-seitenleiste-kontextmenue`, `ablauf-gesamt` (RLB-113/E-1 bis RLB-113/E-4) | 31.10.2026 |
 
 ## 2. Abgleich – Feldnamen
 
@@ -29,6 +30,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.44.0 | 31.10.2026 | Neben | AppDesign 4.46.0 (APD-100, R-7.6 Abschnittsköpfe in der Liste): Jahr des Reisebeginns als Kopf in der Seitenleiste bzw. Startliste (RLB-114) – keine Abweichung; neu Abweichung 4 ‚Reiselogbuch einstellen‘ statt ‚Einstellungen‘ (RLB-113, Nutzer 31.10.2026, Wortlaut bestätigt) |
 | 3.43.0 | 31.10.2026 | Neben | AppDesign 4.45.0 (APD-97, R-6.6, R-7.5): am iPad hoch Seitenleiste fest neben dem Inhalt, Tage im schmalen Inhalt als Kästen – keine Abweichung |
 | 3.42.1 | 30.10.2026 | Korrektur | AppDesign 4.44.1 (APD-98, R-6.5: Bezeichnung im Kasten mit Feldern normal, mittig zur ersten Zeile des Werts) – keine Abweichung neu |
 | 3.42.0 | 30.10.2026 | Neben | AppDesign 4.44.0 (APD-95, R-5.8: Bezeichnungen und Einheiten normal; schmales Zahlenfeld bündig rechts) – keine Abweichung neu; Feldname ‚Preis der Quartiere erfassen‘ (RLB-111) |
