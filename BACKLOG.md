@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 01.11.2026** · Aktuelle Version: Reiselogbuch 3.46.2 · AppDesign 4.48.2
+**Stand 01.11.2026** · Aktuelle Version: Reiselogbuch 3.47.0 · AppDesign 4.49.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,6 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-90 | 1 | **Usertest 3.47.0 (AppDesign 4.49.0, APD-62/T-43, APD-85 Teil 3):** Titel antippen rollt nach oben – Kopfzeile, Seitenleiste bzw. Startliste, Fenster; ein Tipp während des Rollens hält an und öffnet nichts; langes Drücken rollt nicht; ‚Bewegung reduzieren‘ sofort oben – Testfälle P-90/0 bis P-90/6 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 

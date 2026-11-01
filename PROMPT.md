@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 01.11.2026, Version 3.46.2)
+# Reiselogbuch – Funktionsbeschreibung (Stand 01.11.2026, Version 3.47.0)
 
-Reiselogbuch 3.46.2 · AppDesign 4.48.2 (Designrichtlinie allgemein 4.48.2) · Designrichtlinie Reiselogbuch 3.46.2 · Zusammenarbeit allgemein 3.5.0
+Reiselogbuch 3.47.0 · AppDesign 4.49.0 (Designrichtlinie allgemein 4.49.0) · Designrichtlinie Reiselogbuch 3.47.0 · Zusammenarbeit allgemein 3.5.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,

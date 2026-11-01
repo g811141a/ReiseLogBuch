@@ -12,9 +12,9 @@
 // der Kreis des Smileys liegt im modalen Fenster zuoberst, nach dem Schließen bleibt kein Kreis zurück. Rot gegen 3.46.1: S-1, S-2, S-4, S-7, S-10, S-12.
 // Aufruf im Repo-Ordner: node tests/ablauf-beruehren.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.48.2/tests/hig.mjs';
-import { checkBeruehren, checkAnheben } from '../../AppDesign/fassung/4.48.2/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.49.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.49.0/tests/hig.mjs';
+import { checkBeruehren, checkAnheben } from '../../AppDesign/fassung/4.49.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-beruehren', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
