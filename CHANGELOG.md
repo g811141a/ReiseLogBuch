@@ -13,6 +13,69 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.47.0 – 01.11.2026
+
+Reiselogbuch 3.47.0 · AppDesign 4.49.0 (Designrichtlinie allgemein 4.49.0) · Designrichtlinie Reiselogbuch 3.47.0 · Zusammenarbeit allgemein 3.5.0
+
+**Titel antippen = nach oben** (AppDesign APD-62 / APD-38/T-43, R-2.7) und **Prüfung ohne feste Pausen** (AppDesign APD-85 Teil 3) – dein Ja vom
+01.11.2026, Sitzung 0073; Testfall-Listen AppDesign `arbeit/APD-62 Titel antippen Testfall-Liste und Wortlaut.md` (APD-62/H-1 bis H-10) und
+`arbeit/APD-85 Teil 3 Testfall-Liste.md` (APD-85/Z-1 bis Z-6).
+
+- **Titel antippen (R-2.7):** kurz auf den Titel oben tippen rollt sanft ganz nach oben – den Inhalt (Titel der Reise), die Liste der
+  Seitenleiste bzw. Startliste (‚Reiselogbücher‘) und den Inhalt eines Fensters (Titel des Fensters, z. B. das Datum). Steht es schon oben,
+  passiert nichts. Ein Tipp während des Rollens hält es an und öffnet nichts. Mit ‚Bewegung reduzieren‘ steht es sofort oben. Wie das Antippen
+  der Statusleiste bei Apple – das wirkt in der App vom Home-Bildschirm nicht.
+- **Prüfungen:** neu `ablauf-titel-oben` (iPad quer und hoch, iPhone hoch und quer, ‚Bewegung reduzieren‘; Chromium und WebKit; rot gegen
+  3.46.2, im vollen Lauf); `ablauf-blatt` wartet auf Zustände statt fester Pausen (`warteBis`). Unter Last (zehnmal gleichzeitig, Bewegungen vierfach langsam) vorher alle 10 Läufe rot, jetzt alle 10 grün.
+
+Testfälle P-90 (Schritt für Schritt, Zusammenarbeit allgemein 3.5.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-90/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.47.0 · erstellt am … · AppDesign 4.49.0‘.
+
+**P-90/1 – Titel der Kopfzeile antippen: Inhalt rollt nach oben**
+1. iPad quer, hell; ein Reiselogbuch mit vielen Tagen offen.
+2. Weit nach unten rollen.
+3. Oben in der Mitte kurz auf den Titel der Reise tippen. Erwartet: der Inhalt rollt sanft ganz nach oben (der erste Tag steht unter der
+   Kopfzeile); die Kopfzeile selbst bewegt sich nicht, die Seitenleiste links bleibt, wo sie war.
+4. Noch einmal auf den Titel tippen. Erwartet: nichts bewegt sich.
+5. iPhone hoch: Schritte 2 bis 4. Erwartet: wie am iPad.
+
+**P-90/2 – Titel der Seitenleiste antippen: nur die Liste rollt**
+1. iPad quer, hell; die Seitenleiste ‚Reiselogbücher‘ ist zu sehen. Geht nur, wenn die Liste länger als der Bildschirm ist – sonst diesen Testfall
+   überspringen.
+2. In der Seitenleiste ganz nach unten rollen.
+3. Oben in der Seitenleiste kurz auf ‚Reiselogbücher‘ tippen. Erwartet: die Liste rollt sanft ganz nach oben; der Inhalt rechts bewegt sich nicht.
+4. iPhone hoch: in der Startliste ‚Reiselogbücher‘ nach unten rollen, dann auf ‚Reiselogbücher‘ tippen. Erwartet: die Liste rollt nach oben.
+
+**P-90/3 – Titel eines Fensters antippen: Fensterinhalt rollt nach oben**
+1. iPhone quer, hell; ein Reiselogbuch offen.
+2. Einen Tag antippen (Fenster des Tages); im Fenster ganz nach unten rollen.
+3. Oben kurz auf das Datum (Titel des Fensters) tippen. Erwartet: der Inhalt des Fensters rollt sanft nach oben; das Fenster bleibt offen und
+   die Seite dahinter bewegt sich nicht.
+4. Mit x schließen.
+
+**P-90/4 – Tipp während des Rollens: hält an, öffnet nichts**
+1. iPad quer, hell; ein Reiselogbuch mit vielen Tagen offen, ganz nach unten rollen.
+2. Auf den Titel der Reise tippen und gleich danach, während es noch rollt, auf einen Tag tippen.
+3. Erwartet: das Rollen hält sofort an; das Fenster des Tages öffnet sich **nicht**.
+4. Den Tag noch einmal antippen. Erwartet: jetzt öffnet sich sein Fenster. Mit x schließen.
+
+**P-90/5 – Titel lange drücken: kein Rollen**
+1. iPhone hoch, hell; ein Reiselogbuch offen, weit nach unten rollen.
+2. Den Finger etwa 1 Sekunde auf den Titel der Reise legen, dann loslassen.
+3. Erwartet: der Inhalt rollt nicht. Ist der Titel mit ‚…‘ gekürzt, erscheint wie bisher die Sprechblase mit dem ganzen Titel; daneben tippen
+   schließt sie.
+
+**P-90/6 – ‚Bewegung reduzieren‘: sofort oben**
+1. iPhone: Einstellungen › Bedienungshilfen › Bewegung › ‚Bewegung reduzieren‘ einschalten; zur App wechseln.
+2. Ein Reiselogbuch offen, weit nach unten rollen, auf den Titel tippen.
+3. Erwartet: der Inhalt steht sofort oben (kurzes Überblenden, kein Rollen).
+4. ‚Bewegung reduzieren‘ wieder ausschalten.
+
 ## 3.46.2 – 01.11.2026
 
 Reiselogbuch 3.46.2 · AppDesign 4.48.2 (Designrichtlinie allgemein 4.48.2) · Designrichtlinie Reiselogbuch 3.46.2 · Zusammenarbeit allgemein 3.5.0
