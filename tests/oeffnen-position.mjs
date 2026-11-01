@@ -6,9 +6,9 @@
 // läuft die Reise und ist bis heute alles erfasst, steht heute oben ohne Gelb; Reise in der Zukunft ganz oben, nichts gelb (F1–F11).
 // Aufruf im Repo-Ordner: node tests/oeffnen-position.mjs
 import * as pw from 'playwright';
-import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
-import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.48.0/tests/ablauf.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.48.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.1/tests/hig.mjs';
+import { checkOpenAt, checkSideToggle, checkTurnEnd } from '../../AppDesign/fassung/4.48.1/tests/ablauf.mjs';
 const t = pruefung('oeffnen-position', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const iso = (start, i) => new Date(Date.parse(start + 'T00:00:00Z') + i * 864e5).toISOString().slice(0, 10);
@@ -25,6 +25,10 @@ const TRIPS = [reise('v', 'Voll', '2025-06-01', 30, -1), reise('g', 'Lücke', '2
   reise('n', 'F5 bis heute erfasst', '2026-10-10', 30, i => i <= 13), reise('r', 'F6 alles erfasst', '2026-10-10', 30, -1),
   reise('z', 'F7 Zukunft leer', '2026-12-01', 20, () => false), reise('p', 'F8 Zukunft geplant', '2026-11-10', 20, i => i < 3),
   reise('e', 'F9 heute erster Tag', '2026-10-23', 20, i => i === 0), reise('x', 'F10 heute letzter Tag', '2026-09-24', 30, -1)];
+// RLB-115 (seit 3.46.1, AppDesign Testfall-Liste arbeit/APD-106 Testfall-Liste.md APD-106/H-10, APD-106/H-11): laufende Reise, bis heute erfasst, heute mit langer Zeile
+const R115 = reise('q', 'RLB-115 heute lang', '2026-10-10', 30, i => i <= 13);
+R115.days[HEUTE].program = 'Altstadt, Markt, Hafen und Museum – ein langer Verlauf, der in der Tabelle über mehrere Zeilen umbricht und die Zeile hoch macht\nzweite Zeile\ndritte Zeile';
+TRIPS.push(R115);
 // want = oben, markiert = gelb (Vorgabe: want)
 const WANT = { v: null, g: iso('2025-03-01', 14), f: iso('2024-06-01', 0), l: iso('2024-03-01', 29),
   a: iso('2026-10-10', 5), h: HEUTE, n: HEUTE, r: HEUTE, z: null, p: null, e: HEUTE, x: HEUTE };
@@ -65,6 +69,10 @@ for (const theme of ['light', 'dark']) {
       t.wahr('A3 Gegenprobe: heute gelb trotz markiert: null bleibt grün', f.length > 0, 'R-7.4');
     }
     await t.schritt(p, 'Lücke direkt unter dem Kopf', async () => {});
+    if (!phone) {   // RLB-115: nach dem Öffnen (heute oben, unter Leiste und Tabellenkopf) Seitenleiste aus und ein – heute bleibt ganz zu sehen
+      await start('q');
+      t.liste(await checkSideToggle(p, { where: `${where} · RLB-115 nach dem Öffnen`, at: null, toggle: '[data-side-toggle], #sideHide', times: ansicht === 'iPad quer' ? 5 : 2 }));
+    }
     if (!phone) {   // S1–S6: Seitenleiste ein/aus
       await oeffne('v')(); await p.waitForTimeout(400);
       for (const at of [0.5, 0.97, 0]) t.liste(await checkSideToggle(p, { where: `${where} · bei ${at}`, at, toggle: '[data-side-toggle], #sideHide', times: ansicht === 'iPad quer' ? 5 : 1 }));

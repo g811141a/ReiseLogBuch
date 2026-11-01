@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 31.10.2026** · Aktuelle Version: Reiselogbuch 3.46.0 · AppDesign 4.48.0
+**Stand 01.11.2026** · Aktuelle Version: Reiselogbuch 3.46.1 · AppDesign 4.48.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,15 +22,14 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-115 | 1 | **iPad quer: Seitenleiste ausblenden – erster Tag nur halb zu sehen (Nutzer 31.10.2026, Sitzung 0068, ‚sonstiger Fehler‘):** nach dem Öffnen einer laufenden Reise steht der heutige Tag ganz oben (R-7.4); beim Ausblenden der Seitenleiste werden die Tage als Tabelle gezeigt und die erste Zeile (heutiger Tag) ist nur zur Hälfte zu sehen (R-8.1: oberster Eintrag bleibt). Ablauf als feste Prüfung nachbauen, rot gegen 3.46.0 (0 Nr. 1); prüfen, ob AppDesign (`keepPlace`, R-8.1) betroffen ist. **Befund Sitzung 0069 (nachgestellt, rot gegen 3.46.0 in Chromium und WebKit):** iPad hoch mit Seitenleiste Kästen, ohne Tabelle – heute danach bei 65–138 px, der haftende Tabellenkopf deckt bis 111 px; iPad quer (Tabelle, lange Zeile) 11 bzw. 19 px unter dem Kopf. Ursache AppDesign `ui.js` `keepEdge` (ohne haftenden Tabellenkopf; `openAt` zieht ihn ab, `keepPlace` nicht); `checkSideToggle` prüft nur, welcher Tag oben steht, nicht ob er ganz zu sehen ist **Sitzung 0070:** Testfall-Liste AppDesign `arbeit/APD-106 Testfall-Liste.md` (T-10 bis T-12, T-14); R-8.1 ‚ganz zu sehen unter der Leiste und einem haftenden Tabellenkopf‘ (Wortlaut bestätigt 01.11.2026); Bau 3.46.1 noch nicht freigegeben | AppDesign | 01.11.2026 |
 
-1 Punkt bereit (RLB-115, mit AppDesign 4.48.1 / APD-106; Bau noch nicht freigegeben).
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-87 | 1 | **Usertest 3.46.0 (AppDesign 4.48.0, APD-104, APD-105):** Großanzeige ab AX1 (Kopfzeile, Fenster, gleiten, daneben loslassen, normale Schrift nichts) und Berühren (Knopf blass, Zeile grau, Rollen ohne Aufblitzen, Smiley hebt sich) – Testfälle P-87/0 bis P-87/7 im CHANGELOG – **nicht ok (Nutzer 31.10.2026, Sitzung 0068):** P-87/1 bis /4 Großanzeige zeigt nichts, P-87/6 Knopf grau statt blass, Frage Textmarkierung auf der Tageszeile, P-87/7 Smiley grau ohne Schatten, Frage zu schnell – AppDesign APD-106 | nicht ok |
+| P-88 | 1 | **Usertest 3.46.1 (AppDesign 4.48.1, APD-106, RLB-115):** Knopf blass ohne Grau, kein markierter Text beim Halten (Tageszeile, Seitenleiste, Smiley-Leiste), Smiley mit Kreis und Schatten und Frage nach 1 s, Seitenleiste aus/ein – heutiger Tag ganz zu sehen, Großanzeige mit AX – Testfälle P-88/0 bis P-88/6 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -49,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 ## Erledigt
 
 | Nr. | Thema | Version | Datum |
+| RLB-115, P-87 | **RLB-115 gebaut** (AppDesign `keepKante`: nach dem Aus- und Einblenden der Seitenleiste steht der heutige Tag ganz unter dem Tabellenkopf, R-8.1) und **Usertest P-87 (3.46.0): nicht ok** – behoben mit AppDesign APD-106 (Antipp-Markierung aus, keine Textauswahl, Smiley mit Kreis und 1 s; Großanzeige am iPad nur mit ‚Größere dynamische Schrift‘); weiter mit P-88 | 3.46.1 | 01.11.2026 |
 |---|---|---|---|
 | APD-104, APD-105 | **AppDesign APD-104 und APD-105 gebaut:** Großanzeige für Leisten-Knöpfe ab AX1 (R-2.6) und Rückmeldung beim Berühren – Knöpfe blass, Zeilen grau, Smiley hebt sich beim Halten an (R-3.6, R-3.5); neue Prüfungen `ablauf-grossanzeige` und `ablauf-beruehren` (rot gegen 3.45.0); Usertest P-87 | 3.46.0 | 31.10.2026 |
 | P-86 | **Usertest P-86 (3.45.0 · AppDesign 4.47.0): alles ok** – gekürzter Titel mit Sprechblase am Gerät bestätigt (Nutzer 31.10.2026, Sitzung 0066) | 3.45.0 | 31.10.2026 |
