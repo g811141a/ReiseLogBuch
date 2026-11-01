@@ -26,7 +26,7 @@ Reiselogbuch 3.47.0 · AppDesign 4.49.0 (Designrichtlinie allgemein 4.49.0) · D
   passiert nichts. Ein Tipp während des Rollens hält es an und öffnet nichts. Mit ‚Bewegung reduzieren‘ steht es sofort oben. Wie das Antippen
   der Statusleiste bei Apple – das wirkt in der App vom Home-Bildschirm nicht.
 - **Prüfungen:** neu `ablauf-titel-oben` (iPad quer und hoch, iPhone hoch und quer, ‚Bewegung reduzieren‘; Chromium und WebKit; rot gegen
-  3.46.2, im vollen Lauf); `ablauf-blatt` wartet auf Zustände statt fester Pausen (`warteBis`). ‹APD-85/Z-4›
+  3.46.2, im vollen Lauf); `ablauf-blatt` wartet auf Zustände statt fester Pausen (`warteBis`). Unter Last (zehnmal gleichzeitig, Bewegungen vierfach langsam) vorher alle 10 Läufe rot, jetzt alle 10 grün.
 
 Testfälle P-90 (Schritt für Schritt, Zusammenarbeit allgemein 3.5.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
