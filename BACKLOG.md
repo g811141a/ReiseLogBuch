@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-88 | 1 | **Usertest 3.46.1 (AppDesign 4.48.1, APD-106, RLB-115):** Knopf blass ohne Grau, kein markierter Text beim Halten (Tageszeile, Seitenleiste, Smiley-Leiste), Smiley mit Kreis und Schatten und Frage nach 1 s, Seitenleiste aus/ein – heutiger Tag ganz zu sehen, Großanzeige mit AX – Testfälle P-88/0 bis P-88/6 im CHANGELOG | prüfen |
+| P-88 | 1 | **Usertest 3.46.1 (AppDesign 4.48.1, APD-106, RLB-115):** Knopf blass ohne Grau, kein markierter Text beim Halten (Tageszeile, Seitenleiste, Smiley-Leiste), Smiley mit Kreis und Schatten und Frage nach 1 s, Seitenleiste aus/ein – heutiger Tag ganz zu sehen, Großanzeige mit AX – Testfälle P-88/0 bis P-88/6 im CHANGELOG – **Ergebnis (Nutzer 01.11.2026, Sitzung 0071):** /0, /2, /3, /5, /6 ok; /1 (Knopf nicht sichtbar blass, Wegziehen öffnet das Menü) und /4 (Smiley-Kreis nicht zu sehen) nicht ok → Korrektur AppDesign APD-107 in 4.48.2 / 3.46.2 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
