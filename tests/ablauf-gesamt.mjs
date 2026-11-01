@@ -3,9 +3,9 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.48.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.48.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.1/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.48.1/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-gesamt', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -80,7 +80,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Häkchen blau', await p.evaluate(() => dlg.querySelector('#dlgOk').classList.contains('primary')), true, 'R-4.4');
   await S(p, 'nächster Tag', async () => { await p.click('[data-nav="1"]'); await p.waitForTimeout(200); });
   t.ist('Blättern speichert', [await p.textContent('#dlg h3'), await p.evaluate(() => db.trips[0].days['2026-08-25'].program.split('\n').length)], ['Mittwoch, 26.08.2026', 12]);
-  await S(p, 'Smiley lange drücken', async () => { const box = await p.locator('#moods [data-m]').nth(1).boundingBox(); await p.mouse.move(box.x + 10, box.y + 10); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); });
+  await S(p, 'Smiley lange drücken', async () => { const box = await p.locator('#moods [data-m]').nth(1).boundingBox(); await p.mouse.move(box.x + 10, box.y + 10); await p.mouse.down(); await p.waitForTimeout(1200); await p.mouse.up(); });   // seit 3.46.1: Entfernen nach 1 s (APD-106)
   t.ist('Abfrage Smiley entfernen', [await p.locator('#dlg .pop').count(), await p.locator('#dlg .pop p').textContent()], [1, '😊 aus der Schnellauswahl entfernen?'], 'R-4.3');
   await S(p, 'Abbrechen', () => p.click('#dlg .pop button:has-text("Abbrechen")'));
   await S(p, 'Zurücksetzen', () => p.click('#moods .reset'));

@@ -5,8 +5,8 @@
 // Textgröße (node tests/alle.mjs --gegenprobe text): je eingeschleustem Fehler wird genau seine Meldung rot.
 // Aufruf im Repo-Ordner: node tests/text-regeln.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.48.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.1/tests/hig.mjs';
 const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] });
 const t = pruefung('text-regeln', pw, { hig, out: new URL('out/', import.meta.url) });
 const days = {};
@@ -38,7 +38,9 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
       await p.evaluate(() => { const e = document.querySelector('[data-day="2026-09-05"]'); rolle.by(e.getBoundingClientRect().top - document.querySelector('#bar').getBoundingClientRect().bottom); });
       await warte(p, 300);
       const oben = () => p.evaluate(() => { const edge = document.querySelector('#bar').getBoundingClientRect().bottom;
-        return [...document.querySelectorAll('#app [data-day]')].find(x => x.getClientRects().length && x.getBoundingClientRect().bottom > edge + 1)?.dataset.day; });
+        // seit 3.46.1 (RLB-115): ein Tag unter dem haftenden Tabellenkopf ist nicht zu sehen – die Kante ist die Unterkante des Kopfs
+        const kante = x => { const th = x.closest('table')?.tHead?.querySelector('th'); return th && getComputedStyle(th).position === 'sticky' ? Math.max(edge, th.getBoundingClientRect().bottom) : edge; };
+        return [...document.querySelectorAll('#app [data-day]')].find(x => x.getClientRects().length && x.getBoundingClientRect().bottom > kante(x) + 2)?.dataset.day; });
       const vorher = await oben();
       await G(p, 'Textgröße AX5 (gerollt)', () => groesse(p, 53));
       t.ist('W1 oberster Tag nach dem Wechsel auf AX5', await oben(), vorher, 'R-8.1');

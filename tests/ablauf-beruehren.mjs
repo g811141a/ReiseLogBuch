@@ -7,9 +7,9 @@
 // ein, Wegziehen senkt es wieder (B-5, B-6, B-8); ‚Bewegung reduzieren‘: Anheben nur mit Schatten. Grundregeln nach jedem Schritt.
 // Gegenprobe: gegen 3.45.0 mit PRUEF_APP=../_alt.html rot (B-1, B-3, B-5). Aufruf im Repo-Ordner: node tests/ablauf-beruehren.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
-import { checkBeruehren, checkAnheben } from '../../AppDesign/fassung/4.48.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.1/tests/hig.mjs';
+import { checkBeruehren, checkAnheben } from '../../AppDesign/fassung/4.48.1/tests/ablauf.mjs';
 const t = pruefung('ablauf-beruehren', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
@@ -45,7 +45,7 @@ for (const [ansicht, theme, ruhig] of [['iPad quer', 'light', false], ['iPad que
     // Fenster eines Tages: Kapsel ‚Wetter‘ (Rollbereich), Fenster-Kopfzeile (sofort); Smiley-Leiste: Anheben (B-5, B-6, B-8)
     await p.evaluate(d => openDayDialog(db.trips[0], d), iso(2)); await p.waitForTimeout(700); await navFertig(p);
     await t.schritt(p, 'Fenster eines Tages', async () => t.liste(await checkBeruehren(p, { knopf: '#dlgX', kapsel: '#dlg #wx button:nth-child(2)', where: 'Fenster eines Tages' })));
-    await t.schritt(p, 'Smiley anheben', async () => t.liste(await checkAnheben(p, { sel: '#dlg #moods [data-m]:first-child', feld: '#dlg #fComment', where: 'Smiley-Leiste' })));
+    await t.schritt(p, 'Smiley anheben', async () => t.liste(await checkAnheben(p, { sel: '#dlg #moods [data-m]:first-child', feld: '#dlg #fComment', entfernen: true, where: 'Smiley-Leiste' })));
     t.wahr('nach den Prüfungen ist das Fenster des Tages noch offen', await p.evaluate(() => dlg.open), 'R-3.6');
     await p.evaluate(() => { dlgDirty = () => false; dlg.close(); }); await p.waitForTimeout(400); await navFertig(p);
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }

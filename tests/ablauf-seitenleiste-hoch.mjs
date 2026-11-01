@@ -4,8 +4,8 @@
 // ablauf-liste-still, Suche D-7 ablauf-suche-menue, große Schrift D-9 text-regeln, Statistik D-11 ablauf-preis-km). R-6.6, R-7.5, R-8.1;
 // hig prüft R-6.6 nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-hoch.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.1/tests/hig.mjs';
 const t = pruefung('ablauf-seitenleiste-hoch', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 const tage = {}; for (let i = 0; i < 30; i++) tage[new Date(Date.UTC(2026, 7, 1 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + (i >> 2), place: 'Cairns', km: i % 5 };
 const lang = 'Wanderung über den Kamm mit Blick auf das Meer und einem sehr langen Wort Donaudampfschifffahrtsgesellschaftskapitänsmütze '.repeat(3);
@@ -26,7 +26,9 @@ const start = async p => {
 const lage = p => p.evaluate(() => {
   const s = document.querySelector('#side'), a = document.querySelector('#app'), sr = s && !s.hidden && s.getClientRects().length ? s.getBoundingClientRect() : null;
   const edge = document.querySelector('#bar')?.getBoundingClientRect().bottom ?? 0;
-  const oben = [...a.querySelectorAll('[data-day]')].find(x => x.getClientRects().length && x.getBoundingClientRect().bottom > edge + 1)?.dataset.day;
+  // seit 3.46.1 (RLB-115): ein Tag unter dem haftenden Tabellenkopf ist nicht zu sehen – die Kante ist die Unterkante des Kopfs
+  const kante = x => { const th = x.closest('table')?.tHead?.querySelector('th'); return th && getComputedStyle(th).position === 'sticky' ? Math.max(edge, th.getBoundingClientRect().bottom) : edge; };
+  const oben = [...a.querySelectorAll('[data-day]')].find(x => x.getClientRects().length && x.getBoundingClientRect().bottom > kante(x) + 2)?.dataset.day;
   return { seite: !!sr, fest: !!sr && document.body.classList.contains('docked') && !s.classList.contains('over') && !document.querySelector('.side-shade'),
     neben: !!sr && a.getBoundingClientRect().left >= sr.right - 1, inhalt: a.clientWidth, tabelle: !!a.querySelector('table.days:not(.static)'),
     kaesten: a.querySelectorAll('.box.day').length, statisch: a.querySelectorAll('table.static').length, oben };

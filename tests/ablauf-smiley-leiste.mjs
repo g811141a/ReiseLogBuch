@@ -5,9 +5,9 @@
 // mit Maus (L8); Grundregeln nach jedem Schritt (L9). L7 (Zurückwischen, Blatt ziehen) prüfen ablauf-navigation und ablauf-blatt.
 // Aufruf im Repo-Ordner: node tests/ablauf-smiley-leiste.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.48.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.48.0/tests/hig.mjs';
-import { checkLangDruecken } from '../../AppDesign/fassung/4.48.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.48.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.1/tests/hig.mjs';
+import { checkLangDruecken } from '../../AppDesign/fassung/4.48.1/tests/ablauf.mjs';
 const t = pruefung('ablauf-smiley-leiste', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 const days = {}; for (let i = 0; i < 10; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1}`, place: 'Hafen' };
@@ -30,7 +30,7 @@ for (const ansicht of ['iPhone hoch', 'iPhone quer', 'iPad quer']) {
     await open(p); await p.waitForTimeout(700);
     const smiley = `#dlg ${leiste} [data-m]`;
     if (!await p.locator(smiley).first().isVisible()) { t.fehler('R-3.5', `${where}: keine Smiley-Leiste ${leiste}`); continue; }
-    await t.schritt(p, `${name} – ziehen und halten`, async () => t.liste(await checkLangDruecken(p, { sel: `${smiley}:first-child`, where })));
+    await t.schritt(p, `${name} – ziehen und halten`, async () => t.liste(await checkLangDruecken(p, { sel: `${smiley}:first-child`, dauer: 1000, where })));
     // L5: kurz antippen fügt das Smiley ein (der Cursor steht im leeren Feld)
     await t.schritt(p, `${name} – antippen`, async () => {
       const m = await p.locator(smiley).first().getAttribute('data-m');

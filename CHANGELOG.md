@@ -13,6 +13,84 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.46.1 – 01.11.2026
+
+Reiselogbuch 3.46.1 · AppDesign 4.48.1 (Designrichtlinie allgemein 4.48.1) · Designrichtlinie Reiselogbuch 3.46.1 · Zusammenarbeit allgemein 3.5.0
+
+**Korrektur aus P-87** (AppDesign APD-106) und **RLB-115** – dein Ja vom 01.11.2026, Sitzung 0070; Muster Smiley Variante C (AppDesign
+`arbeit/APD-106 Smiley Muster.html`), Wortlaut R-3.5, R-3.6, R-8.1 und Designrichtlinie 13 bestätigt; Testfall-Liste AppDesign
+`arbeit/APD-106 Testfall-Liste.md` (APD-106/H-1 bis H-14).
+
+- **Kein Grau mehr beim Berühren (R-3.6):** das Grau auf Knöpfen war Safaris eigene Antipp-Markierung – sie ist aus. Ein Knopf wird beim
+  Berühren nur noch blass, eine Zeile grau (wie Apple).
+- **Kein markierter Text, keine Lupe (R-3.6):** langes Halten einer Tageszeile, eines Tageskastens, eines Eintrags der Seitenleiste oder der
+  Smiley-Leiste markiert keinen Text mehr und zeigt keine Lupe.
+- **Smiley halten (R-3.5):** der Smiley hebt sich auf einem hellen Kreis mit Schatten über die Leiste; die Frage ‚… aus der Schnellauswahl
+  entfernen?‘ kommt erst nach 1 s (bisher 0,6 s) – Apple öffnet ein Kontextmenü nach etwa 0,5 s, länger, weil Entfernen nicht rückgängig
+  zu machen ist.
+- **Seitenleiste aus- und einblenden (RLB-115, R-8.1):** nach dem Öffnen einer laufenden Reise steht der heutige Tag oben; nach dem Aus- und
+  Einblenden der Seitenleiste ist er weiter ganz zu sehen – vorher lag er halb unter dem haftenden Tabellenkopf (AppDesign `keepEdge`).
+- **Großanzeige (R-2.6) unverändert ab AX1:** am iPad war beim Test ‚Größere dynamische Schrift‘ aus – dann meldet Safari höchstens XXXL, und
+  die Großanzeige kommt (wie bei Apple) nicht; am iPhone mit AX5 kam sie (Messung 01.11.2026).
+- **Prüfungen:** `ablauf-beruehren` (APD-106/H-1, APD-106/H-2, APD-106/H-4 bis APD-106/H-6: Antipp-Markierung, Textauswahl, Kreis über der Leiste, Frage nach 1 s) und
+  `oeffnen-position` (RLB-115: heute nach dem Öffnen ganz unter Leiste und Tabellenkopf, nach jedem Umschalten) – grün in Chromium und WebKit,
+  rot gegen 3.46.0; beide im vollen Lauf. **Warum die Prüfungen es übersahen:** sie schicken nachgebildete Zeiger-Ereignisse – Antipp-Markierung,
+  Textauswahl und Lupe zeichnet nur Safari am Gerät, und der Schatten am Emoji war berechnet, am Gerät aber nicht zu sehen; das Safari-Modell
+  meldet beides jetzt aus dem berechneten Stil. `checkSideToggle` prüfte nur, *welcher* Tag oben steht, nicht ob er ganz zu sehen ist.
+
+Testfälle P-88 (Schritt für Schritt, Zusammenarbeit allgemein 3.5.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-88/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.46.1 · erstellt am … · AppDesign 4.48.1‘.
+
+**P-88/1 – Knopf berühren: blass, nicht grau**
+1. iPad quer, hell, normale Schrift; ein Reiselogbuch mit erfassten Tagen offen.
+2. Den Finger auf ‚…‘ oben rechts legen und liegen lassen. Erwartet: der Knopf wird sofort blass – kein graues Feld darum.
+3. Den Finger gut einen Zentimeter wegziehen und loslassen. Erwartet: der Knopf ist wieder normal, es öffnet sich nichts.
+4. Dasselbe am iPhone hoch mit ‚…‘ oben rechts. Erwartet: blass, kein Grau.
+
+**P-88/2 – Tageszeile halten: kein markierter Text**
+1. iPad quer, hell; ein Reiselogbuch mit erfassten Tagen offen.
+2. Den Finger auf ein Wort im Verlauf einer Tageszeile legen und gut 2 Sekunden liegen lassen.
+3. Erwartet: die Zeile ist grau; es wird kein Text markiert, keine Lupe, kein Safari-Menü. Loslassen – das Fenster des Tages öffnet sich.
+   Mit x schließen.
+4. iPhone hoch: dasselbe auf einem Tageskasten. Erwartet: grau, kein markierter Text, keine Lupe.
+
+**P-88/3 – Seitenleiste halten: kein markierter Text**
+1. iPad quer, hell; Seitenleiste ‚Reiselogbücher‘ zu sehen.
+2. Auf dem Titel eines Reiselogbuchs den Finger liegen lassen, bis das Kontextmenü kommt.
+3. Erwartet: die Zeile hebt sich leicht und wird grau, dann das Kontextmenü; kein Text markiert, keine Lupe. Menü mit einem Tipp daneben
+   schließen.
+
+**P-88/4 – Smiley halten: Kreis mit Schatten, Frage nach 1 s**
+1. iPhone hoch, hell, normale Schrift; einen Tag antippen (Fenster des Tages).
+2. In der Smiley-Leiste bei ‚Wie war was?‘ auf einem Smiley den Finger liegen lassen.
+3. Erwartet: nach einem kurzen Moment hebt sich der Smiley auf einem hellen Kreis mit Schatten über die Leiste (größer); nach etwa 1 Sekunde
+   kommt die Sprechblase ‚… aus der Schnellauswahl entfernen?‘ und der Kreis verschwindet; kein Grau, kein markierter Text im Fenster, keine
+   Lupe.
+4. In der Sprechblase ‚Abbrechen‘ tippen. Erwartet: der Smiley bleibt in der Leiste, im Kommentar steht nichts Neues.
+5. Auf einem Smiley aufsetzen und die Leiste sofort seitlich ziehen. Erwartet: die Leiste rollt, kein Kreis bzw. er verschwindet gleich
+   wieder, keine Sprechblase.
+6. Einen Smiley kurz antippen. Erwartet: er steht im Kommentar (wie bisher).
+
+**P-88/5 – Seitenleiste aus und ein: heutiger Tag ganz zu sehen (RLB-115)**
+1. iPad quer, hell; eine laufende Reise öffnen, bei der bis heute alles erfasst ist. Erwartet: der heutige Tag steht oben direkt unter dem
+   Tabellenkopf.
+2. Oben links ‚Seitenleiste ausblenden‘ (panel-left) tippen. Erwartet: die Tage werden breiter; der heutige Tag steht weiter oben und ist
+   ganz zu sehen – nicht halb unter dem Tabellenkopf.
+3. Die Seitenleiste wieder einblenden. Erwartet: der heutige Tag ist weiter ganz zu sehen.
+4. Dasselbe am iPad hoch. Erwartet: nach jedem Umschalten ist der heutige Tag ganz zu sehen.
+
+**P-88/6 – Großanzeige bei sehr großer Schrift (AX)**
+1. iPhone hoch, hell; Einstellungen → Bedienungshilfen → Anzeige & Textgröße → Größerer Text: ‚Größere dynamische Schrift‘ **ein**, Regler ganz
+   nach rechts.
+2. Ein Reiselogbuch öffnen; oben rechts auf ‚…‘ den Finger etwa eine Sekunde liegen lassen.
+3. Erwartet: in der Mitte des Bildschirms groß die drei Punkte und darunter ‚Mehr‘; keine Lupe, keine Textauswahl.
+4. Loslassen. Erwartet: die Großanzeige geht zu, das Mehr-Menü öffnet sich genau einmal. Danach die Textgröße zurückstellen.
+
 ## 3.46.0 – 31.10.2026
 
 Reiselogbuch 3.46.0 · AppDesign 4.48.0 (Designrichtlinie allgemein 4.48.0) · Designrichtlinie Reiselogbuch 3.46.0 · Zusammenarbeit allgemein 3.5.0
