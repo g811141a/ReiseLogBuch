@@ -13,6 +13,66 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.46.2 – 01.11.2026
+
+Reiselogbuch 3.46.2 · AppDesign 4.48.2 (Designrichtlinie allgemein 4.48.2) · Designrichtlinie Reiselogbuch 3.46.2 · Zusammenarbeit allgemein 3.5.0
+
+**Korrektur aus P-88** (AppDesign APD-107) – dein Ja vom 01.11.2026, Sitzung 0071; Muster Variante C (AppDesign `arbeit/APD-107 Muster.html`),
+Wortlaut R-3.6 bestätigt; Testfall-Liste AppDesign `arbeit/APD-107 Testfall-Liste.md` (APD-107/S-1 bis S-13).
+
+- **Knopf berühren (R-3.6):** ‚…‘ oben rechts, ‚…‘ der Seitenleiste, x im Fenster und ‚Nach oben‘ heben sich beim Berühren als helle Fläche mit
+  Schatten etwas größer über ihre Kapsel – neben dem Finger zu sehen (wie iOS 26). Bisher wurde nur das Icon blass, das der Finger verdeckte.
+- **Wegziehen öffnet nichts mehr (R-3.6):** Finger auf ‚…‘, wegziehen, liegen lassen und loslassen öffnet kein Menü mehr, auch nach einer
+  Sekunde; ebenso keine Tageszeile.
+- **Smiley halten (R-3.5):** der helle Kreis mit Schatten ist im Fenster des Tages jetzt zu sehen – er lag hinter dem Fenster.
+- **Prüfungen:** `ablauf-beruehren` – zusätzlich ‚…‘ der Seitenleiste und ‚Nach oben‘, Wegziehen mit 1 s Liegenlassen, Kreis zuoberst, nach dem
+  Schließen kein Kreis zurück; rot gegen 3.46.1, grün mit 3.46.2 (Chromium und WebKit), im vollen Lauf. **Warum die Prüfungen es übersahen:** `checkBeruehren` ließ sofort nach dem Wegziehen los (innerhalb der 600 ms) und schickte den Klick im selben Schritt wie das Loslassen – so sperrte zusätzlich ‚Wischen tippt nie an‘ (`navKlickWeg`), das sich mit `setTimeout 0` wieder löst. Safari schickt den Klick erst danach als eigene Aufgabe (Vermutung, passt zur Messung P-88/1); die Prüfung lässt jetzt 1 s liegen und schickt den Klick 30 ms später. `checkAnheben` prüfte nur, ob es den Kreis gibt, nicht, ob er zuoberst liegt. Dass ein blasses Icon unter dem Finger nicht zu sehen ist, zeigt nur das Gerät.
+
+Testfälle P-89 (Schritt für Schritt, Zusammenarbeit allgemein 3.5.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-89/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.46.2 · erstellt am … · AppDesign 4.48.2‘.
+
+**P-89/1 – Knopf berühren: hebt sich hell über die Kapsel**
+1. iPad quer, hell, normale Schrift; ein Reiselogbuch mit erfassten Tagen offen.
+2. Den Finger auf ‚…‘ oben rechts legen und liegen lassen. Erwartet: der Knopf hebt sich sofort als helle, runde Fläche mit Schatten etwas
+   größer über die Kapsel – neben dem Finger zu sehen; das Icon bleibt kräftig.
+3. Loslassen. Erwartet: die Fläche senkt sich, das Mehr-Menü öffnet sich. Daneben tippen, das Menü schließt.
+4. Dasselbe mit ‚…‘ oben in der Seitenleiste ‚Reiselogbücher‘. Erwartet: hebt sich hell mit Schatten, Loslassen öffnet das Menü.
+5. Einen Tag antippen; im Fenster des Tages den Finger auf x legen. Erwartet: x hebt sich hell mit Schatten. Den Finger wegziehen und
+   loslassen – das Fenster bleibt offen.
+6. iPhone hoch: Schritte 2 und 3 mit ‚…‘ oben rechts. Erwartet: wie am iPad.
+
+**P-89/2 – Wegziehen, liegen lassen, loslassen: kein Menü**
+1. iPad quer, hell; ein Reiselogbuch offen.
+2. Den Finger auf ‚…‘ oben rechts legen, gut 1 cm nach unten wegziehen, etwa 1 Sekunde liegen lassen, dann loslassen.
+3. Erwartet: die helle Fläche verschwindet beim Wegziehen; nach dem Loslassen öffnet sich **kein** Menü.
+4. Dasselbe mit ‚…‘ der Seitenleiste. Erwartet: kein Menü.
+5. Danach ‚…‘ oben rechts kurz antippen. Erwartet: das Mehr-Menü öffnet sich (genau einmal). Daneben tippen.
+6. iPhone hoch: Schritte 2, 3 und 5 mit ‚…‘ oben rechts. Erwartet: wie am iPad.
+
+**P-89/3 – Tageszeile wegziehen: kein Fenster**
+1. iPad quer, hell; ein Reiselogbuch mit erfassten Tagen offen.
+2. Den Finger auf eine Tageszeile legen, gut 1 cm zur Seite wegziehen, etwa 1 Sekunde liegen lassen, loslassen.
+3. Erwartet: die Zeile ist nicht mehr grau; das Fenster des Tages öffnet sich **nicht**.
+
+**P-89/4 – Smiley halten: Kreis im Fenster zu sehen**
+1. iPhone hoch, hell, normale Schrift; einen Tag antippen (Fenster des Tages).
+2. In der Smiley-Leiste bei ‚Wie war was?‘ auf einem Smiley den Finger liegen lassen.
+3. Erwartet: nach einem kurzen Moment hebt sich der Smiley auf einem hellen Kreis mit Schatten über die Leiste (größer, neben dem Finger zu
+   sehen); nach etwa 1 Sekunde kommt die Sprechblase ‚… aus der Schnellauswahl entfernen?‘ und der Kreis verschwindet.
+4. In der Sprechblase ‚Abbrechen‘ tippen. Erwartet: der Smiley bleibt in der Leiste, im Kommentar steht nichts Neues.
+5. Dasselbe am iPad quer. Erwartet: wie am iPhone.
+
+**P-89/5 – Knopf außerhalb einer Leiste: blass wie bisher**
+1. iPad quer, hell; einen Tag antippen (Fenster des Tages).
+2. In der Kapsel ‚Wetter‘ den Finger auf ein Wetter-Zeichen legen.
+3. Erwartet: das Zeichen wird nach einem kurzen Moment blass, es wächst nicht. Den Finger wegziehen und loslassen – nichts wird eingetragen.
+4. Mit x schließen.
+
 ## 3.46.1 – 01.11.2026
 
 Reiselogbuch 3.46.1 · AppDesign 4.48.1 (Designrichtlinie allgemein 4.48.1) · Designrichtlinie Reiselogbuch 3.46.1 · Zusammenarbeit allgemein 3.5.0

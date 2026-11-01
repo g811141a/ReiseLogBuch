@@ -5,11 +5,16 @@
 // Tageszeile der Tabelle bzw. Tageskasten (iPhone), Zeile der Seitenleiste (iPad), Kapsel ‚Wetter‘ im Fenster eines Tages, gesperrter
 // Knopf ‚Voriger Treffer‘ (Suche ohne Text); Smiley-Leiste: hebt sich ab 0,15 s an, nach 0,6 s die Frage ‚Entfernen‘, Loslassen fügt nichts
 // ein, Wegziehen senkt es wieder (B-5, B-6, B-8); ‚Bewegung reduzieren‘: Anheben nur mit Schatten. Grundregeln nach jedem Schritt.
-// Gegenprobe: gegen 3.45.0 mit PRUEF_APP=../_alt.html rot (B-1, B-3, B-5). Aufruf im Repo-Ordner: node tests/ablauf-beruehren.mjs
+// Gegenprobe: gegen 3.45.0 mit PRUEF_APP=../_alt.html rot (B-1, B-3, B-5).
+// Seit 3.46.2 (AppDesign APD-107, Testfall-Liste arbeit/APD-107 Testfall-Liste.md S-1 bis S-13): Leisten-Knöpfe (Mehr der Kopfzeile, Mehr der
+// Seitenleiste, x im Fenster, ‚Nach oben‘) heben sich als helle Fläche mit Schatten 1,3-fach zuoberst über die Kapsel, ‚Bewegung reduzieren‘ ohne
+// Wachsen; Wegziehen, 1 s liegen lassen, loslassen löst nichts aus (Knöpfe, Tageszeile), danach Antippen genau einmal, die Leertaste sofort;
+// der Kreis des Smileys liegt im modalen Fenster zuoberst, nach dem Schließen bleibt kein Kreis zurück. Rot gegen 3.46.1: S-1, S-2, S-4, S-7, S-10, S-12.
+// Aufruf im Repo-Ordner: node tests/ablauf-beruehren.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.48.1/tests/hig.mjs';
-import { checkBeruehren, checkAnheben } from '../../AppDesign/fassung/4.48.1/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.48.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.48.2/tests/hig.mjs';
+import { checkBeruehren, checkAnheben } from '../../AppDesign/fassung/4.48.2/tests/ablauf.mjs';
 const t = pruefung('ablauf-beruehren', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
@@ -37,7 +42,11 @@ for (const [ansicht, theme, ruhig] of [['iPad quer', 'light', false], ['iPad que
     await t.schritt(p, 'Kopfzeile und Tage', async () => t.liste(await checkBeruehren(p, { knopf: '#mainMore',
       zeile: phone ? '#pdays [data-day]:nth-child(2)' : '#app tbody tr[data-day]:nth-child(2)', rollen: '#app > .rolle', where: 'Kopfzeile und Tage' })));
     // Seitenleiste (iPad quer): Zeile ‚Toskana‘ (die aktuelle bleibt blau)
-    if (!phone) await t.schritt(p, 'Seitenleiste', async () => t.liste(await checkBeruehren(p, { zeile: '#side .side-row[data-id="b"]', where: 'Seitenleiste' })));
+    if (!phone) await t.schritt(p, 'Seitenleiste', async () => t.liste(await checkBeruehren(p, { knopf: '#sideMore', zeile: '#side .side-row[data-id="b"]', where: 'Seitenleiste' })));
+    // APD-107/S-10: schwebender Knopf ‚Nach oben‘
+    // (nur wo die schwebenden Knöpfe zu sehen sind – iPad quer stehen sie still, wenn der Inhalt passt: .fab.still)
+    if (await p.evaluate(() => !!document.querySelector('#toTop')?.getClientRects().length))
+      await t.schritt(p, 'schwebende Knöpfe', async () => t.liste(await checkBeruehren(p, { knopf: '#toTop', where: 'Nach oben' })));
     // gesperrter Knopf: Suche ohne Text – ‚Voriger Treffer‘ ist gesperrt
     await p.evaluate(() => openTripSearch()); await p.waitForTimeout(400);
     await t.schritt(p, 'gesperrter Knopf', async () => t.liste(await checkBeruehren(p, { gesperrt: '#sprev', where: 'Suche' })));
@@ -48,6 +57,7 @@ for (const [ansicht, theme, ruhig] of [['iPad quer', 'light', false], ['iPad que
     await t.schritt(p, 'Smiley anheben', async () => t.liste(await checkAnheben(p, { sel: '#dlg #moods [data-m]:first-child', feld: '#dlg #fComment', entfernen: true, where: 'Smiley-Leiste' })));
     t.wahr('nach den Prüfungen ist das Fenster des Tages noch offen', await p.evaluate(() => dlg.open), 'R-3.6');
     await p.evaluate(() => { dlgDirty = () => false; dlg.close(); }); await p.waitForTimeout(400); await navFertig(p);
+    t.wahr('APD-107/S-8 nach dem Schließen des Fensters bleibt kein Kreis des Smileys zurück', await p.evaluate(() => !document.querySelector('.schwebt')), 'R-3.5');
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
 }

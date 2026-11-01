@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 01.11.2026** · Aktuelle Version: Reiselogbuch 3.46.1 · AppDesign 4.48.1
+**Stand 01.11.2026** · Aktuelle Version: Reiselogbuch 3.46.2 · AppDesign 4.48.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-88 | 1 | **Usertest 3.46.1 (AppDesign 4.48.1, APD-106, RLB-115):** Knopf blass ohne Grau, kein markierter Text beim Halten (Tageszeile, Seitenleiste, Smiley-Leiste), Smiley mit Kreis und Schatten und Frage nach 1 s, Seitenleiste aus/ein – heutiger Tag ganz zu sehen, Großanzeige mit AX – Testfälle P-88/0 bis P-88/6 im CHANGELOG – **Ergebnis (Nutzer 01.11.2026, Sitzung 0071):** /0, /2, /3, /5, /6 ok; /1 (Knopf nicht sichtbar blass, Wegziehen öffnet das Menü) und /4 (Smiley-Kreis nicht zu sehen) nicht ok → Korrektur AppDesign APD-107 in 4.48.2 / 3.46.2 | prüfen |
+| P-89 | 1 | **Usertest 3.46.2 (AppDesign 4.48.2, APD-107):** Leisten-Knopf hebt sich hell mit Schatten über die Kapsel (Kopfzeile, Seitenleiste, Fenster), Wegziehen – liegen lassen – loslassen öffnet nichts (Knöpfe, Tageszeile), Smiley-Kreis im Fenster zu sehen, Kapsel ‚Wetter‘ blass wie bisher – Testfälle P-89/0 bis P-89/5 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -48,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 ## Erledigt
 
 | Nr. | Thema | Version | Datum |
+| P-88 | **Usertest P-88 (3.46.1):** /0, /2, /3, /5, /6 ok; /1 (Knopf nicht sichtbar blass, Wegziehen öffnet das Menü) und /4 (Smiley-Kreis nicht zu sehen) nicht ok – behoben mit AppDesign APD-107 (Leisten-Knopf hebt sich, Sperre bis zum Loslassen, Kreis im Fenster); weiter mit P-89 | 3.46.2 | 01.11.2026 |
 | RLB-115, P-87 | **RLB-115 gebaut** (AppDesign `keepKante`: nach dem Aus- und Einblenden der Seitenleiste steht der heutige Tag ganz unter dem Tabellenkopf, R-8.1) und **Usertest P-87 (3.46.0): nicht ok** – behoben mit AppDesign APD-106 (Antipp-Markierung aus, keine Textauswahl, Smiley mit Kreis und 1 s; Großanzeige am iPad nur mit ‚Größere dynamische Schrift‘); weiter mit P-88 | 3.46.1 | 01.11.2026 |
 |---|---|---|---|
 | APD-104, APD-105 | **AppDesign APD-104 und APD-105 gebaut:** Großanzeige für Leisten-Knöpfe ab AX1 (R-2.6) und Rückmeldung beim Berühren – Knöpfe blass, Zeilen grau, Smiley hebt sich beim Halten an (R-3.6, R-3.5); neue Prüfungen `ablauf-grossanzeige` und `ablauf-beruehren` (rot gegen 3.45.0); Usertest P-87 | 3.46.0 | 31.10.2026 |
