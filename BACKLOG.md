@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-89 | 1 | **Usertest 3.46.2 (AppDesign 4.48.2, APD-107):** Leisten-Knopf hebt sich hell mit Schatten über die Kapsel (Kopfzeile, Seitenleiste, Fenster), Wegziehen – liegen lassen – loslassen öffnet nichts (Knöpfe, Tageszeile), Smiley-Kreis im Fenster zu sehen, Kapsel ‚Wetter‘ blass wie bisher – Testfälle P-89/0 bis P-89/5 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -48,6 +47,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 ## Erledigt
 
 | Nr. | Thema | Version | Datum |
+| P-89 | **Usertest P-89 (3.46.2, AppDesign 4.48.2, APD-107): alles ok** (Nutzer 01.11.2026, Sitzung 0072) – Leisten-Knopf hebt sich hell über die Kapsel, Wegziehen öffnet nichts, Smiley-Kreis im Fenster zu sehen, Kapsel ‚Wetter‘ blass wie bisher | 3.46.2 | 01.11.2026 |
 | P-88 | **Usertest P-88 (3.46.1):** /0, /2, /3, /5, /6 ok; /1 (Knopf nicht sichtbar blass, Wegziehen öffnet das Menü) und /4 (Smiley-Kreis nicht zu sehen) nicht ok – behoben mit AppDesign APD-107 (Leisten-Knopf hebt sich, Sperre bis zum Loslassen, Kreis im Fenster); weiter mit P-89 | 3.46.2 | 01.11.2026 |
 | RLB-115, P-87 | **RLB-115 gebaut** (AppDesign `keepKante`: nach dem Aus- und Einblenden der Seitenleiste steht der heutige Tag ganz unter dem Tabellenkopf, R-8.1) und **Usertest P-87 (3.46.0): nicht ok** – behoben mit AppDesign APD-106 (Antipp-Markierung aus, keine Textauswahl, Smiley mit Kreis und 1 s; Großanzeige am iPad nur mit ‚Größere dynamische Schrift‘); weiter mit P-88 | 3.46.1 | 01.11.2026 |
 |---|---|---|---|
