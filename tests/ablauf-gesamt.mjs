@@ -80,7 +80,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Häkchen blau', await p.evaluate(() => dlg.querySelector('#dlgOk').classList.contains('primary')), true, 'R-4.4');
   await S(p, 'nächster Tag', async () => { await p.click('[data-nav="1"]'); await p.waitForTimeout(200); });
   t.ist('Blättern speichert', [await p.textContent('#dlg h3'), await p.evaluate(() => db.trips[0].days['2026-08-25'].program.split('\n').length)], ['Mittwoch, 26.08.2026', 12]);
-  await S(p, 'Smiley lange drücken', async () => { const box = await p.locator('#moods [data-m]').nth(1).boundingBox(); await p.mouse.move(box.x + 10, box.y + 10); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); });
+  await S(p, 'Smiley lange drücken', async () => { const box = await p.locator('#moods [data-m]').nth(1).boundingBox(); await p.mouse.move(box.x + 10, box.y + 10); await p.mouse.down(); await p.waitForTimeout(1200); await p.mouse.up(); });   // seit 3.46.1: Entfernen nach 1 s (APD-106)
   t.ist('Abfrage Smiley entfernen', [await p.locator('#dlg .pop').count(), await p.locator('#dlg .pop p').textContent()], [1, '😊 aus der Schnellauswahl entfernen?'], 'R-4.3');
   await S(p, 'Abbrechen', () => p.click('#dlg .pop button:has-text("Abbrechen")'));
   await S(p, 'Zurücksetzen', () => p.click('#moods .reset'));

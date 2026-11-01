@@ -30,7 +30,7 @@ for (const ansicht of ['iPhone hoch', 'iPhone quer', 'iPad quer']) {
     await open(p); await p.waitForTimeout(700);
     const smiley = `#dlg ${leiste} [data-m]`;
     if (!await p.locator(smiley).first().isVisible()) { t.fehler('R-3.5', `${where}: keine Smiley-Leiste ${leiste}`); continue; }
-    await t.schritt(p, `${name} – ziehen und halten`, async () => t.liste(await checkLangDruecken(p, { sel: `${smiley}:first-child`, where })));
+    await t.schritt(p, `${name} – ziehen und halten`, async () => t.liste(await checkLangDruecken(p, { sel: `${smiley}:first-child`, dauer: 1000, where })));
     // L5: kurz antippen fügt das Smiley ein (der Cursor steht im leeren Feld)
     await t.schritt(p, `${name} – antippen`, async () => {
       const m = await p.locator(smiley).first().getAttribute('data-m');

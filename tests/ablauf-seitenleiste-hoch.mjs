@@ -26,7 +26,9 @@ const start = async p => {
 const lage = p => p.evaluate(() => {
   const s = document.querySelector('#side'), a = document.querySelector('#app'), sr = s && !s.hidden && s.getClientRects().length ? s.getBoundingClientRect() : null;
   const edge = document.querySelector('#bar')?.getBoundingClientRect().bottom ?? 0;
-  const oben = [...a.querySelectorAll('[data-day]')].find(x => x.getClientRects().length && x.getBoundingClientRect().bottom > edge + 1)?.dataset.day;
+  // seit 3.46.1 (RLB-115): ein Tag unter dem haftenden Tabellenkopf ist nicht zu sehen – die Kante ist die Unterkante des Kopfs
+  const kante = x => { const th = x.closest('table')?.tHead?.querySelector('th'); return th && getComputedStyle(th).position === 'sticky' ? Math.max(edge, th.getBoundingClientRect().bottom) : edge; };
+  const oben = [...a.querySelectorAll('[data-day]')].find(x => x.getClientRects().length && x.getBoundingClientRect().bottom > kante(x) + 2)?.dataset.day;
   return { seite: !!sr, fest: !!sr && document.body.classList.contains('docked') && !s.classList.contains('over') && !document.querySelector('.side-shade'),
     neben: !!sr && a.getBoundingClientRect().left >= sr.right - 1, inhalt: a.clientWidth, tabelle: !!a.querySelector('table.days:not(.static)'),
     kaesten: a.querySelectorAll('.box.day').length, statisch: a.querySelectorAll('table.static').length, oben };
