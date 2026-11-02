@@ -5,10 +5,10 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-abspielen.mjs
 import * as pw from 'playwright';
 import { readFileSync, readdirSync } from 'node:fs';
-import { pruefung } from '../../AppDesign/fassung/4.49.0/tests/pruefe.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.49.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.49.0/tests/abspielen.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.49.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.49.1/tests/pruefe.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.49.1/tests/safari.mjs';
+import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.49.1/tests/abspielen.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.49.1/tests/ablauf.mjs';
 const t = pruefung('ablauf-abspielen', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href, ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);
 const days = {}; for (let i = 0; i < 40; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, ...(i % 3 ? {} : { place: 'Sydney' }) };   // Suche ‚Sydne…‘ findet jeden 3. Tag
@@ -19,7 +19,10 @@ const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '202
 const EINSTELLUNG = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt': { bis: 133000, aufbau: { such: -29 } },
   // seit 3.30.2: Messung einer Geste (P-69/3) – das Feld bekam den Fokus ohne ‚tippen‘-Zeile, Zeigerbewegungen spielt abspielen.mjs
   // nicht nach; der gemessene Zug am Rand ist in checkSheet B19 nachgebaut (‚erst nach oben, dann nach unten‘)
-  '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { aus: true } };
+  '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { aus: true },
+  // seit 3.47.1 (AppDesign APD-109, P-90): Messung ‚Titel antippen‘ am iPad – ‚tippen -‘ ist dort der Titel, kein Tag; der Ablauf ist in
+  // ablauf-titel-oben im Safari-Modell ‚Klick nur mit Hörer‘ nachgebaut
+  '2026-11-02 iPad quer Titel antippen Messmodus.txt': { aus: true } };
 // Ziele ohne id: ‚button‘ = Reiselogbuch in der Liste, ‚-‘ = ein sichtbarer Tag (öffnet das Fenster des Tages). Ist mit den eigenen
 // Daten kein Tag zu sehen (am Gerät endete der Inhalt kürzer), wird der letzte Tag in den Inhalt gerollt – inh wird nicht verglichen.
 const tagSichtbar = async p => {

@@ -9,10 +9,10 @@
 // sichtbare Fensterinhalt (96 von 84 px), wie Safari dann verschiebt, ist nicht gemessen (Testfälle).
 // Aufruf im Repo-Ordner: node tests/ablauf-tastatur-still.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.49.0/tests/pruefe.mjs';
-import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS, sucheAuf } from '../../AppDesign/fassung/4.49.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.49.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.49.0/tests/abspielen.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.49.1/tests/pruefe.mjs';
+import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS, sucheAuf } from '../../AppDesign/fassung/4.49.1/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.49.1/tests/safari.mjs';
+import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.49.1/tests/abspielen.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 const t = pruefung('ablauf-tastatur-still', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
@@ -86,7 +86,8 @@ const ZIELE = { '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { '-': [tagSicht
   '2026-10-26 iPhone quer Blatt Ort Quartier.txt': { button: ['#side .side-row[data-id="a"]', '.pop button.danger'], '-': [tagSichtbar, schliesseMenue] } };
 for (const datei of readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort()) {
   const m = lies(readFileSync(new URL(encodeURIComponent(datei), ORDNER), 'utf8'));
-  if (!m.app.startsWith('Reiselogbuch')) continue;
+  // seit 3.47.1 (AppDesign APD-109): die Messung ‚Titel antippen‘ hat keine Tastatur – nachgebaut in ablauf-titel-oben
+  if (!m.app.startsWith('Reiselogbuch') || datei === '2026-11-02 iPad quer Titel antippen Messmodus.txt') continue;
   const p = await t.seite(b, ansicht(m));
   t.ort = `APD-36/T-8 ${datei.replace(/\.txt$/, '')}`;
   await p.goto(APP);
