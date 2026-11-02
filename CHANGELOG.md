@@ -13,6 +13,75 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.48.0 – 02.11.2026
+
+Reiselogbuch 3.48.0 · AppDesign 4.50.0 (Designrichtlinie allgemein 4.50.0) · Designrichtlinie Reiselogbuch 3.48.0 · Zusammenarbeit allgemein 3.6.0
+
+**Wischen tippt nie an** (AppDesign APD-108), **leere Zustände** (AppDesign APD-30, R-7.7) und Prüfungen (APD-85 Teil 4, APD-110) – dein Ja vom
+02.11.2026, Sitzung 0076; Testfall-Listen AppDesign `arbeit/APD-108 Testfall-Liste.md`, `arbeit/APD-30 Testfall-Liste.md`,
+`arbeit/APD-85 Teil 4 Testfall-Liste.md`.
+
+- **Wischen tippt nie an (Korrektur):** Wischt der Finger über einen Titel, einen 📍-Link, das Blatt oder beim Zurückwischen über einen Tag,
+  löst das Loslassen nichts mehr aus – auch wenn Safari den Klick erst ein paar Millisekunden später schickt (gemessen am iPhone). Danach
+  kurz antippen wirkt sofort wieder. Am iPad: Vermutung, im Usertest zu bestätigen.
+- **Leere Zustände wie bei Apple:** ohne Reiselogbuch ‚Noch kein Reiselogbuch‘ mit Knopf ‚Neues Reiselogbuch‘ (Inhalt bzw. iPhone-Startliste;
+  in der Seitenleiste daneben nur Symbol und Titel), Suche ohne Treffer ‚Keine Treffer für ‚Begriff‘‘ (Liste und Reiselogbuch), ‚Nur erfasste
+  Tage‘ ohne erfassten Tag ‚Noch keine Tage erfasst‘ mit Knopf ‚Alle Tage zeigen‘ (wie Menü ‚Alle Tage‘). Statt der grauen Hinweise
+  ‚Noch kein Reiselogbuch angelegt.‘, ‚Keine Treffer‘ und ‚Noch keine Tage erfasst.‘
+- **Prüfungen:** neu `ablauf-leer` (APD-30/L-1 bis L-20: iPad quer hell und dunkel, iPad hoch, iPhone hoch und quer, Kontrast erhöhen; Gegenprobe
+  `PRUEF_GEGENPROBE=1`); `ablauf-titel-oben` (APD-108/W-1 bis W-4, W-6, W-7), `ablauf-beruehren` (APD-108/W-5, W-7), `ablauf-blatt` (APD-108/W-9), `ablauf-navigation`
+  (APD-108/W-11, W-12), `ablauf-markierung-menues` (APD-85/V-1 bis V-3); `ablauf-gesamt`, `ablauf-jahre`, `start-regeln` erwarten die neuen Texte.
+
+Testfälle P-92 (Schritt für Schritt, Zusammenarbeit allgemein 3.6.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen, **ohne** Messung.
+
+**P-92/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.48.0 · erstellt am … · AppDesign 4.50.0‘.
+
+**P-92/1 – iPad: über den Titel wischen rollt nicht**
+1. iPad quer, hell; ein Reiselogbuch mit vielen Tagen offen, weit nach unten rollen.
+2. Den Finger oben auf den Titel der Reise legen, etwa zwei Fingerbreit waagrecht nach links ziehen und loslassen. Erwartet: nichts rollt,
+   der Inhalt bleibt, wo er war.
+3. Gleich danach kurz auf den Titel tippen. Erwartet: der Inhalt rollt sanft ganz nach oben.
+4. iPad hoch: Schritte 1 bis 3. Erwartet: wie quer.
+
+**P-92/2 – iPad und iPhone: über einen 📍-Link wischen öffnet ihn nicht**
+1. iPad quer, hell; ein Reiselogbuch mit einem Quartier (📍 mit blauem Hotelnamen) offen.
+2. Den Finger auf den blauen Hotelnamen legen, etwa zwei Fingerbreit waagrecht nach links ziehen und loslassen. Erwartet: Google Maps öffnet
+   sich **nicht**, kein Fenster des Tages.
+3. Kurz auf den Hotelnamen tippen. Erwartet: Google Maps öffnet sich. Zurück in die App.
+4. iPhone hoch: Schritte 1 bis 3 im Kasten des Tages. Erwartet: wie am iPad.
+
+**P-92/3 – iPhone: Blatt ziehen tippt nichts an**
+1. iPhone hoch, hell; einen Tag antippen (das Blatt ‚Erfassen‘ öffnet sich).
+2. Den Finger auf eine Zeile mit Schalter oder Kästchen im Blatt legen (z. B. ‚Quartier wie Vortag‘), das Blatt etwa zwei Fingerbreit nach unten
+   ziehen und loslassen. Erwartet: das Blatt federt zurück, der Schalter bzw. das Kästchen ändert sich **nicht**.
+3. Etwas in ‚Verlauf‘ schreiben, dann das Blatt am Griff weit nach unten ziehen. Erwartet: das Blatt federt zurück, am x erscheint die Frage
+   ‚Die Änderungen in diesem Fenster gehen verloren.‘ mit ‚Änderungen verwerfen‘ und ‚Weiter bearbeiten‘. ‚Änderungen verwerfen‘ tippen.
+
+**P-92/4 – iPad: leere Zustände**
+1. iPad quer, hell; ein Reiselogbuch, dessen Reise noch nicht begonnen hat (oder ohne erfassten Tag), öffnen.
+2. Oben auf ‚…‘ (Mehr) tippen, ‚Nur erfasste Tage‘ wählen. Erwartet: unter Teilnehmern und Fortschritt mittig ein Kalender-Symbol, fett ‚Noch keine
+   Tage erfasst‘, grau ‚Es werden nur erfasste Tage gezeigt.‘ und ein hellblauer Knopf ‚Alle Tage zeigen‘ – ruhig wie in den Apple-Apps.
+3. ‚Alle Tage zeigen‘ tippen. Erwartet: alle Tage sind wieder da; im Mehr-Menü steht das Häkchen bei ‚Alle Tage‘.
+4. Oben auf ‚…‘ (Mehr) → ‚Suchen‘, ‚xyzzy‘ eingeben. Erwartet: Lupe, fett ‚Keine Treffer für ‚xyzzy‘‘, grau ‚Schreibweise prüfen oder nach etwas
+   anderem suchen.‘, kein Knopf; die Suchzeile zeigt 0. Suche mit x schließen.
+5. In der Seitenleiste auf ‚…‘ (Mehr) → ‚Suchen‘, ‚xyzzy‘ eingeben. Erwartet: in der Seitenleiste klein Lupe, ‚Keine Treffer für ‚xyzzy‘‘ und der
+   graue Satz; darüber ‚0 von N Reiselogbüchern‘. Suche schließen.
+6. iPad hoch: Schritte 2 und 4. Erwartet: wie quer.
+
+**P-92/5 – iPhone: leere Zustände**
+1. iPhone hoch, hell; ein Reiselogbuch ohne erfassten Tag öffnen.
+2. Schritte 2 bis 4 von P-92/4. Erwartet: wie am iPad; bei der Suche stehen Titel und Satz über der Tastatur.
+3. Zurück in die Startliste, ‚…‘ (Mehr) → ‚Suchen‘, ‚xyzzy‘ eingeben. Erwartet: ‚Keine Treffer für ‚xyzzy‘‘ mit dem grauen Satz, über der Tastatur.
+
+**P-92/6 – VoiceOver: Reihenfolge im leeren Zustand**
+1. iPad oder iPhone, VoiceOver ein; ein Reiselogbuch ohne erfassten Tag mit ‚Nur erfasste Tage‘ (wie P-92/4 Schritt 2).
+2. Mit Wischen nach rechts durch den leeren Zustand gehen. Erwartet: VoiceOver sagt ‚Noch keine Tage erfasst, Überschrift‘, dann ‚Es werden nur
+   erfasste Tage gezeigt.‘, dann ‚Alle Tage zeigen, Taste‘ – das Symbol wird nicht angesagt.
+
 ## 3.47.1 – 02.11.2026
 
 Reiselogbuch 3.47.1 · AppDesign 4.49.1 (Designrichtlinie allgemein 4.49.1) · Designrichtlinie Reiselogbuch 3.47.1 · Zusammenarbeit allgemein 3.5.0

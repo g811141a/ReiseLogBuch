@@ -6,10 +6,11 @@
 // seit 3.43.0 ablauf-seitenleiste-hoch (AppDesign APD-97), seit 3.44.0 ablauf-einstellen (RLB-113) und ablauf-jahre (RLB-114, AppDesign APD-100),
 // seit 3.45.0 ablauf-titel-blase (AppDesign APD-101), seit 3.46.0 ablauf-grossanzeige (AppDesign APD-104) und ablauf-beruehren (AppDesign APD-105),
 // seit 3.47.0 ablauf-titel-oben (AppDesign APD-62 / APD-38/T-43).
+// seit 3.48.0 ablauf-leer (AppDesign APD-30, R-7.7).
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.49.1/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.50.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'ablauf-messung', 'tastatur',
-  'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-titel-blase', 'ablauf-titel-oben', 'ablauf-grossanzeige', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
+  'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-titel-blase', 'ablauf-titel-oben', 'ablauf-leer', 'ablauf-grossanzeige', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
   'verlauf-vorschlaege', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'link-name', 'kapsel-iphone', 'oeffnen-position', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-blatt', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln',
   // Seit 3.33.0 (AppDesign APD-43 P1): die Abläufe mit Bewegung zusätzlich mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (Bewegungswächter)
   // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): dieselben Abläufe zusätzlich mit der größten Textgröße (AX5, 53 px)

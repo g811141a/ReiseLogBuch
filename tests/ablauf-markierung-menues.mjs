@@ -2,10 +2,13 @@
 // Menü der Seitenleiste mit eingerücktem Strich und Zusatzinfos. Hell und dunkel, quer und hoch. Seit 3.40.0 (AppDesign APD-87, R-4.1):
 // Mehr-Knopf offen senkrecht und hervorgehoben (APD-87/E-1 bis APD-87/E-11, iPad, iPhone, ‚Bewegung reduzieren‘, Drehen mit offenem Menü).
 // Aufruf im Repo-Ordner: node tests/ablauf-markierung-menues.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
+// Seit 3.48.0 (AppDesign APD-85 Teil 4, Testfall-Liste AppDesign arbeit/APD-85 Teil 4 Testfall-Liste.md V-1 bis V-3): R-3.1 erkennt einen Schalter an
+// [switch] bzw. role="switch" – im halb hereingeglittenen Fenster (98 %) kein Fund für #fPriceOn (V-1), ein Kästchen 30 × 30 ohne switch braucht 44
+// (V-2), ein Schalter mit 26 px Höhe meldet ‚mind. 28‘ (V-3). Rot gegen 3.47.1: V-1, V-3.
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.49.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.49.1/tests/hig.mjs';
-import { checkMehrKnopf } from '../../AppDesign/fassung/4.49.1/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.50.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.50.0/tests/hig.mjs';
+import { checkMehrKnopf } from '../../AppDesign/fassung/4.50.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -44,6 +47,18 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
     await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); await p.waitForTimeout(300);
   });
   t.ist('Kachel blau, solange ihr Fenster offen ist', await on(row('Toskana')), true, 'R-3.3');
+  // APD-85 Teil 4: V-1 bis V-3 – je Fall eine eigene Messung (createCheck().funde())
+  { const miss = async (wie, vorbereiten) => { await p.evaluate(vorbereiten); const h2 = createCheck(); await h2.measure(p, wie, { schnell: true });
+      await p.evaluate(() => { const d = document.getElementById('dlg'); d.style.scale = ''; document.getElementById('fPriceOn').style.height = ''; document.getElementById('v2box')?.remove(); });
+      return h2.funde().filter(f => /R-3\.1|Antipp|mind\./.test(f)); };
+    await p.evaluate(() => document.getElementById('fPriceOn').scrollIntoView({ block: 'center' })); await p.waitForTimeout(150);
+    const v1 = await miss('V-1', () => { document.getElementById('dlg').style.scale = '0.98'; });
+    t.wahr(`APD-85/V-1 Fenster halb hereingeglitten (98 %): kein R-3.1 für den Schalter${v1.length ? ` (${v1.join(' · ')})` : ''}`, !v1.some(f => f.includes('fPriceOn')), 'R-3.1');
+    const v2 = await miss('V-2', () => { const c = document.createElement('input'); c.type = 'checkbox'; c.id = 'v2box'; c.style.cssText = 'width:30px;height:30px;margin:0';
+      document.getElementById('fPriceOn').closest('.swlist').prepend(c); });
+    t.wahr('APD-85/V-2 Gegenprobe: Kästchen ohne switch, 30 × 30 – R-3.1 mit mind. 44', v2.some(f => f.includes('v2box') && f.includes('mind. 44')), 'R-3.1');
+    const v3 = await miss('V-3', () => { document.getElementById('fPriceOn').style.height = '26px'; });
+    t.wahr(`APD-85/V-3 Gegenprobe: Schalter 26 px hoch – R-3.1 mit mind. 28${v3.length ? ` (${v3.join(' · ')})` : ''}`, v3.some(f => f.includes('fPriceOn') && f.includes('mind. 28')), 'R-3.1'); }
   await t.schritt(p, 'Fenster schließen', async () => { await p.click('#dlgX'); await p.waitForTimeout(200); });
   t.ist('Kachel nach dem Schließen nicht mehr blau', await on(row('Toskana')), false, 'R-3.3');
   await t.schritt(p, 'Australien öffnen', async () => { await row('Australien').click(); await p.waitForTimeout(200); });

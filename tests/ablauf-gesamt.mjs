@@ -3,9 +3,9 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.49.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.49.1/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.49.1/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.50.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.50.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.50.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-gesamt', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -133,7 +133,8 @@ for (const theme of ['light', 'dark']) {
   p = await page('iPad quer', { theme, empty: true });
   t.ist('leer: Fenster Neues Reiselogbuch öffnet sich', [await p.evaluate(() => dlg.open), await p.textContent('#dlg h3')], [true, 'Neues Reiselogbuch']);
   await S(p, 'x', () => p.click('#dlgX'));
-  t.ist('leere Hauptansicht', [await p.textContent('.emptymain'), await p.evaluate(() => !dlg.open)], ['Noch kein Reiselogbuch angelegt.Mit ‚plus‘ in der Seitenleiste ein neues anlegen.', true]);
+  // seit 3.48.0 (AppDesign APD-30, R-7.7): der leere Zustand S-1 statt des grauen Hinweises
+  t.ist('leere Hauptansicht', [await p.textContent('#app .leer'), await p.evaluate(() => !dlg.open)], ['Noch kein ReiselogbuchEin neues mit ‚plus‘ in der Seitenleiste anlegen.Neues Reiselogbuch', true], 'R-7.7');
   await S(p, 'anlegen', async () => { await p.click('#newTrip'); await p.fill('#fTitle', 'Neu'); await p.fill('#fPeople', 'X'); await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); await p.waitForTimeout(100); });
   t.ist('angelegt', await p.textContent('.nb-title'), 'Neu');
   await p.close();

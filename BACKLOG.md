@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 02.11.2026** · Aktuelle Version: Reiselogbuch 3.47.1 · AppDesign 4.49.1
+**Stand 02.11.2026** · Aktuelle Version: Reiselogbuch 3.48.0 · AppDesign 4.50.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,6 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-92 | 1 | **Usertest 3.48.0 (AppDesign 4.50.0)** – Testfälle P-92/0 bis P-92/6 im CHANGELOG: Wischen tippt nie an (Titel, 📍-Link, Blatt; AppDesign APD-108, am iPad Vermutung bestätigen), leere Zustände am iPad und iPhone, VoiceOver-Reihenfolge (AppDesign APD-30) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
