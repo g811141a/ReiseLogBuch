@@ -7,6 +7,7 @@
 // dieselben Fälle mit dem Fenster in der Mitte (quer und hoch, hell und dunkel, ‚Bewegung reduzieren‘, Tastatur im Erfassen), Häkchen im
 // Erfassen (D-11). Seit 3.37.0 (AppDesign APD-83, APD-72/D-21): am iPad ändert eine Eingabe Breite und Lage nicht – iPad hoch auch
 // ‚Neues Reiselogbuch‘ (die Meldung zum überschneidenden Zeitraum erscheint). Aufruf im Repo-Ordner: node tests/ablauf-blatt.mjs
+// Seit 3.48.0 (AppDesign APD-85 Teil 5): PRUEF_BLATT=iPhone bzw. iPad prüft nur diese Ansichten (alle.mjs teilt so; ohne: alle).
 import * as pw from 'playwright';
 import { pruefung, warteBis, navFertig, ruhe } from '../../AppDesign/fassung/4.50.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.50.0/tests/hig.mjs';
@@ -32,7 +33,7 @@ const FENSTER = [
 const b = await t.browser();
 for (const [ansicht, theme, ruhig, auswahl] of [['iPhone hoch', 'light', false, null], ['iPhone quer', 'light', false, null], ['iPhone hoch', 'dark', false, ['Erfassen', 'Vorschau']],
   ['iPhone hoch', 'light', true, ['Erfassen']], ['iPad quer', 'light', false, ['Erfassen', 'Vorschau']], ['iPad hoch', 'light', false, ['Reiselogbuch einstellen', 'Erfassen', 'Neues Reiselogbuch']],
-  ['iPad quer', 'dark', false, ['Erfassen']], ['iPad quer', 'light', true, ['Erfassen']]]) {
+  ['iPad quer', 'dark', false, ['Erfassen']], ['iPad quer', 'light', true, ['Erfassen']]].filter(([a]) => !process.env.PRUEF_BLATT || a.startsWith(process.env.PRUEF_BLATT))) {
   const p = await t.seite(b, ansicht, { theme, ...(ruhig ? { reducedMotion: 'reduce' } : {}) });
   const where = `${t.ort}${ruhig ? ' Bewegung reduzieren' : ''}`; t.ort = where;
   await p.clock.setFixedTime(new Date('2026-09-02T10:00:00'));

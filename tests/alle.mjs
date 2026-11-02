@@ -11,10 +11,12 @@ import * as pw from 'playwright';
 import { lauf } from '../../AppDesign/fassung/4.50.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'ablauf-messung', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-titel-blase', 'ablauf-titel-oben', 'ablauf-leer', 'ablauf-grossanzeige', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
-  'verlauf-vorschlaege', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'link-name', 'kapsel-iphone', 'oeffnen-position', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-blatt', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln',
+  'verlauf-vorschlaege', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'link-name', 'kapsel-iphone', 'oeffnen-position', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln',
   // Seit 3.33.0 (AppDesign APD-43 P1): die Abläufe mit Bewegung zusätzlich mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (Bewegungswächter)
   // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): dieselben Abläufe zusätzlich mit der größten Textgröße (AX5, 53 px)
   ...['ablauf-navigation', 'ablauf-fenster', 'ablauf-iphone', 'ablauf-suche-liste', 'ablauf-seitenleiste-position'].map(name => ({ name, teile: { '': {}, Bedienungshilfen: { PRUEF_BEDIENUNG: 'beide' }, 'Text 53': { PRUEF_TEXT: '53' } } })),
+  // Seit 3.48.0 (AppDesign APD-85 Teil 5): ablauf-blatt nach Gerät geteilt – mit APD-108/W-9 lief es unter Last in die Zeitgrenze von 10:00
+  { name: 'ablauf-blatt', teile: { iPhone: { PRUEF_BLATT: 'iPhone' }, iPad: { PRUEF_BLATT: 'iPad' } } },
   // Die zwei langen Prüfungen geteilt (APD-5/B-5): hig nach Darstellung (der Gerätevergleich R-1.1 bleibt je Teil vollständig),
   // das Kontextmenü nach Gerät.
   // Seit 3.33.0 (APD-43 P1): hig zusätzlich ‚hell/dunkel Bedienungshilfen‘ (alle vier Ansichten, 4,5 : 1 ohne Ausnahmen)

@@ -31,6 +31,8 @@ Reiselogbuch 3.48.0 · AppDesign 4.50.0 (Designrichtlinie allgemein 4.50.0) · D
 - **Prüfungen:** neu `ablauf-leer` (APD-30/L-1 bis L-20: iPad quer hell und dunkel, iPad hoch, iPhone hoch und quer, Kontrast erhöhen; Gegenprobe
   `PRUEF_GEGENPROBE=1`); `ablauf-titel-oben` (APD-108/W-1 bis W-4, W-6, W-7), `ablauf-beruehren` (APD-108/W-5, W-7), `ablauf-blatt` (APD-108/W-9), `ablauf-navigation`
   (APD-108/W-11, W-12), `ablauf-markierung-menues` (APD-85/V-1 bis V-3); `ablauf-gesamt`, `ablauf-jahre`, `start-regeln` erwarten die neuen Texte.
+  `ablauf-blatt` läuft im vollen Lauf in zwei Teilen (iPhone, iPad; `PRUEF_BLATT`) – mit APD-108/W-9 lief es unter Last in die Zeitgrenze 10:00
+  (drittes `los` abgebrochen, nichts veröffentlicht; AppDesign APD-85 Teil 5).
 
 Testfälle P-92 (Schritt für Schritt, Zusammenarbeit allgemein 3.6.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen, **ohne** Messung.
