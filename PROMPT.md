@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 02.11.2026, Version 3.47.1)
+# Reiselogbuch – Funktionsbeschreibung (Stand 02.11.2026, Version 3.48.0)
 
-Reiselogbuch 3.47.1 · AppDesign 4.49.1 (Designrichtlinie allgemein 4.49.1) · Designrichtlinie Reiselogbuch 3.47.1 · Zusammenarbeit allgemein 3.5.0
+Reiselogbuch 3.48.0 · AppDesign 4.50.0 (Designrichtlinie allgemein 4.50.0) · Designrichtlinie Reiselogbuch 3.48.0 · Zusammenarbeit allgemein 3.6.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -45,8 +45,11 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   ‚Verlauf‘, ‚Wie war was?‘, ‚Essen und Trinken‘, ‚Quartier‘.
 - Options-Kapseln (Tageserfassung): ‚Quartier wie Vortag‘, ‚keinen Google-Maps Link‘; Schalter (Bearbeiten): ‚Quartierliste in der
   Ausgabe‘.
-- Leer: ‚Noch kein Reiselogbuch angelegt.‘ (Seitenleiste) bzw. zusätzlich ‚Mit ‚plus‘ in der Seitenleiste ein neues anlegen.‘
-  (Inhalt); iPhone-Startliste: ‚Noch kein Reiselogbuch angelegt.‘ und ‚Mit ‚plus‘ oben rechts ein neues Reiselogbuch anlegen.‘
+- Leer (seit 3.48.0 leerer Zustand, AppDesign 15.23 / R-7.7): Inhalt `book-open` ‚Noch kein Reiselogbuch‘, ‚Ein neues mit ‚plus‘ in der
+  Seitenleiste anlegen.‘, Knopf ‚Neues Reiselogbuch‘ (wie ‚plus‘); Seitenleiste daneben nur Symbol und Titel; iPhone-Startliste vollständig mit
+  Knopf. Suche ohne Treffer (Liste und Reiselogbuch) `search` ‚Keine Treffer für ‚Begriff‘‘, ‚Schreibweise prüfen oder nach etwas anderem
+  suchen.‘; ‚Nur erfasste Tage‘ ohne erfassten Tag `calendar` ‚Noch keine Tage erfasst‘, ‚Es werden nur erfasste Tage gezeigt.‘, Knopf ‚Alle Tage
+  zeigen‘ (wie Menü ‚Alle Tage‘).
 - **Abfragen** (Sprechblasen an der angetippten Schaltfläche, R-4.3): Reiselogbuch löschen (am ellipsis der Kopfzeile bzw. im
   Kontextmenü) · Backup laden (Abgleichen/Ersetzen, am ellipsis der Seitenleiste) · Smiley entfernen (am Smiley) · Smileys
   zurücksetzen (am rotate-ccw) · Änderungen verwerfen (am x). Rote Schaltflächen: ‚Reiselogbuch löschen‘, ‚Ersetzen‘,
@@ -68,7 +71,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   Wert des anderen Geräts nicht. Gibt es keines (alte Daten, gelöscht), die Reise, in deren Zeitraum heute fällt; sonst die
   zuletzt beendete; sonst die nächste geplante.
 - Gibt es noch kein Reiselogbuch (erster Start oder letztes gelöscht), öffnet sich ‚Neues Reiselogbuch‘ einmal von selbst; mit x
-  bleibt die leere Seite mit dem grauen Hinweis (2). Das Häkchen öffnet das neue Reiselogbuch.
+  bleibt die leere Seite mit dem leeren Zustand (2). Das Häkchen öffnet das neue Reiselogbuch.
 - **Fenster ‚Neues Reiselogbuch‘ / ‚Reiselogbuch einstellen‘** – Kästen: Reisetitel · Reiseteilnehmer · Reisezeitraum (grau ‚Von‘ Datum ·
   ‚Bis‘ Datum in einer Zeile; ‚Von‘ und ‚Bis‘ bleiben je mit ihrem Datum zusammen, auf dem iPhone steht ‚Bis‘ unter ‚Von‘) ·
   Reisemittel · Konfiguration Tabellenspalten · Schalter ‚Quartierliste in der Ausgabe‘ (beim Anlegen wählbar, nachträglich
@@ -166,7 +169,7 @@ wie am iPad (R-1.1):
   Seitenleiste) in allen; beendet mit dem runden x ‚Suche beenden‘ rechts in der Suchzeile.
 - **Über alle Reiselogbücher** (‚Suchen‘ im Mehr-Menü der Seitenleiste bzw. Startliste, Platzhalter ‚In allen suchen‘): Kacheln zeigen ‚12
   Treffer‘ (gleich gezählt wie ‚1 von 12‘ im Reiselogbuch, nur sichtbare Spalten), unter der Überschrift ‚2 von 5
-  Reiselogbüchern‘, sonst ‚Keine Treffer‘; Antippen öffnet das Reiselogbuch mit gefüllter Suche.
+  Reiselogbüchern‘, sonst der leere Zustand ‚Keine Treffer für ‚Begriff‘‘; Antippen öffnet das Reiselogbuch mit gefüllter Suche.
 
 ## 7. Tageserfassung
 

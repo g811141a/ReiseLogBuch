@@ -10,15 +10,18 @@
 // Seitenleiste, x im Fenster, ‚Nach oben‘) heben sich als helle Fläche mit Schatten 1,3-fach zuoberst über die Kapsel, ‚Bewegung reduzieren‘ ohne
 // Wachsen; Wegziehen, 1 s liegen lassen, loslassen löst nichts aus (Knöpfe, Tageszeile), danach Antippen genau einmal, die Leertaste sofort;
 // der Kreis des Smileys liegt im modalen Fenster zuoberst, nach dem Schließen bleibt kein Kreis zurück. Rot gegen 3.46.1: S-1, S-2, S-4, S-7, S-10, S-12.
+// Seit 3.48.0 (AppDesign APD-108, Testfall-Liste AppDesign arbeit/APD-108 Testfall-Liste.md W-5, W-7): über den 📍-Link eines Tages 30 px waagrecht
+// wischen und loslassen – der Klick, der wie in Safari 4 ms danach kommt, öffnet den Link nicht und kein Fenster des Tages; gleich danach kurz
+// antippen öffnet ihn genau einmal. Rot gegen 3.47.1 (W-5).
 // Aufruf im Repo-Ordner: node tests/ablauf-beruehren.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.49.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.49.1/tests/hig.mjs';
-import { checkBeruehren, checkAnheben } from '../../AppDesign/fassung/4.49.1/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.50.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.50.0/tests/hig.mjs';
+import { checkBeruehren, checkAnheben, wischKlick } from '../../AppDesign/fassung/4.50.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-beruehren', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
-const days = {}; for (let i = 0; i < 20; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1} mit etwas mehr Text für eine lange Seite`, place: 'Hafen' };
+const days = {}; for (let i = 0; i < 20; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1} mit etwas mehr Text für eine lange Seite`, place: 'Hafen', ...(i === 1 ? { quarter: 'Hotel Bellevue' } : {}) };
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: iso(0), end: iso(19), transport: ['flug'], moodColumn: true, days },
   { id: 'b', title: 'Toskana', participants: 'G', start: '2027-06-03', end: '2027-06-17', transport: ['pkw'], days: {} }];
 const start = async p => {
@@ -47,6 +50,16 @@ for (const [ansicht, theme, ruhig] of [['iPad quer', 'light', false], ['iPad que
     // (nur wo die schwebenden Knöpfe zu sehen sind – iPad quer stehen sie still, wenn der Inhalt passt: .fab.still)
     if (await p.evaluate(() => !!document.querySelector('#toTop')?.getClientRects().length))
       await t.schritt(p, 'schwebende Knöpfe', async () => t.liste(await checkBeruehren(p, { knopf: '#toTop', where: 'Nach oben' })));
+    // APD-108/W-5, W-7: Wischen über den 📍-Link öffnet ihn nicht, kein Fenster des Tages; danach kurz antippen öffnet ihn genau einmal
+    await t.schritt(p, 'APD-108 Wischen über einen Link', async () => {
+      const link = phone ? '#pdays .ln.q a' : '#app td.quarter a, #app .ln.q a';
+      await p.evaluate(s => document.querySelector(s)?.scrollIntoView({ block: 'center' }), link); await navFertig(p);
+      const k = await wischKlick(p, link, [[-10, 0], [-20, 0], [-30, 0]], { tipp: true, halten: true });
+      t.wahr(`APD-108/W-5 ${k.fehlt ? `Vorbereitung: ${k.fehlt} fehlt` : 'über den 📍-Link gewischt: der Link öffnet nicht'}`, !k.fehlt && k.wisch === 0, 'R-7.5');
+      t.wahr('APD-108/W-5 über den 📍-Link gewischt: kein Fenster des Tages', !k.fenster, 'R-7.5');
+      t.wahr(`APD-108/W-7 gleich danach kurz angetippt: der Link öffnet genau einmal (${k.tipp}-mal)`, k.tipp === 1, 'R-7.5');
+      if (await p.evaluate(() => dlg.open)) { await p.evaluate(() => { dlgDirty = () => false; dlg.close(); }); await navFertig(p); }
+    });
     // gesperrter Knopf: Suche ohne Text – ‚Voriger Treffer‘ ist gesperrt
     await p.evaluate(() => openTripSearch()); await p.waitForTimeout(400);
     await t.schritt(p, 'gesperrter Knopf', async () => t.liste(await checkBeruehren(p, { gesperrt: '#sprev', where: 'Suche' })));

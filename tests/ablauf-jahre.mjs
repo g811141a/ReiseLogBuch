@@ -4,8 +4,8 @@
 // Leistenüberschrift (Variante A2). Y-1 bis Y-11; Y-12 (Gegenprobe) mit PRUEF_GEGENPROBE=jahre:oben|ende|halbfett.
 // Aufruf im Repo-Ordner: node tests/ablauf-jahre.mjs (PRUEF_APP=../_alt.html prüft eine andere Fassung der App, z. B. die veröffentlichte).
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.49.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.49.1/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.50.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.50.0/tests/hig.mjs';
 const t = pruefung('ablauf-jahre', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const gp = (process.env.PRUEF_GEGENPROBE || '').match(/^jahre:(.+)$/)?.[1];
@@ -64,7 +64,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
     await p.evaluate(x => { db.trips = x; currentTripId = x[0]?.id ?? null; save(); render(); }, daten); await p.waitForTimeout(300);
     if (ansicht === 'iPad hoch' && daten.length) await p.evaluate(() => { if (side.hidden) toggleSide(); }), await p.waitForTimeout(500);
     t.ist(`RLB-114/Y-5 ${daten.length} Reiselogbücher: Köpfe`, await koepfe(p), soll, 'R-7.6');
-    if (!daten.length) t.ist('RLB-114/Y-5 keins: Leertext wie bisher', await p.evaluate(() => document.querySelector('#side .side-empty')?.textContent ?? null), 'Noch kein Reiselogbuch angelegt.');
+    if (!daten.length) t.ist('RLB-114/Y-5 keins: leerer Zustand (seit 3.48.0, R-7.7)', await p.evaluate(() => document.querySelector('#side .leer h3')?.textContent ?? null), 'Noch kein Reiselogbuch');
   }
   await p.close();
 }
@@ -97,7 +97,7 @@ for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   await t.schritt(p, 'Y-4 Treffer in zwei Jahren', () => suche('Museum'));
   t.ist('RLB-114/Y-4 Treffer in zwei Jahren: nur diese Köpfe', await folge(p), ['2026', 'Australien', 'Wien Kurztrip', '2024', 'Dolomiten'], 'R-7.6');
   await t.schritt(p, 'Y-4 keine Treffer', () => suche('xyzzy'));
-  t.ist('RLB-114/Y-4 keine Treffer: kein Kopf, Text ‚Keine Treffer‘', [await koepfe(p), await p.evaluate(() => document.querySelector('#side .side-empty')?.textContent)], [[], 'Keine Treffer'], 'R-7.6');
+  t.ist('RLB-114/Y-4 keine Treffer: kein Kopf, ‚Keine Treffer für ‚xyzzy‘‘ (seit 3.48.0, R-7.7)', [await koepfe(p), await p.evaluate(() => document.querySelector('#side .leer h3')?.textContent)], [[], 'Keine Treffer für ‚xyzzy‘'], 'R-7.6');
   await t.schritt(p, 'Y-4 Suche leeren', async () => { await p.click('#lsclear'); await p.waitForTimeout(250); });
   t.ist('RLB-114/Y-4 nach dem Leeren wieder alle Köpfe', await koepfe(p), ['2027', '2026', '2025', '2024'], 'R-7.6');
   await t.schritt(p, 'Y-4 Suche beenden', async () => { await p.click('#lsclose'); await p.waitForTimeout(250); });
