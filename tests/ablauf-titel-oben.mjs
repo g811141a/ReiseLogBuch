@@ -4,10 +4,13 @@
 // ein Tipp während des Rollens hält es an (H-6), ‚Bewegung reduzieren‘ sofort oben (H-7), während eines Seitenwechsels kein Rollen (H-8) –
 // checkTitelOben; in allen Ansichten, Chromium und WebKit (H-9); Grundregeln nach jedem Schritt. Gewartet wird auf Zustände (warteBis), nie fest.
 // H-10 (Gegenprobe): gegen 3.46.2 mit PRUEF_APP=../_alt.html werden H-1 bis H-3 rot. Aufruf im Repo-Ordner: node tests/ablauf-titel-oben.mjs
+// Seit 3.47.1 (AppDesign APD-109, Usertest P-90; Testfall-Liste AppDesign arbeit/APD-109 Testfall-Liste.md C-1 bis C-9): alles im Safari-Modell
+// ‚Klick nur mit Hörer‘ (pruefe.mjs) – Selbsttest C-1/C-2 zuerst (checkSafariKlick); gegen 3.47.0 (R-2.7 am window) werden iPad Kopfzeile und
+// Seitenleiste sowie die iPhone-Startliste rot (C-3 bis C-5, C-9), iPhone-Kopfzeile und Fenster bleiben grün (C-6) – wie am Gerät.
 import * as pw from 'playwright';
-import { pruefung, warteBis, navFertig, ruhe } from '../../AppDesign/fassung/4.49.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.49.0/tests/hig.mjs';
-import { checkTitelOben } from '../../AppDesign/fassung/4.49.0/tests/ablauf.mjs';
+import { pruefung, warteBis, navFertig, ruhe } from '../../AppDesign/fassung/4.49.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.49.1/tests/hig.mjs';
+import { checkTitelOben, checkSafariKlick } from '../../AppDesign/fassung/4.49.1/tests/ablauf.mjs';
 const t = pruefung('ablauf-titel-oben', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 1 + i)).toISOString().slice(0, 10);
@@ -41,6 +44,7 @@ for (const [ansicht, ruhig] of [['iPad quer', false], ['iPad hoch', false], ['iP
   if (ruhig) t.ort = `${t.ort} · Bewegung reduzieren`;
   try {
     await start(p);
+    if (!ruhig) await t.schritt(p, 'C-1/C-2 Safari-Modell', async () => t.liste(await checkSafariKlick(p)));
     const seite = await p.locator('#side .side-list').isVisible();
     // H-1: Titel der Kopfzeile rollt den Inhalt; die Seitenleiste daneben bleibt
     await pruefe(p, 'H-1 Kopfzeile', { titel: KOPF, rolle: '#app > .rolle', still: seite ? ['#side .side-list'] : [], ruhig });

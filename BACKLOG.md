@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 01.11.2026** · Aktuelle Version: Reiselogbuch 3.47.0 · AppDesign 4.49.0
+**Stand 02.11.2026** · Aktuelle Version: Reiselogbuch 3.47.1 · AppDesign 4.49.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-90 | 1 | **Usertest 3.47.0 (AppDesign 4.49.0, APD-62/T-43, APD-85 Teil 3):** Titel antippen rollt nach oben – Kopfzeile, Seitenleiste bzw. Startliste, Fenster; ein Tipp während des Rollens hält an und öffnet nichts; langes Drücken rollt nicht; ‚Bewegung reduzieren‘ sofort oben – Testfälle P-90/0 bis P-90/6 im CHANGELOG | prüfen |
+| P-91 | 1 | **Usertest 3.47.1 (AppDesign 4.49.1, APD-109):** Titel antippen am iPad (Kopfzeile quer und hoch, Seitenleiste), Startliste am iPhone, Tipp während des Rollens am iPad; iPhone-Kopfzeile und Fenster wie bisher – Testfälle P-91/0 bis P-91/5 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -48,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 ## Erledigt
 
 | Nr. | Thema | Version | Datum |
+| P-90 | **Usertest P-90 (3.47.0, AppDesign 4.49.0):** /0, /3, /5, /6 ok; /1 (iPad: Titel antippen ohne Wirkung), /2 (Seitenleiste bzw. Startliste auf beiden Geräten ohne Wirkung) und /4 (iPad) nicht ok (Nutzer 02.11.2026, Sitzung 0074) – Ursache gemessen, behoben mit AppDesign APD-109, Usertest P-91 | 3.47.1 | 02.11.2026 |
 | P-89 | **Usertest P-89 (3.46.2, AppDesign 4.48.2, APD-107): alles ok** (Nutzer 01.11.2026, Sitzung 0072) – Leisten-Knopf hebt sich hell über die Kapsel, Wegziehen öffnet nichts, Smiley-Kreis im Fenster zu sehen, Kapsel ‚Wetter‘ blass wie bisher | 3.46.2 | 01.11.2026 |
 | P-88 | **Usertest P-88 (3.46.1):** /0, /2, /3, /5, /6 ok; /1 (Knopf nicht sichtbar blass, Wegziehen öffnet das Menü) und /4 (Smiley-Kreis nicht zu sehen) nicht ok – behoben mit AppDesign APD-107 (Leisten-Knopf hebt sich, Sperre bis zum Loslassen, Kreis im Fenster); weiter mit P-89 | 3.46.2 | 01.11.2026 |
 | RLB-115, P-87 | **RLB-115 gebaut** (AppDesign `keepKante`: nach dem Aus- und Einblenden der Seitenleiste steht der heutige Tag ganz unter dem Tabellenkopf, R-8.1) und **Usertest P-87 (3.46.0): nicht ok** – behoben mit AppDesign APD-106 (Antipp-Markierung aus, keine Textauswahl, Smiley mit Kreis und 1 s; Großanzeige am iPad nur mit ‚Größere dynamische Schrift‘); weiter mit P-88 | 3.46.1 | 01.11.2026 |
