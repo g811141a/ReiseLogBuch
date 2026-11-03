@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 02.11.2026** · Aktuelle Version: Reiselogbuch 3.48.0 · AppDesign 4.50.0
+**Stand 03.11.2026** · Aktuelle Version: Reiselogbuch 3.48.0 · AppDesign 4.50.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-92 | 1 | **Usertest 3.48.0 (AppDesign 4.50.0)** – Testfälle P-92/0 bis P-92/6 im CHANGELOG: Wischen tippt nie an (Titel, 📍-Link, Blatt; AppDesign APD-108, am iPad Vermutung bestätigen), leere Zustände am iPad und iPhone, VoiceOver-Reihenfolge (AppDesign APD-30) | prüfen |
+| P-92 | 1 | **Usertest 3.48.0 (AppDesign 4.50.0)** – Testfälle P-92/0 bis P-92/6 im CHANGELOG: Wischen tippt nie an (Titel, 📍-Link, Blatt; AppDesign APD-108, am iPad Vermutung bestätigen), leere Zustände am iPad und iPhone, VoiceOver-Reihenfolge (AppDesign APD-30) · **Ergebnis (Nutzer 03.11.2026, Sitzung 0078):** P-92/0, /1, /2, /3 (mit neuer Anleitung: Kapsel ‚Quartier wie Vortag‘ ab dem zweiten Tag, mit Gegenprobe Tippen) und /6 ok; **P-92/4 und /5 nicht ok** – Symbol und fetter Titel sollen überall so groß sein wie in der Suche der Seitenleiste → AppDesign APD-111 (Muster) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
