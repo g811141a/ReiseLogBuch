@@ -3,11 +3,11 @@
 // darunter. iPhone hoch bei größter Schrift (Text 53): Fenster ‚Reiselogbuch einstellen‘ (L-1), Titel der Reise in der Kopfzeile (L-2), Fenster
 // eines Tages (L-3), Reisetitel mit 80 Zeichen (L-4); dazu Antippen, Wandern, Rollen, Tipp daneben, Esc (L-6 bis L-10, checkTitelBlase) und
 // Drehen (L-11); bei normaler Schrift in allen Ansichten zeigt ein ganz sichtbarer Titel (‚Toskana‘) nichts (L-5); Grundregeln nach jedem Schritt (L-12).
-// L-13 (Gegenprobe): gegen 3.44.0 mit PRUEF_APP=../_alt.html werden L-1 bis L-3 rot. Aufruf im Repo-Ordner: node tests/ablauf-titel-blase.mjs
+// Seit 3.48.1 ohne feste Pausen (AppDesign APD-85 Teil 5, warteBis). L-13 (Gegenprobe): gegen 3.44.0 mit PRUEF_APP=../_alt.html werden L-1 bis L-3 rot. Aufruf im Repo-Ordner: node tests/ablauf-titel-blase.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.50.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.50.0/tests/hig.mjs';
-import { checkTitelBlase, titelLang, titelBlaseOffen } from '../../AppDesign/fassung/4.50.0/tests/ablauf.mjs';
+import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.50.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.50.1/tests/hig.mjs';
+import { checkTitelBlase, titelLang, titelBlaseOffen } from '../../AppDesign/fassung/4.50.1/tests/ablauf.mjs';
 const t = pruefung('ablauf-titel-blase', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
@@ -22,13 +22,19 @@ const start = async (p, trip = 'a') => {
   await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));
   await p.goto(APP);
   await p.evaluate(([x, id]) => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: id }, trips: x })), [trips, trip]);
-  await p.reload(); await p.waitForTimeout(400); await navFertig(p);
+  await p.reload(); await bis(p, `document.readyState === 'complete' && !!document.querySelector('#side .side-row') && ${RUHE}`, 'App aufgebaut'); await navFertig(p);
   if (await p.evaluate(() => isPhone()) && await p.locator('#side.page').isVisible()) {
-    await p.locator(`#side .side-row[data-id="${trip}"]`).click(); await p.waitForTimeout(400); await navFertig(p);
+    await p.locator(`#side .side-row[data-id="${trip}"]`).click(); await bis(p, `currentTripId === '${trip}' && !phoneList && ${RUHE}`, 'Reiselogbuch offen'); await navFertig(p);
   }
 };
 const KOPF = '#bar .nb-title, #bar .pnav-title', FTITEL = '#dlg .dlg-head h3';
-const zuFenster = async p => { await p.evaluate(() => { dlgDirty = () => false; document.getElementById('dlg').close(); }); await p.waitForTimeout(400); await navFertig(p); };
+// seit 3.48.1 (AppDesign APD-85 Teil 5): keine festen Pausen mehr – jede Stelle wartet mit warteBis auf den Zustand danach (Ruhe = keine laufende Bewegung)
+const RUHE = '!document.getAnimations().some(a => a.playState === "running")';
+// bei Zeitablauf: was offen ist und welche Bewegung noch läuft
+const zustand = p => p.evaluate(() => `Fenster ${document.getElementById('dlg')?.open ? 'offen' : 'zu'}, Meldung ${document.getElementById('msg')?.open ? 'offen' : 'zu'}, laufend: ${document.getAnimations().filter(a => a.playState === 'running').map(a => a.animationName || a.transitionProperty || a.effect?.target?.className || '?').join(', ') || '–'}`).catch(() => '?');
+const bis = async (p, bedingung, was) => { const m = await warteBis(p, bedingung, { was, max: 10000 }); if (m) throw new Error(`${m} (${await zustand(p)})`); };
+const fensterAuf = async p => { await bis(p, `document.getElementById('dlg').open && ${RUHE}`, 'Fenster offen'); await navFertig(p); };
+const zuFenster = async p => { await p.evaluate(() => { dlgDirty = () => false; document.getElementById('dlg').close(); }); await bis(p, `!document.getElementById('dlg').open && ${RUHE}`, 'Fenster zu'); await navFertig(p); };
 const pruefe = async (p, name, opts, soll) => {
   let r = { gekuerzt: false, errors: [] };
   await t.schritt(p, name, async () => { r = await checkTitelBlase(p, { ...opts, where: name }); t.liste(r.errors); });
@@ -47,21 +53,21 @@ const b = await t.browser();
     // L-2: Titel der Reise in der Kopfzeile; Tipp auf Teilen und Mehr schließt nur die Blase (kein Menü)
     await pruefe(p, 'L-2 Kopfzeile ‚Australien und Neuseeland‘', { sel: KOPF, daneben: ['#mainMore', '#shareBtn'], rollen: '#app > .rolle', esc: true }, true);
     // L-1: Fenster ‚Reiselogbuch einstellen‘; Tipp auf x und Häkchen schließt nur die Blase (Fenster bleibt offen, nichts gespeichert)
-    await p.evaluate(() => openTripDialog(db.trips[0])); await p.waitForTimeout(500); await navFertig(p);
+    await p.evaluate(() => openTripDialog(db.trips[0])); await fensterAuf(p);
     await pruefe(p, 'L-1 Fenster ‚Reiselogbuch einstellen‘', { sel: FTITEL, daneben: ['#dlgX', '#dlgOk', '#fTitle'], rollen: '#dlg .dlg-body', esc: true }, true);
     t.ist('L-8 nach den Tipps: Fenster offen, Reisetitel unverändert', [await p.evaluate(() => dlg.open), await p.evaluate(() => db.trips[0].title)], [true, 'Australien und Neuseeland'], 'R-2.5');
     // L-11: Drehen schließt die Blase; danach Grundregeln (oberster Eintrag bleibt) – t.schritt
     await titelLang(p, FTITEL);
     t.wahr('L-11 vor dem Drehen ist die Sprechblase offen', await titelBlaseOffen(p), 'R-2.5');
     await t.schritt(p, 'L-11 drehen (hoch → quer → hoch)', async () => {
-      await p.setViewportSize({ width: 852, height: 393 }); await p.waitForTimeout(500);
+      await p.setViewportSize({ width: 852, height: 393 }); await warteBis(p, `innerWidth === 852 && !document.querySelector('.titel-blase') && ${RUHE}`, { max: 3000 });
       t.wahr('L-11 Drehen schließt die Sprechblase', !await titelBlaseOffen(p), 'R-2.5');
-      await p.setViewportSize({ width: 393, height: 852 }); await p.waitForTimeout(500);
+      await p.evaluate(() => { window.__gedreht = 0; }); await p.setViewportSize({ width: 393, height: 852 }); await bis(p, `innerWidth === 393 && ${RUHE} && (window.__gedreht = (window.__gedreht || 0) + 1) > 3`, 'zurückgedreht');
     });
     t.wahr('L-11 nach dem Drehen ist das Fenster noch offen', await p.evaluate(() => dlg.open), 'R-2.5');
     await zuFenster(p);
     // L-3: Fenster eines Tages (iPhone: ‚Do, 27.08.2026‘)
-    await p.evaluate(d => openDayDialog(db.trips[0], d), iso(3)); await p.waitForTimeout(500); await navFertig(p);
+    await p.evaluate(d => openDayDialog(db.trips[0], d), iso(3)); await fensterAuf(p);
     t.ist('L-3 Titel des Tages', await p.textContent(FTITEL), 'Do, 27.08.2026');
     await pruefe(p, 'L-3 Fenster eines Tages', { sel: FTITEL, daneben: ['#dlgX'], esc: true }, true);
     await zuFenster(p);
@@ -82,7 +88,7 @@ const b = await t.browser();
     t.wahr(`L-4 der lange Titel steht mehrzeilig in der Sprechblase (${z} Zeilen)`, z >= 2, 'R-2.5');
     if (process.env.PRUEF_BILD) await p.screenshot({ path: new URL(`out/APD-101-lang-${t.browserName}.png`, import.meta.url).pathname });
     await p.keyboard.press('Escape');
-    await p.evaluate(() => openTripDialog(db.trips[1])); await p.waitForTimeout(500); await navFertig(p);
+    await p.evaluate(() => openTripDialog(db.trips[1])); await fensterAuf(p);
     await pruefe(p, 'L-4 Fenster des langen Reiselogbuchs', { sel: FTITEL, daneben: ['#dlgX'], esc: false }, true);
     await zuFenster(p);
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
@@ -94,7 +100,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
   try {
     await start(p, 'c');
     await pruefe(p, 'L-5 Kopfzeile', { sel: KOPF }, false);
-    await p.evaluate(() => openTripDialog(db.trips[2])); await p.waitForTimeout(500); await navFertig(p);
+    await p.evaluate(() => openTripDialog(db.trips[2])); await fensterAuf(p);
     await pruefe(p, 'L-5 Fenster ‚Reiselogbuch einstellen‘', { sel: FTITEL }, false);
     await zuFenster(p);
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }

@@ -4,8 +4,15 @@
 // Leistenüberschrift (Variante A2). Y-1 bis Y-11; Y-12 (Gegenprobe) mit PRUEF_GEGENPROBE=jahre:oben|ende|halbfett.
 // Aufruf im Repo-Ordner: node tests/ablauf-jahre.mjs (PRUEF_APP=../_alt.html prüft eine andere Fassung der App, z. B. die veröffentlichte).
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.50.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.50.0/tests/hig.mjs';
+import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.50.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.50.1/tests/hig.mjs';
+// seit 3.48.1 (AppDesign APD-85 Teil 5): keine festen Pausen mehr – jede Stelle wartet mit warteBis auf den Zustand danach (Ruhe = keine
+// laufende Bewegung; nach dem Drehen zusätzlich drei Bilder für resize und Platzieren); fest bleiben nur das Halten beim langen Drücken (die Handlung) und die Ruhe-Prüfungen (‚danach geschieht nichts‘)
+const RUHE = '!document.getAnimations().some(a => a.playState === "running")';
+// bei Zeitablauf: was offen ist und welche Bewegung noch läuft
+const zustand = p => p.evaluate(() => `Fenster ${document.getElementById('dlg')?.open ? 'offen' : 'zu'}, Meldung ${document.getElementById('msg')?.open ? 'offen' : 'zu'}, laufend: ${document.getAnimations().filter(a => a.playState === 'running').map(a => a.animationName || a.transitionProperty || a.effect?.target?.className || '?').join(', ') || '–'}`).catch(() => '?');
+const bis = async (p, bedingung, was, arg) => { const m = await warteBis(p, bedingung, { was, max: 10000, arg }); if (m) throw new Error(`${m} (${await zustand(p)})`); };
+const ruhig = p => bis(p, RUHE, 'Ruhe');
 const t = pruefung('ablauf-jahre', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const gp = (process.env.PRUEF_GEGENPROBE || '').match(/^jahre:(.+)$/)?.[1];
@@ -32,7 +39,7 @@ const start = async (p, trips, { last } = {}) => {
   await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));
   await p.goto(APP);
   await p.evaluate(([x, l]) => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), ...(l ? { lastTrip: l } : {}) }, trips: x })), [trips, last]);
-  await p.reload(); await p.waitForTimeout(400); await navFertig(p);
+  await p.reload(); await bis(p, `document.readyState === 'complete' && !!document.querySelector('#side .side-row, #side .leer') && ${RUHE}`, 'App aufgebaut'); await navFertig(p);
 };
 // Liste: Köpfe und Kacheln in ihrer Reihenfolge (Kopf = Jahr, Kachel = Titel)
 const folge = p => p.evaluate(() => [...document.querySelectorAll('#side .side-list > .side-sec, #side .side-list > .side-row')]
@@ -41,7 +48,7 @@ const koepfe = async p => (await folge(p)).filter(x => /^\d{4}$/.test(x));
 // Y-2: Schrift von Kopf und Leistenüberschrift
 const schrift = p => p.evaluate(() => { const f = e => { const c = getComputedStyle(e); return [c.fontSize, c.fontWeight, c.color, c.fontFamily]; };
   return [...document.querySelectorAll('#side .side-sec')].map(f).concat([f(document.querySelector('#side .side-head h2'))]); });
-const lang = async (p, sel) => { await p.locator(sel).first().scrollIntoViewIfNeeded(); await p.waitForTimeout(150); const bx = await p.locator(sel).first().boundingBox(); await p.mouse.move(bx.x + 20, bx.y + bx.height / 2); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up(); await p.waitForTimeout(200); };
+const lang = async (p, sel) => { await p.locator(sel).first().scrollIntoViewIfNeeded(); await ruhig(p); const bx = await p.locator(sel).first().boundingBox(); await p.mouse.move(bx.x + 20, bx.y + bx.height / 2); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up(); await p.waitForTimeout(200); };
 
 const b = await t.browser();
 try {
@@ -49,7 +56,7 @@ try {
 for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) for (const theme of ['light', 'dark']) {
   const p = await t.seite(b, ansicht, { theme });
   await start(p, SIEBEN, { last: 'a' });
-  if (ansicht === 'iPad hoch') await p.evaluate(() => { if (side.hidden) toggleSide(); }), await p.waitForTimeout(500);
+  if (ansicht === 'iPad hoch') await p.evaluate(() => { if (side.hidden) toggleSide(); }), await bis(p, `!side.hidden && ${RUHE}`, 'Seitenleiste ein');
   await t.schritt(p, 'Y-1 Liste ansehen', async () => {});
   t.ist('RLB-114/Y-1 Köpfe und Reiselogbücher in dieser Reihenfolge, Silvester unter 2025', await folge(p), FOLGE, 'R-7.6');
   t.ist('RLB-114/Y-1 der erste Eintrag der Liste ist ein Kopf', await p.evaluate(() => document.querySelector('#side .side-list').firstElementChild?.matches('.side-sec')), true, 'R-7.6');
@@ -61,8 +68,8 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
   if (ansicht === 'iPad quer' && theme === 'light') await p.screenshot({ path: new URL(`out/RLB-114-jahre-${t.browserName}.png`, import.meta.url).pathname });
   // Y-5: ein Reiselogbuch · zwei im selben Jahr · keins
   for (const [daten, soll] of [[[SIEBEN[1]], ['2026']], [[SIEBEN[1], SIEBEN[2]], ['2026']], [[], []]]) {
-    await p.evaluate(x => { db.trips = x; currentTripId = x[0]?.id ?? null; save(); render(); }, daten); await p.waitForTimeout(300);
-    if (ansicht === 'iPad hoch' && daten.length) await p.evaluate(() => { if (side.hidden) toggleSide(); }), await p.waitForTimeout(500);
+    await p.evaluate(x => { db.trips = x; currentTripId = x[0]?.id ?? null; save(); render(); }, daten); await ruhig(p);
+    if (ansicht === 'iPad hoch' && daten.length) await p.evaluate(() => { if (side.hidden) toggleSide(); }), await bis(p, `!side.hidden && ${RUHE}`, 'Seitenleiste ein');
     t.ist(`RLB-114/Y-5 ${daten.length} Reiselogbücher: Köpfe`, await koepfe(p), soll, 'R-7.6');
     if (!daten.length) t.ist('RLB-114/Y-5 keins: leerer Zustand (seit 3.48.0, R-7.7)', await p.evaluate(() => document.querySelector('#side .leer h3')?.textContent ?? null), 'Noch kein Reiselogbuch');
   }
@@ -75,7 +82,7 @@ for (const ansicht of ['iPad hoch', 'iPhone hoch']) {
   await p.addInitScript(() => { const s = () => { const e = document.createElement('style'); e.textContent = 'html { font-size: 53px !important; }'; document.documentElement.prepend(e); };
     if (document.documentElement) s(); else new MutationObserver((m, o) => { if (document.documentElement) { o.disconnect(); s(); } }).observe(document, { childList: true }); });
   await start(p, SIEBEN, { last: 'a' });
-  if (ansicht === 'iPad hoch') await p.evaluate(() => { if (side.hidden) toggleSide(); }), await p.waitForTimeout(500);
+  if (ansicht === 'iPad hoch') await p.evaluate(() => { if (side.hidden) toggleSide(); }), await bis(p, `!side.hidden && ${RUHE}`, 'Seitenleiste ein');
   await t.schritt(p, 'Y-3 größte Textgröße', async () => {});
   t.ist('RLB-114/Y-3 ts-gross aktiv', await p.evaluate(() => document.documentElement.classList.contains('ts-gross')), true);
   const s = await schrift(p);
@@ -90,17 +97,17 @@ for (const ansicht of ['iPad hoch', 'iPhone hoch']) {
 for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   const p = await t.seite(b, ansicht, { theme: 'light' });
   await start(p, SIEBEN, { last: 'a' });
-  const suche = async wort => { await p.fill('#lsearch', wort); await p.waitForTimeout(250); };
-  await t.schritt(p, 'Y-4 Suche öffnen', async () => { await p.click('#sideMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Suchen' }).click(); await p.waitForTimeout(200); });
+  const suche = async wort => { await p.fill('#lsearch', wort); await bis(p, w => listTerm === w && !document.getAnimations().some(a => a.playState === 'running'), 'Suche übernommen', wort); };
+  await t.schritt(p, 'Y-4 Suche öffnen', async () => { await p.click('#sideMore'); await bis(p, `!!document.querySelector('.menu') && ${RUHE}`, 'Menü offen'); await p.locator('.menu .mi', { hasText: 'Suchen' }).click(); await bis(p, `!!document.querySelector('#lsearch') && !document.querySelector('.menu') && ${RUHE}`, 'Suche offen'); });
   await t.schritt(p, 'Y-4 Treffer in einem Jahr', () => suche('Kolosseum'));
   t.ist('RLB-114/Y-4 Treffer in einem Jahr: nur dieser Kopf', await folge(p), ['2025', 'Rom'], 'R-7.6');
   await t.schritt(p, 'Y-4 Treffer in zwei Jahren', () => suche('Museum'));
   t.ist('RLB-114/Y-4 Treffer in zwei Jahren: nur diese Köpfe', await folge(p), ['2026', 'Australien', 'Wien Kurztrip', '2024', 'Dolomiten'], 'R-7.6');
   await t.schritt(p, 'Y-4 keine Treffer', () => suche('xyzzy'));
   t.ist('RLB-114/Y-4 keine Treffer: kein Kopf, ‚Keine Treffer für ‚xyzzy‘‘ (seit 3.48.0, R-7.7)', [await koepfe(p), await p.evaluate(() => document.querySelector('#side .leer h3')?.textContent)], [[], 'Keine Treffer für ‚xyzzy‘'], 'R-7.6');
-  await t.schritt(p, 'Y-4 Suche leeren', async () => { await p.click('#lsclear'); await p.waitForTimeout(250); });
+  await t.schritt(p, 'Y-4 Suche leeren', async () => { await p.click('#lsclear'); await bis(p, `listTerm === '' && ${RUHE}`, 'Suche geleert'); });
   t.ist('RLB-114/Y-4 nach dem Leeren wieder alle Köpfe', await koepfe(p), ['2027', '2026', '2025', '2024'], 'R-7.6');
-  await t.schritt(p, 'Y-4 Suche beenden', async () => { await p.click('#lsclose'); await p.waitForTimeout(250); });
+  await t.schritt(p, 'Y-4 Suche beenden', async () => { await p.click('#lsclose'); await bis(p, `!listOpen && ${RUHE}`, 'Suche beendet'); });
   // Y-9: Kopf antippen und lange drücken – nichts geschieht; die Kachel zeigt weiter das Kontextmenü
   const offen = () => p.evaluate(() => [document.querySelector('.nb-title')?.textContent ?? null, !document.querySelector('#side').hidden, document.querySelectorAll('.menu').length, dlg.open]);
   const vorher = await offen();
@@ -110,16 +117,16 @@ for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   t.ist('RLB-114/Y-9 Kopf lange drücken: kein Kontextmenü', await offen(), vorher, 'R-7.6');
   await t.schritt(p, 'Y-9 Kachel lange drücken', () => lang(p, '#side .side-row[data-id="r"]'));
   t.ist('RLB-114/Y-9 Kachel lange drücken: Kontextmenü wie bisher', await p.locator('.menu .mi').count() > 0, true, 'R-4.2');
-  await p.keyboard.press('Escape'); await p.waitForTimeout(250);
+  await p.keyboard.press('Escape'); await bis(p, `!document.querySelector('.menu') && ${RUHE}`, 'Menü zu');
   if (ansicht === 'iPad quer') {
     // Y-8: neues Reiselogbuch in einem neuen Jahr; Beginn in ein anderes Jahr; das letzte eines Jahres löschen
     await t.schritt(p, 'Y-8 neues Reiselogbuch 2023', async () => { await p.click('#newTrip'); await p.fill('#fTitle', 'Kreta'); await p.fill('#fPeople', 'G');
-      await p.fill('#fStart', '2023-05-01'); await p.fill('#fEnd', '2023-05-05'); await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); await p.waitForTimeout(400); await navFertig(p); });
+      await p.fill('#fStart', '2023-05-01'); await p.fill('#fEnd', '2023-05-05'); await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); await navFertig(p); });
     t.ist('RLB-114/Y-8 neuer Kopf 2023', await koepfe(p), ['2027', '2026', '2025', '2024', '2023'], 'R-7.6');
-    await t.schritt(p, 'Y-8 Dolomiten nach 2022 verschieben', async () => { await p.evaluate(() => { const d = getTrip('d'); d.start = '2022-09-01'; d.end = '2022-09-12'; save(); render(); }); await p.waitForTimeout(300); });
+    await t.schritt(p, 'Y-8 Dolomiten nach 2022 verschieben', async () => { await p.evaluate(() => { const d = getTrip('d'); d.start = '2022-09-01'; d.end = '2022-09-12'; save(); render(); }); await ruhig(p); });
     t.ist('RLB-114/Y-8 Dolomiten unter dem neuen Jahr, Kopf 2024 weg', (await folge(p)).slice(-4), ['2023', 'Kreta', '2022', 'Dolomiten'], 'R-7.6');
-    await t.schritt(p, 'Y-8 Toskana (letztes 2027) löschen', async () => { await lang(p, '#side .side-row[data-id="t"]'); await p.click('.menu .mi:has-text("Reiselogbuch löschen")'); await p.waitForTimeout(200);
-      await p.click('.pop button:has-text("Reiselogbuch löschen")'); await p.waitForTimeout(400); });
+    await t.schritt(p, 'Y-8 Toskana (letztes 2027) löschen', async () => { await lang(p, '#side .side-row[data-id="t"]'); await p.click('.menu .mi:has-text("Reiselogbuch löschen")'); await bis(p, `!!document.querySelector('.pop') && ${RUHE}`, 'Sprechblase offen');
+      await p.click('.pop button:has-text("Reiselogbuch löschen")'); await bis(p, `!document.querySelector('.pop') && !getTrip('t') && ${RUHE}`, 'gelöscht'); });
     t.ist('RLB-114/Y-8 Kopf 2027 verschwindet', await koepfe(p), ['2026', '2025', '2023', '2022'], 'R-7.6');
   }
   await p.close();
@@ -134,30 +141,31 @@ for (const [ansicht, quer] of [['iPad quer', 'iPad hoch'], ['iPhone hoch', 'iPho
   await start(p, ZWANZIG, { last: 'z9' });
   t.ist('RLB-114/Y-6 sechs Köpfe', await koepfe(p), ['2026', '2025', '2024', '2023', '2022', '2021'], 'R-7.6');
   t.ist('RLB-114/Y-6 Köpfe haften nicht (position static)', await p.evaluate(() => [...document.querySelectorAll('#side .side-sec')].every(k => getComputedStyle(k).position === 'static')), true, 'R-7.6');
-  await p.evaluate(() => { const l = document.querySelector('#side .side-list'); l.scrollTop = 0; l.dispatchEvent(new Event('scroll')); }); await p.waitForTimeout(150);
+  await p.evaluate(() => { const l = document.querySelector('#side .side-list'); l.scrollTop = 0; l.dispatchEvent(new Event('scroll')); }); await ruhig(p);
   const y0 = await p.evaluate(() => document.querySelector('#side .side-sec').getBoundingClientRect().top);
-  await t.schritt(p, 'Y-6 Liste rollen', async () => { await p.evaluate(() => { const l = document.querySelector('#side .side-list'); l.scrollTop = 300; l.dispatchEvent(new Event('scroll')); }); await p.waitForTimeout(250); });
+  await t.schritt(p, 'Y-6 Liste rollen', async () => { await p.evaluate(() => { const l = document.querySelector('#side .side-list'); l.scrollTop = 300; l.dispatchEvent(new Event('scroll')); }); await ruhig(p); });
   const y1 = await p.evaluate(() => document.querySelector('#side .side-sec').getBoundingClientRect().top);
   t.ist('RLB-114/Y-6 der erste Kopf rollt mit (300 px nach oben)', Math.round(y0 - y1), 300, 'R-7.6');
   t.ist('RLB-114/Y-6 Liste läuft unter dem Kopf und hinter der Backup-Kachel durch', await p.evaluate(() => { const s = document.querySelector('#side'), l = s.querySelector('.side-list').getBoundingClientRect(), h = s.querySelector('.side-head').getBoundingClientRect(), f = s.querySelector('.side-foot');
     return l.top <= h.bottom + 1 && (!f || l.bottom >= f.getBoundingClientRect().bottom - 2); }), true, 'R-7.1');
-  if (ansicht.startsWith('iPhone')) { await p.locator('#side .side-row[data-id="z9"]').click(); await p.waitForTimeout(400); await navFertig(p); await p.click('#back'); await p.waitForTimeout(400); await navFertig(p);
-    await p.evaluate(() => { const l = document.querySelector('#side .side-list'); l.scrollTop = 300; l.dispatchEvent(new Event('scroll')); }); await p.waitForTimeout(250); }
+  if (ansicht.startsWith('iPhone')) { await p.locator('#side .side-row[data-id="z9"]').click(); await bis(p, `currentTripId === 'z9' && !phoneList && ${RUHE}`, 'Eintrag offen'); await navFertig(p);
+    await p.click('#back'); await bis(p, `phoneList && ${RUHE}`, 'Startliste'); await navFertig(p);
+    await p.evaluate(() => { const l = document.querySelector('#side .side-list'); l.scrollTop = 300; l.dispatchEvent(new Event('scroll')); }); await ruhig(p); }
   const vor = await oberster(p);
-  await t.schritt(p, `Y-7 drehen nach ${quer}`, async () => { await p.setViewportSize(quer.startsWith('iPad') ? { width: 820, height: 1180 } : { width: 852, height: 393 }); await p.waitForTimeout(600); await navFertig(p); });
+  await t.schritt(p, `Y-7 drehen nach ${quer}`, async () => { await p.evaluate(() => { window.__gedreht = 0; }); await p.setViewportSize(quer.startsWith('iPad') ? { width: 820, height: 1180 } : { width: 852, height: 393 }); await bis(p, `innerWidth !== ${ansicht.startsWith('iPad') ? 1180 : 393} && ${RUHE} && (window.__gedreht = (window.__gedreht || 0) + 1) > 3`, 'gedreht'); await navFertig(p); });
   if (ansicht === 'iPad quer') {
     t.ist('RLB-114/Y-7 nach dem Drehen: oberster Eintrag bleibt', await oberster(p), vor, 'R-7.1');
     t.ist('RLB-114/Y-7 aktuelles Reiselogbuch einziges blau und sichtbar', await p.evaluate(() => { const c = document.querySelectorAll('#side .side-row.current'), l = document.querySelector('#side .side-list').getBoundingClientRect();
       return c.length === 1 && c[0].dataset.id === 'z9' && c[0].getBoundingClientRect().top >= l.top - 1 && c[0].getBoundingClientRect().top < l.bottom; }), true, 'R-7.1');
-    await t.schritt(p, 'Y-7 panel-left aus', async () => { await p.click('#sideHide'); await p.waitForTimeout(700); await navFertig(p); });
-    await t.schritt(p, 'Y-7 panel-left ein', async () => { await p.click('#app [data-side-toggle]'); await p.waitForTimeout(700); await navFertig(p); });
+    await t.schritt(p, 'Y-7 panel-left aus', async () => { await p.click('#sideHide'); await bis(p, `side.hidden && ${RUHE}`, 'Seitenleiste aus'); await navFertig(p); });
+    await t.schritt(p, 'Y-7 panel-left ein', async () => { await p.click('#app [data-side-toggle]'); await bis(p, `!side.hidden && ${RUHE}`, 'Seitenleiste ein'); await navFertig(p); });
     t.ist('RLB-114/Y-7 nach panel-left: oberster Eintrag bleibt', await oberster(p), vor, 'R-7.1');
     t.ist('RLB-114/Y-7 nach panel-left: Köpfe noch da', (await koepfe(p)).length, 6, 'R-7.6');
   } else {
     t.ist('RLB-114/Y-7 iPhone quer: Startliste, oberster Eintrag bleibt', await oberster(p), vor, 'R-7.1');
     t.ist('RLB-114/Y-7 iPhone quer: Köpfe noch da', (await koepfe(p)).length, 6, 'R-7.6');
   }
-  await t.schritt(p, 'Y-7 zurückdrehen', async () => { await p.setViewportSize(ansicht.startsWith('iPad') ? { width: 1180, height: 820 } : { width: 393, height: 852 }); await p.waitForTimeout(600); await navFertig(p); });
+  await t.schritt(p, 'Y-7 zurückdrehen', async () => { await p.evaluate(() => { window.__gedreht = 0; }); await p.setViewportSize(ansicht.startsWith('iPad') ? { width: 1180, height: 820 } : { width: 393, height: 852 }); await bis(p, `innerWidth === ${ansicht.startsWith('iPad') ? 1180 : 393} && ${RUHE} && (window.__gedreht = (window.__gedreht || 0) + 1) > 3`, 'zurückgedreht'); await navFertig(p); });
   t.ist('RLB-114/Y-7 nach dem Zurückdrehen: oberster Eintrag bleibt', await oberster(p), vor, 'R-7.1');
   await p.close();
 }
@@ -169,12 +177,12 @@ for (const [ansicht, quer] of [['iPad quer', 'iPad hoch'], ['iPhone hoch', 'iPho
   await start(B, [reise('k', 'Kreta', '2023-05-01', '2023-05-05')]);
   const abgleich = async (von, nach) => {
     const datei = await von.evaluate(() => backupFile().content);
-    await nach.evaluate(() => { if (isPhone()) { phoneList = true; render(); } }); await nach.waitForTimeout(200);
-    await nach.click('#sideMore'); await nach.waitForTimeout(150);
+    await nach.evaluate(() => { if (isPhone()) { phoneList = true; render(); } }); await ruhig(nach);
+    await nach.click('#sideMore'); await bis(nach, `!!document.querySelector('.menu') && ${RUHE}`, 'Menü offen');
     const [chooser] = await Promise.all([nach.waitForEvent('filechooser'), nach.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
-    await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(datei) }); await nach.waitForTimeout(300);
-    await nach.locator('.pop button', { hasText: 'Abgleichen' }).click(); await nach.waitForTimeout(400);
-    await nach.evaluate(() => { const m = document.querySelector('#msg'); if (m?.open) m.close(); if (isPhone()) { phoneList = true; render(); } }); await nach.waitForTimeout(300);
+    await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(datei) }); await bis(nach, `!!document.querySelector('.pop') && ${RUHE}`, 'Frage Abgleichen');
+    await nach.locator('.pop button', { hasText: 'Abgleichen' }).click(); await bis(nach, `!document.querySelector('.pop') && (msg.open || dlg.open) && ${RUHE}`, 'abgeglichen');
+    await nach.evaluate(() => { const m = document.querySelector('#msg'); if (m?.open) m.close(); if (isPhone()) { phoneList = true; render(); } }); await bis(nach, `!msg.open && ${RUHE}`, 'Meldung zu');
   };
   await t.schritt(A, 'Y-11 iPad gleicht mit dem Backup des iPhones ab', () => abgleich(B, A));
   t.ist('RLB-114/Y-11 iPad nach dem Abgleich: Köpfe 2026 und 2023', await folge(A), ['2026', 'Australien', '2023', 'Kreta'], 'R-7.6');

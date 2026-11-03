@@ -4,11 +4,12 @@
 // erfassten Tag mit ‚Alle Tage zeigen‘, S-5 Suche im Reiselogbuch ohne Treffer (Tabelle und Kästen). Je Ansicht (iPad quer hell und dunkel,
 // iPad hoch, iPhone hoch und quer, Kontrast erhöhen); nach jedem Schritt die Grundregeln mit R-7.7 (hig.mjs). Gegenprobe L-20: gegen 3.47.1
 // mit PRUEF_APP=../_alt.html rot (kein Baustein .leer); mit PRUEF_GEGENPROBE=1 wird der Satz hellgrau (#c7c7cc) und der Knopf 30 px hoch –
-// Kontrast (L-13) und Antippfläche (L-12) werden rot. Aufruf im Repo-Ordner: node tests/ablauf-leer.mjs
+// Kontrast (L-13) und Antippfläche (L-12) werden rot. Seit 3.48.1 (AppDesign APD-111): Symbol und Titel überall 36 pt bzw. 17 pt halbfett
+// (P-92/4 Schritt 2, 4, 5; P-92/5) – gegen 3.48.0 rot. Aufruf im Repo-Ordner: node tests/ablauf-leer.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.50.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.50.0/tests/hig.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.50.0/tests/safari.mjs';
+import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.50.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.50.1/tests/hig.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.50.1/tests/safari.mjs';
 const t = pruefung('ablauf-leer', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = (y, m, d) => new Date(Date.UTC(y, m - 1, d)).toISOString().slice(0, 10);
@@ -26,8 +27,11 @@ const lade = async (p, trips, lastTrip = null) => {
 const leer = (p, wo) => p.evaluate(wo => [...document.querySelectorAll(`${wo} .leer`)].filter(e => e.getClientRects().length).map(e => ({
   klein: e.classList.contains('klein'), titel: e.querySelector('h3')?.textContent ?? null, satz: e.querySelector('p')?.textContent ?? null,
   knopf: e.querySelector('button')?.textContent ?? null, id: e.querySelector('button')?.id ?? null, html: !!e.querySelector('h3 *'),
+  masse: [Math.round(e.querySelector(':scope > svg')?.getBoundingClientRect().width ?? 0), parseFloat(getComputedStyle(e.querySelector('h3')).fontSize), +getComputedStyle(e.querySelector('h3')).fontWeight],
   folge: [...e.children].map(c => c.tagName.toLowerCase() + (c.getAttribute('aria-hidden') === 'true' ? '-verborgen' : '')).join(' '),
   ueber: (() => { const r = e.getBoundingClientRect(); return [...e.querySelectorAll('*')].some(c => { const b = c.getBoundingClientRect(); return b.left < r.left - 1 || b.right > r.right + 1; }); })() })), wo);
+// seit 3.48.1 (AppDesign APD-111, Usertest P-92/4 und P-92/5 nicht ok): Symbol 36 pt und Titel 17 pt halbfett überall – wie die Suche in der Seitenleiste
+const MASSE = [36, 17, 600];
 const S1 = 'Noch kein Reiselogbuch', S1SATZ = 'Ein neues mit ‚plus‘ in der Seitenleiste anlegen.', SUCHSATZ = 'Schreibweise prüfen oder nach etwas anderem suchen.';
 const dialogZu = async p => { if (await p.evaluate(() => dlg.open)) { await p.click('#dlgX'); await p.waitForTimeout(400); await navFertig(p); } };
 
@@ -43,8 +47,10 @@ for (const [ansicht, theme, opts] of [['iPad quer', 'light', {}], ['iPad quer', 
     const knopfId = phone ? 'leerNeuListe' : 'leerNeu';
     if (phone) {
       const s = await leer(p, '#side');
+      t.ist('APD-111 iPhone-Startliste: S-1 Symbol und Titel wie in der Seitenleiste', s.map(x => x.masse), [MASSE], 'R-7.7');
       t.ist('L-2 iPhone-Startliste: S-1 vollständig mit Knopf', s.map(x => [x.titel, x.satz, x.knopf, x.klein]), [[S1, S1SATZ, 'Neues Reiselogbuch', false]], 'R-7.7');
     } else {
+      t.ist('APD-111 Inhalt: S-1 Symbol und Titel wie in der Seitenleiste', (await leer(p, '#app')).map(x => x.masse), [MASSE], 'R-7.7');
       t.ist('L-1 Inhalt: S-1 mit Satz und Knopf', (await leer(p, '#app')).map(x => [x.titel, x.satz, x.knopf]), [[S1, S1SATZ, 'Neues Reiselogbuch']], 'R-7.7');
       t.ist('L-1 Seitenleiste: S-2 klein, nur Symbol und Titel', (await leer(p, '#side')).map(x => [x.titel, x.satz, x.knopf, x.klein]), [[S1, null, null, true]], 'R-7.7');
     }
@@ -99,6 +105,7 @@ for (const [ansicht, theme, opts] of [['iPad quer', 'light', {}], ['iPad quer', 
     const liste = async begriff => { await p.evaluate(b => { listOpen = true; listTerm = b; renderSide(); }, begriff); await p.waitForTimeout(300); };
     await t.schritt(p, 'L-6 Suche in der Liste ohne Treffer', () => liste('xyzzy'));
     let l = await leer(p, '#side');
+    t.ist(`P-92/${phone ? '5 Schritt 3: Suche in der Startliste' : '4 Schritt 5: Suche in der Seitenleiste'} – Symbol 36, Titel 17 halbfett`, l.map(x => x.masse), [MASSE], 'R-7.7');
     t.ist('L-6 S-3 mit dem Begriff', l.map(x => [x.titel, x.satz, x.knopf]), [['Keine Treffer für ‚xyzzy‘', SUCHSATZ, null]], 'R-7.7');
     t.ist('L-6 Untertitel bleibt ‚0 von 3 Reiselogbüchern‘', (await p.textContent('#side .side-head small')).trim(), '0 von 3 Reiselogbüchern', 'R-2.3');
     const lang = '<b>Fett</b> & "Zitat" ' + 'x'.repeat(80);
@@ -123,6 +130,7 @@ for (const [ansicht, theme, opts] of [['iPad quer', 'light', {}], ['iPad quer', 
     await p.evaluate(() => showTrip('b')); await p.waitForTimeout(500); await navFertig(p);
     await t.schritt(p, 'L-9 Nur erfasste Tage, keiner erfasst', async () => { await p.evaluate(() => { db.settings.hideEmpty = true; render(); }); await p.waitForTimeout(300); });
     t.ist('L-9 S-4 unter Kopf, Teilnehmern und Fortschritt', (await leer(p, '#app')).map(x => [x.titel, x.satz, x.knopf]), [['Noch keine Tage erfasst', 'Es werden nur erfasste Tage gezeigt.', 'Alle Tage zeigen']], 'R-7.7');
+    t.ist(`P-92/${phone ? 5 : 4} Schritt 2: ‚Noch keine Tage erfasst‘ – Symbol, Titel, Gewicht wie die Suche in der Seitenleiste`, (await leer(p, '#app')).map(x => x.masse), [MASSE], 'R-7.7');
     t.wahr('L-9 S-4 steht unter dem Fortschritt', await p.evaluate(() => document.querySelector('#app .progress').getBoundingClientRect().bottom <= document.querySelector('#app .leer').getBoundingClientRect().top), 'R-7.7');
     await t.schritt(p, 'L-10 ‚Alle Tage zeigen‘', async () => { await p.click('#leerAlle'); await p.waitForTimeout(400); });
     t.ist('L-10 wie Menü ‚Alle Tage‘: alle 15 Tage, kein leerer Zustand', [await p.evaluate(() => db.settings.hideEmpty), (await leer(p, '#app')).length,
@@ -132,6 +140,7 @@ for (const [ansicht, theme, opts] of [['iPad quer', 'light', {}], ['iPad quer', 
       await t.schritt(p, `L-11 Suche ohne Treffer${ax ? ' (Kästen, AX1)' : ''}`, async () => {
         await p.evaluate(ax => { if (ax) document.documentElement.dataset.ts = 'ax1'; searchTerm = 'Paella'; searchOpen = true; render(); }, ax); await p.waitForTimeout(400); });
       t.ist(`L-11 S-5 mit dem Begriff${ax ? ' (Kästen)' : ''}`, (await leer(p, '#app')).map(x => [x.titel, x.satz, x.knopf]), [['Keine Treffer für ‚Paella‘', SUCHSATZ, null]], 'R-7.7');
+      if (!ax) t.ist(`P-92/${phone ? 5 : 4} Schritt 4: Suche ohne Treffer – Symbol, Titel, Gewicht wie die Suche in der Seitenleiste`, (await leer(p, '#app')).map(x => x.masse), [MASSE], 'R-7.7');
       await p.evaluate(() => { delete document.documentElement.dataset.ts; searchTerm = ''; searchOpen = false; render(); }); await p.waitForTimeout(200);
     }
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }

@@ -4,9 +4,9 @@
 // Gegenprobe der Bedienungshilfen (node tests/alle.mjs --gegenprobe bedienung): je eingeschleustem Fehler wird genau seine Meldung rot.
 // Aufruf im Repo-Ordner: node tests/ablauf-bedienung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.50.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.50.0/tests/hig.mjs';
-import { checkFokus, checkKontrast, checkRuhig, checkFieldErrors, ansage, sucheAuf } from '../../AppDesign/fassung/4.50.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.50.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.50.1/tests/hig.mjs';
+import { checkFokus, checkFokusZurueck, checkKontrast, checkRuhig, checkFieldErrors, ansage, sucheAuf } from '../../AppDesign/fassung/4.50.1/tests/ablauf.mjs';
 const t = pruefung('ablauf-bedienung', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const days = {};
 for (let i = 0; i < 30; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 20 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok', place: i % 3 ? 'Hafen' : 'Sydney' }; }
@@ -92,6 +92,28 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     // M2, M4: ‚Nach oben / Ans Ende‘ springen, Mikrofon ruhig
     errs(await checkRuhig(p, { fab: true, mic: true }));
     await G(p, 'nach ‚Nach oben / Ans Ende‘');
+    // APD-112 F-1 bis F-6, F-8, F-10 bis F-12 (seit 3.48.1, AppDesign 4.50.1, R-1.8): nach dem Schließen Fokus zurück auf den Knopf bzw. die
+    // Zeile, die das Fenster öffnete (auch neu aufgebaut), sonst auf die Kopfzeile; ohne Rollen; Ring nur mit der Tastatur – gegen 3.48.0 rot
+    const tasteAuf = sel => async () => { await p.focus(sel); await p.keyboard.press('Enter'); };
+    const esc = () => p.keyboard.press('Escape');
+    const TAG = '#app [data-day="2026-09-12"]', vp = p.viewportSize();
+    errs(await checkFokusZurueck(p, [
+      { name: 'F-1 ‚Neues Reiselogbuch‘ mit der Tastatur, Esc', auf: tasteAuf('#newTrip'), zu: esc, knopf: '#newTrip' },
+      { name: 'F-2/F-10 ‚Neues Reiselogbuch‘ angetippt, x', auf: () => p.click('#newTrip'), zu: () => p.click('#dlgX'), knopf: '#newTrip', tastatur: false },
+      { name: 'F-4 Mehr → Reiselogbuch einstellen, Esc', auf: settings(p), zu: esc, knopf: '#mainMore' },
+      { name: 'F-5/F-11 Tag weiter unten, Esc', auf: async () => { await p.evaluate(s => document.querySelector(s).scrollIntoView({ block: 'center' }), TAG); await warte(p, 200);
+        await p.locator(TAG + ' td').first().click(); }, zu: esc, knopf: TAG, rolle: '#rolle' },
+      { name: 'F-8 Meldung über einen Knopf, App baut neu auf', auf: async () => { await p.focus('#mainMore'); await p.evaluate(() => { inform('Backup', 'Text'); render(); }); }, zu: esc, knopf: '#mainMore' },
+      { name: 'F-12 Fenster offen, drehen, dann schließen', auf: tasteAuf('#newTrip'), zu: async () => {
+        await p.setViewportSize({ width: vp.height, height: vp.width }); await warte(p, 500); await esc(); }, knopf: '#newTrip' },
+      { name: 'F-6 Knopf gibt es nicht mehr (Reiselogbuch gelöscht)', auf: () => p.evaluate(() => { setOpener('#side .side-row[data-id="b"]'); openTripDialog(db.trips.find(x => x.id === 'b')); }),
+        zu: async () => { await p.evaluate(() => { db.trips = db.trips.filter(x => x.id !== 'b'); save(); render(); }); await warte(p, 200); await esc(); }, knopf: null },
+      { name: 'F-3 ‚Neues Reiselogbuch‘ mit dem Häkchen sichern', auf: async () => { await p.evaluate(() => { db.settings.lastBackup = Date.now(); save(); }); await tasteAuf('#newTrip')(); }, zu: async () => { await p.fill('#fTitle', 'Neu'); await p.fill('#fPeople', 'X'); await p.fill('#fStart', '2027-01-10'); await p.fill('#fEnd', '2027-01-12');
+        await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); }, knopf: '#newTrip', tastatur: false },
+    ], { where: 'APD-112' }));
+    await G(p, 'nach APD-112 Fokus zurück (hoch)');   // F-12: nach dem Drehen die Grundregeln, dann zurück quer
+    await p.setViewportSize(vp); await warte(p, 500);
+    await G(p, 'nach APD-112 Fokus zurück');
   }
 
   if (ansicht === 'iPad hoch') {
@@ -111,6 +133,15 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     await p.click('#side .side-row[data-id="a"]'); await warte(p, 500);
     errs(await checkRuhig(p, { fab: false, fenster: settings(p) }));
     await G(p, 'Blatt geschlossen');
+    // APD-112 F-7 (seit 3.48.1, R-1.8): Blatt nach unten ziehen schließt – Fokus zurück auf den Kasten bzw. den Knopf ‚Mehr‘
+    const ziehZu = async () => { const k = await p.locator('#dlg .dlg-head h3').boundingBox(); const x = k.x + k.width / 2, y = k.y + k.height / 2;
+      await p.mouse.move(x, y); await p.mouse.down(); await p.mouse.move(x, y + 40, { steps: 3 }); await p.mouse.move(x, y + 520, { steps: 8 }); await p.mouse.up(); await warte(p, 600); };
+    const KASTEN = '#app [data-day="2026-08-26"]';
+    errs(await checkFokusZurueck(p, [
+      { name: 'F-7 Tag antippen, Blatt nach unten ziehen', auf: () => p.locator(KASTEN).click({ position: { x: 12, y: 12 } }), zu: ziehZu, knopf: KASTEN, tastatur: false },
+      { name: 'F-7 Mehr → Reiselogbuch einstellen, Blatt nach unten ziehen', auf: settings(p), zu: ziehZu, knopf: '#mainMore', tastatur: false },
+    ], { where: 'APD-112' }));
+    await G(p, 'nach APD-112 Blatt');
   }
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
