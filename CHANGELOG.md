@@ -13,6 +13,55 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.48.1 – 03.11.2026
+
+Reiselogbuch 3.48.1 · AppDesign 4.50.1 (Designrichtlinie allgemein 4.50.1) · Designrichtlinie Reiselogbuch 3.48.1 · Zusammenarbeit allgemein 3.6.0
+
+**Korrektur: leere Zustände einheitlich groß** (AppDesign APD-111, Usertest P-92/4 und P-92/5 nicht ok), **Fokus nach dem Schließen zurück**
+(AppDesign APD-112) und Prüfungen ohne feste Pausen (AppDesign APD-85 Teil 5) – dein Ja vom 03.11.2026, Sitzung 0079; Muster AppDesign
+`arbeit/APD-111 Muster.html`, Testfall-Liste AppDesign `arbeit/APD-112 Testfall-Liste.md`.
+
+- **Behoben – leere Zustände gleich groß:** Symbol und fetter Titel sind jetzt überall so groß wie bei der Suche in der Seitenleiste (Symbol
+  36 pt, Titel 17 pt halbfett) – ‚Noch keine Tage erfasst‘, ‚Keine Treffer für ‚…‘‘ im Reiselogbuch und in der Startliste, ‚Noch kein
+  Reiselogbuch‘. Vorher standen sie im Inhalt deutlich größer (52 pt und 22 pt fett). Satz und Knopf bleiben, wie sie waren.
+- **Behoben – Fokus nach dem Schließen:** Schließt du ein Fenster, ein Blatt oder eine Meldung, liegt der Fokus (VoiceOver, Tastatur) wieder
+  auf dem Knopf bzw. der Zeile, die es geöffnet hat – auch wenn die App sie neu aufgebaut hat; gibt es sie nicht mehr, auf der Kopfzeile. Nichts
+  rollt dabei. Ohne Tastatur ist davon nichts zu sehen.
+- **Prüfungen:** `ablauf-leer` misst Symbol und Titel (P-92/4 Schritt 2, 4 und 5, P-92/5, Startliste und Inhalt) – rot gegen 3.48.0;
+  `ablauf-bedienung` neu APD-112/F-1 bis F-8, F-10 bis F-12 (`checkFokusZurueck`) – rot gegen 3.48.0; `ablauf-titel-blase`, `ablauf-jahre` und
+  `ablauf-gesamt` warten mit `warteBis` auf den Zustand danach statt fester Pausen (APD-85 Teil 5).
+- **Warum die Prüfung es übersah:** `ablauf-leer` prüfte Texte, Reihenfolge und Lage des leeren Zustands, aber nicht seine Größe; die
+  Fokus-Prüfung sah nicht nach, wo der Fokus nach dem Schließen eines Fensters liegt.
+
+Testfälle P-93 (Schritt für Schritt, Zusammenarbeit allgemein 3.6.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen, **ohne** Messung.
+
+**P-93/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.48.1 · erstellt am … · AppDesign 4.50.1‘.
+
+**P-93/1 – iPad: leere Zustände gleich groß**
+1. iPad quer, hell; ein Reiselogbuch, dessen Reise noch nicht begonnen hat (oder ohne erfassten Tag), öffnen.
+2. Oben auf ‚…‘ (Mehr) tippen, ‚Nur erfasste Tage‘ wählen. Erwartet: unter Teilnehmern und Fortschritt mittig ein graues Kalender-Symbol, fett
+   ‚Noch keine Tage erfasst‘, grau ‚Es werden nur erfasste Tage gezeigt.‘ und ein hellblauer Knopf ‚Alle Tage zeigen‘ – Symbol und Titel so
+   groß wie bei der Suche in der Seitenleiste (Schritt 5), nicht größer.
+3. ‚Alle Tage zeigen‘ tippen. Erwartet: alle Tage sind wieder da.
+4. Oben auf ‚…‘ (Mehr) → ‚Suchen‘, ‚xyzzy‘ eingeben. Erwartet: Lupe, fett ‚Keine Treffer für ‚xyzzy‘‘, grau ‚Schreibweise prüfen oder nach etwas
+   anderem suchen.‘ – Lupe und Titel so groß wie in Schritt 2. Suche mit x schließen.
+5. In der Seitenleiste auf ‚…‘ (Mehr) → ‚Suchen‘, ‚xyzzy‘ eingeben. Erwartet: in der Seitenleiste Lupe, ‚Keine Treffer für ‚xyzzy‘‘ und der graue
+   Satz – Lupe und Titel genauso groß wie in Schritt 2 und 4. Suche schließen.
+6. iPad hoch: Schritte 2 und 4. Erwartet: wie quer.
+
+**P-93/2 – iPhone: leere Zustände gleich groß**
+1. iPhone hoch, hell; ein Reiselogbuch ohne erfassten Tag öffnen.
+2. Oben auf ‚…‘ (Mehr) → ‚Nur erfasste Tage‘. Erwartet: Kalender-Symbol, fett ‚Noch keine Tage erfasst‘, grauer Satz und Knopf ‚Alle Tage zeigen‘ –
+   Symbol und Titel so groß wie in Schritt 4. ‚Alle Tage zeigen‘ tippen.
+3. Oben auf ‚…‘ (Mehr) → ‚Suchen‘, ‚xyzzy‘ eingeben. Erwartet: Lupe, fett ‚Keine Treffer für ‚xyzzy‘‘ und der graue Satz über der Tastatur – so groß
+   wie in Schritt 2. Suche schließen.
+4. Zurück in die Startliste, ‚…‘ (Mehr) → ‚Suchen‘, ‚xyzzy‘ eingeben. Erwartet: ‚Keine Treffer für ‚xyzzy‘‘ mit dem grauen Satz über der Tastatur –
+   Lupe und Titel genauso groß wie in Schritt 2 und 3.
+
 ## 3.48.0 – 02.11.2026
 
 Reiselogbuch 3.48.0 · AppDesign 4.50.0 (Designrichtlinie allgemein 4.50.0) · Designrichtlinie Reiselogbuch 3.48.0 · Zusammenarbeit allgemein 3.6.0
@@ -56,10 +105,11 @@ Testfälle P-92 (Schritt für Schritt, Zusammenarbeit allgemein 3.6.0). Link: ht
 3. Kurz auf den Hotelnamen tippen. Erwartet: Google Maps öffnet sich. Zurück in die App.
 4. iPhone hoch: Schritte 1 bis 3 im Kasten des Tages. Erwartet: wie am iPad.
 
-**P-92/3 – iPhone: Blatt ziehen tippt nichts an**
-1. iPhone hoch, hell; einen Tag antippen (das Blatt ‚Erfassen‘ öffnet sich).
-2. Den Finger auf eine Zeile mit Schalter oder Kästchen im Blatt legen (z. B. ‚Quartier wie Vortag‘), das Blatt etwa zwei Fingerbreit nach unten
-   ziehen und loslassen. Erwartet: das Blatt federt zurück, der Schalter bzw. das Kästchen ändert sich **nicht**.
+**P-92/3 – iPhone: Blatt ziehen tippt nichts an** (Anleitung neu gefasst am 03.11.2026, Sitzung 0078)
+1. iPhone hoch, hell; den **zweiten oder einen späteren** Tag antippen (das Blatt ‚Erfassen‘ öffnet sich; die Kapsel ‚Quartier wie Vortag‘ gibt
+   es erst ab dem zweiten Tag).
+2. Den Finger auf die Kapsel ‚Quartier wie Vortag‘ legen, das Blatt etwa zwei Fingerbreit nach unten ziehen und loslassen. Erwartet: das Blatt
+   federt zurück, die Kapsel ändert sich **nicht**. Gegenprobe: die Kapsel kurz antippen – sie schaltet um; noch einmal antippen.
 3. Etwas in ‚Verlauf‘ schreiben, dann das Blatt am Griff weit nach unten ziehen. Erwartet: das Blatt federt zurück, am x erscheint die Frage
    ‚Die Änderungen in diesem Fenster gehen verloren.‘ mit ‚Änderungen verwerfen‘ und ‚Weiter bearbeiten‘. ‚Änderungen verwerfen‘ tippen.
 

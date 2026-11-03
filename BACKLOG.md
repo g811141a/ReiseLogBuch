@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 03.11.2026** · Aktuelle Version: Reiselogbuch 3.48.0 · AppDesign 4.50.0
+**Stand 03.11.2026** · Aktuelle Version: Reiselogbuch 3.48.1 · AppDesign 4.50.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-92 | 1 | **Usertest 3.48.0 (AppDesign 4.50.0)** – Testfälle P-92/0 bis P-92/6 im CHANGELOG: Wischen tippt nie an (Titel, 📍-Link, Blatt; AppDesign APD-108, am iPad Vermutung bestätigen), leere Zustände am iPad und iPhone, VoiceOver-Reihenfolge (AppDesign APD-30) · **Ergebnis (Nutzer 03.11.2026, Sitzung 0078):** P-92/0, /1, /2, /3 (mit neuer Anleitung: Kapsel ‚Quartier wie Vortag‘ ab dem zweiten Tag, mit Gegenprobe Tippen) und /6 ok; **P-92/4 und /5 nicht ok** – Symbol und fetter Titel sollen überall so groß sein wie in der Suche der Seitenleiste → AppDesign APD-111 (Muster) | prüfen |
+| P-93 | 1 | **Usertest 3.48.1 (AppDesign 4.50.1)** – Testfälle P-93/0 bis P-93/2 im CHANGELOG: leere Zustände am iPad und iPhone gleich groß wie die Suche in der Seitenleiste (AppDesign APD-111, aus P-92/4 und P-92/5) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -48,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 ## Erledigt
 
 | Nr. | Thema | Version | Datum |
+| P-92 | **Usertest P-92 (3.48.0, AppDesign 4.50.0):** /0, /1, /2, /3 (mit neuer Anleitung: Kapsel ‚Quartier wie Vortag‘ ab dem zweiten Tag, Gegenprobe Tippen) und /6 ok; /4 und /5 nicht ok (Symbol und Titel im Inhalt größer als in der Seitenleiste; Nutzer 03.11.2026, Sitzung 0078) – behoben mit AppDesign APD-111, weiter mit P-93 | 3.48.1 | 03.11.2026 |
 | P-91 | **Usertest P-91 (3.47.1, AppDesign 4.49.1, APD-109): alles ok** (Nutzer 02.11.2026, Sitzung 0075) – Titel antippen rollt am iPad (Kopfzeile quer und hoch, Seitenleiste) und in der Startliste am iPhone nach oben, Tipp während des Rollens hält an und öffnet nichts, iPhone-Kopfzeile und Fenster wie bisher | 3.47.1 | 02.11.2026 |
 | P-90 | **Usertest P-90 (3.47.0, AppDesign 4.49.0):** /0, /3, /5, /6 ok; /1 (iPad: Titel antippen ohne Wirkung), /2 (Seitenleiste bzw. Startliste auf beiden Geräten ohne Wirkung) und /4 (iPad) nicht ok (Nutzer 02.11.2026, Sitzung 0074) – Ursache gemessen, behoben mit AppDesign APD-109, Usertest P-91 | 3.47.1 | 02.11.2026 |
 | P-89 | **Usertest P-89 (3.46.2, AppDesign 4.48.2, APD-107): alles ok** (Nutzer 01.11.2026, Sitzung 0072) – Leisten-Knopf hebt sich hell über die Kapsel, Wegziehen öffnet nichts, Smiley-Kreis im Fenster zu sehen, Kapsel ‚Wetter‘ blass wie bisher | 3.46.2 | 01.11.2026 |

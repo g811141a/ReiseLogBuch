@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.48.0** · Stand 02.11.2026
+**Version 3.48.1** · Stand 03.11.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.50.0)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.50.1)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -30,6 +30,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.48.1 | 03.11.2026 | Korrektur | AppDesign 4.50.1 (APD-111 leere Zustände: Symbol 36 pt und Titel 17 pt halbfett überall; APD-112 Fokus nach dem Schließen zurück auf den Knopf) – keine eigene Abweichung |
 | 3.48.0 | 02.11.2026 | Neben | AppDesign 4.50.0 (APD-30 leere Zustände 15.23 / R-7.7: ‚Noch kein Reiselogbuch‘, ‚Keine Treffer für ‚…‘‘, ‚Noch keine Tage erfasst‘ mit ‚Alle Tage zeigen‘; APD-108 Wischen tippt nie an, Designrichtlinie 13 ‚Klick nach dem Wischen‘) – keine Abweichung |
 | 3.47.1 | 02.11.2026 | Korrektur | AppDesign 4.49.1 (APD-109 Titel antippen am iPad und in der Seitenleiste, Designrichtlinie 13 ‚Klick nur mit Hörer‘) – keine Abweichung |
 | 3.47.0 | 01.11.2026 | Neben | AppDesign 4.49.0 (APD-62 / APD-38/T-43 Titel antippen = nach oben R-2.7, APD-85 Teil 3 `warteBis`) – keine Abweichung |
