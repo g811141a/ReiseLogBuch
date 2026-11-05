@@ -6,9 +6,9 @@
 // [switch] bzw. role="switch" – im halb hereingeglittenen Fenster (98 %) kein Fund für #fPriceOn (V-1), ein Kästchen 30 × 30 ohne switch braucht 44
 // (V-2), ein Schalter mit 26 px Höhe meldet ‚mind. 28‘ (V-3). Rot gegen 3.47.1: V-1, V-3.
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.50.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.50.1/tests/hig.mjs';
-import { checkMehrKnopf } from '../../AppDesign/fassung/4.50.1/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.51.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.51.0/tests/hig.mjs';
+import { checkMehrKnopf } from '../../AppDesign/fassung/4.51.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');

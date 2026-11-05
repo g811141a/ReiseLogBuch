@@ -13,6 +13,42 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.49.0 – 05.11.2026
+
+Reiselogbuch 3.49.0 · AppDesign 4.51.0 (Designrichtlinie allgemein 4.51.0) · Designrichtlinie Reiselogbuch 3.49.0 · Zusammenarbeit allgemein 3.7.0
+
+**Maße und Stile automatisch geprüft** (AppDesign APD-40 Paket A) und **Kontext in der Bau-Frage** (AppDesign APD-114) – dein Ja vom
+05.11.2026, Sitzung 0080; Wortlaut und Testfall-Liste AppDesign `arbeit/APD-40 Paket A.md` und `arbeit/APD-114 Testfall-Liste.md`.
+
+- **Quartierliste:** der Tabellenkopf (‚Quartier · Zeitraum · Nächte‘) bleibt beim Rollen oben stehen wie bei der Tagestabelle (R-6.7, deine
+  Entscheidung 05.11.2026) – vorher rollte er mit.
+- **Gesperrte Pfeile etwas kräftiger:** gesperrte Knöpfe in Gruppen (Trefferpfeile der Suche, Pfeil ‚Vortag‘ im Fenster Tag) mit 40 % statt
+  30 % Deckkraft wie alle gesperrten Knöpfe (AppDesign R-3.8).
+- **Prüfungen:** `hig` misst nach jedem Schritt die neuen Regeln R-1.11, R-3.7, R-3.8, R-4.8, R-4.9, R-5.9 und R-6.7 (AppDesign `masseStile`);
+  sie fand die mitrollende Quartierliste (R-6.7) – rot gegen 3.48.1. Gegenprobe `node tests/alle.mjs --gegenprobe masse`.
+- Für dich unsichtbar: die Regeln der Zusammenarbeit zur Bau-Frage (Kontext in der Frage, ein Fenster je Antwort) prüft jetzt der Regelwächter.
+
+Testfälle P-94 (Schritt für Schritt, Zusammenarbeit allgemein 3.7.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen, **ohne** Messung.
+
+**P-94/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.49.0 · erstellt am … · AppDesign 4.51.0‘.
+
+**P-94/1 – iPad: Kopf der Quartierliste bleibt stehen**
+1. iPad quer, hell; ein Reiselogbuch mit mehreren Quartieren öffnen.
+2. Nach unten rollen, bis die ‚Quartierliste‘ erscheint, und langsam weiter rollen. Erwartet: die Kopfzeile ‚Quartier · Zeitraum · Nächte‘
+   bleibt unter der Kopfzeile der Seite stehen, die Quartiere rollen darunter durch; ist die Liste zu Ende, rollt der Kopf mit ihr weg.
+3. iPad hoch: Schritt 2. Erwartet: wie quer.
+
+**P-94/2 – iPad: gesperrte Pfeile**
+1. iPad quer, hell; im Reiselogbuch den ersten Tag antippen, das Fenster Tag öffnet sich.
+2. Oben auf den Pfeil nach links (chevron-left, ‚Vortag‘) schauen. Erwartet: er ist grau und blass, aber deutlich zu erkennen; Antippen tut
+   nichts.
+3. Fenster mit x schließen; oben auf ‚…‘ (Mehr) → ‚Suchen‘, ein Wort mit mehreren Treffern eingeben. Erwartet: beim ersten Treffer ist der Pfeil
+   nach oben genauso blass wie in Schritt 2, der Pfeil nach unten normal.
+
 ## 3.48.1 – 03.11.2026
 
 Reiselogbuch 3.48.1 · AppDesign 4.50.1 (Designrichtlinie allgemein 4.50.1) · Designrichtlinie Reiselogbuch 3.48.1 · Zusammenarbeit allgemein 3.6.0
