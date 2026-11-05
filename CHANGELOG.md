@@ -13,6 +13,49 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.50.0 – 05.11.2026
+
+Reiselogbuch 3.50.0 · AppDesign 4.52.0 (Designrichtlinie allgemein 4.52.0) · Designrichtlinie Reiselogbuch 3.50.0 · Zusammenarbeit allgemein 3.7.0
+
+**Texte und Abläufe automatisch geprüft** (AppDesign APD-40 Pakete B und C) – dein Ja vom 05.11.2026, Sitzung 0081; Wortlaut und Testfall-Listen
+AppDesign `arbeit/APD-40 Paket B.md` und `arbeit/APD-40 Paket C.md`.
+
+- **Abgleichbericht:** in der Spalte ‚Geändert am‘ steht das Datum jetzt zweistellig (‚05.11.2026 14:03‘ statt ‚5.11.2026 14:03‘) wie überall
+  (AppDesign R-10.7) – gefunden von der neuen Prüfung.
+- **Prüfungen:** `hig` prüft nach jedem Schritt Menütexte (R-4.10), Ansprache (R-10.6), Datum und Dateinamen (R-10.7); `kontextmenue-regeln`
+  jedes Kontextmenü (R-4.10); neue Prüfung `ablauf-texte-ablaeufe`: jeder Menüpunkt heißt wie sein Fenster (R-4.11), jede Lösch-, Ersetz- und Rücksetz-Aktion
+  fragt zuerst und ‚Abbrechen‘ ändert nichts (R-4.12), die Fenster Tag (auch ein leerer Tag) und Fazit sichern nach 10 s, ‚Änderungen
+  verwerfen‘ stellt den Stand beim Öffnen her, kein doppeltes Speichern (R-5.10). Gegenproben `node tests/alle.mjs --gegenprobe masse`.
+- Für dich sonst unsichtbar – Menüs, Fenster und Abfragen erfüllten die neuen Regeln schon.
+
+Testfälle P-95 (Schritt für Schritt, Zusammenarbeit allgemein 3.7.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen, **ohne** Messung.
+
+**P-95/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.50.0 · erstellt am … · AppDesign 4.52.0‘.
+
+**P-95/1 – Abgleichbericht: Datum zweistellig**
+1. iPad quer, hell: ein Reiselogbuch öffnen, einen Tag antippen, im Feld ‚Verlauf‘ ein Wort ergänzen, Häkchen.
+2. iPad: Seitenleiste ‚…‘ (Mehr) → ‚Backup erstellen‘ → ‚In Dateien sichern‘. Erwartet am iPad: kleines Fenster ‚Backup‘.
+3. iPhone hoch: Startliste ‚…‘ (Mehr) → ‚Backup laden‘ → diese Datei → ‚Abgleichen‘. Erwartet am iPhone: ‚Auf diesem iPhone hat sich etwas
+   geändert – Einzelheiten im Abgleichbericht.‘
+4. ‚Abgleichbericht anzeigen‘ tippen. Erwartet am iPhone: in der Spalte ‚Geändert am‘ das Datum mit zwei Stellen für Tag und Monat, z. B.
+   ‚05.11.2026 14:03‘ – nicht ‚5.11.2026‘.
+
+**P-95/2 – iPad: automatisch gesichert, auch wenn die App beendet wird**
+1. iPad quer, hell; einen Tag antippen, das Fenster Tag öffnet sich.
+2. Im Feld ‚Verlauf‘ ein neues Wort tippen, dann mindestens 10 Sekunden nichts tun. Erwartet: im Fenster steht ‚Automatisch gespeichert um hh:mm‘.
+3. Die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben), neu öffnen, denselben Tag antippen. Erwartet: das neue Wort steht im
+   Feld ‚Verlauf‘.
+
+**P-95/3 – iPad: Verwerfen nach dem automatischen Sichern**
+1. iPad quer, hell; einen Tag antippen, im Feld ‚Verlauf‘ ein Wort ergänzen, mindestens 10 Sekunden warten. Erwartet: ‚Automatisch gespeichert um
+   hh:mm‘.
+2. Oben links auf x tippen. Erwartet: Sprechblase mit ‚Änderungen verwerfen‘ (rot) und ‚Weiter bearbeiten‘.
+3. ‚Änderungen verwerfen‘ tippen, denselben Tag wieder antippen. Erwartet: das Wort aus Schritt 1 ist weg, der Verlauf steht wie vor Schritt 1.
+
 ## 3.49.0 – 05.11.2026
 
 Reiselogbuch 3.49.0 · AppDesign 4.51.0 (Designrichtlinie allgemein 4.51.0) · Designrichtlinie Reiselogbuch 3.49.0 · Zusammenarbeit allgemein 3.7.0
