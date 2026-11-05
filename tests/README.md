@@ -26,6 +26,7 @@ Die Spalte ‚prüft‘ nennt die Regel (R-… = Regelkatalog, Designrichtlinie 
 |---|---|---|
 | `hig.mjs` | Regelkatalog (alle mit ‚hig.mjs‘), HIG-Checkliste | alle Ansichten, quer und hoch, iPad und iPhone, hell und dunkel; Gerätevergleich iPad ↔ iPhone (R-1.1); Testdaten mit 100 × ‚a‘ (R-6.3); im Lauf geteilt nach Darstellung (`PRUEF_DARSTELLUNG`) |
 | `regeln-ablauf.mjs` | R-2.3, R-4.4, R-5.2, R-5.3, R-5.6, R-6.4, R-10.1 | allgemeine Ablauf-Prüfungen (`ablauf.mjs`): Suche, Fenster-Kopfzeile, Großbuchstaben, Fehlermeldungen, ⓧ in Feldern (Titel, Teilnehmer, Ort, Quartier, Gesamtausgaben), Vorschau hell und dunkel; Feldnamen im Abgleichbericht wie im Fenster – iPad und iPhone |
+| `ablauf-texte-ablaeufe.mjs` | R-4.11, R-4.12, R-5.10 | Texte und Abläufe (AppDesign APD-40 Pakete B und C, seit 3.50.0): Menüpunkt und Fenster heißen gleich, erst fragen, dann zerstören, automatisch speichern mit vorgestellter Uhr (Tag, leerer Tag, Fazit) – iPad quer, iPhone hoch |
 | `ablauf-gesamt.mjs` | PROMPT 3, 4, 7, 9, 10 | Gesamtablauf: Reiselogbuch anlegen (leer, Pflichtfelder), Tage erfassen, Filter ‚Alle Tage‘, Darstellung, Menüs, Gesamtausgaben, Ausgabe |
 | `ablauf-fenster.mjs` | R-4.4, PROMPT 3, 7, 9 | Fenster Tag, Einstellungen, Fazit; Häkchen und ‚Änderungen verwerfen‘ |
 | `verlauf-vorschlaege.mjs` | PROMPT 7 | Vorschläge im Schritt Verlauf: Reihenfolge, eigene Zeile an der Cursorstelle, ‚Sonstiges …‘ setzt nur eine leere erste Zeile, danach groß weiter (Testfall-Liste V1–V13) |

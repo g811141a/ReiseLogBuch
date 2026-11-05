@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 05.11.2026** · Aktuelle Version: Reiselogbuch 3.49.0 · AppDesign 4.51.0
+**Stand 05.11.2026** · Aktuelle Version: Reiselogbuch 3.50.0 · AppDesign 4.52.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,6 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-95 | 1 | **Usertest 3.50.0 (AppDesign 4.52.0)** – Testfälle P-95/0 bis P-95/3 im CHANGELOG: Abgleichbericht Datum zweistellig (R-10.7), automatisch gesichert nach 10 s auch beim Beenden der App, Verwerfen danach (R-5.10) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -47,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 ## Erledigt
 
 | Nr. | Thema | Version | Datum |
+| RLB-117 | **Texte und Abläufe (AppDesign APD-40 Pakete B und C):** `hig`, `kontextmenue-regeln` und `regeln-ablauf` prüfen R-4.10, R-4.11, R-4.12, R-5.10, R-10.6, R-10.7; Abgleichbericht mit zweistelligem Datum (R-10.7) – Usertest P-95 | 3.50.0 | 05.11.2026 |
 | P-94 | **Usertest P-94 (3.49.0, AppDesign 4.51.0): alles ok** (Nutzer 05.11.2026, Sitzung 0081) – Kopf der Quartierliste bleibt beim Rollen stehen (R-6.7, quer und hoch), gesperrte Pfeile blass, aber deutlich (R-3.8) | 3.49.0 | 05.11.2026 |
 | RLB-116 | **Maße und Stile (AppDesign APD-40 Paket A):** Kopf der Quartierliste haftet (R-6.7, Entscheidung Nutzer 05.11.2026); `hig` prüft die neuen Regeln – Usertest P-94 | 3.49.0 | 05.11.2026 |
 | P-93 | **Usertest P-93 (3.48.1, AppDesign 4.50.1): alles ok** (Nutzer 05.11.2026, Sitzung 0080) – leere Zustände am iPad (quer und hoch) und am iPhone gleich groß wie die Suche in Seitenleiste bzw. Startliste (AppDesign APD-111 abgeschlossen) | 3.48.1 | 05.11.2026 |
