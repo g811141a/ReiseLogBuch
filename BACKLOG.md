@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-94 | 1 | **Usertest 3.49.0 (AppDesign 4.51.0)** – Testfälle P-94/0 bis P-94/2 im CHANGELOG: Kopf der Quartierliste bleibt beim Rollen stehen (R-6.7), gesperrte Pfeile 40 % (R-3.8) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -48,6 +47,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 ## Erledigt
 
 | Nr. | Thema | Version | Datum |
+| P-94 | **Usertest P-94 (3.49.0, AppDesign 4.51.0): alles ok** (Nutzer 05.11.2026, Sitzung 0081) – Kopf der Quartierliste bleibt beim Rollen stehen (R-6.7, quer und hoch), gesperrte Pfeile blass, aber deutlich (R-3.8) | 3.49.0 | 05.11.2026 |
 | RLB-116 | **Maße und Stile (AppDesign APD-40 Paket A):** Kopf der Quartierliste haftet (R-6.7, Entscheidung Nutzer 05.11.2026); `hig` prüft die neuen Regeln – Usertest P-94 | 3.49.0 | 05.11.2026 |
 | P-93 | **Usertest P-93 (3.48.1, AppDesign 4.50.1): alles ok** (Nutzer 05.11.2026, Sitzung 0080) – leere Zustände am iPad (quer und hoch) und am iPhone gleich groß wie die Suche in Seitenleiste bzw. Startliste (AppDesign APD-111 abgeschlossen) | 3.48.1 | 05.11.2026 |
 | P-92 | **Usertest P-92 (3.48.0, AppDesign 4.50.0):** /0, /1, /2, /3 (mit neuer Anleitung: Kapsel ‚Quartier wie Vortag‘ ab dem zweiten Tag, Gegenprobe Tippen) und /6 ok; /4 und /5 nicht ok (Symbol und Titel im Inhalt größer als in der Seitenleiste; Nutzer 03.11.2026, Sitzung 0078) – behoben mit AppDesign APD-111, weiter mit P-93 | 3.48.1 | 03.11.2026 |
