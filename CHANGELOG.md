@@ -13,6 +13,41 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.50.1 – 06.11.2026
+
+Reiselogbuch 3.50.1 · AppDesign 4.52.0 (Designrichtlinie allgemein 4.52.0) · Designrichtlinie Reiselogbuch 3.50.1 · Zusammenarbeit allgemein 3.7.0
+
+**Korrektur: ‚Änderungen verwerfen‘ überschreibt beim Abgleich keine Änderung des anderen Geräts mehr** (RLB-118) – dein Ja vom 06.11.2026,
+Sitzung 0082.
+
+- **Fenster Tag und Fazit:** war ein Fenster schon automatisch gesichert (nach 10 s) und du hast danach ‚Änderungen verwerfen‘ getippt, stand
+  zwar wieder der alte Text da, er galt aber als eben geändert. Beim Abgleich gewann dann dieser alte Text gegen eine echte, frühere Änderung am
+  anderen Gerät – sie ging auf beiden Geräten verloren. Jetzt stellt ‚Änderungen verwerfen‘ auch die Zeitpunkte des Abgleichs von vor dem
+  Öffnen wieder her (R-5.10, R-9.3).
+- **Warum die Prüfung es übersah:** `ablauf-texte-ablaeufe` verglich den Speicher nach dem Verwerfen absichtlich ohne die Zeitstempel des
+  Abgleichs, und die Abgleich-Prüfungen ändern die Daten direkt, ohne Fenster und automatisches Sichern. Jetzt vergleicht
+  `ablauf-texte-ablaeufe` den ganzen Speicher; neue Prüfung `ablauf-verwerfen-abgleich` spielt genau den Ablauf mit iPad und iPhone durch
+  (RLB-118/V-1 bis RLB-118/V-5, rot gegen 3.50.0 in Chromium und WebKit).
+
+Testfälle P-96 (Schritt für Schritt, Zusammenarbeit allgemein 3.7.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen, **ohne** Messung.
+
+**P-96/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.50.1 · erstellt am … · AppDesign 4.52.0‘.
+
+**P-96/1 – Verwerfen am iPad überschreibt die Änderung vom iPhone nicht**
+1. Beide Geräte auf demselben Stand: iPad Seitenleiste ‚…‘ (Mehr) → ‚Backup erstellen‘ → ‚In Dateien sichern‘; iPhone Startliste ‚…‘ (Mehr) →
+   ‚Backup laden‘ → diese Datei → ‚Abgleichen‘. Erwartet am iPhone: ein kleines Fenster mit ‚Abgeglichen mit dem Backup vom iPad …‘.
+2. iPhone hoch, hell: ein Reiselogbuch öffnen, einen Tag antippen, im Feld ‚Verlauf‘ das Wort ‚iPhone‘ ergänzen, Häkchen.
+3. Danach iPad quer, hell: im selben Reiselogbuch **denselben** Tag antippen, im Feld ‚Verlauf‘ ein Wort ergänzen, mindestens 10 Sekunden
+   warten. Erwartet am iPad: ‚Automatisch gespeichert um hh:mm‘.
+4. iPad: oben links auf x tippen → ‚Änderungen verwerfen‘. Erwartet am iPad: das Fenster ist zu.
+5. iPhone: Startliste ‚…‘ (Mehr) → ‚Backup erstellen‘ → ‚In Dateien sichern‘. iPad: Seitenleiste ‚…‘ (Mehr) → ‚Backup laden‘ → diese Datei →
+   ‚Abgleichen‘. Erwartet am iPad: ‚Auf diesem iPad hat sich etwas geändert – Einzelheiten im Abgleichbericht.‘
+6. iPad: denselben Tag antippen. Erwartet am iPad: im Feld ‚Verlauf‘ steht das Wort ‚iPhone‘ aus Schritt 2, das Wort aus Schritt 3 nicht.
+
 ## 3.50.0 – 05.11.2026
 
 Reiselogbuch 3.50.0 · AppDesign 4.52.0 (Designrichtlinie allgemein 4.52.0) · Designrichtlinie Reiselogbuch 3.50.0 · Zusammenarbeit allgemein 3.7.0
@@ -158,7 +193,7 @@ Reiselogbuch 3.48.0 · AppDesign 4.50.0 (Designrichtlinie allgemein 4.50.0) · D
   ‚Noch kein Reiselogbuch angelegt.‘, ‚Keine Treffer‘ und ‚Noch keine Tage erfasst.‘
 - **Prüfungen:** neu `ablauf-leer` (APD-30/L-1 bis L-20: iPad quer hell und dunkel, iPad hoch, iPhone hoch und quer, Kontrast erhöhen; Gegenprobe
   `PRUEF_GEGENPROBE=1`); `ablauf-titel-oben` (APD-108/W-1 bis W-4, W-6, W-7), `ablauf-beruehren` (APD-108/W-5, W-7), `ablauf-blatt` (APD-108/W-9), `ablauf-navigation`
-  (APD-108/W-11, W-12), `ablauf-markierung-menues` (APD-85/V-1 bis V-3); `ablauf-gesamt`, `ablauf-jahre`, `start-regeln` erwarten die neuen Texte.
+  (APD-108/W-11, W-12), `ablauf-markierung-menues` (APD-85/V-1 bis RLB-118/V-3); `ablauf-gesamt`, `ablauf-jahre`, `start-regeln` erwarten die neuen Texte.
   `ablauf-blatt` läuft im vollen Lauf in zwei Teilen (iPhone, iPad; `PRUEF_BLATT`) – mit APD-108/W-9 lief es unter Last in die Zeitgrenze 10:00
   (drittes `los` abgebrochen, nichts veröffentlicht; AppDesign APD-85 Teil 5).
 

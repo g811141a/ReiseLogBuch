@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 06.11.2026** · Aktuelle Version: Reiselogbuch 3.50.0 · AppDesign 4.52.0
+**Stand 06.11.2026** · Aktuelle Version: Reiselogbuch 3.50.1 · AppDesign 4.52.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,12 +29,12 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-96 | 1 | **Usertest 3.50.1 (AppDesign 4.52.0)** – Testfälle P-96/0 und P-96/1 im CHANGELOG: ‚Änderungen verwerfen‘ am iPad überschreibt beim Abgleich die Änderung vom iPhone nicht (RLB-118, R-5.10, R-9.3) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-118 | 1 | **Zeitstempel nach ‚Änderungen verwerfen‘ (Befund Sitzung 0081, übernommen Nutzer 06.11.2026, Sitzung 0082):** nach automatischem Sichern und ‚Änderungen verwerfen‘ (Fenster Tag, Fazit) stempelt `restore` → `save()` → `stamp` (AppDesign `createSync`) das zurückgeschriebene Feld neu (`dayAt`/`metaAt`, `changedAt`, `changedOn`) statt die alten Zeitstempel wiederherzustellen. Vermutung: beim Abgleich (`mergeFields`, neuerer Stempel gewinnt) überschreibt der alte Text eine echte Änderung am anderen Gerät; das Reiselogbuch gilt als ‚geändert‘. Nächster Schritt: Ablauf als feste Prüfung nachbauen (rot gegen 3.50.0, 0 Nr. 1), dann Vorschlag; Korrekturversion (0 Nr. 8) | Reiselogbuch (Stempeln in AppDesign) | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -48,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 ## Erledigt
 
 | Nr. | Thema | Version | Datum |
+| RLB-118 | **Zeitstempel nach ‚Änderungen verwerfen‘ (Korrektur):** ‚Änderungen verwerfen‘ nach dem automatischen Sichern (Fenster Tag, Fazit) stellt auch `dayAt`/`metaAt`, `changedAt`, `changedOn` von vor dem Öffnen wieder her – vorher überschrieb der alte Text beim Abgleich eine echte Änderung am anderen Gerät; Prüfung `ablauf-verwerfen-abgleich` (RLB-118/V-1 bis RLB-118/V-5, rot gegen 3.50.0), `ablauf-texte-ablaeufe` vergleicht jetzt mit Zeitstempeln – Usertest P-96 | 3.50.1 | 06.11.2026 |
 | P-95 | **Usertest P-95 (3.50.0, AppDesign 4.52.0): alles ok** (Nutzer 06.11.2026, Sitzung 0082) – Abgleichbericht mit zweistelligem Datum (R-10.7), automatisch gesichert nach 10 s auch beim Beenden der App, Verwerfen danach (R-5.10) | 3.50.0 | 06.11.2026 |
 | RLB-117 | **Texte und Abläufe (AppDesign APD-40 Pakete B und C):** `hig`, `kontextmenue-regeln` und `regeln-ablauf` prüfen R-4.10, R-4.11, R-4.12, R-5.10, R-10.6, R-10.7; Abgleichbericht mit zweistelligem Datum (R-10.7) – Usertest P-95 | 3.50.0 | 05.11.2026 |
 | P-94 | **Usertest P-94 (3.49.0, AppDesign 4.51.0): alles ok** (Nutzer 05.11.2026, Sitzung 0081) – Kopf der Quartierliste bleibt beim Rollen stehen (R-6.7, quer und hoch), gesperrte Pfeile blass, aber deutlich (R-3.8) | 3.49.0 | 05.11.2026 |

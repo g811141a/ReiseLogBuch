@@ -2,11 +2,11 @@
 // Ablauf am Gerät: iPhone ändert den Verlauf eines Tages (10:00); iPad öffnet denselben Tag (11:00), tippt, wartet 10 s
 // (automatisch gesichert), x → ‚Änderungen verwerfen‘; danach Abgleich in beide Richtungen. Die echte Änderung vom iPhone muss
 // bleiben, und das iPad darf nicht als ‚geändert‘ gelten. Dasselbe für das Fazit.
-// V-1 Speicher nach dem Verwerfen genau wie beim Öffnen – mit dayAt/metaAt, changedAt, changedOn (Tag, leerer Tag, Fazit)
-// V-2 iPhone ändert vorher denselben Tag → nach dem Abgleich steht der Text vom iPhone auf beiden Geräten
-// V-3 iPhone ändert vorher das Fazit → dito
-// V-4 nur verworfen (iPhone unverändert) → das iPhone meldet ‚Alles war schon auf dem gleichen Stand.‘ beim Laden des iPad-Backups
-// V-5 Verwerfen ohne Zwischenspeichern bleibt wie bisher (Speicher wie beim Öffnen)
+// RLB-118/V-1 Speicher nach dem Verwerfen genau wie beim Öffnen – mit dayAt/metaAt, changedAt, changedOn (Tag, leerer Tag, Fazit)
+// RLB-118/V-2 iPhone ändert vorher denselben Tag → nach dem Abgleich steht der Text vom iPhone auf beiden Geräten
+// RLB-118/V-3 iPhone ändert vorher das Fazit → dito
+// RLB-118/V-4 nur verworfen (iPhone unverändert) → das iPhone meldet ‚Alles war schon auf dem gleichen Stand.‘ beim Laden des iPad-Backups
+// RLB-118/V-5 Verwerfen ohne Zwischenspeichern bleibt wie bisher (Speicher wie beim Öffnen)
 // Aufruf im Repo-Ordner: node tests/ablauf-verwerfen-abgleich.mjs
 import * as pw from 'playwright';
 import { pruefung } from '../../AppDesign/fassung/4.52.0/tests/pruefe.mjs';
@@ -53,7 +53,7 @@ const mergeWith = (p, backup) => p.evaluate(c => { const d = JSON.parse(c); cons
   const { data, stats } = mergeData(structuredClone(db), normalize(d)); return { trips: data.trips, text: sync.resultText(stats, savedAt, savedOn) }; }, backup);
 const tag = () => openDayDialog(getTrip('x'), '2026-07-01'), leer = () => openDayDialog(getTrip('x'), '2026-07-03'), fazit = () => openFazitDialog(getTrip('x'));
 
-// V-1 und V-5: Speicher nach dem Verwerfen genau wie beim Öffnen
+// RLB-118/V-1 und RLB-118/V-5: Speicher nach dem Verwerfen genau wie beim Öffnen
 for (const [name, open, field, zwischen] of [['Tag', tag, '#fProgram', true], ['leerer Tag', leer, '#fProgram', true], ['Fazit', fazit, '#fFazit', true],
   ['Tag ohne Zwischenspeichern', tag, '#fProgram', false]]) {
   t.ort = `iPad quer, ${name}`;
@@ -70,7 +70,7 @@ for (const [name, open, field, zwischen] of [['Tag', tag, '#fProgram', true], ['
   await ipad.context().close(); await iphone.context().close();
 }
 
-// V-2 und V-3: echte Änderung am iPhone bleibt nach dem Abgleich erhalten
+// RLB-118/V-2 und RLB-118/V-3: echte Änderung am iPhone bleibt nach dem Abgleich erhalten
 for (const [name, onIphone, open, field, wert] of [
   ['Tag', () => { getTrip('x').days['2026-07-01'].program = 'vom iPhone'; save(); }, tag, '#fProgram', r => r.trips[0].days['2026-07-01']?.program],
   ['Fazit', () => { getTrip('x').fazit = 'vom iPhone'; save(); }, fazit, '#fFazit', r => r.trips[0].fazit]]) {
@@ -82,16 +82,17 @@ for (const [name, onIphone, open, field, wert] of [
   const amIphone = await mergeWith(iphone, vomIpad), amIpad = await mergeWith(ipad, vomIphone);
   if (wert(amIphone) !== 'vom iPhone') t.fehler('', `iPhone lädt das Backup vom iPad: ‚${wert(amIphone)}‘ statt ‚vom iPhone‘ – die Änderung vom iPhone geht verloren (V-${name === 'Tag' ? 2 : 3})\n      Meldung: ${amIphone.text}`);
   if (wert(amIpad) !== 'vom iPhone') t.fehler('', `iPad lädt das Backup vom iPhone: ‚${wert(amIpad)}‘ statt ‚vom iPhone‘ (V-${name === 'Tag' ? 2 : 3})\n      Meldung: ${amIpad.text}`);
+  if (!amIpad.text.includes('Auf diesem iPad hat sich etwas geändert – Einzelheiten im Abgleichbericht.')) t.fehler('', `iPad lädt das Backup vom iPhone: Meldung ‚${amIpad.text}‘ statt ‚… Auf diesem iPad hat sich etwas geändert – Einzelheiten im Abgleichbericht.‘ (P-96/1 Schritt 5)`);
   await ipad.context().close(); await iphone.context().close();
 }
 
-// V-4: nur verworfen → das iPhone sieht im Backup vom iPad keine Änderung
+// RLB-118/V-4: nur verworfen → das iPhone sieht im Backup vom iPad keine Änderung
 {
   t.ort = 'iPad verworfen, iPhone unverändert';
   const { ipad, iphone } = await paar();
   await um(ipad, '11:00'); await verwerfen(ipad, tag, '#fProgram');
   const r = await mergeWith(iphone, await ipad.evaluate(() => backupFile().content));
-  if (!/gleichen Stand/.test(r.text)) t.fehler('', `iPhone lädt das Backup vom iPad: Meldung ‚${r.text}‘ statt ‚Alles war schon auf dem gleichen Stand.‘ (V-4)`);
+  if (!/gleichen Stand/.test(r.text)) t.fehler('', `iPhone lädt das Backup vom iPad: Meldung ‚${r.text}‘ statt ‚Alles war schon auf dem gleichen Stand.‘ (RLB-118/V-4)`);
   await ipad.context().close(); await iphone.context().close();
 }
 await t.ende(b);
