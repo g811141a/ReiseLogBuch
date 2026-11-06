@@ -10,9 +10,9 @@
 // zurück (iPad quer und hoch, hell und dunkel, Drehen beim Wachsen), iPhone hoch und quer, ‚Bewegung reduzieren‘ nur Überblenden. Dazu APD-38/T-37
 // (R-3.9, APD-62/L-1, L-2, L-4, L-5, L-10): Menü aus Glas, schon beim Wachsen, mit ‚Transparenz reduzieren‘ deckend (nur Chromium bildet es nach).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.53.0/tests/pruefe.mjs';
-import { createCheck, checkGlas } from '../../AppDesign/fassung/4.53.0/tests/hig.mjs';
-import { checkMehrKnopf, checkWachsen } from '../../AppDesign/fassung/4.53.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.54.0/tests/pruefe.mjs';
+import { createCheck, checkGlas } from '../../AppDesign/fassung/4.54.0/tests/hig.mjs';
+import { checkMehrKnopf, checkWachsen } from '../../AppDesign/fassung/4.54.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');

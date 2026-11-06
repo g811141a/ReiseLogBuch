@@ -3,9 +3,9 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, warteBis } from '../../AppDesign/fassung/4.53.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.53.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.53.0/tests/ablauf.mjs';
+import { pruefung, warteBis } from '../../AppDesign/fassung/4.54.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.54.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.54.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 // seit 3.48.1 (AppDesign APD-85 Teil 5): keine festen Pausen mehr – jede Stelle wartet mit warteBis auf den Zustand danach (Ruhe = keine
 // laufende Bewegung); nur das lange Drücken hält den Finger eine feste Zeit (die Handlung selbst)

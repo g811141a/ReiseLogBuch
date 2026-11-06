@@ -9,9 +9,9 @@
 // ‚Neues Reiselogbuch‘ (die Meldung zum überschneidenden Zeitraum erscheint). Aufruf im Repo-Ordner: node tests/ablauf-blatt.mjs
 // Seit 3.48.0 (AppDesign APD-85 Teil 5): PRUEF_BLATT=iPhone bzw. iPad prüft nur diese Ansichten (alle.mjs teilt so; ohne: alle).
 import * as pw from 'playwright';
-import { pruefung, warteBis, navFertig, ruhe } from '../../AppDesign/fassung/4.53.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.53.0/tests/hig.mjs';
-import { checkSheet } from '../../AppDesign/fassung/4.53.0/tests/ablauf.mjs';
+import { pruefung, warteBis, navFertig, ruhe } from '../../AppDesign/fassung/4.54.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.54.0/tests/hig.mjs';
+import { checkSheet } from '../../AppDesign/fassung/4.54.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-blatt', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 // APD-85 Teil 3: die Zustände, auf die gewartet wird (statt 150, 400, 600 und 700 ms)
