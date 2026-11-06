@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-96 | 1 | **Usertest 3.50.1 (AppDesign 4.52.0)** – Testfälle P-96/0 und P-96/1 im CHANGELOG: ‚Änderungen verwerfen‘ am iPad überschreibt beim Abgleich die Änderung vom iPhone nicht (RLB-118, R-5.10, R-9.3) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -48,6 +47,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 ## Erledigt
 
 | Nr. | Thema | Version | Datum |
+| P-96 | **Usertest P-96 (3.50.1, AppDesign 4.52.0): alles ok** (Nutzer 06.11.2026, Sitzung 0082) – ‚Änderungen verwerfen‘ am iPad nach dem automatischen Sichern überschreibt beim Abgleich die Änderung vom iPhone nicht mehr (RLB-118, R-5.10, R-9.3) | 3.50.1 | 06.11.2026 |
 | RLB-118 | **Zeitstempel nach ‚Änderungen verwerfen‘ (Korrektur):** ‚Änderungen verwerfen‘ nach dem automatischen Sichern (Fenster Tag, Fazit) stellt auch `dayAt`/`metaAt`, `changedAt`, `changedOn` von vor dem Öffnen wieder her – vorher überschrieb der alte Text beim Abgleich eine echte Änderung am anderen Gerät; Prüfung `ablauf-verwerfen-abgleich` (RLB-118/V-1 bis RLB-118/V-5, rot gegen 3.50.0), `ablauf-texte-ablaeufe` vergleicht jetzt mit Zeitstempeln – Usertest P-96 | 3.50.1 | 06.11.2026 |
 | P-95 | **Usertest P-95 (3.50.0, AppDesign 4.52.0): alles ok** (Nutzer 06.11.2026, Sitzung 0082) – Abgleichbericht mit zweistelligem Datum (R-10.7), automatisch gesichert nach 10 s auch beim Beenden der App, Verwerfen danach (R-5.10) | 3.50.0 | 06.11.2026 |
 | RLB-117 | **Texte und Abläufe (AppDesign APD-40 Pakete B und C):** `hig`, `kontextmenue-regeln` und `regeln-ablauf` prüfen R-4.10, R-4.11, R-4.12, R-5.10, R-10.6, R-10.7; Abgleichbericht mit zweistelligem Datum (R-10.7) – Usertest P-95 | 3.50.0 | 05.11.2026 |
