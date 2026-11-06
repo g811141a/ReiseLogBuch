@@ -27,7 +27,9 @@ Sitzung 0083. Das Reiselogbuch nutzt jetzt die AppDesign-Fassung 4.53.0; im Reis
   reduzieren‘ deckend wie bisher. Kopfzeile, Seitenleiste, Fenster und Sprechblasen bleiben deckend.
 - **Prüfungen:** `ablauf-markierung-menues` prüft das Wachsen und Schrumpfen (AppDesign APD-62/M-1 bis M-8, M-10, M-11; iPad quer und hoch, hell und
   dunkel, iPhone hoch und quer, ‚Bewegung reduzieren‘) und das Glas (APD-62/L-1, L-2, L-4, L-5, L-10); `ablauf-grossanzeige` das Menü nach der
-  Großanzeige (APD-62/M-9); `hig` prüft das Glas in jeder Ansicht nach jedem Schritt (R-3.9).
+  Großanzeige (APD-62/M-9); `hig` prüft das Glas in jeder Ansicht nach jedem Schritt (R-3.9). `ablauf-gesamt` und `ablauf-jahre` warten vor dem
+  ersten Klick in ein gerade geöffnetes Fenster, bis es ruht – unter Last klickte die Prüfung in WebKit das Häkchen, während das Blatt noch
+  hereinglitt, und traf daneben (Sitzung 0085, nachgestellt und gemessen; die App ist nicht betroffen).
 - **Hinweis:** das Reiselogbuch hat seit 3.41.0 keine untere Leiste mit Suchfeld mehr – APD-62/L-3 (Suchfeld und runde Knöpfe unten aus Glas) gilt
   allgemein, ist hier aber nicht zu sehen.
 

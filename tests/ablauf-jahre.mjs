@@ -120,7 +120,7 @@ for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   await p.keyboard.press('Escape'); await bis(p, `!document.querySelector('.menu') && ${RUHE}`, 'Menü zu');
   if (ansicht === 'iPad quer') {
     // Y-8: neues Reiselogbuch in einem neuen Jahr; Beginn in ein anderes Jahr; das letzte eines Jahres löschen
-    await t.schritt(p, 'Y-8 neues Reiselogbuch 2023', async () => { await p.click('#newTrip'); await p.fill('#fTitle', 'Kreta'); await p.fill('#fPeople', 'G');
+    await t.schritt(p, 'Y-8 neues Reiselogbuch 2023', async () => { await p.click('#newTrip'); await bis(p, `dlg.open && ${RUHE}`, 'Fenster offen und ruhig'); await p.fill('#fTitle', 'Kreta'); await p.fill('#fPeople', 'G');
       await p.fill('#fStart', '2023-05-01'); await p.fill('#fEnd', '2023-05-05'); await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); await navFertig(p); });
     t.ist('RLB-114/Y-8 neuer Kopf 2023', await koepfe(p), ['2027', '2026', '2025', '2024', '2023'], 'R-7.6');
     await t.schritt(p, 'Y-8 Dolomiten nach 2022 verschieben', async () => { await p.evaluate(() => { const d = getTrip('d'); d.start = '2022-09-01'; d.end = '2022-09-12'; save(); render(); }); await ruhig(p); });
