@@ -3,9 +3,9 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, warteBis } from '../../AppDesign/fassung/4.52.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.52.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.52.0/tests/ablauf.mjs';
+import { pruefung, warteBis } from '../../AppDesign/fassung/4.53.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.53.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.53.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 // seit 3.48.1 (AppDesign APD-85 Teil 5): keine festen Pausen mehr – jede Stelle wartet mit warteBis auf den Zustand danach (Ruhe = keine
 // laufende Bewegung); nur das lange Drücken hält den Finger eine feste Zeit (die Handlung selbst)
@@ -73,9 +73,11 @@ for (const theme of ['light', 'dark']) {
   t.ist('Fenster bleibt offen mit der Eingabe', [await p.evaluate(() => dlg.open), await p.inputValue('#fPeople')], [true, 'Gerhild, Arnold & Lisa'], 'R-4.4');
   await S(p, 'Änderungen verwerfen', async () => { await p.click('#dlgX'); await p.click('#dlg .pop button:has-text("Änderungen verwerfen")'); });
   t.ist('verworfen', [await p.evaluate(() => !dlg.open), await p.evaluate(() => db.trips[0].participants)], [true, 'Gerhild & Arnold'], 'R-4.4');
-  await S(p, 'Reiselogbuch einstellen speichern', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); await p.fill('#fPeople', 'G & A'); await p.click('#dlgOk'); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); });
+  // seit 3.51.0: vor dem ersten Klick ins Blatt warten, bis es ruht – unter Last klickte Playwright das Häkchen, während das Blatt noch
+  // hereinglitt, und traf daneben (WebKit, Sitzung 0085)
+  await S(p, 'Reiselogbuch einstellen speichern', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); await bis(p, `dlg.open && ${RUHE}`, 'Fenster offen und ruhig'); await p.fill('#fPeople', 'G & A'); await p.click('#dlgOk'); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); });
   t.ist('gespeichert und zu', [await p.evaluate(() => db.trips[0].participants), await p.evaluate(() => !dlg.open)], ['G & A', true]);
-  await S(p, 'Häkchen ohne Änderung', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); await p.click('#dlgOk'); });
+  await S(p, 'Häkchen ohne Änderung', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); await bis(p, `dlg.open && ${RUHE}`, 'Fenster offen und ruhig'); await p.click('#dlgOk'); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); });
   t.ist('Häkchen ohne Änderung schließt', await p.evaluate(() => !dlg.open), true, 'R-4.4');
   // Tag
   await S(p, 'Tag 25.08. öffnen', async () => { await p.click('tr[data-day="2026-08-25"]'); await bis(p, `dlg.open && ${RUHE}`, 'Fenster Tag offen'); });
@@ -141,7 +143,7 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'x', () => p.click('#dlgX'));
   // seit 3.48.0 (AppDesign APD-30, R-7.7): der leere Zustand S-1 statt des grauen Hinweises
   t.ist('leere Hauptansicht', [await p.textContent('#app .leer'), await p.evaluate(() => !dlg.open)], ['Noch kein ReiselogbuchEin neues mit ‚plus‘ in der Seitenleiste anlegen.Neues Reiselogbuch', true], 'R-7.7');
-  await S(p, 'anlegen', async () => { await p.click('#newTrip'); await p.fill('#fTitle', 'Neu'); await p.fill('#fPeople', 'X'); await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); });
+  await S(p, 'anlegen', async () => { await p.click('#newTrip'); await bis(p, `dlg.open && ${RUHE}`, 'Fenster offen und ruhig'); await p.fill('#fTitle', 'Neu'); await p.fill('#fPeople', 'X'); await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); });
   t.ist('angelegt', await p.textContent('.nb-title'), 'Neu');
   await p.close();
 

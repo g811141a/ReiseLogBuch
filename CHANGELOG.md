@@ -13,6 +13,92 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.51.0 – 06.11.2026
+
+Reiselogbuch 3.51.0 · AppDesign 4.53.0 (Designrichtlinie allgemein 4.53.0) · Designrichtlinie Reiselogbuch 3.51.0 · Zusammenarbeit allgemein 3.8.0
+
+**Menüs wachsen aus dem Knopf, schwebende Kapsel und Menüs aus Glas** (AppDesign APD-38/T-16 und APD-38/T-37, R-4.13 und R-3.9) – dein Ja vom 06.11.2026,
+Sitzung 0083. Das Reiselogbuch nutzt jetzt die AppDesign-Fassung 4.53.0; im Reiselogbuch selbst ändert sich kein Code.
+
+- **Bewegung:** Mehr-Menü, Untermenü ‚Darstellung‘, Kontextmenü einer Kachel und jede Sprechblase (z. B. ‚Reiselogbuch löschen‘, ‚Änderungen
+  verwerfen‘) wachsen in 0,35 s aus ihrem Knopf bzw. ihrer Kachel und schrumpfen beim Schließen in 0,25 s dorthin zurück; mit ‚Bewegung reduzieren‘
+  blenden sie nur ein und aus. Lage und Größe am Ende wie bisher.
+- **Glas:** die Kapsel ‚Nach oben / Ans Ende‘ und alle Menüs sind leicht durchscheinend (75 %), der Inhalt dahinter verschwimmt; mit ‚Transparenz
+  reduzieren‘ deckend wie bisher. Kopfzeile, Seitenleiste, Fenster und Sprechblasen bleiben deckend.
+- **Prüfungen:** `ablauf-markierung-menues` prüft das Wachsen und Schrumpfen (AppDesign APD-62/M-1 bis M-8, M-10, M-11; iPad quer und hoch, hell und
+  dunkel, iPhone hoch und quer, ‚Bewegung reduzieren‘) und das Glas (APD-62/L-1, L-2, L-4, L-5, L-10); `ablauf-grossanzeige` das Menü nach der
+  Großanzeige (APD-62/M-9); `hig` prüft das Glas in jeder Ansicht nach jedem Schritt (R-3.9). `ablauf-gesamt` und `ablauf-jahre` warten vor dem
+  ersten Klick in ein gerade geöffnetes Fenster, bis es ruht – unter Last klickte die Prüfung in WebKit das Häkchen, während das Blatt noch
+  hereinglitt, und traf daneben (Sitzung 0085, nachgestellt und gemessen; die App ist nicht betroffen).
+- **Hinweis:** das Reiselogbuch hat seit 3.41.0 keine untere Leiste mit Suchfeld mehr – APD-62/L-3 (Suchfeld und runde Knöpfe unten aus Glas) gilt
+  allgemein, ist hier aber nicht zu sehen.
+
+Testfälle P-97 (Schritt für Schritt, Zusammenarbeit allgemein 3.8.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen, **ohne** Messung.
+
+**P-97/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.51.0 · erstellt am … · AppDesign 4.53.0‘.
+
+**P-97/1 – Mehr-Menü wächst aus dem Knopf**
+1. iPad quer, hell: in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+2. Erwartet: das Menü wächst schnell und weich aus dem Knopf heraus und steht dann wie bisher darunter.
+3. Neben das Menü tippen. Erwartet: das Menü schrumpft zum Knopf zurück und blendet aus; der Knopf zeigt wieder waagrechte Punkte.
+
+**P-97/2 – Untermenü wächst aus seinem Menüpunkt**
+1. iPad quer, hell: Seitenleiste ‚…‘ (Mehr) → ‚Darstellung‘ tippen.
+2. Erwartet: das Untermenü wächst aus dem Menüpunkt ‚Darstellung‘ und steht daneben, oben bündig.
+3. Auf der Hardware-Tastatur Esc drücken bzw. neben die Menüs tippen. Erwartet: das Untermenü schrumpft zu ‚Darstellung‘ zurück (bei Esc bleibt das
+   Menü offen).
+
+**P-97/3 – Kontextmenü wächst aus der Kachel**
+1. iPad quer, hell: in der Seitenleiste lange auf eine Kachel drücken.
+2. Erwartet: das Kontextmenü wächst aus der Kachel und steht wie bisher daneben.
+3. Daneben tippen. Erwartet: es schrumpft zur Kachel zurück.
+
+**P-97/4 – Sprechblase wächst aus der Kachel**
+1. iPad quer, hell: lange auf eine Kachel drücken → ‚Reiselogbuch löschen‘.
+2. Erwartet: die Sprechblase ‚… mit allen Einträgen löschen?‘ wächst aus der Kachel.
+3. ‚Abbrechen‘ tippen. Erwartet: die Sprechblase schrumpft zurück, das Reiselogbuch ist noch da.
+
+**P-97/5 – Sofort wieder schließen**
+1. iPad quer, hell: ‚…‘ (Mehr) antippen und gleich danach (noch während es wächst) daneben tippen.
+2. Erwartet: das Menü schrumpft von der Größe aus zurück, die es gerade hatte – kein Sprung, kein Flackern.
+
+**P-97/6 – iPhone**
+1. iPhone hoch, hell: in der Startliste ‚…‘ (Mehr) tippen. Erwartet: das Menü wächst aus dem Knopf.
+2. Drehen auf quer, ‚…‘ (Mehr) erneut. Erwartet: ebenso, das Menü passt ganz auf den Bildschirm.
+
+**P-97/7 – Bewegung reduzieren**
+1. iPad: Einstellungen → Bedienungshilfen → Bewegung → ‚Bewegung reduzieren‘ einschalten, die App öffnen.
+2. Seitenleiste ‚…‘ (Mehr) tippen. Erwartet: das Menü blendet nur ein (keine Größenänderung), daneben tippen blendet es aus.
+3. ‚Bewegung reduzieren‘ wieder ausschalten.
+
+**P-97/8 – Kapsel und Menü aus Glas (hell)**
+1. iPad quer, hell: ein Reiselogbuch mit vielen Tagen öffnen und etwas nach unten rollen, sodass Text unter der Kapsel ‚Nach oben / Ans Ende‘
+   unten rechts liegt.
+2. Erwartet: die Kapsel ist leicht durchscheinend, der Text dahinter verschwimmt; die Pfeile sind gut zu erkennen.
+3. Seitenleiste ‚…‘ (Mehr) tippen, sodass das Menü über der blauen Kachel liegt. Erwartet: das Menü ist leicht durchscheinend (Blau schimmert
+   verschwommen durch), alle Texte sind gut lesbar.
+
+**P-97/9 – Glas dunkel**
+1. Seitenleiste ‚…‘ (Mehr) → ‚Darstellung‘ → ‚Dunkel‘.
+2. Wie P-97/8 Schritte 1 und 3 (Kapsel, Menü über der blauen Kachel). Erwartet: dunkel durchscheinend, Texte gut lesbar; danach ‚Darstellung‘
+   wieder auf ‚Automatisch‘.
+
+**P-97/10 – Transparenz reduzieren**
+1. iPad: Einstellungen → Bedienungshilfen → Anzeige & Textgröße → ‚Transparenz reduzieren‘ einschalten, die App öffnen.
+2. Seitenleiste ‚…‘ (Mehr) tippen und die Kapsel ‚Nach oben / Ans Ende‘ ansehen.
+3. Erwartet: Menü und Kapsel deckend wie bis 3.50.1 (nichts scheint durch). Scheinen sie noch durch, bitte ‚nicht ok‘ – Vermutung: dann gibt Safari
+   die Einstellung nicht an Webseiten weiter (in der Prüfung nur in Chromium nachzubilden).
+4. ‚Transparenz reduzieren‘ wieder ausschalten.
+
+**P-97/11 – Kontextstand in jeder Frage und Push am iPad (Zusammenarbeit 3.8.0)**
+1. iPad, Claude-App: den Bericht zu dieser Version abwarten, ohne die App im Vordergrund zu haben.
+2. Erwartet: eine Push-Mitteilung mit der Frage ‚P-97: Wie ist die Prüfung ausgegangen? (Kontext N)‘; im Auswahlfenster endet jede Frage mit
+   ‚(Kontext N)‘, und derselbe Wert steht im Satz direkt davor.
+
 ## 3.50.1 – 06.11.2026
 
 Reiselogbuch 3.50.1 · AppDesign 4.52.0 (Designrichtlinie allgemein 4.52.0) · Designrichtlinie Reiselogbuch 3.50.1 · Zusammenarbeit allgemein 3.7.0

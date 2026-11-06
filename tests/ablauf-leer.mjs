@@ -7,9 +7,9 @@
 // Kontrast (L-13) und Antippfläche (L-12) werden rot. Seit 3.48.1 (AppDesign APD-111): Symbol und Titel überall 36 pt bzw. 17 pt halbfett
 // (P-92/4 Schritt 2, 4, 5; P-92/5) – gegen 3.48.0 rot. Aufruf im Repo-Ordner: node tests/ablauf-leer.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.52.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.52.0/tests/hig.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.52.0/tests/safari.mjs';
+import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.53.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.53.0/tests/hig.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.53.0/tests/safari.mjs';
 const t = pruefung('ablauf-leer', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = (y, m, d) => new Date(Date.UTC(y, m - 1, d)).toISOString().slice(0, 10);

@@ -5,10 +5,14 @@
 // Seit 3.48.0 (AppDesign APD-85 Teil 4, Testfall-Liste AppDesign arbeit/APD-85 Teil 4 Testfall-Liste.md V-1 bis V-3): R-3.1 erkennt einen Schalter an
 // [switch] bzw. role="switch" – im halb hereingeglittenen Fenster (98 %) kein Fund für #fPriceOn (V-1), ein Kästchen 30 × 30 ohne switch braucht 44
 // (V-2), ein Schalter mit 26 px Höhe meldet ‚mind. 28‘ (V-3). Rot gegen 3.47.1: V-1, V-3.
+// Seit 3.51.0 (AppDesign APD-38/T-16, R-4.13, Testfall-Liste AppDesign arbeit/APD-62 Bewegung Testfall-Liste.md APD-62/M-1 bis M-8, M-10, M-11):
+// Menü, Untermenü ‚Darstellung‘, Kontextmenü einer Kachel und Sprechblase ‚Reiselogbuch löschen‘ wachsen aus ihrer Schaltfläche und schrumpfen dorthin
+// zurück (iPad quer und hoch, hell und dunkel, Drehen beim Wachsen), iPhone hoch und quer, ‚Bewegung reduzieren‘ nur Überblenden. Dazu APD-38/T-37
+// (R-3.9, APD-62/L-1, L-2, L-4, L-5, L-10): Menü aus Glas, schon beim Wachsen, mit ‚Transparenz reduzieren‘ deckend (nur Chromium bildet es nach).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.52.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.52.0/tests/hig.mjs';
-import { checkMehrKnopf } from '../../AppDesign/fassung/4.52.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.53.0/tests/pruefe.mjs';
+import { createCheck, checkGlas } from '../../AppDesign/fassung/4.53.0/tests/hig.mjs';
+import { checkMehrKnopf, checkWachsen } from '../../AppDesign/fassung/4.53.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -31,6 +35,14 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   t.liste(await checkMehrKnopf(p, { sel: '#sideMore', untermenue: 'Darstellung', where: 'Mehr der Seitenleiste' }));
   // seit 3.43.0 (AppDesign APD-97): auch hoch steht die Seitenleiste daneben – das Reiselogbuch ist bedienbar
   t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));
+  // AppDesign APD-62/M-1 bis M-6, M-8, M-11 (R-4.13): wachsen aus der Schaltfläche – Mehr, Untermenü, Kontextmenü, Sprechblase; Drehen beim Wachsen
+  const lang = async n => { const bx = await row(n).boundingBox(); await p.mouse.move(bx.x + 40, bx.y + 20); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up(); };
+  await t.schritt(p, 'Menüs wachsen aus der Schaltfläche', async () => t.liste(await checkWachsen(p, { menue: '#sideMore', untermenue: 'Darstellung', drehen: [h, w],
+    kontext: () => lang('Toskana'),
+    blase: async () => { await lang('Toskana'); await p.locator('.menu.kontext .mi', { hasText: 'Reiselogbuch löschen' }).click(); },
+    where: `Bewegung ${theme === 'dark' ? 'dunkel' : 'hell'}` })));
+  // AppDesign APD-62/L-1, L-2, L-4, L-5, L-10 (R-3.9): Menü und Kapsel aus Glas, schon beim Wachsen; ‚Transparenz reduzieren‘ deckend (Chromium)
+  await t.schritt(p, 'Menü aus Glas', async () => t.liste(await checkGlas(p, { menue: '#sideMore', where: `Glas ${theme === 'dark' ? 'dunkel' : 'hell'}` })));
   await t.schritt(p, 'Mehr-Menü der Seitenleiste', async () => { await p.click('#sideMore'); await p.waitForTimeout(150); });
   // seit 3.24.0: Backup · Strich · Messung (eigene Gruppe, R-4.1) · Strich · graue Zeilen; seit 3.38.0 (AppDesign APD-77) die Messung erst nach
   // langem Drücken auf die Versionszeile; seit 3.41.0 ‚Suchen‘ mit Strich zuerst (APD-91) und ‚Darstellung‘ nach Backup (RLB-108) –
@@ -84,6 +96,8 @@ for (const [ansicht, ruhig] of [['iPhone hoch', false], ['iPhone quer', false], 
   const phone = ansicht.startsWith('iPhone');
   if (phone && await p.locator('#back').count()) { await p.click('#back'); await p.waitForTimeout(400); }
   t.liste(await checkMehrKnopf(p, { sel: '#sideMore', where: phone ? 'Mehr der Startliste' : 'Mehr der Seitenleiste' }));
+  // AppDesign APD-62/M-1 iPhone hoch und quer, APD-62/M-7 ‚Bewegung reduzieren‘ (R-4.13)
+  await t.schritt(p, 'Menü wächst aus der Schaltfläche', async () => t.liste(await checkWachsen(p, { menue: '#sideMore', where: ruhig ? 'Bewegung reduzieren' : 'Bewegung' })));
   if (phone) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); }
   t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));
   if (!phone) {
