@@ -1,6 +1,6 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.50.0** · Stand 05.11.2026
+**Version 3.50.1** · Stand 06.11.2026
 
 > **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.52.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst

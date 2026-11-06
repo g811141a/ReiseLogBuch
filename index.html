@@ -138,8 +138,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.50.0';
-const APP_BUILT = '05.11.2026 um 19:25';
+const APP_VERSION = '3.50.1';
+const APP_BUILT = '06.11.2026 um 01:31';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
 const AD_NEEDED = '4.52.0';
@@ -212,6 +212,15 @@ const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields:
     price: formatEuro, km: n => `${n} km` } });
 const snapshot = sync.snapshot, latestChange = sync.latest, mergeData = sync.merge;
 function stampChanges() { lastSnap = sync.stamp(db, lastSnap); }
+// Seit 3.50.1 (RLB-118): ‚Änderungen verwerfen‘ nach dem automatischen Sichern stellt auch die Zeitstempel des Abgleichs von vor dem
+// Öffnen wieder her – sonst gilt der alte Text beim Abgleich als neuer und überschreibt eine echte Änderung am anderen Gerät.
+const SYNC_STAMPS = ['dayAt', 'metaAt', 'changedAt', 'changedOn'];
+const syncStamps = trip => structuredClone(Object.fromEntries(SYNC_STAMPS.map(k => [k, trip[k]])));
+function restoreStamps(trip, stamps) {
+  save();   // stempelt das Zurückschreiben, lastSnap = Stand beim Öffnen
+  for (const k of SYNC_STAMPS) if (stamps[k] === undefined) delete trip[k]; else trip[k] = structuredClone(stamps[k]);
+  save();   // Inhalt unverändert → nichts Neues gestempelt, die alten Zeitstempel sind gespeichert
+}
 
 function normalize(data) {
   data.trips ||= [];
@@ -1513,6 +1522,7 @@ function openDayDialog(trip, iso) {
   const idx = days.indexOf(iso);
   const isFirst = idx <= 0;
   const original = trip.days[iso] ? { ...trip.days[iso] } : null;
+  const stamps = syncStamps(trip);
   const e = original || {};
   const weather = new Set(graphemes(e.weather));
   const knownQuarters = [...new Set(days.map(d => quarterOf(trip, d).name).filter(Boolean))];
@@ -1684,7 +1694,7 @@ function openDayDialog(trip, iso) {
     countMoods(lastComment, original?.comment || '');
     countMoods(lastFood, original?.food || '', 'food');
     if (original) trip.days[iso] = original; else delete trip.days[iso];
-    save();
+    restoreStamps(trip, stamps);
   };
 
   autosaveTimer = setInterval(persist, AUTOSAVE_MS);
@@ -1706,6 +1716,7 @@ function openDayDialog(trip, iso) {
 // Fazit wie "Wie war was?": Smiley-Leiste, Diktieren, automatisches Speichern.
 function openFazitDialog(trip) {
   const original = trip.fazit || '';
+  const stamps = syncStamps(trip);
   openDialog(`
     <form method="dialog">
       ${dlgHead('Fazit')}
@@ -1737,7 +1748,7 @@ function openFazitDialog(trip) {
   const restore = () => {
     countMoods(lastSaved, original);
     trip.fazit = original;
-    save();
+    restoreStamps(trip, stamps);
   };
 
   autosaveTimer = setInterval(persist, AUTOSAVE_MS);

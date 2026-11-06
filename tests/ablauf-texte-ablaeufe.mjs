@@ -27,16 +27,16 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
       zustaende: [{ name: 'Fenster Tag', open: () => p.evaluate(() => openDayDialog(db.trips[0], '2026-08-25')) }] }));
     await t.schritt(p, 'nach Menüpunkten und roten Aktionen', async () => {});
     // R-5.10 automatisch speichern (APD-40/C-1 bis C-4): eigene Seite, weil die Uhr vorgestellt wird – Fenster Tag (auch ein leerer Tag) und Fazit
-    const ABGLEICH_ZEIT = ['dayAt', 'metaAt', 'changedAt', 'changedOn'];   // Zeitstempel des Abgleichs (createSync) – kein Inhalt
+    // Seit 3.50.1 (RLB-118): verglichen wird der ganze Speicher, auch die Zeitstempel des Abgleichs (dayAt, metaAt, changedAt, changedOn).
     const p2 = await b.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700, colorScheme: scheme });
     await textSeite(p2);   // Gegenproben APD-40/C-1, C-2
     await p2.goto(new URL('../index.html', import.meta.url).href);
     await p2.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: t })), trips);
     await p2.reload(); await p2.waitForTimeout(300);
     if (!await p2.locator('#mainMore').count() || await p2.evaluate(() => side.classList.contains('over') || (typeof phoneList !== 'undefined' && phoneList))) { await p2.locator('.irow, .side-row', { hasText: 'Australien' }).first().click(); await p2.waitForTimeout(300); }
-    t.liste(await checkAutoSpeichern(p2, { where: where + ', Tag', key: 'reiselogbuch.v1', ohne: ABGLEICH_ZEIT, field: '#fProgram', open: () => p2.evaluate(() => openDayDialog(db.trips[0], '2026-08-27')) }));
-    t.liste(await checkAutoSpeichern(p2, { where: where + ', leerer Tag', key: 'reiselogbuch.v1', ohne: ABGLEICH_ZEIT, field: '#fProgram', open: () => p2.evaluate(() => openDayDialog(db.trips[0], '2026-11-05')) }));
-    t.liste(await checkAutoSpeichern(p2, { where: where + ', Fazit', key: 'reiselogbuch.v1', ohne: ABGLEICH_ZEIT, field: '#fFazit', open: () => p2.evaluate(() => openFazitDialog(db.trips[0])) }));
+    t.liste(await checkAutoSpeichern(p2, { where: where + ', Tag', key: 'reiselogbuch.v1', field: '#fProgram', open: () => p2.evaluate(() => openDayDialog(db.trips[0], '2026-08-27')) }));
+    t.liste(await checkAutoSpeichern(p2, { where: where + ', leerer Tag', key: 'reiselogbuch.v1', field: '#fProgram', open: () => p2.evaluate(() => openDayDialog(db.trips[0], '2026-11-05')) }));
+    t.liste(await checkAutoSpeichern(p2, { where: where + ', Fazit', key: 'reiselogbuch.v1', field: '#fFazit', open: () => p2.evaluate(() => openFazitDialog(db.trips[0])) }));
     await p2.close();
   await p.close();
 }
