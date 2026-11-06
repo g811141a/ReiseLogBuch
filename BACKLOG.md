@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-97 | 1 | **Usertest P-97 (3.51.0, AppDesign 4.53.0):** Menüs, Untermenü, Kontextmenü und Sprechblase wachsen aus dem Knopf (AppDesign APD-38/T-16, R-4.13), Kapsel und Menüs aus Glas (APD-38/T-37, R-3.9), ‚(Kontext N)‘ in jeder Fensterfrage und Push (AppDesign APD-113) – Testfälle P-97/0 bis P-97/11 im CHANGELOG | prüfen |
+| P-97 | 1 | **Usertest P-97 (3.51.0, AppDesign 4.53.0):** Menüs, Untermenü, Kontextmenü und Sprechblase wachsen aus dem Knopf (AppDesign APD-38/T-16, R-4.13), Kapsel und Menüs aus Glas (APD-38/T-37, R-3.9), ‚(Kontext N)‘ in jeder Fensterfrage und Push (AppDesign APD-113) – Testfälle P-97/0 bis P-97/11 im CHANGELOG **Ergebnis (Nutzer 06.11.2026, Sitzung 0085):** /0 bis /5, /7 bis /9 und /11 ok; **/6 nicht ok** (APD-118), **/10 nicht ok** (APD-119) | nicht ok: /6, /10 |
 
 ## 2. Weitere Themen (in Klärung)
 
