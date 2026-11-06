@@ -34,6 +34,10 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| RLB-119 | 1 | **Suche nach Smiley meldet 0 Treffer (Nutzer 06.11.2026, Sitzung 0083):** die Suche zeigt passende Tage (`matchesSearch` findet Smileys), die Zahl kommt aber aus `hitCount` (`index.html:440`), das nur gelbe Markierungen in Verlauf, ‚Wie war was?‘, Essen und Quartier zählt – Smileys fehlen; Fehler, als Korrektur vor Neuem (0 Nr. 8); erst nachstellen (0 Nr. 1), auch ‚1 von N‘ im Reiselogbuch prüfen | offen |
+| RLB-120 | 2 | **Schrift- und Smiley-Größe in der Tageskachel (Nutzer 06.11.2026, Sitzung 0083):** Spalte 1 und Spalte 2 der Tageskachel haben unterschiedliche Schriftgrößen, auch die Smileys sind verschieden groß – Ursache noch unbekannt (messen); wird AppDesign, wenn es am Baustein Tabelle bzw. Kasten liegt | offen |
+| RLB-122 | 2 | **Statistik: Umbruch vor der Anzahl (Nutzer 06.11.2026, Sitzung 0083):** z. B. iPhone hoch – bei Wetter und Smileys bricht die Zeile vor der Anzahl um, nicht zwischen Anzahl und Smiley; ‚Anzahl × Smiley‘ steht immer in einer Zeile; beim Klären fragen, ob allgemeine Regel (0 Nr. 4) | offen |
+| RLB-121 | 3 | **Statistik: teuerste und günstigste Quartiere (Nutzer 06.11.2026, Sitzung 0083):** ist ‚Preis der Quartiere erfassen‘ eingeschaltet (RLB-111), zeigt die Statistik formschön die 3 teuersten und die 3 günstigsten Quartiere – Quartiername und in Klammern der Preis für eine Übernachtung; Muster vorher (Vorschlag: ‚günstigste‘ statt ‚billigste‘) | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
