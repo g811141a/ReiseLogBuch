@@ -34,6 +34,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| RLB-118 | 1 | **Zeitstempel nach ‚Änderungen verwerfen‘ (Befund Sitzung 0081, übernommen Nutzer 06.11.2026, Sitzung 0082):** nach automatischem Sichern und ‚Änderungen verwerfen‘ (Fenster Tag, Fazit) stempelt `restore` → `save()` → `stamp` (AppDesign `createSync`) das zurückgeschriebene Feld neu (`dayAt`/`metaAt`, `changedAt`, `changedOn`) statt die alten Zeitstempel wiederherzustellen. Vermutung: beim Abgleich (`mergeFields`, neuerer Stempel gewinnt) überschreibt der alte Text eine echte Änderung am anderen Gerät; das Reiselogbuch gilt als ‚geändert‘. Nächster Schritt: Ablauf als feste Prüfung nachbauen (rot gegen 3.50.0, 0 Nr. 1), dann Vorschlag; Korrekturversion (0 Nr. 8) | Reiselogbuch (Stempeln in AppDesign) | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
