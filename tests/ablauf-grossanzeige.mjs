@@ -5,11 +5,13 @@
 // schwebende Knöpfe (Nach oben → Ans Ende); echt ausgelöst: Loslassen über ‚Mehr‘ öffnet das Menü; offenes Menü: keine Anzeige auf den
 // verdeckten Knöpfen; Drehen schließt sie ohne Auslösen; AX5 (Text 53): die Anzeige wächst mit und bleibt ganz auf dem Bildschirm; bei
 // Text 17 (L) nichts davon (L-1, L-2); Grundregeln nach jedem Schritt. Gegenprobe: gegen 3.45.0 mit PRUEF_APP=../_alt.html rot (L-5).
+// Seit 3.51.0 (AppDesign APD-38/T-16, R-4.13, APD-62/M-9): bei AX1 öffnet langes Drücken auf ‚Mehr‘ nach der Großanzeige das Menü, das wie sonst
+// aus der Schaltfläche wächst und an derselben Stelle endet.
 // Aufruf im Repo-Ordner: node tests/ablauf-grossanzeige.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.52.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.52.0/tests/hig.mjs';
-import { checkGrossanzeige, finger } from '../../AppDesign/fassung/4.52.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.53.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.53.0/tests/hig.mjs';
+import { checkGrossanzeige, finger, checkWachsen } from '../../AppDesign/fassung/4.53.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-grossanzeige', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
@@ -54,6 +56,8 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
       t.wahr('bei offenem Menü zeigt langes Drücken auf den verdeckten Knopf ‚Ausgabe‘ keine Großanzeige', !r, 'R-2.6');
       await p.keyboard.press('Escape'); await p.waitForTimeout(300);
     });
+    // AppDesign APD-62/M-9 (R-4.13): Großanzeige auf ‚Mehr‘, dann wächst das Menü aus der Schaltfläche, Endlage wie ohne Bewegung
+    await t.schritt(p, 'Kopfzeile – Mehr wächst nach der Großanzeige', async () => t.liste(await checkWachsen(p, { menue: '#mainMore', gross: true, where: 'Kopfzeile AX1' })));
     // Seitenleiste (iPad quer: fest links)
     if (await sichtbar(p, '#newTrip'))
       await t.schritt(p, 'Seitenleiste', async () => t.liste(await checkGrossanzeige(p, { knoepfe: ['#newTrip', '#sideMore'], where: 'Seitenleiste' })));
