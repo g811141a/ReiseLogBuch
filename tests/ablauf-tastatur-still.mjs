@@ -89,7 +89,8 @@ const ZIELE = { '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { '-': [tagSicht
 for (const datei of readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort()) {
   const m = lies(readFileSync(new URL(encodeURIComponent(datei), ORDNER), 'utf8'));
   // seit 3.47.1 (AppDesign APD-109): die Messung ‚Titel antippen‘ hat keine Tastatur – nachgebaut in ablauf-titel-oben
-  if (!m.app.startsWith('Reiselogbuch') || datei === '2026-11-02 iPad quer Titel antippen Messmodus.txt') continue;
+  // seit 3.53.0 (AppDesign APD-121/Y-5): die Messungen ‚Mehr-Knopf oben‘ vom 07.11.2026 haben keine Tastatur – nachgespielt in ablauf-schicht-oben
+  if (!m.app.startsWith('Reiselogbuch') || datei === '2026-11-02 iPad quer Titel antippen Messmodus.txt' || datei.startsWith('2026-11-07 iPhone quer Mehr-Knopf oben')) continue;
   const p = await t.seite(b, ansicht(m));
   t.ort = `APD-36/T-8 ${datei.replace(/\.txt$/, '')}`;
   await p.goto(APP);

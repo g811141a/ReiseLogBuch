@@ -89,7 +89,9 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   for (const e of await checkListSearch(p, { term: 'pizza rundgang', where, back })) t.fehler('R-2.3', e);
   await toList();
   if (!await p.locator('#lsearch').isVisible()) { await sucheAuf(p, '#sideMore'); await p.waitForTimeout(200); }
-  const liste = async term => { await p.locator('#lsearch').fill(''); await p.locator('#lsearch').pressSequentially(term, { delay: 10 }); await p.waitForTimeout(400);
+  // seit 3.53.0: auf das Ergebnis warten (Smileys tippt WebKit langsamer – nach 400 ms war die Liste im vollen Lauf einmal noch leer)
+  const liste = async term => { await p.locator('#lsearch').fill(''); await p.locator('#lsearch').pressSequentially(term, { delay: 10 });
+    await p.waitForFunction(t => document.querySelector('#lsearch')?.value === t, term, { timeout: 3000 }).catch(() => {}); await p.waitForTimeout(700);
     return p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#side .side-row')].filter(r => r.getClientRects().length).map(r => [r.dataset.id, r.querySelector('small.hits')?.textContent.trim()]))); };
   t.ist('S12 Liste ‚pizza rundgang‘', await liste('pizza rundgang'), { Australien: '3 Treffer', Italien: '2 Treffer' }, 'R-2.3');
   t.ist('B Liste ‚hafen aida‘', await liste('hafen aida'), { Australien: '3 Treffer' }, 'R-2.3');

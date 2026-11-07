@@ -32,6 +32,8 @@ Sitzung 0096.
   ‚N Treffer‘, ⌄ zum nächsten Smiley, ausgeschaltete Spalte, Hautton; rot gegen 3.52.0); `ablauf-schicht-oben` neu mit APD-121/Y-1 bis Y-5 (Mehr ohne
   Menü öffnet bei y 21, bei y 20 nicht; die Messungen vom 07.11.2026 nachgespielt – jeder Tipp auf Mehr öffnet genau wie am Gerät; rot mit der alten
   Grenze 23).
+- **Angepasst:** `ablauf-tastatur-still` lässt die Messungen ‚Mehr-Knopf oben‘ aus (keine Tastatur, nachgespielt in `ablauf-schicht-oben`);
+  `ablauf-suche-woerter` wartet in der Liste auf das Suchergebnis.
 - **Warum die Prüfung RLB-119 übersah:** die Suchprüfungen hatten Smileys nur mitten im Text bzw. in der Smiley-Spalte ohne Suche danach.
 
 Testfälle P-99 (Schritt für Schritt, Zusammenarbeit allgemein 3.10.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
