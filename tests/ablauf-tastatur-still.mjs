@@ -9,10 +9,10 @@
 // sichtbare Fensterinhalt (96 von 84 px), wie Safari dann verschiebt, ist nicht gemessen (Testfälle).
 // Aufruf im Repo-Ordner: node tests/ablauf-tastatur-still.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.53.0/tests/pruefe.mjs';
-import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS, sucheAuf } from '../../AppDesign/fassung/4.53.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.53.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.53.0/tests/abspielen.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.54.0/tests/pruefe.mjs';
+import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS, sucheAuf } from '../../AppDesign/fassung/4.54.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.54.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.54.0/tests/abspielen.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 const t = pruefung('ablauf-tastatur-still', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
@@ -66,7 +66,7 @@ for (const theme of ['light', 'dark']) {
 // APD-36/T-8: die Messungen der Rückmeldung, Bild für Bild (das Beenden der Messung im Menü spielt spieleAb seit AppDesign 4.38.0 nicht
 // mehr nach, RLB-103). BIS nur noch, wo eine Messung vorher endet: 19.10. ohne die Suche am Ende.
 const ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);
-const BIS = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt': 133000 };
+const BIS = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt': 133000, '2026-11-06 iPhone quer Mehr-Menü oberer Rand.txt': 59000 };   // seit 3.52.0: P-97/6 bis vor dem Beenden der Messung
 const tage = {}; for (let i = 0; i < 40; i++) tage[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, ...(i % 3 ? {} : { place: 'Sydney' }) };
 const tagSichtbar = async p => {   // wie ablauf-abspielen: ein sichtbarer Tag, sonst der letzte in den Inhalt gerollt
   const sel = await p.evaluate(() => { const r = document.querySelector('#app > .rolle').getBoundingClientRect();
@@ -83,7 +83,9 @@ const schliesseMenue = p => p.evaluate(() => document.querySelector('.layer')?.c
 // Suche, ist sie offen, schließt sie das x ‚Suche beenden‘ (wie früher das zweite Antippen der Lupe)
 const lupe = async p => (await p.locator('#search').count()) ? p.click('#sclose') : sucheAuf(p);
 const ZIELE = { '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { '-': [tagSichtbar, p => p.click('label[for="fProgram"]'), async () => {}, tagSichtbar, schliesseMenue] },
-  '2026-10-26 iPhone quer Blatt Ort Quartier.txt': { button: ['#side .side-row[data-id="a"]', '.pop button.danger'], '-': [tagSichtbar, schliesseMenue] } };
+  '2026-10-26 iPhone quer Blatt Ort Quartier.txt': { button: ['#side .side-row[data-id="a"]', '.pop button.danger'], '-': [tagSichtbar, schliesseMenue]  },
+  // seit 3.52.0 (AppDesign APD-118): P-97/6 – ‚-‘ ist die Fläche hinter dem Mehr-Menü (der Tipp ohne Klick am oberen Rand spielt ablauf-schicht-oben nach)
+  '2026-11-06 iPhone quer Mehr-Menü oberer Rand.txt': { button: ['#side .side-row[data-id="a"]'], '-': [schliesseMenue] } };
 for (const datei of readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort()) {
   const m = lies(readFileSync(new URL(encodeURIComponent(datei), ORDNER), 'utf8'));
   // seit 3.47.1 (AppDesign APD-109): die Messung ‚Titel antippen‘ hat keine Tastatur – nachgebaut in ablauf-titel-oben

@@ -7,10 +7,11 @@
 // seit 3.45.0 ablauf-titel-blase (AppDesign APD-101), seit 3.46.0 ablauf-grossanzeige (AppDesign APD-104) und ablauf-beruehren (AppDesign APD-105),
 // seit 3.47.0 ablauf-titel-oben (AppDesign APD-62 / APD-38/T-43).
 // seit 3.48.0 ablauf-leer (AppDesign APD-30, R-7.7).
+// seit 3.52.0 ablauf-schicht-oben (AppDesign APD-118) und ablauf-glas (AppDesign APD-120).
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.53.0/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.54.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'ablauf-messung', 'tastatur',
-  'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-titel-blase', 'ablauf-titel-oben', 'ablauf-leer', 'ablauf-grossanzeige', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
+  'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-titel-blase', 'ablauf-titel-oben', 'ablauf-leer', 'ablauf-schicht-oben', 'ablauf-glas', 'ablauf-grossanzeige', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
   'verlauf-vorschlaege', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'oeffnen-position', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln',
   // Seit 3.33.0 (AppDesign APD-43 P1): die Abläufe mit Bewegung zusätzlich mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (Bewegungswächter)
   // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): dieselben Abläufe zusätzlich mit der größten Textgröße (AX5, 53 px)

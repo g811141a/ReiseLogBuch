@@ -5,10 +5,10 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-abspielen.mjs
 import * as pw from 'playwright';
 import { readFileSync, readdirSync } from 'node:fs';
-import { pruefung } from '../../AppDesign/fassung/4.53.0/tests/pruefe.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.53.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.53.0/tests/abspielen.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.53.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.54.0/tests/pruefe.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.54.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.54.0/tests/abspielen.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.54.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-abspielen', pw, { out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href, ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);
 const days = {}; for (let i = 0; i < 40; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, ...(i % 3 ? {} : { place: 'Sydney' }) };   // Suche ‚Sydne…‘ findet jeden 3. Tag
@@ -22,7 +22,10 @@ const EINSTELLUNG = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt':
   '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { aus: true },
   // seit 3.47.1 (AppDesign APD-109, P-90): Messung ‚Titel antippen‘ am iPad – ‚tippen -‘ ist dort der Titel, kein Tag; der Ablauf ist in
   // ablauf-titel-oben im Safari-Modell ‚Klick nur mit Hörer‘ nachgebaut
-  '2026-11-02 iPad quer Titel antippen Messmodus.txt': { aus: true } };
+  '2026-11-02 iPad quer Titel antippen Messmodus.txt': { aus: true },
+  // seit 3.52.0: P-97/6 – zeigt Tipps auf die Sperrschicht (nachgespielt in ablauf-schicht-oben, AppDesign APD-118/X-8); Kopf- und Suchzeile stehen
+  // darin still (die ersten 30 s nur die Startliste – die Gegenprobe APD-34/M-5 fände nichts)
+  '2026-11-06 iPhone quer Mehr-Menü oberer Rand.txt': { aus: true } };
 // Ziele ohne id: ‚button‘ = Reiselogbuch in der Liste, ‚-‘ = ein sichtbarer Tag (öffnet das Fenster des Tages). Ist mit den eigenen
 // Daten kein Tag zu sehen (am Gerät endete der Inhalt kürzer), wird der letzte Tag in den Inhalt gerollt – inh wird nicht verglichen.
 const tagSichtbar = async p => {
@@ -38,7 +41,9 @@ const schliesseMenue = p => p.evaluate(() => document.querySelector('.layer')?.c
 // seit 3.41.0 (AppDesign APD-91): die Lupe der Messungen (searchBtn) gibt es nicht mehr – nachgespielt öffnet ‚Suchen‘ im Mehr-Menü die
 // Suche, ist sie offen, schließt sie das x ‚Suche beenden‘ (wie früher das zweite Antippen der Lupe)
 const lupe = async p => (await p.locator('#search').count()) ? p.click('#sclose') : sucheAuf(p);
-const ZIELE = { '2026-10-26 iPhone quer Blatt Ort Quartier.txt': { button: ['#side .side-row[data-id="a"]', '.pop button.danger'], '-': [tagSichtbar, schliesseMenue] } };
+const ZIELE = { '2026-10-26 iPhone quer Blatt Ort Quartier.txt': { button: ['#side .side-row[data-id="a"]', '.pop button.danger'], '-': [tagSichtbar, schliesseMenue]  },
+  // seit 3.52.0 (AppDesign APD-118): P-97/6 – ‚-‘ ist die Fläche hinter dem Mehr-Menü (der Tipp ohne Klick am oberen Rand spielt ablauf-schicht-oben nach)
+  '2026-11-06 iPhone quer Mehr-Menü oberer Rand.txt': { button: ['#side .side-row[data-id="a"]'], '-': [schliesseMenue] } };
 const ziele = datei => ({ button: ['#side .side-row[data-id="a"]'], '-': [tagSichtbar], searchBtn: lupe, ...ZIELE[datei] });
 const woerter = { search: 'Sydney', fPlace: 'Perth', kosten: '4850123456' };
 // APD-34/F-11: nach dem Antippen von Gesamtausgaben (und jeder Eingabe dort) steht das Feld ganz über der Tastatur

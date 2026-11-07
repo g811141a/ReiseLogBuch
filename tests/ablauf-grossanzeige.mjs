@@ -9,9 +9,9 @@
 // aus der Schaltfläche wächst und an derselben Stelle endet.
 // Aufruf im Repo-Ordner: node tests/ablauf-grossanzeige.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.53.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.53.0/tests/hig.mjs';
-import { checkGrossanzeige, finger, checkWachsen } from '../../AppDesign/fassung/4.53.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.54.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.54.0/tests/hig.mjs';
+import { checkGrossanzeige, finger, checkWachsen } from '../../AppDesign/fassung/4.54.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-grossanzeige', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
@@ -54,7 +54,10 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
         ev('pointerdown'); await new Promise(r => setTimeout(r, 700)); const g = !!document.querySelector('.grossanzeige'); ev('pointerup'); return g;
       });
       t.wahr('bei offenem Menü zeigt langes Drücken auf den verdeckten Knopf ‚Ausgabe‘ keine Großanzeige', !r, 'R-2.6');
-      await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+      // seit 3.52.0 (AppDesign APD-118): das Loslassen auf der Sperrschicht schließt das Menü schon – Esc nur, wenn noch eins offen ist (am iPhone
+      // ginge Esc sonst aus dem Reiselogbuch zurück zur Startliste)
+      if (await p.locator('.menu').count()) await p.keyboard.press('Escape');
+      await p.waitForTimeout(300);
     });
     // AppDesign APD-62/M-9 (R-4.13): Großanzeige auf ‚Mehr‘, dann wächst das Menü aus der Schaltfläche, Endlage wie ohne Bewegung
     await t.schritt(p, 'Kopfzeile – Mehr wächst nach der Großanzeige', async () => t.liste(await checkWachsen(p, { menue: '#mainMore', gross: true, where: 'Kopfzeile AX1' })));
