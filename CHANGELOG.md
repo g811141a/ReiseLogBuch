@@ -34,6 +34,9 @@ dein Ja vom 07.11.2026, Sitzung 0087.
 - **Prüfungen:** neu `ablauf-schicht-oben` (AppDesign APD-118/X-1 bis APD-118/X-8: iPhone quer hell und dunkel mit dem Safari-Modell ‚am oberen Rand kein Klick‘,
   iPhone hoch, iPad quer und hoch; die Messung vom 06.11.2026 nachgespielt; rot gegen 3.51.0 bei APD-118/X-1, APD-118/X-2, APD-118/X-5, APD-118/X-8) und `ablauf-glas` (APD-120/J-1 bis
   G-13: Schalter, Neuladen, Leertaste, Backup nach Neuinstallation, altes Backup, Backup eines anderen Geräts, Abgleichen; rot gegen 3.51.0).
+- **Angepasst:** `ablauf-gesamt` (Untermenü ‚Darstellung‘ mit ‚Glas‘), `ablauf-grossanzeige` (Esc nur, wenn noch ein Menü offen ist – das Loslassen auf der
+  Sperrschicht schließt schon), `ablauf-tastatur-still` und `ablauf-abspielen` (die Messung vom 06.11.2026: Ziele und Ende eingestellt bzw. in
+  `ablauf-schicht-oben` nachgespielt).
 - **Warum die Prüfung P-97/6 übersah:** das Safari-Modell schickte jeden Klick – dass Safari am oberen Rand keinen schickt, zeigte erst die Messung.
 
 Testfälle P-98 (Schritt für Schritt, Zusammenarbeit allgemein 3.9.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
