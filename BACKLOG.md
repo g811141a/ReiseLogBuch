@@ -24,7 +24,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 |---|---|---|---|---|
 | RLB-119 | 1 | **Suche nach Smiley zählt zu wenig (Nutzer 06.11.2026, Sitzung 0083; nachgestellt 0088):** führende Smileys in Verlauf, ‚Wie war was?‘ und Essen werden markiert und gezählt (`linesHtml`, `foodHtml` mit `highlight`); Regel AppDesign APD-122 (15.2, R-2.3); Testfälle APD-122/S-1 bis S-6, S-8 | App | 07.11.2026 |
 
-1 Punkt bereit (mit AppDesign APD-122) – Bau-Frage in 0088 mit ‚Nein‘ beantwortet, vor dem Bau neu fragen.
+1 Punkt bereit (mit AppDesign APD-122) – Bau in Sitzung 0089 (Nutzer 07.11.2026), vorher Bau-Frage.
 
 ## 1. Auf iPad und iPhone prüfen
 
