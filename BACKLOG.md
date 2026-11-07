@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-98 | 1 | **Usertest P-98 (3.52.0, AppDesign 4.54.0):** Mehr-Menü schließt am oberen Rand (AppDesign APD-118), Schalter ‚Glas‘ im Untermenü ‚Darstellung‘ (APD-120, R-3.9), Text nach dem Fenster und Push (APD-113 Teil (6), APD-117) – Testfälle P-98/0 bis P-98/7 im CHANGELOG | offen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +51,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 ## Erledigt
 
 | Nr. | Thema | Version | Datum |
+|---|---|---|---|
+| P-98 | **Usertest P-98 (3.52.0, AppDesign 4.54.0): alles ok** (Nutzer 07.11.2026, Sitzung 0088) – Mehr-Menü schließt am oberen Rand (AppDesign APD-118), Schalter ‚Glas‘ im Untermenü ‚Darstellung‘ (APD-120, R-3.9), Text nach dem Fenster und Push (APD-113 Teil (6), APD-117) | 3.52.0 | 07.11.2026 |
 | P-97 | **Usertest P-97 (3.51.0, AppDesign 4.53.0):** /0 bis /5, /7 bis /9 und /11 ok; /6 und /10 nicht ok – behoben in 3.52.0 (AppDesign APD-118, APD-119, APD-120), neu zu prüfen in P-98 | 3.52.0 | 07.11.2026 |
 | 3.52.0 | **AppDesign 4.54.0 übernommen:** Sperrschicht schließt am oberen Rand (APD-118), Schalter ‚Glas‘ – beim Laden eines Backups gilt die Wahl dieses Geräts weiter (`glasAusBackup`, APD-120); Prüfungen `ablauf-schicht-oben` und `ablauf-glas` | 3.52.0 | 07.11.2026 |
 | P-96 | **Usertest P-96 (3.50.1, AppDesign 4.52.0): alles ok** (Nutzer 06.11.2026, Sitzung 0082) – ‚Änderungen verwerfen‘ am iPad nach dem automatischen Sichern überschreibt beim Abgleich die Änderung vom iPhone nicht mehr (RLB-118, R-5.10, R-9.3) | 3.50.1 | 06.11.2026 |
@@ -67,9 +68,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 | P-89 | **Usertest P-89 (3.46.2, AppDesign 4.48.2, APD-107): alles ok** (Nutzer 01.11.2026, Sitzung 0072) – Leisten-Knopf hebt sich hell über die Kapsel, Wegziehen öffnet nichts, Smiley-Kreis im Fenster zu sehen, Kapsel ‚Wetter‘ blass wie bisher | 3.46.2 | 01.11.2026 |
 | P-88 | **Usertest P-88 (3.46.1):** /0, /2, /3, /5, /6 ok; /1 (Knopf nicht sichtbar blass, Wegziehen öffnet das Menü) und /4 (Smiley-Kreis nicht zu sehen) nicht ok – behoben mit AppDesign APD-107 (Leisten-Knopf hebt sich, Sperre bis zum Loslassen, Kreis im Fenster); weiter mit P-89 | 3.46.2 | 01.11.2026 |
 | RLB-115, P-87 | **RLB-115 gebaut** (AppDesign `keepKante`: nach dem Aus- und Einblenden der Seitenleiste steht der heutige Tag ganz unter dem Tabellenkopf, R-8.1) und **Usertest P-87 (3.46.0): nicht ok** – behoben mit AppDesign APD-106 (Antipp-Markierung aus, keine Textauswahl, Smiley mit Kreis und 1 s; Großanzeige am iPad nur mit ‚Größere dynamische Schrift‘); weiter mit P-88 | 3.46.1 | 01.11.2026 |
-|---|---|---|---|
-| P-97 | **Usertest P-97 (3.51.0, AppDesign 4.53.0):** /0 bis /5, /7 bis /9 und /11 ok; /6 und /10 nicht ok – behoben in 3.52.0 (AppDesign APD-118, APD-119, APD-120), neu zu prüfen in P-98 | 3.52.0 | 07.11.2026 |
-| 3.52.0 | **AppDesign 4.54.0 übernommen:** Sperrschicht schließt am oberen Rand (APD-118), Schalter ‚Glas‘ – beim Laden eines Backups gilt die Wahl dieses Geräts weiter (`glasAusBackup`, APD-120); Prüfungen `ablauf-schicht-oben` und `ablauf-glas` | 3.52.0 | 07.11.2026 |
 | APD-104, APD-105 | **AppDesign APD-104 und APD-105 gebaut:** Großanzeige für Leisten-Knöpfe ab AX1 (R-2.6) und Rückmeldung beim Berühren – Knöpfe blass, Zeilen grau, Smiley hebt sich beim Halten an (R-3.6, R-3.5); neue Prüfungen `ablauf-grossanzeige` und `ablauf-beruehren` (rot gegen 3.45.0); Usertest P-87 | 3.46.0 | 31.10.2026 |
 | P-86 | **Usertest P-86 (3.45.0 · AppDesign 4.47.0): alles ok** – gekürzter Titel mit Sprechblase am Gerät bestätigt (Nutzer 31.10.2026, Sitzung 0066) | 3.45.0 | 31.10.2026 |
 | APD-101 | **AppDesign APD-101 gebaut – gekürzter Titel:** langes Drücken auf einen mit ‚…‘ gekürzten Titel (Fenster, Kopfzeile) zeigt den ganzen Titel in einer Sprechblase darunter (R-2.5); neue Prüfung `ablauf-titel-blase` (rot gegen 3.44.0); Usertest P-86 | 3.45.0 | 31.10.2026 |
