@@ -13,6 +13,60 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.53.0 – 07.11.2026
+
+Reiselogbuch 3.53.0 · AppDesign 4.55.0 (Designrichtlinie allgemein 4.55.0) · Designrichtlinie Reiselogbuch 3.53.0 · Zusammenarbeit allgemein 3.10.0
+
+**Smileys in der Suche, Mehr-Knopf ganz oben, Zusammenarbeit ohne Regelwächter** (RLB-119, AppDesign APD-122, APD-121, APD-123) – dein Ja vom 07.11.2026,
+Sitzung 0096.
+
+- **Suche nach Smiley zählt richtig (RLB-119, AppDesign APD-122):** Smileys am Zeilenanfang (‚Wie war was?‘, Essen) werden jetzt wie Wörter gelb markiert
+  und gezählt – im Reiselogbuch (‚1 von N‘, Pfeile) und an der Kachel der Liste (‚N Treffer‘). Bisher zählte nur ein Smiley mitten im Text, eine Suche
+  nach ‚😋‘ fand beim Essen nichts. Markiert wird das ganze Zeichen mit Hautton (‚👍‘ markiert ‚👍🏽‘ ganz); das ▫️ vor den Zeilen des Verlaufs bleibt
+  ungefärbt (Zeichen der App). Ausgeschaltete Spalten zählen weiter nicht.
+- **Mehr-Knopf ganz oben (AppDesign APD-121):** das Safari-Modell der Prüfungen nimmt erst oberhalb y 21 den Klick weg (gemessen: bis y 20 kein Klick, ab
+  y 21 schon) – an der App ändert sich nichts, die Prüfungen bilden jetzt genau das Gerät nach.
+- **Zusammenarbeit 3.10.0 (AppDesign APD-123):** ohne Regelwächter – jede Antwort, nach der du etwas tun sollst, endet mit der Kachel; alles zum Lesen steht
+  davor (bei Prüfen und Entscheiden zusätzlich als Datei neben der Kachel), ‚(Kontext N)‘ in jeder Frage, keine Uhrzeit- und Zeitzeile.
+- **Prüfungen:** `ablauf-suche-woerter` neu mit APD-122/S-1 bis S-7 (Smileys in ‚Wie war was?‘, Essen und Verlauf, mehrere Smileys am Zeilenanfang, Liste
+  ‚N Treffer‘, ⌄ zum nächsten Smiley, ausgeschaltete Spalte, Hautton; rot gegen 3.52.0); `ablauf-schicht-oben` neu mit APD-121/Y-1 bis Y-5 (Mehr ohne
+  Menü öffnet bei y 21, bei y 20 nicht; die Messungen vom 07.11.2026 nachgespielt – jeder Tipp auf Mehr öffnet genau wie am Gerät; rot mit der alten
+  Grenze 23).
+- **Warum die Prüfung RLB-119 übersah:** die Suchprüfungen hatten Smileys nur mitten im Text bzw. in der Smiley-Spalte ohne Suche danach.
+
+Testfälle P-99 (Schritt für Schritt, Zusammenarbeit allgemein 3.10.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen, **ohne** Messung.
+
+**P-99/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.53.0 · erstellt am … · AppDesign 4.55.0‘.
+
+**P-99/1 – Smiley am Zeilenanfang in ‚Wie war was?‘**
+1. iPad quer, hell: ein Reiselogbuch mit eingeschalteter Spalte ‚Wie war was?‘ öffnen, in dem eine Zeile mit einem Smiley beginnt (z. B. ‚😀 …‘).
+2. Oben auf ‚…‘ (Mehr) → ‚Suchen‘ tippen und genau diesen Smiley eingeben.
+3. Erwartet: der Smiley vorne in der Zeile ist gelb markiert, der aktuelle hellorange; die Zahl ‚1 von N‘ zählt ihn mit (N = Anzahl der gelben Stellen).
+
+**P-99/2 – Smiley beim Essen**
+1. iPad quer, hell: im selben Reiselogbuch einen Smiley suchen, mit dem eine Zeile in ‚Essen und Trinken‘ beginnt (z. B. ‚😋‘).
+2. Mit ⌄ (chevron-down) durch die Treffer gehen.
+3. Erwartet: der Smiley vor dem Essen ist gelb markiert und wird angesprungen; vorher fand die Suche dort nichts.
+
+**P-99/3 – Zahl in der Liste**
+1. iPad quer, hell: in der Seitenleiste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) → ‚Suchen‘ tippen und denselben Smiley wie in P-99/1 eingeben.
+2. Die Zahl an der Kachel des Reiselogbuchs ablesen, dann das Reiselogbuch öffnen.
+3. Erwartet: ‚N Treffer‘ an der Kachel ist dieselbe Zahl wie ‚1 von N‘ im Reiselogbuch.
+
+**P-99/4 – Smiley mit Hautton**
+1. iPhone hoch, hell: in einem Reiselogbuch an einem Tag in ‚Wie war was?‘ eine Zeile ‚👍🏽 Test‘ eintragen und sichern.
+2. Oben auf ‚…‘ (Mehr) → ‚Suchen‘ tippen und ‚👍‘ (ohne Hautton) eingeben.
+3. Erwartet: ‚👍🏽‘ ist ganz gelb markiert, auch der Hautton. Danach die Zeile ‚👍🏽 Test‘ wieder löschen.
+
+**P-99/5 – Mehr-Knopf ganz oben (iPhone quer)**
+1. iPhone quer, hell: die Startliste ‚Reiselogbücher‘ zeigen.
+2. Mit dem Finger ganz oben auf den Mehr-Knopf ‚…‘ tippen (am oberen Rand des Bildschirms).
+3. Erwartet: das Menü öffnet sich. Dann daneben tippen – das Menü schließt.
+
 ## 3.52.0 – 07.11.2026
 
 Reiselogbuch 3.52.0 · AppDesign 4.54.0 (Designrichtlinie allgemein 4.54.0) · Designrichtlinie Reiselogbuch 3.52.0 · Zusammenarbeit allgemein 3.9.0

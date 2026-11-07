@@ -5,9 +5,9 @@
 // zentrale Liste 1:1 (checkListSearch) und ‚Suchen‘ zuerst im Mehr-Menü (checkSearchPlace, seit 3.41.0 APD-91). iPad quer und hoch, iPhone hoch
 // und quer, hell und dunkel. Seit 3.27.0 ohne Akzente (AppDesign APD-63 C2). Aufruf im Repo-Ordner: node tests/ablauf-suche-woerter.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.54.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.54.0/tests/hig.mjs';
-import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace, sucheAuf } from '../../AppDesign/fassung/4.54.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.55.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.55.0/tests/hig.mjs';
+import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace, sucheAuf } from '../../AppDesign/fassung/4.55.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-woerter', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const trip = (id, start, list) => ({ id, title: id, participants: 'G & A', start, end: new Date(Date.parse(start) + (list.length - 1) * 864e5).toISOString().slice(0, 10),
   transport: ['flug'], foodColumn: true, moodColumn: false, quarterColumn: false,
@@ -21,6 +21,11 @@ const TRIPS = [
   trip('Schweiz', '2022-06-01', [['Ankunft in Zürich', '☕️ Café Crème']]),
   // lang genug zum Rollen: der Treffer muss unter die Suchzeile rücken können (S11, checkSearch)
   trip('Lang', '2023-01-01', Array.from({ length: 30 }, (_, i) => [i % 2 ? 'Opera ' + i : 'Sydney ' + i, '☕️ Kaffee'])),
+  // seit 3.53.0 (RLB-119, AppDesign APD-122/S-1 bis S-6): Smileys am Zeilenanfang (eigene Spalte) werden markiert und gezählt
+  ...[['Smileys', true], ['Smileys aus', false]].map(([id, mood]) => ({ ...trip(id, mood ? '2021-03-01' : '2020-03-01', [['Wanderung 😀 am Berg', '😋 Pizza'],
+    ['Stadt\nMuseum', '🍕 Pasta'], ['Strand', '👍🏽 Burger']]), moodColumn: mood,
+    days: Object.fromEntries([['01', 'Wanderung 😀 am Berg', '😋 Pizza', '😀 Toller Tag'], ['02', 'Stadt\nMuseum', '🍕 Pasta', '😀😡 Gemischt'],
+      ['03', 'Strand', '👍🏽 Burger', '😀 Schön']].map(([d, program, food, comment]) => [`${mood ? 2021 : 2020}-03-${d}`, { weather: '☀️', program, food, comment }])) })),
 ];
 const b = await t.browser();
 for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], ['iPhone hoch', 'light'], ['iPhone quer', 'dark']]) {
@@ -100,6 +105,37 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.ist('APD-63/A-1 ‚zurich‘ im Reiselogbuch', { n: z.n, marks: z.marks }, { n: '1 von 1', marks: ['Zürich'] }, 'R-2.3');
   const c = await suche('cafe creme');
   t.ist('APD-63/A-3 ‚cafe creme‘ im Reiselogbuch', { n: c.n, marks: c.marks }, { n: '1 von 2', marks: ['Café', 'Crème'] }, 'R-2.3');
+  // RLB-119 / APD-122 (seit 3.53.0): Smileys wie Wörter – auch am Zeilenanfang (Verlauf, ‚Wie war was?‘, Essen), ganzes Zeichen
+  if (await p.locator('#sclose').isVisible()) { await p.click('#sclose'); await p.waitForTimeout(200); }
+  await toList();
+  if (!await p.locator('#lsearch').isVisible()) { await sucheAuf(p, '#sideMore'); await p.waitForTimeout(200); }
+  // APD-122/S-4 und S-6: Zahl an der Kachel = ‚1 von N‘; ausgeschaltete Spalte ‚Wie war was?‘ zählt nicht
+  t.ist('APD-122/S-4 Liste ‚😀‘', await liste('😀'), { Smileys: '4 Treffer', 'Smileys aus': '1 Treffer' }, 'R-2.3');
+  t.ist('APD-122/S-4 Liste ‚😋‘', await liste('😋'), { Australien: '1 Treffer', Smileys: '1 Treffer', 'Smileys aus': '1 Treffer' }, 'R-2.3');
+  await liste('Wanderung'); await open('Smileys');
+  const sm = [
+    // APD-122/S-1 Zeilenanfang in ‚Wie war was?‘ (3×) und S-2 mitten im Verlauf (1×, nicht doppelt)
+    ['APD-122/S-1 und S-2 ‚😀‘', '😀', { n: '1 von 4', marks: ['😀', '😀', '😀', '😀'] }],
+    ['APD-122/S-1 Essen ‚😋‘', '😋', { n: '1 von 1', marks: ['😋'] }],
+    // APD-122/S-3 mehrere Smileys am Zeilenanfang: nur der gesuchte
+    ['APD-122/S-3 ‚😡‘ in ‚😀😡 Gemischt‘', '😡', { n: '1 von 1', marks: ['😡'] }],
+    // APD-122/S-7 in der App: ‚👍‘ markiert ‚👍🏽‘ ganz
+    ['APD-122/S-7 ‚👍‘ mit Hautton', '👍', { n: '1 von 1', marks: ['👍🏽'] }],
+  ];
+  for (const [fall, term, soll] of sm) { const r = await suche(term); t.ist(fall, { n: r.n, marks: r.marks }, soll, 'R-2.3'); }
+  // APD-122/S-5 ⌄ springt zum nächsten Smiley-Treffer, der aktuelle ist hellorange (.cur)
+  await suche('😀');
+  const cur = () => p.evaluate(item => { const m = [...document.querySelectorAll(`${item} mark`)]; return [m.findIndex(x => x.classList.contains('cur')), document.querySelector('#scount')?.textContent.trim()]; }, item);
+  t.ist('APD-122/S-5 erster Treffer aktuell', await cur(), [0, '1 von 4'], 'R-2.3');
+  await p.click('#snext', { timeout: 2000 }).catch(() => {}); await p.waitForTimeout(300);
+  t.ist('APD-122/S-5 ⌄ zum zweiten Smiley', await cur(), [1, '2 von 4'], 'R-2.3');
+  await t.schritt(p, 'Suche nach Smiley', async () => {});
+  await p.click('#sclose'); await p.waitForTimeout(200);
+  // APD-122/S-6 ausgeschaltete Spalte: nur der Smiley im Verlauf zählt
+  await toList(); await open('Smileys aus');
+  const aus = await suche('😀');
+  t.ist('APD-122/S-6 ‚Wie war was?‘ aus', { n: aus.n, marks: aus.marks }, { n: '1 von 1', marks: ['😀'] }, 'R-2.3');
+  await p.click('#sclose'); await p.waitForTimeout(200);
   await p.close();
 }
 await t.ende(b);

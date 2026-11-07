@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.54.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.55.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -131,18 +131,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.54.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.55.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.52.0';
-const APP_BUILT = '07.11.2026 um 00:48';
+const APP_VERSION = '3.53.0';
+const APP_BUILT = '07.11.2026 um 19:10';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.54.0';
+const AD_NEEDED = '4.55.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -468,7 +468,7 @@ function splitLines(text) {
 // Verlauf: bei mehreren Zeilen jede mit ▫️, bei einer Zeile ohne Zeichen.
 function programItems(text) {
   const lines = splitLines(text).map(l => l.replace(/^(▫️|▫|-|•)\s*/u, ''));
-  return lines.map(t => ({ m: lines.length > 1 ? '▫️' : '', t }));
+  return lines.map(t => ({ m: lines.length > 1 ? '▫️' : '', t, deko: true }));
 }
 
 // Führende Smileys (auch mehrere) einer Zeile abtrennen: "🕛 😋 Text" → { m: "🕛😋", t: "Text" }.
@@ -538,7 +538,7 @@ function foodItems(text, place) {
 function foodHtml(items, term = '', inApp = false) {
   return items.map(({ m, name, rest, maps }) =>
     // Smileys und 📍 bilden gemeinsam die linke Spalte, damit Folgezeilen unter dem Namen beginnen.
-    `<div class="ln">${m || maps ? `<span class="m">${esc(m)}${maps ? '📍' : ''}</span>` : ''}<span class="t">${maps
+    `<div class="ln">${m || maps ? `<span class="m">${markLead(m, term)}${maps ? '📍' : ''}</span>` : ''}<span class="t">${maps
       ? `<a href="${maps}"${linkAttrs(inApp)}>${highlight(name, term)}</a>${highlight(rest, term)}`
       : highlight(name + rest, term)}</span></div>`).join('');
 }
@@ -563,9 +563,12 @@ function highlight(text, term) {
   return term ? markWords(safe, searchWords(term)) : safe;
 }
 
+// RLB-119 (seit 3.53.0, AppDesign APD-122, Designrichtlinie 15.2 ‚Smileys (Emoji)‘): die Smileys am Zeilenanfang (eigene Spalte) werden
+// wie Wörter markiert und gezählt – nicht das ▫️ des Verlaufs (Zeichen der App, kein Inhalt).
+const markLead = (m, term) => term ? markWords(esc(m), searchWords(term)) : esc(m);
 function linesHtml(items, term = '') {
-  return items.map(({ m, t }) =>
-    `<div class="ln">${m ? `<span class="m">${esc(m)}</span>` : ''}<span class="t">${highlight(t, term)}</span></div>`).join('');
+  return items.map(({ m, t, deko }) =>
+    `<div class="ln">${m ? `<span class="m">${deko ? esc(m) : markLead(m, term)}</span>` : ''}<span class="t">${highlight(t, term)}</span></div>`).join('');
 }
 
 /* ---------- Smileys ---------- */

@@ -9,7 +9,7 @@
 // RLB-118/V-5 Verwerfen ohne Zwischenspeichern bleibt wie bisher (Speicher wie beim Öffnen)
 // Aufruf im Repo-Ordner: node tests/ablauf-verwerfen-abgleich.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.54.0/tests/pruefe.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.55.0/tests/pruefe.mjs';
 const t = pruefung('ablauf-verwerfen-abgleich', pw, { out: new URL('out/', import.meta.url) });
 
 const APP = new URL('../index.html', import.meta.url).href;
