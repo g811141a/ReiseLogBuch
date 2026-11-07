@@ -22,8 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| RLB-119 | 1 | **Suche nach Smiley zählt zu wenig (Nutzer 06.11.2026, Sitzung 0083; nachgestellt 0088):** führende Smileys in Verlauf, ‚Wie war was?‘ und Essen werden markiert und gezählt (`linesHtml`, `foodHtml` mit `highlight`); Regel AppDesign APD-122 (15.2, R-2.3); Testfälle APD-122/S-1 bis S-6, S-8 | App | 07.11.2026 |
 
-0 Punkte bereit.
+1 Punkt bereit (mit AppDesign APD-122).
 
 ## 1. Auf iPad und iPhone prüfen
 
@@ -34,7 +35,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-119 | 1 | **Suche nach Smiley meldet 0 Treffer (Nutzer 06.11.2026, Sitzung 0083):** die Suche zeigt passende Tage (`matchesSearch` findet Smileys), die Zahl kommt aber aus `hitCount` (`index.html:440`), das nur gelbe Markierungen in Verlauf, ‚Wie war was?‘, Essen und Quartier zählt – Smileys fehlen; Fehler, als Korrektur vor Neuem (0 Nr. 8); erst nachstellen (0 Nr. 1), auch ‚1 von N‘ im Reiselogbuch prüfen. **Befund (Sitzung 0088, nachgestellt):** führende Smileys einer Zeile (Verlauf, ‚Wie war was?‘, Essen) stehen in `<span class="m">` und werden nie markiert (`linesHtml`, `foodHtml` mit `esc(m)` statt `highlight`) – ‚😀‘ an 3 Tagen ergibt `hitCount` 1 (nur ein Smiley mitten im Text); dasselbe gilt für ‚1 von N‘ (`hitMarks`). Vorschlag: auch die Smiley-Spalte mit `highlight` markieren (im Versuch: 3 von 3) | offen |
 | RLB-120 | 2 | **Schrift- und Smiley-Größe in der Tageskachel (Nutzer 06.11.2026, Sitzung 0083):** Spalte 1 und Spalte 2 der Tageskachel haben unterschiedliche Schriftgrößen, auch die Smileys sind verschieden groß – Ursache noch unbekannt (messen); wird AppDesign, wenn es am Baustein Tabelle bzw. Kasten liegt | offen |
 | RLB-122 | 2 | **Statistik: Umbruch vor der Anzahl (Nutzer 06.11.2026, Sitzung 0083):** z. B. iPhone hoch – bei Wetter und Smileys bricht die Zeile vor der Anzahl um, nicht zwischen Anzahl und Smiley; ‚Anzahl × Smiley‘ steht immer in einer Zeile; beim Klären fragen, ob allgemeine Regel (0 Nr. 4) | offen |
 | RLB-121 | 3 | **Statistik: teuerste und günstigste Quartiere (Nutzer 06.11.2026, Sitzung 0083):** ist ‚Preis der Quartiere erfassen‘ eingeschaltet (RLB-111), zeigt die Statistik formschön die 3 teuersten und die 3 günstigsten Quartiere – Quartiername und in Klammern der Preis für eine Übernachtung; Muster vorher (Vorschlag: ‚günstigste‘ statt ‚billigste‘) | offen |
