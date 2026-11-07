@@ -13,6 +13,73 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.52.0 – 07.11.2026
+
+Reiselogbuch 3.52.0 · AppDesign 4.54.0 (Designrichtlinie allgemein 4.54.0) · Designrichtlinie Reiselogbuch 3.52.0 · Zusammenarbeit allgemein 3.9.0
+
+**Mehr-Menü schließt am oberen Rand, Schalter ‚Glas‘, Text nach dem Fenster** (AppDesign APD-118, APD-119, APD-120, APD-113 Teil (6), APD-117) –
+dein Ja vom 07.11.2026, Sitzung 0087.
+
+- **Menüs schließen am oberen Rand (APD-118, P-97/6):** im iPhone quer schickt Safari ganz oben (y ≈ 20 px) keinen Klick – ein Tipp auf den Mehr-Knopf
+  bei offenem Menü tat nichts. Die Fläche hinter Menü, Untermenü, Kontextmenü und Sprechblase schließt jetzt schon beim Loslassen (bis 20 px Weg) und
+  schluckt den Klick danach, damit nichts darunter (z. B. Mehr) wieder aufgeht; Wischen über 20 px lässt das Menü offen.
+- **Schalter ‚Glas‘ (APD-120):** Mehr der Seitenleiste (iPhone: der Startliste) → ‚Darstellung‘ → als eigene Gruppe der Schalter ‚Glas‘. Aus: Menüs und die
+  Kapsel ‚Nach oben / Ans Ende‘ sind deckend wie mit ‚Transparenz reduzieren‘; das Menü bleibt beim Umschalten offen. Standard ein; die Wahl gilt auf
+  diesem Gerät und bleibt nach dem Neustart; ein Backup bringt sie nur nach einer Neuinstallation mit (Abgleichen und Ersetzen lassen eine schon
+  getroffene Wahl stehen).
+- **‚Transparenz reduzieren‘ (APD-119, P-97/10):** die Einstellung des iPads kommt in der Web-App nicht an – als Abweichung in der Designrichtlinie 13
+  festgehalten; abschalten lässt sich das Glas jetzt mit dem Schalter.
+- **Zusammenarbeit 3.9.0 (APD-113 Teil (6), APD-117):** erst ein Fenster ‚… anzeigen?‘ (Push), danach Link, Schritte, Bericht als letzte Ausgabe, du
+  antwortest im Chat; das Lagebild ist zu Beginn eine eigene Antwort; der Regelwächter lässt eine Antwort ohne Fenster nie enden.
+- **Prüfungen:** neu `ablauf-schicht-oben` (AppDesign APD-118/X-1 bis APD-118/X-8: iPhone quer hell und dunkel mit dem Safari-Modell ‚am oberen Rand kein Klick‘,
+  iPhone hoch, iPad quer und hoch; die Messung vom 06.11.2026 nachgespielt; rot gegen 3.51.0 bei APD-118/X-1, APD-118/X-2, APD-118/X-5, APD-118/X-8) und `ablauf-glas` (APD-120/J-1 bis
+  G-13: Schalter, Neuladen, Leertaste, Backup nach Neuinstallation, altes Backup, Backup eines anderen Geräts, Abgleichen; rot gegen 3.51.0).
+- **Warum die Prüfung P-97/6 übersah:** das Safari-Modell schickte jeden Klick – dass Safari am oberen Rand keinen schickt, zeigte erst die Messung.
+
+Testfälle P-98 (Schritt für Schritt, Zusammenarbeit allgemein 3.9.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen, **ohne** Messung.
+
+**P-98/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.52.0 · erstellt am … · AppDesign 4.54.0‘.
+
+**P-98/1 – Mehr-Menü schließt am oberen Rand (wie P-97/6)**
+1. iPhone quer, hell: ein Reiselogbuch öffnen, oben rechts auf ‚…‘ (Mehr) tippen.
+2. Mit dem Finger ganz oben auf den Mehr-Knopf tippen (am oberen Rand des Bildschirms).
+3. Erwartet: das Menü schließt beim ersten Tipp, der Knopf zeigt wieder waagrechte Punkte, das Menü geht nicht gleich wieder auf.
+
+**P-98/2 – Daneben tippen schließt genau einmal**
+1. iPad quer, hell: ein Reiselogbuch öffnen, oben auf ‚…‘ (Mehr) tippen.
+2. Auf eine Tageszeile der Tabelle neben dem Menü tippen.
+3. Erwartet: nur das Menü schließt; der Tag öffnet sich nicht.
+
+**P-98/3 – Glas ausschalten**
+1. iPad quer, hell: in der Seitenleiste oben auf ‚…‘ (Mehr) → ‚Darstellung‘ tippen.
+2. Erwartet: unter ‚Automatisch / Hell / Dunkel‘ als eigene Gruppe ‚Glas‘ mit grünem Schalter (ein).
+3. Auf ‚Glas‘ tippen. Erwartet: der Schalter ist aus, das Menü bleibt offen und ist jetzt deckend weiß (nichts scheint mehr durch).
+4. Neben die Menüs tippen, ein langes Reiselogbuch öffnen und nach unten rollen. Erwartet: die Kapsel ‚Nach oben / Ans Ende‘ ist deckend.
+
+**P-98/4 – Glas bleibt nach dem Neustart aus**
+1. iPad: nach P-98/3 die App ganz schließen und neu öffnen.
+2. Seitenleiste ‚…‘ (Mehr) → ‚Darstellung‘ tippen.
+3. Erwartet: das Menü ist deckend, der Schalter ‚Glas‘ steht auf aus.
+
+**P-98/5 – Glas gilt je Gerät**
+1. iPad (Glas aus nach P-98/3): Seitenleiste ‚…‘ (Mehr) → ‚Backup erstellen‘ und die Datei in iCloud Drive sichern.
+2. iPhone: Mehr → ‚Darstellung‘ → ‚Glas‘ einmal aus- und wieder einschalten (damit das iPhone eine eigene Wahl hat).
+3. iPhone: Mehr → ‚Backup laden‘ → die Datei vom iPad → ‚Abgleichen‘.
+4. Erwartet auf dem iPhone: Menüs bleiben leicht durchscheinend, der Schalter ‚Glas‘ steht auf ein. Auf dem iPad bleibt Glas aus.
+
+**P-98/6 – Glas wieder einschalten**
+1. iPad: Seitenleiste ‚…‘ (Mehr) → ‚Darstellung‘ → ‚Glas‘ tippen.
+2. Erwartet: der Schalter ist ein (grün), das Menü ist sofort wieder leicht durchscheinend.
+
+**P-98/7 – Push und Text nach dem Fenster (Zusammenarbeit 3.9.0)**
+1. iPad: warten, bis Claude den Bericht zu dieser Version schickt.
+2. Erwartet: zuerst ein Push mit dem Fenster ‚… anzeigen?‘; nach ‚Anzeigen‘ steht der Bericht mit Link und Schritten als letzte Ausgabe im Chat und
+   lässt sich kopieren.
+
 ## 3.51.0 – 06.11.2026
 
 Reiselogbuch 3.51.0 · AppDesign 4.53.0 (Designrichtlinie allgemein 4.53.0) · Designrichtlinie Reiselogbuch 3.51.0 · Zusammenarbeit allgemein 3.8.0
