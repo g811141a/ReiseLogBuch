@@ -58,8 +58,8 @@ for (const theme of ['light', 'dark']) {
   t.ist('Darstellung dunkel', await p.evaluate(() => document.documentElement.dataset.theme), 'dark', 'R-1.2');
   await S(p, 'Untermenü Darstellung', async () => { await p.click('#sideMore'); await p.click('.menu .mi:has-text("Darstellung")'); });
   t.ist('Wert im Menü grau: Dunkel', await p.textContent('.menu:not(.submenu) .mi:has-text("Darstellung") .val'), 'Dunkel', 'R-1.2');
-  t.ist('Häkchen bei Dunkel', await p.evaluate(() => [...document.querySelectorAll('.submenu .mi')].map(b => b.getAttribute('aria-checked'))), ['false', 'false', 'true'], 'R-1.2');
-  t.ist('Untermenü Darstellung', await p.locator('.submenu .mi').allTextContents(), ['Automatisch', 'Hell', 'Dunkel'], 'R-1.2');
+  t.ist('Häkchen bei Dunkel', await p.evaluate(() => [...document.querySelectorAll('.submenu .mi')].map(b => b.getAttribute('aria-checked'))), ['false', 'false', 'true', 'true'], 'R-1.2');   // seit 3.52.0 (AppDesign APD-120): dazu der Schalter ‚Glas‘ (ein)
+  t.ist('Untermenü Darstellung', await p.locator('.submenu .mi').allTextContents(), ['Automatisch', 'Hell', 'Dunkel', 'Glas'], 'R-1.2');
   await S(p, 'Darstellung Automatisch', () => p.click('.submenu .mi:has-text("Automatisch")'));
   // Reiselogbuch einstellen (seit 3.44.0, RLB-113)
   await S(p, 'Reiselogbuch einstellen', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); });

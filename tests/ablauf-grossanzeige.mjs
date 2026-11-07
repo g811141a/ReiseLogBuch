@@ -54,7 +54,10 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
         ev('pointerdown'); await new Promise(r => setTimeout(r, 700)); const g = !!document.querySelector('.grossanzeige'); ev('pointerup'); return g;
       });
       t.wahr('bei offenem Menü zeigt langes Drücken auf den verdeckten Knopf ‚Ausgabe‘ keine Großanzeige', !r, 'R-2.6');
-      await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+      // seit 3.52.0 (AppDesign APD-118): das Loslassen auf der Sperrschicht schließt das Menü schon – Esc nur, wenn noch eins offen ist (am iPhone
+      // ginge Esc sonst aus dem Reiselogbuch zurück zur Startliste)
+      if (await p.locator('.menu').count()) await p.keyboard.press('Escape');
+      await p.waitForTimeout(300);
     });
     // AppDesign APD-62/M-9 (R-4.13): Großanzeige auf ‚Mehr‘, dann wächst das Menü aus der Schaltfläche, Endlage wie ohne Bewegung
     await t.schritt(p, 'Kopfzeile – Mehr wächst nach der Großanzeige', async () => t.liste(await checkWachsen(p, { menue: '#mainMore', gross: true, where: 'Kopfzeile AX1' })));
