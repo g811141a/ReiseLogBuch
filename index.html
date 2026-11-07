@@ -2034,13 +2034,15 @@ importFile.onchange = async () => {
     const choice = await sync.ask(document.querySelector(importAnchor), db, data, savedAt, savedOn);
     if (!choice) return release(importAnchor);
     // Das letzte Backup und das zuletzt verwendete Reiselogbuch gelten je Gerät: die Werte aus der Datei werden nicht übernommen.
-    const { lastBackup, lastTrip } = db.settings;
+    // Glas (seit 3.52.0, AppDesign APD-120): gilt je Gerät – der Wert aus der Datei nur, wenn hier noch nicht gewählt (Neuinstallation)
+    const { lastBackup, lastTrip, glas } = db.settings;
     let stats = null;
     if (choice === 'merge') ({ data: db, stats } = mergeData(db, data));
     else db = data;
     db = normalize(db);
     db.settings.lastBackup = lastBackup;
     if (lastTrip) db.settings.lastTrip = lastTrip; else delete db.settings.lastTrip;
+    glasAusBackup(glas);
     lastSnap = snapshot(db);   // übernommene Änderungen behalten Zeitpunkt und Gerät von drüben
     save();
     applyTheme();
