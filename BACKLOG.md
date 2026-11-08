@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 07.11.2026** · Aktuelle Version: Reiselogbuch 3.53.0 · AppDesign 4.55.0
+**Stand 08.11.2026** · Aktuelle Version: Reiselogbuch 3.53.0 · AppDesign 4.55.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-99 | 1 | **Usertest P-99 (3.53.0, AppDesign 4.55.0):** Smileys in der Suche markiert und gezählt (RLB-119, APD-122), Mehr-Knopf ganz oben im iPhone quer (APD-121) – Testfälle P-99/0 bis P-99/5 im CHANGELOG 3.53.0 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-99 | **Usertest P-99 (3.53.0, AppDesign 4.55.0): alles ok** (Nutzer 08.11.2026, Sitzung 0097) – Smileys in der Suche markiert und gezählt (RLB-119, AppDesign APD-122), Mehr-Knopf ganz oben im iPhone quer (APD-121) | 3.53.0 | 08.11.2026 |
 | RLB-119 | **Suche nach Smiley zählt richtig:** Smileys am Zeilenanfang (‚Wie war was?‘, Essen) markiert und gezählt (`linesHtml`, `foodHtml`, `markLead`; AppDesign APD-122) | 3.53.0 | 07.11.2026 |
 | P-98 | **Usertest P-98 (3.52.0, AppDesign 4.54.0): alles ok** (Nutzer 07.11.2026, Sitzung 0088) – Mehr-Menü schließt am oberen Rand (AppDesign APD-118), Schalter ‚Glas‘ im Untermenü ‚Darstellung‘ (APD-120, R-3.9), Text nach dem Fenster und Push (APD-113 Teil (6), APD-117) | 3.52.0 | 07.11.2026 |
 | P-97 | **Usertest P-97 (3.51.0, AppDesign 4.53.0):** /0 bis /5, /7 bis /9 und /11 ok; /6 und /10 nicht ok – behoben in 3.52.0 (AppDesign APD-118, APD-119, APD-120), neu zu prüfen in P-98 | 3.52.0 | 07.11.2026 |
