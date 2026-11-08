@@ -23,8 +23,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
 | RLB-123 | 1 | **Verlauf: Vorschläge über dem Feld, am Ende einfügen, danach klein (Nutzer 08.11.2026, Sitzung 0098, aus P-100/1):** die Vorschläge stehen wieder über dem Feld (nimmt AppDesign APD-115/E-6 Variante A aus 3.54.0 zurück); ein angetippter Vorschlag – auch ‚Sonstiges …‘ (statt leerer erster Zeile oben, RLB-94) – kommt nach der letzten Zeile ins Feld (heute an der Cursor-Stelle, `insertAtCursor`), die Tastatur ist danach mit Kleinbuchstaben bereit (R-5.2 ändern: ‚nach einem Vorschlag groß‘, `capNext` – Wortlaut bestätigt 08.11.2026, AppDesign APD-126/W-3, W-4); das Verlauf-Feld ist leer einzeilig und wächst mit Zeilenumbruch oder Vorschlag (AppDesign APD-126); Korrektur aus P-100 – **Muster ok** (Nutzer 08.11.2026, Sitzung 0098; `AppDesign/arbeit/APD-126 RLB-123 Klärung und Wortlaut.md`) – **Muster iPad hoch und iPhone quer ok** (Nutzer 08.11.2026, Sitzung 0099) | App | 08.11.2026 |
+| RLB-122 | 2 | **Statistik: Umbruch nur nach dem ‚·‘ (Nutzer 06. und 08.11.2026, Sitzungen 0083, 0103, allgemein – R-10.5 ergänzt, Muster ok in allen vier Lagen, Wortlaut bestätigt):** Wetter und Smileys der Statistik (App, Vorschau, Ausgabe) als Aufzählung mit dem AppDesign-Baustein `aufzaehlung(liste)` – jeder Eintrag ‚Anzahl×Zeichen‘ am Stück, der ‚·‘ bleibt am Zeilenende, die neue Zeile beginnt mit der Anzahl (heute bricht sie zwischen ‚8×‘ und dem Zeichen um); `PROMPT.md` nach RLB-122/W-3; Prüfung `checkAufzaehlung` in `ablauf-preis-km.mjs` (RLB-122/B-1 bis B-7), Testfall (User) P-101/14 – AppDesign `arbeit/RLB-122 Klärung.md` | App + allgemein | 08.11.2026 |
 
-1 Punkt bereit.
+2 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
@@ -37,7 +38,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
 | RLB-120 | 2 | **Schrift- und Smiley-Größe in der Tageskachel (Nutzer 06.11.2026, Sitzung 0083):** Spalte 1 und Spalte 2 der Tageskachel haben unterschiedliche Schriftgrößen, auch die Smileys sind verschieden groß – Ursache noch unbekannt (messen); wird AppDesign, wenn es am Baustein Tabelle bzw. Kasten liegt | offen |
-| RLB-122 | 2 | **Statistik: Umbruch vor der Anzahl (Nutzer 06.11.2026, Sitzung 0083):** z. B. iPhone hoch – bei Wetter und Smileys bricht die Zeile vor der Anzahl um, nicht zwischen Anzahl und Smiley; ‚Anzahl × Smiley‘ steht immer in einer Zeile; beim Klären fragen, ob allgemeine Regel (0 Nr. 4) | offen |
 | RLB-121 | 3 | **Statistik: teuerste und günstigste Quartiere (Nutzer 06.11.2026, Sitzung 0083):** ist ‚Preis der Quartiere erfassen‘ eingeschaltet (RLB-111), zeigt die Statistik formschön die 3 teuersten und die 3 günstigsten Quartiere – Quartiername und in Klammern der Preis für eine Übernachtung; Muster vorher (Vorschlag: ‚günstigste‘ statt ‚billigste‘) | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
