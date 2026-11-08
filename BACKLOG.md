@@ -30,7 +30,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-100 | 1 | **Usertest P-100 (3.54.0, AppDesign 4.56.0):** Rollen wie Apple, Feld wechseln ohne Ruckeln, Tastatur zu ohne Sprung, ‚Verlauf‘ über dem Feld (AppDesign APD-115) – Testfälle P-100/0 bis P-100/6 im CHANGELOG 3.54.0 – **Rückmeldung (Nutzer 08.11.2026, Sitzung 0098): ok bis auf P-100/1** (→ RLB-123) **und P-100/2 Schritt 3** (Feld gleitet zu schnell → AppDesign APD-127) | prüfen |
+| P-100 | 1 | **Usertest P-100 (3.54.0, AppDesign 4.56.0):** Rollen wie Apple, Feld wechseln ohne Ruckeln, Tastatur zu ohne Sprung, ‚Verlauf‘ über dem Feld (AppDesign APD-115) – Testfälle P-100/0 bis P-100/6 im CHANGELOG 3.54.0 – **Rückmeldung (Nutzer 08.11.2026, Sitzung 0098): ok bis auf P-100/1** (→ RLB-123) **und P-100/2 Schritt 3** (Feld gleitet zu schnell → AppDesign APD-127; Messung 08.11.2026, Sitzung 0100: kein Unterschied spürbar, Variante A bleibt – **ohne Änderung erledigt**, Nutzer 08.11.2026) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
