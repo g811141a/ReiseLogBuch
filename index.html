@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.55.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.56.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -117,6 +117,8 @@
     #app, #side, .side-shade, dialog, .fab { display: none !important; }
     #printout { display: block; }
   }
+/* seit 3.54.0 (AppDesign APD-115/E-6, Variante A): ‚Verlauf‘ direkt über dem Feld, die Vorschläge darunter */
+#suggest { margin: 10px 0 0; }
 </style>
 </head>
 <body>
@@ -131,18 +133,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.55.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.56.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.53.0';
-const APP_BUILT = '07.11.2026 um 19:10';
+const APP_VERSION = '3.54.0';
+const APP_BUILT = '08.11.2026 um 01:52';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.55.0';
+const AD_NEEDED = '4.56.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -625,6 +627,10 @@ function insertLineTop(ta) {
   ta.selectionStart = ta.selectionEnd = 0;
   autoGrow(ta);
   ta.scrollTop = 0;
+  // seit 3.54.0 (Variante A, AppDesign APD-115/E-6): die Vorschläge stehen unter dem Feld – liegt die erste Zeile über dem Fensterinhalt, rollt er
+  // so weit, dass sie mit Platz für Umrandung und Schatten zu sehen ist (RLB-94 V10)
+  const c = ta.closest('.dlg-body'), d = c ? ta.getBoundingClientRect().top - c.getBoundingClientRect().top - 30 : 0;
+  if (d < 0) c.scrollTop += d;
 }
 
 
@@ -1549,10 +1555,10 @@ function openDayDialog(trip, iso) {
         </div>
         <div class="step">
           <div class="step-head"><label for="fProgram"><span class="step-num">2</span>Verlauf</label></div>
+          <textarea id="fProgram" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Wie ist der Tag verlaufen? Eine Zeile pro Punkt.">${esc(e.program || '')}</textarea>
           <div class="chips" id="suggest">
             ${PROGRAM_SUGGESTIONS.map((s, i) => `<button type="button" data-s="${i}">${esc(s.label)}</button>`).join('')}
           </div>
-          <textarea id="fProgram" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Wie ist der Tag verlaufen? Eine Zeile pro Punkt.">${esc(e.program || '')}</textarea>
         </div>
         <div class="step" ${c.mood ? '' : 'hidden'}>
           <div class="step-head"><label for="fComment"><span class="step-num">${c.mood ? nextNo() : ''}</span>Wie war was?</label></div>

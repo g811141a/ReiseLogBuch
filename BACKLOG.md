@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 08.11.2026** · Aktuelle Version: Reiselogbuch 3.53.0 · AppDesign 4.55.0
+**Stand 08.11.2026** · Aktuelle Version: Reiselogbuch 3.54.0 · AppDesign 4.56.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,6 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-100 | 1 | **Usertest P-100 (3.54.0, AppDesign 4.56.0):** Rollen wie Apple, Feld wechseln ohne Ruckeln, Tastatur zu ohne Sprung, ‚Verlauf‘ über dem Feld (AppDesign APD-115) – Testfälle P-100/0 bis P-100/6 im CHANGELOG 3.54.0 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +52,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| 3.54.0 | **‚Verlauf‘ direkt über dem Feld** (Vorschläge darunter, nach ‚Sonstiges …‘ bleibt die erste Zeile im Bild) mit AppDesign APD-115 (Rollen wie Apple, Feld wechseln ohne Ruckeln, Tastatur zu ohne Sprung); Prüfung `ablauf-feld-rollen` | 3.54.0 | 08.11.2026 |
 | P-99 | **Usertest P-99 (3.53.0, AppDesign 4.55.0): alles ok** (Nutzer 08.11.2026, Sitzung 0097) – Smileys in der Suche markiert und gezählt (RLB-119, AppDesign APD-122), Mehr-Knopf ganz oben im iPhone quer (APD-121) | 3.53.0 | 08.11.2026 |
 | RLB-119 | **Suche nach Smiley zählt richtig:** Smileys am Zeilenanfang (‚Wie war was?‘, Essen) markiert und gezählt (`linesHtml`, `foodHtml`, `markLead`; AppDesign APD-122) | 3.53.0 | 07.11.2026 |
 | P-98 | **Usertest P-98 (3.52.0, AppDesign 4.54.0): alles ok** (Nutzer 07.11.2026, Sitzung 0088) – Mehr-Menü schließt am oberen Rand (AppDesign APD-118), Schalter ‚Glas‘ im Untermenü ‚Darstellung‘ (APD-120, R-3.9), Text nach dem Fenster und Push (APD-113 Teil (6), APD-117) | 3.52.0 | 07.11.2026 |

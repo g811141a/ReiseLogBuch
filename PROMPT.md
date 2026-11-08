@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 07.11.2026, Version 3.53.0)
+# Reiselogbuch – Funktionsbeschreibung (Stand 08.11.2026, Version 3.54.0)
 
-Reiselogbuch 3.53.0 · AppDesign 4.55.0 (Designrichtlinie allgemein 4.55.0) · Designrichtlinie Reiselogbuch 3.53.0 · Zusammenarbeit allgemein 3.10.0
+Reiselogbuch 3.54.0 · AppDesign 4.56.0 (Designrichtlinie allgemein 4.56.0) · Designrichtlinie Reiselogbuch 3.54.0 · Zusammenarbeit allgemein 3.10.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -179,7 +179,7 @@ wie am iPad (R-1.1):
 - Schritte je nach sichtbaren Spalten (2 bis 5, fortlaufend nummeriert); die Eingabefelder bleiben schlicht (ohne
   Aufzählungszeichen), formatiert wird in Tabelle und Ausgabe:
   1. **Wetter:** Symbole antippen, auch mehrere; gewählte eingeschaltet (blau getönt mit Haarlinie).
-  2. **Verlauf:** eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle und Ausgabe ▫️ davor. Vorschläge als Chips: ‚Weiterfahrt
+  2. **Verlauf:** eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle und Ausgabe ▫️ davor. Vorschläge als Chips unter dem Feld (seit 3.54.0): ‚Weiterfahrt
      nach …‘, ‚Rundgang durch …‘, ‚Besichtigung …‘, ‚Freetour …‘, ‚Tour …‘, ‚Sonstiges …‘ – angetippt wird der Text als neue Zeile
      eingefügt, ‚…‘ ist nur Platzhalter; nach einem Vorschlag beginnt das nächste Wort groß. ‚Sonstiges …‘ fügt keinen Text ein,
      sondern eine leere Zeile am Anfang des Felds und setzt den Cursor dorthin (ist die erste Zeile schon leer, keine zweite).
