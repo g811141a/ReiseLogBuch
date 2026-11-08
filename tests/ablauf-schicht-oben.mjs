@@ -13,11 +13,11 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-schicht-oben.mjs
 import * as pw from 'playwright';
 import { readFileSync } from 'node:fs';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
-import { checkSchichtOben } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
-import { lies, ansicht } from '../../AppDesign/fassung/4.56.0/tests/abspielen.mjs';
-import { obenOhneKlick } from '../../AppDesign/fassung/4.56.0/tests/safari.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { checkSchichtOben } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+import { lies, ansicht } from '../../AppDesign/fassung/4.57.0/tests/abspielen.mjs';
+import { obenOhneKlick } from '../../AppDesign/fassung/4.57.0/tests/safari.mjs';
 const t = pruefung('ablauf-schicht-oben', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const MESSUNG = lies(readFileSync(new URL(encodeURIComponent('2026-11-06 iPhone quer Mehr-Menü oberer Rand.txt'), new URL('../../AppDesign/tests/messungen/', import.meta.url)), 'utf8'));

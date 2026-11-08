@@ -7,8 +7,8 @@
 // Gegenprobe (J-11): lauf.mjs --gegenprobe masse (Glas bleibt bei Schalter aus) bzw. gegen 3.51.0 mit PRUEF_APP=../_alt.html rot.
 // Aufruf im Repo-Ordner: node tests/ablauf-glas.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck, checkGlas } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck, checkGlas } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 const t = pruefung('ablauf-glas', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const trips = [{ id: 'a', title: 'Australien', participants: 'G', start: '2026-08-24', end: '2026-09-05', transport: ['flug'], days: { '2026-08-24': { program: 'Sydney' } } }];
