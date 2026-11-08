@@ -22,17 +22,14 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-123 | 1 | **Verlauf: Vorschläge über dem Feld, am Ende einfügen, danach klein (Nutzer 08.11.2026, Sitzung 0098, aus P-100/1):** die Vorschläge stehen wieder über dem Feld (nimmt AppDesign APD-115/E-6 Variante A aus 3.54.0 zurück); ein angetippter Vorschlag – auch ‚Sonstiges …‘ (statt leerer erster Zeile oben, RLB-94) – kommt nach der letzten Zeile ins Feld (heute an der Cursor-Stelle, `insertAtCursor`), die Tastatur ist danach mit Kleinbuchstaben bereit (R-5.2 ändern: ‚nach einem Vorschlag groß‘, `capNext` – Wortlaut bestätigt 08.11.2026, AppDesign APD-126/W-3, W-4); das Verlauf-Feld ist leer einzeilig und wächst mit Zeilenumbruch oder Vorschlag (AppDesign APD-126); Korrektur aus P-100 – **Muster ok** (Nutzer 08.11.2026, Sitzung 0098; `AppDesign/arbeit/APD-126 RLB-123 Klärung und Wortlaut.md`) – **Muster iPad hoch und iPhone quer ok** (Nutzer 08.11.2026, Sitzung 0099) | App | 08.11.2026 |
-| RLB-122 | 2 | **Statistik: Umbruch nur nach dem ‚·‘ (Nutzer 06. und 08.11.2026, Sitzungen 0083, 0103, allgemein – R-10.5 ergänzt, Muster ok in allen vier Lagen, Wortlaut bestätigt):** Wetter und Smileys der Statistik (App, Vorschau, Ausgabe) als Aufzählung mit dem AppDesign-Baustein `aufzaehlung(liste)` – jeder Eintrag ‚Anzahl×Zeichen‘ am Stück, der ‚·‘ bleibt am Zeilenende, die neue Zeile beginnt mit der Anzahl (heute bricht sie zwischen ‚8×‘ und dem Zeichen um); `PROMPT.md` nach RLB-122/W-3; Prüfung `checkAufzaehlung` in `ablauf-preis-km.mjs` (RLB-122/B-1 bis B-7), Testfall (User) P-101/14 – AppDesign `arbeit/RLB-122 Klärung.md` | App + allgemein | 08.11.2026 |
-| RLB-120 | 2 | **Tageskachel: Schrift- und Emoji-Größe, Kopfverlauf (Nutzer 06. und 08.11.2026, Sitzungen 0083, 0103–0105, allgemein – Muster ok, Wortlaut bestätigt):** Emojis der Bezeichnung und Wetter im Kopf in Textgröße (heute 13 bzw. 18 px statt 17), Bezeichnung halbfett, Spalte 1 breiter, Linien vor dem ersten und nach dem letzten Feld; Kopfverlauf B (lange weiß, Grau 5 erst zum Ende hin) in der Bezeichnung der Tageskachel (nebeneinander nach rechts, untereinander nach unten), in den Kopfzeilen der Tabellen und in der Ausgabe (HTML/PDF, Weiß → `#d9d9d9`); in der gelb markierten (`.gap`) bzw. ausgewählten (`.on`) Kachel beginnt der Verlauf mit der Farbe der Kachel (`--kachel-bg`); im Reiselogbuch: Wetter `.box.day .h .wx` in Textgröße, `--kachel-bg` für `.gap`/`.on`, Kopfzeilen auf `--kopf-verlauf`; AppDesign-Teil (R-6.1, R-6.2, R-6.5, Designrichtlinie 2, 9, 10, 15.10) im AppDesign-Backlog; Testfall-Liste RLB-120/B-1 bis B-11, Testfälle (User) P-101/15, /16 – AppDesign `arbeit/RLB-120 Klärung.md`, `arbeit/RLB-120 Wortlaut.md` (W-1 bis W-8) | App + allgemein | 08.11.2026 |
 
-3 Punkte bereit.
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-100 | 1 | **Usertest P-100 (3.54.0, AppDesign 4.56.0):** Rollen wie Apple, Feld wechseln ohne Ruckeln, Tastatur zu ohne Sprung, ‚Verlauf‘ über dem Feld (AppDesign APD-115) – Testfälle P-100/0 bis P-100/6 im CHANGELOG 3.54.0 – **Rückmeldung (Nutzer 08.11.2026, Sitzung 0098): ok bis auf P-100/1** (→ RLB-123) **und P-100/2 Schritt 3** (Feld gleitet zu schnell → AppDesign APD-127; Messung 08.11.2026, Sitzung 0100: kein Unterschied spürbar, Variante A bleibt – **ohne Änderung erledigt**, Nutzer 08.11.2026) | prüfen |
+| P-101 | 1 | **Usertest P-101 (3.55.0, AppDesign 4.57.0):** Cursor am Ende, leeres Feld einzeilig, Verlauf-Vorschläge über dem Feld und am Ende (RLB-123, wiederholt P-100/1), Rückgängig im Feld (APD-124), Gleitbewegungen wie in Notizen (APD-127), Dateiname in eigener Zeile (APD-116), Statistik-Umbruch nur nach ‚·‘ (RLB-122), Tageskachel und Kopfverlauf (RLB-120) – Testfälle P-101/0 bis P-101/16 im CHANGELOG 3.55.0 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -53,6 +50,10 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-123 | **Verlauf: Vorschläge über dem Feld, am Ende einfügen, danach klein:** Vorschlag und ‚Sonstiges …‘ nach der letzten Zeile, Tastatur danach klein, Verlauf leer einzeilig (mit AppDesign APD-126); behebt P-100/1; Prüfungen `verlauf-vorschlaege`, `ablauf-feld-rollen`, neu `ablauf-feld-cursor` | 3.55.0 | 08.11.2026 |
+| RLB-122 | **Statistik: Umbruch nur nach dem ‚·‘:** Wetter und Smileys mit `aufzaehlung` in App, Vorschau und Ausgabe; `PROMPT.md` (RLB-122/W-3); Prüfung `checkAufzaehlung` in `ablauf-preis-km` | 3.55.0 | 08.11.2026 |
+| RLB-120 | **Tageskachel: Schrift- und Emoji-Größe, Kopfverlauf:** Emojis und Wetter in Textgröße, Bezeichnung halbfett, Spalte 1 breiter, Linien vor dem ersten und nach dem letzten Feld, Kopfverlauf in Kachel, Tabellenkopf und Ausgabe, in markierter und ausgewählter Kachel ab der Farbe der Kachel (RLB-120/W-1 bis W-8) | 3.55.0 | 08.11.2026 |
+| P-100 | **Usertest P-100 (3.54.0, AppDesign 4.56.0): ok bis auf P-100/1** (Nutzer 08.11.2026, Sitzung 0098) – P-100/1 behoben mit RLB-123 in 3.55.0, wird mit P-101/3 geprüft | 3.54.0 | 08.11.2026 |
 | 3.54.0 | **‚Verlauf‘ direkt über dem Feld** (Vorschläge darunter, nach ‚Sonstiges …‘ bleibt die erste Zeile im Bild) mit AppDesign APD-115 (Rollen wie Apple, Feld wechseln ohne Ruckeln, Tastatur zu ohne Sprung); Prüfung `ablauf-feld-rollen` | 3.54.0 | 08.11.2026 |
 | P-99 | **Usertest P-99 (3.53.0, AppDesign 4.55.0): alles ok** (Nutzer 08.11.2026, Sitzung 0097) – Smileys in der Suche markiert und gezählt (RLB-119, AppDesign APD-122), Mehr-Knopf ganz oben im iPhone quer (APD-121) | 3.53.0 | 08.11.2026 |
 | RLB-119 | **Suche nach Smiley zählt richtig:** Smileys am Zeilenanfang (‚Wie war was?‘, Essen) markiert und gezählt (`linesHtml`, `foodHtml`, `markLead`; AppDesign APD-122) | 3.53.0 | 07.11.2026 |
