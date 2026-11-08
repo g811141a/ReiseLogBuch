@@ -179,7 +179,7 @@ wie am iPad (R-1.1):
 - Schritte je nach sichtbaren Spalten (2 bis 5, fortlaufend nummeriert); die Eingabefelder bleiben schlicht (ohne
   Aufzählungszeichen), formatiert wird in Tabelle und Ausgabe:
   1. **Wetter:** Symbole antippen, auch mehrere; gewählte eingeschaltet (blau getönt mit Haarlinie).
-  2. **Verlauf:** eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle und Ausgabe ▫️ davor. Vorschläge als Chips: ‚Weiterfahrt
+  2. **Verlauf:** eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle und Ausgabe ▫️ davor. Vorschläge als Chips unter dem Feld (seit 3.54.0): ‚Weiterfahrt
      nach …‘, ‚Rundgang durch …‘, ‚Besichtigung …‘, ‚Freetour …‘, ‚Tour …‘, ‚Sonstiges …‘ – angetippt wird der Text als neue Zeile
      eingefügt, ‚…‘ ist nur Platzhalter; nach einem Vorschlag beginnt das nächste Wort groß. ‚Sonstiges …‘ fügt keinen Text ein,
      sondern eine leere Zeile am Anfang des Felds und setzt den Cursor dorthin (ist die erste Zeile schon leer, keine zweite).

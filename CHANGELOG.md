@@ -13,6 +13,65 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.54.0 – 08.11.2026
+
+Reiselogbuch 3.54.0 · AppDesign 4.56.0 (Designrichtlinie allgemein 4.56.0) · Designrichtlinie Reiselogbuch 3.54.0 · Zusammenarbeit allgemein 3.10.0
+
+**Rollen wie Apple, Feld wechseln ohne Ruckeln, ‚Verlauf‘ über dem Feld** (AppDesign APD-115) – dein Ja vom 08.11.2026, Sitzung 0097.
+
+- **Rollen wie Apple (AppDesign APD-115/V-3, R-4.5):** tippst du ein Feld an, rollt das Fenster nur so weit, dass es 16 px über der Tastatur endet; liegt
+  es schon darüber, rollt nichts (bisher in die obere Hälfte). Im langen Verlauf bleiben die Zeile mit dem Cursor und eine halbe Zeile darunter über der
+  Tastatur, auch beim Tippen.
+- **Feld wechseln ohne Ruckeln (AppDesign APD-115/W-4):** tippst du bei offener Tastatur ein anderes Feld an (z. B. Ort nach Quartier), setzt die App den
+  Fokus selbst – Kopfzeile und Fenster ruckeln nicht mehr (am Gerät gemessen, APD-115/N-16).
+- **Tastatur zu ohne Sprung (Korrektur, AppDesign APD-115/N-13):** schließt die Tastatur (z. B. mit x), springt der Fensterinhalt nicht mehr (iPad quer bis
+  342, iPhone hoch bis 307 px; auch in 3.53.0).
+- **‚Verlauf‘ direkt über dem Feld (AppDesign APD-115/E-6, Variante A):** die Vorschläge (‚Tour …‘, ‚Sonstiges …‘ …) stehen jetzt unter dem Feld. Nach
+  ‚Sonstiges …‘ rollt das Fenster bei einem langen Verlauf so weit, dass die neue erste Zeile zu sehen ist.
+- **Prüfungen:** neu `ablauf-feld-rollen` (AppDesign APD-115/M-1 bis M-11: Feld unten antippen, Verlauf oben, langer Verlauf, Feld wechseln, Schritte 6 bis 8
+  vom Gerät, ‚Verlauf‘ über dem Feld; alle vier Lagen; rot mit `ui.js` 4.55.0); `verlauf-vorschlaege` V10 (erste Zeile im Bild) war mit den Vorschlägen
+  unter dem Feld rot – behoben.
+
+Testfälle P-100 (Schritt für Schritt, Zusammenarbeit allgemein 3.10.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen, **ohne** Messung.
+
+**P-100/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.54.0 · erstellt am … · AppDesign 4.56.0‘.
+
+**P-100/1 – ‚Verlauf‘ über dem Feld**
+1. iPad quer, hell: ein Reiselogbuch öffnen und einen Tag antippen.
+2. Den Abschnitt ‚2 Verlauf‘ ansehen.
+3. Erwartet: direkt unter ‚2 Verlauf‘ steht das Feld, darunter die Vorschläge (‚Tour …‘, ‚Sonstiges …‘ …).
+
+**P-100/2 – Feld unten antippen: nur so weit wie nötig**
+1. iPhone hoch, hell: einen Tag öffnen und das Fenster so schieben, dass ‚Wie war was?‘ ganz unten gerade noch zu sehen ist.
+2. ‚Wie war was?‘ antippen.
+3. Erwartet: die Tastatur öffnet sich, das Feld gleitet einmal ruhig nach oben, bis es knapp über der Tastatur steht – nicht weiter; Kopfzeile und
+   Fensterkopf springen nicht.
+
+**P-100/3 – Feld wechseln, zehnmal**
+1. iPad quer bzw. iPhone hoch, hell: Reiselogbuch, Tag öffnen, Quartier antippen.
+2. Ort antippen, Quartier antippen – fünfmal hin und her (liegt Ort unter der Tastatur, das Fenster vorher hochschieben, bis Ort ganz zu sehen ist).
+3. Erwartet: die Tastatur bleibt offen, der Cursor steht nach dem ersten Antippen im Feld, nichts rollt, Kopfzeile und Fensterkopf springen nicht.
+
+**P-100/4 – Ort halb verdeckt**
+1. iPad quer bzw. iPhone hoch, hell: Tag öffnen, Quartier antippen.
+2. Das Fenster so schieben, dass von Ort nur die obere Hälfte über der Tastatur zu sehen ist, diese Hälfte antippen.
+3. Erwartet: Ort gleitet einmal ruhig ganz über die Tastatur (16 px darüber), Kopfzeile und Fensterkopf springen nicht, der Cursor steht in Ort.
+
+**P-100/5 – Tastatur zu ohne Sprung**
+1. iPad quer bzw. iPhone hoch, hell: Tag öffnen, Quartier antippen, ‚Hotel‘ tippen, Ort antippen, ‚Rom‘ tippen.
+2. Oben links auf x (Abbrechen) tippen, dann in der Abfrage auf die rote Schaltfläche ‚Änderungen verwerfen‘.
+3. Erwartet: die Tastatur geht zu, der Inhalt des Fensters springt dabei nicht, Kopfzeile und Fenster bleiben ruhig; danach ist das Fenster zu.
+
+**P-100/6 – ‚Sonstiges …‘ bei langem Verlauf**
+1. iPhone quer, hell: einen Tag mit mindestens 8 Zeilen im Verlauf öffnen.
+2. Unter dem Feld auf ‚Sonstiges …‘ tippen.
+3. Erwartet: oben im Verlauf steht eine neue leere Zeile mit dem Cursor, und sie ist zu sehen. Danach die leere Zeile wieder löschen und mit x
+   ‚Änderungen verwerfen‘.
+
 ## 3.53.0 – 07.11.2026
 
 Reiselogbuch 3.53.0 · AppDesign 4.55.0 (Designrichtlinie allgemein 4.55.0) · Designrichtlinie Reiselogbuch 3.53.0 · Zusammenarbeit allgemein 3.10.0
