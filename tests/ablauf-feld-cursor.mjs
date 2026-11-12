@@ -5,7 +5,8 @@
 // Fenster ‚Reiselogbuch einstellen‘ (Titel) und Fazit (langer Text); dunkel mit Textgröße 33 (B-11). Alle vier Lagen, im Safari-Modell
 // (Tastatur öffnet beim Fokus – R-4.5: die Zeile mit dem Cursor bleibt 16 px über der Tastatur, B-10). Grundregeln nach jedem Schritt.
 // Aufruf im Repo-Ordner: node tests/ablauf-feld-cursor.mjs
-//   PRUEF_V=alt …                   Gegenprobe (APD-126/B-13): ui.js der Fassung 4.56.0 – B-1 und B-3 bis B-6 müssen rot werden
+//   PRUEF_V=alt …                   Gegenprobe (APD-126/B-13): ui.js der Fassung 4.56.0 – rot in B-1, B-3, B-4, B-5, B-11, B-12 (B-6 nicht: mitwachsen
+//                                   konnte 4.56.0 schon, das Fenster ruft autoGrow bei jeder Eingabe)
 //   PRUEF_ANSICHT='iPhone quer' …   nur eine Ansicht (während der Arbeit)
 import * as pw from 'playwright';
 import { readFileSync } from 'node:fs';
