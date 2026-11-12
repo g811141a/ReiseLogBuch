@@ -3,8 +3,8 @@
 // Backup laden → Abgleichen, in beide Richtungen. Fälle 8, 9, 9a–9c der Tabelle (15.18).
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich-ui.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-abgleich-ui', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
@@ -24,7 +24,7 @@ const load = async (p, content) => { if (p.viewportSize().width < 700 && !(await
   await ch.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(content) }); await p.waitForTimeout(300);
   await p.locator('.pop button', { hasText: 'Abgleichen' }).click(); await p.waitForTimeout(300); await p.click('#msg [data-x]').catch(() => {}); await p.waitForTimeout(200); };
 const day = async (p, iso, fn) => {
-  if (p.viewportSize().width < 700) { if (await p.locator('#side.page').count()) { await p.locator('#side .side-row').first().click(); await p.waitForTimeout(250); } await p.locator(`#pdays [data-day="${iso}"]`).click(); }
+  if (p.viewportSize().width < 700) { if (await p.locator('#side.page').count()) { await p.locator('#side .side-row').first().click(); await p.waitForTimeout(250); await navFertig(p); } await p.locator(`#pdays [data-day="${iso}"]`).click(); }
   else await p.locator(`table.days tbody tr[data-day="${iso}"]`).click();
   await p.waitForTimeout(300); await navFertig(p);   // seit 3.30.0: bis das Blatt auf dem iPhone ruht (R-4.6)
   await fn(); await p.click('#dlgOk'); await p.waitForTimeout(300); };

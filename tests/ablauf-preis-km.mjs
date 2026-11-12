@@ -7,9 +7,12 @@
 // Nutzers nachgebaut): RLB-112/U-1 Schalter Preis allein antippen, Häkchen blau, gespeichert; U-2 Bezeichnungen der Kachel normal (R-6.5),
 // U-5 Gegenprobe; U-3 im Ø ein Leerzeichen nach ‚Ø‘; U-4 Umbruch vor der Klammer, Ø linksbündig unter dem Gesamtwert (App und Ausgabe). Aufruf im Repo-Ordner:
 // node tests/ablauf-preis-km.mjs
+// Seit 3.55.0 (AppDesign 4.57.0): RLB-120/B-1 bis B-3, B-10 Bezeichnung halbfett, Emojis wie im Wert (kastenBezeichnung, Gegenprobe), B-2 Wetter im Kopf,
+// B-4/B-11 Kopfverlauf auch in markierter und ausgewählter Kachel (kopfVerlauf, Gegenprobe); RLB-122/B-1 bis B-6 Statistik als Aufzählung (checkAufzaehlung).
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck, bezeichnungen, kastenBezeichnung } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck, bezeichnungen, kastenBezeichnung, kopfVerlauf } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { checkAufzaehlung, textGroesseSetzen } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-preis-km', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 // 24.–28.08.: Quartier A 3 Nächte (Preis 300), Quartier B 2 Nächte (Preis 200); 29.08. Quartier C ohne Preis; km an 3 Tagen, ein Tag nur km
 const days = {
@@ -92,13 +95,36 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
     t.ist('RLB-111/M-4 Kachel ‚🚶🏽‍♂️km‘ · ‚14,0‘', await p.evaluate(() => [...document.querySelectorAll('#pdays [data-day="2026-08-25"] .kv')].map(k => [k.querySelector('.k').textContent, k.querySelector('.v').textContent]).find(x => x[0].startsWith('🚶'))), ['🚶🏽‍♂️km', '14,0']);
     // U-2 (P-82/3, Nutzer 30.10.2026: Variante B1 – AppDesign APD-98, R-6.5): ‚km‘ wie ‚Verlauf‘ und wie der Wert – normal, Textgröße, Textfarbe;
     // Bezeichnung mittig zur ersten Zeile des Werts. R-6.5 prüft hig nach jedem Schritt, hier einzeln und die Gegenprobe U-5
-    t.ist('RLB-112/U-2 Kachel: ‚km‘ wie ‚Verlauf‘ und der Wert (Größe, Stärke 400, Farbe)', await p.evaluate(() => { const ks = [...document.querySelectorAll('#pdays [data-day="2026-08-25"] .kv .k')], k = ks.find(x => x.textContent.startsWith('🚶'));
-      const km = k.querySelector('.w'), s = e => { const c = getComputedStyle(e); return [c.fontSize, c.fontWeight, c.color].join(' '); };
-      return km ? [s(km) === s(ks.find(x => x.textContent === 'Verlauf')), s(km) === s(k.nextElementSibling), getComputedStyle(km).fontWeight] : 'kein eigenes Element'; }), [true, true, '400'], 'R-6.5');
-    t.ist('RLB-112/U-2 R-6.5 Kachel: Bezeichnungen normal, mittig zur ersten Zeile', await p.evaluate(kastenBezeichnung), [], 'R-6.5');
-    await p.evaluate(() => { const s = document.createElement('style'); s.id = 'gp65'; s.textContent = '.box .kv .k.word, .box .kv .k .w { font-weight: 600 } .box .kv .k > .l { margin-top: 8px }'; document.head.append(s); });
-    t.wahr('RLB-112/U-5 Gegenprobe: halbfette, verschobene Bezeichnung wird gemeldet', (x => x.some(s => s.includes('600 statt')) && x.some(s => s.includes('neben der Mitte')))(await p.evaluate(kastenBezeichnung)), 'R-6.5');
+    // seit 3.55.0 (AppDesign RLB-120/B-3): Bezeichnung halbfett (600) statt normal; Größe und Farbe wie der Wert bleiben
+    t.ist('RLB-112/U-2, RLB-120/B-3 Kachel: ‚km‘ wie ‚Verlauf‘ (Größe, Stärke, Farbe), wie der Wert in Größe und Farbe, halbfett (600)', await p.evaluate(() => { const ks = [...document.querySelectorAll('#pdays [data-day="2026-08-25"] .kv .k')], k = ks.find(x => x.textContent.startsWith('🚶'));
+      const km = k.querySelector('.w'), s = e => { const c = getComputedStyle(e); return [c.fontSize, c.fontWeight, c.color].join(' '); }, g = e => { const c = getComputedStyle(e); return [c.fontSize, c.color].join(' '); };
+      return km ? [s(km) === s(ks.find(x => x.textContent === 'Verlauf')), g(km) === g(k.nextElementSibling), getComputedStyle(km).fontWeight] : 'kein eigenes Element'; }), [true, true, '600'], 'R-6.5');
+    t.ist('RLB-112/U-2 R-6.5 Kachel: Bezeichnungen halbfett, Emojis wie im Wert, mittig zur ersten Zeile', await p.evaluate(kastenBezeichnung), [], 'R-6.5');
+    // Gegenprobe (RLB-112/U-5, RLB-120/B-10): normale, verschobene Bezeichnung und Emojis in Fußnotengröße (wie bis 3.54.0) werden gemeldet
+    await p.evaluate(() => { const s = document.createElement('style'); s.id = 'gp65'; s.textContent = '.box .kv .k { font-size: var(--t-footnote) } .box .kv .k.word, .box .kv .k .w { font-weight: 400 } .box .kv .k > .l { margin-top: 8px }'; document.head.append(s); });
+    t.wahr('RLB-112/U-5, RLB-120/B-10 Gegenprobe: normale, verschobene Bezeichnung und kleine Emojis werden gemeldet', (x => x.some(s => s.includes('400 statt')) && x.some(s => s.includes('neben der Mitte')) && x.some(s => s.includes('RLB-120/B-1')))(await p.evaluate(kastenBezeichnung)), 'R-6.5');
     await p.evaluate(() => document.getElementById('gp65').remove());
+    // RLB-120/B-2 (seit 3.55.0): Wetter im Kopf der Tageskachel so hoch wie ein Smiley im Wert (±1 px) – Gegenprobe mit den bisherigen 18 px
+    const wxHoehe = () => { const r = document.createRange(), h = el => { const n = [...el.childNodes].find(x => x.nodeType === 3 && x.data.trim()); if (!n) return 0;
+        const s = [...new Intl.Segmenter().segment(n.data)][0]; r.setStart(n, s.index); r.setEnd(n, s.index + s.segment.length); return r.getBoundingClientRect().height; };
+      return [...document.querySelectorAll('#pdays .box.day')].filter(b => b.querySelector('.h .wx:not(.empty)') && b.querySelector('.kv .v')).map(b => { const v = b.querySelector('.kv .v'), s = document.createElement('span');
+        s.textContent = '🙂'; v.append(s); const soll = h(s); s.remove(); const ist = h(b.querySelector('.h .wx')); return Math.abs(ist - soll) <= 1 ? '' : `${b.dataset.day}: ${Math.round(ist)} statt ${Math.round(soll)} px`; }).filter(Boolean); };
+    t.ist('RLB-120/B-2 Wetter im Kopf so hoch wie die Smileys im Wert', await p.evaluate(wxHoehe), []);
+    await p.evaluate(() => { const s = document.createElement('style'); s.id = 'gpwx'; s.textContent = '.box.day .h .wx { font-size: calc(18px * var(--f-body)) }'; document.head.append(s); });
+    // bei Standard sind es nur 1 px Unterschied (21 statt 20 px, innerhalb ±1) – deutlich erst bei großer Schrift (ax3)
+    await textGroesseSetzen(p, 'ax3');
+    t.wahr('RLB-120/B-2 Gegenprobe: Wetter 18 px wird gemeldet (Text ax3)', (await p.evaluate(wxHoehe)).length > 0);
+    await p.evaluate(() => document.getElementById('gpwx').remove());
+    t.ist('RLB-120/B-2 Wetter im Kopf so hoch wie die Smileys im Wert (Text ax3)', await p.evaluate(wxHoehe), []);
+    await textGroesseSetzen(p, null);
+    // RLB-120/B-11 (seit 3.55.0): markierte (.gap) und ausgewählte (.on) Kachel – der Kopfverlauf beginnt mit ihrer Farbe (hig kopfVerlauf);
+    // Gegenprobe: Verlauf ab Weiß bzw. --card wird gemeldet
+    await p.evaluate(() => document.querySelector('#pdays .box.day:not(.gap)').classList.add('on'));
+    t.ist('RLB-120/B-11 markierte und ausgewählte Kachel vorhanden', await p.evaluate(() => [document.querySelectorAll('#pdays .box.day.gap').length, document.querySelectorAll('#pdays .box.day.on').length]), [1, 1]);
+    t.ist('RLB-120/B-4, B-11 Kopfverlauf (auch markiert und ausgewählt)', await p.evaluate(kopfVerlauf), [], 'R-6.1');
+    await p.evaluate(() => { const s = document.createElement('style'); s.id = 'gp11'; s.textContent = '.box.day.gap, .box.day.on { --kachel-bg: var(--card) }'; document.head.append(s); });
+    t.wahr('RLB-120/B-11 Gegenprobe: Verlauf ab --card in markierter und ausgewählter Kachel wird gemeldet', (x => x.filter(s => s.includes('RLB-120/B-11')).length >= 2)(await p.evaluate(kopfVerlauf)), 'R-6.1');
+    await p.evaluate(() => { document.getElementById('gp11').remove(); document.querySelector('#pdays .box.day.on').classList.remove('on'); });
     t.ist('RLB-111/H-4 Kachel: Klammer nur am Tag des Eintrags', await p.evaluate(() => ['2026-08-24', '2026-08-25'].map(d => [...document.querySelectorAll(`#pdays [data-day="${d}"] .kv .v`)].pop().textContent.replace(/\s+/g, ' ').includes('(300,00 €)'))), [true, false]);
     t.ist('RLB-109/Q-3 Quartierliste (iPhone): Preis hinter den Nächten', await p.locator('.ilist .irow small').allTextContents(), [/3 Nächte · 300,00 €$/, /2 Nächte · 200,00 €$/, /1 Nacht$/]);
   }
@@ -214,6 +240,39 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.ist('RLB-110/L-1, RLB-111/H-1 neues Reiselogbuch: Spalte km und Preis aus', [await p.locator('#fKm').isChecked(), await p.locator('#fPriceOn').isChecked()], [false, false]);
   await zu(p);
   await p.close();
+}
+// RLB-122/B-1 bis B-6 (seit 3.55.0, AppDesign R-10.5, checkAufzaehlung): Statistik Wetter und Smileys mit 10 Wetter-Zeichen und 10 Smileys – umgebrochen
+// wird nur nach dem ‚·‘, jede Folgezeile beginnt mit der Anzahl; App in vier Lagen, Textgröße l, xxxl, ax3; Vorschau und Ausgabe (schmal, 230 px);
+// Gegenprobe B-6 mit dem bisherigen Text (‚8×☀️ · 8×🌧️ · …‘ ohne Aufzählung) – B-1 bzw. B-2 rot
+{
+  const WX = ['☀️', '🌧️', '🌤️', '⛅', '🌫️', '⛈️', '🌨️', '🌦️', '🌬️', '☁️'], SM = ['😀', '😉', '🙂', '😐', '☹️', '😡', '🤩', '😴', '🥵', '🥶'];
+  const wdays = {};
+  for (let i = 0; i < 60; i++) wdays[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: WX[i % 10], program: 'Tag ' + (i + 1), comment: `${SM[i % 10]} schön` };
+  const wtrip = { id: 'a', title: 'Statistik', participants: 'G & A', start: '2026-08-24', end: '2026-10-22', transport: ['flug'], moodColumn: true, days: wdays };
+  const soll = [WX.map(e => `6×${e}`).join(' · '), SM.map(e => `6×${e}`).join(' · ')];
+  const SEL = '#app .rolle > dl.meta:not(.trip) dd:has(.ict)';
+  for (const ansicht of ['iPhone hoch', 'iPad hoch', 'iPad quer', 'iPhone quer']) {
+    const p = await t.seite(b, ansicht, { theme: 'light' }); t.ort = `${ansicht} hell RLB-122`;
+    await start(p, [wtrip]); await oeffne(p);
+    await t.schritt(p, 'RLB-122 Statistik', () => p.locator(SEL).first().scrollIntoViewIfNeeded());
+    t.liste(await checkAufzaehlung(p, { sel: SEL, texte: soll, umbruch: ansicht.endsWith('hoch'), where: `${t.ort} App` }));
+    if (ansicht === 'iPhone hoch') {
+      // RLB-122/B-4: Vorschau (volle Seitenbreite, wischbar) und Ausgabe in einem schmalen Blatt (230 px) – Text unverändert, Umbruch nur nach ‚·‘
+      await t.schritt(p, 'RLB-122/B-4 Vorschau', async () => { await p.click('#shareBtn'); await p.waitForTimeout(200); await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); await p.waitForTimeout(500); });
+      t.liste(await checkAufzaehlung(p, { sel: '.dlg-body.preview .rt .stats td:has(.ict)', groessen: ['l'], texte: soll, where: `${t.ort} Vorschau` }));
+      await zu(p);
+      await p.evaluate(() => { const d = document.createElement('div'); d.id = 'gpAus'; d.style.cssText = 'position:absolute;left:0;top:0;width:230px;background:#fff';
+        d.innerHTML = `<style>${OUTPUT_CSS}</style>${outputBody(db.trips[0], 1, nowStamp())}`; document.body.append(d); });
+      t.liste(await checkAufzaehlung(p, { sel: '#gpAus .stats td:has(.ict)', groessen: ['l'], texte: soll, umbruch: true, where: `${t.ort} Ausgabe` }));
+      // B-6 Gegenprobe: der bisherige Text (fmt bis 3.54.0) bricht zwischen Anzahl und Zeichen bzw. vor dem ‚·‘ um
+      await p.evaluate(() => { document.getElementById('gpAus').remove(); window.__az = aufzaehlung; window.aufzaehlung = l => esc(l.join(' · ')); render(); });
+      await p.waitForTimeout(300);
+      const gp = await checkAufzaehlung(p, { sel: '#app .rolle > dl.meta:not(.trip) dd:nth-last-of-type(-n+2)', groessen: ['l', 'xxxl'], where: 'Gegenprobe' });
+      t.wahr(`RLB-122/B-6 Gegenprobe: bisheriger Text wird gemeldet (${gp.length} Meldungen)`, gp.some(x => /RLB-122\/B-[12]/.test(x)), 'R-10.5');
+      await p.evaluate(() => { window.aufzaehlung = window.__az; render(); });
+    }
+    await p.close();
+  }
 }
 // RLB-112/U-1 (P-82/1, Ablauf des Nutzers): Preis und Quartierliste aus – im Fenster ‚Reiselogbuch einstellen‘ nur ‚Preis der Quartiere erfassen‘ antippen
 // (echtes Tippen auf die Zeile) → Schalter an, Häkchen blau; Häkchen tippen → gespeichert, Preisfeld am ersten Tag eines Aufenthalts

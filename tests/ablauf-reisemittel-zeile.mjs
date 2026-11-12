@@ -7,9 +7,9 @@
 // bleiben Icon und Text jedes Reisemittels zusammen, die Zeile bricht nur nach dem Komma; ein zu langer Eintrag bricht im Text.
 // Aufruf im Repo-Ordner: node tests/ablauf-reisemittel-zeile.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
-import { checkKapsel, checkIconText } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { checkKapsel, checkIconText } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-reisemittel-zeile', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 const days = {}; for (let i = 0; i < 6; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1}`, place: 'Hafen' };
@@ -45,7 +45,7 @@ for (const [ansicht, theme, ruhig, transport, soll, gross] of [
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), reise(transport));
   await p.reload(); await p.waitForTimeout(400);
-  if (await p.locator('#side.page').isVisible()) { await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); }
+  if (await p.locator('#side.page').isVisible()) { await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); await navFertig(p); }
   await t.schritt(p, 'Reiselogbuch offen', async () => {
     const z = await zeile(p);
     if (!t.wahr('Zeile ‚Reisemittel‘ fehlt im Kopf des Reiselogbuchs', z, 'R-5.4')) return;

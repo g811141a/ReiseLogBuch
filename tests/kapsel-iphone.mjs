@@ -7,10 +7,10 @@
 // Marken der Tage und Abschnitte (data-marke), sehr langes Reiselogbuch mit 365 Tagen (APD-37/F-11).
 // Aufruf im Repo-Ordner: node tests/kapsel-iphone.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, rollRuht } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
-import { checkFab, checkGriff, sucheAuf } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.56.0/tests/safari.mjs';
+import { pruefung, navFertig, rollRuht } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { checkFab, checkGriff, sucheAuf } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.57.0/tests/safari.mjs';
 const t = pruefung('kapsel-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const viele = {}; for (let i = 0; i < 30; i++) viele[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Sydney' };
@@ -31,7 +31,8 @@ for (const theme of ['light', 'dark']) {
     const phone = await p.evaluate(() => document.documentElement.classList.contains('phone'));
     if (phone) {   // K5: Startliste ohne Kapsel
       t.ist('K5 Kapsel in der Startliste', (await kapsel(p)).sichtbar, false, 'R-3.2');
-      await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400);
+      // seit 3.55.0 (AppDesign APD-127, R-1.12): hinein gleitet mit der Feder über 0,5 s – erst messen, wenn die Bewegung fertig ist
+      await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p);
     }
     // Seit 3.24.0: warten, bis das Reiselogbuch aufgebaut ist (höchstens 3 s) – unter Last reichten die festen 400 ms in WebKit nicht.
     await p.waitForFunction(() => document.querySelector('#app [data-day]') && getComputedStyle(document.getElementById('fab')).display !== 'none', null, { timeout: 3000 }).catch(() => {});

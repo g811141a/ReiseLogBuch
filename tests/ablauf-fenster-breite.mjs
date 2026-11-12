@@ -4,8 +4,8 @@
 // Eingabe (Neues Reiselogbuch wie am Gerät über plus, Reiselogbuch einstellen mit überschneidendem Zeitraum, Erfassen, Fazit).
 // Aufruf im Repo-Ordner: node tests/ablauf-fenster-breite.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 const t = pruefung('ablauf-fenster-breite', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 // wie am Gerät: eine laufende Reise mit langem Titel – der vorgeschlagene Zeitraum (heute + 14 Tage) überschneidet sich mit ihr
@@ -29,7 +29,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'light'], 
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(400);
-  if (await p.locator('#side.page').isVisible()) { await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); }
+  if (await p.locator('#side.page').isVisible()) { await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); await navFertig(p); }
   const offen = async (name, oeffnen) => { await t.schritt(p, name, async () => { await oeffnen(); await p.waitForTimeout(800); }); return rahmen(p); };
   const zu = async () => { await p.evaluate(() => { dlgDirty = () => false; dlg.close('cancel'); }); await p.waitForTimeout(600); };
 

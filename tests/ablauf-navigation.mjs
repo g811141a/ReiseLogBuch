@@ -4,9 +4,12 @@
 // Waagrecht rollender Bereich am iPhone: die Zeile Reisemittel (#reisemittel, seit 3.38.0 Wischzeile, AppDesign APD-86). Grundregeln nach den Schritten (pruefe.mjs).
 // Aufruf im Repo-Ordner: node tests/ablauf-navigation.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
-import { checkNavigation } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { checkNavigation, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+// Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-3, B-7, B-8): iPhone hoch hell – hinein mit
+// der Feder (Antwortzeit 0,35 s), zurück ease-in-out 0,25 s, Endlagen wie ohne Bewegung, Mehr-Menü unverändert (checkGleiten).
+// Gegenprobe APD-127/B-10: PRUEF_V=heute (ui.js und design.css der Fassung 4.56.0) – APD-127/B-3 rot.
 const t = pruefung('ablauf-navigation', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const tage = {}; for (let i = 0; i < 40; i++) tage[new Date(Date.UTC(2019, 2, 2 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Tokio' };
@@ -18,6 +21,7 @@ const faelle = [['iPhone hoch', 'light'], ['iPhone quer', 'dark'], ['iPad hoch',
   ['iPhone hoch', 'light', 'reduce'], ['iPad hoch', 'light', 'reduce'], ['iPad quer', 'light'], ['iPad quer', 'light', 'reduce']];
 for (const [ansicht, theme, bewegung] of faelle) {
   const p = await t.seite(b, ansicht, { theme, ...(bewegung ? { reducedMotion: bewegung } : {}) });
+  await gleitenGegenprobe(p);   // APD-127/B-10, nur mit PRUEF_V=heute
   if (bewegung) t.ort = `${t.ort} · Bewegung reduzieren`;
   await p.clock.setFixedTime(new Date('2026-03-20T10:00:00'));
   await p.goto(APP);
@@ -31,6 +35,9 @@ for (const [ansicht, theme, bewegung] of faelle) {
     knopf: '#shareBtn', menue: '#mainMore', suche: '#mainMore', kasten: '#app .box.day', where: t.ort })) t.fehler('', x);
   await navFertig(p);
   await t.schritt(p, 'nach den Gesten', async () => {});
+  // APD-127/B-3, B-7, B-8 (R-1.12): Navigation iPhone gleitet nach R-1.12, das Mehr-Menü wie bisher
+  if (ansicht === 'iPhone hoch' && theme === 'light' && !bewegung) await t.schritt(p, 'APD-127 Gleiten', async () => {
+    for (const x of await checkGleiten(p, { navigation: { eintrag: '#side .side-row[data-id="a"]', zurueck: '#back' }, menue: '#mainMore, #sideMore', where: t.ort })) t.fehler('', x); });
   await p.close();
 }
 await t.ende(b);

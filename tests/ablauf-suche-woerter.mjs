@@ -5,9 +5,9 @@
 // zentrale Liste 1:1 (checkListSearch) und ‚Suchen‘ zuerst im Mehr-Menü (checkSearchPlace, seit 3.41.0 APD-91). iPad quer und hoch, iPhone hoch
 // und quer, hell und dunkel. Seit 3.27.0 ohne Akzente (AppDesign APD-63 C2). Aufruf im Repo-Ordner: node tests/ablauf-suche-woerter.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
-import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace, sucheAuf } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { checkSearch, checkListSearch, checkSearchWords, checkSearchPlace, sucheAuf } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-woerter', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const trip = (id, start, list) => ({ id, title: id, participants: 'G & A', start, end: new Date(Date.parse(start) + (list.length - 1) * 864e5).toISOString().slice(0, 10),
   transport: ['flug'], foodColumn: true, moodColumn: false, quarterColumn: false,
@@ -39,9 +39,9 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   const toList = async () => {
     if (phone) { if (!await p.locator('#side.page').isVisible()) await p.click('#back'); }
     else if (!await p.locator('#side .side-row').first().isVisible()) await p.locator('[data-side-toggle]').filter({ visible: true }).first().click();
-    await p.waitForTimeout(350);
+    await p.waitForTimeout(350); await navFertig(p);
   };
-  const open = async id => { await toList(); await p.locator(`#side .side-row[data-id="${id}"]`).click(); await p.waitForTimeout(450); };
+  const open = async id => { await toList(); await p.locator(`#side .side-row[data-id="${id}"]`).click(); await p.waitForTimeout(450); await navFertig(p); };
   // L1/L3 (seit 3.41.0, AppDesign APD-91/S-1 bis S-3): ‚Suchen‘ zuerst im Mehr-Menü, keine Lupe in der Kapsel – in der Liste und im Eintrag
   await toList();
   t.liste(await checkSearchPlace(p, { mehr: '#sideMore', where: `${where} Liste` }));

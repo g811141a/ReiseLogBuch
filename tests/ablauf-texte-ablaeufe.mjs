@@ -2,8 +2,8 @@
 // R-4.12 erst fragen, dann zerstören (APD-40/C-5, C-6), R-5.10 automatisch speichern (APD-40/C-1 bis C-4) – iPad quer und iPhone hoch, hell. Eigene
 // Prüfung, damit jede Gegenprobe (node tests/alle.mjs --gegenprobe masse) genau hier rot wird.
 import * as pw from 'playwright';
-import { pruefung, textSeite } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { checkMenueFenster, checkAutoSpeichern, checkErstFragen } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
+import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { checkMenueFenster, checkAutoSpeichern, checkErstFragen } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-texte-ablaeufe', pw, { out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: 'Programm ' + i }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }];
@@ -16,10 +16,10 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: t })), trips);
   await p.reload(); await p.waitForTimeout(300);
-  if (!await p.locator('#mainMore').count() || await p.evaluate(() => side.classList.contains('over'))) { await p.locator('.irow, .side-row', { hasText: 'Australien' }).first().click(); await p.waitForTimeout(300); }
+  if (!await p.locator('#mainMore').count() || await p.evaluate(() => side.classList.contains('over'))) { await p.locator('.irow, .side-row', { hasText: 'Australien' }).first().click(); await p.waitForTimeout(300); await navFertig(p); }
     // AppDesign APD-40 Pakete B und C (seit 3.50.0): R-4.11 Menüpunkt und Fenster heißen gleich (APD-40/B-5), R-4.12 erst fragen, dann zerstören
     // (APD-40/C-5, C-6) – Mehr-Menü, Teilen-Menü, am iPad Mehr-Menü und Kontextmenü der Seitenleiste, Fenster Tag (Smileys zurücksetzen)
-    if (w < 700 && await p.evaluate(() => phoneList)) { await p.locator('.irow, .side-row', { hasText: 'Australien' }).first().click(); await p.waitForTimeout(300); }
+    if (w < 700 && await p.evaluate(() => phoneList)) { await p.locator('.irow, .side-row', { hasText: 'Australien' }).first().click(); await p.waitForTimeout(300); await navFertig(p); }
     const ipad = w >= 700, kontext = async () => { const r = await p.locator('#side .side-row').first().boundingBox();
       await p.mouse.move(r.x + 40, r.y + r.height / 2); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); await p.waitForTimeout(300); };
     t.liste(await checkMenueFenster(p, { where, menues: ['#mainMore', '#shareBtn', ...(ipad ? ['#sideMore'] : [])], ohne: ['HTML', 'PDF', 'Suchen', 'Backup', 'Abgleich'] }));

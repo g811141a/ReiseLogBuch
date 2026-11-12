@@ -8,9 +8,9 @@
 // das Suchfeld bleibt dasselbe Feld und behält den Fokus. Gegen 3.24.0 rot: ±120 px (hoch) bzw. ±21 px (quer) nach ⓧ.
 // Aufruf im Repo-Ordner: node tests/ablauf-suche-iphone.mjs. Meldet Fehler (pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.56.0/tests/safari.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.57.0/tests/safari.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-iphone', pw, { out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 30 ? 'Fahrt nach Sydney' : i % 7 === 0 ? 'Bus nach Sydney' : 'Programm ' + i, comment: '😉 ok', quarter: 'Hotel', place: 'Ort' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, days }];
@@ -26,7 +26,7 @@ for (const ansicht of ['iPhone hoch', 'iPhone quer']) for (const theme of ['ligh
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(300);
-  await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(300);
+  await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(300); await navFertig(p);
   await rolle(p, fall.ende ? 'ende' : '50%');
   await p.waitForTimeout(200);
   await safariModell(p, ansicht);

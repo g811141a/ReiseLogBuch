@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.56.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.57.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -25,7 +25,8 @@
   table.days { border-collapse: separate; border-spacing: 0; width: 100%; }
   table.days th, table.days td { border-bottom: 1px solid var(--line); padding: 10px 12px; vertical-align: top; text-align: left; }
   table.days td + td { border-left: 1px solid var(--line); }
-  table.days th { position: sticky; top: 0; background: var(--th-bg); border-bottom-color: var(--th-line); font-size: var(--t-headline); font-weight: 600; z-index: 2; }
+  /* seit 3.55.0 (RLB-120, AppDesign R-6.1): Kopfzeile mit dem Kopfverlauf von oben nach unten (--kopf-verlauf aus design.css) */
+  table.days th { position: sticky; top: 0; background: linear-gradient(to bottom, var(--kopf-verlauf)); border-bottom-color: var(--th-line); font-size: var(--t-headline); font-weight: 600; z-index: 2; }
   table.days th + th { border-left: 1px solid var(--th-line); }
   table.days tbody tr:last-child td { border-bottom: none; }
   table.days tbody tr { cursor: pointer; }
@@ -79,10 +80,12 @@
   /* iPhone: Tage als Kästen (AppDesign .box) – Kopf mit Datum, Hinweisen und Wetter */
   .box.day { cursor: pointer; }
   .box.day .h { display: flex; align-items: center; gap: 4px; font-weight: 600; }
-  .box.day .h .wx { margin-left: auto; font-size: calc(18px * var(--f-body)); font-weight: 400; }
+  /* seit 3.55.0 (RLB-120): Wetter im Kopf in Textgröße wie die Smileys im Wert (vorher fest 18 px) */
+  .box.day .h .wx { margin-left: auto; font-size: var(--t-body); font-weight: 400; }
   .box.day .wx.empty { opacity: .25; }
-  .box.day.gap { background: var(--focus); }
-  .box.day.on { background: var(--sel-bg); }
+  /* seit 3.55.0 (RLB-120, AppDesign RLB-120/W-8b): markierte bzw. ausgewählte Kachel – der Kopfverlauf der Bezeichnung beginnt mit ihrer Farbe */
+  .box.day.gap { background: var(--focus); --kachel-bg: var(--focus); }
+  .box.day.on { background: var(--sel-bg); --kachel-bg: var(--sel-bg); }
   .box.day a { text-decoration: none; }
   /* iPhone: Bezeichnung mit Doppelpunkt, darunter der Wert; Reisemittel in einer Zeile, seitlich wischen – seit 3.38.0 (AppDesign APD-86)
      als Wischzeile mit Verlauf und Pfeilen am Rand (R-5.4); am iPad umbrochen wie bisher */
@@ -117,8 +120,6 @@
     #app, #side, .side-shade, dialog, .fab { display: none !important; }
     #printout { display: block; }
   }
-/* seit 3.54.0 (AppDesign APD-115/E-6, Variante A): ‚Verlauf‘ direkt über dem Feld, die Vorschläge darunter */
-#suggest { margin: 10px 0 0; }
 </style>
 </head>
 <body>
@@ -133,18 +134,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.56.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.57.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.54.0';
-const APP_BUILT = '08.11.2026 um 01:52';
+const APP_VERSION = '3.55.0';
+const APP_BUILT = '08.11.2026 um 15:40';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.56.0';
+const AD_NEEDED = '4.57.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -188,8 +189,8 @@ const PROGRAM_SUGGESTIONS = [
   { label: 'Besichtigung …', text: 'Besichtigung ' },
   { label: 'Freetour …', text: 'Freetour ' },
   { label: 'Tour …', text: 'Tour ' },
-  // RLB-94 (seit 3.22.0): keine Vorlage – nur eine leere erste Zeile, der Cursor steht darin
-  { label: 'Sonstiges …', top: true },
+  // RLB-94 (seit 3.22.0): keine Vorlage – seit 3.55.0 (RLB-123) nur eine leere Zeile am Ende, der Cursor steht darin
+  { label: 'Sonstiges …', text: '' },
 ];
 const AUTOSAVE_MS = 10000;
 
@@ -609,28 +610,18 @@ function mapsUrl({ name, place }) {
   return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
 }
 
-function insertAtCursor(ta, text, ownLine) {
-  const v = ta.value;
-  const pos = ta.selectionStart ?? v.length;
-  const before = v.slice(0, pos);
-  const prefix = ownLine && before && !before.endsWith('\n') ? '\n' : '';
-  const ins = prefix + text;
-  ta.value = before + ins + v.slice(pos);
-  ta.focus();
-  ta.selectionStart = ta.selectionEnd = pos + ins.length;
+// Seit 3.55.0 (RLB-123, Muster AppDesign arbeit/APD-126/index.html): ein Vorschlag kommt als neue Zeile nach der letzten Zeile, auch wenn der
+// Cursor woanders steht; danach steht der Cursor am Ende, es geht klein weiter (AppDesign APD-126/W-4). ‚Sonstiges …‘ (text leer) hängt nur eine
+// leere Zeile an – ist die letzte Zeile schon leer, keine zweite (ersetzt die leere erste Zeile oben, RLB-94). Das Feld wächst mit (autoGrow);
+// liegt die neue letzte Zeile unter dem Fensterinhalt (bei offener Tastatur endet er über ihr), rollt er so weit, dass sie zu sehen ist (R-4.5).
+function appendLine(ta, text) {
+  const v = ta.value, neu = (v && !v.endsWith('\n') ? '\n' : '') + text;
+  if (neu) ta.value = v + neu;
+  ta.focus({ preventScroll: true });
+  ta.selectionStart = ta.selectionEnd = ta.value.length;
   autoGrow(ta);
-}
-// RLB-94: leere Zeile am Anfang des Felds, Cursor dorthin – ist die erste Zeile schon leer, keine zweite.
-function insertLineTop(ta) {
-  if (ta.value && !ta.value.startsWith('\n')) ta.value = '\n' + ta.value;
-  ta.focus();
-  ta.selectionStart = ta.selectionEnd = 0;
-  autoGrow(ta);
-  ta.scrollTop = 0;
-  // seit 3.54.0 (Variante A, AppDesign APD-115/E-6): die Vorschläge stehen unter dem Feld – liegt die erste Zeile über dem Fensterinhalt, rollt er
-  // so weit, dass sie mit Platz für Umrandung und Schatten zu sehen ist (RLB-94 V10)
-  const c = ta.closest('.dlg-body'), d = c ? ta.getBoundingClientRect().top - c.getBoundingClientRect().top - 30 : 0;
-  if (d < 0) c.scrollTop += d;
+  const c = ta.closest('.dlg-body'), d = c ? ta.getBoundingClientRect().bottom - (c.getBoundingClientRect().bottom - 16) : 0;
+  if (d > 0) c.scrollTop += d;
 }
 
 
@@ -1555,10 +1546,10 @@ function openDayDialog(trip, iso) {
         </div>
         <div class="step">
           <div class="step-head"><label for="fProgram"><span class="step-num">2</span>Verlauf</label></div>
-          <textarea id="fProgram" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Wie ist der Tag verlaufen? Eine Zeile pro Punkt.">${esc(e.program || '')}</textarea>
           <div class="chips" id="suggest">
             ${PROGRAM_SUGGESTIONS.map((s, i) => `<button type="button" data-s="${i}">${esc(s.label)}</button>`).join('')}
           </div>
+          <textarea id="fProgram" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Wie ist der Tag verlaufen? Eine Zeile pro Punkt.">${esc(e.program || '')}</textarea>
         </div>
         <div class="step" ${c.mood ? '' : 'hidden'}>
           <div class="step-head"><label for="fComment"><span class="step-num">${c.mood ? nextNo() : ''}</span>Wie war was?</label></div>
@@ -1610,12 +1601,10 @@ function openDayDialog(trip, iso) {
     on ? weather.add(b.dataset.w) : weather.delete(b.dataset.w);
   });
 
-  // Schritt 2: Vorschläge als neue Zeile einfügen
-  dlg.querySelectorAll('#suggest button').forEach(b => b.onclick = () => {
-    const sg = PROGRAM_SUGGESTIONS[b.dataset.s];
-    if (sg.top) return insertLineTop(fProgram);
-    insertAtCursor(fProgram, sg.text, true);
-    capNext(fProgram); // nach ‚Weiterfahrt nach …‘ beginnt der Ort groß
+  // Schritt 2: Vorschläge als neue Zeile nach der letzten Zeile (RLB-123, seit 3.55.0); der Knopf nimmt dem Feld den Fokus nicht (Tastatur bleibt)
+  dlg.querySelectorAll('#suggest button').forEach(b => {
+    b.addEventListener('mousedown', ev => ev.preventDefault());
+    b.onclick = () => appendLine(fProgram, PROGRAM_SUGGESTIONS[b.dataset.s].text);
   });
 
   // Schritt 3: Smiley-Schnellauswahl
@@ -1733,7 +1722,7 @@ function openFazitDialog(trip) {
         <div class="step">
           <div class="step-head"><label for="fFazit">Was bleibt von dieser Reise?</label></div>
           <div class="emoji-row" id="moods"></div>
-          <textarea id="fFazit" autocapitalize="sentences" autocorrect="on" spellcheck="true" rows="8" placeholder="Smiley antippen, dann ein paar Worte dazu.">${esc(original)}</textarea>
+          <textarea id="fFazit" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Smiley antippen, dann ein paar Worte dazu.">${esc(original)}</textarea>
           <div class="hint">${MOOD_HINT}</div>
         </div>
         ${micHint()}
@@ -1795,7 +1784,10 @@ const OUTPUT_CSS = outputCss('.rt') + `
 
 // Zelle der Statistik (App und Ausgabe): Wert und Ø als zwei Teile, die je in einer Zeile bleiben; passen beide nicht in die Zeile, steht
 // der Ø linksbündig unter dem Wert (seit 3.42.1, RLB-112 – ein Trennpunkt im Text bricht in Safari nach geschützten Leerzeichen nicht um)
+// seit 3.55.0 (RLB-122, AppDesign R-10.5): Wetter und Smileys als Liste der Einträge – Aufzählung aus AppDesign (aufzaehlung): jeder
+// Eintrag ‚Anzahl×Zeichen‘ am Stück, umgebrochen wird nur nach dem ‚·‘ (App, Vorschau und Ausgabe)
 function statHtml(v) {
+  if (Array.isArray(v)) return aufzaehlung(v);
   const m = v.match(/^(.*?\u00a0{5})(\(Ø.*)$/);
   return m ? `<span class="avg"><span>${esc(m[1])}</span><span>${esc(m[2])}</span></span>` : esc(v);
 }
@@ -1819,7 +1811,7 @@ function tripStats(trip) {
   const weather = count(rec.flatMap(d => graphemes(rawEntry(trip, d).weather)));
   const c = cols(trip);
   const moods = count([...(c.mood ? rec.map(d => rawEntry(trip, d).comment) : []), trip.fazit].flatMap(emojisIn));
-  const fmt = list => list.map(([e, n]) => `${n}×${e}`).join(' · ') || '–';
+  const fmt = list => list.length ? list.map(([e, n]) => `${n}×${e}`) : '–';   // seit 3.55.0 (RLB-122): Liste der Einträge für statHtml
   // seit 3.41.0 (RLB-110): Summe und Ø der gegangenen Kilometer (nur Tage mit Kilometern); seit 3.42.0 (RLB-111) mit einer Nachkommastelle,
   // Ø in Klammern hinter dem Wert: 5 geschützte Leerzeichen davor, seit 3.42.1 (RLB-112) 1 nach ‚Ø‘; passt es nicht, bricht die Zeile vor der
   // Klammer um, der Ø steht dann linksbündig unter dem Wert (statHtml)

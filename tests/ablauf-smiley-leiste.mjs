@@ -5,9 +5,9 @@
 // mit Maus (L8); Grundregeln nach jedem Schritt (L9). L7 (Zurückwischen, Blatt ziehen) prüfen ablauf-navigation und ablauf-blatt.
 // Aufruf im Repo-Ordner: node tests/ablauf-smiley-leiste.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
-import { checkLangDruecken } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { checkLangDruecken } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-smiley-leiste', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 const days = {}; for (let i = 0; i < 10; i++) days[iso(i)] = { weather: '☀️', program: `Programm ${i + 1}`, place: 'Hafen' };
@@ -24,7 +24,7 @@ for (const ansicht of ['iPhone hoch', 'iPhone quer', 'iPad quer']) {
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(400);
-  if (await p.locator('#side.page').isVisible()) { await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); }
+  if (await p.locator('#side.page').isVisible()) { await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); await navFertig(p); }
   for (const [name, open, leiste, feld] of LEISTEN) {
     const where = name;
     await open(p); await p.waitForTimeout(700);

@@ -6,10 +6,10 @@
 // Grundregeln nach jedem Schritt. Uhr gestellt (Playwright clock), Tageswechsel ohne Neuladen.
 // Aufruf im Repo-Ordner: node tests/ablauf-backup-kachel.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
-import { checkContextMenus } from '../../AppDesign/fassung/4.56.0/tests/kontextmenue.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { checkContextMenus } from '../../AppDesign/fassung/4.57.0/tests/kontextmenue.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-backup-kachel', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const trips = Array.from({ length: 14 }, (_, i) => ({ id: 't' + i, title: 'Reise ' + (i + 1), participants: 'A', start: `${2026 - i}-06-01`, end: `${2026 - i}-06-10`, transport: ['pkw'], days: {} }));
@@ -24,7 +24,7 @@ const fuss = p => p.evaluate(() => {
       const lr = rows[rows.length - 1].getBoundingClientRect(), grenze = Math.min(liste.getBoundingClientRect().bottom, innerHeight, (r(b) || r(l) || { top: innerHeight }).top);
       const ok = lr.bottom <= grenze + 1; liste.scrollTop = alt; return ok; })() };
 });
-const startliste = async p => { if (await p.locator('#back').count() && !(await p.locator('#side.page').count())) { await p.click('#back'); await p.waitForTimeout(300); } };
+const startliste = async p => { if (await p.locator('#back').count() && !(await p.locator('#side.page').count())) { await p.click('#back'); await p.waitForTimeout(300); await navFertig(p); } };
 const sicht = async p => { await startliste(p); if (await p.evaluate(() => side.hidden)) { await p.evaluate(() => toggleSide()); await p.waitForTimeout(400); } };
 const kachelBackup = async p => {
   const [d] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.click('#hintBackup')]);

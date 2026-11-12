@@ -5,10 +5,14 @@
 // Gegen 3.25.1 (AppDesign 4.27.1) rot. iPad nur am Gerät (keine Messung der Tastatur, Safari-Modell nur iPhone).
 // Aufruf im Repo-Ordner: node tests/ablauf-feld-tastatur.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
-import { checkFieldVisible } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.56.0/tests/safari.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { checkFieldVisible, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+// Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-2, B-8, B-9): im Safari-Modell öffnet sich
+// die Tastatur iPhone hoch 100 ms nach dem Fokus (aufVerzug, APD-127/W-3) – die Fälle oben bleiben grün; iPad hoch: das Fenster ‚Erfassen‘ gleitet mit
+// der Tastatur hoch mit der Feder (Antwortzeit 0,35 s), beim Schließen gilt ease-in-out 0,25 s, Endlagen wie ohne Bewegung (checkGleiten).
+// Gegenprobe APD-127/B-10: PRUEF_V=heute – APD-127/B-2 rot.
+import { safariModell } from '../../AppDesign/fassung/4.57.0/tests/safari.mjs';
 const t = pruefung('ablauf-feld-tastatur', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const days = {}; for (let i = 0; i < 30; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Sydney' };
@@ -17,11 +21,12 @@ const b = await t.browser();
 for (const theme of ['light', 'dark']) {
   for (const ansicht of ['iPhone quer', 'iPhone hoch']) {
     const p = await t.seite(b, ansicht, { theme });
+    await gleitenGegenprobe(p);   // APD-127/B-10, nur mit PRUEF_V=heute
     t.ort = `${ansicht} ${theme === 'dark' ? 'dunkel' : 'hell'}`;
     await p.goto(APP);
     await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
     await p.reload(); await p.waitForTimeout(400);
-    if (await p.locator('#side .side-row[data-id="a"]').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); }
+    if (await p.locator('#side .side-row[data-id="a"]').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p); }
     await p.waitForFunction(() => document.querySelector('#kosten'), null, { timeout: 3000 }).catch(() => {});
     await safariModell(p, ansicht);
     // wie am Gerät: ‚Ans Ende‘ (Kapsel), dann Gesamtausgaben antippen (APD-34/F-1, APD-34/F-2, APD-34/F-6 Platz unter dem Inhalt, APD-34/F-3, APD-34/F-4). Unter dem
@@ -34,5 +39,18 @@ for (const theme of ['light', 'dark']) {
     await t.schritt(p, 'nach Gesamtausgaben mit Tastatur', async () => {});   // Grundregeln im Endzustand
     await p.close();
   }
+}
+// APD-127/B-2, B-8 (R-1.12): iPad hoch hell – das Fenster ‚Erfassen‘ (kürzer als der Bildschirm) gleitet mit der Tastatur
+{
+  const p = await t.seite(b, 'iPad hoch', { theme: 'light' });
+  await gleitenGegenprobe(p);
+  t.ort = 'iPad hoch hell';
+  await p.goto(APP);
+  await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
+  await p.reload(); await p.waitForTimeout(400);
+  if (await p.locator('#side .side-row[data-id="a"]').isVisible() && !await p.locator('#kosten').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p); }
+  await safariModell(p, 'iPad hoch', { auto: true });
+  await t.schritt(p, 'APD-127/B-2 Fenster mit der Tastatur', async () => t.liste(await checkGleiten(p, { tastatur: { oeffnen: () => p.evaluate(d => openDayDialog(db.trips[0], d), '2026-08-26'), feld: '#fProgram' }, where: t.ort })));
+  await p.close();
 }
 await t.ende(b);

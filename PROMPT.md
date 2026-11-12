@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 08.11.2026, Version 3.54.0)
+# Reiselogbuch – Funktionsbeschreibung (Stand 08.11.2026, Version 3.55.0)
 
-Reiselogbuch 3.54.0 · AppDesign 4.56.0 (Designrichtlinie allgemein 4.56.0) · Designrichtlinie Reiselogbuch 3.54.0 · Zusammenarbeit allgemein 3.10.0
+Reiselogbuch 3.55.0 · AppDesign 4.57.0 (Designrichtlinie allgemein 4.57.0) · Designrichtlinie Reiselogbuch 3.55.0 · Zusammenarbeit allgemein 3.11.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -179,10 +179,12 @@ wie am iPad (R-1.1):
 - Schritte je nach sichtbaren Spalten (2 bis 5, fortlaufend nummeriert); die Eingabefelder bleiben schlicht (ohne
   Aufzählungszeichen), formatiert wird in Tabelle und Ausgabe:
   1. **Wetter:** Symbole antippen, auch mehrere; gewählte eingeschaltet (blau getönt mit Haarlinie).
-  2. **Verlauf:** eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle und Ausgabe ▫️ davor. Vorschläge als Chips unter dem Feld (seit 3.54.0): ‚Weiterfahrt
-     nach …‘, ‚Rundgang durch …‘, ‚Besichtigung …‘, ‚Freetour …‘, ‚Tour …‘, ‚Sonstiges …‘ – angetippt wird der Text als neue Zeile
-     eingefügt, ‚…‘ ist nur Platzhalter; nach einem Vorschlag beginnt das nächste Wort groß. ‚Sonstiges …‘ fügt keinen Text ein,
-     sondern eine leere Zeile am Anfang des Felds und setzt den Cursor dorthin (ist die erste Zeile schon leer, keine zweite).
+  2. **Verlauf:** eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle und Ausgabe ▫️ davor. Die Vorschläge stehen als Chips wieder
+     **über** dem Feld, unter der Überschrift ‚2 Verlauf‘ (seit 3.55.0, RLB-123): ‚Weiterfahrt nach …‘, ‚Rundgang durch …‘, ‚Besichtigung …‘,
+     ‚Freetour …‘, ‚Tour …‘, ‚Sonstiges …‘ – ‚…‘ ist nur Platzhalter. Ein angetippter Vorschlag kommt als neue Zeile **nach der letzten Zeile**,
+     auch wenn der Cursor woanders steht. Danach steht der Cursor am Ende, die Tastatur ist offen und auf Kleinbuchstaben. ‚Sonstiges …‘ fügt
+     am Ende eine leere Zeile an und setzt den Cursor hinein. Ist die letzte Zeile schon leer, kommt keine zweite dazu. Das Feld ist leer
+     einzeilig und wächst mit jeder Zeile (AppDesign APD-126/W-1); es rollt nur so weit wie nötig über die Tastatur (R-4.5).
   3. **Wie war was?:** Smiley + kurzer Text, mehrere Smiley-Zeilen möglich, alle Smileys der Emoji-Tastatur; Smiley-Leiste.
   - **Gegangene Kilometer** (seit 3.41.0, RLB-110; nur mit sichtbarer Spalte, als eigener Schritt nach ‚Wie war was?‘, die folgenden
      Schritte eine Nummer weiter): schmales Zahlenfeld (AppDesign APD-93) mit ‚km‘ rechts daneben, seit 3.42.0 (RLB-111) mit einer
@@ -236,7 +238,8 @@ wie am iPad (R-1.1):
   ‚Quartierkosten‘ (Summe der Preise, dahinter der Ø je Nacht in Klammern wie bei den Kilometern – nur Nächte von Aufenthalten mit Preis;
   nur mit ‚Preis der Quartiere erfassen‘ und Preisen),
   Wetter-Verteilung (z. B. ‚40×🌤 · 12×☀️ · 5×🌧‘), Smileys aus Tagen und Fazit absteigend nach Anzahl (z. B. ‚5×😊 · 3×😉 · 2×☹️‘;
-  Varianten wie ☹️/☹ zählen gemeinsam, Anzahl vor dem Symbol ohne Leerzeichen).
+  Varianten wie ☹️/☹ zählen gemeinsam, Anzahl vor dem Symbol ohne Leerzeichen;
+  **Wetter und Smileys als Aufzählung nach R-10.5 – umgebrochen wird nur nach dem ‚·‘, App und Ausgabe**).
 
 ## 10. Ausgabe
 

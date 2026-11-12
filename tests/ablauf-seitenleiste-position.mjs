@@ -2,9 +2,12 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung, textSeite } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.56.0/tests/ablauf.mjs';
+import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { sucheAuf, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+// Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-4, B-8): iPad quer und hoch – die Seitenleiste
+// gleitet ein mit der Feder (Antwortzeit 0,35 s), aus ease-in-out 0,25 s, Endlagen wie ohne Bewegung (checkGleiten). Gegenprobe APD-127/B-10:
+// PRUEF_V=heute – APD-127/B-4 rot.
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-seitenleiste-position', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
@@ -24,6 +27,7 @@ const visible = p => p.evaluate(() => {
 for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [393, 852, 'iPhone']]) {
   const p = await b.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700 });
   await textSeite(p);   // seit 3.35.0: PRUEF_TEXT (AppDesign APD-43 Teil 2 P1)
+  await gleitenGegenprobe(p);   // APD-127/B-10, nur mit PRUEF_V=heute
   p.on('pageerror', e => errors.push(`${dev}: ${e.message}`));
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
@@ -33,13 +37,16 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   // Ganz nach unten wischen und den untersten Eintrag wählen
   await p.locator('#side .side-list').evaluate(l => { l.scrollTop = l.scrollHeight; });
   await p.waitForTimeout(150);
-  await p.locator('#side .side-row', { hasText: 'Reise 14' }).click(); await p.waitForTimeout(350);
+  await p.locator('#side .side-row', { hasText: 'Reise 14' }).click(); await p.waitForTimeout(350); await navFertig(p);
   if (w < 700) { await p.click('#back'); await p.waitForTimeout(250); }
   // seit 3.43.0 (AppDesign APD-97): auch hoch bleibt die Seitenleiste nach der Auswahl stehen (fest neben dem Inhalt)
   check(await p.locator('#side').isVisible(), `${dev}: Seitenleiste nach der Auswahl nicht mehr da`);
   check(await p.locator('#side .side-row.current').textContent().then(t => t.includes('Reise 14')), `${dev}: gewählter Eintrag nicht blau`);
   check(await visible(p), `${dev}: gewählter Eintrag nach dem Öffnen nicht mehr sichtbar (Liste nach oben gesprungen)`);
   t.ort = dev; await G(p, 'Reise 14 gewählt');
+  // APD-127/B-4, B-8 (R-1.12): Seitenleiste aus und wieder ein
+  if (w >= 700) { errors.push(...await checkGleiten(p, { seitenleiste: { aus: '[aria-label="Seitenleiste ausblenden"]', ein: '[aria-label="Seitenleiste einblenden"]' }, where: dev }));
+    await G(p, 'APD-127/B-4 Seitenleiste aus und ein'); }
   await p.close();
 }
 // iPhone: Kontextmenü (lange drücken) linksbündig unter der Kachel, ganz sichtbar über der Backup-Kachel (R-8.1) –
@@ -84,7 +91,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: {}, trips: t })), trips);
   await p.reload(); await p.waitForTimeout(300);
   // Start in der Startliste (R-7.2, seit 3.15.0) – das Startreiselogbuch daraus öffnen
-  await p.locator(`#side .side-row[data-id="${await p.evaluate(() => pickStartTrip().id)}"]`).click(); await p.waitForTimeout(300);
+  await p.locator(`#side .side-row[data-id="${await p.evaluate(() => pickStartTrip().id)}"]`).click(); await p.waitForTimeout(300); await navFertig(p);
   await sucheAuf(p); await p.waitForTimeout(150); await p.fill('#search', 'Stadt'); await p.waitForTimeout(300);
   check(await p.evaluate(() => document.activeElement?.id === 'search'), 'iPhone: Suchfeld hat keinen Fokus');
   const top0 = await p.locator('.pnav').evaluate(e => e.getBoundingClientRect().top);

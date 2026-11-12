@@ -5,9 +5,9 @@
 // Seit 3.17.0 (RLB-88): zuletzt verwendetes Reiselogbuch – iPad-Aufbau öffnet es, Startliste bleibt ohne Blau.
 // RLB-84/F-12 (Start ohne Netz) prüft offline-regeln.mjs, RLB-84/F-18 (Löschen → Startliste) ablauf-iphone.mjs.
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.56.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.56.0/tests/hig.mjs';
-import { checkStart, checkRueckkehr } from '../../AppDesign/fassung/4.56.0/tests/start.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
+import { checkStart, checkRueckkehr } from '../../AppDesign/fassung/4.57.0/tests/start.mjs';
 const t = pruefung('start-regeln', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const reise = (id, title, start, end, days = {}) => ({ id, title, participants: 'Anna', start, end, transport: ['pkw'], days });
@@ -57,7 +57,7 @@ for (const theme of ['light', 'dark']) {
     }
     await t.schritt(p, 'Zurück zur Startliste', () => p.click('#back').then(() => p.waitForTimeout(250)));
     t.ist('RLB-84/F-7 nach ‚Zurück‘ ist das zuletzt geöffnete blau', await blau(p), ['a'], 'R-7.2');
-    await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(300);
+    await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(300); await navFertig(p);
     await p.reload(); await p.waitForTimeout(300);                                     // RLB-84/F-11: Neuladen im Reiselogbuch
     t.liste(await checkStart(p, { inhalt: START }));
     await t.schritt(p, 'Neuladen im Reiselogbuch', async () => {});
@@ -100,7 +100,7 @@ for (const theme of ['light', 'dark']) {
       const p = await t.seite(b, ansicht, { theme });
       t.ort = `${ansicht} · RLB-88`;
       await lade(p, LAUFEND);
-      await p.locator('#side .side-row[data-id="b"]').click(); await p.waitForTimeout(300);
+      await p.locator('#side .side-row[data-id="b"]').click(); await p.waitForTimeout(300); await navFertig(p);
       await p.reload(); await p.waitForTimeout(300);
       t.liste(await checkStart(p, { inhalt: START }));
       t.ist('S1/S2 nach dem Neuladen zuletzt verwendetes offen', (await titel(p)).trim(), 'Toskana', 'RLB-88');
@@ -133,7 +133,7 @@ for (const theme of ['light', 'dark']) {
       const p = await t.seite(b, 'iPad quer', { theme });
       t.ort = `iPad quer · RLB-88 ${wahl}`;
       await lade(p, LAUFEND);
-      await p.locator('#side .side-row[data-id="b"]').click(); await p.waitForTimeout(300);
+      await p.locator('#side .side-row[data-id="b"]').click(); await p.waitForTimeout(300); await navFertig(p);
       await p.click('#sideMore'); await p.waitForTimeout(150);
       const [chooser] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
       await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: { lastTrip: 'c' }, trips: LAUFEND, savedAt: Date.now(), savedOn: 'iPhone' })) });
@@ -148,7 +148,7 @@ for (const theme of ['light', 'dark']) {
       const p = await t.seite(b, ansicht, { theme });
       if (typeof ansicht !== 'string') t.ort = 'iPad schmal · RLB-88 S11';
       await lade(p, LAUFEND);
-      await p.locator('#side .side-row[data-id="b"]').click(); await p.waitForTimeout(300);
+      await p.locator('#side .side-row[data-id="b"]').click(); await p.waitForTimeout(300); await navFertig(p);
       await p.reload(); await p.waitForTimeout(300);
       t.liste(await checkStart(p, { inhalt: START }));
       t.ist('S11 zuletzt verwendetes gemerkt', await letztes(p), 'b', 'RLB-88');
