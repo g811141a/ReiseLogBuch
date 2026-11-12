@@ -2,8 +2,9 @@
 // Testfall-Liste AppDesign arbeit/APD-115 Testfall-Liste.md APD-115/M-1 bis M-11, seit 3.54.0 / AppDesign 4.56.0): Feld am unteren Fensterrand
 // antippen (endet 16 px über der Tastatur, liegt es schon darüber: nichts), Verlauf oben (nichts rollt), langer Verlauf (Cursorzeile und eine halbe
 // Zeile darunter), Feld wechseln bei offener Tastatur (APD-115/W-4: ui.js setzt den Fokus selbst, Safari verschiebt nicht, APD-115/N-16), Schritte 6
-// bis 8 vom Gerät (in jedem Bild Kopfzeile und Fensterkopf still, beim Schließen bleibt der Rollstand, APD-115/N-13), ‚Verlauf‘ direkt über dem Feld
-// (APD-115/E-6). Alle vier Lagen, hell, im Safari-Modell (apd115, fokusSelbst).
+// bis 8 vom Gerät (in jedem Bild Kopfzeile und Fensterkopf still, beim Schließen bleibt der Rollstand, APD-115/N-13), seit 3.55.0
+// die Vorschläge wieder über dem Feld (RLB-123/B-1, ersetzt APD-115/M-8) und beim Antippen des langen Verlaufs der Cursor am Ende (R-5.11 – die Zeile mit
+// dem Cursor ist dann die letzte, AppDesign APD-126/W-6). Alle vier Lagen, hell, im Safari-Modell (apd115, fokusSelbst).
 // Aufruf im Repo-Ordner: node tests/ablauf-feld-rollen.mjs
 //   PRUEF_V=alt …     Gegenprobe: ui.js der Fassung 4.55.0 – M-1 bis M-3 (rollt zu weit), M-7 und M-11 müssen rot werden
 //   PRUEF_FOKUS=alt … Gegenprobe Modell: ohne APD-115/N-16 (Safari verschiebt auch bei selbst gesetztem Fokus) – M-7/M-11 rot
@@ -82,7 +83,7 @@ for (const ansicht of ['iPhone hoch', 'iPad quer', 'iPad hoch', 'iPhone quer'].f
       if (v0.ueber && Math.abs(l.y - y0) > 1) E('APD-115/M-4', `Verlauf lag über der Tastatur, trotzdem rollt der Inhalt (${y0} → ${l.y} px)`);
       await p.close();
     }
-    // APD-115/M-5: langer Verlauf (14 Zeilen) – eine Zeile unten antippen: Cursorzeile und eine halbe Zeile darunter über der Tastatur (nur berichtet, wenn
+    // APD-115/M-5: langer Verlauf (14 Zeilen) – eine Zeile unten antippen: Cursorzeile (seit 3.55.0 die letzte, R-5.11) und eine halbe Zeile darunter über der Tastatur (nur berichtet, wenn
     // Safari im Modell verschiebt: hohe Felder sind nicht gemessen)
     {
       const p = await neu(ansicht, v, LANG);
@@ -199,14 +200,14 @@ for (const ansicht of ['iPhone hoch', 'iPad quer', 'iPad hoch', 'iPhone quer'].f
       if (frAus.length) E('APD-115/M-11', `W-${w} x (Tastatur zu): Fensterinhalt springt in ${frAus.length} von ${fr.length} Bildern (Rollstand ${fr[0]} → ${frAus[frAus.length - 1]})`);
       await p.close();
     }
-    // APD-115/M-8 (Variante A): Bezeichnung ‚Verlauf‘ direkt über dem Feld, Vorschläge darunter; M-9 (B): Vorschläge zwischen Bezeichnung und Feld
+    // RLB-123/B-1 (seit 3.55.0, ersetzt APD-115/M-8 ‚Feld direkt unter der Überschrift‘, APD-115/E-6): die Vorschläge stehen wieder zwischen der
+    // Überschrift ‚2 Verlauf‘ und dem Feld
     {
       const p = await neu(ansicht, v);
       const g = await p.evaluate(() => { const h = document.querySelector('#fProgram').closest('.step').querySelector('.step-head').getBoundingClientRect(),
         f = document.querySelector('#fProgram').getBoundingClientRect(), s = document.querySelector('#suggest').getBoundingClientRect();
-        return { abstand: Math.round(f.top - h.bottom), vorschlaegeUnten: s.top >= f.bottom - 1 }; });
-      if (v === 'a' && (g.abstand > 12 || !g.vorschlaegeUnten)) E('APD-115/M-8', `Variante A: Feld ${g.abstand} px unter der Bezeichnung, Vorschläge ${g.vorschlaegeUnten ? 'darunter' : 'darüber'}`);
-      if (v === 'b' && g.vorschlaegeUnten) E('APD-115/M-9', 'Variante B: Vorschläge stehen unter dem Feld');
+        return { ueber: s.top >= h.bottom - 1 && s.bottom <= f.top + 1, s: Math.round(s.bottom), f: Math.round(f.top) }; });
+      if (!g.ueber) E('RLB-123/B-1', `Vorschläge nicht über dem Feld (Vorschläge enden bei ${g.s} px, Feld beginnt bei ${g.f} px)`);
       await t.schritt(p, 'Tageserfassung offen', async () => {});   // APD-115/M-10 Grundregeln
       await p.close();
     }

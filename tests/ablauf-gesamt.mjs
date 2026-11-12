@@ -5,7 +5,7 @@
 import * as pw from 'playwright';
 import { pruefung, warteBis } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+import { sucheAuf, checkDateiname } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 // seit 3.48.1 (AppDesign APD-85 Teil 5): keine festen Pausen mehr – jede Stelle wartet mit warteBis auf den Zustand danach (Ruhe = keine
 // laufende Bewegung); nur das lange Drücken hält den Finger eine feste Zeit (die Handlung selbst)
@@ -34,6 +34,22 @@ async function page(ansicht, o = {}) {
   return p;
 }
 const cls = (p, sel, c) => p.evaluate(([s, c]) => document.querySelector(s).classList.contains(c), [sel, c]);
+// seit 3.55.0 (AppDesign APD-116, R-10.8, APD-116/B-1 bis B-7): Dateiname im Fenster ‚Ausgabe V…‘ – HTML (geteilt, abgebrochen, Fehler, ohne
+// Teilen-Menü) und PDF (Drucken-Menü), Textgröße l, xxxl, ax3; der Name ‚… 2026.08.24-2026.11.11 V….html‘ bricht nur nach einem Leerzeichen.
+// gegenprobe: die Texte bis AppDesign 4.56.0 (Name im Satz) – B-1 muss rot werden
+const AUSGABE_NAME = /^Reiselogbuch Australien 2026\.08\.24-2026\.11\.11 V\d{3}\.(html|pdf)$/;
+async function ausgabeDateiname(p, lage, gegenprobe = false, name = AUSGABE_NAME) {
+  await p.evaluate(() => { window.print = () => {}; });
+  const menue = async punkt => { await p.click('#shareBtn'); await bis(p, `!!document.querySelector('.menu') && ${RUHE}`, 'Teilen-Menü offen'); await p.click(`.menu .mi:has-text("${punkt}")`); };
+  const o = { name, text: '#dlg[open] .dlg-body > .step:first-child', schliessen: '#dlg[open] #dlgX' };
+  t.liste(await checkDateiname(p, { ...o, ausloesen: () => menue('HTML'), where: `${lage} Ausgabe HTML` }));
+  t.liste(await checkDateiname(p, { ...o, faelle: ['print'], ausloesen: () => menue('PDF'), where: `${lage} Ausgabe PDF` }));
+  if (!gegenprobe) return;
+  await p.evaluate(() => { window.__sr = { ...SHARE_RESULT }; SHARE_RESULT.aborted = name => `Teilen-Menü abgebrochen – <b>${esc(name)}</b> wurde nicht gespeichert.`; });
+  const gp = await checkDateiname(p, { ...o, faelle: ['aborted'], groessen: ['l', 'ax3'], ausloesen: () => menue('HTML'), where: 'Gegenprobe' });
+  await p.evaluate(() => Object.assign(SHARE_RESULT, window.__sr));
+  t.wahr(`APD-116/B-7 Gegenprobe: Name im Satz wird gemeldet (${gp.filter(x => x.includes('B-1')).length}× B-1, ${gp.filter(x => x.includes('B-2')).length}× B-2)`, gp.some(x => x.includes('APD-116/B-1')), 'R-10.8');
+}
 const S = (p, name, fn) => t.schritt(p, name, fn);
 
 for (const theme of ['light', 'dark']) {
@@ -106,6 +122,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Vorschau offen, Teilen bleibt blau', [await p.textContent('#dlg h3'), await cls(p, '#shareBtn', 'on')], ['Vorschau', true], 'R-3.3');
   await S(p, 'Vorschau schließen', () => p.click('#dlgX'));
   t.ist('Teilen danach nicht mehr blau', await cls(p, '#shareBtn', 'on'), false, 'R-3.3');
+  await ausgabeDateiname(p, `iPad quer ${theme === 'dark' ? 'dunkel' : 'hell'}`, theme === 'light');
   // Suche
   await S(p, 'Suche Sydney', async () => { await sucheAuf(p); await p.fill('#search', 'Sydney'); await bis(p, `/ von /.test(document.querySelector('#scount')?.textContent || '')`, 'Treffer gezählt'); });
   t.ist('Treffer', await p.textContent('#scount'), '1 von 3', 'R-2.3');
@@ -150,6 +167,7 @@ for (const theme of ['light', 'dark']) {
   // Hoch (seit 3.43.0, AppDesign APD-97): Seitenleiste fest neben dem Inhalt, ohne Abdunkelung; die Auswahl lässt sie stehen; Tage als Kästen (R-6.6)
   p = await page('iPad hoch', { theme });
   t.ist('hoch: Seitenleiste fest ohne Abdunkelung', [await p.evaluate(() => side.classList.contains('over')), await p.locator('.side-shade').count(), await p.evaluate(() => document.body.classList.contains('docked'))], [false, 0, true], 'R-8.1');
+  await ausgabeDateiname(p, `iPad hoch ${theme === 'dark' ? 'dunkel' : 'hell'}`);   // APD-116: Australien ist gewählt
   await S(p, 'Wien antippen', () => p.click('.side-row:has-text("Wien")'));
   t.ist('Seitenleiste bleibt, Wien offen, Kästen', [await p.isVisible('#side'), await p.textContent('.nb-title'), await p.locator('#app table.days:not(.static)').count() === 0], [true, 'Wien Kurztrip', true], 'R-6.6');
   await p.close();
@@ -166,7 +184,8 @@ for (const theme of ['light', 'dark']) {
   t.ist('beim Tippen', await k.inputValue(), '1.234,5', 'R-5.1');
   await S(p, 'Kosten verlassen', () => p.click('.progress'));
   t.ist('danach', await k.inputValue(), '1.234,50', 'R-5.1');
-  t.ist('Statistik', await p.evaluate(() => tripStats(db.trips[0]).map(x => x.join(': ')).join(' | ')), 'Reisetage: 80, davon erfasst 3 | Quartiere: 2 | Nächte: 3 | Wetter: 1×☀️ · 1×🌤 · 1×🌦 | Smileys: 2×😊 · 1×😉 · 1×👍');
+  // seit 3.55.0 (RLB-122): Wetter und Smileys als Liste der Einträge (Aufzählung in statHtml)
+  t.ist('Statistik', await p.evaluate(() => tripStats(db.trips[0]).map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(' · ') : v}`).join(' | ')), 'Reisetage: 80, davon erfasst 3 | Quartiere: 2 | Nächte: 3 | Wetter: 1×☀️ · 1×🌤 · 1×🌦 | Smileys: 2×😊 · 1×😉 · 1×👍');
   t.ist('Betrag in der Ausgabe', await p.evaluate(() => formatEuro(db.trips[0].kosten)), '1.234,50 €', 'R-5.1');
   t.ist('Tabellenkopf 17 px halbfett', await p.evaluate(() => { const s = getComputedStyle(document.querySelector('table.days th')); return s.fontSize + ' ' + s.fontWeight; }), '17px 600');
   t.ist('Seitenleiste schwebt', await p.evaluate(() => { const s = getComputedStyle(side); return [s.borderRadius, s.left, s.top, s.boxShadow.slice(0, 30)]; }), ['22px', '10px', '10px', /^rgba\(0, 0, 0, 0\.\d+\) 0px 3px 28/], 'R-3.2');

@@ -8,7 +8,8 @@ const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '202
 const hig = createCheck();
 const t = pruefung('backup-regeln', pw, { hig, out: new URL('out/', import.meta.url) });
 const b = await t.browser();
-for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [393, 852, 'iPhone hoch'], [852, 393, 'iPhone quer']]) for (const cs of ['light', 'dark']) {
+// seit 3.55.0 (AppDesign APD-116, R-10.8: Dateiname im Fenster ‚Backup‘, checkDateiname in checkBackup) auch iPad hoch – vier Lagen
+for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [393, 852, 'iPhone hoch'], [852, 393, 'iPhone quer']]) for (const cs of ['light', 'dark']) {
   const ctx = await b.newContext({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700 || h < 500, colorScheme: cs, acceptDownloads: true });
   const p = await ctx.newPage(); t.ort = `${dev} ${cs === 'light' ? 'hell' : 'dunkel'}`;
   p.on('pageerror', e => t.fehler('', `Skriptfehler der Seite: ${e.message}`));

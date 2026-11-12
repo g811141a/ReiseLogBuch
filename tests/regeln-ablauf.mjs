@@ -2,6 +2,7 @@
 // R-5.3 Fehlermeldungen, R-5.5 Eingabetaste (seit 3.17.0), R-6.4 Vorschau, seit 3.25.0 (AppDesign APD-28/APD-29) Suche nach oben (APD-28/F-3/F-4),
 // Nach oben / Ans Ende im Rollbereich (APD-28/F-12) und Drucken der ganzen Liste (APD-28/F-16), seit 3.27.0 R-5.6 ⓧ in Feldern (AppDesign APD-63), seit 3.39.0 auch mehrzeilig (APD-81) – iPad und iPhone quer und hoch, Vorschau hell und dunkel. Aufruf im Repo-Ordner: node tests/regeln-ablauf.mjs
 import * as pw from 'playwright';
+import { readFileSync } from 'node:fs';
 import { pruefung, textSeite } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
@@ -16,6 +17,11 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
   const p = await b.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700, colorScheme: scheme });
   p.on('pageerror', e => errs.push(`${dev}: Skriptfehler ${e.message}`));
   await textSeite(p);   // seit 3.50.0: Gegenproben (AppDesign APD-40/B-5, C-5, C-6)
+  // seit 3.55.0: PRUEF_V=alt – Gegenprobe APD-124/B-11 mit ui.js der Fassung 4.56.0 (als 4.57.0 gemeldet, dazu aufzaehlung aus 4.57.0, die die App
+  // braucht): checkClear muss rot werden
+  if (process.env.PRUEF_V === 'alt') await p.route(/fassung\/4\.57\.0\/ui\.js$/, r => r.fulfill({ contentType: 'text/javascript',
+    body: readFileSync(new URL('../../AppDesign/fassung/4.56.0/ui.js', import.meta.url), 'utf8').replace(/AD_VERSION = '4\.56\.0'/, "AD_VERSION = '4.57.0'")
+      + "\nfunction aufzaehlung(liste) { return liste.map(x => `<span class=\"ict az\">${esc(x)}</span>`).join('\\u00a0\\u00b7 '); }\n" }));
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: t })), trips);
   await p.reload(); await p.waitForTimeout(300);

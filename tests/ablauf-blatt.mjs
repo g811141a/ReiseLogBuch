@@ -11,7 +11,10 @@
 import * as pw from 'playwright';
 import { pruefung, warteBis, navFertig, ruhe } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
-import { checkSheet } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+import { checkSheet, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+// Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-1, B-6, B-8): iPhone hoch und iPad quer
+// hell – öffnen mit der Feder (Antwortzeit 0,35 s), x ease-in-out 0,25 s (Blatt, Abdunkelung, Seite), nach dem Loslassen der Rest anteilig, Endlagen
+// wie ohne Bewegung; ‚Bewegung reduzieren‘: nichts bewegt sich über 200 ms (checkGleiten). Gegenprobe APD-127/B-10: PRUEF_V=heute – APD-127/B-1 rot.
 const t = pruefung('ablauf-blatt', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
 // APD-85 Teil 3: die Zustände, auf die gewartet wird (statt 150, 400, 600 und 700 ms)
@@ -35,6 +38,7 @@ for (const [ansicht, theme, ruhig, auswahl] of [['iPhone hoch', 'light', false, 
   ['iPhone hoch', 'light', true, ['Erfassen']], ['iPad quer', 'light', false, ['Erfassen', 'Vorschau']], ['iPad hoch', 'light', false, ['Reiselogbuch einstellen', 'Erfassen', 'Neues Reiselogbuch']],
   ['iPad quer', 'dark', false, ['Erfassen']], ['iPad quer', 'light', true, ['Erfassen']]].filter(([a]) => !process.env.PRUEF_BLATT || a.startsWith(process.env.PRUEF_BLATT))) {
   const p = await t.seite(b, ansicht, { theme, ...(ruhig ? { reducedMotion: 'reduce' } : {}) });
+  await gleitenGegenprobe(p);   // APD-127/B-10, nur mit PRUEF_V=heute
   const where = `${t.ort}${ruhig ? ' Bewegung reduzieren' : ''}`; t.ort = where;
   await p.clock.setFixedTime(new Date('2026-09-02T10:00:00'));
   await p.goto(new URL('../index.html', import.meta.url).href);
@@ -46,6 +50,9 @@ for (const [ansicht, theme, ruhig, auswahl] of [['iPhone hoch', 'light', false, 
     if (auswahl && !auswahl.includes(name)) continue;
     t.liste(await checkSheet(p, { where: `${where} · ${name}`, open: () => open(p), field, ok, change: change && (() => change(p)) }));
   }
+  // APD-127/B-1, B-6, B-8 (R-1.12): Erfassen ohne Eingaben – iPhone hoch und iPad quer hell, dazu iPhone hoch mit ‚Bewegung reduzieren‘
+  if (theme === 'light' && (ansicht === 'iPad quer' ? !ruhig : ansicht === 'iPhone hoch')) await t.schritt(p, 'APD-127 Gleiten', async () =>
+    t.liste(await checkGleiten(p, { blatt: () => FENSTER[0][1](p), where })));
   await t.schritt(p, 'Blatt offen', async () => { await FENSTER[0][1](p); await warte(p, ruht('dialog[open]'), 'Blatt offen und ruhig'); });
   await p.screenshot({ path: new URL(`out/blatt-${where.replace(/ /g, '-')}-${t.browserName}.png`, import.meta.url).pathname });
   await p.close();
