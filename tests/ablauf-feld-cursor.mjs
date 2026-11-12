@@ -10,7 +10,7 @@
 //   PRUEF_ANSICHT='iPhone quer' …   nur eine Ansicht (während der Arbeit)
 import * as pw from 'playwright';
 import { readFileSync } from 'node:fs';
-import { pruefung } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 import { checkFeldCursor, STILL_LEISTEN, STILL_LINKS } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 import { safariModell } from '../../AppDesign/fassung/4.57.0/tests/safari.mjs';
@@ -36,7 +36,7 @@ async function neu(ansicht, theme = 'light', text = 0, modell = true) {
   await p.goto(APP);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'muster' }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(500);
-  if (await p.locator('#side .side-row[data-id="muster"]').isVisible().catch(() => false)) { await p.locator('#side .side-row[data-id="muster"]').click(); await p.waitForTimeout(400); }
+  if (await p.locator('#side .side-row[data-id="muster"]').isVisible().catch(() => false)) { await p.locator('#side .side-row[data-id="muster"]').click(); await p.waitForTimeout(400); await navFertig(p); }
   if (modell) await safariModell(p, ansicht, { auto: true, leisten: STILL_LEISTEN, links: STILL_LINKS });
   return p;
 }

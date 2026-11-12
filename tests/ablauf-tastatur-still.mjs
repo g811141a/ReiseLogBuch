@@ -9,7 +9,7 @@
 // sichtbare Fensterinhalt (96 von 84 px), wie Safari dann verschiebt, ist nicht gemessen (Testfälle).
 // Aufruf im Repo-Ordner: node tests/ablauf-tastatur-still.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS, sucheAuf } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 import { safariModell } from '../../AppDesign/fassung/4.57.0/tests/safari.mjs';
 import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.57.0/tests/abspielen.mjs';
@@ -55,7 +55,7 @@ for (const theme of ['light', 'dark']) {
     await p.goto(APP);
     await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), f.ein ? einTag : trips);
     await p.reload(); await p.waitForTimeout(400);
-    if (await p.locator('#side .side-row[data-id="a"]').isVisible() && (f.ansicht.startsWith('iPhone') || await p.locator('#side.over').isVisible())) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); }
+    if (await p.locator('#side .side-row[data-id="a"]').isVisible() && (f.ansicht.startsWith('iPhone') || await p.locator('#side.over').isVisible())) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p); }
     await safariModell(p, f.ansicht, { auto: true, leisten: STILL_LEISTEN, links: STILL_LINKS });
     if (f.ein && await p.evaluate(() => { const r = document.querySelector('#app > .rolle'); return r.scrollHeight - r.clientHeight > 300; })) t.liste([`${t.ort}: Vorbereitung: der Inhalt mit einem Tag ist nicht kurz`]);
     t.liste(await checkTastaturStill(p, { field: f.field, wechsel: f.wechsel, taste: f.taste, kapsel: f.kapsel, wischen: f.wischen, vorher: () => f.vorher(p), where: t.ort }));

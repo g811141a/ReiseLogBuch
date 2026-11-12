@@ -31,7 +31,8 @@ for (const theme of ['light', 'dark']) {
     const phone = await p.evaluate(() => document.documentElement.classList.contains('phone'));
     if (phone) {   // K5: Startliste ohne Kapsel
       t.ist('K5 Kapsel in der Startliste', (await kapsel(p)).sichtbar, false, 'R-3.2');
-      await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400);
+      // seit 3.55.0 (AppDesign APD-127, R-1.12): hinein gleitet mit der Feder über 0,5 s – erst messen, wenn die Bewegung fertig ist
+      await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p);
     }
     // Seit 3.24.0: warten, bis das Reiselogbuch aufgebaut ist (höchstens 3 s) – unter Last reichten die festen 400 ms in WebKit nicht.
     await p.waitForFunction(() => document.querySelector('#app [data-day]') && getComputedStyle(document.getElementById('fab')).display !== 'none', null, { timeout: 3000 }).catch(() => {});

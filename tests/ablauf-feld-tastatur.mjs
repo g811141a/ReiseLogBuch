@@ -5,7 +5,7 @@
 // Gegen 3.25.1 (AppDesign 4.27.1) rot. iPad nur am Gerät (keine Messung der Tastatur, Safari-Modell nur iPhone).
 // Aufruf im Repo-Ordner: node tests/ablauf-feld-tastatur.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 import { checkFieldVisible, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 // Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-2, B-8, B-9): im Safari-Modell öffnet sich
@@ -26,7 +26,7 @@ for (const theme of ['light', 'dark']) {
     await p.goto(APP);
     await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
     await p.reload(); await p.waitForTimeout(400);
-    if (await p.locator('#side .side-row[data-id="a"]').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); }
+    if (await p.locator('#side .side-row[data-id="a"]').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p); }
     await p.waitForFunction(() => document.querySelector('#kosten'), null, { timeout: 3000 }).catch(() => {});
     await safariModell(p, ansicht);
     // wie am Gerät: ‚Ans Ende‘ (Kapsel), dann Gesamtausgaben antippen (APD-34/F-1, APD-34/F-2, APD-34/F-6 Platz unter dem Inhalt, APD-34/F-3, APD-34/F-4). Unter dem
@@ -48,7 +48,7 @@ for (const theme of ['light', 'dark']) {
   await p.goto(APP);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(400);
-  if (await p.locator('#side .side-row[data-id="a"]').isVisible() && !await p.locator('#kosten').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); }
+  if (await p.locator('#side .side-row[data-id="a"]').isVisible() && !await p.locator('#kosten').isVisible()) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p); }
   await safariModell(p, 'iPad hoch', { auto: true });
   await t.schritt(p, 'APD-127/B-2 Fenster mit der Tastatur', async () => t.liste(await checkGleiten(p, { tastatur: { oeffnen: () => p.evaluate(d => openDayDialog(db.trips[0], d), '2026-08-26'), feld: '#fProgram' }, where: t.ort })));
   await p.close();

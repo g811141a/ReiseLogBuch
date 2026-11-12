@@ -6,7 +6,7 @@
 // iPad quer und hoch, iPhone hoch und quer, hell und dunkel (Grundregeln nach jedem Schritt).
 // Aufruf im Repo-Ordner: node tests/verlauf-vorschlaege.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 const t = pruefung('verlauf-vorschlaege', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
@@ -22,7 +22,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), TRIPS);
   await p.reload(); await p.waitForTimeout(400);
   if (await p.evaluate(() => document.documentElement.classList.contains('phone')) && await p.locator('#side .side-row[data-id="a"]').isVisible()) {
-    await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400);
+    await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p);
   }
   await t.schritt(p, 'Fenster Tag öffnen', async () => { await p.evaluate(() => [...document.querySelectorAll('[data-day="2026-08-24"]')].find(e => e.getClientRects().length).click()); await p.waitForTimeout(400); });
   const ta = p.locator('#fProgram');

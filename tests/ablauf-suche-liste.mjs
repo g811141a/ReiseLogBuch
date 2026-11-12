@@ -4,7 +4,7 @@
 // (AppDesign arbeit/RLB-92 Testfall-Liste.md): RLB-92/F-3 ausgeblendete Spalte, RLB-92/F-9 Groß/klein, RLB-92/F-10 ohne Reiselogbuch, RLB-92/F-11 viele,
 // RLB-92/F-15 Drehen, RLB-92/F-16 Eingabetaste, RLB-92/F-19 Neuladen. Aufruf im Repo-Ordner: node tests/ablauf-suche-liste.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 import { checkListSearch, sucheAuf } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-liste', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
@@ -32,7 +32,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad quer', 'dark'], [
   const phone = ansicht.startsWith('iPhone'), over = false;
   const back = phone ? () => p.click('#back') : over ? () => p.locator('[data-side-toggle]').first().click() : null;
   for (const e of await checkListSearch(p, { term: 'Paella', where, back })) t.fehler('R-2.3', e);
-  if (over || phone) { if (phone) await p.click('#back').catch(() => {}); else if (!await p.locator('#side:not([hidden])').count()) await p.locator('[data-side-toggle]').first().click(); await p.waitForTimeout(300); }
+  if (over || phone) { if (phone) await p.click('#back').catch(() => {}); else if (!await p.locator('#side:not([hidden])').count()) await p.locator('[data-side-toggle]').first().click(); await p.waitForTimeout(300); await navFertig(p); }
   await t.schritt(p, 'Liste gefiltert', async () => { await sucheAuf(p, '#sideMore'); await p.locator('#lsearch').pressSequentially('Paella', { delay: 10 }); await p.waitForTimeout(300); });
   if (ansicht === 'iPad quer' && theme === 'light') {
     // RLB-92/F-3: Italien zählt nur den Verlauf (Essen-Spalte aus); RLB-92/F-9: Groß/klein gleich.

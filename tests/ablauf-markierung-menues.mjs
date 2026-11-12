@@ -10,7 +10,7 @@
 // zurück (iPad quer und hoch, hell und dunkel, Drehen beim Wachsen), iPhone hoch und quer, ‚Bewegung reduzieren‘ nur Überblenden. Dazu APD-38/T-37
 // (R-3.9, APD-62/L-1, L-2, L-4, L-5, L-10): Menü aus Glas, schon beim Wachsen, mit ‚Transparenz reduzieren‘ deckend (nur Chromium bildet es nach).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck, checkGlas } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 import { checkMehrKnopf, checkWachsen } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
@@ -94,11 +94,11 @@ for (const [ansicht, ruhig] of [['iPhone hoch', false], ['iPhone quer', false], 
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(400);
   const phone = ansicht.startsWith('iPhone');
-  if (phone && await p.locator('#back').count()) { await p.click('#back'); await p.waitForTimeout(400); }
+  if (phone && await p.locator('#back').count()) { await p.click('#back'); await p.waitForTimeout(400); await navFertig(p); }
   t.liste(await checkMehrKnopf(p, { sel: '#sideMore', where: phone ? 'Mehr der Startliste' : 'Mehr der Seitenleiste' }));
   // AppDesign APD-62/M-1 iPhone hoch und quer, APD-62/M-7 ‚Bewegung reduzieren‘ (R-4.13)
   await t.schritt(p, 'Menü wächst aus der Schaltfläche', async () => t.liste(await checkWachsen(p, { menue: '#sideMore', where: ruhig ? 'Bewegung reduzieren' : 'Bewegung' })));
-  if (phone) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); }
+  if (phone) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); await navFertig(p); }
   t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));
   if (!phone) {
     // in beide Richtungen drehen, das Menü offen (seit 3.43.0, APD-97: die Seitenleiste steht dabei fest daneben). Quer → hoch ist der

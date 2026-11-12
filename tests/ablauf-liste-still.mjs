@@ -4,7 +4,7 @@
 // derselben Stelle wie beim Öffnen. Tastatur wie Safari nachgebildet (AppDesign checkListStill). iPad quer und hoch, iPhone
 // hoch und quer. Aufruf im Repo-Ordner: node tests/ablauf-liste-still.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 import { checkListStill } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-liste-still', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
@@ -25,8 +25,8 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
     await p.reload(); await p.waitForTimeout(400);
     const phone = await p.evaluate(() => document.documentElement.classList.contains('phone'));
     if (phone && !await p.locator('#side.page').isVisible()) { await p.click('#back'); await p.waitForTimeout(300); }
-    if (!await p.locator('#side .side-row[data-id="a"]').isVisible()) { await p.locator('[data-side-toggle]').filter({ visible: true }).first().click(); await p.waitForTimeout(350); }
-    await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(500);
+    if (!await p.locator('#side .side-row[data-id="a"]').isVisible()) { await p.locator('[data-side-toggle]').filter({ visible: true }).first().click(); await p.waitForTimeout(350); await navFertig(p); }
+    await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(500); await navFertig(p);
   };
   const item = (await p.evaluate(() => document.documentElement.classList.contains('phone'))) ? '#pdays [data-day]' : '#app [data-day]';   // seit 3.43.0 (APD-97): iPad Tabelle oder Kästen
   t.liste(await checkListStill(p, { where: ansicht, item, field: '#fProgram', next: '#dlg [data-nav="1"]', start }));

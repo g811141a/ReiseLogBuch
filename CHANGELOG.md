@@ -41,6 +41,9 @@ Reiselogbuch 3.55.0 · AppDesign 4.57.0 (Designrichtlinie allgemein 4.57.0) · D
   umgestellt; `ablauf-feld-rollen` (RLB-123/B-1 ersetzt APD-115/M-8); `regeln-ablauf` (`checkClear`, Gegenprobe); `checkGleiten` in `ablauf-blatt`,
   `ablauf-navigation`, `ablauf-seitenleiste-position`, `ablauf-titel-oben`, `ablauf-feld-tastatur`; `ablauf-preis-km` (RLB-120/B-2, B-4, B-11, RLB-122);
   `checkDateiname` in `ablauf-abgleich` und `ablauf-gesamt`; `backup-regeln` in vier Lagen.
+  Hinein gleitet jetzt 0,5 s (R-1.12): 25 Prüfungen warten nach dem Öffnen aus der Liste bzw. dem Zurück zusätzlich auf das Ende der Bewegung
+  (`navFertig`) – im ersten vollen Lauf maßen `oeffnen-position` und `kapsel-iphone` mitten in der Bewegung; `ablauf-iphone` erwartet nach einem
+  Vorschlag ‚Freetour sydney‘ (R-5.2 neu).
 
 Testfälle P-101 (Schritt für Schritt, Zusammenarbeit allgemein 3.11.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.

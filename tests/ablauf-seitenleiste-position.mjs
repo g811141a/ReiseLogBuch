@@ -2,7 +2,7 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung, textSeite } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 import { sucheAuf, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 // Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-4, B-8): iPad quer und hoch – die Seitenleiste
@@ -37,7 +37,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   // Ganz nach unten wischen und den untersten Eintrag wählen
   await p.locator('#side .side-list').evaluate(l => { l.scrollTop = l.scrollHeight; });
   await p.waitForTimeout(150);
-  await p.locator('#side .side-row', { hasText: 'Reise 14' }).click(); await p.waitForTimeout(350);
+  await p.locator('#side .side-row', { hasText: 'Reise 14' }).click(); await p.waitForTimeout(350); await navFertig(p);
   if (w < 700) { await p.click('#back'); await p.waitForTimeout(250); }
   // seit 3.43.0 (AppDesign APD-97): auch hoch bleibt die Seitenleiste nach der Auswahl stehen (fest neben dem Inhalt)
   check(await p.locator('#side').isVisible(), `${dev}: Seitenleiste nach der Auswahl nicht mehr da`);
@@ -91,7 +91,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: {}, trips: t })), trips);
   await p.reload(); await p.waitForTimeout(300);
   // Start in der Startliste (R-7.2, seit 3.15.0) – das Startreiselogbuch daraus öffnen
-  await p.locator(`#side .side-row[data-id="${await p.evaluate(() => pickStartTrip().id)}"]`).click(); await p.waitForTimeout(300);
+  await p.locator(`#side .side-row[data-id="${await p.evaluate(() => pickStartTrip().id)}"]`).click(); await p.waitForTimeout(300); await navFertig(p);
   await sucheAuf(p); await p.waitForTimeout(150); await p.fill('#search', 'Stadt'); await p.waitForTimeout(300);
   check(await p.evaluate(() => document.activeElement?.id === 'search'), 'iPhone: Suchfeld hat keinen Fokus');
   const top0 = await p.locator('.pnav').evaluate(e => e.getBoundingClientRect().top);

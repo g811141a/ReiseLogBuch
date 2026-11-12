@@ -75,9 +75,9 @@ check(await p.locator('#dlg .mic').count() === 0, 'Mikrofon-Knopf noch da');
 await p.locator('#moods [data-m]').first().click(); await p.keyboard.type('nett. sehr gut');
 check((await p.locator('#fComment').inputValue()).endsWith('Nett. Sehr gut'), `Großschreibung: ${await p.locator('#fComment').inputValue()}`);
 await p.fill('#fComment', '');
-// Nach einem Vorschlag beginnt das nächste Wort groß (‚Freetour Sydney‘)
+// Nach einem Vorschlag geht es klein weiter (‚Freetour sydney‘, seit 3.55.0 – R-5.2, AppDesign APD-126/W-3, W-4)
 await p.fill('#fProgram', ''); await p.locator('#suggest button', { hasText: 'Freetour' }).click(); await p.keyboard.type('sydney');
-check((await p.locator('#fProgram').inputValue()) === 'Freetour Sydney', `Vorschlag: ${await p.locator('#fProgram').inputValue()}`);
+check((await p.locator('#fProgram').inputValue()) === 'Freetour sydney', `Vorschlag: ${await p.locator('#fProgram').inputValue()}`);
 await p.fill('#fProgram', 'Hafenrundfahrt');
 await p.locator('[data-nav="1"]').click(); await p.waitForTimeout(300);
 check((await db()).trips[0].days['2026-08-25']?.program === 'Hafenrundfahrt', 'Blättern speichert nicht');

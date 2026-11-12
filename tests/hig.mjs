@@ -7,7 +7,7 @@
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
 // Bewusste Abweichungen (Abschnitt 16) werden nicht gezählt. Ergebnis: Abweichungsliste, Exit-Code 1 bei Funden.
 import * as pw from 'playwright';
-import { pruefung, rolle, textSeite } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung, rolle, textSeite, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 import { sucheAuf } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 
@@ -75,7 +75,7 @@ for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 118
   await p.click('#sideMore'); await p.waitForTimeout(150); await stays('#sideMore', 'Mehr-Menü der Seitenleiste'); await M('Mehr-Menü der Seitenleiste');
   if (w > h) { await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await p.waitForTimeout(150); await M('Untermenü Darstellung'); }
   await away();
-  await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(250);
+  await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(250); await navFertig(p);
   await M('Hauptansicht');
   await hig.barStill(p, `Hauptansicht (${tag})`);
   await p.click('#mainMore'); await p.waitForTimeout(150); await stays('#mainMore', 'Mehr-Menü'); await M('Mehr-Menü');
@@ -131,7 +131,7 @@ for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]
   await p.click('#sideMore'); await p.waitForTimeout(150); await stays('#sideMore', 'Mehr-Menü der Startliste'); await M('Mehr-Menü der Startliste');
   await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await p.waitForTimeout(150); await M('Untermenü Darstellung');
   await away();
-  await p.locator(`#side .side-row[data-id="${await p.evaluate(() => pickStartTrip().id)}"]`).click(); await p.waitForTimeout(300);
+  await p.locator(`#side .side-row[data-id="${await p.evaluate(() => pickStartTrip().id)}"]`).click(); await p.waitForTimeout(300); await navFertig(p);
   await M('Hauptansicht');
   await hig.barStill(p, `Hauptansicht (${tag})`);
   await p.click('#mainMore'); await p.waitForTimeout(150); await stays('#mainMore', 'Mehr-Menü'); await M('Mehr-Menü');

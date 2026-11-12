@@ -3,7 +3,7 @@
 // langem Drücken auf die Versionszeile (checkMessung F-1 bis F-9).
 // Aufruf im Repo-Ordner: node tests/ablauf-messung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
 import { checkMessung, sucheAuf } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-messung', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
@@ -19,7 +19,7 @@ for (const [w, h, cs, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852, 'da
     await p.goto(new URL('../index.html', import.meta.url).href);
     await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: t })), leer ? [] : trips);
     await p.reload(); await p.waitForTimeout(300);
-    const menu = async () => { if (!await p.locator('#sideMore').isVisible()) { await p.locator('#back, [data-side-toggle]').first().click(); await p.waitForTimeout(300); } await p.click('#sideMore'); };
+    const menu = async () => { if (!await p.locator('#sideMore').isVisible()) { await p.locator('#back, [data-side-toggle]').first().click(); await p.waitForTimeout(300); await navFertig(p); } await p.click('#sideMore'); };
     if (leer) {   // F10: leere App – starten, Menü zeigt ‚läuft‘, teilen liefert eine Datei (das Fenster ‚Neues Reiselogbuch‘ vorher schließen)
       await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
       // seit 3.38.0 (AppDesign APD-77): zuerst lange auf die Versionszeile drücken – dann erscheint ‚Messung starten‘
