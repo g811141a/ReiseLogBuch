@@ -13,6 +13,131 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.55.0 – 12.11.2026
+
+Reiselogbuch 3.55.0 · AppDesign 4.57.0 (Designrichtlinie allgemein 4.57.0) · Designrichtlinie Reiselogbuch 3.55.0 · Zusammenarbeit allgemein 3.11.0
+
+**Eingabefelder, Verlauf, Gleiten, Tageskachel, Statistik, Dateiname** (RLB-123, RLB-122, RLB-120; AppDesign APD-126, APD-124, APD-127, APD-116) – dein
+‚Ja, alle 10 Punkte‘ vom 08.11.2026, Sitzung 0105.
+
+- **Verlauf: Vorschläge über dem Feld, am Ende, danach klein (RLB-123, behebt P-100/1):** die Vorschläge stehen wieder über dem Feld; ein angetippter
+  Vorschlag kommt als neue Zeile nach der letzten Zeile, auch wenn der Cursor woanders steht, danach geht es klein weiter (AppDesign APD-126/W-3, W-4);
+  ‚Sonstiges …‘ hängt am Ende eine leere Zeile an (ist die letzte schon leer, keine zweite) – dort beginnt das Wort wie jeder Zeilenanfang groß (R-5.2);
+  die neue letzte Zeile wird ins Bild gerollt; der Verlauf ist leer einzeilig (`appendLine` statt `insertAtCursor`/`insertLineTop`; Fazit ohne `rows="8"`).
+- **Cursor am Ende, leere Felder einzeilig (AppDesign APD-126):** tippst du ein Feld zum ersten Mal an, steht der Cursor hinter dem letzten Zeichen;
+  leere Textfelder sind eine Zeile hoch und wachsen und schrumpfen mit.
+- **Rückgängig im Feld (AppDesign APD-124):** ⓧ leert sofort, auch mehrzeilig, ohne Sprechblase; danach holt das Rückgängig-Icon den Text zurück, bis du
+  etwas tippst; der Text liegt zusätzlich in der Zwischenablage.
+- **Gleitbewegungen wie in Notizen (AppDesign APD-127):** Seitenleiste, Navigation, Blatt, iPad-Fenster mit der Tastatur und ‚Titel antippen‘ gleiten beim
+  Öffnen weich mit Feder (0,35 s), beim Schließen ruhig (0,25 s).
+- **Tageskachel und Kopfverlauf (RLB-120):** Emojis der Bezeichnung und das Wetter im Kopf in Textgröße, Bezeichnung halbfett, Spalte 1 breiter, Linien vor
+  dem ersten und nach dem letzten Feld; Kopfverlauf (weiß → grau) in der Bezeichnung, in den Kopfzeilen der Tabellen und in der Ausgabe (HTML/PDF); in der
+  gelb markierten und der ausgewählten Kachel beginnt er mit der Farbe der Kachel (`--kachel-bg`).
+- **Statistik: Umbruch nur nach dem ‚·‘ (RLB-122):** Wetter und Smileys als Aufzählung (`aufzaehlung`) in App, Vorschau und Ausgabe – ‚8×⛅‘ bleibt
+  zusammen; `PROMPT.md` nach RLB-122/W-3.
+- **Dateiname allein in einer Zeile (AppDesign APD-116):** nach Backup, Ausgabe und Abgleichbericht steht der Dateiname fett und zentriert in einer eigenen
+  Zeile unter dem Satz.
+- **Prüfungen:** neu `ablauf-feld-cursor` (APD-126/B-1 bis B-12, vier Lagen, Gegenprobe `PRUEF_V=alt`); `verlauf-vorschlaege` auf RLB-123/B-1 bis B-8
+  umgestellt; `ablauf-feld-rollen` (RLB-123/B-1 ersetzt APD-115/M-8); `regeln-ablauf` (`checkClear`, Gegenprobe); `checkGleiten` in `ablauf-blatt`,
+  `ablauf-navigation`, `ablauf-seitenleiste-position`, `ablauf-titel-oben`, `ablauf-feld-tastatur`; `ablauf-preis-km` (RLB-120/B-2, B-4, B-11, RLB-122);
+  `checkDateiname` in `ablauf-abgleich` und `ablauf-gesamt`; `backup-regeln` in vier Lagen.
+
+Testfälle P-101 (Schritt für Schritt, Zusammenarbeit allgemein 3.11.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-101/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.55.0 · erstellt am … · AppDesign 4.57.0‘.
+
+**P-101/1 – Cursor am Ende**
+1. iPad quer, hell: ein Reiselogbuch öffnen und einen Tag antippen.
+2. In ‚Quartier‘ (mit Text) vorn auf den ersten Buchstaben tippen; danach noch einmal vorn tippen.
+3. Erwartet: nach dem ersten Antippen steht der Cursor hinter dem letzten Zeichen; nach dem zweiten an der angetippten Stelle.
+
+**P-101/2 – Leeres Feld einzeilig, wächst mit**
+1. iPhone hoch, hell: einen Tag mit leerem ‚Wie war was?‘ öffnen.
+2. Das Feld ansehen, antippen, ‚Gut‘ tippen, Eingabetaste, ‚Essen‘ tippen; dann alles löschen.
+3. Erwartet: leer ist das Feld eine Zeile hoch; nach der Eingabetaste zwei Zeilen; nach dem Löschen wieder eine Zeile; der Cursor bleibt über der
+   Tastatur sichtbar.
+
+**P-101/3 – Verlauf: Vorschlag über dem Feld, am Ende, klein weiter** (wiederholt P-100/1)
+1. iPad quer, hell: einen Tag mit zwei Zeilen im Verlauf öffnen.
+2. In die erste Zeile des Verlaufs tippen, oben über dem Feld auf ‚Weiterfahrt nach …‘ tippen, dann ‚rom‘ tippen.
+3. Erwartet: die Vorschläge stehen über dem Feld; ‚Weiterfahrt nach rom‘ steht als neue letzte Zeile, die Tastatur blieb auf Kleinbuchstaben.
+
+**P-101/4 – ‚Sonstiges …‘**
+1. iPhone hoch, hell: einen Tag mit Verlauf öffnen.
+2. Über dem Feld auf ‚Sonstiges …‘ tippen, noch einmal auf ‚Sonstiges …‘ tippen.
+3. Erwartet: am Ende steht genau eine neue leere Zeile mit dem Cursor, sie ist zu sehen. Danach mit x ‚Änderungen verwerfen‘.
+
+**P-101/5 – Seitenleiste gleitet wie in Notizen**
+1. iPad quer, hell: die Seitenleiste mit dem Knopf links oben aus- und wieder einblenden; zum Vergleich in Notizen dasselbe.
+2. Mehrmals wiederholen.
+3. Erwartet: einblenden weich, ohne Nachschwingen, etwa so schnell wie in Notizen; ausblenden etwas schneller und ruhig.
+
+**P-101/6 – Blatt und Navigation am iPhone**
+1. iPhone hoch, hell: ein Reiselogbuch öffnen und mit ‚<‘ zurück; einen Tag öffnen und mit x schließen; einen Tag öffnen, das Blatt halb nach unten
+   ziehen und loslassen.
+2. Jeweils mehrmals.
+3. Erwartet: hinein und öffnen weich (nicht ‚extrem schnell‘), zurück und schließen ruhig; nach dem Loslassen gleitet das Blatt zurück; nichts springt.
+
+**P-101/7 – Titel antippen = nach oben**
+1. iPad quer, hell: ein langes Reiselogbuch öffnen, weit nach unten rollen.
+2. Auf den Titel oben in der Kopfzeile tippen.
+3. Erwartet: der Inhalt gleitet weich ganz nach oben, ohne Nachschwingen.
+
+**P-101/8 – Rückgängig im Feld**
+1. iPhone hoch, hell: einen Tag öffnen, ‚Ort‘ antippen.
+2. ⓧ antippen. Erwartet: das Feld ist leer, rechts im Feld ein graues Rückgängig-Icon.
+3. Rückgängig antippen. Erwartet: der Ort steht wieder da, der Cursor am Ende, rechts wieder das ⓧ.
+
+**P-101/9 – Mehrzeilig ohne Sprechblase**
+1. iPad quer, hell: einen Tag mit mehreren Zeilen im Verlauf öffnen, den Verlauf antippen.
+2. ⓧ antippen. Erwartet: sofort leer, keine Sprechblase, das Feld ist eine Zeile hoch.
+3. Rückgängig antippen. Erwartet: alle Zeilen sind zurück, das Feld ist wieder so hoch wie vorher.
+
+**P-101/10 – Zwischenablage**
+1. iPhone hoch, hell: einen Tag öffnen, den Verlauf antippen, ⓧ antippen.
+2. In Notizen in eine Notiz tippen und ‚Einsetzen‘ wählen.
+3. Erwartet: der geleerte Verlauf wird eingesetzt. Danach im Reiselogbuch mit x ‚Änderungen verwerfen‘.
+
+**P-101/11 – Rückgängig verfällt**
+1. iPad quer, hell: einen Tag öffnen, ‚Quartier‘ antippen, ⓧ antippen, dann ‚a‘ tippen.
+2. Erwartet: rechts das ⓧ statt Rückgängig.
+3. In ein anderes Feld tippen, dort ⓧ antippen, dann zurück in ‚Quartier‘ und wieder in das geleerte Feld. Erwartet: im geleerten Feld kein Knopf.
+   Danach mit x ‚Änderungen verwerfen‘.
+
+**P-101/12 – Dateiname nach ‚Backup erstellen‘**
+1. iPad hoch, hell: in der Seitenleiste oben ‚…‘ (Mehr) → ‚Backup erstellen‘.
+2. Im Teilen-Menü ‚In Dateien sichern‘ wählen und sichern.
+3. Erwartet: kleines Fenster ‚Backup‘ mit ‚✅ Teilen-Menü abgeschlossen für‘, darunter fett, zentriert und allein ‚Ω Backup Reiselogbuch JJJJ.MM.TT
+   hh.mm.json‘; bricht der Name um, dann nur an einem Leerzeichen.
+
+**P-101/13 – Dateiname nach abgebrochener Ausgabe**
+1. iPhone quer, hell: ein Reiselogbuch öffnen, oben das Teilen-Icon (share) → ‚HTML‘.
+2. Das Teilen-Menü ohne Auswahl schließen.
+3. Erwartet: Fenster ‚Ausgabe V…‘ mit ‚⚠️ Teilen-Menü abgebrochen – nicht gespeichert:‘, darunter fett, zentriert und allein der Name ‚Reiselogbuch
+   <Titel> JJJJ.MM.TT-JJJJ.MM.TT V….html‘; das Datum ‚JJJJ.MM.TT-JJJJ.MM.TT‘ bleibt zusammen.
+
+**P-101/14 – Statistik: Umbruch nur nach ‚·‘**
+1. iPhone hoch, hell: ein Reiselogbuch mit vielen verschiedenen Wetter-Zeichen und Smileys öffnen, nach unten zur ‚Statistik‘ rollen.
+2. Die Zeilen ‚Wetter‘ und ‚Smileys‘ ansehen.
+3. Erwartet: jede umbrochene Zeile endet mit ‚·‘, die nächste beginnt mit der Anzahl (z. B. ‚8×⛅‘); Anzahl und Zeichen stehen nie getrennt.
+
+**P-101/15 – Tageskachel mit Verlauf**
+1. iPhone hoch, hell: ein Reiselogbuch öffnen.
+2. Die Tageskacheln ansehen. Erwartet: Spalte 1 links weiß, nach rechts grau, Text fett; Emojis in Spalte 1 und das Wetter oben rechts so groß wie die
+   Smileys in Spalte 2; eine Linie unter dem Datum und eine unter der letzten Zeile.
+3. iPhone-Einstellungen › Anzeige & Helligkeit › Textgröße ganz groß (Größere Textgrößen ein), zurück in die App. Erwartet: jede Bezeichnung als Streifen
+   über dem Wert, oben weiß, nach unten grau.
+4. Darstellung dunkel. Erwartet: der Verlauf zart von Dunkelgrau zu etwas hellerem Grau, Text gut lesbar.
+
+**P-101/16 – Kopfzeile in Tabelle und Ausgabe**
+1. iPad quer, hell: ein Reiselogbuch öffnen. Erwartet: die Kopfzeile der Tabelle der Tage und der Quartiere oben weiß, nach unten grau.
+2. Teilen-Icon (share) › ‚Vorschau‘. Erwartet: die Kopfzeilen der Tabellen oben weiß, nach unten grau.
+3. Vorschau schließen, Teilen-Icon (share) › ‚PDF‘, im Drucken-Menü die Vorschau ansehen. Erwartet: im PDF dieselben Kopfzeilen mit Verlauf.
+
 ## 3.54.0 – 08.11.2026
 
 Reiselogbuch 3.54.0 · AppDesign 4.56.0 (Designrichtlinie allgemein 4.56.0) · Designrichtlinie Reiselogbuch 3.54.0 · Zusammenarbeit allgemein 3.10.0
