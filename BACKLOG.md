@@ -22,14 +22,15 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| RLB-124 | 1 | **PDF öffnet das Drucken-Menü nicht (Rückmeldung P-101/16 Schritt 3, Nutzer 12.11.2026, Sitzung 0107):** iPad quer, App vom Home-Bildschirm – weder Teilen-Icon › ‚PDF‘ noch ‚PDF‘ in der Vorschau öffnet das Drucken-Menü. Nachbildung (Chromium, WebKit): `window.print()` wird beim Antippen erreicht, ohne Fehler – noch nicht nachgestellt; `exportPdf` unverändert seit 3.43.0 (zuletzt am Gerät ok: P-84, AppDesign 4.45.0); Rückfragen an den Nutzer offen | App (ggf. AppDesign) | offen – in Klärung |
 
-0 Punkte bereit.
+0 Punkte bereit (1 in Klärung).
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-101 | 1 | **Usertest P-101 (3.55.0, AppDesign 4.57.0):** Cursor am Ende, leeres Feld einzeilig, Verlauf-Vorschläge über dem Feld und am Ende (RLB-123, wiederholt P-100/1), Rückgängig im Feld (APD-124), Gleitbewegungen wie in Notizen (APD-127), Dateiname in eigener Zeile (APD-116), Statistik-Umbruch nur nach ‚·‘ (RLB-122), Tageskachel und Kopfverlauf (RLB-120) – Testfälle P-101/0 bis P-101/16 im CHANGELOG 3.55.0 | prüfen |
+| P-101 | 1 | **Usertest P-101 (3.55.0, AppDesign 4.57.0):** Cursor am Ende, leeres Feld einzeilig, Verlauf-Vorschläge über dem Feld und am Ende (RLB-123, wiederholt P-100/1), Rückgängig im Feld (APD-124), Gleitbewegungen wie in Notizen (APD-127), Dateiname in eigener Zeile (APD-116), Statistik-Umbruch nur nach ‚·‘ (RLB-122), Tageskachel und Kopfverlauf (RLB-120) – Testfälle P-101/0 bis P-101/16 im CHANGELOG 3.55.0 | prüfen – Rückmeldung 12.11.2026 (Sitzung 0107): ok bis auf /16 Schritt 3 (PDF öffnet das Drucken-Menü nicht → RLB-124) |
 
 ## 2. Weitere Themen (in Klärung)
 
