@@ -22,7 +22,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-124 | 1 | **PDF öffnet das Drucken-Menü nicht (Rückmeldung P-101/16 Schritt 3, Nutzer 12.11.2026, Sitzung 0107):** iPad quer, App vom Home-Bildschirm – weder Teilen-Icon › ‚PDF‘ noch ‚PDF‘ in der Vorschau öffnet das Drucken-Menü. Nachbildung (Chromium, WebKit): `window.print()` wird beim Antippen erreicht, ohne Fehler – noch nicht nachgestellt; `exportPdf` unverändert seit 3.43.0 (zuletzt am Gerät ok: P-84, AppDesign 4.45.0); Rückfragen an den Nutzer offen | App (ggf. AppDesign) | offen – in Klärung |
+| RLB-124 | 1 | **PDF öffnet das Drucken-Menü nicht (Rückmeldung P-101/16 Schritt 3, Nutzer 12.11.2026, Sitzung 0107):** iPad quer, App vom Home-Bildschirm – weder Teilen-Icon › ‚PDF‘ noch ‚PDF‘ in der Vorschau öffnet das Drucken-Menü. Nachbildung (Chromium, WebKit): `window.print()` wird beim Antippen erreicht, ohne Fehler – noch nicht nachgestellt; `exportPdf` unverändert seit 3.43.0 (zuletzt am Gerät ok: P-84, AppDesign 4.45.0); Proben am Gerät (Nutzer 12.11.2026): A Hinweisfenster ja, Drucken-Menü nein · B in Safari öffnet es sich · C iPhone (Home-Bildschirm) nein · D iPadOS 27.2, Update seit 31.10. – Code für Safari und Home-Bildschirm gleich (kein Zweig nach `display-mode`); Ursache liegt im Home-Bildschirm-Modus (Vermutung: Änderung mit dem Update); nächster Schritt: Versuch mit den Druckwegen am Gerät | App (ggf. AppDesign) | offen – in Klärung |
 
 0 Punkte bereit (1 in Klärung).
 
