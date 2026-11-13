@@ -22,8 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| RLB-121 | 3 | **Statistik: teuerste und günstigste Quartiere** – zwei Zeilen ‚Teuerste Quartiere‘ und ‚Günstigste Quartiere‘ unter ‚Quartierkosten‘ (RLB-121/D-1 bis D-5, Muster und Testfall-Liste M-1 bis M-17 bestätigt, Sitzung 0109); **allgemein: Aufzählung mit langen Einträgen** – Wortlaut Designrichtlinie 3 und R-10.5 bestätigt (RLB-121/W-1, W-2, `AppDesign/arbeit/0109 RLB-121 Wortlaut.md`), `aufzaehlung` in ui.js | App + AppDesign | 13.11.2026 |
 
-0 Punkte bereit.
+1 Punkt bereit (RLB-121).
 
 ## 1. Auf iPad und iPhone prüfen
 
@@ -34,7 +35,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-121 | 3 | **Statistik: teuerste und günstigste Quartiere (Nutzer 06.11.2026, Sitzung 0083):** ist ‚Preis der Quartiere erfassen‘ eingeschaltet (RLB-111), zeigt die Statistik formschön die 3 teuersten und die 3 günstigsten Quartiere – Quartiername und in Klammern der Preis für eine Übernachtung; Muster vorher (Vorschlag: ‚günstigste‘ statt ‚billigste‘) – **Entschieden (Nutzer 13.11.2026, Sitzung 0108, `AppDesign/arbeit/0108 RLB-121 Klärung.md`):** Wort ‚Günstigste Quartiere‘ (RLB-121/D-1); zwei Zeilen unter ‚Quartierkosten‘, je Aufzählung ‚Name (123,45 €) · …‘ wie Wetter und Smileys, in App und Ausgabe (RLB-121/D-2); Preis je Nacht je Aufenthalt = Preis ÷ Nächte, jeder Aufenthalt für sich (RLB-121/D-3); kein Quartier doppelt – teurere Hälfte oben, Rest unten, je höchstens 3, ab 2 Aufenthalten mit Preis (RLB-121/D-4). **Muster hell/iPad quer bestätigt (Nutzer 13.11.2026, Sitzung 0109, `AppDesign/arbeit/RLB-121/index.html`, Apple-Abgleich in `AppDesign/arbeit/0109 RLB-121 Muster.md`):** bei ungerader Zahl der mittlere oben, bei gleichem Preis je Nacht der frühere Aufenthalt zuerst (RLB-121/D-5); Eintrag als Block – am Stück, wenn er passt, sonst Umbruch im Namen, ‚(Preis) ·‘ bleibt zusammen; **Testfall-Liste RLB-121/M-1 bis M-17 bestätigt** (`AppDesign/arbeit/RLB-121 Testfall-Liste.md`). Weiter: allgemein oder App (Aufzählung mit langen Einträgen, R-10.5) | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
