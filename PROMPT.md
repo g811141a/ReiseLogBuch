@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 08.11.2026, Version 3.55.0)
+# Reiselogbuch – Funktionsbeschreibung (Stand 13.11.2026, Version 3.55.1)
 
-Reiselogbuch 3.55.0 · AppDesign 4.57.0 (Designrichtlinie allgemein 4.57.0) · Designrichtlinie Reiselogbuch 3.55.0 · Zusammenarbeit allgemein 3.11.0
+Reiselogbuch 3.55.1 · AppDesign 4.57.0 (Designrichtlinie allgemein 4.57.0) · Designrichtlinie Reiselogbuch 3.55.1 · Zusammenarbeit allgemein 3.11.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -106,7 +106,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
     Backup laden · Strich · ‚Darstellung ›‘ (seit 3.41.0, RLB-108) · Abstand · Messung starten · Strich · Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
   - Langes Drücken auf ein Reiselogbuch: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase).
 - **Kopfzeile:** Titel der Reise; Kapsel [share | ellipsis].
-  - share → Teilen-Menü: Vorschau · HTML · PDF (jeweils mit grauem Hinweis zum Speichern), Strich, darunter ‚N erfasste Tage ·
+  - share → Teilen-Menü: Vorschau · HTML · ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ (RLB-124/W-1) (jeweils mit grauem Hinweis zum Speichern), Strich, darunter ‚N erfasste Tage ·
     Dateiname: …‘.
   - ellipsis → Mehr-Menü: ‚Suchen‘ (Suchzeile, 6) · Strich · ‚Alle Tage‘ / ‚Nur erfasste Tage‘ (Häkchen vorne, dann Icon und Text) ·
     ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase mit Tipp zum Backup). Beim Öffnen eines Reiselogbuchs und beim Start

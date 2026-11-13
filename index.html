@@ -141,8 +141,8 @@
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.55.0';
-const APP_BUILT = '08.11.2026 um 15:40';
+const APP_VERSION = '3.55.1';
+const APP_BUILT = '13.11.2026 um 12:08';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
 const AD_NEEDED = '4.57.0';
@@ -1284,7 +1284,8 @@ function openShareMenu(anchor, trip) {
   openMenu(anchor, [
     { icon: 'eye', label: 'Vorschau', act: () => { setOpener('#shareBtn'); openPreview(trip); } },
     { icon: 'file-code', label: 'HTML', sub: 'Im Teilen-Menü ‚In Dateien sichern‘ wählen', act: () => exportHtml(trip) },
-    { icon: 'file-text', label: 'PDF', sub: 'Im Drucken-Menü Teilen, dann ‚In Dateien sichern‘', act: () => exportPdf(trip) },
+    // seit 3.55.1 (RLB-124/W-1): iOS 27 übergeht print() in der App vom Home-Bildschirm (Versuch AppDesign/arbeit/RLB-124) – Hinweis, Funktion unverändert
+    { icon: 'file-text', label: 'PDF (mit iOS 27 zurzeit nicht möglich)', sub: 'Im Drucken-Menü Teilen, dann ‚In Dateien sichern‘', act: () => exportPdf(trip) },
     'line',
     { note: `${count} erfasste${count === 1 ? 'r Tag' : ' Tage'} · Dateiname: ${outputName(trip, (trip.outputCounter || 0) + 1)}` },
   ]);

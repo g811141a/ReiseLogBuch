@@ -117,7 +117,7 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'Fazit schließen', () => p.click('#dlgX'));
   await S(p, 'Teilen-Menü', () => p.click('#shareBtn'));
   t.ist('Teilen-Menü', [await p.locator('.menu .mi').allTextContents(), await p.locator('.menu .note').first().textContent()],
-    [['Vorschau', 'HTML', 'PDF'], '3 erfasste Tage · Dateiname: Reiselogbuch Australien 2026.08.24-2026.11.11 V001'], 'R-6.4');
+    [['Vorschau', 'HTML', 'PDF (mit iOS 27 zurzeit nicht möglich)'], '3 erfasste Tage · Dateiname: Reiselogbuch Australien 2026.08.24-2026.11.11 V001'], 'R-6.4');
   await S(p, 'Vorschau', () => p.click('.menu .mi:has-text("Vorschau")'));
   t.ist('Vorschau offen, Teilen bleibt blau', [await p.textContent('#dlg h3'), await cls(p, '#shareBtn', 'on')], ['Vorschau', true], 'R-3.3');
   await S(p, 'Vorschau schließen', () => p.click('#dlgX'));
