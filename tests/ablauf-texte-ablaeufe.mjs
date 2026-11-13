@@ -2,8 +2,8 @@
 // R-4.12 erst fragen, dann zerstören (APD-40/C-5, C-6), R-5.10 automatisch speichern (APD-40/C-1 bis C-4) – iPad quer und iPhone hoch, hell. Eigene
 // Prüfung, damit jede Gegenprobe (node tests/alle.mjs --gegenprobe masse) genau hier rot wird.
 import * as pw from 'playwright';
-import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
-import { checkMenueFenster, checkAutoSpeichern, checkErstFragen } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
+import { checkMenueFenster, checkAutoSpeichern, checkErstFragen } from '../../AppDesign/fassung/4.59.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-texte-ablaeufe', pw, { out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: 'Programm ' + i }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }];

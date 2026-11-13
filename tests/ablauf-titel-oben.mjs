@@ -11,9 +11,9 @@
 // ‚Klick nach dem Wischen‘ (checkSafariWischKlick, W-1); über jeden Titel waagrecht wischen bzw. weg und zurück rollt nicht, gleich danach antippen
 // schon (checkTitelOben, wischen) – rot gegen 3.47.1 (der Klick kam 4 ms nach dem Loslassen, nach dem setTimeout 0 der Sperre).
 import * as pw from 'playwright';
-import { pruefung, warteBis, navFertig, ruhe } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
-import { checkTitelOben, checkSafariKlick, checkSafariWischKlick, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+import { pruefung, warteBis, navFertig, ruhe } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.0/tests/hig.mjs';
+import { checkTitelOben, checkSafariKlick, checkSafariWischKlick, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.59.0/tests/ablauf.mjs';
 // Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-5): Titel der Kopfzeile antippen rollt den
 // Inhalt der Reise (1500 px) mit der Feder (Antwortzeit 0,35 s, linear() über 0,5 s) ganz nach oben – iPad quer und iPhone hoch (checkGleiten).
 // Gegenprobe APD-127/B-10: PRUEF_V=heute – APD-127/B-5 rot.

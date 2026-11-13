@@ -11,7 +11,7 @@
 // seit 3.54.0 ablauf-feld-rollen (AppDesign APD-115, R-4.5).
 // seit 3.55.0 ablauf-feld-cursor (AppDesign APD-126, R-5.11, R-5.2).
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.57.0/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.59.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'ablauf-messung', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-titel-blase', 'ablauf-titel-oben', 'ablauf-leer', 'ablauf-schicht-oben', 'ablauf-glas', 'ablauf-feld-rollen', 'ablauf-feld-cursor','ablauf-grossanzeige', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
   'verlauf-vorschlaege', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'oeffnen-position', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln',

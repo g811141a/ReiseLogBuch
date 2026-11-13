@@ -4,9 +4,9 @@
 // Waagrecht rollender Bereich am iPhone: die Zeile Reisemittel (#reisemittel, seit 3.38.0 Wischzeile, AppDesign APD-86). Grundregeln nach den Schritten (pruefe.mjs).
 // Aufruf im Repo-Ordner: node tests/ablauf-navigation.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
-import { checkNavigation, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.0/tests/hig.mjs';
+import { checkNavigation, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.59.0/tests/ablauf.mjs';
 // Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-3, B-7, B-8): iPhone hoch hell – hinein mit
 // der Feder (Antwortzeit 0,35 s), zurück ease-in-out 0,25 s, Endlagen wie ohne Bewegung, Mehr-Menü unverändert (checkGleiten).
 // Gegenprobe APD-127/B-10: PRUEF_V=heute (ui.js und design.css der Fassung 4.56.0) – APD-127/B-3 rot.

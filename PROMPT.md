@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 13.11.2026, Version 3.55.1)
+# Reiselogbuch – Funktionsbeschreibung (Stand 13.11.2026, Version 3.56.0)
 
-Reiselogbuch 3.55.1 · AppDesign 4.57.0 (Designrichtlinie allgemein 4.57.0) · Designrichtlinie Reiselogbuch 3.55.1 · Zusammenarbeit allgemein 3.11.0
+Reiselogbuch 3.56.0 · AppDesign 4.59.0 (Designrichtlinie allgemein 4.59.0) · Designrichtlinie Reiselogbuch 3.56.0 · Zusammenarbeit allgemein 3.12.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -236,7 +236,11 @@ wie am iPad (R-1.1):
   Nachkommastelle, dahinter der Ø je Tag in Klammern – ‚35,5 km     (Ø 8,9 km)‘, 5 geschützte Leerzeichen davor, seit 3.42.1 (RLB-112)
   1 nach ‚Ø‘; passt der Ø nicht in die Zeile, steht er ganz linksbündig unter dem Gesamtwert, selbst in einer Zeile; nur Tage mit Kilometern, nur mit sichtbarer Spalte und Werten), Anzahl der Quartiere, darunter Anzahl der Nächte (Summe),
   ‚Quartierkosten‘ (Summe der Preise, dahinter der Ø je Nacht in Klammern wie bei den Kilometern – nur Nächte von Aufenthalten mit Preis;
-  nur mit ‚Preis der Quartiere erfassen‘ und Preisen),
+  nur mit ‚Preis der Quartiere erfassen‘ und Preisen), darunter seit 3.56.0 (RLB-121) ‚Teuerste Quartiere‘ und ‚Günstigste Quartiere‘ – je
+  höchstens 3 Aufenthalte als ‚Name (Preis je Nacht)‘ mit ‚·‘, Preis je Nacht = Preis ÷ Nächte des Aufenthalts, jeder Aufenthalt für sich; ab
+  2 Aufenthalten mit Preis; kein Aufenthalt in beiden Zeilen (die teurere Hälfte oben, bei ungerader Zahl der mittlere oben); gleicher Preis: der
+  frühere zuerst; oben der teuerste, unten der günstigste zuerst; ein Eintrag bleibt am Stück, wenn er in die Zeile passt, der Preis in Klammern
+  bleibt immer ganz (AppDesign R-10.5),
   Wetter-Verteilung (z. B. ‚40×🌤 · 12×☀️ · 5×🌧‘), Smileys aus Tagen und Fazit absteigend nach Anzahl (z. B. ‚5×😊 · 3×😉 · 2×☹️‘;
   Varianten wie ☹️/☹ zählen gemeinsam, Anzahl vor dem Symbol ohne Leerzeichen;
   **Wetter und Smileys als Aufzählung nach R-10.5 – umgebrochen wird nur nach dem ‚·‘, App und Ausgabe**).

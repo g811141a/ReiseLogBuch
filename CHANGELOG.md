@@ -13,6 +13,54 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.56.0 – 13.11.2026
+
+Reiselogbuch 3.56.0 · AppDesign 4.59.0 (Designrichtlinie allgemein 4.59.0) · Designrichtlinie Reiselogbuch 3.56.0 · Zusammenarbeit allgemein 3.12.0
+
+**Statistik: teuerste und günstigste Quartiere** (RLB-121) – dein ‚Ja‘ vom 13.11.2026 (Sitzung 0109, `AppDesign/arbeit/0109 RLB-121 Bau-Frage.md`, in
+Sitzung 0110 bestätigt). Muster `AppDesign/arbeit/RLB-121/index.html`, Testfall-Liste `AppDesign/arbeit/RLB-121 Testfall-Liste.md` (RLB-121/M-1 bis M-17).
+
+- **Zwei neue Zeilen unter ‚Quartierkosten‘** (App, Vorschau, Ausgabe): ‚Teuerste Quartiere‘ und ‚Günstigste Quartiere‘, je höchstens 3 Aufenthalte als
+  ‚Name (Preis je Nacht)‘ mit ‚·‘. Preis je Nacht = Preis ÷ Nächte, jeder Aufenthalt für sich (wie in der Quartierliste); erst ab 2 Aufenthalten mit
+  Preis; kein Aufenthalt in beiden Zeilen – die teurere Hälfte oben, bei ungerader Zahl der mittlere oben; gleicher Preis: der frühere zuerst
+  (RLB-121/D-1 bis D-5). Ohne ‚Preis der Quartiere erfassen‘ oder ohne Spalte Quartier keine der beiden Zeilen.
+- **AppDesign 4.59.0 – Aufzählung mit langen Einträgen (R-10.5):** ein Eintrag bleibt am Stück, wenn er in die Zeile passt; sonst bricht er im
+  Namen um, der Preis in Klammern und der ‚·‘ bleiben beim letzten Wort. Wetter und Smileys sehen aus wie bisher.
+- **AppDesign 4.59.0 – Umbau bei großer Schrift im schmalen Inhalt (R-1.10, RLB-121/W-3, W-4):** am iPad hoch neben der Seitenleiste (Inhalt unter
+  600 px) steht ab Text XXL die Bezeichnung über dem Wert – wie am iPhone hoch. Anlass: beim Bau ragte die Statistik dort bei großer Schrift hinaus
+  (Befund `AppDesign/arbeit/0110 RLB-121 iPad hoch.md`); das Muster hatte iPad hoch nur ohne Seitenleiste nachgebildet.
+- **Prüfungen:** `ablauf-preis-km` RLB-121/M-1 bis M-14, M-16 (vier Lagen, drei Textgrößen, Drehen, Preis ändern und verwerfen, Vorschau, Ausgabe,
+  Gegenprobe RLB-121/M-11); `ablauf-abgleich-faelle` Fall 18 (RLB-121/M-15); `checkAufzaehlung` (AppDesign) erweitert.
+
+Testfälle P-103 (Schritt für Schritt, Zusammenarbeit allgemein 3.12.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-103/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.56.0 · erstellt am … · AppDesign 4.59.0‘.
+
+**P-103/1 – Zwei neue Zeilen (iPad quer)**
+1. iPad quer, hell: ein Reiselogbuch mit mindestens 2 Quartieren mit Preis öffnen (‚Preis der Quartiere erfassen‘ an).
+2. Ganz nach unten zur Statistik rollen.
+3. Erwartet: direkt unter ‚Quartierkosten:‘ die Zeilen ‚Teuerste Quartiere:‘ und ‚Günstigste Quartiere:‘, je Eintrag ‚Name (Preis je Nacht €)‘,
+   getrennt mit ‚·‘; kein Quartier steht in beiden Zeilen.
+
+**P-103/2 – Lesbarkeit (iPad quer)**
+1. iPad quer, hell: wie P-103/1 die Statistik ansehen.
+2. Auf die Umbrüche der beiden Zeilen achten.
+3. Erwartet: kein Preis ist getrennt, keine Zeile beginnt mit ‚·‘, nichts ist abgeschnitten.
+
+**P-103/3 – Große Schrift (iPad hoch)**
+1. iPad hoch, hell, Seitenleiste eingeblendet; in den Einstellungen ‚Anzeige & Helligkeit‘ → ‚Textgröße‘ die vorletzte oder letzte Stufe wählen.
+2. In der App die Statistik ansehen.
+3. Erwartet: Bezeichnung über dem Wert (untereinander), nichts ragt rechts hinaus. Danach die Textgröße wieder zurückstellen.
+
+**P-103/4 – Ausgabe als PDF bzw. HTML (iPad)**
+1. iPad quer, hell: im Reiselogbuch aus P-103/1 oben das Teilen-Icon (share) antippen und ‚HTML‘ wählen (PDF geht mit iOS 27 zurzeit nicht).
+2. Die Datei öffnen und zur Statistik rollen.
+3. Erwartet: dieselben zwei Zeilen wie in der App, in der Schrift der Ausgabe, kein Preis getrennt.
+
 ## 3.55.1 – 13.11.2026
 
 Reiselogbuch 3.55.1 · AppDesign 4.57.0 (Designrichtlinie allgemein 4.57.0) · Designrichtlinie Reiselogbuch 3.55.1 · Zusammenarbeit allgemein 3.11.0

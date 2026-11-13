@@ -5,14 +5,14 @@
 // Gegen 3.25.1 (AppDesign 4.27.1) rot. iPad nur am Gerät (keine Messung der Tastatur, Safari-Modell nur iPhone).
 // Aufruf im Repo-Ordner: node tests/ablauf-feld-tastatur.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
-import { checkFieldVisible, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.0/tests/hig.mjs';
+import { checkFieldVisible, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.59.0/tests/ablauf.mjs';
 // Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-2, B-8, B-9): im Safari-Modell öffnet sich
 // die Tastatur iPhone hoch 100 ms nach dem Fokus (aufVerzug, APD-127/W-3) – die Fälle oben bleiben grün; iPad hoch: das Fenster ‚Erfassen‘ gleitet mit
 // der Tastatur hoch mit der Feder (Antwortzeit 0,35 s), beim Schließen gilt ease-in-out 0,25 s, Endlagen wie ohne Bewegung (checkGleiten).
 // Gegenprobe APD-127/B-10: PRUEF_V=heute – APD-127/B-2 rot.
-import { safariModell } from '../../AppDesign/fassung/4.57.0/tests/safari.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.59.0/tests/safari.mjs';
 const t = pruefung('ablauf-feld-tastatur', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const days = {}; for (let i = 0; i < 30; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, place: 'Sydney' };

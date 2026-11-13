@@ -9,10 +9,12 @@
 // node tests/ablauf-preis-km.mjs
 // Seit 3.55.0 (AppDesign 4.57.0): RLB-120/B-1 bis B-3, B-10 Bezeichnung halbfett, Emojis wie im Wert (kastenBezeichnung, Gegenprobe), B-2 Wetter im Kopf,
 // B-4/B-11 Kopfverlauf auch in markierter und ausgewählter Kachel (kopfVerlauf, Gegenprobe); RLB-122/B-1 bis B-6 Statistik als Aufzählung (checkAufzaehlung).
+// Seit 3.56.0 (AppDesign 4.59.0): Testfall-Liste AppDesign arbeit/RLB-121 Testfall-Liste.md – RLB-121/M-1 bis M-14, M-16 teuerste und günstigste
+// Quartiere (M-15 in ablauf-abgleich-faelle, M-17 hig nach jedem Schritt).
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
-import { createCheck, bezeichnungen, kastenBezeichnung, kopfVerlauf } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
-import { checkAufzaehlung, textGroesseSetzen } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
+import { createCheck, bezeichnungen, kastenBezeichnung, kopfVerlauf } from '../../AppDesign/fassung/4.59.0/tests/hig.mjs';
+import { checkAufzaehlung, textGroesseSetzen } from '../../AppDesign/fassung/4.59.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-preis-km', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 // 24.–28.08.: Quartier A 3 Nächte (Preis 300), Quartier B 2 Nächte (Preis 200); 29.08. Quartier C ohne Preis; km an 3 Tagen, ein Tag nur km
 const days = {
@@ -141,7 +143,8 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   if (!phone) t.ist('RLB-112/U-4 iPad, genug Platz: Ø in derselben Zeile', (await zelle()).umgebrochen, false);
   else t.ist('RLB-112/U-4 iPhone: steht der Ø darunter, dann linksbündig in einer Zeile', await zelle().then(z => !z.umgebrochen || (z.linksbuendig && z.ozeile)), true);
   t.ist('RLB-112/U-4 zu schmal: Umbruch vor der Klammer, Ø linksbündig unter dem Wert, in einer Zeile', await zelle('110px'), { umgebrochen: true, linksbuendig: true, ozeile: true });
-  t.ist('Statistik: Reihenfolge', Object.keys(st), ['Reisetage', 'Gegangene Kilometer', 'Quartiere', 'Nächte', 'Quartierkosten', 'Wetter', 'Smileys']);
+  t.ist('Statistik: Reihenfolge, RLB-121/M-1', Object.keys(st), ['Reisetage', 'Gegangene Kilometer', 'Quartiere', 'Nächte', 'Quartierkosten', 'Teuerste Quartiere', 'Günstigste Quartiere', 'Wetter', 'Smileys']);
+  t.ist('RLB-121/M-6 gleicher Preis je Nacht (100,00 €): der frühere Aufenthalt oben', [st['Teuerste Quartiere'], st['Günstigste Quartiere']], [`Hotel A${nb}(100,00${nb}€)`, `Hotel B${nb}(100,00${nb}€)`]);
   // H-2: ‚Preis der Quartiere erfassen‘ aus – keine Spalte, keine Klammer, keine Quartierkosten; Werte bleiben, wieder ein → wieder da
   await p.evaluate(() => { db.trips.find(x => x.id === 'a').priceOn = false; render(); }); await p.waitForTimeout(300);
   t.ist('RLB-111/H-2 aus: nichts vom Preis sichtbar, Werte bleiben', await p.evaluate(() => [document.querySelector('#app').textContent.includes('300,00'), 'Quartierkosten' in Object.fromEntries([...document.querySelectorAll('#app .rolle > dl.meta:not(.trip) dt')].map(d => [d.textContent.replace(/:$/, ''), 1])), db.trips.find(x => x.id === 'a').days['2026-08-24'].price]), [false, false, 300]);
@@ -259,7 +262,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
     if (ansicht === 'iPhone hoch') {
       // RLB-122/B-4: Vorschau (volle Seitenbreite, wischbar) und Ausgabe in einem schmalen Blatt (230 px) – Text unverändert, Umbruch nur nach ‚·‘
       await t.schritt(p, 'RLB-122/B-4 Vorschau', async () => { await p.click('#shareBtn'); await p.waitForTimeout(200); await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); await p.waitForTimeout(500); });
-      t.liste(await checkAufzaehlung(p, { sel: '.dlg-body.preview .rt .stats td:has(.ict)', groessen: ['l'], texte: soll, where: `${t.ort} Vorschau` }));
+      t.liste(await checkAufzaehlung(p, { sel: '.dlg-body.preview .rt .stats td:has(.ict)', groessen: ['l'], texte: soll, fenster: false, where: `${t.ort} Vorschau` }));
       await zu(p);
       await p.evaluate(() => { const d = document.createElement('div'); d.id = 'gpAus'; d.style.cssText = 'position:absolute;left:0;top:0;width:230px;background:#fff';
         d.innerHTML = `<style>${OUTPUT_CSS}</style>${outputBody(db.trips[0], 1, nowStamp())}`; document.body.append(d); });
@@ -270,6 +273,100 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
       const gp = await checkAufzaehlung(p, { sel: '#app .rolle > dl.meta:not(.trip) dd:nth-last-of-type(-n+2)', groessen: ['l', 'xxxl'], where: 'Gegenprobe' });
       t.wahr(`RLB-122/B-6 Gegenprobe: bisheriger Text wird gemeldet (${gp.length} Meldungen)`, gp.some(x => /RLB-122\/B-[12]/.test(x)), 'R-10.5');
       await p.evaluate(() => { window.aufzaehlung = window.__az; render(); });
+    }
+    await p.close();
+  }
+}
+// RLB-121/M-1 bis M-14, M-16 (seit 3.56.0, AppDesign R-10.5): Statistik ‚Teuerste Quartiere‘ und ‚Günstigste Quartiere‘ – Preis je Nacht je Aufenthalt,
+// je höchstens 3, kein Aufenthalt in beiden Zeilen (bei ungerader Zahl der mittlere oben), gleicher Preis: der frühere zuerst; Aufzählung mit
+// ‚Name (Preis)‘ – passender Eintrag am Stück, Klammer ganz, nichts ragt hinaus (checkAufzaehlung, App in vier Lagen und drei Textgrößen,
+// Vorschau, Ausgabe); Gegenprobe M-11: Einträge als Text ohne Schutz werden rot
+{
+  const nb = ' ', E = (n, v) => `${n}${nb}(${v}${nb}€)`;
+  // Aufenthalte [Name, Nächte, Preis] ab 01.06.2026 hintereinander; der Preis steht am ersten Tag (null = ohne Preis)
+  const reise = (id, stays, extra = {}) => { const days = {}; let d = Date.UTC(2026, 5, 1);
+    for (const [name, n, price] of stays) for (let i = 0; i < n; i++, d += 864e5) days[new Date(d).toISOString().slice(0, 10)] = i ? { program: 'x', sameQuarter: true }
+      : { program: 'x', quarter: name, place: 'Ort', ...(price != null ? { price } : {}) };
+    return { id, title: 'Quartiere ' + id, participants: 'G', start: '2026-06-01', end: new Date(d - 864e5).toISOString().slice(0, 10), transport: ['pkw'],
+      quarterColumn: true, priceOn: true, quarterList: true, days, ...extra }; };
+  const ACHT = [['Hotel Adlon', 2, 520], ['Pension Seeblick', 3, 255], ['Gasthof Krone', 2, 178], ['Hotel Sacher', 2, 610], ['B&B <Rosen>', 4, 296],
+    ['Jugendherberge Lindau', 2, 84], ['Hotel Post', 3, 345], ['Ferienwohnung Alpenblick', 3, 270]];
+  const FUENF = [['Hotel Krone', 3, 360], ['Pension Ruth', 2, 150], ['Hotel Elephant', 2, 330], ['Gasthaus Linde', 3, 195], ['Hotel Bären', 2, 240]];
+  const LANG = [['Hotel Krone', 2, 260], ['Romantik-Hotel Schloss Hohenstein an der Weinstraße', 3, 597], ['Hotel Krone', 3, 330], ['Pension Ruth', 2, 130],
+    ['Gästehaus zur alten Mühle am Mühlbach', 4, 300], ['Camping am See', 2, 0], ['Bei Freunden', 2, null]];
+  const SOLL = {
+    a: [[E('Hotel Sacher', '305,00'), E('Hotel Adlon', '260,00'), E('Hotel Post', '115,00')], [E('Jugendherberge Lindau', '42,00'), E('B&B <Rosen>', '74,00'), E('Pension Seeblick', '85,00')]],
+    b: [[E('Hotel Elephant', '165,00'), E('Hotel Krone', '120,00'), E('Hotel Bären', '120,00')], [E('Gasthaus Linde', '65,00'), E('Pension Ruth', '75,00')]],
+    c: [[E('Romantik-Hotel Schloss Hohenstein an der Weinstraße', '199,00'), E('Hotel Krone', '130,00'), E('Hotel Krone', '110,00')], [E('Camping am See', '0,00'), E('Pension Ruth', '65,00'), E('Gästehaus zur alten Mühle am Mühlbach', '75,00')]],
+  };
+  const TRIPS = [reise('a', ACHT), reise('b', FUENF), reise('c', LANG), reise('d', [['Hotel Krone', 3, 360], ['Bei Freunden', 3, null]]),
+    reise('e', FUENF, { priceOn: false }), reise('f', FUENF, { quarterColumn: false })];
+  const zeilen = p => p.evaluate(() => { const dts = [...document.querySelectorAll('#app .rolle > dl.meta:not(.trip) dt')].map(d => d.textContent.replace(/:$/, ''));
+    const v = k => { const dt = [...document.querySelectorAll('#app .rolle > dl.meta:not(.trip) dt')].find(d => d.textContent === k + ':'); return dt ? dt.nextElementSibling.textContent.split('\u00a0· ') : null; };
+    return { dts, teuer: v('Teuerste Quartiere'), guenstig: v('Günstigste Quartiere'), html: document.querySelector('#app .rolle > dl.meta:not(.trip)')?.innerHTML || '' }; });
+  const SEL = '#app .rolle > dl.meta:not(.trip) dd:has(.az-n)';   // ohne Wetter und Smileys – nur die zwei Zeilen
+  const zeige = async (p, id) => { await p.evaluate(id => showTrip(id), id); await p.waitForTimeout(400); await navFertig(p); };
+  for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) {
+    const p = await t.seite(b, ansicht, { theme: ansicht.endsWith('hoch') ? 'dark' : 'light' }); t.ort = `${ansicht} RLB-121`;
+    await start(p, TRIPS);
+    for (const id of ['a', 'b', 'c']) {
+      await zeige(p, id);
+      await t.schritt(p, `RLB-121 Statistik ${id}`, () => p.locator('#app .rolle > dl.meta:not(.trip)').scrollIntoViewIfNeeded());
+      const z = await zeilen(p), qi = z.dts.indexOf('Quartierkosten');
+      t.ist(`RLB-121/M-1 Reiselogbuch ${id}: direkt unter ‚Quartierkosten‘`, z.dts.slice(qi, qi + 3), ['Quartierkosten', 'Teuerste Quartiere', 'Günstigste Quartiere']);
+      t.ist(`RLB-121/M-2, M-5 Reiselogbuch ${id}: teuerste`, z.teuer, SOLL[id][0]);
+      t.ist(`RLB-121/M-3, M-7 Reiselogbuch ${id}: günstigste (kein Aufenthalt doppelt)`, z.guenstig, SOLL[id][1]);
+      if (id === 'a') t.wahr('RLB-121/M-12 Sonderzeichen wörtlich, kein HTML', z.html.includes('B&amp;B &lt;Rosen&gt;') && !z.html.includes('<rosen>'));
+      // M-8 bis M-10: Aufzählung (R-10.5) in drei Textgrößen
+      t.liste(await checkAufzaehlung(p, { sel: SEL, where: `${t.ort} App ${id}` }));
+    }
+    // M-13 (iPad): drehen quer → hoch → quer – neu umbrochen, M-8 bis M-10 gelten weiter; Grundregeln nach jedem Schritt (t.schritt)
+    if (ansicht === 'iPad quer') {
+      const vp = p.viewportSize();
+      await t.schritt(p, 'RLB-121/M-13 drehen nach hoch', async () => { await p.setViewportSize({ width: vp.height, height: vp.width }); await p.waitForTimeout(500); });
+      t.liste(await checkAufzaehlung(p, { sel: SEL, groessen: ['l'], where: `${t.ort} hoch gedreht` }));
+      await t.schritt(p, 'RLB-121/M-13 drehen nach quer', async () => { await p.setViewportSize(vp); await p.waitForTimeout(500); });
+      t.liste(await checkAufzaehlung(p, { sel: SEL, groessen: ['l'], where: `${t.ort} zurück gedreht` }));
+      // M-11 Gegenprobe: Einträge als Text ohne Schutz (wie vor 3.56.0 ohne Block) – ‚·‘ am Zeilenanfang bzw. Klammer getrennt wird gemeldet
+      await p.addStyleTag({ content: '#app .ict.az { display: inline !important; } #app .ict .az-n { white-space: normal !important; }' });
+      await p.evaluate(() => { const dd = [...document.querySelectorAll('#app .rolle > dl.meta:not(.trip) dt')].find(d => d.textContent === 'Teuerste Quartiere:').nextElementSibling; dd.style.width = '330px'; dd.id = 'gp121'; });
+      const gp = await checkAufzaehlung(p, { sel: '#gp121', groessen: ['l', 'xxxl'], where: 'Gegenprobe' });
+      t.wahr(`RLB-121/M-11 Gegenprobe: Einträge ohne Schutz werden gemeldet (${gp.length} Meldungen)`, gp.some(x => /RLB-121\/M-[89]|RLB-122\/B-[23]/.test(x)), 'R-10.5');
+      await p.reload(); await p.waitForTimeout(400);
+    }
+    // M-4: keine Zeilen bei 1 Aufenthalt mit Preis, ‚Preis der Quartiere erfassen‘ aus, Spalte Quartier aus
+    for (const id of ['d', 'e', 'f']) {
+      await zeige(p, id);
+      const z = await zeilen(p);
+      t.ist(`RLB-121/M-4 Reiselogbuch ${id}: keine der beiden Zeilen`, [z.teuer, z.guenstig], [null, null]);
+    }
+    if (ansicht === 'iPhone hoch') {
+      // M-14: Preis im Fenster Tag ändern – x → ‚Änderungen verwerfen‘ lässt die Zeilen, sichern zeigt sofort die neuen
+      await zeige(p, 'b');
+      await p.evaluate(() => openDayDialog(db.trips.find(x => x.id === 'b'), '2026-06-04')); await p.waitForTimeout(400); await navFertig(p);
+      await p.locator('#fPrice').scrollIntoViewIfNeeded(); await p.locator('#fPrice').fill(''); await p.locator('#fPrice').pressSequentially('1000', { delay: 10 });
+      await p.click('#dlgX'); await p.waitForTimeout(250);
+      const v = p.locator('.pop button', { hasText: 'Änderungen verwerfen' });
+      if (await v.count()) { await v.click(); await p.waitForTimeout(300); } else t.fehler('', 'RLB-121/M-14 x fragt nicht ‚Änderungen verwerfen‘');
+      t.ist('RLB-121/M-14 verworfen: Zeilen wie vorher', [(await zeilen(p)).teuer, (await zeilen(p)).guenstig], SOLL.b);
+      await p.evaluate(() => openDayDialog(db.trips.find(x => x.id === 'b'), '2026-06-04')); await p.waitForTimeout(400); await navFertig(p);
+      await p.locator('#fPrice').scrollIntoViewIfNeeded(); await p.locator('#fPrice').fill(''); await p.locator('#fPrice').pressSequentially('1000', { delay: 10 });
+      await t.schritt(p, 'RLB-121/M-14 Preis sichern', async () => { await p.click('#dlgOk'); await p.waitForTimeout(400); });
+      t.ist('RLB-121/M-14 gesichert: Pension Ruth (500,00 €) jetzt oben', (await zeilen(p)).teuer, [E('Pension Ruth', '500,00'), E('Hotel Elephant', '165,00'), E('Hotel Krone', '120,00')]);
+      // M-16: Vorschau und Ausgabe (A4-Breite und schmal 230 px) – dieselben Zeilen wie in der App, M-8 bis M-10
+      await zeige(p, 'c');
+      await t.schritt(p, 'RLB-121/M-16 Vorschau', async () => { await p.click('#shareBtn'); await p.waitForTimeout(200); await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); await p.waitForTimeout(500); });
+      const td = sel => p.evaluate(sel => [...document.querySelectorAll(sel)].filter(x => /^(Teuerste|Günstigste) Quartiere:$/.test(x.textContent)).map(x => x.nextElementSibling.textContent.split('\u00a0· ')), sel);
+      t.ist('RLB-121/M-16 Vorschau: dieselben Zeilen wie in der App', await td('.dlg-body.preview .rt .stats td'), SOLL.c, 'R-6.2');
+      t.liste(await checkAufzaehlung(p, { sel: '.dlg-body.preview .rt .stats td:has(.az-n)', groessen: ['l'], fenster: false, where: `${t.ort} Vorschau` }));
+      await zu(p);
+      for (const w of [718, 230]) {
+        await p.evaluate(w => { const d = document.createElement('div'); d.id = 'gpAus'; d.style.cssText = `position:absolute;left:0;top:0;width:${w}px;background:#fff`;
+          d.innerHTML = `<style>${OUTPUT_CSS}</style>${outputBody(db.trips.find(x => x.id === 'c'), 1, nowStamp())}`; document.body.append(d); }, w);
+        t.ist(`RLB-121/M-16 Ausgabe ${w} px: dieselben Zeilen, 11 pt`, [await td('#gpAus .stats td'), await p.evaluate(() => Math.round(parseFloat(getComputedStyle(document.querySelector('#gpAus .rt')).fontSize) * 10) / 10)], [SOLL.c, 14.7], 'R-6.2');   // 11 pt = 14,67 px
+        t.liste(await checkAufzaehlung(p, { sel: '#gpAus .stats td:has(.az-n)', groessen: ['l'], umbruch: w < 300, fenster: w < 300, where: `${t.ort} Ausgabe ${w} px` }));   // das Blatt mit 718 px ist breiter als das iPhone
+        await p.evaluate(() => document.getElementById('gpAus').remove());
+      }
     }
     await p.close();
   }
