@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 08.11.2026** · Aktuelle Version: Reiselogbuch 3.55.0 · AppDesign 4.57.0
+**Stand 13.11.2026** · Aktuelle Version: Reiselogbuch 3.55.1 · AppDesign 4.57.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,15 +22,14 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-124 | 1 | **Hinweis hinter ‚PDF‘: mit iOS 27 zurzeit nicht möglich (Rückmeldung P-101/16 Schritt 3, Nutzer 12./13.11.2026, Sitzung 0107):** im Teilen-Menü heißt der Punkt **‚PDF (mit iOS 27 zurzeit nicht möglich)‘** (RLB-124/W-1), **immer** (auch in Safari), graue Zeile darunter unverändert; die PDF-Funktion selbst bleibt, wie sie ist (Nutzer: ein Update von iOS 27 macht das Drucken voraussichtlich wieder möglich); Vorschau und Abgleichbericht unverändert (Umfang a). Befund: in der App vom Home-Bildschirm übergeht iPadOS 27.2 `print()` in jeder Form, in Safari geht es (Proben A–D, Versuch `AppDesign/arbeit/RLB-124/`, `AppDesign/arbeit/0107 RLB-124 Auswertung.md`, Wortlaut `AppDesign/arbeit/0107 RLB-124 Hinweis Wortlaut.md`) | App | 13.11.2026 |
 
-1 Punkt bereit.
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-101 | 1 | **Usertest P-101 (3.55.0, AppDesign 4.57.0):** Cursor am Ende, leeres Feld einzeilig, Verlauf-Vorschläge über dem Feld und am Ende (RLB-123, wiederholt P-100/1), Rückgängig im Feld (APD-124), Gleitbewegungen wie in Notizen (APD-127), Dateiname in eigener Zeile (APD-116), Statistik-Umbruch nur nach ‚·‘ (RLB-122), Tageskachel und Kopfverlauf (RLB-120) – Testfälle P-101/0 bis P-101/16 im CHANGELOG 3.55.0 | prüfen – Rückmeldung 12.11.2026 (Sitzung 0107): ok bis auf /16 Schritt 3 (PDF öffnet das Drucken-Menü nicht → RLB-124) |
+| P-102 | 1 | **Usertest P-102 (3.55.1, AppDesign 4.57.0):** Hinweis ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ im Teilen-Menü (RLB-124) – iPad, iPhone, Safari; Testfälle P-102/0 bis /3 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +50,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-124 | **Hinweis hinter ‚PDF‘:** Teilen-Menü ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ (RLB-124/W-1), immer; Funktion unverändert – iOS/iPadOS 27.2 übergeht `print()` in der App vom Home-Bildschirm (Versuch `AppDesign/arbeit/RLB-124/`); Prüfung `ablauf-gesamt`; Usertest P-102 | 3.55.1 | 13.11.2026 |
+| P-101 | **Usertest P-101 (3.55.0, AppDesign 4.57.0): ok bis auf P-101/16 Schritt 3** (Nutzer 12.11.2026, Sitzung 0107) – PDF öffnet in der App vom Home-Bildschirm das Drucken-Menü nicht (iOS 27.2) → RLB-124, Hinweis in 3.55.1, geprüft mit P-102 | 3.55.0 | 12.11.2026 |
 | RLB-123 | **Verlauf: Vorschläge über dem Feld, am Ende einfügen, danach klein:** Vorschlag und ‚Sonstiges …‘ nach der letzten Zeile, Tastatur danach klein, Verlauf leer einzeilig (mit AppDesign APD-126); behebt P-100/1; Prüfungen `verlauf-vorschlaege`, `ablauf-feld-rollen`, neu `ablauf-feld-cursor` | 3.55.0 | 08.11.2026 |
 | RLB-122 | **Statistik: Umbruch nur nach dem ‚·‘:** Wetter und Smileys mit `aufzaehlung` in App, Vorschau und Ausgabe; `PROMPT.md` (RLB-122/W-3); Prüfung `checkAufzaehlung` in `ablauf-preis-km` | 3.55.0 | 08.11.2026 |
 | RLB-120 | **Tageskachel: Schrift- und Emoji-Größe, Kopfverlauf:** Emojis und Wetter in Textgröße, Bezeichnung halbfett, Spalte 1 breiter, Linien vor dem ersten und nach dem letzten Feld, Kopfverlauf in Kachel, Tabellenkopf und Ausgabe, in markierter und ausgewählter Kachel ab der Farbe der Kachel (RLB-120/W-1 bis W-8) | 3.55.0 | 08.11.2026 |

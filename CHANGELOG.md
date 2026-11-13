@@ -13,6 +13,45 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.55.1 – 13.11.2026
+
+Reiselogbuch 3.55.1 · AppDesign 4.57.0 (Designrichtlinie allgemein 4.57.0) · Designrichtlinie Reiselogbuch 3.55.1 · Zusammenarbeit allgemein 3.11.0
+
+**Hinweis hinter ‚PDF‘** (RLB-124, Korrektur aus P-101/16 Schritt 3) – dein ‚Ja‘ vom 13.11.2026, Sitzung 0107.
+
+- **Teilen-Menü: ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ (RLB-124/W-1):** In der App vom Home-Bildschirm übergeht iOS/iPadOS 27.2 das Drucken
+  (`print()`) in jeder Form, in Safari geht es (Proben A–D und Versuch `AppDesign/arbeit/RLB-124/`, 12.11.2026). Der Punkt trägt darum immer diesen
+  Hinweis; die PDF-Funktion selbst, die graue Zeile darunter, Vorschau und Abgleichbericht bleiben unverändert – nach einem Update von iOS 27 soll sie
+  wieder gehen (Nutzer 13.11.2026). Warum die Prüfung es übersah: die Prüfungen laufen in Chromium und WebKit als Browser, den Home-Bildschirm-Modus
+  von iOS und sein Drucken-Menü bilden sie nicht nach (Gerät).
+- **Prüfungen:** `ablauf-gesamt` erwartet den neuen Titel im Teilen-Menü (R-6.4).
+
+Testfälle P-102 (Schritt für Schritt, Zusammenarbeit allgemein 3.11.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-102/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.55.1 · erstellt am … · AppDesign 4.57.0‘.
+
+**P-102/1 – Hinweis im Teilen-Menü (iPad)**
+1. iPad quer, hell, App vom Home-Bildschirm: ein Reiselogbuch öffnen.
+2. Oben das Teilen-Icon (share) antippen.
+3. Erwartet: die Punkte ‚Vorschau‘, ‚HTML‘ und ‚PDF (mit iOS 27 zurzeit nicht möglich)‘, darunter grau ‚Im Drucken-Menü Teilen, dann ‚In Dateien
+   sichern‘‘. Menü mit Antippen daneben schließen.
+
+**P-102/2 – Hinweis ganz lesbar (iPhone)**
+1. iPhone hoch, hell, App vom Home-Bildschirm: ein Reiselogbuch öffnen.
+2. Oben das Teilen-Icon (share) antippen.
+3. Erwartet: ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ ist ganz zu lesen (bei Bedarf in zwei Zeilen), nichts abgeschnitten, das Menü liegt ganz im
+   Bildschirm.
+
+**P-102/3 – Safari druckt weiter**
+1. iPad quer, hell: in **Safari** https://g811141a.github.io/ReiseLogBuch/ öffnen und ein Reiselogbuch öffnen.
+2. Teilen-Icon (share) antippen, dann ‚PDF (mit iOS 27 zurzeit nicht möglich)‘.
+3. Erwartet: derselbe Hinweis im Menü; danach das Fenster ‚Ausgabe V…‘ mit ‚Drucken-Menü geöffnet für‘ und das Drucken-Menü öffnet sich. Drucken-Menü
+   schließen, Fenster mit x schließen.
+
 ## 3.55.0 – 12.11.2026
 
 Reiselogbuch 3.55.0 · AppDesign 4.57.0 (Designrichtlinie allgemein 4.57.0) · Designrichtlinie Reiselogbuch 3.55.0 · Zusammenarbeit allgemein 3.11.0
