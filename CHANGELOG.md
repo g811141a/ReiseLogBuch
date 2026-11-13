@@ -30,7 +30,8 @@ Sitzung 0110 bestätigt). Muster `AppDesign/arbeit/RLB-121/index.html`, Testfall
   600 px) steht ab Text XXL die Bezeichnung über dem Wert – wie am iPhone hoch. Anlass: beim Bau ragte die Statistik dort bei großer Schrift hinaus
   (Befund `AppDesign/arbeit/0110 RLB-121 iPad hoch.md`); das Muster hatte iPad hoch nur ohne Seitenleiste nachgebildet.
 - **Prüfungen:** `ablauf-preis-km` RLB-121/M-1 bis M-14, M-16 (vier Lagen, drei Textgrößen, Drehen, Preis ändern und verwerfen, Vorschau, Ausgabe,
-  Gegenprobe RLB-121/M-11); `ablauf-abgleich-faelle` Fall 18 (RLB-121/M-15); `checkAufzaehlung` (AppDesign) erweitert.
+  Gegenprobe RLB-121/M-11); `ablauf-abgleich-faelle` Fall 18 (RLB-121/M-15); `checkAufzaehlung` (AppDesign) erweitert; `oeffnen-position` zusätzlich mit Text 23
+  (`alle.mjs`): Seitenleiste aus und ein am iPad hoch – oben bleibt derselbe Tag (im ersten vollen Lauf sprang er, behoben in AppDesign 4.59.0 `keepPlace`).
 
 Testfälle P-103 (Schritt für Schritt, Zusammenarbeit allgemein 3.12.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
