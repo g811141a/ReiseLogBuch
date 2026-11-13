@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-102 | 1 | **Usertest P-102 (3.55.1, AppDesign 4.57.0):** Hinweis ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ im Teilen-Menü (RLB-124) – iPad, iPhone, Safari; Testfälle P-102/0 bis /3 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +49,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-102 | **Usertest P-102 (3.55.1, AppDesign 4.57.0): alles ok** (Nutzer 13.11.2026, Sitzung 0108) – Hinweis ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ auf iPad und iPhone, Safari druckt weiter | 3.55.1 | 13.11.2026 |
 | RLB-124 | **Hinweis hinter ‚PDF‘:** Teilen-Menü ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ (RLB-124/W-1), immer; Funktion unverändert – iOS/iPadOS 27.2 übergeht `print()` in der App vom Home-Bildschirm (Versuch `AppDesign/arbeit/RLB-124/`); Prüfung `ablauf-gesamt`; Usertest P-102 | 3.55.1 | 13.11.2026 |
 | P-101 | **Usertest P-101 (3.55.0, AppDesign 4.57.0): ok bis auf P-101/16 Schritt 3** (Nutzer 12.11.2026, Sitzung 0107) – PDF öffnet in der App vom Home-Bildschirm das Drucken-Menü nicht (iOS 27.2) → RLB-124, Hinweis in 3.55.1, geprüft mit P-102 | 3.55.0 | 12.11.2026 |
 | RLB-123 | **Verlauf: Vorschläge über dem Feld, am Ende einfügen, danach klein:** Vorschlag und ‚Sonstiges …‘ nach der letzten Zeile, Tastatur danach klein, Verlauf leer einzeilig (mit AppDesign APD-126); behebt P-100/1; Prüfungen `verlauf-vorschlaege`, `ablauf-feld-rollen`, neu `ablauf-feld-cursor` | 3.55.0 | 08.11.2026 |
