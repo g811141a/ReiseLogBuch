@@ -13,6 +13,51 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.56.2 – 14.11.2026
+
+Reiselogbuch 3.56.2 · AppDesign 4.59.2 (Designrichtlinie allgemein 4.59.2) · Designrichtlinie Reiselogbuch 3.56.2 · Zusammenarbeit allgemein 3.13.1
+
+**Korrektur: iPhone – Bild springt nach dem Zurückdrehen nach oben** (AppDesign APD-129 Teil 2) – deine Rückmeldung zu P-104 (/1, /2, /3 nicht ok,
+Sitzung 0113), Messung am iPhone `AppDesign/arbeit/APD-129/messung-2026-11-14-2137.txt`, Befund und Testfall-Liste
+`AppDesign/arbeit/APD-129 Teil 2 Befund und Testfall-Liste.md` (APD-129/M-10 bis M-18).
+
+- **AppDesign 4.59.2 – kein Sprung nach dem Drehen (R-8.1, R-4.6):** am iPhone vom Home-Bildschirm meldet Safari nach quer → hoch den oberen sicheren
+  Rand noch 250–300 ms mit der Statusleiste (62 px); Kopfzeile, Startliste und Blatt standen so lange 62 px zu tief und sprangen dann hoch. Jetzt
+  bestimmt `ui.js` den oberen Rand dort selbst (hoch und Fenster niedriger als der Bildschirm: 0) und stellt die Verschiebung um die Statusleiste im
+  selben Augenblick zurück – das Bild steht sofort an seinem Platz, wie am iPad. Quer, am iPad und in Safari bleibt alles wie bisher.
+- **Warum die Prüfung ihn übersah:** die Prüfumgebung kennt keine sicheren Ränder, und `ablauf-drehen-iphone` prüfte nur den Stand nach dem Drehen.
+  Jetzt bildet das Safari-Modell den nachhinkenden Rand nach (`safeOben`), und die Prüfung nimmt jedes Bild ab der Meldung auf.
+- **Prüfungen:** `ablauf-drehen-iphone` um APD-129/M-10 bis M-16 erweitert (Startliste, Reiselogbuch gerollt, Blatt offen, zweimal gedreht, quer und
+  in Safari unverändert, jedes Bild ± 1 px); gegen 3.56.1 bzw. ohne Teil A rot (APD-129/M-18, Chromium und WebKit).
+
+Testfälle P-105 (Schritt für Schritt, Zusammenarbeit allgemein 3.13.1). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-105/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.56.2 · erstellt am … · AppDesign 4.59.2‘.
+
+**P-105/1 – Startliste drehen (iPhone)**
+1. iPhone hoch, hell: die Startliste ‚Reiselogbücher‘ ansehen.
+2. Auf quer drehen, kurz warten, wieder auf hoch drehen und dabei auf den oberen Rand achten.
+3. Erwartet: die Startliste steht sofort direkt unter der Statusleiste und springt nicht nach oben (wie am iPad); ‚…‘ (Mehr) öffnet beim ersten Tippen das Menü.
+
+**P-105/2 – Reiselogbuch drehen (iPhone)**
+1. iPhone hoch, hell: ein Reiselogbuch öffnen und etwas nach unten rollen.
+2. Auf quer drehen, kurz warten, wieder auf hoch drehen und dabei auf die Kopfzeile achten.
+3. Erwartet: die Kopfzeile steht sofort direkt unter der Statusleiste und springt nicht nach oben; oben steht derselbe Tag wie vorher; der Zurück-Knopf (chevron-left) reagiert beim ersten Tippen.
+
+**P-105/3 – Blatt drehen (iPhone)**
+1. iPhone hoch, hell: im Reiselogbuch einen Tag antippen (das Blatt öffnet sich), nicht in ein Feld tippen.
+2. Auf quer drehen, kurz warten, wieder auf hoch drehen und dabei auf den oberen Rand des Blatts achten.
+3. Erwartet: das Blatt beginnt sofort knapp unter der Statusleiste und springt nicht nach oben; x schließt es beim ersten Tippen.
+
+**P-105/4 – Tastatur wie bisher (iPhone)**
+1. iPhone hoch, hell: einen Tag antippen und im Blatt in das Feld ‚Verlauf‘ tippen.
+2. Ein paar Wörter schreiben, dann auf eine freie Stelle im Blatt tippen (die Tastatur geht zu).
+3. Erwartet: das Feld bleibt beim Schreiben über der Tastatur sichtbar; nach dem Schließen der Tastatur springt nichts.
+
 ## 3.56.1 – 14.11.2026
 
 Reiselogbuch 3.56.1 · AppDesign 4.59.1 (Designrichtlinie allgemein 4.59.1) · Designrichtlinie Reiselogbuch 3.56.1 · Zusammenarbeit allgemein 3.12.0
