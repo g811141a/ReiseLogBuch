@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 13.11.2026** · Aktuelle Version: Reiselogbuch 3.56.0 · AppDesign 4.59.0
+**Stand 14.11.2026** · Aktuelle Version: Reiselogbuch 3.56.0 · AppDesign 4.59.0
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-103 | 1 | **Usertest P-103 (3.56.0, AppDesign 4.59.0):** RLB-121 teuerste und günstigste Quartiere in der Statistik; Testfälle P-103/0 bis P-103/4 im CHANGELOG 3.56.0 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -49,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-103 | **Usertest P-103 (3.56.0, AppDesign 4.59.0): alles ok** (Nutzer 14.11.2026, Sitzung 0112) – teuerste und günstigste Quartiere in App und Ausgabe, große Schrift am iPad hoch | 3.56.0 | 14.11.2026 |
 | RLB-121 | **Statistik: teuerste und günstigste Quartiere:** zwei Zeilen unter ‚Quartierkosten‘ (`quarterRanks`, RLB-121/D-1 bis D-5) in App, Vorschau und Ausgabe; AppDesign `aufzaehlung` mit langen Einträgen (R-10.5) und Umbau bei großer Schrift im schmalen Inhalt (R-1.10); Prüfungen RLB-121/M-1 bis M-16 in `ablauf-preis-km` und `ablauf-abgleich-faelle` | 3.56.0 | 13.11.2026 |
 | P-102 | **Usertest P-102 (3.55.1, AppDesign 4.57.0): alles ok** (Nutzer 13.11.2026, Sitzung 0108) – Hinweis ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ auf iPad und iPhone, Safari druckt weiter | 3.55.1 | 13.11.2026 |
 | RLB-124 | **Hinweis hinter ‚PDF‘:** Teilen-Menü ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ (RLB-124/W-1), immer; Funktion unverändert – iOS/iPadOS 27.2 übergeht `print()` in der App vom Home-Bildschirm (Versuch `AppDesign/arbeit/RLB-124/`); Prüfung `ablauf-gesamt`; Usertest P-102 | 3.55.1 | 13.11.2026 |
