@@ -9,9 +9,9 @@
 // ‚Neues Reiselogbuch‘ (die Meldung zum überschneidenden Zeitraum erscheint). Aufruf im Repo-Ordner: node tests/ablauf-blatt.mjs
 // Seit 3.48.0 (AppDesign APD-85 Teil 5): PRUEF_BLATT=iPhone bzw. iPad prüft nur diese Ansichten (alle.mjs teilt so; ohne: alle).
 import * as pw from 'playwright';
-import { pruefung, warteBis, navFertig, ruhe } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.59.0/tests/hig.mjs';
-import { checkSheet, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.59.0/tests/ablauf.mjs';
+import { pruefung, warteBis, navFertig, ruhe } from '../../AppDesign/fassung/4.59.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.1/tests/hig.mjs';
+import { checkSheet, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.59.1/tests/ablauf.mjs';
 // Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-1, B-6, B-8): iPhone hoch und iPad quer
 // hell – öffnen mit der Feder (Antwortzeit 0,35 s), x ease-in-out 0,25 s (Blatt, Abdunkelung, Seite), nach dem Loslassen der Rest anteilig, Endlagen
 // wie ohne Bewegung; ‚Bewegung reduzieren‘: nichts bewegt sich über 200 ms (checkGleiten). Gegenprobe APD-127/B-10: PRUEF_V=heute – APD-127/B-1 rot.

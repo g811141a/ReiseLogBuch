@@ -10,10 +10,10 @@
 //   PRUEF_ANSICHT='iPhone quer' …   nur eine Ansicht (während der Arbeit)
 import * as pw from 'playwright';
 import { readFileSync } from 'node:fs';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.59.0/tests/hig.mjs';
-import { checkFeldCursor, STILL_LEISTEN, STILL_LINKS } from '../../AppDesign/fassung/4.59.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.59.0/tests/safari.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.1/tests/hig.mjs';
+import { checkFeldCursor, STILL_LEISTEN, STILL_LINKS } from '../../AppDesign/fassung/4.59.1/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.59.1/tests/safari.mjs';
 const t = pruefung('ablauf-feld-cursor', pw, { out: new URL('out/', import.meta.url), hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }) });
 const alt = process.env.PRUEF_V === 'alt';
 const APP = new URL('../index.html', import.meta.url).href;

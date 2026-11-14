@@ -13,6 +13,49 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.56.1 – 14.11.2026
+
+Reiselogbuch 3.56.1 · AppDesign 4.59.1 (Designrichtlinie allgemein 4.59.1) · Designrichtlinie Reiselogbuch 3.56.1 · Zusammenarbeit allgemein 3.12.0
+
+**Korrektur: iPhone – App rutscht nach dem Drehen nach unten** (AppDesign APD-129) – deine Meldung vom 14.11.2026 (Sitzung 0112), Messung am iPhone
+`AppDesign/arbeit/APD-129/messung-2026-11-14-0948.txt`, Befund und Testfall-Liste `AppDesign/arbeit/APD-129 Befund und Testfall-Liste.md`.
+
+- **AppDesign 4.59.1 – nach dem Drehen keine Verschiebung mehr (R-8.1):** am iPhone vom Home-Bildschirm ließ Safari nach hoch → quer → hoch die Seite
+  um die Statusleiste (62 px) verschoben; `ui.js` hielt das für die Tastatur und schob die App nach – sie stand etwa 1 cm tiefer, Antippen traf daneben.
+  Jetzt setzt `ui.js` die Seite ohne Tastatur und ohne Feld mit Fokus auf 0 zurück; bei offener Tastatur bleibt alles wie bisher.
+- **Warum die Prüfung ihn übersah:** das Safari-Modell drehte am iPhone direkt von hoch auf quer und zurück, ohne die Verschiebung um die Statusleiste.
+  Jetzt bildet es sie wie gemessen nach (`drehRest`, `safariDrehenHoch`).
+- **Prüfungen:** neu `ablauf-drehen-iphone` (APD-129/M-1 bis M-6: Startliste, Reiselogbuch gerollt, Blatt offen, zweimal gedreht, ohne Verschiebung,
+  Tastatur offen), gegen 3.56.0 rot (APD-129/M-9, Chromium und WebKit).
+
+Testfälle P-104 (Schritt für Schritt, Zusammenarbeit allgemein 3.12.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-104/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.56.1 · erstellt am … · AppDesign 4.59.1‘.
+
+**P-104/1 – Startliste drehen (iPhone)**
+1. iPhone hoch, hell: die Startliste ‚Reiselogbücher‘ ansehen.
+2. Auf quer drehen, kurz warten, wieder auf hoch drehen.
+3. Erwartet: die Startliste steht wie vorher direkt unter der Statusleiste; ‚…‘ (Mehr) öffnet beim ersten Tippen das Menü.
+
+**P-104/2 – Reiselogbuch drehen (iPhone)**
+1. iPhone hoch, hell: ein Reiselogbuch öffnen und etwas nach unten rollen.
+2. Auf quer drehen, kurz warten, wieder auf hoch drehen.
+3. Erwartet: die Kopfzeile steht direkt unter der Statusleiste, oben steht derselbe Tag wie vorher; der Zurück-Knopf (chevron-left) reagiert beim ersten Tippen.
+
+**P-104/3 – Blatt drehen (iPhone)**
+1. iPhone hoch, hell: im Reiselogbuch einen Tag antippen (das Blatt öffnet sich), nicht in ein Feld tippen.
+2. Auf quer drehen, kurz warten, wieder auf hoch drehen.
+3. Erwartet: das Blatt beginnt wie vorher knapp unter der Statusleiste; x schließt es beim ersten Tippen.
+
+**P-104/4 – Tastatur wie bisher (iPhone)**
+1. iPhone hoch, hell: einen Tag antippen und im Blatt in das Feld ‚Verlauf‘ tippen.
+2. Ein paar Wörter schreiben, dann auf eine freie Stelle im Blatt tippen (die Tastatur geht zu).
+3. Erwartet: das Feld bleibt beim Schreiben über der Tastatur sichtbar; nach dem Schließen der Tastatur springt nichts.
+
 ## 3.56.0 – 13.11.2026
 
 Reiselogbuch 3.56.0 · AppDesign 4.59.0 (Designrichtlinie allgemein 4.59.0) · Designrichtlinie Reiselogbuch 3.56.0 · Zusammenarbeit allgemein 3.12.0
