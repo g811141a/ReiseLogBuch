@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-104 | 1 | **Usertest P-104 (3.56.1, AppDesign 4.59.1):** AppDesign APD-129 – iPhone, keine Verschiebung nach dem Drehen; Testfälle P-104/0 bis P-104/4 im CHANGELOG 3.56.1 | prüfen |
+| P-104 | 1 | **Usertest P-104 (3.56.1, AppDesign 4.59.1):** AppDesign APD-129 – iPhone, keine Verschiebung nach dem Drehen; Testfälle P-104/0 bis P-104/4 im CHANGELOG 3.56.1 – **Rückmeldung (Nutzer 14.11.2026, Sitzung 0113): P-104/0 und /4 ok; P-104/1, /2, /3 nicht ok** – bei allen drei springt das Bild nach dem Zurückdrehen auf hoch nach oben; erwartet: Bildaufbau wie am iPad (dort passt es); zuerst Messung am iPhone (0 Nr. 20) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
