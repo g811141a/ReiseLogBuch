@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.57.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.59.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -134,18 +134,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.57.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.59.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.55.1';
-const APP_BUILT = '13.11.2026 um 12:08';
+const APP_VERSION = '3.56.0';
+const APP_BUILT = '13.11.2026 um 19:20';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.57.0';
+const AD_NEEDED = '4.59.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -1828,9 +1828,27 @@ function tripStats(trip) {
     ...(kms.length ? [['Gegangene Kilometer', avg(fmtKm(kmSum), fmtKm(kmSum / kms.length), 'km')]] : []),
     ...(c.quarter ? [['Quartiere', String(quarters.size)], ['Nächte', String(stays.reduce((n, st) => n + st.nights, 0))]] : []),
     ...(priced.length ? [['Quartierkosten', avg(money(cost), money(cost / costNights), '€')]] : []),
+    ...quarterRankRows(priced),
     ['Wetter', fmt(weather)],
     ['Smileys', fmt(moods)],
   ];
+}
+
+// seit 3.56.0 (RLB-121/D-3 bis D-5): teuerste und günstigste Quartiere – Preis je Nacht je Aufenthalt (Preis ÷ Nächte), jeder Aufenthalt für
+// sich (wie in der Quartierliste); ab 2 Aufenthalten mit Preis; kein Aufenthalt in beiden Zeilen – die teurere Hälfte oben (bei ungerader Zahl
+// der mittlere oben), der Rest unten, je höchstens 3; gleicher Preis je Nacht: der frühere Aufenthalt zuerst. Oben der teuerste zuerst, unten
+// der günstigste zuerst.
+function quarterRanks(priced) {
+  const list = priced.map((st, i) => ({ name: st.q.name, v: st.price / st.nights, i }));
+  if (list.length < 2) return null;
+  const desc = [...list].sort((a, b) => b.v - a.v || a.i - b.i), k = Math.ceil(list.length / 2);
+  return { teuer: desc.slice(0, Math.min(3, k)), guenstig: desc.slice(k).sort((a, b) => a.v - b.v || a.i - b.i).slice(0, 3) };
+}
+// Zeilen der Statistik: je Eintrag [Name, ‚(Preis je Nacht €)‘] für die Aufzählung (aufzaehlung, AppDesign R-10.5 – der Preis bleibt ganz)
+function quarterRankRows(priced) {
+  const rk = quarterRanks(priced);
+  const liste = rs => rs.map(r => [r.name, `(${money(r.v)}\u00a0€)`]);
+  return rk ? [['Teuerste Quartiere', liste(rk.teuer)], ['Günstigste Quartiere', liste(rk.guenstig)]] : [];
 }
 
 // Aufeinanderfolgende Nächte im selben Quartier werden zu einem Aufenthalt zusammengefasst. Preis (seit 3.41.0, RLB-109): Summe der

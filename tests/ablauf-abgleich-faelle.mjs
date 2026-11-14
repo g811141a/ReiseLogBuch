@@ -1,9 +1,10 @@
 // Ablauf-Test: alle Anwendungsfälle des Abgleichs (Tabelle im CHANGELOG 3.10.0 und in der Designrichtlinie Reiselogbuch).
 // Je Fall: gemeinsamer Ausgangsstand (09:00), dann Änderungen auf iPad und iPhone zu festen Zeiten; danach wird in beide
 // Richtungen abgeglichen (iPhone lädt das Backup vom iPad, iPad lädt das Backup vom iPhone) und das Ergebnis geprüft.
+// Seit 3.56.0: Fall 18 – RLB-121/M-15 teuerste und günstigste Quartiere nach dem Abgleich auf beiden Geräten gleich.
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich-faelle.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-abgleich-faelle', pw, { out: new URL('out/', import.meta.url) });
 // Reine Datenprüfung über mergeWith (keine Bedienung) – deshalb ohne Grundregeln.
@@ -23,7 +24,10 @@ const at = (p, t) => p.clock.setFixedTime(new Date(`2026-10-12T${t}:00`));
 const op = (p, fn) => p.evaluate(fn);
 // Ergebnis eines Abgleichs ohne Zustand zu ändern: { trips, stats, text }
 const mergeWith = (p, backup) => p.evaluate(c => { const d = JSON.parse(c); const savedAt = d.savedAt, savedOn = d.savedOn; delete d.savedAt; delete d.savedOn;
-  const { data, stats } = mergeData(structuredClone(db), normalize(d)); return { trips: data.trips, stats, text: sync.resultText(stats, savedAt, savedOn) + sync.reportHtml(stats, savedAt, savedOn) }; }, backup);
+  const { data, stats } = mergeData(structuredClone(db), normalize(d));
+  // seit 3.56.0 (RLB-121/M-15): Zeilen ‚Teuerste/Günstigste Quartiere‘ der Statistik je Reiselogbuch nach dem Abgleich
+  const rang = Object.fromEntries(data.trips.map(t => [t.id, tripStats(t).filter(([k]) => /^(Teuerste|Günstigste) Quartiere$/.test(k)).map(([k, v]) => `${k}: ${v.map(x => x.join(' ')).join(' · ')}`)]));
+  return { trips: data.trips, stats, rang, text: sync.resultText(stats, savedAt, savedOn) + sync.reportHtml(stats, savedAt, savedOn) }; }, backup);
 
 async function fall(nr, name, onIpad, onIphone, expect, { legacy = false } = {}) {
   const ipad = await device(1180, 820), iphone = await device(393, 852);
@@ -84,4 +88,12 @@ await fall(16, 'ohne Zeitpunkte (vor dem Update): verschiedene Werte', [['10:00'
   { iphone: r => T(r, 'x').days['2026-07-01'].program === 'alt iPhone' && T(r, 'x').days['2026-07-04']?.program === 'nur iPad' ? '' : 'eigener Wert überschrieben oder Fehlendes nicht dazu', ipad: r => T(r, 'x').days['2026-07-01'].program === 'alt iPad' ? '' : 'eigener Wert überschrieben' }, { legacy: true });
 await fall(17, 'Exportzähler', [['10:00', () => { getTrip('x').outputCounter = 5; save(); }]], [['11:00', () => { getTrip('x').outputCounter = 3; save(); }]],
   { iphone: r => T(r, 'x').outputCounter === 5 ? '' : 'höherer Zähler nicht übernommen', ipad: r => T(r, 'x').outputCounter === 5 ? '' : 'höherer Zähler verloren' });
+// RLB-121/M-15 (seit 3.56.0): Preise auf beiden Geräten erfasst – nach dem Abgleich auf beiden Geräten dieselben zwei Zeilen
+{
+  const q = (iso, name, price) => new Function(`const t = getTrip('x'); t.quarterColumn = true; t.priceOn = true; t.days['${iso}'] ||= {}; Object.assign(t.days['${iso}'], { quarter: '${name}', place: 'Ort', price: ${price} }); save();`);
+  const soll = ['Teuerste Quartiere: Hotel Borg (300,00\u00a0€) · Gästehaus (120,00\u00a0€)', 'Günstigste Quartiere: Hütte (60,00\u00a0€)'];
+  const ok = r => JSON.stringify(r.rang.x) === JSON.stringify(soll) ? '' : `RLB-121/M-15 Zeilen ${JSON.stringify(r.rang.x)} statt ${JSON.stringify(soll)}`;
+  await fall(18, 'Preise auf beiden Geräten (RLB-121/M-15)', [['10:00', q('2026-07-01', 'Hotel Borg', 300)], ['10:05', q('2026-07-02', 'Gästehaus', 120)]], [['11:00', q('2026-07-03', 'Hütte', 60)]],
+    { iphone: ok, ipad: ok });
+}
 await t.ende(b);

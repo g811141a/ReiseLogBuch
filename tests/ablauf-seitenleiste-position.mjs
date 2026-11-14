@@ -2,9 +2,9 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.57.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.57.0/tests/hig.mjs';
-import { sucheAuf, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.57.0/tests/ablauf.mjs';
+import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.0/tests/hig.mjs';
+import { sucheAuf, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.59.0/tests/ablauf.mjs';
 // Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-4, B-8): iPad quer und hoch – die Seitenleiste
 // gleitet ein mit der Feder (Antwortzeit 0,35 s), aus ease-in-out 0,25 s, Endlagen wie ohne Bewegung (checkGleiten). Gegenprobe APD-127/B-10:
 // PRUEF_V=heute – APD-127/B-4 rot.
