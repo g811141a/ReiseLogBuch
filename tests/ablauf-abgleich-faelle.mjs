@@ -4,7 +4,7 @@
 // Seit 3.56.0: Fall 18 – RLB-121/M-15 teuerste und günstigste Quartiere nach dem Abgleich auf beiden Geräten gleich.
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich-faelle.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.59.1/tests/pruefe.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-abgleich-faelle', pw, { out: new URL('out/', import.meta.url) });
 // Reine Datenprüfung über mergeWith (keine Bedienung) – deshalb ohne Grundregeln.

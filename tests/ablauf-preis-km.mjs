@@ -12,9 +12,9 @@
 // Seit 3.56.0 (AppDesign 4.59.0): Testfall-Liste AppDesign arbeit/RLB-121 Testfall-Liste.md – RLB-121/M-1 bis M-14, M-16 teuerste und günstigste
 // Quartiere (M-15 in ablauf-abgleich-faelle, M-17 hig nach jedem Schritt).
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.0/tests/pruefe.mjs';
-import { createCheck, bezeichnungen, kastenBezeichnung, kopfVerlauf } from '../../AppDesign/fassung/4.59.0/tests/hig.mjs';
-import { checkAufzaehlung, textGroesseSetzen } from '../../AppDesign/fassung/4.59.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.1/tests/pruefe.mjs';
+import { createCheck, bezeichnungen, kastenBezeichnung, kopfVerlauf } from '../../AppDesign/fassung/4.59.1/tests/hig.mjs';
+import { checkAufzaehlung, textGroesseSetzen } from '../../AppDesign/fassung/4.59.1/tests/ablauf.mjs';
 const t = pruefung('ablauf-preis-km', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 // 24.–28.08.: Quartier A 3 Nächte (Preis 300), Quartier B 2 Nächte (Preis 200); 29.08. Quartier C ohne Preis; km an 3 Tagen, ein Tag nur km
 const days = {
