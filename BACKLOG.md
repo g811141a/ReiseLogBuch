@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 14.11.2026** · Aktuelle Version: Reiselogbuch 3.56.1 · AppDesign 4.59.1
+**Stand 14.11.2026** · Aktuelle Version: Reiselogbuch 3.56.2 · AppDesign 4.59.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-104 | 1 | **Usertest P-104 (3.56.1, AppDesign 4.59.1):** AppDesign APD-129 – iPhone, keine Verschiebung nach dem Drehen; Testfälle P-104/0 bis P-104/4 im CHANGELOG 3.56.1 – **Rückmeldung (Nutzer 14.11.2026, Sitzung 0113): P-104/0 und /4 ok; P-104/1, /2, /3 nicht ok** – bei allen drei springt das Bild nach dem Zurückdrehen auf hoch nach oben; erwartet: Bildaufbau wie am iPad (dort passt es); zuerst Messung am iPhone (0 Nr. 20) | prüfen |
+| P-105 | 1 | **Usertest P-105 (3.56.2, AppDesign 4.59.2):** AppDesign APD-129 Teil 2 – iPhone vom Home-Bildschirm, kein Sprung nach dem Zurückdrehen; Testfälle P-105/0 bis P-105/4 im CHANGELOG 3.56.2 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -49,6 +49,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| 3.56.2 | **Korrektur: iPhone – Bild springt nach dem Zurückdrehen nach oben** (AppDesign APD-129 Teil 2, R-8.1, R-4.6); Prüfung `ablauf-drehen-iphone` APD-129/M-10 bis M-16; Usertest P-105 | 3.56.2 | 14.11.2026 |
+| P-104 | **Usertest P-104 (3.56.1, AppDesign 4.59.1):** /0 und /4 ok; /1, /2, /3 nicht ok (Nutzer 14.11.2026, Sitzung 0113) – korrigiert in 3.56.2, erneut im Usertest P-105 | 3.56.2 | 14.11.2026 |
 | 3.56.1 | **Korrektur: iPhone – App rutscht nach dem Drehen nach unten** (AppDesign APD-129, R-8.1); Prüfung `ablauf-drehen-iphone`; Usertest P-104 | 3.56.1 | 14.11.2026 |
 | P-103 | **Usertest P-103 (3.56.0, AppDesign 4.59.0): alles ok** (Nutzer 14.11.2026, Sitzung 0112) – teuerste und günstigste Quartiere in App und Ausgabe, große Schrift am iPad hoch | 3.56.0 | 14.11.2026 |
 | RLB-121 | **Statistik: teuerste und günstigste Quartiere:** zwei Zeilen unter ‚Quartierkosten‘ (`quarterRanks`, RLB-121/D-1 bis D-5) in App, Vorschau und Ausgabe; AppDesign `aufzaehlung` mit langen Einträgen (R-10.5) und Umbau bei großer Schrift im schmalen Inhalt (R-1.10); Prüfungen RLB-121/M-1 bis M-16 in `ablauf-preis-km` und `ablauf-abgleich-faelle` | 3.56.0 | 13.11.2026 |
