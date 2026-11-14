@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 14.11.2026** · Aktuelle Version: Reiselogbuch 3.56.1 · AppDesign 4.59.1
+**Stand 14.11.2026** · Aktuelle Version: Reiselogbuch 3.56.2 · AppDesign 4.59.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
