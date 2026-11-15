@@ -3,9 +3,9 @@
 // langem Drücken auf die Versionszeile (checkMessung F-1 bis F-9).
 // Aufruf im Repo-Ordner: node tests/ablauf-messung.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.59.2/tests/hig.mjs';
-import { checkMessung, sucheAuf } from '../../AppDesign/fassung/4.59.2/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.3/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.3/tests/hig.mjs';
+import { langDruecken, checkMessung, sucheAuf } from '../../AppDesign/fassung/4.59.3/tests/ablauf.mjs';
 const t = pruefung('ablauf-messung', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 60; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { program: 'Programm ' + i, comment: 'Ausflug ans Meer' };
 const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '2026-08-24', end: '2026-10-22', transport: ['flug'], days },
@@ -25,7 +25,7 @@ for (const [w, h, cs, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852, 'da
       // seit 3.38.0 (AppDesign APD-77): zuerst lange auf die Versionszeile drücken – dann erscheint ‚Messung starten‘
       await menu(); await p.waitForTimeout(200);
       const v = await p.locator('.menu .note.halten').boundingBox();
-      await p.mouse.move(v.x + v.width / 2, v.y + v.height / 2); await p.mouse.down(); await p.waitForTimeout(900); await p.mouse.up(); await p.waitForTimeout(300);
+      { const m = await langDruecken(p, { x: v.x + v.width / 2, y: v.y + v.height / 2 }, { ms: 900, offen: '.menu' }); if (m) throw new Error(m); }   // seit 3.56.3 (AppDesign APD-85 Teil 6): Warten auf die Endlage statt fester Pause
       await p.locator('.menu .mi', { hasText: 'Messung starten' }).click(); await p.waitForTimeout(300);
       if (!await p.evaluate(() => mess?.an)) t.fehler('', 'R-1.6 leere App: ‚Messung starten‘ startet keine Messung');
       await menu(); await p.waitForTimeout(200);

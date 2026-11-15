@@ -2,8 +2,9 @@
 // ‚Reiselogbuch einstellen‘ daraus (seit 3.44.0, RLB-113), Löschen mit Abfrage, Mehr-Menü der Seitenleiste mit Versionszeile.
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-kontextmenue.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.59.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.59.2/tests/hig.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.59.3/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.3/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.59.3/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-seitenleiste-kontextmenue', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -19,7 +20,7 @@ for (const theme of ['light', 'dark']) {
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(300);
   const row = name => p.locator('.side-row', { hasText: name });
-  const long = async name => { const bx = await row(name).boundingBox(); await p.mouse.move(bx.x + 40, bx.y + 20); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up(); await p.waitForTimeout(150); };
+  const long = async name => { const m = await langDruecken(p, row(name), { offen: '.menu' }); if (m) t.fehler('R-4.2', m, `lange drücken ${name}`); };   // seit 3.56.3 (AppDesign APD-85 Teil 6): Warten auf die Endlage statt fester Pause
   await t.schritt(p, 'Wien antippen', () => row('Wien').click());
   t.ist('kurz tippen öffnet', await p.textContent('.nb-title'), 'Wien Kurztrip');
   await t.schritt(p, 'Toskana lange drücken', () => long('Toskana'));

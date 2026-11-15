@@ -2,9 +2,9 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.59.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.59.2/tests/hig.mjs';
-import { sucheAuf, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.59.2/tests/ablauf.mjs';
+import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.59.3/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.3/tests/hig.mjs';
+import { langDruecken, sucheAuf, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.59.3/tests/ablauf.mjs';
 // Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-4, B-8): iPad quer und hoch – die Seitenleiste
 // gleitet ein mit der Feder (Antwortzeit 0,35 s), aus ease-in-out 0,25 s, Endlagen wie ohne Bewegung (checkGleiten). Gegenprobe APD-127/B-10:
 // PRUEF_V=heute – APD-127/B-4 rot.
@@ -65,7 +65,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
       if (!rows.length) rows = [...document.querySelectorAll('#side .side-row')].filter(r => { const b = r.getBoundingClientRect(); return b.top >= lt - 1 && b.top < t - 20; });
       return (w === 'oberste' ? rows[0] : rows[rows.length - 1]).dataset.id; }, which);
     const row = p.locator(`#side .side-row[data-id="${id}"]`), rb = await row.boundingBox();
-    await p.mouse.move(rb.x + 40, rb.y + 20); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); await p.waitForTimeout(250);
+    { const m = await langDruecken(p, { x: rb.x + 40, y: rb.y + 20 }, { ms: 700, offen: '.menu' }); if (m) t.fehler('R-4.2', m, `Kontextmenü (${which})`); }   // seit 3.56.3 (AppDesign APD-85 Teil 6): Warten auf die Endlage statt fester Pause
     const g = await p.evaluate(id => { const r = document.querySelector(`#side .side-row[data-id="${id}"]`).getBoundingClientRect(), m = document.querySelector('.menu').getBoundingClientRect(),
       t = document.querySelector('#side .bhint').getBoundingClientRect(), l = document.querySelector('#side .side-list').getBoundingClientRect();
       // seit 3.35.0 (AppDesign APD-43 Teil 2): bei großer Schrift ist das Menü so breit wie der Bildschirm minus Rand (B1) – dann zählt das

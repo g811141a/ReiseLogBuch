@@ -4,8 +4,9 @@
 // ablauf-liste-still, Suche D-7 ablauf-suche-menue, große Schrift D-9 text-regeln, Statistik D-11 ablauf-preis-km). R-6.6, R-7.5, R-8.1;
 // hig prüft R-6.6 nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-hoch.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.59.2/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.3/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.3/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.59.3/tests/ablauf.mjs';
 const t = pruefung('ablauf-seitenleiste-hoch', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 const tage = {}; for (let i = 0; i < 30; i++) tage[new Date(Date.UTC(2026, 7, 1 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + (i >> 2), place: 'Cairns', km: i % 5 };
 const lang = 'Wanderung über den Kamm mit Blick auf das Meer und einem sehr langen Wort Donaudampfschifffahrtsgesellschaftskapitänsmütze '.repeat(3);
@@ -88,7 +89,7 @@ for (const theme of ['light', 'dark']) {
   }
   // L-8: lange drücken auf eine Kachel – Kontextmenü rechts daneben, ganz sichtbar
   { const r = await p.locator('#side .side-row[data-id="b"]').boundingBox();
-    await p.mouse.move(r.x + r.width / 2, r.y + r.height / 2); await p.mouse.down(); await p.waitForTimeout(800); await p.mouse.up(); await p.waitForTimeout(300);
+    { const m = await langDruecken(p, { x: r.x + r.width / 2, y: r.y + r.height / 2 }, { ms: 800, offen: '.menu' }); if (m) t.fehler('R-4.2', m, 'L-8 Kontextmenü'); }   // seit 3.56.3 (AppDesign APD-85 Teil 6): Warten auf die Endlage statt fester Pause
     await t.schritt(p, 'L-8 Kontextmenü', async () => {});
     t.ist('APD-97/L-8 Kontextmenü rechts an der Kachel (wie quer), ganz sichtbar', await p.evaluate(x => { const m = document.querySelector('.menu')?.getBoundingClientRect(); return !!m && m.left >= x && m.right <= innerWidth && m.bottom <= innerHeight; }, r.x + r.width / 2), true, 'R-4.2');   // wie quer: rechts, leicht über der Kachel
     await p.keyboard.press('Escape'); await p.waitForTimeout(200); }

@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.59.2/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.59.3/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -134,18 +134,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.59.2/ui.js"></script>
+<script src="../AppDesign/fassung/4.59.3/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.56.2';
-const APP_BUILT = '14.11.2026 um 22:01';
+const APP_VERSION = '3.56.3';
+const APP_BUILT = '15.11.2026 um 15:49';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.59.2';
+const AD_NEEDED = '4.59.3';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -225,12 +225,23 @@ function restoreStamps(trip, stamps) {
   save();   // Inhalt unverändert → nichts Neues gestempelt, die alten Zeitstempel sind gespeichert
 }
 
+// Seit 3.56.3 (AppDesign APD-54/D-2): Schnellauswahl der Smileys nur mit Schlüsseln, die genau ein Emoji sind – fremder Text aus einem
+// Backup oder vom Abgleich bleibt nicht in den Daten. Eigener Segmenter, weil normalize schon beim Laden läuft.
+function nurEmoji(k) {
+  return typeof k === 'string' && !/[<>&"']/.test(k) && /\p{Extended_Pictographic}/u.test(k)
+    && [...new Intl.Segmenter('de', { granularity: 'grapheme' }).segment(k)].length === 1;
+}
 function normalize(data) {
   data.trips ||= [];
   data.moodUsage ||= {};
   data.hiddenMoods ||= [];
   data.foodUsage ||= {};
   data.hiddenFood ||= [];
+  for (const k of ['moodUsage', 'foodUsage']) {
+    const u = data[k] && typeof data[k] === 'object' && !Array.isArray(data[k]) ? data[k] : {};
+    data[k] = Object.fromEntries(Object.entries(u).filter(([m, n]) => nurEmoji(m) && Number.isFinite(n)));
+  }
+  for (const k of ['hiddenMoods', 'hiddenFood']) data[k] = (Array.isArray(data[k]) ? data[k] : []).filter(nurEmoji);
   data.deleted ||= [];
   // Darstellung: 'auto' folgt dem iPad (Voreinstellung), 'light'/'dark' übersteuern. Das alte Feld 'theme' entfällt.
   data.settings = { appearance: 'auto', hideEmpty: false, ...(data.settings || {}) };
@@ -1333,14 +1344,14 @@ function mountMoodRow(row, ta, onReset, kind = 'mood') {
   row.classList.add('strip');
   const draw = () => {
     const keep = row.querySelector('.scroll')?.scrollLeft || 0;
-    row.innerHTML = capHtml(quickMoods(kind).map(m => `<button type="button" data-m="${m}">${m}</button>`).join(''))
+    row.innerHTML = capHtml(quickMoods(kind).map(m => `<button type="button" data-m="${esc(m)}">${esc(m)}</button>`).join(''))
       + `<button type="button" class="reset" aria-label="Standard-Smileys wiederherstellen">${ic('rotate-ccw')}</button>`;
     const strip = row.querySelector('.scroll');
     strip.scrollLeft = keep;
     mountCap(row);
     row.querySelectorAll('[data-m]').forEach(b => onLongPress(b,
       async () => {
-        if (!await confirmPop(b, `${b.dataset.m} aus der Schnellauswahl entfernen?`, { label: 'Entfernen', icon: 'trash' })) return;
+        if (!await confirmPop(b, `${esc(b.dataset.m)} aus der Schnellauswahl entfernen?`, { label: 'Entfernen', icon: 'trash' })) return;
         db[set.hidden].push(b.dataset.m);
         delete db[set.usage][b.dataset.m];
         save();
