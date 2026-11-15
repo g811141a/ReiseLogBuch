@@ -17,7 +17,7 @@ Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste 
 
 Reiselogbuch 3.56.3 · AppDesign 4.59.3 (Designrichtlinie allgemein 4.59.3) · Designrichtlinie Reiselogbuch 3.56.3 · Zusammenarbeit allgemein 3.14.1
 
-**Korrektur: fremder Text bleibt Text, Prüfungen ohne Wackler, Texte nachgeführt** (AppDesign APD-54, APD-85 Teil 6, APD-131; Sitzung 0118). Aussehen und
+**Korrektur: fremder Text bleibt Text, Prüfungen ohne Wackler, Texte nachgeführt** (AppDesign APD-54, APD-85 Teil 6, APD-131, APD-133; Sitzungen 0118 und 0119). Aussehen und
 Bedienung bleiben gleich.
 
 - **AppDesign APD-54 – fremden Text bereinigen** (`AppDesign/arbeit/APD-54 Befund und Testfall-Liste.md`, APD-54/T-1 bis T-10): die Smileys der
@@ -32,7 +32,11 @@ Bedienung bleiben gleich.
   dort wird das Wachsen selbst gemessen.
 - **AppDesign APD-131 – Texte nachgeführt:** `PROMPT.md` ‚Tage als Kästen‘ (Bezeichnung halbfett, Emojis so groß wie im Wert, R-6.5); `tests/README.md`
   mit den Zeilen für `ablauf-einstellen`, `ablauf-jahre`, `ablauf-leer`, `ablauf-glas`, `ablauf-schicht-oben`.
-- **Prüfungen:** neu `tests/ablauf-fremdtext.mjs` (iPad quer, iPhone hoch; Chromium und WebKit grün, gegen 3.56.2 rot).
+- **AppDesign APD-133 – nach dem Drehen steht der Inhalt am Ende** (`ui.js`, R-8.1; Sitzung 0119): kam das Ereignis `resize` später als die neue
+  Fenstergröße, stand nach dem Drehen das Ende des Reiselogbuchs im Bild statt des obersten Tags (gemessen nur im WebKit der Prüfumgebung unter Last,
+  am Gerät nie gemeldet). Jetzt bleibt der oberste Tag (AppDesign `arbeit/APD-133 Befund Drehen.md`, APD-133/B-1 bis B-6).
+- **Prüfungen:** neu `tests/ablauf-fremdtext.mjs` (iPad quer, iPhone hoch; Chromium und WebKit grün, gegen 3.56.2 rot) und
+  `tests/ablauf-drehen-luecke.mjs` (iPad hoch, Drehen mit Lücke; Chromium und WebKit grün, gegen AppDesign 4.59.2 rot).
 
 Testfälle P-106 (Schritt für Schritt, Zusammenarbeit allgemein 3.14.1). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
 **App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.

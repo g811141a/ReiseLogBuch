@@ -50,7 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
-| 3.56.3 | **Korrektur (AppDesign APD-54, APD-85 Teil 6, APD-131):** fremder Text in der Schnellauswahl der Smileys wird bereinigt, `normalize` nimmt dort nur Emoji-Schlüssel; 8 Prüfungen mit langem Drücken warten auf die Endlage; `PROMPT.md` und `tests/README.md` nachgeführt; neu `tests/ablauf-fremdtext.mjs` | 3.56.3 | 15.11.2026 |
+| 3.56.3 | **Korrektur (AppDesign APD-54, APD-85 Teil 6, APD-131, APD-133 – nach dem Drehen bleibt der oberste Tag auch bei spätem `resize`):** fremder Text in der Schnellauswahl der Smileys wird bereinigt, `normalize` nimmt dort nur Emoji-Schlüssel; 8 Prüfungen mit langem Drücken warten auf die Endlage; `PROMPT.md` und `tests/README.md` nachgeführt; neu `tests/ablauf-fremdtext.mjs` | 3.56.3 | 15.11.2026 |
 | P-105 | **Usertest P-105 (3.56.2, AppDesign 4.59.2):** alles ok (Nutzer 15.11.2026, Sitzung 0115) | 3.56.2 | 15.11.2026 |
 | 3.56.2 | **Korrektur: iPhone – Bild springt nach dem Zurückdrehen nach oben** (AppDesign APD-129 Teil 2, R-8.1, R-4.6); Prüfung `ablauf-drehen-iphone` APD-129/M-10 bis M-16; Usertest P-105 | 3.56.2 | 14.11.2026 |
 | P-104 | **Usertest P-104 (3.56.1, AppDesign 4.59.1):** /0 und /4 ok; /1, /2, /3 nicht ok (Nutzer 14.11.2026, Sitzung 0113) – korrigiert in 3.56.2, erneut im Usertest P-105 | 3.56.2 | 14.11.2026 |
