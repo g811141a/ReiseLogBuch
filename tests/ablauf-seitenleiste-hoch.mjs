@@ -24,6 +24,15 @@ const start = async p => {
   await p.reload(); await p.waitForTimeout(400); await navFertig(p);
 };
 // Lage: Seitenleiste fest (neben dem Inhalt, ohne Abdunkelung), Breite des Inhalts, Tabelle oder Kästen, oberster Tag im Rollbereich
+// seit 3.56.3 (AppDesign APD-85 Teil 6): nach dem Drehen auf den obersten Tag warten (höchstens 3 s) statt nur einer festen Pause – unter Last
+// stand er in WebKit nach 600 ms noch nicht fest (Wackler); bleibt er aus, meldet die Prüfung es wie bisher
+const lageDa = async p => { let l = await lage(p); for (let i = 0; i < 30 && l.oben == null; i++) { await p.waitForTimeout(100); l = await lage(p); }
+  if (l.oben == null) console.log('  Zustand ohne obersten Tag: ' + await p.evaluate(() => { const a = document.querySelector('#app'), r = document.querySelector('#app > .rolle'), d = [...a.querySelectorAll('[data-day]')];
+    const th = a.querySelector('table thead th'), bar = document.querySelector('#bar');
+    return JSON.stringify({ tage: d.length, sichtbar: d.filter(x => x.getClientRects().length).length, ersterUnten: d[0] ? Math.round(d[0].getBoundingClientRect().bottom) : null, letzterUnten: d.length ? Math.round(d.at(-1).getBoundingClientRect().bottom) : null,
+      roll: r ? [Math.round(r.scrollTop), r.scrollHeight, r.clientHeight] : null, scrollY: Math.round(scrollY), leiste: bar ? Math.round(bar.getBoundingClientRect().bottom) : null, kopf: th ? [getComputedStyle(th).position, Math.round(th.getBoundingClientRect().bottom)] : null,
+      fenster: [innerWidth, innerHeight], klassen: document.documentElement.className, titel: document.querySelector('.nb-title')?.textContent }); }));
+  return l; };
 const lage = p => p.evaluate(() => {
   const s = document.querySelector('#side'), a = document.querySelector('#app'), sr = s && !s.hidden && s.getClientRects().length ? s.getBoundingClientRect() : null;
   const edge = document.querySelector('#bar')?.getBoundingClientRect().bottom ?? 0;
@@ -69,10 +78,10 @@ for (const theme of ['light', 'dark']) {
   // L-6, D-5: drehen hoch → quer → hoch mit Zwischengrößen – Leiste bleibt, quer Tabelle, oben bleibt derselbe Tag
   const vp = p.viewportSize();
   await t.schritt(p, 'L-6 drehen nach quer', async () => { await p.setViewportSize({ width: 1000, height: 1000 }); await p.waitForTimeout(80); await p.setViewportSize({ width: vp.height, height: vp.width }); await p.waitForTimeout(600); });
-  l = await lage(p);
+  l = await lageDa(p);
   t.ist('APD-97/L-6, D-5 quer: Leiste fest, Tabelle, oberster Tag bleibt', [l.fest, l.tabelle, l.oben], [true, true, vor], 'R-8.1');
   await t.schritt(p, 'L-6 drehen nach hoch', async () => { await p.setViewportSize(vp); await p.waitForTimeout(600); });
-  l = await lage(p);
+  l = await lageDa(p);
   t.ist('APD-97/L-6, D-5 hoch: Leiste fest, Kästen, oberster Tag bleibt', [l.fest, l.tabelle, l.oben], [true, false, vor], 'R-8.1');
   // L-6 ausgeblendet: Zustand bleibt beim Drehen
   await p.locator('#sideHide').click(); await p.waitForTimeout(700); await navFertig(p);
