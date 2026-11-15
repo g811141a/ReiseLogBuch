@@ -22,8 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| AppDesign APD-85 | 1 | **Teil 6 – Wackler WebKit:** die 8 Prüfungen mit langem Drücken (`ablauf-seitenleiste-position`, `ablauf-seitenleiste-hoch`, `ablauf-seitenleiste-kontextmenue`, `ablauf-einstellen`, `ablauf-iphone`, `ablauf-markierung-menues`, `ablauf-messung`, `ablauf-texte-ablaeufe`) warten mit `langDruecken` auf die Endlage statt einer festen Pause (AppDesign `arbeit/APD-85 Teil 6 Befund und Testfall-Liste.md`); nur Prüfungen | allgemein | 15.11.2026 |
 
-0 Punkte bereit.
+1 Punkt bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
