@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 14.11.2026** · Aktuelle Version: Reiselogbuch 3.56.2 · AppDesign 4.59.2
+**Stand 15.11.2026** · Aktuelle Version: Reiselogbuch 3.56.2 · AppDesign 4.59.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,7 +29,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-105 | 1 | **Usertest P-105 (3.56.2, AppDesign 4.59.2):** AppDesign APD-129 Teil 2 – iPhone vom Home-Bildschirm, kein Sprung nach dem Zurückdrehen; Testfälle P-105/0 bis P-105/4 im CHANGELOG 3.56.2 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -49,6 +48,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-105 | **Usertest P-105 (3.56.2, AppDesign 4.59.2):** alles ok (Nutzer 15.11.2026, Sitzung 0115) | 3.56.2 | 15.11.2026 |
 | 3.56.2 | **Korrektur: iPhone – Bild springt nach dem Zurückdrehen nach oben** (AppDesign APD-129 Teil 2, R-8.1, R-4.6); Prüfung `ablauf-drehen-iphone` APD-129/M-10 bis M-16; Usertest P-105 | 3.56.2 | 14.11.2026 |
 | P-104 | **Usertest P-104 (3.56.1, AppDesign 4.59.1):** /0 und /4 ok; /1, /2, /3 nicht ok (Nutzer 14.11.2026, Sitzung 0113) – korrigiert in 3.56.2, erneut im Usertest P-105 | 3.56.2 | 14.11.2026 |
 | 3.56.1 | **Korrektur: iPhone – App rutscht nach dem Drehen nach unten** (AppDesign APD-129, R-8.1); Prüfung `ablauf-drehen-iphone`; Usertest P-104 | 3.56.1 | 14.11.2026 |
