@@ -3,8 +3,9 @@
 // das Fenster ebenso; ‚Neues Reiselogbuch‘ bleibt (Abweichung 4 der App-Richtlinie). RLB-113/E-1 bis RLB-113/E-6; RLB-113/E-7 (Gegenprobe) = gegen 3.43.0
 // mit PRUEF_APP=../_alt.html. Aufruf im Repo-Ordner: node tests/ablauf-einstellen.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.59.2/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.3/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.3/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.59.3/tests/ablauf.mjs';
 const t = pruefung('ablauf-einstellen', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const NAME = 'Reiselogbuch einstellen';
@@ -29,7 +30,7 @@ const titelFrei = (p, gross) => p.evaluate(gross => { const h = document.querySe
   return zwischen && (ganz || (c.textOverflow === 'ellipsis' && w <= h.clientWidth)); }, gross);
 const menueFrei = p => p.evaluate(() => [...document.querySelectorAll('.menu .mi')].every(m => { const r = m.getBoundingClientRect(), mr = m.closest('.menu').getBoundingClientRect();
   return m.scrollWidth <= m.clientWidth + 1 && r.left >= mr.left - 1 && r.right <= mr.right + 1; }));
-const lang = async (p, sel) => { await p.locator(sel).scrollIntoViewIfNeeded(); await p.waitForTimeout(150); const bx = await p.locator(sel).boundingBox(); await p.mouse.move(bx.x + 40, bx.y + 20); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up(); await p.waitForTimeout(200); };
+const lang = async (p, sel) => { await p.locator(sel).scrollIntoViewIfNeeded(); await p.waitForTimeout(150); const m = await langDruecken(p, sel, { offen: '.menu' }); if (m) throw new Error(m); };   // seit 3.56.3 (AppDesign APD-85 Teil 6): Warten auf die Endlage statt fester Pause
 const zu = async p => { await p.click('#dlgX'); await p.waitForTimeout(300); await navFertig(p); };
 
 const b = await t.browser();

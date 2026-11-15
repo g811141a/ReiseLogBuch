@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 15.11.2026** · Aktuelle Version: Reiselogbuch 3.56.2 · AppDesign 4.59.2
+**Stand 15.11.2026** · Aktuelle Version: Reiselogbuch 3.56.3 · AppDesign 4.59.3
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -22,17 +22,15 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| AppDesign APD-85 | 1 | **Teil 6 – Wackler WebKit:** die 8 Prüfungen mit langem Drücken (`ablauf-seitenleiste-position`, `ablauf-seitenleiste-hoch`, `ablauf-seitenleiste-kontextmenue`, `ablauf-einstellen`, `ablauf-iphone`, `ablauf-markierung-menues`, `ablauf-messung`, `ablauf-texte-ablaeufe`) warten mit `langDruecken` auf die Endlage statt einer festen Pause (AppDesign `arbeit/APD-85 Teil 6 Befund und Testfall-Liste.md`); nur Prüfungen | allgemein | 15.11.2026 |
 | AppDesign APD-30 | 1 | **Wischaktionen der Kacheln:** Wischen nach links auf einer Kachel zeigt ‚Einstellen‘ und ‚Löschen‘ als Kapseln mit Wort (dieselben Aktionen wie das Kontextmenü), Durchwischen fragt mit der Sprechblase; jede Sprechblase graut die Umgebung ein und sperrt sie – daneben tippen ändert nichts (AppDesign `arbeit/APD-30 Wischaktionen Testfall-Liste.md`, `arbeit/APD-30 Wischaktionen Wortlaut.md`, Nutzer 15.11.2026, Sitzung 0117); neu `tests/ablauf-wischen.mjs` | allgemein | 15.11.2026 |
-| AppDesign APD-131 | 2 | **Reste aus 0106 – Texte nachführen:** `PROMPT.md` ‚Tage als Kästen‘ – Text der Bezeichnungen halbfett, Emojis so groß wie im Wert und in einer Zeile (AppDesign R-6.5); `tests/README.md` mit den Zeilen für `ablauf-einstellen`, `ablauf-jahre`, `ablauf-leer`, `ablauf-glas`, `ablauf-schicht-oben` (AppDesign `arbeit/APD-131 Reste aus 0106 Wortlaut.md`, Nutzer 15.11.2026, Sitzung 0118); nur Texte | allgemein | 15.11.2026 |
-| AppDesign APD-54 | 3 | **Fremden Text bereinigen:** Smileys der Schnellauswahl werden in der Smiley-Leiste und in der Sprechblase ‚… aus der Schnellauswahl entfernen?‘ bereinigt (`esc()`); `normalize` übernimmt aus `moodUsage`, `foodUsage`, `hiddenMoods`, `hiddenFood` nur Schlüssel aus Emojis (Backup laden, Abgleich); neu `tests/ablauf-fremdtext.mjs`, darin auch fremder Text in jedem Textfeld und jeder Ansicht (AppDesign `arbeit/APD-54 Befund und Testfall-Liste.md`, Nutzer 15.11.2026, Sitzung 0118) | Reiselogbuch | 15.11.2026 |
 
-4 Punkte bereit.
+1 Punkt bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-106 | 1 | **Usertest P-106 (3.56.3, AppDesign 4.59.3):** Version prüfen (P-106/0), Smileys der Schnellauswahl sind noch da (P-106/1) – Testfälle im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -52,6 +50,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| 3.56.3 | **Korrektur (AppDesign APD-54, APD-85 Teil 6, APD-131, APD-133 – nach dem Drehen bleibt der oberste Tag auch bei spätem `resize`):** fremder Text in der Schnellauswahl der Smileys wird bereinigt, `normalize` nimmt dort nur Emoji-Schlüssel; 8 Prüfungen mit langem Drücken warten auf die Endlage; `PROMPT.md` und `tests/README.md` nachgeführt; neu `tests/ablauf-fremdtext.mjs` | 3.56.3 | 15.11.2026 |
 | P-105 | **Usertest P-105 (3.56.2, AppDesign 4.59.2):** alles ok (Nutzer 15.11.2026, Sitzung 0115) | 3.56.2 | 15.11.2026 |
 | 3.56.2 | **Korrektur: iPhone – Bild springt nach dem Zurückdrehen nach oben** (AppDesign APD-129 Teil 2, R-8.1, R-4.6); Prüfung `ablauf-drehen-iphone` APD-129/M-10 bis M-16; Usertest P-105 | 3.56.2 | 14.11.2026 |
 | P-104 | **Usertest P-104 (3.56.1, AppDesign 4.59.1):** /0 und /4 ok; /1, /2, /3 nicht ok (Nutzer 14.11.2026, Sitzung 0113) – korrigiert in 3.56.2, erneut im Usertest P-105 | 3.56.2 | 14.11.2026 |

@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 14.11.2026, Version 3.56.2)
+# Reiselogbuch – Funktionsbeschreibung (Stand 15.11.2026, Version 3.56.3)
 
-Reiselogbuch 3.56.2 · AppDesign 4.59.2 (Designrichtlinie allgemein 4.59.2) · Designrichtlinie Reiselogbuch 3.56.2 · Zusammenarbeit allgemein 3.13.1
+Reiselogbuch 3.56.3 · AppDesign 4.59.3 (Designrichtlinie allgemein 4.59.3) · Designrichtlinie Reiselogbuch 3.56.3 · Zusammenarbeit allgemein 3.14.1
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -145,8 +145,8 @@ wie am iPad (R-1.1):
   Reisetitel steht in der Mitte der Leiste. Darunter ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ – der Wert jeweils in der
   nächsten Zeile, die Reisemittel in einer Zeile, bei Bedarf seitlich wischen (Verlauf und kleiner Pfeil am Rand, R-5.4); dann die Fortschrittsanzeige.
 - **Tage als Kästen:** Kopf ‚Mo, 24.08.‘ mit ‚heute‘/‚fehlt‘ und Wetter rechts (leer: blasse Platzhalter); Felder ‚Verlauf‘ (als
-  Wort), dann die Spalten-Emojis 🙂☹️😉 · 🚶🏽‍♂️ km · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt; seit 3.42.1 (AppDesign R-6.5)
-  Text der Bezeichnungen normal in Textgröße und Textfarbe, Emojis klein, mittig zur ersten Zeile des Werts;
+  Wort), dann die Spalten-Emojis 🙂☹️😉 · 🚶🏽‍♂️ km · 🍽️🍷☕️ · 😴💤 – nur sichtbare Spalten und nur mit Inhalt; Text der Bezeichnungen halbfett in Textgröße und Textfarbe,
+  Emojis so groß wie im Wert und in einer Zeile, mittig zur ersten Zeile des Werts (AppDesign R-6.5);
   Linien wie im Kasten mit Feldern (R-6.1). Startposition wie am iPad (4), direkt unter der Leiste; der angetippte Kasten
   bleibt blau, solange die Tageserfassung offen ist.
 - Darunter Fazit (volle Breite), Gesamtausgaben, Quartierliste als Liste (Quartier mit Maps-Link, darunter ‚24.08. - 25.08.2026 ·

@@ -10,9 +10,9 @@
 // zurück (iPad quer und hoch, hell und dunkel, Drehen beim Wachsen), iPhone hoch und quer, ‚Bewegung reduzieren‘ nur Überblenden. Dazu APD-38/T-37
 // (R-3.9, APD-62/L-1, L-2, L-4, L-5, L-10): Menü aus Glas, schon beim Wachsen, mit ‚Transparenz reduzieren‘ deckend (nur Chromium bildet es nach).
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.2/tests/pruefe.mjs';
-import { createCheck, checkGlas } from '../../AppDesign/fassung/4.59.2/tests/hig.mjs';
-import { checkMehrKnopf, checkWachsen } from '../../AppDesign/fassung/4.59.2/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.3/tests/pruefe.mjs';
+import { createCheck, checkGlas } from '../../AppDesign/fassung/4.59.3/tests/hig.mjs';
+import { langDruecken, checkMehrKnopf, checkWachsen } from '../../AppDesign/fassung/4.59.3/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -55,7 +55,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   await p.mouse.click(w - 20, h - 20); await p.waitForTimeout(150);
   await t.schritt(p, 'Kontextmenü Toskana → Reiselogbuch einstellen', async () => {
     const bx = await row('Toskana').boundingBox();
-    await p.mouse.move(bx.x + 40, bx.y + 20); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up(); await p.waitForTimeout(150);
+    { const m = await langDruecken(p, { x: bx.x + 40, y: bx.y + 20 }, { offen: '.menu' }); if (m) throw new Error(m); }   // seit 3.56.3 (AppDesign APD-85 Teil 6): Warten auf die Endlage statt fester Pause
     await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); await p.waitForTimeout(300);
   });
   t.ist('Kachel blau, solange ihr Fenster offen ist', await on(row('Toskana')), true, 'R-3.3');

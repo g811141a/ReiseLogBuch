@@ -3,9 +3,9 @@
 // Blättern, Kontextmenü, Löschen zurück zur Startliste, neues Reiselogbuch, Wechsel iPhone ↔ iPad. Hell und dunkel.
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.59.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.59.2/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.59.2/tests/ablauf.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.59.3/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.3/tests/hig.mjs';
+import { langDruecken, sucheAuf } from '../../AppDesign/fassung/4.59.3/tests/ablauf.mjs';
 const t = pruefung('ablauf-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const OUT = new URL('./out/', import.meta.url).pathname;
@@ -114,7 +114,7 @@ check(!(await p.evaluate(() => document.documentElement.classList.contains('lock
 await p.screenshot({ path: SHOT('iphone-2-startliste.png') });
 const row = p.locator('.side-row', { hasText: 'Toskana' });
 const rb = await row.boundingBox();
-await p.mouse.move(rb.x + 40, rb.y + 20); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); await p.waitForTimeout(150);
+{ const m = await langDruecken(p, { x: rb.x + 40, y: rb.y + 20 }, { ms: 700, offen: '.menu' }); check(!m, m); }   // seit 3.56.3 (AppDesign APD-85 Teil 6): Warten auf die Endlage statt fester Pause
 check(await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).count() === 1, 'Kontextmenü fehlt');
 await G('Kontextmenü Toskana');
 await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); await p.waitForTimeout(300);

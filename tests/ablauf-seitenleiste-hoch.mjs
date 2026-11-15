@@ -4,8 +4,9 @@
 // ablauf-liste-still, Suche D-7 ablauf-suche-menue, große Schrift D-9 text-regeln, Statistik D-11 ablauf-preis-km). R-6.6, R-7.5, R-8.1;
 // hig prüft R-6.6 nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-hoch.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.59.2/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.59.3/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.59.3/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.59.3/tests/ablauf.mjs';
 const t = pruefung('ablauf-seitenleiste-hoch', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 const tage = {}; for (let i = 0; i < 30; i++) tage[new Date(Date.UTC(2026, 7, 1 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + (i >> 2), place: 'Cairns', km: i % 5 };
 const lang = 'Wanderung über den Kamm mit Blick auf das Meer und einem sehr langen Wort Donaudampfschifffahrtsgesellschaftskapitänsmütze '.repeat(3);
@@ -23,6 +24,15 @@ const start = async p => {
   await p.reload(); await p.waitForTimeout(400); await navFertig(p);
 };
 // Lage: Seitenleiste fest (neben dem Inhalt, ohne Abdunkelung), Breite des Inhalts, Tabelle oder Kästen, oberster Tag im Rollbereich
+// seit 3.56.3 (AppDesign APD-85 Teil 6): nach dem Drehen auf den obersten Tag warten (höchstens 3 s) statt nur einer festen Pause – unter Last
+// stand er in WebKit nach 600 ms noch nicht fest (Wackler); bleibt er aus, meldet die Prüfung es wie bisher
+const lageDa = async p => { let l = await lage(p); for (let i = 0; i < 30 && l.oben == null; i++) { await p.waitForTimeout(100); l = await lage(p); }
+  if (l.oben == null) console.log('  Zustand ohne obersten Tag: ' + await p.evaluate(() => { const a = document.querySelector('#app'), r = document.querySelector('#app > .rolle'), d = [...a.querySelectorAll('[data-day]')];
+    const th = a.querySelector('table thead th'), bar = document.querySelector('#bar');
+    return JSON.stringify({ tage: d.length, sichtbar: d.filter(x => x.getClientRects().length).length, ersterUnten: d[0] ? Math.round(d[0].getBoundingClientRect().bottom) : null, letzterUnten: d.length ? Math.round(d.at(-1).getBoundingClientRect().bottom) : null,
+      roll: r ? [Math.round(r.scrollTop), r.scrollHeight, r.clientHeight] : null, scrollY: Math.round(scrollY), leiste: bar ? Math.round(bar.getBoundingClientRect().bottom) : null, kopf: th ? [getComputedStyle(th).position, Math.round(th.getBoundingClientRect().bottom)] : null,
+      fenster: [innerWidth, innerHeight], klassen: document.documentElement.className, titel: document.querySelector('.nb-title')?.textContent }); }));
+  return l; };
 const lage = p => p.evaluate(() => {
   const s = document.querySelector('#side'), a = document.querySelector('#app'), sr = s && !s.hidden && s.getClientRects().length ? s.getBoundingClientRect() : null;
   const edge = document.querySelector('#bar')?.getBoundingClientRect().bottom ?? 0;
@@ -68,10 +78,10 @@ for (const theme of ['light', 'dark']) {
   // L-6, D-5: drehen hoch → quer → hoch mit Zwischengrößen – Leiste bleibt, quer Tabelle, oben bleibt derselbe Tag
   const vp = p.viewportSize();
   await t.schritt(p, 'L-6 drehen nach quer', async () => { await p.setViewportSize({ width: 1000, height: 1000 }); await p.waitForTimeout(80); await p.setViewportSize({ width: vp.height, height: vp.width }); await p.waitForTimeout(600); });
-  l = await lage(p);
+  l = await lageDa(p);
   t.ist('APD-97/L-6, D-5 quer: Leiste fest, Tabelle, oberster Tag bleibt', [l.fest, l.tabelle, l.oben], [true, true, vor], 'R-8.1');
   await t.schritt(p, 'L-6 drehen nach hoch', async () => { await p.setViewportSize(vp); await p.waitForTimeout(600); });
-  l = await lage(p);
+  l = await lageDa(p);
   t.ist('APD-97/L-6, D-5 hoch: Leiste fest, Kästen, oberster Tag bleibt', [l.fest, l.tabelle, l.oben], [true, false, vor], 'R-8.1');
   // L-6 ausgeblendet: Zustand bleibt beim Drehen
   await p.locator('#sideHide').click(); await p.waitForTimeout(700); await navFertig(p);
@@ -88,7 +98,7 @@ for (const theme of ['light', 'dark']) {
   }
   // L-8: lange drücken auf eine Kachel – Kontextmenü rechts daneben, ganz sichtbar
   { const r = await p.locator('#side .side-row[data-id="b"]').boundingBox();
-    await p.mouse.move(r.x + r.width / 2, r.y + r.height / 2); await p.mouse.down(); await p.waitForTimeout(800); await p.mouse.up(); await p.waitForTimeout(300);
+    { const m = await langDruecken(p, { x: r.x + r.width / 2, y: r.y + r.height / 2 }, { ms: 800, offen: '.menu' }); if (m) t.fehler('R-4.2', m, 'L-8 Kontextmenü'); }   // seit 3.56.3 (AppDesign APD-85 Teil 6): Warten auf die Endlage statt fester Pause
     await t.schritt(p, 'L-8 Kontextmenü', async () => {});
     t.ist('APD-97/L-8 Kontextmenü rechts an der Kachel (wie quer), ganz sichtbar', await p.evaluate(x => { const m = document.querySelector('.menu')?.getBoundingClientRect(); return !!m && m.left >= x && m.right <= innerWidth && m.bottom <= innerHeight; }, r.x + r.width / 2), true, 'R-4.2');   // wie quer: rechts, leicht über der Kachel
     await p.keyboard.press('Escape'); await p.waitForTimeout(200); }

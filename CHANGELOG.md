@@ -13,6 +13,44 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.56.3 – 15.11.2026
+
+Reiselogbuch 3.56.3 · AppDesign 4.59.3 (Designrichtlinie allgemein 4.59.3) · Designrichtlinie Reiselogbuch 3.56.3 · Zusammenarbeit allgemein 3.14.1
+
+**Korrektur: fremder Text bleibt Text, Prüfungen ohne Wackler, Texte nachgeführt** (AppDesign APD-54, APD-85 Teil 6, APD-131, APD-133; Sitzungen 0118 und 0119). Aussehen und
+Bedienung bleiben gleich.
+
+- **AppDesign APD-54 – fremden Text bereinigen** (`AppDesign/arbeit/APD-54 Befund und Testfall-Liste.md`, APD-54/T-1 bis T-10): die Smileys der
+  Schnellauswahl kamen ohne Bereinigung in die Smiley-Leiste und in die Sprechblase ‚… aus der Schnellauswahl entfernen?‘. Beim Tippen entstehen dort nur
+  Emojis; über ‚Backup laden‘ und den Abgleich konnte aber beliebiger Text hineinkommen. Jetzt werden beide Stellen bereinigt (`esc()`), und `normalize`
+  übernimmt aus `moodUsage`, `foodUsage`, `hiddenMoods` und `hiddenFood` nur Schlüssel, die genau ein Emoji sind – auch zusammengesetzte (🚶🏽‍♂️, ☹️).
+  In allen anderen Ansichten (Liste, Reiselogbuch, Suche, Tageserfassung, Einstellen, Fazit, Vorschau) fand die neue Prüfung keine Lücke.
+- **Warum die Prüfung es übersah:** es gab keine Prüfung mit fremdem Text in der Schnellauswahl; nur die Tabelle wurde geprüft (RLB-121/M-12).
+- **AppDesign APD-85 Teil 6 – Wackler in WebKit:** die 8 Prüfungen mit langem Drücken (`ablauf-seitenleiste-position`, `ablauf-seitenleiste-hoch`,
+  `ablauf-seitenleiste-kontextmenue`, `ablauf-einstellen`, `ablauf-iphone`, `ablauf-markierung-menues`, `ablauf-messung`, `ablauf-texte-ablaeufe`) warten
+  mit `langDruecken` auf die Endlage statt einer festen Pause. In `ablauf-markierung-menues` bleibt das lange Drücken für `checkWachsen` ohne Warten –
+  dort wird das Wachsen selbst gemessen.
+- **AppDesign APD-131 – Texte nachgeführt:** `PROMPT.md` ‚Tage als Kästen‘ (Bezeichnung halbfett, Emojis so groß wie im Wert, R-6.5); `tests/README.md`
+  mit den Zeilen für `ablauf-einstellen`, `ablauf-jahre`, `ablauf-leer`, `ablauf-glas`, `ablauf-schicht-oben`.
+- **AppDesign APD-133 – nach dem Drehen steht der Inhalt am Ende** (`ui.js`, R-8.1; Sitzung 0119): kam das Ereignis `resize` später als die neue
+  Fenstergröße, stand nach dem Drehen das Ende des Reiselogbuchs im Bild statt des obersten Tags (gemessen nur im WebKit der Prüfumgebung unter Last,
+  am Gerät nie gemeldet). Jetzt bleibt der oberste Tag (AppDesign `arbeit/APD-133 Befund Drehen.md`, APD-133/B-1 bis B-6).
+- **Prüfungen:** neu `tests/ablauf-fremdtext.mjs` (iPad quer, iPhone hoch; Chromium und WebKit grün, gegen 3.56.2 rot) und
+  `tests/ablauf-drehen-luecke.mjs` (iPad hoch, Drehen mit Lücke; Chromium und WebKit grün, gegen AppDesign 4.59.2 rot).
+
+Testfälle P-106 (Schritt für Schritt, Zusammenarbeit allgemein 3.14.1). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-106/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.56.3 · erstellt am … · AppDesign 4.59.3‘.
+
+**P-106/1 – Smileys der Schnellauswahl sind noch da**
+1. iPhone oder iPad: ein Reiselogbuch öffnen und einen Tag antippen (Tageserfassung).
+2. Die Smiley-Leisten unter ‚Verlauf‘ und unter dem Essen ansehen. Erwartet: dieselben Smileys wie vor der neuen Version, deine häufigsten zuerst.
+3. Einen Smiley antippen. Erwartet: er steht im Textfeld.
+
 ## 3.56.2 – 14.11.2026
 
 Reiselogbuch 3.56.2 · AppDesign 4.59.2 (Designrichtlinie allgemein 4.59.2) · Designrichtlinie Reiselogbuch 3.56.2 · Zusammenarbeit allgemein 3.13.1

@@ -2,8 +2,8 @@
 // R-4.12 erst fragen, dann zerstören (APD-40/C-5, C-6), R-5.10 automatisch speichern (APD-40/C-1 bis C-4) – iPad quer und iPhone hoch, hell. Eigene
 // Prüfung, damit jede Gegenprobe (node tests/alle.mjs --gegenprobe masse) genau hier rot wird.
 import * as pw from 'playwright';
-import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.59.2/tests/pruefe.mjs';
-import { checkMenueFenster, checkAutoSpeichern, checkErstFragen } from '../../AppDesign/fassung/4.59.2/tests/ablauf.mjs';
+import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.59.3/tests/pruefe.mjs';
+import { langDruecken, checkMenueFenster, checkAutoSpeichern, checkErstFragen } from '../../AppDesign/fassung/4.59.3/tests/ablauf.mjs';
 const t = pruefung('ablauf-texte-ablaeufe', pw, { out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: 'Programm ' + i }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }];
@@ -21,7 +21,7 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     // (APD-40/C-5, C-6) – Mehr-Menü, Teilen-Menü, am iPad Mehr-Menü und Kontextmenü der Seitenleiste, Fenster Tag (Smileys zurücksetzen)
     if (w < 700 && await p.evaluate(() => phoneList)) { await p.locator('.irow, .side-row', { hasText: 'Australien' }).first().click(); await p.waitForTimeout(300); await navFertig(p); }
     const ipad = w >= 700, kontext = async () => { const r = await p.locator('#side .side-row').first().boundingBox();
-      await p.mouse.move(r.x + 40, r.y + r.height / 2); await p.mouse.down(); await p.waitForTimeout(700); await p.mouse.up(); await p.waitForTimeout(300); };
+      const m = await langDruecken(p, { x: r.x + 40, y: r.y + r.height / 2 }, { ms: 700, offen: '.menu' }); if (m) throw new Error(m); };   // seit 3.56.3 (AppDesign APD-85 Teil 6): Warten auf die Endlage statt fester Pause
     t.liste(await checkMenueFenster(p, { where, menues: ['#mainMore', '#shareBtn', ...(ipad ? ['#sideMore'] : [])], ohne: ['HTML', 'PDF', 'Suchen', 'Backup', 'Abgleich'] }));
     t.liste(await checkErstFragen(p, { where, key: 'reiselogbuch.v1', menues: ['#mainMore', ...(ipad ? [kontext] : [])],
       zustaende: [{ name: 'Fenster Tag', open: () => p.evaluate(() => openDayDialog(db.trips[0], '2026-08-25')) }] }));
