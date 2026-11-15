@@ -23,8 +23,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
 | AppDesign APD-85 | 1 | **Teil 6 – Wackler WebKit:** die 8 Prüfungen mit langem Drücken (`ablauf-seitenleiste-position`, `ablauf-seitenleiste-hoch`, `ablauf-seitenleiste-kontextmenue`, `ablauf-einstellen`, `ablauf-iphone`, `ablauf-markierung-menues`, `ablauf-messung`, `ablauf-texte-ablaeufe`) warten mit `langDruecken` auf die Endlage statt einer festen Pause (AppDesign `arbeit/APD-85 Teil 6 Befund und Testfall-Liste.md`); nur Prüfungen | allgemein | 15.11.2026 |
+| AppDesign APD-30 | 1 | **Wischaktionen der Kacheln:** Wischen nach links auf einer Kachel zeigt ‚Einstellen‘ und ‚Löschen‘ als Kapseln mit Wort (dieselben Aktionen wie das Kontextmenü), Durchwischen fragt mit der Sprechblase; jede Sprechblase graut die Umgebung ein und sperrt sie – daneben tippen ändert nichts (AppDesign `arbeit/APD-30 Wischaktionen Testfall-Liste.md`, `arbeit/APD-30 Wischaktionen Wortlaut.md`, Nutzer 15.11.2026, Sitzung 0117); neu `tests/ablauf-wischen.mjs` | allgemein | 15.11.2026 |
 
-1 Punkt bereit.
+2 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
