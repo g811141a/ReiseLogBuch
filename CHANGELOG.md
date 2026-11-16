@@ -48,8 +48,8 @@ Testfälle P-106 (Schritt für Schritt, Zusammenarbeit allgemein 3.14.1). Link: 
 
 **P-106/1 – Smileys der Schnellauswahl sind noch da**
 1. iPhone oder iPad: ein Reiselogbuch öffnen und einen Tag antippen (Tageserfassung).
-2. Die Smiley-Leisten unter ‚Verlauf‘ und unter dem Essen ansehen. Erwartet: dieselben Smileys wie vor der neuen Version, deine häufigsten zuerst.
-3. Einen Smiley antippen. Erwartet: er steht im Textfeld.
+2. Die Smiley-Leisten unter ‚Wie war was?‘ und unter ‚Essen und Trinken‘ ansehen. Erwartet: dieselben Smileys wie vor der neuen Version, deine häufigsten zuerst.
+3. Einen Smiley antippen. Erwartet: er steht im Textfeld darunter.
 
 ## 3.56.2 – 14.11.2026
 
