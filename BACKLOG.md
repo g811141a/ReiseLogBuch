@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 15.11.2026** · Aktuelle Version: Reiselogbuch 3.56.3 · AppDesign 4.59.3
+**Stand 16.11.2026** · Aktuelle Version: Reiselogbuch 3.56.3 · AppDesign 4.59.3
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -30,7 +30,6 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-106 | 1 | **Usertest P-106 (3.56.3, AppDesign 4.59.3):** Version prüfen (P-106/0), Smileys der Schnellauswahl sind noch da (P-106/1) – Testfälle im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -50,6 +49,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-106 | **Usertest P-106 (3.56.3, AppDesign 4.59.3):** alles ok; Testfall P-106/1 berichtigt (Nutzer 16.11.2026, Sitzung 0119) | 3.56.3 | 16.11.2026 |
 | 3.56.3 | **Korrektur (AppDesign APD-54, APD-85 Teil 6, APD-131, APD-133 – nach dem Drehen bleibt der oberste Tag auch bei spätem `resize`):** fremder Text in der Schnellauswahl der Smileys wird bereinigt, `normalize` nimmt dort nur Emoji-Schlüssel; 8 Prüfungen mit langem Drücken warten auf die Endlage; `PROMPT.md` und `tests/README.md` nachgeführt; neu `tests/ablauf-fremdtext.mjs` | 3.56.3 | 15.11.2026 |
 | P-105 | **Usertest P-105 (3.56.2, AppDesign 4.59.2):** alles ok (Nutzer 15.11.2026, Sitzung 0115) | 3.56.2 | 15.11.2026 |
 | 3.56.2 | **Korrektur: iPhone – Bild springt nach dem Zurückdrehen nach oben** (AppDesign APD-129 Teil 2, R-8.1, R-4.6); Prüfung `ablauf-drehen-iphone` APD-129/M-10 bis M-16; Usertest P-105 | 3.56.2 | 14.11.2026 |
