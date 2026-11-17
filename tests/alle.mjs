@@ -12,6 +12,7 @@
 // seit 3.54.0 ablauf-feld-rollen (AppDesign APD-115, R-4.5).
 // seit 3.55.0 ablauf-feld-cursor (AppDesign APD-126, R-5.11, R-5.2).
 // seit 3.56.3 ablauf-fremdtext (AppDesign APD-54) und ablauf-drehen-luecke (AppDesign APD-133, R-8.1).
+// seit 3.57.0 ablauf-wischen (AppDesign APD-30 und APD-136, R-7.8, R-1.13), nach Gerät geteilt (jeder Teil gut 3 min).
 import * as pw from 'playwright';
 import { lauf } from '../../AppDesign/fassung/4.60.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'ablauf-messung', 'tastatur',
@@ -33,7 +34,8 @@ const tests = ['doku-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-l
     // Seit 3.35.0 (APD-43 Teil 2 P1): hig zusätzlich in den Textgrößen xS, XXXL, AX2 und AX5 (alle vier Ansichten, mit Drehen)
     'Text 14': { PRUEF_DARSTELLUNG: 'light', PRUEF_TEXT: '14' }, 'Text 23': { PRUEF_DARSTELLUNG: 'dark', PRUEF_TEXT: '23' },
     'Text 33': { PRUEF_DARSTELLUNG: 'light', PRUEF_TEXT: '33' }, 'Text 53': { PRUEF_DARSTELLUNG: 'dark', PRUEF_TEXT: '53' } } },
-  { name: 'kontextmenue-regeln', teile: { iPad: { PRUEF_GERAET: 'iPad' }, iPhone: { PRUEF_GERAET: 'iPhone' } } }];
+  { name: 'kontextmenue-regeln', teile: { iPad: { PRUEF_GERAET: 'iPad' }, iPhone: { PRUEF_GERAET: 'iPhone' } } },
+  { name: 'ablauf-wischen', teile: { iPad: { PRUEF_GERAET: 'iPad' }, iPhone: { PRUEF_GERAET: 'iPhone' } } }];
 // Seit 3.35.0: Zeitgrenze je Test 600 s statt 300 – ablauf-blatt braucht allein schon 288 s (auch mit AppDesign 4.36.0 gemessen) und lief
 // unter Volllast in WebKit über die Grenze
 const argv = process.argv.slice(2), zeit = argv.includes('--zeit') ? [] : ['--zeit', '600'];

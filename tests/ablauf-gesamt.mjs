@@ -109,7 +109,10 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'Abbrechen', () => p.click('#dlg .pop button:has-text("Abbrechen")'));
   await S(p, 'Zurücksetzen', () => p.click('#moods .reset'));
   t.ist('Abfrage Zurücksetzen', await p.locator('#dlg .pop button').allTextContents(), ['Zurücksetzen', 'Abbrechen'], 'R-4.3');
-  await S(p, 'daneben tippen, Tag schließen', async () => { await p.click('#dlg .layer'); await p.click('#dlgX'); });
+  // seit 3.57.0 (AppDesign APD-30/V-7, R-1.4): daneben tippen ändert bei der Sprechblase nichts – sie bleibt offen, ‚Abbrechen‘ schließt sie
+  await S(p, 'daneben tippen ändert nichts', () => p.click('#dlg .layer'));
+  t.ist('Sprechblase bleibt nach dem Tipp daneben', await p.locator('#dlg .pop').count(), 1, 'R-1.4');
+  await S(p, 'Abbrechen, Tag schließen', async () => { await p.click('#dlg .pop button:has-text("Abbrechen")'); await p.click('#dlgX'); });
   t.ist('Tag ohne Änderung zu', await p.evaluate(() => !dlg.open), true, 'R-4.4');
   // Fazit, Teilen, Vorschau
   await S(p, 'Fazit', () => p.click('#fazit'));

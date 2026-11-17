@@ -1087,6 +1087,7 @@ const sideToggleHtml = () => sideVisible() && isWide() ? ''
 // Seit 3.28.0 (AppDesign APD-61): am iPad hoch gleitet die darübergelegte Seitenleiste herein und hinaus (navSeite);
 // seit 3.29.0 (AppDesign APD-68) auch quer – der Inhalt rückt mit und wird beim Einrasten schmaler.
 function toggleSide() {
+  if (sideOpen) wischen.schliessen();   // seit 3.57.0 (AppDesign APD-30, R-7.8): beim Ausblenden ist keine Kachel offen – das sieht die Bean nicht selbst
   if (sideOver() || sideFest()) return navSeite(!sideOpen);
   keepPlace(() => { sideOpen = !sideOpen; render(); });
 }
@@ -1155,7 +1156,7 @@ function renderSide() {
   markOpener();
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Reiselogbuch einstellen · Reiselogbuch löschen); die Köpfe (.side-sec) tun nichts.
   side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
-    () => tripContextMenu(b, getTrip(b.dataset.id)),
+    () => tripContextMenu(b),
     () => navVor(() => { if (!isWide()) sideOpen = false; if (isPhone()) rolle.to(0); showTrip(b.dataset.id, term ? listTerm : ''); })));
   bindListSearch();
   document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
@@ -1267,15 +1268,16 @@ function openMainMenu(anchor, trip) {
   ]);
 }
 
-// Kontextmenü eines Reiselogbuchs in der Seitenleiste (wie in Notizen, Mail, Dateien); ohne ‚Öffnen‘, weil Tippen öffnet.
-function tripContextMenu(row, trip) {
-  if (!trip) return;
-  openMenu(row, [
-    { icon: 'settings', label: 'Reiselogbuch einstellen', act: () => { setOpener(`#side .side-row[data-id="${trip.id}"]`); openTripDialog(trip); } },   // seit 3.44.0 (RLB-113)
-    'sep',
-    { icon: 'trash', label: 'Reiselogbuch löschen', red: true, act: () => { row.classList.add('on'); deleteTrip(trip, row); } },
-  ], 'beside');
-}
+// Aktionen eines Reiselogbuchs in der Seitenleiste – eine Liste für Kontextmenü und Wischaktionen (seit 3.57.0, AppDesign APD-30/D-1, APD-136):
+// kurz = Wort unter der Kapsel, label = Name im Menü und für VoiceOver. Beim Wischen bekommt act den Anker (rote Kapsel), die Sprechblase wächst
+// aus ihr; deleteTrip gibt ein Promise zurück – die Kachel bleibt offen, bis entschieden ist.
+const tripAktionen = row => { const trip = getTrip(row.dataset.id); if (!trip) return []; return [
+  { icon: 'settings', label: 'Reiselogbuch einstellen', kurz: 'Einstellen', act: () => { setOpener(`#side .side-row[data-id="${trip.id}"]`); openTripDialog(trip); } },   // seit 3.44.0 (RLB-113)
+  'sep',
+  { icon: 'trash', label: 'Reiselogbuch löschen', kurz: 'Löschen', red: true, act: w => { if (!w?.anker) row.classList.add('on'); return deleteTrip(trip, w?.anker || row); } },
+]; };
+// Kontextmenü (wie in Notizen, Mail, Dateien); ohne ‚Öffnen‘, weil Tippen öffnet.
+const tripContextMenu = row => { if (getTrip(row.dataset.id)) openMenu(row, tripAktionen(row), 'beside'); };
 
 async function deleteTrip(trip, anchor = app.querySelector('#mainMore')) {
   const yes = await confirmPop(anchor,
@@ -1322,6 +1324,8 @@ navAnmelden({
   },
   seite: { moeglich: sideOver, fest: sideFest, offen: () => sideOpen, zeigen: an => { sideOpen = an; renderSide(); }, neu: () => render() },
 });
+// Seit 3.57.0 (AppDesign APD-30, APD-136, R-7.8): Wischaktionen der Kacheln – dieselben Aktionen wie im Kontextmenü, einmal beim Start
+const wischen = createSwipeactions(side, { kacheln: '[data-id]', aktionen: tripAktionen });
 // Seit 3.41.0 (AppDesign APD-91, R-4.7): ⌘F sucht im offenen Reiselogbuch, ohne offenes (iPhone-Startliste) in allen; liegt am iPad hoch
 // die Seitenleiste über dem Reiselogbuch, in der Seitenleiste (nur sie ist bedienbar).
 sucheAnmelden(() => {
