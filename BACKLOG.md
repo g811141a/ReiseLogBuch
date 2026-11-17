@@ -22,14 +22,14 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| AppDesign APD-30 | 1 | **Wischaktionen der Kacheln:** Wischen nach links auf einer Kachel zeigt ‚Einstellen‘ und ‚Löschen‘ als Kapseln mit Wort (dieselben Aktionen wie das Kontextmenü), Durchwischen fragt mit der Sprechblase; jede Sprechblase graut die Umgebung ein und sperrt sie – daneben tippen ändert nichts (AppDesign `arbeit/APD-30 Wischaktionen Testfall-Liste.md`, `arbeit/APD-30 Wischaktionen Wortlaut.md`, Nutzer 15.11.2026, Sitzung 0117); neu `tests/ablauf-wischen.mjs` | allgemein | 15.11.2026 |
 
-1 Punkt bereit.
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-107 | 1 | **Usertest P-107 (3.57.0, AppDesign 4.60.0):** Version prüfen (P-107/0), Wischgefühl (P-107/1), Rollen gegen Wischen (P-107/2), Durchwischen fragt, alles daneben eingegraut (P-107/3), Zurückwischen (P-107/4), Hereinwischen der Seitenleiste und Zurückwischen wie bisher (P-107/5), Kontextmenü wie bisher (P-107/6), VoiceOver (P-107/7), Bewegung reduzieren (P-107/8), größte Textgröße (P-107/9), dunkel (P-107/10) – Testfälle im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -49,6 +49,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| 3.57.0 | **Neu: Wischaktionen in der Liste ‚Reiselogbücher‘ (AppDesign APD-30, APD-136, APD-133):** Wischen nach links zeigt ‚Einstellen‘ und ‚Löschen‘ (dieselben Aktionen wie das Kontextmenü, `tripAktionen`, AD-Bean `createSwipeactions`), Durchwischen fragt; Tippen daneben in der Liste schließt nur, plus, ellipsis und panel-left wirken sofort; Sprechblasen grauen ein und sperren; `PROMPT.md` nachgeführt; neu `tests/ablauf-wischen.mjs` (Usertest P-107) | 3.57.0 | 17.11.2026 |
 | P-106 | **Usertest P-106 (3.56.3, AppDesign 4.59.3):** alles ok; Testfall P-106/1 berichtigt (Nutzer 16.11.2026, Sitzung 0119) | 3.56.3 | 16.11.2026 |
 | 3.56.3 | **Korrektur (AppDesign APD-54, APD-85 Teil 6, APD-131, APD-133 – nach dem Drehen bleibt der oberste Tag auch bei spätem `resize`):** fremder Text in der Schnellauswahl der Smileys wird bereinigt, `normalize` nimmt dort nur Emoji-Schlüssel; 8 Prüfungen mit langem Drücken warten auf die Endlage; `PROMPT.md` und `tests/README.md` nachgeführt; neu `tests/ablauf-fremdtext.mjs` | 3.56.3 | 15.11.2026 |
 | P-105 | **Usertest P-105 (3.56.2, AppDesign 4.59.2):** alles ok (Nutzer 15.11.2026, Sitzung 0115) | 3.56.2 | 15.11.2026 |

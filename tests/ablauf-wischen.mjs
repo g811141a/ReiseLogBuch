@@ -33,7 +33,7 @@ for (const [ansicht, theme] of faelle) {
   await t.schritt(p, 'Start', async () => {});
   const inhalt = phone ? null : await p.evaluate(() => { const r = document.getElementById('app').getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height * 0.6 }; });
   t.liste(await checkWischen(p, { bean: 'wischen', aktionen: 'tripAktionen', liste: '#side', kacheln: '[data-id]', kachel: '#side .side-row[data-id="b"]', kachel2: '#side .side-row[data-id="c"]',
-    kopf: '#sideMore', inhalt, nicht: ['#side .side-sec', '#side .side-head .ttl'], neuaufbau: 'renderSide()',
+    kopf: '#sideMore', inhalt, nicht: ['#side .side-sec', '#side .side-head .ttl'], neuaufbau: 'renderSide()', seitenleiste: phone ? null : { aus: '#sideHide', ein: '[data-side-toggle]' },
     einstellen: async () => { const f = await p.evaluate(() => [document.querySelector('#dlg h3')?.textContent, document.querySelector('#fTitle')?.value]);
       return JSON.stringify(f) === JSON.stringify(['Reiselogbuch einstellen', 'Südtirol mit Wandergruppe und Freunden']) ? [] : [`Fenster ${JSON.stringify(f)} statt ‚Reiselogbuch einstellen‘ für Südtirol`]; },
     messe: name => t.schritt(p, name, async () => {}), ende: theme === 'light', where: t.ort }));
