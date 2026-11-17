@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 15.11.2026, Version 3.56.3)
+# Reiselogbuch – Funktionsbeschreibung (Stand 17.11.2026, Version 3.57.0)
 
-Reiselogbuch 3.56.3 · AppDesign 4.59.3 (Designrichtlinie allgemein 4.59.3) · Designrichtlinie Reiselogbuch 3.56.3 · Zusammenarbeit allgemein 3.14.1
+Reiselogbuch 3.57.0 · AppDesign 4.60.0 (Designrichtlinie allgemein 4.60.0) · Designrichtlinie Reiselogbuch 3.57.0 · Zusammenarbeit allgemein 3.14.1
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -105,6 +105,10 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   - plus öffnet ‚Neues Reiselogbuch‘. ellipsis: ‚Suchen‘ (nur mit Reiselogbüchern; Suche in allen, 6) · Strich · Backup erstellen ·
     Backup laden · Strich · ‚Darstellung ›‘ (seit 3.41.0, RLB-108) · Abstand · Messung starten · Strich · Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
   - Langes Drücken auf ein Reiselogbuch: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase).
+  - Wischen nach links auf ein Reiselogbuch (seit 3.57.0, AppDesign APD-30, R-7.8): daneben die Kapseln ‚Einstellen‘ (settings) und ‚Löschen‘
+    (trash, rot, ganz außen) – dieselben Aktionen wie beim langen Drücken; Durchwischen über 60 % der Kachel fragt mit der Sprechblase
+    ‚Reiselogbuch löschen‘. Tippen auf die Kachel oder daneben in der Liste schließt sie, ohne etwas auszulösen; plus, ellipsis und panel-left
+    wirken sofort und schließen sie dabei.
 - **Kopfzeile:** Titel der Reise; Kapsel [share | ellipsis].
   - share → Teilen-Menü: Vorschau · HTML · ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ (RLB-124/W-1) (jeweils mit grauem Hinweis zum Speichern), Strich, darunter ‚N erfasste Tage ·
     Dateiname: …‘.
@@ -126,7 +130,8 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   sichtbar ist) und Statistik (9). Unten rechts ‚Nach oben / Ans Ende‘, bei langem Reiselogbuch der Schnellroll-Griff (R-3.2); seine
   Blase zeigt den Tag oben im Bild als ‚Tag 19 · Fr 20.03.‘ (Nummer im Reisezeitraum), danach ‚Fazit‘ (mit Gesamtausgaben),
   ‚Quartierliste‘, ‚Statistik‘ (`data-marke`).
-- **iPad hoch:** die Seitenleiste kommt auch durch Wischen nach rechts im Reiselogbuch, nach links wischen schiebt sie weg (R-7.5).
+- **iPad hoch:** die Seitenleiste kommt auch durch Wischen nach rechts im Reiselogbuch; ausblenden nur mit panel-left – nach links wischen
+  blendet sie nie aus, auf einer Kachel zeigt es die Wischaktionen (R-7.5, R-7.8).
 - **iPad quer:** die ausgeblendete Seitenleiste kommt auch durch Wischen nach rechts im Reiselogbuch – der Inhalt rückt mit und wird
   beim Einrasten schmaler; ausblenden nur mit panel-left (R-7.5).
 
@@ -140,7 +145,8 @@ wie am iPad (R-1.1):
 - **Startliste = Seitenleiste:** fest stehende Leiste mit ‚Reiselogbücher‘ links (darunter klein und grau die Anzahl) und der Kapsel
   [plus | ellipsis] rechts (ellipsis wie am iPad, mit ‚Suchen‘ und ‚Darstellung ›‘), ohne großen Titel; jedes Reiselogbuch als Kachel (Titel · Zeitraum ·
   Zustand, ›), gruppiert nach dem Jahr des Reisebeginns mit dem Jahr als Kopf wie am iPad, das zuletzt geöffnete blau (nach dem Start keines); Backup-Kachel fest am unteren Rand (solange heute noch kein Backup erstellt wurde), die
-  Kacheln laufen dahinter durch. Langes Drücken: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘; nach dem Löschen geht es zur Startliste. Leertexte: 2.
+  Kacheln laufen dahinter durch. Langes Drücken: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘; nach dem Löschen geht es zur Startliste. Wischen
+  nach links: dieselben Aktionen als Kapseln ‚Einstellen‘ · ‚Löschen‘ wie am iPad (4). Leertexte: 2.
 - **Reiselogbuch:** Kopf mit rundem `chevron-left` zur Startliste und Kapsel [share | ellipsis] mit denselben Menüs; der
   Reisetitel steht in der Mitte der Leiste. Darunter ‚Reiseteilnehmer:‘, ‚Reisezeitraum:‘, ‚Reisemittel:‘ – der Wert jeweils in der
   nächsten Zeile, die Reisemittel in einer Zeile, bei Bedarf seitlich wischen (Verlauf und kleiner Pfeil am Rand, R-5.4); dann die Fortschrittsanzeige.

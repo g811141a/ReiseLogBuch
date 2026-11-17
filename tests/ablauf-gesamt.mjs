@@ -3,9 +3,9 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, warteBis } from '../../AppDesign/fassung/4.59.3/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.59.3/tests/hig.mjs';
-import { sucheAuf, checkDateiname } from '../../AppDesign/fassung/4.59.3/tests/ablauf.mjs';
+import { pruefung, warteBis } from '../../AppDesign/fassung/4.60.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.60.0/tests/hig.mjs';
+import { sucheAuf, checkDateiname } from '../../AppDesign/fassung/4.60.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 // seit 3.48.1 (AppDesign APD-85 Teil 5): keine festen Pausen mehr – jede Stelle wartet mit warteBis auf den Zustand danach (Ruhe = keine
 // laufende Bewegung); nur das lange Drücken hält den Finger eine feste Zeit (die Handlung selbst)
@@ -109,7 +109,10 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'Abbrechen', () => p.click('#dlg .pop button:has-text("Abbrechen")'));
   await S(p, 'Zurücksetzen', () => p.click('#moods .reset'));
   t.ist('Abfrage Zurücksetzen', await p.locator('#dlg .pop button').allTextContents(), ['Zurücksetzen', 'Abbrechen'], 'R-4.3');
-  await S(p, 'daneben tippen, Tag schließen', async () => { await p.click('#dlg .layer'); await p.click('#dlgX'); });
+  // seit 3.57.0 (AppDesign APD-30/V-7, R-1.4): daneben tippen ändert bei der Sprechblase nichts – sie bleibt offen, ‚Abbrechen‘ schließt sie
+  await S(p, 'daneben tippen ändert nichts', () => p.click('#dlg .layer'));
+  t.ist('Sprechblase bleibt nach dem Tipp daneben', await p.locator('#dlg .pop').count(), 1, 'R-1.4');
+  await S(p, 'Abbrechen, Tag schließen', async () => { await p.click('#dlg .pop button:has-text("Abbrechen")'); await p.click('#dlgX'); });
   t.ist('Tag ohne Änderung zu', await p.evaluate(() => !dlg.open), true, 'R-4.4');
   // Fazit, Teilen, Vorschau
   await S(p, 'Fazit', () => p.click('#fazit'));
