@@ -1,5 +1,6 @@
-// Alle Prüfungen des Reiselogbuchs (seit 3.12.0, APD-5): parallel, die schnellsten zuerst, in Chromium und WebKit, Abbruch
-// beim ersten Fehler – über das Lauf-Werkzeug aus AppDesign (tests/lauf.mjs). AppDesign muss neben dem Repo liegen.
+// Alle Prüfungen des Reiselogbuchs (seit 3.12.0, APD-5): parallel, die schnellsten zuerst, in Chromium und WebKit; ab dem dritten
+// roten Lauf werden die übrigen beendet, jeder rote Lauf läuft am Ende einmal allein (Zusammenarbeit 0 Nr. 2) – über das
+// Lauf-Werkzeug aus AppDesign (tests/lauf.mjs). AppDesign muss neben dem Repo liegen.
 // Aufruf im Repo-Ordner: node tests/alle.mjs [--alle] [--browser chromium] [--nur hig,tastatur] [--abdeckung]
 // pixelvergleich.mjs läuft nicht mit (braucht _alt.html, Handwerkzeug). Seit 3.36.0 (RLB-103) läuft ablauf-tastatur-still mit, seit 3.37.0
 // (RLB-107, AppDesign APD-83) ablauf-fenster-breite, seit 3.41.0 ablauf-suche-menue (AppDesign APD-91) und ablauf-preis-km (RLB-108 bis RLB-110),
@@ -14,7 +15,7 @@
 // seit 3.56.3 ablauf-fremdtext (AppDesign APD-54) und ablauf-drehen-luecke (AppDesign APD-133, R-8.1).
 // seit 3.57.0 ablauf-wischen (AppDesign APD-30 und APD-136, R-7.8, R-1.13), nach Gerät geteilt (jeder Teil gut 3 min).
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.60.3/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.61.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'ablauf-messung', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-titel-blase', 'ablauf-titel-oben', 'ablauf-leer', 'ablauf-drehen-iphone', 'ablauf-schicht-oben', 'ablauf-glas', 'ablauf-feld-rollen', 'ablauf-feld-cursor', 'ablauf-fremdtext', 'ablauf-drehen-luecke', 'ablauf-grossanzeige', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
   'verlauf-vorschlaege', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln',

@@ -13,6 +13,26 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.4 – 18.11.2026
+
+Reiselogbuch 3.57.4 · AppDesign 4.61.0 (Designrichtlinie allgemein 4.61.0) · Designrichtlinie Reiselogbuch 3.57.4 · Zusammenarbeit allgemein 3.15.0
+
+**Korrektur: Regeln aufgeräumt, App unverändert** (AppDesign 4.61.0: APD-135 Pakete 1 und 3 mit APD-135/W-57; Sitzung 0131).
+
+- **App:** keine Änderung an Bedienung und Aussehen – nur die feste Fassung AppDesign 4.61.0.
+- **Regeln:** `CLAUDE.md` 3.10.0 – Prüfablauf nur als Verweis (APD-135/W-17), Versionsgeschichte in `CLAUDE Versionsgeschichte.md` (APD-135/W-31);
+  `PROMPT.md` – Seitenleiste am iPad hoch wie quer, Katalog-Verweis, ‚Automatisch gespeichert‘, ‚seit X.Y.Z‘ gestrichen (APD-135/W-33, W-44, W-51);
+  Designrichtlinie Reiselogbuch – ‚seit X.Y.Z‘ in Abweichung 2 gestrichen (APD-135/W-51); README und Backlog-Kopf (APD-135/W-8, W-26).
+- **Prüfungen:** `tests/doku-regeln.mjs` prüft mit AppDesign `checkVersionsgeschichte` die ausgelagerten Versionsgeschichten (APD-135/M-1 bis M-4).
+
+Testfälle P-111 (Schritt für Schritt, Zusammenarbeit allgemein 3.15.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-111/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.4 · erstellt am … · AppDesign 4.61.0‘.
+
 ## 3.57.3 – 18.11.2026
 
 Reiselogbuch 3.57.3 · AppDesign 4.60.3 (Designrichtlinie allgemein 4.60.3) · Designrichtlinie Reiselogbuch 3.57.3 · Zusammenarbeit allgemein 3.14.1

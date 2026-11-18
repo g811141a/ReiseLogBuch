@@ -6,9 +6,9 @@
 // jeder Ansicht (Liste, Reiselogbuch, Tag, Einstellen, Fazit, Suche, Vorschau). iPad quer und iPhone hoch. Gegenprobe APD-54/T-9: gegen 3.56.2
 // mit PRUEF_APP=../_alt.html werden APD-54/T-1, APD-54/T-2 und APD-54/T-4 rot. Aufruf im Repo-Ordner: node tests/ablauf-fremdtext.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.60.3/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.60.3/tests/hig.mjs';
-import { langDruecken } from '../../AppDesign/fassung/4.60.3/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.61.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.61.0/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.61.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-fremdtext', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = (y, m, d) => new Date(Date.UTC(y, m - 1, d)).toISOString().slice(0, 10);

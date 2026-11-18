@@ -1,9 +1,9 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 18.11.2026, Version 3.57.3)
+# Reiselogbuch – Funktionsbeschreibung (Stand 18.11.2026, Version 3.57.4)
 
-Reiselogbuch 3.57.3 · AppDesign 4.60.3 (Designrichtlinie allgemein 4.60.3) · Designrichtlinie Reiselogbuch 3.57.3 · Zusammenarbeit allgemein 3.14.1
+Reiselogbuch 3.57.4 · AppDesign 4.61.0 (Designrichtlinie allgemein 4.61.0) · Designrichtlinie Reiselogbuch 3.57.4 · Zusammenarbeit allgemein 3.15.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
-Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
+Regelkatalog (AppDesign, Abschnitt 17); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
 steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLAUDE.md`. Bei jeder Änderung mit aktualisieren.
 
 ---
@@ -45,7 +45,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   ‚Verlauf‘, ‚Wie war was?‘, ‚Essen und Trinken‘, ‚Quartier‘.
 - Options-Kapseln (Tageserfassung): ‚Quartier wie Vortag‘, ‚keinen Google-Maps Link‘; Schalter (Bearbeiten): ‚Quartierliste in der
   Ausgabe‘.
-- Leer (seit 3.48.0 leerer Zustand, AppDesign 15.23 / R-7.7): Inhalt `book-open` ‚Noch kein Reiselogbuch‘, ‚Ein neues mit ‚plus‘ in der
+- Leer (leerer Zustand, AppDesign 15.23 / R-7.7): Inhalt `book-open` ‚Noch kein Reiselogbuch‘, ‚Ein neues mit ‚plus‘ in der
   Seitenleiste anlegen.‘, Knopf ‚Neues Reiselogbuch‘ (wie ‚plus‘); Seitenleiste daneben nur Symbol und Titel; iPhone-Startliste vollständig mit
   Knopf. Suche ohne Treffer (Liste und Reiselogbuch) `search` ‚Keine Treffer für ‚Begriff‘‘, ‚Schreibweise prüfen oder nach etwas anderem
   suchen.‘; ‚Nur erfasste Tage‘ ohne erfassten Tag `calendar` ‚Noch keine Tage erfasst‘, ‚Es werden nur erfasste Tage gezeigt.‘, Knopf ‚Alle Tage
@@ -80,7 +80,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   - Reisemittel per Antippen, Mehrfachauswahl, gewählte eingeschaltet (blau getönt mit Haarlinie), in dieser Reihenfolge:
     🚗 PKW · 🚆 Zug · 🚲 Fahrrad · ✈️ Flugzeug · 🚙 Leihwagen · 🚢 Schiff · 🚐 Wohnmobil · 🚶 Fuß; ausgegeben mit Symbol und Namen.
   - **Konfiguration Tabellenspalten:** Hinweis ‚Die Spalten ‚Tag‘ und ‚Verlauf‘ werden immer angezeigt.‘; Schalter in
-    Tabellenreihenfolge ‚Spalte 🙂☹️😉 ‚Wie war was?‘‘, ‚Spalte 🚶🏽‍♂️km ‚Gegangene Kilometer‘‘ (seit 3.41.0, RLB-110), ‚Spalte 🍽️🍷☕️ ‚Essen
+    Tabellenreihenfolge ‚Spalte 🙂☹️😉 ‚Wie war was?‘‘, ‚Spalte 🚶🏽‍♂️km ‚Gegangene Kilometer‘‘, ‚Spalte 🍽️🍷☕️ ‚Essen
     und Trinken‘‘, ‚Spalte 😴💤 ‚Quartier‘‘, beim Anlegen alle außer ‚Gegangene Kilometer‘ eingeschaltet (bestehende Reiselogbücher: Wie
     war was? und Quartier ein, Essen wie bisher, Gegangene Kilometer aus); Hinweis ‚Ausgeblendete Spalten
     fehlen in Tabelle, Tageserfassung und Ausgabe. Vorhandene Einträge bleiben erhalten.‘ Ausgeblendete Spalten fehlen auch in der
@@ -99,11 +99,11 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
 
 ## 4. iPad: Seitenleiste und Hauptansicht
 
-- **Seitenleiste ‚Reiselogbücher‘** (Komponente Seitenleiste): darunter klein und grau die Anzahl; Kapsel [plus | ellipsis]; Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst, vor dem ersten jedes Jahres das Jahr des Reisebeginns als Kopf (auch ganz oben, bei der Suche nur Jahre mit Treffern; seit 3.44.0, RLB-114, R-7.6); je Kachel Titel · ‚TT.MM.JJJJ - TT.MM.JJJJ · läuft
+- **Seitenleiste ‚Reiselogbücher‘** (Komponente Seitenleiste): darunter klein und grau die Anzahl; Kapsel [plus | ellipsis]; Reiselogbücher als Kacheln, zuletzt beginnende Reise zuerst, vor dem ersten jedes Jahres das Jahr des Reisebeginns als Kopf (auch ganz oben, bei der Suche nur Jahre mit Treffern; R-7.6); je Kachel Titel · ‚TT.MM.JJJJ - TT.MM.JJJJ · läuft
   gerade / beendet / geplant‘ und ›, dazu ‚geändert am … · Gerät‘. Fest unten die Backup-Kachel, solange heute noch kein Backup erstellt wurde (11). Beim Start eingeblendet mit
   der Startreise (3).
   - plus öffnet ‚Neues Reiselogbuch‘. ellipsis: ‚Suchen‘ (nur mit Reiselogbüchern; Suche in allen, 6) · Strich · Backup erstellen ·
-    Backup laden · Strich · ‚Darstellung ›‘ (seit 3.41.0, RLB-108) · Abstand · Messung starten · Strich · Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
+    Backup laden · Strich · ‚Darstellung ›‘ · Abstand · Messung starten · Strich · Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
   - Langes Drücken auf ein Reiselogbuch: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase).
   - Wischen nach links auf ein Reiselogbuch (seit 3.57.0, AppDesign APD-30, R-7.8): daneben die Kapseln ‚Einstellen‘ (settings) und ‚Löschen‘
     (trash, rot, ganz außen) – dieselben Aktionen wie beim langen Drücken; ‚Löschen‘ fragt mit der Sprechblase
@@ -118,7 +118,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
 - **Darunter** (ohne Überschrift – der Titel steht in der Kopfzeile): Reiseteilnehmer, Reisezeitraum, Reisemittel und die dezente
   Fortschrittsanzeige ‚Tag 42 von 80 · 38 erfasst‘.
 - **Tagestabelle:** eine Zeile je Tag im Zeitraum (‚Mo, 24.08.‘): Tag · Verlauf · sichtbare konfigurierte Spalten; Tabellenkopf
-  haftet unter der Kopfzeile. Vergangene Tage ohne Eintrag tragen ‚fehlt‘ (Farbe `--warn`). **Startposition** (R-7.4, seit 3.30.0 RLB-98): beim
+  haftet unter der Kopfzeile. Vergangene Tage ohne Eintrag tragen ‚fehlt‘ (Farbe `--warn`). **Startposition** (R-7.4): beim
   Öffnen steht der erste nicht erfasste Tag bis heute (die erste Lücke, auch wenn spätere Tage schon erfasst sind) gelb markiert
   (ohne blauen Rand) direkt unter dem Tabellenkopf; läuft die Reise und ist bis heute alles erfasst, steht der heutige Tag dort, ohne
   Gelb; sonst (Reise in der Zukunft, vergangen und vollständig) beginnt die Tabelle ganz oben ohne Markierung. Künftige Tage sind nie
@@ -130,10 +130,8 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   sichtbar ist) und Statistik (9). Unten rechts ‚Nach oben / Ans Ende‘, bei langem Reiselogbuch der Schnellroll-Griff (R-3.2); seine
   Blase zeigt den Tag oben im Bild als ‚Tag 19 · Fr 20.03.‘ (Nummer im Reisezeitraum), danach ‚Fazit‘ (mit Gesamtausgaben),
   ‚Quartierliste‘, ‚Statistik‘ (`data-marke`).
-- **iPad hoch:** die Seitenleiste kommt auch durch Wischen nach rechts im Reiselogbuch; ausblenden nur mit panel-left – nach links wischen
-  blendet sie nie aus, auf einer Kachel zeigt es die Wischaktionen (R-7.5, R-7.8).
-- **iPad quer:** die ausgeblendete Seitenleiste kommt auch durch Wischen nach rechts im Reiselogbuch – der Inhalt rückt mit und wird
-  beim Einrasten schmaler; ausblenden nur mit panel-left (R-7.5).
+- **iPad hoch und quer:** die ausgeblendete Seitenleiste kommt auch durch Wischen nach rechts im Reiselogbuch (R-7.5); nach links
+  wischen blendet sie nie aus, auf einer Kachel zeigt es die Wischaktionen (R-7.8).
 
 ## 5. iPhone
 
@@ -159,20 +157,20 @@ wie am iPad (R-1.1):
   1 Nacht · 120,00 €‘, der Preis nur, wenn eingetragen), Statistik. ‚Nach oben / Ans Ende‘ und Schnellroll-Griff wie am iPad (nicht in der Startliste).
 - **Seitenwechsel:** ein Reiselogbuch schiebt sich über die Startliste; zurück mit `chevron-left` oder Wischen nach rechts von überall
   im Reiselogbuch (R-7.5) – die Zeile ‚Reisemittel‘ behält ihr seitliches Wischen.
-- **Fenster als Blatt** (R-4.6, seit 3.30.0 RLB-99): Tageserfassung, Reiselogbuch einstellen, Neues Reiselogbuch, Fazit und Vorschau gleiten
+- **Fenster als Blatt** (R-4.6): Tageserfassung, Reiselogbuch einstellen, Neues Reiselogbuch, Fazit und Vorschau gleiten
   von unten; nach unten ziehen schließt wie x, mit Änderungen fragt es (auch beim Erfassen).
-- **Tageserfassung** als Blatt, Titel kurz ‚Di, 25.08.2026‘ mit ‚Gespeichert um …‘; Wetter-Symbole 40 px breit (Abweichung 2, bei Standard-Textgröße).
+- **Tageserfassung** als Blatt, Titel kurz ‚Di, 25.08.2026‘ mit ‚Automatisch gespeichert um …‘ (7); Wetter-Symbole 40 px breit (Abweichung 2, bei Standard-Textgröße).
 
 ## 6. Suche
 
 - **Im Reiselogbuch** (R-2.3): durchsucht Verlauf und sichtbare Spalten (Essen: Name und Kommentar; Quartier: Name und Ort, ohne
   Ort nur der Name), nur innerhalb der aktuellen Reise; es bleiben nur Tage mit Treffern. **Ein Eintrag** im Sinne der Suche mit
   mehreren Wörtern ist das ganze Reiselogbuch: jedes Wort muss irgendwo darin stehen; gezeigt werden die Tage mit mindestens einem
-  Wort (Entscheidung des Nutzers 18.10.2026). Die Suche markiert auch Teile langer Wörter. **Ohne Akzente** wie Apple (seit
-  3.27.0): ‚Zurich‘ findet ‚Zürich‘, ‚cafe‘ findet ‚Café‘ – in beiden Suchen.
-- **Öffnen und beenden** (seit 3.41.0, AppDesign APD-91): ‚Suchen‘ als erster Punkt im Mehr-Menü (Reiselogbuch bzw. Seitenleiste und
-  Startliste) oder ⌘F mit Hardware-Tastatur – im offenen Reiselogbuch, ohne offenes (iPhone-Startliste; iPad hoch mit darübergelegter
-  Seitenleiste) in allen; beendet mit dem runden x ‚Suche beenden‘ rechts in der Suchzeile.
+  Wort (Entscheidung des Nutzers 18.10.2026). Die Suche markiert auch Teile langer Wörter. **Ohne Akzente** wie Apple:
+  ‚Zurich‘ findet ‚Zürich‘, ‚cafe‘ findet ‚Café‘ – in beiden Suchen.
+- **Öffnen und beenden**: ‚Suchen‘ als erster Punkt im Mehr-Menü (Reiselogbuch bzw. Seitenleiste und
+  Startliste) oder ⌘F mit Hardware-Tastatur – im offenen Reiselogbuch, ohne offenes (iPhone-Startliste) in allen; beendet mit dem
+  runden x ‚Suche beenden‘ rechts in der Suchzeile.
 - **Über alle Reiselogbücher** (‚Suchen‘ im Mehr-Menü der Seitenleiste bzw. Startliste, Platzhalter ‚In allen suchen‘): Kacheln zeigen ‚12
   Treffer‘ (gleich gezählt wie ‚1 von 12‘ im Reiselogbuch, nur sichtbare Spalten), unter der Überschrift ‚2 von 5
   Reiselogbüchern‘, sonst der leere Zustand ‚Keine Treffer für ‚Begriff‘‘; Antippen öffnet das Reiselogbuch mit gefüllter Suche.
@@ -186,14 +184,14 @@ wie am iPad (R-1.1):
   Aufzählungszeichen), formatiert wird in Tabelle und Ausgabe:
   1. **Wetter:** Symbole antippen, auch mehrere; gewählte eingeschaltet (blau getönt mit Haarlinie).
   2. **Verlauf:** eine Zeile pro Punkt; mehrere Zeilen bekommen in Tabelle und Ausgabe ▫️ davor. Die Vorschläge stehen als Chips wieder
-     **über** dem Feld, unter der Überschrift ‚2 Verlauf‘ (seit 3.55.0, RLB-123): ‚Weiterfahrt nach …‘, ‚Rundgang durch …‘, ‚Besichtigung …‘,
+     **über** dem Feld, unter der Überschrift ‚2 Verlauf‘: ‚Weiterfahrt nach …‘, ‚Rundgang durch …‘, ‚Besichtigung …‘,
      ‚Freetour …‘, ‚Tour …‘, ‚Sonstiges …‘ – ‚…‘ ist nur Platzhalter. Ein angetippter Vorschlag kommt als neue Zeile **nach der letzten Zeile**,
      auch wenn der Cursor woanders steht. Danach steht der Cursor am Ende, die Tastatur ist offen und auf Kleinbuchstaben. ‚Sonstiges …‘ fügt
      am Ende eine leere Zeile an und setzt den Cursor hinein. Ist die letzte Zeile schon leer, kommt keine zweite dazu. Das Feld ist leer
      einzeilig und wächst mit jeder Zeile (AppDesign APD-126/W-1); es rollt nur so weit wie nötig über die Tastatur (R-4.5).
   3. **Wie war was?:** Smiley + kurzer Text, mehrere Smiley-Zeilen möglich, alle Smileys der Emoji-Tastatur; Smiley-Leiste.
-  - **Gegangene Kilometer** (seit 3.41.0, RLB-110; nur mit sichtbarer Spalte, als eigener Schritt nach ‚Wie war was?‘, die folgenden
-     Schritte eine Nummer weiter): schmales Zahlenfeld (AppDesign APD-93) mit ‚km‘ rechts daneben, seit 3.42.0 (RLB-111) mit einer
+  - **Gegangene Kilometer** (nur mit sichtbarer Spalte, als eigener Schritt nach ‚Wie war was?‘, die folgenden
+     Schritte eine Nummer weiter): schmales Zahlenfeld (AppDesign APD-93) mit ‚km‘ rechts daneben, mit einer
      Nachkommastelle 0,1–99,9 (Komma-Tastatur, Punkt wird Komma, beim Verlassen ‚6‘ → ‚6,0‘), bündig rechts, mit Fokus rückt die Zahl
      für das ⓧ nach links. Zählt nicht als ‚erfasst‘.
   4. **Essen und Trinken** (nur mit sichtbarer Spalte): eine Zeile pro Lokal im Format ‚Smiley(s) Name – Kommentar‘, z. B.
@@ -203,9 +201,9 @@ wie am iPad (R-1.1):
   5. **Quartier:** Name; Options-Kapseln ‚Quartier wie Vortag‘ (nicht am ersten Tag; nur wenn gesetzt, wird das Quartier vom
      Vortag übernommen, sonst bleibt das Feld leer) und ‚keinen Google-Maps Link‘ (wird bei ‚Quartier wie Vortag‘ mit übernommen);
      Felder Name und ‚Ort für Google Maps, z. B. Cairns, Australien‘ **nebeneinander in einer Zeile (halb und halb)**, bei schmalem
-     Bildschirm untereinander; darunter der Link ‚📍 In Google Maps prüfen‘ (nicht unterstrichen). Darunter (seit 3.41.0, RLB-109)
+     Bildschirm untereinander; darunter der Link ‚📍 In Google Maps prüfen‘ (nicht unterstrichen). Darunter
      ‚Preis‘ – Gesamtpreis des Aufenthalts in Euro, Betragsfeld wie Gesamtausgaben (R-5.1, € rechts daneben); nicht bei ‚Quartier
-     wie Vortag‘ (der Preis gilt für den Aufenthalt ab dem Tag, an dem das Quartier eingetragen ist); seit 3.42.0 (RLB-111) nur mit
+     wie Vortag‘ (der Preis gilt für den Aufenthalt ab dem Tag, an dem das Quartier eingetragen ist); nur mit
      dem Schalter ‚Preis der Quartiere erfassen‘ im Fenster ‚Reiselogbuch einstellen‘ (nach ‚Quartierliste in der Ausgabe‘, Voreinstellung aus, ohne
      Spalte Quartier gesperrt). Mit Preis steht er am Tag des Eintrags in Klammern hinter dem Quartier – ‚Hotel Adlon, Cairns
      (1.240,00 €)‘ – in Tabelle, Kachel und Ausgabe; die Klammer bricht nie um.
@@ -235,14 +233,14 @@ wie am iPad (R-1.1):
   offen ist.
 - **Gesamtausgaben:** ein Betragsfeld in Euro (R-5.1, Designrichtlinie allgemein 8), Anzeige z. B. ‚4.850,00 €‘; die Eingabetaste
   heißt ‚Fertig‘ und schließt die Tastatur (R-5.5).
-- **Quartierliste:** Quartier (mit Maps-Link), Zeitraum, Anzahl Nächte, Preis (seit 3.41.0, ‚1.240,00 €‘, ohne Preis leer; seit 3.42.0 nur mit ‚Preis der Quartiere erfassen‘); kompakt,
+- **Quartierliste:** Quartier (mit Maps-Link), Zeitraum, Anzahl Nächte, Preis (‚1.240,00 €‘, ohne Preis leer; nur mit ‚Preis der Quartiere erfassen‘); kompakt,
   ‚Nächte‘ und ‚Preis‘ rechtsbündig; in der App immer, in der
   Ausgabe nur mit ‚Quartierliste in der Ausgabe‘.
-- **Statistik** (schlichte Liste): Reisetage gesamt und davon erfasst, ‚Gegangene Kilometer‘ (seit 3.42.0, RLB-111: Summe mit einer
-  Nachkommastelle, dahinter der Ø je Tag in Klammern – ‚35,5 km     (Ø 8,9 km)‘, 5 geschützte Leerzeichen davor, seit 3.42.1 (RLB-112)
+- **Statistik** (schlichte Liste): Reisetage gesamt und davon erfasst, ‚Gegangene Kilometer‘ (Summe mit einer
+  Nachkommastelle, dahinter der Ø je Tag in Klammern – ‚35,5 km     (Ø 8,9 km)‘, 5 geschützte Leerzeichen davor,
   1 nach ‚Ø‘; passt der Ø nicht in die Zeile, steht er ganz linksbündig unter dem Gesamtwert, selbst in einer Zeile; nur Tage mit Kilometern, nur mit sichtbarer Spalte und Werten), Anzahl der Quartiere, darunter Anzahl der Nächte (Summe),
   ‚Quartierkosten‘ (Summe der Preise, dahinter der Ø je Nacht in Klammern wie bei den Kilometern – nur Nächte von Aufenthalten mit Preis;
-  nur mit ‚Preis der Quartiere erfassen‘ und Preisen), darunter seit 3.56.0 (RLB-121) ‚Teuerste Quartiere‘ und ‚Günstigste Quartiere‘ – je
+  nur mit ‚Preis der Quartiere erfassen‘ und Preisen), darunter ‚Teuerste Quartiere‘ und ‚Günstigste Quartiere‘ – je
   höchstens 3 Aufenthalte als ‚Name (Preis je Nacht)‘ mit ‚·‘, Preis je Nacht = Preis ÷ Nächte des Aufenthalts, jeder Aufenthalt für sich; ab
   2 Aufenthalten mit Preis; kein Aufenthalt in beiden Zeilen (die teurere Hälfte oben, bei ungerader Zahl der mittlere oben); gleicher Preis: der
   frühere zuerst; oben der teuerste, unten der günstigste zuerst; ein Eintrag bleibt am Stück, wenn er in die Zeile passt, der Preis in Klammern

@@ -1,6 +1,6 @@
 # ReiseLogBuch
 
-Einfaches Reiselogbuch als Web-App (PWA) für das iPad – offline nutzbar, alle Daten bleiben lokal auf dem Gerät.
+Einfaches Reiselogbuch als Web-App (PWA) für iPad und iPhone – offline nutzbar, alle Daten bleiben lokal auf dem Gerät.
 
 **App:** https://g811141a.github.io/ReiseLogBuch/
 (in Safari öffnen → Teilen → „Zum Home-Bildschirm“)
@@ -12,11 +12,11 @@ im Mehr-Menü der Seitenleiste).
 
 | Teil | Version | Datei |
 |---|---|---|
-| Reiselogbuch | 3.57.3 | [CHANGELOG.md](https://github.com/g811141a/ReiseLogBuch/blob/main/CHANGELOG.md) |
-| AppDesign | 4.60.3 | [CHANGELOG.md (AppDesign)](https://github.com/g811141a/AppDesign/blob/main/CHANGELOG.md) · Bausteine [fassung/4.60.3/ui.js](https://github.com/g811141a/AppDesign/blob/main/fassung/4.60.3/ui.js), [fassung/4.60.3/design.css](https://github.com/g811141a/AppDesign/blob/main/fassung/4.60.3/design.css) |
-| Designrichtlinie allgemein | 4.60.3 | [README - Designrichtlinie allgemein.md](https://github.com/g811141a/AppDesign/blob/main/fassung/4.60.3/README%20-%20Designrichtlinie%20allgemein.md) |
-| Designrichtlinie Reiselogbuch | 3.57.3 | [README - Designrichtlinie Reiselogbuch.md](https://github.com/g811141a/ReiseLogBuch/blob/main/README%20-%20Designrichtlinie%20Reiselogbuch.md) |
-| Zusammenarbeit allgemein | 3.14.1 | [README - Zusammenarbeit allgemein.md](https://github.com/g811141a/AppDesign/blob/main/fassung/4.60.3/README%20-%20Zusammenarbeit%20allgemein.md) |
+| Reiselogbuch | 3.57.4 | [CHANGELOG.md](https://github.com/g811141a/ReiseLogBuch/blob/main/CHANGELOG.md) |
+| AppDesign | 4.61.0 | [CHANGELOG.md (AppDesign)](https://github.com/g811141a/AppDesign/blob/main/CHANGELOG.md) · Bausteine [fassung/4.61.0/ui.js](https://github.com/g811141a/AppDesign/blob/main/fassung/4.61.0/ui.js), [fassung/4.61.0/design.css](https://github.com/g811141a/AppDesign/blob/main/fassung/4.61.0/design.css) |
+| Designrichtlinie allgemein | 4.61.0 | [README - Designrichtlinie allgemein.md](https://github.com/g811141a/AppDesign/blob/main/fassung/4.61.0/README%20-%20Designrichtlinie%20allgemein.md) |
+| Designrichtlinie Reiselogbuch | 3.57.4 | [README - Designrichtlinie Reiselogbuch.md](https://github.com/g811141a/ReiseLogBuch/blob/main/README%20-%20Designrichtlinie%20Reiselogbuch.md) |
+| Zusammenarbeit allgemein | 3.15.0 | [README - Zusammenarbeit allgemein.md](https://github.com/g811141a/AppDesign/blob/main/fassung/4.61.0/README%20-%20Zusammenarbeit%20allgemein.md) |
 
 ## Dateien
 
