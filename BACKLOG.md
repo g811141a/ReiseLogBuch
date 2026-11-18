@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-109 | 1 | **Usertest P-109 (3.57.2, AppDesign 4.60.2):** Version prüfen (P-109/0), Aufwischen wie Notizen ab halber Kapsel aus der Mitte (P-109/1), Zurückwischen und Tippen umgekehrt (P-109/2), kein Durchwischen und Zurückfedern (P-109/3), Bewegung reduzieren nur Einblenden (P-109/4), größte Textgröße Kapseln und Abstände größer (P-109/5) – Testfälle im CHANGELOG | prüfen |
+| P-109 | 1 | **Usertest P-109 (3.57.2, AppDesign 4.60.2):** Version prüfen (P-109/0), Aufwischen wie Notizen ab halber Kapsel aus der Mitte (P-109/1), Zurückwischen und Tippen umgekehrt (P-109/2), kein Durchwischen und Zurückfedern (P-109/3), Bewegung reduzieren nur Einblenden (P-109/4), größte Textgröße Kapseln und Abstände größer (P-109/5) – Testfälle im CHANGELOG · **Rückmeldung 18.11.2026 (Sitzung 0130): nicht ok** – P-109/F-1 Kapseln blenden beim Auf- und Zuwischen viel zu schnell ein und aus, P-109/F-2 Schließen beim Tippen auf eine andere Kachel viel zu schnell, nicht weich wie Notizen; Messung `arbeit/0130 P-109 Notizen Messung.md` | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
