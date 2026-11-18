@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 18.11.2026** · Aktuelle Version: Reiselogbuch 3.57.2 · AppDesign 4.60.2
+**Stand 18.11.2026** · Aktuelle Version: Reiselogbuch 3.57.3 · AppDesign 4.60.3
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-109 | 1 | **Usertest P-109 (3.57.2, AppDesign 4.60.2):** Version prüfen (P-109/0), Aufwischen wie Notizen ab halber Kapsel aus der Mitte (P-109/1), Zurückwischen und Tippen umgekehrt (P-109/2), kein Durchwischen und Zurückfedern (P-109/3), Bewegung reduzieren nur Einblenden (P-109/4), größte Textgröße Kapseln und Abstände größer (P-109/5) – Testfälle im CHANGELOG | prüfen |
+| P-110 | 1 | **Usertest P-110 (Reiselogbuch 3.57.3, AppDesign 4.60.3):** Version prüfen (P-110/0), Aufwischen weich wie Notizen (P-110/1), Tippen auf eine andere Kachel weich zu (P-110/2), Zurückwischen und Tippen auf die offene Kachel (P-110/3), Bewegung reduzieren (P-110/4) – Testfälle im CHANGELOG des Reiselogbuchs | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -51,6 +51,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-109 | **Usertest P-109** (/0, /3, /4, /5 ok; /1, /2 nicht ok → Korrektur P-109/F-1, P-109/F-2 Wischaktionen weich wie Notizen) | AppDesign 4.60.3 / Reiselogbuch 3.57.3 | 18.11.2026 |
 | 3.57.2 | **Korrektur: Wischaktionen wie in Notizen, gemessen (AppDesign 4.60.2, P-108/F-1 bis P-108/F-4):** Kapseln wachsen aus ihrer Mitte ab halber Kapsel, ein Abstand 11 pt, kein Durchwischen, Zurückfedern; Prüfungen `ablauf-wischen` (APD-30/W-91 bis W-94) | 3.57.2 | 18.11.2026 |
 | P-108 | **Usertest P-108 (Reiselogbuch 3.57.1, AppDesign 4.60.1):** /0, /3, /4 ok; /1, /2 nicht ok (P-108/F-1 bis P-108/F-4, Nutzer 18.11.2026, Sitzung 0128) – Muster wie Notizen gemessen (Sitzung 0128, bestätigt in 0129), korrigiert mit Reiselogbuch 3.57.2 / AppDesign 4.60.2, erneut im Usertest P-109 | 3.57.2 | 18.11.2026 |
 | 3.57.1 | **Korrektur: Wischaktionen wie in Notizen (AppDesign 4.60.1, P-107/F-1 bis P-107/F-4):** Kapseln nacheinander von außen, zurück umgekehrt, nichts über die Seitenleiste; ‚Bewegung reduzieren‘ nur Einblenden; Kapseln wachsen mit der Textgröße; Prüfungen `ablauf-wischen` (APD-30/W-86) und `ablauf-markierung-menues` (APD-134) | 3.57.1 | 18.11.2026 |

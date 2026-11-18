@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.57.2** · Stand 18.11.2026
+**Version 3.57.3** · Stand 18.11.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.60.2)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.60.3)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -30,6 +30,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.57.3 | 18.11.2026 | Korrektur | AppDesign 4.60.3 (P-109/F-1, P-109/F-2: Wischaktionen weich wie Notizen – Feder 0,5 s auf und zu, Kapseln mit eigener Zeit, beim Schließen durch Tippen alle zugleich); keine eigene Abweichung |
 | 3.57.2 | 18.11.2026 | Korrektur | AppDesign 4.60.2 (P-108/F-1 bis P-108/F-4: Wischaktionen wie in Notizen – Kapseln wachsen aus ihrer Mitte ab halber Kapsel, ein Abstand 11 pt, kein Durchwischen, Zurückfedern); keine neue Abweichung |
 | 3.57.1 | 18.11.2026 | Korrektur | AppDesign 4.60.1 (P-107/F-1 bis P-107/F-4: Wischaktionen nacheinander von außen, zurück umgekehrt, ‚Bewegung reduzieren‘ nur Einblenden, Kapseln wachsen mit der Textgröße – R-7.8, 15.4, R-1.13; APD-137; APD-134) – keine Abweichung |
 | 3.57.0 | 17.11.2026 | Neben | AppDesign 4.60.0 (APD-30 Wischaktionen der Kacheln R-7.8 – Tippen daneben in der Liste schließt nur, Schaltflächen außerhalb der Liste wirken sofort; Sprechblase graut ein und sperrt, R-1.4; APD-136 AD-Beans R-1.13, erste Bean `swipeactions`; APD-133 Designrichtlinie 13 ‚Neue Fenstergröße vor `resize`‘) – keine Abweichung |
