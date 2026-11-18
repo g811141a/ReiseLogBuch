@@ -104,9 +104,9 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   - plus öffnet ‚Neues Reiselogbuch‘. ellipsis: ‚Suchen‘ (nur mit Reiselogbüchern; Suche in allen, 6) · Strich · Backup erstellen ·
     Backup laden · Strich · ‚Darstellung ›‘ · Abstand · Messung starten · Strich · Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
   - Langes Drücken auf ein Reiselogbuch: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase).
-  - Wischen nach links auf ein Reiselogbuch (seit 3.57.0, AppDesign APD-30, R-7.8): daneben die Kapseln ‚Einstellen‘ (settings) und ‚Löschen‘
+  - Wischen nach links auf ein Reiselogbuch (R-7.8): daneben die Kapseln ‚Einstellen‘ (settings) und ‚Löschen‘
     (trash, rot, ganz außen) – dieselben Aktionen wie beim langen Drücken; ‚Löschen‘ fragt mit der Sprechblase
-    ‚Reiselogbuch löschen‘, über die Kapseln hinaus wird nichts ausgelöst (seit 3.57.2, wie Notizen). Tippen auf die Kachel oder daneben in der Liste schließt sie, ohne etwas auszulösen; plus, ellipsis und panel-left
+    ‚Reiselogbuch löschen‘, über die Kapseln hinaus wird nichts ausgelöst (wie Notizen). Tippen auf die Kachel oder daneben in der Liste schließt sie, ohne etwas auszulösen; plus, ellipsis und panel-left
     wirken sofort und schließen sie dabei.
 - **Kopfzeile:** Titel der Reise; Kapsel [share | ellipsis].
   - share → Teilen-Menü: Vorschau · HTML · ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ (RLB-124/W-1) (jeweils mit grauem Hinweis zum Speichern), Strich, darunter ‚N erfasste Tage ·
@@ -121,7 +121,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   direkt unter dem Tabellenkopf; läuft die Reise und ist bis heute alles erfasst, steht der heutige Tag dort, ohne
   Gelb; sonst (Reise in der Zukunft, vergangen und vollständig) beginnt die Tabelle ganz oben ohne Markierung. Ein Tag gilt als
   **erfasst**, wenn Wetter, Verlauf oder eine sichtbare Spalte außer Essen und Gegangene Kilometer (Wie war was?, Quartier) ausgefüllt
-  ist. Die Spalte ‚🚶🏽‍♂️km‘ zeigt nur die Zahl, rechtsbündig. Mehrere
+  ist. Die Spalte ‚🚶🏽‍♂️km‘ zeigt nur die Zahl. Mehrere
   Verlauf-Zeilen bekommen ▫️ davor; führende Smileys stehen vorne, der Text rückt daneben ein (hängender Einzug, R-6.3).
 - Darunter Fazit (Kasten passt sich in der Breite dem Inhalt an), Gesamtausgaben, Quartierliste (immer, sofern die Spalte Quartier
   sichtbar ist) und Statistik (9). Unten rechts ‚Nach oben / Ans Ende‘, bei langem Reiselogbuch der Schnellroll-Griff (R-3.2); seine
