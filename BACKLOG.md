@@ -18,7 +18,6 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-111 | 1 | **Usertest P-111 (Reiselogbuch 3.57.4, AppDesign 4.61.0):** Version prüfen (P-111/0) – App unverändert, Regeln aufgeräumt (AppDesign APD-135 Pakete 1 und 3) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -40,6 +39,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-111 | **Usertest P-111** (Reiselogbuch 3.57.4, AppDesign 4.61.0): /0 ok (Nutzer 18.11.2026, Sitzung 0132) | AppDesign 4.61.0 / Reiselogbuch 3.57.4 | 18.11.2026 |
 | 3.57.4 | **Korrektur: Regeln aufgeräumt (AppDesign 4.61.0, APD-135 Pakete 1 und 3):** App unverändert; `CLAUDE.md` 3.10.0, `PROMPT.md`, Designrichtlinie Reiselogbuch, Versionsgeschichte der `CLAUDE.md` ausgelagert | 3.57.4 | 18.11.2026 |
 | P-110 | **Usertest P-110** (Reiselogbuch 3.57.3, AppDesign 4.60.3): /0 bis /4 ok (Nutzer 18.11.2026, Sitzung 0131) | AppDesign 4.60.3 / Reiselogbuch 3.57.3 | 18.11.2026 |
 | P-109 | **Usertest P-109** (/0, /3, /4, /5 ok; /1, /2 nicht ok → Korrektur P-109/F-1, P-109/F-2 Wischaktionen weich wie Notizen) | AppDesign 4.60.3 / Reiselogbuch 3.57.3 | 18.11.2026 |
