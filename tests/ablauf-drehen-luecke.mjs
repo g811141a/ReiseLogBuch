@@ -5,8 +5,8 @@
 // (Sitzung 0119). Fest nachgebildet: resize zurückhalten, Größe ändern, restoreTop wie der Zeitgeber aufrufen, resize nachliefern.
 // Aufruf im Repo-Ordner: node tests/ablauf-drehen-luecke.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.60.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.60.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.60.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.60.1/tests/hig.mjs';
 const t = pruefung('ablauf-drehen-luecke', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 const tage = {}; for (let i = 0; i < 30; i++) tage[new Date(Date.UTC(2026, 7, 1 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + (i >> 2), place: 'Cairns', km: i % 5 };
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-01', end: '2026-08-30', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, kmColumn: true, quarterList: true, days: tage }];
