@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 17.11.2026** · Aktuelle Version: Reiselogbuch 3.57.0 · AppDesign 4.60.0
+**Stand 18.11.2026** · Aktuelle Version: Reiselogbuch 3.57.1 · AppDesign 4.60.1
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,7 +29,7 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-107 | 1 | **Usertest P-107 (3.57.0, AppDesign 4.60.0):** Version prüfen (P-107/0), Wischgefühl (P-107/1), Rollen gegen Wischen (P-107/2), Durchwischen fragt, alles daneben eingegraut (P-107/3), Zurückwischen (P-107/4), Hereinwischen der Seitenleiste und Zurückwischen wie bisher (P-107/5), Kontextmenü wie bisher (P-107/6), VoiceOver (P-107/7), Bewegung reduzieren (P-107/8), größte Textgröße (P-107/9), dunkel (P-107/10) – Testfälle im CHANGELOG | prüfen |
+| P-108 | 1 | **Usertest P-108 (3.57.1, AppDesign 4.60.1):** Version prüfen (P-108/0), Aufwischen nacheinander von außen (P-108/1), Zurückwischen umgekehrt, nichts über die Seitenleiste (P-108/2), Bewegung reduzieren nur Einblenden (P-108/3), größte Textgröße Kapseln größer (P-108/4) – Testfälle im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -49,6 +49,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| 3.57.1 | **Korrektur: Wischaktionen wie in Notizen (AppDesign 4.60.1, P-107/F-1 bis P-107/F-4):** Kapseln nacheinander von außen, zurück umgekehrt, nichts über die Seitenleiste; ‚Bewegung reduzieren‘ nur Einblenden; Kapseln wachsen mit der Textgröße; Prüfungen `ablauf-wischen` (APD-30/W-86) und `ablauf-markierung-menues` (APD-134) | 3.57.1 | 18.11.2026 |
+| P-107 | **Usertest P-107 (3.57.0, AppDesign 4.60.0):** /0, /2, /3, /5, /6, /7, /10 ok; /1, /4, /8, /9 nicht ok (Nutzer 17.11.2026, Sitzung 0125) – korrigiert mit 3.57.1, erneut im Usertest P-108 | 3.57.1 | 18.11.2026 |
 | 3.57.0 | **Neu: Wischaktionen in der Liste ‚Reiselogbücher‘ (AppDesign APD-30, APD-136, APD-133):** Wischen nach links zeigt ‚Einstellen‘ und ‚Löschen‘ (dieselben Aktionen wie das Kontextmenü, `tripAktionen`, AD-Bean `createSwipeactions`), Durchwischen fragt; Tippen daneben in der Liste schließt nur, plus, ellipsis und panel-left wirken sofort; Sprechblasen grauen ein und sperren; `PROMPT.md` nachgeführt; neu `tests/ablauf-wischen.mjs` (Usertest P-107) | 3.57.0 | 17.11.2026 |
 | P-106 | **Usertest P-106 (3.56.3, AppDesign 4.59.3):** alles ok; Testfall P-106/1 berichtigt (Nutzer 16.11.2026, Sitzung 0119) | 3.56.3 | 16.11.2026 |
 | 3.56.3 | **Korrektur (AppDesign APD-54, APD-85 Teil 6, APD-131, APD-133 – nach dem Drehen bleibt der oberste Tag auch bei spätem `resize`):** fremder Text in der Schnellauswahl der Smileys wird bereinigt, `normalize` nimmt dort nur Emoji-Schlüssel; 8 Prüfungen mit langem Drücken warten auf die Endlage; `PROMPT.md` und `tests/README.md` nachgeführt; neu `tests/ablauf-fremdtext.mjs` | 3.56.3 | 15.11.2026 |

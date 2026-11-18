@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.57.0** · Stand 17.11.2026
+**Version 3.57.1** · Stand 18.11.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.60.0)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.60.1)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -30,6 +30,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.57.1 | 18.11.2026 | Korrektur | AppDesign 4.60.1 (P-107/F-1 bis P-107/F-4: Wischaktionen nacheinander von außen, zurück umgekehrt, ‚Bewegung reduzieren‘ nur Einblenden, Kapseln wachsen mit der Textgröße – R-7.8, 15.4, R-1.13; APD-137; APD-134) – keine Abweichung |
 | 3.57.0 | 17.11.2026 | Neben | AppDesign 4.60.0 (APD-30 Wischaktionen der Kacheln R-7.8 – Tippen daneben in der Liste schließt nur, Schaltflächen außerhalb der Liste wirken sofort; Sprechblase graut ein und sperrt, R-1.4; APD-136 AD-Beans R-1.13, erste Bean `swipeactions`; APD-133 Designrichtlinie 13 ‚Neue Fenstergröße vor `resize`‘) – keine Abweichung |
 | 3.48.1 | 03.11.2026 | Korrektur | AppDesign 4.50.1 (APD-111 leere Zustände: Symbol 36 pt und Titel 17 pt halbfett überall; APD-112 Fokus nach dem Schließen zurück auf den Knopf) – keine eigene Abweichung |
 | 3.48.0 | 02.11.2026 | Neben | AppDesign 4.50.0 (APD-30 leere Zustände 15.23 / R-7.7: ‚Noch kein Reiselogbuch‘, ‚Keine Treffer für ‚…‘‘, ‚Noch keine Tage erfasst‘ mit ‚Alle Tage zeigen‘; APD-108 Wischen tippt nie an, Designrichtlinie 13 ‚Klick nach dem Wischen‘) – keine Abweichung |

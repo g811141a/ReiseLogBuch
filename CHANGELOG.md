@@ -13,6 +13,52 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.1 – 18.11.2026
+
+Reiselogbuch 3.57.1 · AppDesign 4.60.1 (Designrichtlinie allgemein 4.60.1) · Designrichtlinie Reiselogbuch 3.57.1 · Zusammenarbeit allgemein 3.14.1
+
+**Korrektur: Wischaktionen in der Liste ‚Reiselogbücher‘ wie in Notizen** (AppDesign 4.60.1: P-107/F-1 bis P-107/F-4, APD-137, APD-134; Sitzungen 0126 und 0127).
+
+- **Aufwischen:** zuerst ‚Löschen‘ ganz außen, wächst aus dem frei werdenden Platz und blendet ein, danach ‚Einstellen‘; **Zurückwischen** und Gleiten genau
+  umgekehrt, keine Kapsel ragt mehr über die Seitenleiste bzw. den Bildrand (P-107/F-1, P-107/F-2).
+- **‚Bewegung reduzieren‘:** die Kapseln blenden nur ein und aus (P-107/F-3).
+- **Textgröße:** die Kapseln samt Symbol wachsen mit wie die übrigen Schaltflächen (P-107/F-4).
+- **Prüfungen:** `tests/ablauf-wischen.mjs` mit APD-30/W-86 (Textgröße); `tests/ablauf-markierung-menues.mjs` fasst die Kachel nach dem Drehen bis 5 s nach
+  (AppDesign APD-134). Warum P-107/F-1 bis P-107/F-4 durchrutschten: AppDesign-CHANGELOG 4.60.1 (APD-30/W-7 verlangte das gleichzeitige Wachsen, nur die offene Lage geprüft, APD-30/W-57 nur ‚mindestens 66 × 44‘).
+
+Testfälle P-108 (Schritt für Schritt, Zusammenarbeit allgemein 3.14.1). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Es wird nichts gelöscht: nie ganz durchwischen, nie ‚Löschen‘ antippen.
+
+**P-108/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.1 · erstellt am … · AppDesign 4.60.1‘.
+
+**P-108/1 – Aufwischen: Kapseln nacheinander von außen**
+1. iPad quer: in der Seitenleiste ‚Reiselogbücher‘ eine Kachel langsam nach links wischen und dabei auf die Kapseln rechts daneben achten.
+2. Erwartet: zuerst erscheint ganz außen rot ‚Löschen‘ – sie wächst aus dem frei werdenden Platz und blendet ein; erst wenn ‚Löschen‘ ganz da ist, erscheint ‚Einstellen‘ auf dieselbe Weise.
+3. Loslassen, wenn die Kachel offen bleibt. Erwartet: beide Kapseln stehen in voller Größe nebeneinander.
+4. Dasselbe am iPhone hoch in der Startliste. Erwartet: wie in 2 und 3.
+
+**P-108/2 – Zurückwischen umgekehrt, nichts über die Seitenleiste**
+1. iPad quer: eine Kachel öffnen (nach links wischen, bis sie offen bleibt).
+2. Die offene Kachel langsam nach rechts zurückwischen.
+3. Erwartet: zuerst wird ‚Einstellen‘ kleiner und blasser, bis sie weg ist, danach ‚Löschen‘; keine Kapsel rückt dabei nach rechts über den Rand der Seitenleiste hinaus.
+4. Eine Kachel öffnen und auf die Kachel tippen. Erwartet: sie gleitet zurück, die Kapseln vergehen in derselben Reihenfolge (erst ‚Einstellen‘, dann ‚Löschen‘), nichts ragt über die Seitenleiste.
+5. Dasselbe am iPhone hoch. Erwartet: wie in 3 und 4, nichts ragt über den rechten Bildrand.
+
+**P-108/3 – Bewegung reduzieren: Kapseln blenden nur ein**
+1. iPad und iPhone: Einstellungen › Bedienungshilfen › Bewegung › ‚Bewegung reduzieren‘ ein; App neu öffnen.
+2. Eine Kachel langsam nach links wischen. Erwartet: die Kachel folgt dem Finger; die Kapseln stehen an ihrem Platz in voller Größe und blenden nur ein – sie wachsen nicht und rücken nicht herein.
+3. Langsam zurückwischen. Erwartet: die Kapseln blenden nur aus, ohne kleiner zu werden oder zu rücken.
+4. ‚Bewegung reduzieren‘ wieder aus.
+
+**P-108/4 – Größte Textgröße: Kapseln größer**
+1. iPad und iPhone: Einstellungen › Bedienungshilfen › Anzeige & Textgröße › Größerer Text ein, Regler ganz nach rechts; App neu öffnen.
+2. Eine Kachel nach links wischen, bis sie offen bleibt.
+3. Erwartet: die Kapseln ‚Einstellen‘ und ‚Löschen‘ samt Symbol sind sichtbar größer als bei normaler Textgröße (etwa so groß wie die runden Schaltflächen oben), die Wörter ganz zu lesen, nichts abgeschnitten, keine Kapsel ragt aus Seitenleiste oder Bild.
+4. Textgröße wieder zurückstellen.
+
 ## 3.57.0 – 17.11.2026
 
 Reiselogbuch 3.57.0 · AppDesign 4.60.0 (Designrichtlinie allgemein 4.60.0) · Designrichtlinie Reiselogbuch 3.57.0 · Zusammenarbeit allgemein 3.14.1

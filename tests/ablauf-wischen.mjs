@@ -5,9 +5,9 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-wischen.mjs. Teilbar: PRUEF_GERAET=iPad oder iPhone.
 // Gegenprobe W-68: PRUEF_GEGENPROBE=wischen:W-68 (Schwelle ‚Durchwischen‘ in der Prüfkopie von ui.js auf 20 %) – W-1 wird rot.
 import * as pw from 'playwright';
-import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.60.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.60.0/tests/hig.mjs';
-import { checkWischen, wischenGegenprobe, checkErstFragen, textGroesseSetzen } from '../../AppDesign/fassung/4.60.0/tests/ablauf.mjs';
+import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.60.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.60.1/tests/hig.mjs';
+import { checkWischen, wischenGegenprobe, checkErstFragen, textGroesseSetzen } from '../../AppDesign/fassung/4.60.1/tests/ablauf.mjs';
 const t = pruefung('ablauf-wischen', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const reise = (id, title, jahr, mehr = {}) => ({ id, title, participants: 'G', start: `${jahr}-05-03`, end: `${jahr}-05-17`, transport: ['pkw'], days: {}, ...mehr });
@@ -152,7 +152,7 @@ if (!geraet || geraet === 'iPhone') {
   await p.close();
 }
 
-// W-57: größte Textgröße – Wörter ganz, Kapseln mindestens 66 × 44, nichts ragt hinaus; W-58: ‚Bewegung reduzieren‘ – Einrasten und Schließen ohne
+// W-57: größte Textgröße – Wörter ganz, Kapseln mindestens 66 × 44, nichts ragt hinaus; W-86: Kapseln wachsen mit (seit 3.57.1); W-58: ‚Bewegung reduzieren‘ – Einrasten und Schließen ohne
 // Gleiten, Kapseln ohne Größenänderung (checkWischen prüft W-7 dann mit 100 %; der Bewegungswächter meldet jede Bewegung über der Grenze)
 for (const ansicht of ['iPad hoch', 'iPhone hoch'].filter(a => !geraet || a.startsWith(geraet))) {
   let p = await t.seite(b, ansicht, { theme: 'light' });
@@ -167,6 +167,9 @@ for (const ansicht of ['iPad hoch', 'iPhone hoch'].filter(a => !geraet || a.star
     return [wischen.offen?.dataset.id, [...document.querySelectorAll('.ad-swipeactions-wort')].every(w => w.scrollWidth <= w.clientWidth + 1),
       [...document.querySelectorAll('.ad-swipeactions-kapsel')].every(c => c.offsetWidth >= 66 && c.offsetHeight >= 44),
       [...document.querySelectorAll('.ad-swipeactions-kapsel, .ad-swipeactions-wort')].every(c => { const r = c.getBoundingClientRect(); return r.left >= l.left - 0.5 && r.right <= l.right + 0.5; })]; }), ['b', true, true, true], 'R-7.8');
+  // W-86 (seit 3.57.1, P-107/F-4): die Kapseln wachsen mit der Textgröße wie die Schaltflächen der Leisten – 66 × 44 mal --fb (bei AX5 1,3529: 89 × 60)
+  t.ist('W-86 Kapseln wachsen mit der Textgröße (66 × 44 mal --fb)', await p.evaluate(() => { const fb = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fb'));
+    return [fb > 1, [...document.querySelectorAll('.ad-swipeactions-kapsel')].map(c => Math.abs(c.offsetWidth - 66 * fb) <= 1.5 && Math.abs(c.offsetHeight - 44 * fb) <= 1.5)]; }), [true, [true, true]], 'R-7.8');
   });
   await p.close();
   p = await t.seite(b, ansicht, { theme: 'light', reducedMotion: 'reduce' });
