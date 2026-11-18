@@ -5,9 +5,9 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-wischen.mjs. Teilbar: PRUEF_GERAET=iPad oder iPhone.
 // Gegenprobe W-68: PRUEF_GEGENPROBE=wischen:W-68 (Schwelle ‚Durchwischen‘ in der Prüfkopie von ui.js auf 20 %) – W-1 wird rot.
 import * as pw from 'playwright';
-import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.60.3/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.60.3/tests/hig.mjs';
-import { checkWischen, wischenGegenprobe, checkErstFragen, textGroesseSetzen } from '../../AppDesign/fassung/4.60.3/tests/ablauf.mjs';
+import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.61.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.61.0/tests/hig.mjs';
+import { checkWischen, wischenGegenprobe, checkErstFragen, textGroesseSetzen } from '../../AppDesign/fassung/4.61.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-wischen', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const reise = (id, title, jahr, mehr = {}) => ({ id, title, participants: 'G', start: `${jahr}-05-03`, end: `${jahr}-05-17`, transport: ['pkw'], days: {}, ...mehr });
