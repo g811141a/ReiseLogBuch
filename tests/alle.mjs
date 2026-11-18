@@ -14,7 +14,7 @@
 // seit 3.56.3 ablauf-fremdtext (AppDesign APD-54) und ablauf-drehen-luecke (AppDesign APD-133, R-8.1).
 // seit 3.57.0 ablauf-wischen (AppDesign APD-30 und APD-136, R-7.8, R-1.13), nach Gerät geteilt (jeder Teil gut 3 min).
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.60.2/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.60.3/tests/lauf.mjs';
 const tests = ['doku-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'ablauf-messung', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-titel-blase', 'ablauf-titel-oben', 'ablauf-leer', 'ablauf-drehen-iphone', 'ablauf-schicht-oben', 'ablauf-glas', 'ablauf-feld-rollen', 'ablauf-feld-cursor', 'ablauf-fremdtext', 'ablauf-drehen-luecke', 'ablauf-grossanzeige', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
   'verlauf-vorschlaege', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln',

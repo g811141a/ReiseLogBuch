@@ -13,6 +13,50 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.3 – 18.11.2026
+
+Reiselogbuch 3.57.3 · AppDesign 4.60.3 (Designrichtlinie allgemein 4.60.3) · Designrichtlinie Reiselogbuch 3.57.3 · Zusammenarbeit allgemein 3.14.1
+
+**Korrektur: Wischaktionen weich wie Notizen** (AppDesign 4.60.3: P-109/F-1, P-109/F-2; Sitzung 0130).
+
+- **Gleiten:** die Kachel gleitet auf und zu mit der weichen Feder aus Notizen (etwa 0,5 s), egal wie weit – auch beim Tippen auf eine andere Kachel,
+  das sie bisher sofort zuschnappen ließ.
+- **Kapseln:** jede erscheint, sobald die Kachel sie ganz freigibt, und wächst in 0,25 s aus ihrer Mitte; beim Schließen durch Tippen daneben oder auf eine
+  andere Kachel vergehen beide zugleich in 0,23 s, beim Zurückwischen und Tippen auf die offene Kachel jede, sobald die Kachel sie erreicht.
+- **Prüfungen:** `tests/ablauf-wischen.mjs` mit APD-30/W-100 bis APD-30/W-102 (AppDesign `checkWischen`). Warum P-109/F-1 und P-109/F-2 durchrutschten:
+  AppDesign-CHANGELOG 4.60.3.
+
+Testfälle P-110 (Schritt für Schritt, Zusammenarbeit allgemein 3.14.1). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Es wird nichts gelöscht: nie ‚Löschen‘ antippen. Zum Vergleich Notizen daneben öffnen.
+
+**P-110/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.3 · erstellt am … · AppDesign 4.60.3‘.
+
+**P-110/1 – Aufwischen weich wie Notizen**
+1. iPhone hoch: in der Startliste eine Kachel zügig nach links wischen und loslassen.
+2. Erwartet: die Kachel gleitet weich auf ‚offen‘ und kommt sanft zum Stehen; ‚Löschen‘ und danach ‚Einstellen‘ wachsen sichtbar aus ihrer Mitte, nicht schlagartig – wie in Notizen.
+3. Dasselbe am iPad quer in der Seitenleiste. Erwartet: wie in 2.
+
+**P-110/2 – Tippen auf eine andere Kachel: weich zu**
+1. iPhone hoch: eine Kachel öffnen (nach links wischen, bis sie offen bleibt).
+2. Auf eine andere Kachel tippen.
+3. Erwartet: beide Kapseln schrumpfen zugleich und blenden aus, die Kachel gleitet weich darüber zurück und kommt sanft zum Stehen; die angetippte Kachel öffnet sich nicht.
+4. Dasselbe am iPad quer. Erwartet: wie in 3.
+
+**P-110/3 – Zurückwischen und Tippen auf die offene Kachel**
+1. iPhone hoch: eine Kachel öffnen und langsam mit dem Finger zurückwischen.
+2. Erwartet: zuerst vergeht ‚Einstellen‘, dann ‚Löschen‘, jeweils wenn die Kachel sie erreicht.
+3. Eine Kachel öffnen und auf die offene Kachel tippen. Erwartet: sie gleitet weich zurück, die Kapseln vergehen nacheinander.
+4. Dasselbe am iPad quer. Erwartet: wie in 2 und 3.
+
+**P-110/4 – Bewegung reduzieren**
+1. iPad und iPhone: Einstellungen › Bedienungshilfen › Bewegung › ‚Bewegung reduzieren‘ ein; App neu öffnen.
+2. Eine Kachel nach links wischen und loslassen, dann auf eine andere Kachel tippen.
+3. Erwartet: die Kapseln stehen an ihrem Platz in voller Größe und blenden nur ein bzw. aus – sie wachsen nicht und rücken nicht; nichts wird gelöscht.
+4. ‚Bewegung reduzieren‘ wieder aus.
+
 ## 3.57.2 – 18.11.2026
 
 Reiselogbuch 3.57.2 · AppDesign 4.60.2 (Designrichtlinie allgemein 4.60.2) · Designrichtlinie Reiselogbuch 3.57.2 · Zusammenarbeit allgemein 3.14.1
