@@ -45,7 +45,7 @@ for (const theme of ['light', 'dark']) {
       t.ist('RLB-84/F-8 nach dem Drehen blauer Eintrag', await blau(p), [], 'R-7.2');
       await p.setViewportSize(v); await p.waitForTimeout(300);
     }
-    await t.schritt(p, 'Reiselogbuch aus der Startliste öffnen', () => p.locator('#side .side-row[data-id="a"]').click().then(() => p.waitForTimeout(350)));
+    await t.schritt(p, 'Reiselogbuch aus der Startliste öffnen', () => p.locator('#side .side-row[data-id="a"]').click().then(() => p.waitForTimeout(350)).then(() => navFertig(p)));   // Wackler 0133: unter Last lief der Übergang noch
     t.ist('RLB-84/F-6 geöffnetes Reiselogbuch', (await titel(p)).trim(), 'Australien', 'R-7.2');
     t.ist('RLB-84/F-6 Sprung zum ersten offenen Tag', await p.locator('#pdays .box.gap').count(), 1);
     t.liste(await checkRueckkehr(p));                                                  // RLB-84/F-10 im Reiselogbuch
