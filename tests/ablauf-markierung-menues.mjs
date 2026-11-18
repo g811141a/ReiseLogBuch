@@ -36,7 +36,9 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   // seit 3.43.0 (AppDesign APD-97): auch hoch steht die Seitenleiste daneben – das Reiselogbuch ist bedienbar
   t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));
   // AppDesign APD-62/M-1 bis M-6, M-8, M-11 (R-4.13): wachsen aus der Schaltfläche – Mehr, Untermenü, Kontextmenü, Sprechblase; Drehen beim Wachsen
-  const lang = async n => { const bx = await row(n).boundingBox(); await p.mouse.move(bx.x + 40, bx.y + 20); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up(); };
+  // AppDesign APD-134 (seit 3.57.1): unter Last ist die Kachel nach dem Drehen noch nicht wieder da – boundingBox() war null und der Lauf brach ohne
+  // Meldung ab (‚Cannot read properties of null‘, WebKit, 4 Läufe gleichzeitig); jetzt erst warten, bis sie zu sehen ist
+  const lang = async n => { await row(n).waitFor({ state: 'visible', timeout: 5000 }); const bx = await row(n).boundingBox(); await p.mouse.move(bx.x + 40, bx.y + 20); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up(); };
   await t.schritt(p, 'Menüs wachsen aus der Schaltfläche', async () => t.liste(await checkWachsen(p, { menue: '#sideMore', untermenue: 'Darstellung', drehen: [h, w],
     kontext: () => lang('Toskana'),
     blase: async () => { await lang('Toskana'); await p.locator('.menu.kontext .mi', { hasText: 'Reiselogbuch löschen' }).click(); },
