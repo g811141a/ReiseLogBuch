@@ -13,6 +13,58 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.2 – 18.11.2026
+
+Reiselogbuch 3.57.2 · AppDesign 4.60.2 (Designrichtlinie allgemein 4.60.2) · Designrichtlinie Reiselogbuch 3.57.2 · Zusammenarbeit allgemein 3.14.1
+
+**Korrektur: Wischaktionen in der Liste ‚Reiselogbücher‘ wie in Notizen, gemessen** (AppDesign 4.60.2: P-108/F-1 bis P-108/F-4; Sitzungen 0128 und 0129).
+
+- **Aufwischen:** jede Kapsel wächst aus ihrer Mitte, sobald die halbe Kapsel frei ist, und ist ganz da, wenn auch der Abstand frei ist – zuerst ‚Löschen‘, dann
+  ‚Einstellen‘; zurück genau umgekehrt.
+- **Kein Durchwischen:** über die Kapseln hinaus geht die Kachel nur schwer mit und federt beim Loslassen auf ‚offen‘ zurück; gelöscht wird nur über die Kapsel
+  ‚Löschen‘ (fragt wie bisher). `PROMPT.md` 4 angepasst.
+- **Abstände:** Kachel–Kapsel, zwischen den Kapseln und rechts außen gleich (11 pt), offen 165 px.
+- **Prüfungen:** `tests/ablauf-wischen.mjs` mit AppDesign APD-30/W-91 bis W-94 (vorher gegen 3.57.1 rot, jetzt grün). Warum die Prüfung es nicht fand: `checkWischen` prüfte R-7.8 wie geschrieben – die Regel wich von Notizen ab (Erscheinen ab dem ersten Pixel, 8 px zwischen den Kapseln, Durchwischen); die Lücke lag in der Regel, nicht in der Prüfung (Sitzung 0128).
+
+Testfälle P-109 (Schritt für Schritt, Zusammenarbeit allgemein 3.14.1). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Es wird nichts gelöscht: nie ‚Löschen‘ antippen. Zum Vergleich Notizen daneben öffnen.
+
+**P-109/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.2 · erstellt am … · AppDesign 4.60.2‘.
+
+**P-109/1 – Aufwischen wie Notizen: ab halber Kapsel, aus der Mitte**
+1. iPad quer: in der Seitenleiste ‚Reiselogbücher‘ eine Kachel langsam nach links wischen und auf die Kapseln rechts daneben achten.
+2. Erwartet: zuerst ist nichts zu sehen; sobald etwa die halbe Kapsel frei ist, wächst rot ‚Löschen‘ aus ihrer Mitte und ist ganz da, wenn auch der Abstand daneben frei ist; danach erscheint ‚Einstellen‘ auf dieselbe Weise.
+3. Loslassen, wenn die Kachel offen bleibt. Erwartet: beide Kapseln in voller Größe; die Abstände Kachel–‚Einstellen‘, ‚Einstellen‘–‚Löschen‘ und ‚Löschen‘–rechter Rand sind gleich groß.
+4. Dasselbe am iPhone hoch in der Startliste. Erwartet: wie in 2 und 3.
+
+**P-109/2 – Zurückwischen und Tippen: genau umgekehrt**
+1. iPad quer: eine Kachel öffnen (nach links wischen, bis sie offen bleibt).
+2. Die offene Kachel langsam nach rechts zurückwischen.
+3. Erwartet: zuerst schrumpft ‚Einstellen‘ zu ihrer Mitte, bis sie weg ist, danach ‚Löschen‘; keine Kapsel ragt über den Rand der Seitenleiste.
+4. Eine Kachel öffnen und auf die Kachel tippen. Erwartet: sie gleitet zurück, die Kapseln vergehen in derselben Reihenfolge (erst ‚Einstellen‘, dann ‚Löschen‘).
+5. Dasselbe am iPhone hoch. Erwartet: wie in 3 und 4, nichts ragt über den rechten Bildrand.
+
+**P-109/3 – Über die Kapseln hinaus: kein Durchwischen, Zurückfedern**
+1. iPad quer: eine Kachel langsam nach links wischen und weit über die Kapseln hinaus weiterziehen, ohne loszulassen.
+2. Erwartet: die Kachel geht nur noch wenig und schwer mit; die Kapseln rücken etwas mit und werden minimal größer; keine Kapsel wird langgezogen, keine verschwindet.
+3. Loslassen. Erwartet: die Kachel federt auf ‚offen‘ zurück, beide Kapseln stehen da, es erscheint keine Sprechblase, nichts wird gelöscht.
+4. Dasselbe am iPhone hoch und zum Vergleich in Notizen. Erwartet: wie in 2 und 3, Ablauf wie in Notizen.
+
+**P-109/4 – Bewegung reduzieren: Kapseln blenden nur ein**
+1. iPad und iPhone: Einstellungen › Bedienungshilfen › Bewegung › ‚Bewegung reduzieren‘ ein; App neu öffnen.
+2. Eine Kachel langsam nach links wischen. Erwartet: die Kachel folgt dem Finger; die Kapseln stehen an ihrem Platz in voller Größe und blenden ab etwa der halben Kapsel nur ein – sie wachsen nicht und rücken nicht.
+3. Weit darüber hinaus ziehen und loslassen. Erwartet: die Kapseln bleiben stehen, die Kachel federt auf ‚offen‘ zurück, keine Sprechblase.
+4. ‚Bewegung reduzieren‘ wieder aus.
+
+**P-109/5 – Größte Textgröße: Kapseln und Abstände größer**
+1. iPad und iPhone: Einstellungen › Bedienungshilfen › Anzeige & Textgröße › Größerer Text ein, Regler ganz nach rechts; App neu öffnen.
+2. Eine Kachel nach links wischen, bis sie offen bleibt.
+3. Erwartet: die Kapseln samt Symbol und die Abstände dazwischen sind sichtbar größer als bei normaler Textgröße, die Wörter ganz zu lesen, nichts abgeschnitten, keine Kapsel ragt aus Seitenleiste oder Bild.
+4. Textgröße wieder zurückstellen.
+
 ## 3.57.1 – 18.11.2026
 
 Reiselogbuch 3.57.1 · AppDesign 4.60.1 (Designrichtlinie allgemein 4.60.1) · Designrichtlinie Reiselogbuch 3.57.1 · Zusammenarbeit allgemein 3.14.1

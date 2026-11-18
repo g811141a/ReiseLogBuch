@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 18.11.2026, Version 3.57.1)
+# Reiselogbuch – Funktionsbeschreibung (Stand 18.11.2026, Version 3.57.2)
 
-Reiselogbuch 3.57.1 · AppDesign 4.60.1 (Designrichtlinie allgemein 4.60.1) · Designrichtlinie Reiselogbuch 3.57.1 · Zusammenarbeit allgemein 3.14.1
+Reiselogbuch 3.57.2 · AppDesign 4.60.2 (Designrichtlinie allgemein 4.60.2) · Designrichtlinie Reiselogbuch 3.57.2 · Zusammenarbeit allgemein 3.14.1
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, R-1.1 bis R-10.4); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -106,8 +106,8 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
     Backup laden · Strich · ‚Darstellung ›‘ (seit 3.41.0, RLB-108) · Abstand · Messung starten · Strich · Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
   - Langes Drücken auf ein Reiselogbuch: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase).
   - Wischen nach links auf ein Reiselogbuch (seit 3.57.0, AppDesign APD-30, R-7.8): daneben die Kapseln ‚Einstellen‘ (settings) und ‚Löschen‘
-    (trash, rot, ganz außen) – dieselben Aktionen wie beim langen Drücken; Durchwischen über 60 % der Kachel fragt mit der Sprechblase
-    ‚Reiselogbuch löschen‘. Tippen auf die Kachel oder daneben in der Liste schließt sie, ohne etwas auszulösen; plus, ellipsis und panel-left
+    (trash, rot, ganz außen) – dieselben Aktionen wie beim langen Drücken; ‚Löschen‘ fragt mit der Sprechblase
+    ‚Reiselogbuch löschen‘, über die Kapseln hinaus wird nichts ausgelöst (seit 3.57.2, wie Notizen). Tippen auf die Kachel oder daneben in der Liste schließt sie, ohne etwas auszulösen; plus, ellipsis und panel-left
     wirken sofort und schließen sie dabei.
 - **Kopfzeile:** Titel der Reise; Kapsel [share | ellipsis].
   - share → Teilen-Menü: Vorschau · HTML · ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ (RLB-124/W-1) (jeweils mit grauem Hinweis zum Speichern), Strich, darunter ‚N erfasste Tage ·

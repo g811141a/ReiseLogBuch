@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 18.11.2026** · Aktuelle Version: Reiselogbuch 3.57.1 · AppDesign 4.60.1
+**Stand 18.11.2026** · Aktuelle Version: Reiselogbuch 3.57.2 · AppDesign 4.60.2
 
 Hier stehen alle offenen Themen. Erledigte Punkte wandern mit Version und Datum nach unten
 in „Erledigt“. Claude erinnert zu Beginn und am Ende jeder Sitzung an die offenen Punkte
@@ -29,12 +29,14 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-108 | 1 | **Usertest P-108 (3.57.1, AppDesign 4.60.1):** Version prüfen (P-108/0), Aufwischen nacheinander von außen (P-108/1), Zurückwischen umgekehrt, nichts über die Seitenleiste (P-108/2), Bewegung reduzieren nur Einblenden (P-108/3), größte Textgröße Kapseln größer (P-108/4) – Testfälle im CHANGELOG | prüfen |
+| P-109 | 1 | **Usertest P-109 (3.57.2, AppDesign 4.60.2):** Version prüfen (P-109/0), Aufwischen wie Notizen ab halber Kapsel aus der Mitte (P-109/1), Zurückwischen und Tippen umgekehrt (P-109/2), kein Durchwischen und Zurückfedern (P-109/3), Bewegung reduzieren nur Einblenden (P-109/4), größte Textgröße Kapseln und Abstände größer (P-109/5) – Testfälle im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| RLB-125 | 2 | **Reiselogbuch für die Erfassung sperren (Nutzer 18.11.2026, Sitzung 0127):** ein Reiselogbuch lässt sich sperren, damit nicht irrtümlich etwas geändert wird; lesen bleibt möglich. Ein gesperrtes Reiselogbuch lässt sich auch nicht löschen. Sperren und Entsperren über langes Drücken auf die Kachel, im Kontextmenü. Gesperrt zeigt die Kachel rechts unten `lock`, nicht gesperrt kein Symbol; im geöffneten Reiselogbuch `lock` neben dem Titel nur bei Sperre (RLB-125/S-1 bis RLB-125/S-4, Nutzer 18.11.2026). Zu klären: welche Handlungen gesperrt sind (Einträge, Einstellungen, Löschen, Abgleich, Backup laden), Symbol (Lucide `lock`), Wischaktionen bei Sperre, Ansicht der Felder (nur lesen), Verbesserungen beim Löschen RLB-125/L-1 bis RLB-125/L-5 in `AppDesign/arbeit/0127 RLB-125 Reiselogbuch sperren.md` (Nutzer 18.11.2026), allgemein oder App (Teile davon als AD-Bean, R-1.13) | Reiselogbuch (Teile allgemein zu klären) | offen |
+| RLB-126 | 3 | **‚Zuletzt gelöscht‘ (aus RLB-125/L-6, Nutzer 18.11.2026, Sitzung 0127):** ein gelöschtes Reiselogbuch bleibt 30 Tage wiederherstellbar (eigener Bereich in der Seitenleiste); berührt Datenmodell, Abgleich und Speicherplatz; So macht es Apple in der Klärung mit Quelle | Reiselogbuch | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
@@ -49,6 +51,8 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| 3.57.2 | **Korrektur: Wischaktionen wie in Notizen, gemessen (AppDesign 4.60.2, P-108/F-1 bis P-108/F-4):** Kapseln wachsen aus ihrer Mitte ab halber Kapsel, ein Abstand 11 pt, kein Durchwischen, Zurückfedern; Prüfungen `ablauf-wischen` (APD-30/W-91 bis W-94) | 3.57.2 | 18.11.2026 |
+| P-108 | **Usertest P-108 (Reiselogbuch 3.57.1, AppDesign 4.60.1):** /0, /3, /4 ok; /1, /2 nicht ok (P-108/F-1 bis P-108/F-4, Nutzer 18.11.2026, Sitzung 0128) – Muster wie Notizen gemessen (Sitzung 0128, bestätigt in 0129), korrigiert mit Reiselogbuch 3.57.2 / AppDesign 4.60.2, erneut im Usertest P-109 | 3.57.2 | 18.11.2026 |
 | 3.57.1 | **Korrektur: Wischaktionen wie in Notizen (AppDesign 4.60.1, P-107/F-1 bis P-107/F-4):** Kapseln nacheinander von außen, zurück umgekehrt, nichts über die Seitenleiste; ‚Bewegung reduzieren‘ nur Einblenden; Kapseln wachsen mit der Textgröße; Prüfungen `ablauf-wischen` (APD-30/W-86) und `ablauf-markierung-menues` (APD-134) | 3.57.1 | 18.11.2026 |
 | P-107 | **Usertest P-107 (3.57.0, AppDesign 4.60.0):** /0, /2, /3, /5, /6, /7, /10 ok; /1, /4, /8, /9 nicht ok (Nutzer 17.11.2026, Sitzung 0125) – korrigiert mit 3.57.1, erneut im Usertest P-108 | 3.57.1 | 18.11.2026 |
 | 3.57.0 | **Neu: Wischaktionen in der Liste ‚Reiselogbücher‘ (AppDesign APD-30, APD-136, APD-133):** Wischen nach links zeigt ‚Einstellen‘ und ‚Löschen‘ (dieselben Aktionen wie das Kontextmenü, `tripAktionen`, AD-Bean `createSwipeactions`), Durchwischen fragt; Tippen daneben in der Liste schließt nur, plus, ellipsis und panel-left wirken sofort; Sprechblasen grauen ein und sperren; `PROMPT.md` nachgeführt; neu `tests/ablauf-wischen.mjs` (Usertest P-107) | 3.57.0 | 17.11.2026 |
