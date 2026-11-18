@@ -22,8 +22,9 @@ sind (oder auf Wunsch); siehe `README - Zusammenarbeit allgemein.md`, 0 Nr. 8.
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| P-109/F-1, P-109/F-2 | 1 | **Korrektur Wischaktionen weich wie Notizen** (Muster ‚passt‘, Wortlaut P-109/V-1 bis P-109/V-3 und Testfall-Liste P-109/M-1 bis P-109/M-12 bestätigt, Nutzer 18.11.2026, Sitzung 0130 – `arbeit/0130 P-109 Wortlaut.md`): Feder 0,5 s auf und zu, Kapseln mit eigener Zeit (0,25 s ein, 0,23 s aus, beim Schließen durch Tippen alle zugleich); Korrekturversion AppDesign 4.60.3 / Reiselogbuch 3.57.3, voll | Reiselogbuch (allgemein in AppDesign) | 18.11.2026 |
 
-0 Punkte bereit.
+1 Punkt bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
