@@ -33,6 +33,9 @@ Reiselogbuch 3.57.7 · AppDesign 4.64.0 (Designrichtlinie allgemein 4.64.0) · D
   (macht `ui.js`; APD-135/B-4.2).
 - **Prüfungen:** neu `tests/schnittstelle-regeln.mjs` (R-1.14) im Vorlauf von `alle.mjs`, nur im ersten Browser (APD-135/B-4.1, S-6); `ablauf-fenster`
   mit dem festen Fall APD-135/S-8 (Hinweisfenster verschoben, nach `resize` wieder am Platz); `tests/README.md` nachgeführt.
+- **Prüfungen (AppDesign APD-135 Paket 6 Schritt 2, APD-135/B-3.1):** neu `tests/bausteine-pruefseite.mjs` – eine dünne Hülle für die Bausteine auf der Prüfseite von
+  AppDesign (Vorlage mit neutralen Daten und Mindestseite, `pruefseite.mjs`), in `alle.mjs` mit dem Teil `werte` (APD-135/E-2 bis E-5); Gegenprobe
+  `node tests/alle.mjs --gegenprobe pruefseite` (je Baustein ein eingeschleuster Fehler, APD-135/E-6); `abgleich-regeln` bleibt; `tests/README.md` nachgeführt.
 - AD-Bean: keine, weil nur die Schnittstelle von `ui.js` genutzt wird; die gedrückten Schaltflächen (`markHeld`) kommen später als Bean `gedrueckt` (APD-136).
 
 Testfälle P-114 (Schritt für Schritt, Zusammenarbeit allgemein 3.17.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der

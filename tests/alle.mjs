@@ -4,7 +4,7 @@
 // Paket 5) – über das
 // Lauf-Werkzeug aus AppDesign (tests/lauf.mjs). AppDesign muss neben dem Repo liegen. Seit 3.57.7 (AppDesign APD-135/B-4.1, R-1.14) steht
 // schnittstelle-regeln im Vorlauf (ohne Browser, einmal).
-// Aufruf im Repo-Ordner: node tests/alle.mjs [--alle] [--browser chromium] [--nur hig,tastatur] [--abdeckung]
+// Aufruf im Repo-Ordner: node tests/alle.mjs [--alle] [--browser chromium] [--nur hig,tastatur] [--abdeckung] [--gegenprobe [… | pruefseite]]
 // pixelvergleich.mjs läuft nicht mit (braucht _alt.html, Handwerkzeug). Seit 3.36.0 (RLB-103) läuft ablauf-tastatur-still mit, seit 3.37.0
 // (RLB-107, AppDesign APD-83) ablauf-fenster-breite, seit 3.41.0 ablauf-suche-menue (AppDesign APD-91) und ablauf-preis-km (RLB-108 bis RLB-110),
 // seit 3.43.0 ablauf-seitenleiste-hoch (AppDesign APD-97), seit 3.44.0 ablauf-einstellen (RLB-113) und ablauf-jahre (RLB-114, AppDesign APD-100),
@@ -17,6 +17,8 @@
 // seit 3.55.0 ablauf-feld-cursor (AppDesign APD-126, R-5.11, R-5.2).
 // seit 3.56.3 ablauf-fremdtext (AppDesign APD-54) und ablauf-drehen-luecke (AppDesign APD-133, R-8.1).
 // seit 3.57.0 ablauf-wischen (AppDesign APD-30 und APD-136, R-7.8, R-1.13), nach Gerät geteilt (jeder Teil gut 3 min).
+// seit 3.57.7 bausteine-pruefseite (AppDesign APD-135/B-3.1, Designrichtlinie 14 ‚Prüfen‘): die Bausteine auf der Prüfseite von AppDesign (Vorlage
+// mit neutralen Daten, Mindestseite), mit Teilen – zunächst ‚werte‘; Gegenprobe je eingeschleustem Fehler: --gegenprobe pruefseite.
 import * as pw from 'playwright';
 import { lauf } from '../../AppDesign/fassung/4.64.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'ablauf-messung', 'tastatur',
@@ -39,7 +41,9 @@ const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'abl
     'Text 14': { PRUEF_DARSTELLUNG: 'light', PRUEF_TEXT: '14' }, 'Text 23': { PRUEF_DARSTELLUNG: 'dark', PRUEF_TEXT: '23' },
     'Text 33': { PRUEF_DARSTELLUNG: 'light', PRUEF_TEXT: '33' }, 'Text 53': { PRUEF_DARSTELLUNG: 'dark', PRUEF_TEXT: '53' } } },
   { name: 'kontextmenue-regeln', teile: { iPad: { PRUEF_GERAET: 'iPad' }, iPhone: { PRUEF_GERAET: 'iPhone' } } },
-  { name: 'ablauf-wischen', teile: { iPad: { PRUEF_GERAET: 'iPad' }, iPhone: { PRUEF_GERAET: 'iPhone' } } }];
+  { name: 'ablauf-wischen', teile: { iPad: { PRUEF_GERAET: 'iPad' }, iPhone: { PRUEF_GERAET: 'iPhone' } } },
+  // Seit 3.57.7 (AppDesign APD-135/B-3.1): Bausteine auf der Prüfseite, je Teil ein Lauf (PRUEF_TEIL)
+  { name: 'bausteine-pruefseite', teile: { werte: {} } }];
 // Seit 3.35.0: Zeitgrenze je Test 600 s statt 300 – ablauf-blatt braucht allein schon 288 s (auch mit AppDesign 4.36.0 gemessen) und lief
 // unter Volllast in WebKit über die Grenze
 const argv = process.argv.slice(2), zeit = argv.includes('--zeit') ? [] : ['--zeit', '600'];
