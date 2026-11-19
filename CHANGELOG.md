@@ -36,6 +36,14 @@ Reiselogbuch 3.57.7 · AppDesign 4.64.0 (Designrichtlinie allgemein 4.64.0) · D
 - **Prüfungen (AppDesign APD-135 Paket 6 Schritt 2, APD-135/B-3.1):** neu `tests/bausteine-pruefseite.mjs` – eine dünne Hülle für die Bausteine auf der Prüfseite von
   AppDesign (Vorlage mit neutralen Daten und Mindestseite, `pruefseite.mjs`), in `alle.mjs` mit dem Teil `werte` (APD-135/E-2 bis E-5); Gegenprobe
   `node tests/alle.mjs --gegenprobe pruefseite` (je Baustein ein eingeschleuster Fehler, APD-135/E-6); `abgleich-regeln` bleibt; `tests/README.md` nachgeführt.
+- **Prüfungen (AppDesign APD-135 Paket 6 Schritt 2, APD-135/B-3.2):** die fünf Abläufe prüft AppDesign jetzt auf der Prüfseite – `bausteine-pruefseite` mit
+  den Teilen `messung`, `titel-blase`, `titel-oben`, `schicht-oben`, `grossanzeige` (dazu `werte`, APD-135/E-7 bis E-11). Weggefallen sind `ablauf-messung`,
+  `ablauf-titel-blase`, `ablauf-titel-oben`, `ablauf-schicht-oben` und `ablauf-grossanzeige`; neu `tests/ablauf-bausteine.mjs` (APD-135/E-13) – je Baustein
+  eine kurze Zusammenspiel-Prüfung an den echten Knöpfen und Titeln der App (Großanzeige: jeder sichtbare Knopf der Kopfzeile, der Seitenleiste und der
+  Fenster-Kopfzeile zeigt Icon und Namen) und die Reiselogik: APD-27/F-10 leere App öffnet ‚Neues Reiselogbuch‘, APD-101/L-3 Fenstertitel ‚Do, 27.08.2026‘,
+  APD-101/L-8 Reisetitel unverändert, nach der Sperrschicht nichts gelöscht. Gegenprobe: dieselben eingeschleusten Fehler sind auf der Prüfseite, in den
+  bisherigen Prüfdateien und in `ablauf-bausteine` rot (Nachweis-Tabelle im CHANGELOG von AppDesign 4.64.0, APD-135/E-12). `alle.mjs`, `tests/README.md`
+  und Kommentare in `ablauf-abspielen` und `ablauf-tastatur-still` nachgeführt.
 - AD-Bean: keine, weil nur die Schnittstelle von `ui.js` genutzt wird; die gedrückten Schaltflächen (`markHeld`) kommen später als Bean `gedrueckt` (APD-136).
 
 Testfälle P-114 (Schritt für Schritt, Zusammenarbeit allgemein 3.17.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der

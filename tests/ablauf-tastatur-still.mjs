@@ -86,12 +86,12 @@ const schliesseMenue = p => p.evaluate(() => document.querySelector('.layer')?.c
 const lupe = async p => (await p.locator('#search').count()) ? p.click('#sclose') : sucheAuf(p);
 const ZIELE = { '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { '-': [tagSichtbar, p => p.click('label[for="fProgram"]'), async () => {}, tagSichtbar, schliesseMenue] },
   '2026-10-26 iPhone quer Blatt Ort Quartier.txt': { button: ['#side .side-row[data-id="a"]', '.pop button.danger'], '-': [tagSichtbar, schliesseMenue]  },
-  // seit 3.52.0 (AppDesign APD-118): P-97/6 – ‚-‘ ist die Fläche hinter dem Mehr-Menü (der Tipp ohne Klick am oberen Rand spielt ablauf-schicht-oben nach)
+  // seit 3.52.0 (AppDesign APD-118): P-97/6 – ‚-‘ ist die Fläche hinter dem Mehr-Menü (den Tipp ohne Klick am oberen Rand spielt bausteine-pruefseite, Teil schicht-oben, nach)
   '2026-11-06 iPhone quer Mehr-Menü oberer Rand.txt': { button: ['#side .side-row[data-id="a"]'], '-': [schliesseMenue] } };
 for (const datei of readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort()) {
   const m = lies(readFileSync(new URL(encodeURIComponent(datei), ORDNER), 'utf8'));
-  // seit 3.47.1 (AppDesign APD-109): die Messung ‚Titel antippen‘ hat keine Tastatur – nachgebaut in ablauf-titel-oben
-  // seit 3.53.0 (AppDesign APD-121/Y-5): die Messungen ‚Mehr-Knopf oben‘ vom 07.11.2026 haben keine Tastatur – nachgespielt in ablauf-schicht-oben
+  // seit 3.47.1 (AppDesign APD-109): die Messung ‚Titel antippen‘ hat keine Tastatur – nachgebaut in bausteine-pruefseite, Teil titel-oben
+  // seit 3.53.0 (AppDesign APD-121/Y-5): die Messungen ‚Mehr-Knopf oben‘ vom 07.11.2026 haben keine Tastatur – nachgespielt in bausteine-pruefseite, Teil schicht-oben
   if (!m.app.startsWith('Reiselogbuch') || datei === '2026-11-02 iPad quer Titel antippen Messmodus.txt' || datei.startsWith('2026-11-07 iPhone quer Mehr-Knopf oben')) continue;
   const p = await t.seite(b, ansicht(m));
   t.ort = `APD-36/T-8 ${datei.replace(/\.txt$/, '')}`;
