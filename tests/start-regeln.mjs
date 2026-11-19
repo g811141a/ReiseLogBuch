@@ -5,9 +5,9 @@
 // Seit 3.17.0 (RLB-88): zuletzt verwendetes Reiselogbuch – iPad-Aufbau öffnet es, Startliste bleibt ohne Blau.
 // RLB-84/F-12 (Start ohne Netz) prüft offline-regeln.mjs, RLB-84/F-18 (Löschen → Startliste) ablauf-iphone.mjs.
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.61.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.61.0/tests/hig.mjs';
-import { checkStart, checkRueckkehr } from '../../AppDesign/fassung/4.61.0/tests/start.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.62.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.62.0/tests/hig.mjs';
+import { checkStart, checkRueckkehr } from '../../AppDesign/fassung/4.62.0/tests/start.mjs';
 const t = pruefung('start-regeln', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const reise = (id, title, start, end, days = {}) => ({ id, title, participants: 'Anna', start, end, transport: ['pkw'], days });
@@ -45,7 +45,7 @@ for (const theme of ['light', 'dark']) {
       t.ist('RLB-84/F-8 nach dem Drehen blauer Eintrag', await blau(p), [], 'R-7.2');
       await p.setViewportSize(v); await p.waitForTimeout(300);
     }
-    await t.schritt(p, 'Reiselogbuch aus der Startliste öffnen', () => p.locator('#side .side-row[data-id="a"]').click().then(() => p.waitForTimeout(350)));
+    await t.schritt(p, 'Reiselogbuch aus der Startliste öffnen', () => p.locator('#side .side-row[data-id="a"]').click().then(() => p.waitForTimeout(350)).then(() => navFertig(p)));   // Wackler 0133: unter Last lief der Übergang noch
     t.ist('RLB-84/F-6 geöffnetes Reiselogbuch', (await titel(p)).trim(), 'Australien', 'R-7.2');
     t.ist('RLB-84/F-6 Sprung zum ersten offenen Tag', await p.locator('#pdays .box.gap').count(), 1);
     t.liste(await checkRueckkehr(p));                                                  // RLB-84/F-10 im Reiselogbuch

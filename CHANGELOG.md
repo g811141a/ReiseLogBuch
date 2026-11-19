@@ -13,6 +13,27 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.5 – 18.11.2026
+
+Reiselogbuch 3.57.5 · AppDesign 4.62.0 (Designrichtlinie allgemein 4.62.0) · Designrichtlinie Reiselogbuch 3.57.5 · Zusammenarbeit allgemein 3.15.0
+
+**Korrektur: Regeltexte ohne Doppeltext, App unverändert** (AppDesign 4.62.0: APD-135 Paket 4; Sitzung 0133).
+
+- **App:** keine Änderung an Bedienung und Aussehen – nur die feste Fassung AppDesign 4.62.0.
+- **Regeln:** `PROMPT.md` – 21 Stellen nennen nur noch Werte und die Regelnummer statt den Regeltext zu wiederholen (APD-135/W-50, D-46 Nr. 1 bis 21);
+  Designrichtlinie Reiselogbuch – Abweichungen 1–3 ebenso (APD-135/W-50); im `PROMPT.md` ‚seit X.Y.Z‘ beim Wischen gestrichen und
+  ‚rechtsbündig‘ bei der Spalte ‚🚶🏽‍♂️km‘ (APD-135/W-51, Wortlaut `arbeit/0133 W-51 Rest Wortlaut.md`, bestätigt 18.11.2026).
+- **Prüfungen:** `tests/start-regeln.mjs` wartet nach dem Öffnen aus der Startliste auf das Ende des Übergangs (`navFertig`) – in WebKit unter Last
+  las R-7.2 ‚Rückkehr aus dem Hintergrund‘ sonst den halben Übergang (Wackler, Sitzung 0133).
+
+Testfälle P-112 (Schritt für Schritt, Zusammenarbeit allgemein 3.15.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-112/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.5 · erstellt am … · AppDesign 4.62.0‘.
+
 ## 3.57.4 – 18.11.2026
 
 Reiselogbuch 3.57.4 · AppDesign 4.61.0 (Designrichtlinie allgemein 4.61.0) · Designrichtlinie Reiselogbuch 3.57.4 · Zusammenarbeit allgemein 3.15.0

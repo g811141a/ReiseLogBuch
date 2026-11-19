@@ -10,9 +10,9 @@
 // M-14 = M-4; M-15 quer kein eigener Rand; M-16 Safari (nicht Home-Bildschirm) kein eigener Rand. Gegenprobe M-18: gegen 4.59.1 rot.
 // Aufruf im Repo-Ordner: node tests/ablauf-drehen-iphone.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, rolle } from '../../AppDesign/fassung/4.61.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.61.0/tests/hig.mjs';
-import { safariModell, safariDrehenHoch, DREH_REST, RAND_NACH } from '../../AppDesign/fassung/4.61.0/tests/safari.mjs';
+import { pruefung, navFertig, rolle } from '../../AppDesign/fassung/4.62.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.62.0/tests/hig.mjs';
+import { safariModell, safariDrehenHoch, DREH_REST, RAND_NACH } from '../../AppDesign/fassung/4.62.0/tests/safari.mjs';
 const t = pruefung('ablauf-drehen-iphone', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = (y, m, d) => new Date(Date.UTC(y, m - 1, d)).toISOString().slice(0, 10);
