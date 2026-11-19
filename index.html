@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.63.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.64.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -134,18 +134,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.63.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.64.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.57.6';
-const APP_BUILT = '19.11.2026 um 09:41';
+const APP_VERSION = '3.57.7';
+const APP_BUILT = '19.11.2026 um 13:49';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.63.0';
+const AD_NEEDED = '4.64.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -816,7 +816,7 @@ function progressText(trip) {
 // (seit 3.41.0, AppDesign APD-91); gezeigt werden nur passende Tage, die Treffer sind gelb, der aktuelle hellorange.
 const searchRowHtml = term => `<div class="nb2">
     <span class="searchbox active">${ic('search')}<input type="search" id="search" placeholder="Suchen" value="${esc(searchTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${term ? `
-      <span class="smeta"><span class="scount" id="scount"></span><button type="button" class="sclear" id="sclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
+      <span class="smeta"><span class="scount" id="scount"></span><button type="button" class="sclear" id="sclear" aria-label="Suche löschen">${FX_SVG}</button></span>` : ''}</span>
     <span class="navgrp"><button type="button" id="sprev" aria-label="Voriger Treffer" ${term ? '' : 'disabled'}>${ic('chevron-up')}</button><button type="button" id="snext" aria-label="Nächster Treffer" ${term ? '' : 'disabled'}>${ic('chevron-down')}</button></span>
     ${sucheBeendenHtml('sclose')}
   </div>`;
@@ -1152,7 +1152,7 @@ function renderSide() {
   side.querySelector('#sideMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
   side.querySelector('#sideHide').onclick = toggleSide;
   const hb = side.querySelector('#hintBackup'); if (hb) hb.onclick = () => saveBackup('#hintBackup');   // onclick: setHtml behält das Element (APD-24)
-  held.forEach(sel => side.querySelector(sel)?.classList.add('on'));
+  markHeld(side);
   markOpener();
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Reiselogbuch einstellen · Reiselogbuch löschen); die Köpfe (.side-sec) tun nichts.
   side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
@@ -1166,7 +1166,7 @@ function renderSide() {
 // RLB-92 (AppDesign APD-19): Suchzeile der Liste wie 15.2, ohne Pfeile – die Kacheln zeigen die Treffer; rechts x ‚Suche beenden‘ (APD-91).
 const listSearchHtml = () => `<div class="nb2 side-search">
     <span class="searchbox active">${ic('search')}<input type="search" id="lsearch" placeholder="In allen suchen" value="${esc(listTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${listTerm ? `
-      <span class="smeta"><button type="button" class="sclear" id="lsclear" aria-label="Suche löschen"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M15 9l-6 6M9 9l6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button></span>` : ''}</span>
+      <span class="smeta"><button type="button" class="sclear" id="lsclear" aria-label="Suche löschen">${FX_SVG}</button></span>` : ''}</span>
     ${sucheBeendenHtml('lsclose')}
   </div>`;
 
@@ -1980,7 +1980,7 @@ async function exportHtml(trip) {
   const file = { name: `${outputName(trip, version)}.html`, type: 'html', content: outputDocument(trip, version, stamp) };
   if (dlg.open) dlg.close();
   const result = await shareFiles([file]);
-  dlgOpener = '#shareBtn';
+  setOpener('#shareBtn');
   showOutputResult(`Ausgabe V${pad(version, 3)}`, file.name, result);
 }
 
@@ -1988,7 +1988,7 @@ async function exportHtml(trip) {
 function exportPdf(trip) {
   const { version, stamp } = nextOutput(trip);
   const name = outputName(trip, version);
-  dlgOpener = '#shareBtn';
+  setOpener('#shareBtn');
   showOutputResult(`Ausgabe V${pad(version, 3)}`, name + '.pdf', 'print');
   const oldTitle = document.title;
   printout.innerHTML = `<style>${OUTPUT_CSS.replace(/\bbody\b/g, '#printout')}</style>${outputBody(trip, version, stamp)}`;
@@ -2116,7 +2116,6 @@ if (isPhone()) { phoneList = true; startList = true; rolle.to(0); render(); }
 let wasWide = isWide();
 let wasPhone = isPhone(), wasAx = isAx();
 window.addEventListener('resize', () => {
-  placeDialogs();
   // R-8.1: Ist ein Menü oder eine Abfrage aus der Seitenleiste offen, bleibt sie in jedem Fall sichtbar.
   if (document.querySelector('#side .on') && document.querySelector('.menu, .pop')) sideOpen = true;
   // Wechsel fest ↔ darübergelegt bzw. iPad- ↔ iPhone-Aufbau: neu aufbauen; der Zustand sideOpen bleibt (R-8.1).

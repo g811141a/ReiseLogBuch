@@ -5,11 +5,11 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-abspielen.mjs
 import * as pw from 'playwright';
 import { readFileSync, readdirSync } from 'node:fs';
-import { pruefung } from '../../AppDesign/fassung/4.63.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.63.0/tests/hig.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.63.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.63.0/tests/abspielen.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.63.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.64.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.64.0/tests/hig.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.64.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.64.0/tests/abspielen.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.64.0/tests/ablauf.mjs';
 // seit 3.57.6 (AppDesign APD-135/Z-14, W-54): Grundregeln nach jedem Schritt (hig) – vorher prüfte t.schritt hier keine
 const t = pruefung('ablauf-abspielen', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href, ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);
@@ -23,9 +23,9 @@ const EINSTELLUNG = { '2026-10-19 iPhone quer Suche Fenster Gesamtausgaben.txt':
   // nicht nach; der gemessene Zug am Rand ist in checkSheet B19 nachgebaut (‚erst nach oben, dann nach unten‘)
   '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { aus: true },
   // seit 3.47.1 (AppDesign APD-109, P-90): Messung ‚Titel antippen‘ am iPad – ‚tippen -‘ ist dort der Titel, kein Tag; der Ablauf ist in
-  // ablauf-titel-oben im Safari-Modell ‚Klick nur mit Hörer‘ nachgebaut
+  // bausteine-pruefseite (Teil titel-oben) im Safari-Modell ‚Klick nur mit Hörer‘ nachgebaut
   '2026-11-02 iPad quer Titel antippen Messmodus.txt': { aus: true },
-  // seit 3.52.0: P-97/6 – zeigt Tipps auf die Sperrschicht (nachgespielt in ablauf-schicht-oben, AppDesign APD-118/X-8); Kopf- und Suchzeile stehen
+  // seit 3.52.0: P-97/6 – zeigt Tipps auf die Sperrschicht (nachgespielt in bausteine-pruefseite, Teil schicht-oben, AppDesign APD-118/X-8); Kopf- und Suchzeile stehen
   // darin still (die ersten 30 s nur die Startliste – die Gegenprobe APD-34/M-5 fände nichts)
   '2026-11-06 iPhone quer Mehr-Menü oberer Rand.txt': { aus: true } };
 // Ziele ohne id: ‚button‘ = Reiselogbuch in der Liste, ‚-‘ = ein sichtbarer Tag (öffnet das Fenster des Tages). Ist mit den eigenen
@@ -44,7 +44,7 @@ const schliesseMenue = p => p.evaluate(() => document.querySelector('.layer')?.c
 // Suche, ist sie offen, schließt sie das x ‚Suche beenden‘ (wie früher das zweite Antippen der Lupe)
 const lupe = async p => (await p.locator('#search').count()) ? p.click('#sclose') : sucheAuf(p);
 const ZIELE = { '2026-10-26 iPhone quer Blatt Ort Quartier.txt': { button: ['#side .side-row[data-id="a"]', '.pop button.danger'], '-': [tagSichtbar, schliesseMenue]  },
-  // seit 3.52.0 (AppDesign APD-118): P-97/6 – ‚-‘ ist die Fläche hinter dem Mehr-Menü (der Tipp ohne Klick am oberen Rand spielt ablauf-schicht-oben nach)
+  // seit 3.52.0 (AppDesign APD-118): P-97/6 – ‚-‘ ist die Fläche hinter dem Mehr-Menü (den Tipp ohne Klick am oberen Rand spielt bausteine-pruefseite, Teil schicht-oben, nach)
   '2026-11-06 iPhone quer Mehr-Menü oberer Rand.txt': { button: ['#side .side-row[data-id="a"]'], '-': [schliesseMenue] } };
 const ziele = datei => ({ button: ['#side .side-row[data-id="a"]'], '-': [tagSichtbar], searchBtn: lupe, ...ZIELE[datei] });
 const woerter = { search: 'Sydney', fPlace: 'Perth', kosten: '4850123456' };
