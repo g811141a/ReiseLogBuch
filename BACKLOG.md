@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 18.11.2026** · Aktuelle Version: Reiselogbuch 3.57.5 · AppDesign 4.62.0
+**Stand 19.11.2026** · Aktuelle Version: Reiselogbuch 3.57.5 · AppDesign 4.62.0
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.
@@ -18,7 +18,6 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-112 | 1 | **Usertest P-112 (Reiselogbuch 3.57.5, AppDesign 4.62.0):** Version prüfen (P-112/0) – App unverändert, Regeltexte ohne Doppeltext (AppDesign APD-135 Paket 4) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -40,6 +39,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-112 | **Usertest P-112** (Reiselogbuch 3.57.5, AppDesign 4.62.0): /0 ok (Nutzer 19.11.2026, Sitzung 0134) | AppDesign 4.62.0 / Reiselogbuch 3.57.5 | 19.11.2026 |
 | P-111 | **Usertest P-111** (Reiselogbuch 3.57.4, AppDesign 4.61.0): /0 ok (Nutzer 18.11.2026, Sitzung 0132) | AppDesign 4.61.0 / Reiselogbuch 3.57.4 | 18.11.2026 |
 | 3.57.4 | **Korrektur: Regeln aufgeräumt (AppDesign 4.61.0, APD-135 Pakete 1 und 3):** App unverändert; `CLAUDE.md` 3.10.0, `PROMPT.md`, Designrichtlinie Reiselogbuch, Versionsgeschichte der `CLAUDE.md` ausgelagert | 3.57.4 | 18.11.2026 |
 | P-110 | **Usertest P-110** (Reiselogbuch 3.57.3, AppDesign 4.60.3): /0 bis /4 ok (Nutzer 18.11.2026, Sitzung 0131) | AppDesign 4.60.3 / Reiselogbuch 3.57.3 | 18.11.2026 |
