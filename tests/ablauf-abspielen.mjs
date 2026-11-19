@@ -6,10 +6,12 @@
 import * as pw from 'playwright';
 import { readFileSync, readdirSync } from 'node:fs';
 import { pruefung } from '../../AppDesign/fassung/4.63.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.63.0/tests/hig.mjs';
 import { safariModell } from '../../AppDesign/fassung/4.63.0/tests/safari.mjs';
 import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.63.0/tests/abspielen.mjs';
 import { sucheAuf } from '../../AppDesign/fassung/4.63.0/tests/ablauf.mjs';
-const t = pruefung('ablauf-abspielen', pw, { out: new URL('out/', import.meta.url) });
+// seit 3.57.6 (AppDesign APD-135/Z-14, W-54): Grundregeln nach jedem Schritt (hig) – vorher prüfte t.schritt hier keine
+const t = pruefung('ablauf-abspielen', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href, ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);
 const days = {}; for (let i = 0; i < 40; i++) days[new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10)] = { weather: '☀️', program: 'Programm ' + i, quarter: 'Hotel ' + i, ...(i % 3 ? {} : { place: 'Sydney' }) };   // Suche ‚Sydne…‘ findet jeden 3. Tag
 const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '2026-08-24', end: '2026-10-02', transport: ['flug'], days }];

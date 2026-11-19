@@ -9,9 +9,11 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-suche-iphone.mjs. Meldet Fehler (pruefe.mjs).
 import * as pw from 'playwright';
 import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.63.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.63.0/tests/hig.mjs';
 import { safariModell } from '../../AppDesign/fassung/4.63.0/tests/safari.mjs';
 import { sucheAuf } from '../../AppDesign/fassung/4.63.0/tests/ablauf.mjs';
-const t = pruefung('ablauf-suche-iphone', pw, { out: new URL('out/', import.meta.url) });
+// seit 3.57.6 (AppDesign APD-135/Z-14, W-54): Grundregeln nach jedem Schritt (hig) – vorher prüfte t.schritt hier keine
+const t = pruefung('ablauf-suche-iphone', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 30 ? 'Fahrt nach Sydney' : i % 7 === 0 ? 'Bus nach Sydney' : 'Programm ' + i, comment: '😉 ok', quarter: 'Hotel', place: 'Ort' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, days }];
 // Fälle: Anfang (Mitte oder Ende) × Tippen (schnell; mit Pausen wie am Gerät, dann ⓧ und noch einmal)
