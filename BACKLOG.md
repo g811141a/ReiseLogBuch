@@ -18,7 +18,6 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-113 | 1 | **Usertest P-113 (Reiselogbuch 3.57.6, AppDesign 4.63.0):** Version prüfen (P-113/0) – App unverändert, Prüflauf und Prüfungen (AppDesign APD-135 Paket 5) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -41,6 +40,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
 | RLB-127 | **Dateiname am iPad nie umbrechen** (Nutzer 19.11.2026, Sitzung 0134): allgemein – **ersetzt durch AppDesign APD-138** (Prio 2) | – | 19.11.2026 |
+| P-113 | **Usertest P-113** (Reiselogbuch 3.57.6, AppDesign 4.63.0): /0 ok (Nutzer 19.11.2026, Sitzung 0136) | AppDesign 4.63.0 / Reiselogbuch 3.57.6 | 19.11.2026 |
 | P-112 | **Usertest P-112** (Reiselogbuch 3.57.5, AppDesign 4.62.0): /0 ok (Nutzer 19.11.2026, Sitzung 0134) | AppDesign 4.62.0 / Reiselogbuch 3.57.5 | 19.11.2026 |
 | P-111 | **Usertest P-111** (Reiselogbuch 3.57.4, AppDesign 4.61.0): /0 ok (Nutzer 18.11.2026, Sitzung 0132) | AppDesign 4.61.0 / Reiselogbuch 3.57.4 | 18.11.2026 |
 | 3.57.4 | **Korrektur: Regeln aufgeräumt (AppDesign 4.61.0, APD-135 Pakete 1 und 3):** App unverändert; `CLAUDE.md` 3.10.0, `PROMPT.md`, Designrichtlinie Reiselogbuch, Versionsgeschichte der `CLAUDE.md` ausgelagert | 3.57.4 | 18.11.2026 |
