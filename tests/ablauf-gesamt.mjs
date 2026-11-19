@@ -3,10 +3,10 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, warteBis } from '../../AppDesign/fassung/4.62.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.62.0/tests/hig.mjs';
-import { sucheAuf, checkDateiname } from '../../AppDesign/fassung/4.62.0/tests/ablauf.mjs';
-import { readFileSync } from 'node:fs';
+import { pruefung, warteBis } from '../../AppDesign/fassung/4.63.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.63.0/tests/hig.mjs';
+import { sucheAuf, checkDateiname, checkFilterAlle } from '../../AppDesign/fassung/4.63.0/tests/ablauf.mjs';
+import { readFileSync, writeFileSync, rmSync } from 'node:fs';
 // seit 3.48.1 (AppDesign APD-85 Teil 5): keine festen Pausen mehr – jede Stelle wartet mit warteBis auf den Zustand danach (Ruhe = keine
 // laufende Bewegung); nur das lange Drücken hält den Finger eine feste Zeit (die Handlung selbst)
 const RUHE = '!document.getAnimations().some(a => a.playState === "running")';
@@ -23,12 +23,21 @@ const trips = [{ id: 'a', title: 'Australien', participants: 'Gerhild & Arnold',
   { id: 'b', title: 'Toskana', participants: 'Gerhild & Arnold', start: '2027-05-03', end: '2027-05-17', transport: ['pkw'], days: {} },
   { id: 'c', title: 'Wien Kurztrip', participants: 'Gerhild & Arnold', start: '2026-03-12', end: '2026-03-15', transport: ['zug'], days: {} }];
 const b = await t.browser();
+// seit 3.57.6 (AppDesign APD-135/Z-16, R-7.9): Gegenprobe PRUEF_GEGENPROBE=filter – Prüfkopie der App ohne ‚db.settings.hideEmpty = false‘ in showTrip
+// (neben index.html, damit die Pfade stimmen; am Ende gelöscht) – checkFilterAlle muss rot werden
+const GP_FILTER = process.env.PRUEF_GEGENPROBE === 'filter' && new URL('../index-gegenprobe-filter.html', import.meta.url);
+if (GP_FILTER) {
+  const alt = '  db.settings.hideEmpty = false;\n  // RLB-92';
+  if (html.split(alt).length !== 2) throw new Error('Gegenprobe filter: Stelle in showTrip nicht gefunden');
+  writeFileSync(GP_FILTER, html.replace(alt, '  // RLB-92'));
+  process.on('exit', () => rmSync(GP_FILTER, { force: true }));
+}
 async function page(ansicht, o = {}) {
   const p = await t.seite(b, ansicht, { theme: o.theme || 'light', deviceScaleFactor: 1 });
   // Unter file:// darf WebKit die manifest.json nicht laden (Origin null) – nur in der Testumgebung, auf GitHub Pages nicht.
   p.on('console', m => { if (m.type() === 'error' && !/Origin null is not allowed/.test(m.text())) t.fehler('', `Fehler in der Konsole: ${m.text()}`); });
   await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));
-  await p.goto(new URL('../index.html', import.meta.url).href);
+  await p.goto((GP_FILTER || new URL('../index.html', import.meta.url)).href);
   await p.evaluate(([x, s]) => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: s, trips: x })), [o.empty ? [] : trips, o.settings || {}]);
   await t.schritt(p, 'Start', async () => { await p.reload(); await bis(p, `document.readyState === 'complete' && !!document.querySelector('#side .side-row, #side .leer') && ${RUHE}`, 'App aufgebaut'); });
   return p;
@@ -177,7 +186,7 @@ for (const theme of ['light', 'dark']) {
 
   // Kosten, Statistik, Backup aus dem Menü
   p = await page('iPad quer', { theme, settings: { hideEmpty: true } });
-  t.ist('‚Nur erfasste Tage‘ gilt nicht nach dem Start', [await p.evaluate(() => db.settings.hideEmpty), await p.locator('table.days tbody tr').count()], [false, 82]);
+  t.ist('‚Nur erfasste Tage‘ gilt nicht nach dem Start', [await p.evaluate(() => db.settings.hideEmpty), await p.locator('table.days tbody tr').count()], [false, 82], 'R-7.9');
   const k = p.locator('#kosten');
   await S(p, 'Kosten 4850', async () => { await k.click(); await k.pressSequentially('4850'); });
   t.ist('beim Tippen mit Tausenderpunkt', await k.inputValue(), '4.850', 'R-5.1');
@@ -206,5 +215,15 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'Reiselogbuch einstellen', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); });
   t.ist('Datumsfelder mit Kalender-Icon', await p.locator('#dlg .datebox .ic').count(), 2, 'R-5.1');
   await p.close();
+  // R-7.9 (seit 3.57.6, AppDesign APD-135/Z-15): Filter setzen, neu starten → ‚Alle Tage‘; Filter setzen, ein anderes Reiselogbuch öffnen → ‚Alle Tage‘
+  if (theme === 'light') {
+    p = await page('iPad quer', { theme });
+    t.liste(await checkFilterAlle(p, { where: 'iPad quer',
+      setzen: () => S(p, 'Nur erfasste Tage', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Nur erfasste Tage")'); await bis(p, `db.settings.hideEmpty && ${RUHE}`, 'Filter gesetzt'); }),
+      neustart: () => S(p, 'neu starten', async () => { await p.reload(); await bis(p, `document.readyState === 'complete' && !!document.querySelector('#side .side-row') && ${RUHE}`, 'App aufgebaut'); }),
+      oeffnen: () => S(p, 'Toskana öffnen', async () => { await p.click('.side-row:has-text("Toskana")'); await bis(p, `document.querySelector('.nb-title')?.textContent === 'Toskana' && ${RUHE}`, 'Toskana offen'); }),
+      alle: () => p.evaluate(() => !db.settings.hideEmpty) }));
+    await p.close();
+  }
 }
 await t.ende(b);

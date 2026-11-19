@@ -2,9 +2,11 @@
 // R-4.12 erst fragen, dann zerstören (APD-40/C-5, C-6), R-5.10 automatisch speichern (APD-40/C-1 bis C-4) – iPad quer und iPhone hoch, hell. Eigene
 // Prüfung, damit jede Gegenprobe (node tests/alle.mjs --gegenprobe masse) genau hier rot wird.
 import * as pw from 'playwright';
-import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.62.0/tests/pruefe.mjs';
-import { langDruecken, checkMenueFenster, checkAutoSpeichern, checkErstFragen } from '../../AppDesign/fassung/4.62.0/tests/ablauf.mjs';
-const t = pruefung('ablauf-texte-ablaeufe', pw, { out: new URL('out/', import.meta.url) });
+import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.63.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.63.0/tests/hig.mjs';
+import { langDruecken, checkMenueFenster, checkAutoSpeichern, checkErstFragen } from '../../AppDesign/fassung/4.63.0/tests/ablauf.mjs';
+// seit 3.57.6 (AppDesign APD-135/Z-14, W-54): Grundregeln nach jedem Schritt (hig) – vorher prüfte t.schritt hier keine
+const t = pruefung('ablauf-texte-ablaeufe', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: 'Programm ' + i }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }];
 const b = await t.browser();

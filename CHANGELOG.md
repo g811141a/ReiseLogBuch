@@ -13,6 +13,27 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.6 – 19.11.2026
+
+Reiselogbuch 3.57.6 · AppDesign 4.63.0 (Designrichtlinie allgemein 4.63.0) · Designrichtlinie Reiselogbuch 3.57.6 · Zusammenarbeit allgemein 3.16.0
+
+**Korrektur: Prüfungen, App unverändert** (AppDesign 4.63.0: APD-135 Paket 5; Sitzung 0135).
+
+- **App:** keine Änderung an Bedienung und Aussehen – nur die feste Fassung AppDesign 4.63.0.
+- **Prüfungen:** `ablauf-gesamt` prüft R-7.9 (Filter auf ‚Alle Tage‘ nach dem Start und nach dem Öffnen eines anderen Reiselogbuchs, `checkFilterAlle`;
+  Gegenprobe `PRUEF_GEGENPROBE=filter`, APD-135/Z-15, Z-16); `ablauf-seitenleiste-position` öffnet die Seiten mit `t.seite` – der Teil ‚Bedienungshilfen‘
+  prüft jetzt wirklich mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ und wartet nach dem Start auf Ruhe statt einer festen Pause (APD-135/Z-17, APD-135/C-31); `ablauf-tastatur-still`, `ablauf-abspielen`,
+  `ablauf-suche-iphone` und `ablauf-texte-ablaeufe` prüfen nach jedem Schritt die Grundregeln (APD-135/Z-14, APD-135/W-54); `hig` meldet seine Ansichten für
+  `--abdeckung` (APD-135/Z-7, APD-135/C-29); `tests/alle.mjs` und `tests/README.md` beschreiben den neuen Ablauf (Vorlauf, die längsten zuerst).
+
+Testfälle P-113 (Schritt für Schritt, Zusammenarbeit allgemein 3.16.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-113/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.6 · erstellt am … · AppDesign 4.63.0‘.
+
 ## 3.57.5 – 18.11.2026
 
 Reiselogbuch 3.57.5 · AppDesign 4.62.0 (Designrichtlinie allgemein 4.62.0) · Designrichtlinie Reiselogbuch 3.57.5 · Zusammenarbeit allgemein 3.15.0
