@@ -9,11 +9,11 @@
 // sichtbare Fensterinhalt (96 von 84 px), wie Safari dann verschiebt, ist nicht gemessen (Testfälle).
 // Aufruf im Repo-Ordner: node tests/ablauf-tastatur-still.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.64.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.64.0/tests/hig.mjs';
-import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS, sucheAuf } from '../../AppDesign/fassung/4.64.0/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.64.0/tests/safari.mjs';
-import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.64.0/tests/abspielen.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.65.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.65.0/tests/hig.mjs';
+import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS, sucheAuf } from '../../AppDesign/fassung/4.65.0/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.65.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.65.0/tests/abspielen.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 // seit 3.57.6 (AppDesign APD-135/Z-14, W-54): Grundregeln nach jedem Schritt (hig) – vorher prüfte t.schritt hier keine
 const t = pruefung('ablauf-tastatur-still', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
