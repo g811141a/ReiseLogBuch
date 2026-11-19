@@ -18,6 +18,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-114 | 1 | **Usertest P-114** (Reiselogbuch 3.57.7, AppDesign 4.64.0 – APD-135 Paket 6 Schritt 1, APD-138): /0 Version prüfen · /1 iPad quer, Backup ‚In Dateien sichern‘ – Dateiname in einer Zeile | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 

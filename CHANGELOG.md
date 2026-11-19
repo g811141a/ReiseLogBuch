@@ -13,6 +13,43 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.7 – 19.11.2026
+
+Reiselogbuch 3.57.7 · AppDesign 4.64.0 (Designrichtlinie allgemein 4.64.0) · Designrichtlinie Reiselogbuch 3.57.7 · Zusammenarbeit allgemein 3.17.0
+
+**Korrektur: Dateiname am iPad in einer Zeile** (AppDesign 4.64.0: APD-138, AD-Bean `hinweis`; Sitzungen 0137 und 0138).
+
+- **App:** am iPad wird das Hinweisfenster so breit, dass der Dateiname (Backup, Ausgabe HTML/PDF, Abgleichbericht) in einer Zeile steht – höchstens so breit
+  wie das breite Hinweisfenster; am iPhone wie bisher (R-10.8). `index.html` unverändert, `inform(…)` bleibt der Aufruf.
+- **Prüfungen:** `backup-regeln` misst Grund- und Höchstbreite (`checkDateiname`, APD-138/D-1, D-2, D-7 bis D-9) und neu `checkHinweisBreite`
+  (APD-138/D-3 bis D-6, D-9, D-10, D-14) am iPad quer hell; fester Fall APD-135/S-9: Backup aus dem Mehr-Menü, die Seitenleiste wird neu aufgebaut, der
+  Mehr-Knopf bleibt blau und ist nach dem Schließen nicht mehr blau.
+- AD-Bean: `hinweis` (neu, in AppDesign).
+
+**Korrektur: Schnittstelle von ui.js** (AppDesign 4.64.0: APD-135 Paket 6 Schritt 1; Sitzungen 0136 und 0137).
+
+- **App:** keine sichtbare Änderung. `index.html` nutzt nur noch die Namen der Schnittstelle von `ui.js` (R-1.14): `markHeld(side)` statt `held.forEach`,
+  `setOpener('#shareBtn')` statt `dlgOpener =`, `FX_SVG` in beiden Suchzeilen statt des eigenen ⓧ-SVG, kein eigenes `placeDialogs()` mehr im `resize`
+  (macht `ui.js`; APD-135/B-4.2).
+- **Prüfungen:** neu `tests/schnittstelle-regeln.mjs` (R-1.14) im Vorlauf von `alle.mjs`, nur im ersten Browser (APD-135/B-4.1, S-6); `ablauf-fenster`
+  mit dem festen Fall APD-135/S-8 (Hinweisfenster verschoben, nach `resize` wieder am Platz); `tests/README.md` nachgeführt.
+- AD-Bean: keine, weil nur die Schnittstelle von `ui.js` genutzt wird; die gedrückten Schaltflächen (`markHeld`) kommen später als Bean `gedrueckt` (APD-136).
+
+Testfälle P-114 (Schritt für Schritt, Zusammenarbeit allgemein 3.17.0). Link: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-114/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.7 · erstellt am … · AppDesign 4.64.0‘.
+
+**P-114/1 – Dateiname am iPad in einer Zeile (APD-138)**
+1. iPad quer, hell, mindestens ein Reiselogbuch vorhanden; Seitenleiste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen, dann ‚Backup erstellen‘.
+2. Im Teilen-Menü ‚In Dateien sichern‘ wählen und speichern.
+3. Erwartet: Hinweisfenster ‚Backup‘ mit ‚✅ Teilen-Menü abgeschlossen für‘, darunter der Dateiname ‚Ω Backup Reiselogbuch JJJJ.MM.TT HH.MM.json‘
+   fett und zentriert **in einer Zeile**, ohne Umbruch; das Fenster ist dafür breiter als sonst. Automatisch geprüft in `backup-regeln`
+   (`checkDateiname`, APD-138/D-1).
+
 ## 3.57.6 – 19.11.2026
 
 Reiselogbuch 3.57.6 · AppDesign 4.63.0 (Designrichtlinie allgemein 4.63.0) · Designrichtlinie Reiselogbuch 3.57.6 · Zusammenarbeit allgemein 3.16.0
