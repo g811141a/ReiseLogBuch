@@ -22,7 +22,7 @@ Reiselogbuch 3.57.6 · AppDesign 4.63.0 (Designrichtlinie allgemein 4.63.0) · D
 - **App:** keine Änderung an Bedienung und Aussehen – nur die feste Fassung AppDesign 4.63.0.
 - **Prüfungen:** `ablauf-gesamt` prüft R-7.9 (Filter auf ‚Alle Tage‘ nach dem Start und nach dem Öffnen eines anderen Reiselogbuchs, `checkFilterAlle`;
   Gegenprobe `PRUEF_GEGENPROBE=filter`, APD-135/Z-15, Z-16); `ablauf-seitenleiste-position` öffnet die Seiten mit `t.seite` – der Teil ‚Bedienungshilfen‘
-  prüft jetzt wirklich mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (APD-135/Z-17, APD-135/C-31); `ablauf-tastatur-still`, `ablauf-abspielen`,
+  prüft jetzt wirklich mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ und wartet nach dem Start auf Ruhe statt einer festen Pause (APD-135/Z-17, APD-135/C-31); `ablauf-tastatur-still`, `ablauf-abspielen`,
   `ablauf-suche-iphone` und `ablauf-texte-ablaeufe` prüfen nach jedem Schritt die Grundregeln (APD-135/Z-14, APD-135/W-54); `hig` meldet seine Ansichten für
   `--abdeckung` (APD-135/Z-7, APD-135/C-29); `tests/alle.mjs` und `tests/README.md` beschreiben den neuen Ablauf (Vorlauf, die längsten zuerst).
 
