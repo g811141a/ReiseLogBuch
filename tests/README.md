@@ -6,7 +6,7 @@ Alle Prüfungen des Reiselogbuchs; die allgemeinen Bausteine kommen aus der fest
 ## Aufruf
 
 `node tests/alle.mjs` (oder `sh tests/alle.sh`) im Repo-Ordner startet alle Prüfungen in **Chromium und WebKit**:
-nach dem Vorlauf (`doku-regeln`, `version-regeln`, rot bricht sofort ab) **parallel**, die längsten zuerst; ab dem dritten roten Lauf
+nach dem Vorlauf (`doku-regeln`, `version-regeln`, `schnittstelle-regeln`, rot bricht sofort ab) **parallel**, die längsten zuerst; ab dem dritten roten Lauf
 bricht es ab, jeder rote Lauf läuft am Ende einmal allein (Zusammenarbeit 0 Nr. 2; Rückgabewert 1, Fehlerzeilen werden gezeigt); die
 Ausgabe eines Wacklers bleibt in `tests/out/wackelt-<Name>-<Browser>.txt`. `--alle` läuft
 trotz Fehler weiter, `--browser chromium` prüft nur einen Browser, `--nur hig,tastatur` nur einzelne Tests, `--abdeckung` zeigt
@@ -78,6 +78,7 @@ Die Spalte ‚prüft‘ nennt die Regel (R-… = Regelkatalog, Designrichtlinie 
 | `kontextmenue-regeln.mjs` | R-4.2 | allgemeine Kontextmenü-Prüfung (`kontextmenue.mjs`) – 3 bis 12 Reisen, iPad und iPhone; im Lauf geteilt nach Gerät (`PRUEF_GERAET`) |
 | `offline-regeln.mjs` | R-1.5 | Offline-Start und Offline-Hinweis (`offline.mjs`) mit echtem Service Worker – iPad und iPhone |
 | `version-regeln.mjs` | R-10.3 | Versionskopplung (`version.mjs`): `index.html` und `sw.js` laden genau die feste Fassung, Hinweis bei älterer Fassung |
+| `schnittstelle-regeln.mjs` | R-1.14 | Schnittstelle von `ui.js` (`schnittstelle.mjs`, ohne Browser, im Vorlauf): App und Prüfdateien nutzen nur Namen aus `schnittstelle.json`, keine Namensgleichheit |
 | `ablauf-einstellen.mjs` | R-4.11, PROMPT | Seit 3.44.0 (RLB-113): der Menüpunkt heißt im Mehr-Menü und im Kontextmenü der Zeile (Seitenleiste bzw. Startliste) ‚Reiselogbuch einstellen‘, Icon settings, das Fenster ebenso; ‚Neues Reiselogbuch‘ bleibt (RLB-113/E-1 bis E-6); Gegenprobe gegen 3.43.0 (RLB-113/E-7) |
 | `ablauf-jahre.mjs` | R-7.6 | Seit 3.44.0 (RLB-114, AppDesign APD-100): vor dem ersten Reiselogbuch jedes Jahres steht das Jahr des Reisebeginns als Abschnittskopf (`.side-sec`), auch über dem obersten; bei der Suche nur Jahre mit Treffern; die Köpfe rollen mit und sehen aus wie die Leistenüberschrift (RLB-114/Y-1 bis Y-11); Gegenprobe `PRUEF_GEGENPROBE=jahre:…` (RLB-114/Y-12) |
 | `ablauf-leer.mjs` | R-7.7 | Seit 3.48.0 (AppDesign APD-30 ‚leere Zustände‘, Designrichtlinie 15.23): kein Reiselogbuch, Seitenleiste neben dem Inhalt, Suche ohne Treffer in Liste und Reiselogbuch, ‚Nur erfasste Tage‘ ohne erfassten Tag – je Ansicht mit den Grundregeln; seit 3.48.1 Symbol 36 pt und Titel 17 pt halbfett; Gegenprobe gegen 3.47.1 und mit `PRUEF_GEGENPROBE=1` |
