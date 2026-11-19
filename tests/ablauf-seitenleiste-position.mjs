@@ -2,9 +2,9 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.62.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.62.0/tests/hig.mjs';
-import { langDruecken, sucheAuf, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.62.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.63.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.63.0/tests/hig.mjs';
+import { langDruecken, sucheAuf, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.63.0/tests/ablauf.mjs';
 // Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-4, B-8): iPad quer und hoch – die Seitenleiste
 // gleitet ein mit der Feder (Antwortzeit 0,35 s), aus ease-in-out 0,25 s, Endlagen wie ohne Bewegung (checkGleiten). Gegenprobe APD-127/B-10:
 // PRUEF_V=heute – APD-127/B-4 rot.
@@ -25,8 +25,9 @@ const visible = p => p.evaluate(() => {
   return r.top >= lr.top - 1 && r.bottom <= Math.min(lr.bottom, t.top) + 1;
 });
 for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [393, 852, 'iPhone']]) {
-  const p = await b.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700 });
-  await textSeite(p);   // seit 3.35.0: PRUEF_TEXT (AppDesign APD-43 Teil 2 P1)
+  // seit 3.57.6 (AppDesign APD-135/Z-17, C-31): t.seite – erst damit wirken die Bedienungshilfen des Teils ‚Bedienungshilfen‘ (Kontrast, ‚Bewegung
+  // reduzieren‘, Bewegungswächter R-1.9) und die Textgröße (PRUEF_TEXT); vorher öffnete b.newPage die Seite ohne sie
+  const p = await t.seite(b, { viewport: { width: w, height: h }, isMobile: w < 700 });
   await gleitenGegenprobe(p);   // APD-127/B-10, nur mit PRUEF_V=heute
   p.on('pageerror', e => errors.push(`${dev}: ${e.message}`));
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
@@ -52,8 +53,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
 // iPhone: Kontextmenü (lange drücken) linksbündig unter der Kachel, ganz sichtbar über der Backup-Kachel (R-8.1) –
 // für die oberste und die unterste sichtbare Kachel; die Liste rückt dafür nötigenfalls nach oben.
 {
-  const p = await b.newPage({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
-  await textSeite(p);   // seit 3.35.0: PRUEF_TEXT (AppDesign APD-43 Teil 2 P1)
+  const p = await t.seite(b, { viewport: { width: 393, height: 852 }, isMobile: true });   // seit 3.57.6: t.seite (APD-135/Z-17, C-31)
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: {}, trips: t })), trips);
@@ -84,8 +84,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
 }
 // iPhone: Suche offen, Inhalt wischen → Tastatur schließt (Suchfeld verliert den Fokus), Leiste bleibt stehen
 {
-  const p = await b.newPage({ viewport: { width: 393, height: 852 }, hasTouch: true, isMobile: true });
-  await textSeite(p);   // seit 3.35.0: PRUEF_TEXT (AppDesign APD-43 Teil 2 P1)
+  const p = await t.seite(b, { viewport: { width: 393, height: 852 }, isMobile: true });   // seit 3.57.6: t.seite (APD-135/Z-17, C-31)
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: {}, trips: t })), trips);

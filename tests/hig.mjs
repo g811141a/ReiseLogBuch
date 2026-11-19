@@ -7,9 +7,9 @@
 // doppelte Anführungszeichen, Löschen am Ende von Menüs und ob die auslösende Schaltfläche blau bleibt.
 // Bewusste Abweichungen (Abschnitt 16) werden nicht gezählt. Ergebnis: Abweichungsliste, Exit-Code 1 bei Funden.
 import * as pw from 'playwright';
-import { pruefung, rolle, textSeite, navFertig } from '../../AppDesign/fassung/4.62.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.62.0/tests/hig.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.62.0/tests/ablauf.mjs';
+import { pruefung, rolle, textSeite, navFertig } from '../../AppDesign/fassung/4.63.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.63.0/tests/hig.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.63.0/tests/ablauf.mjs';
 
 const APP = new URL('../index.html', import.meta.url).href;
 const long = 'a'.repeat(100); // R-6.3: zu lange Wörter müssen im Wort umbrechen
@@ -30,7 +30,9 @@ const trips = [
 const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] });
 const { measure, note } = hig;
 
-const browser = await pruefung('hig', pw).browser();
+// Seit 3.57.6 (AppDesign APD-135/Z-7, C-29): hig meldet seine Ansichten für --abdeckung (t.ort je Seite, t.abdeckung() am Ende)
+const t = pruefung('hig', pw, { out: new URL('out/', import.meta.url) });
+const browser = await t.browser();
 // Seit 3.33.0 (AppDesign APD-43 P1): PRUEF_BEDIENUNG=beide – alle Ansichten mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (4,5 : 1 ohne Ausnahmen)
 const hilfen = process.env.PRUEF_BEDIENUNG === 'beide' ? { contrast: 'more', reducedMotion: 'reduce' } : {}, hilfenTag = hilfen.contrast ? ' Bedienungshilfen' : '';
 const darstellungen = process.env.PRUEF_DARSTELLUNG ? [process.env.PRUEF_DARSTELLUNG] : ['light', 'dark'];
@@ -39,6 +41,7 @@ for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 118
   const p = await browser.newPage({ viewport: { width: w, height: h }, hasTouch: true, colorScheme: scheme, ...hilfen });
   // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): PRUEF_TEXT – Textgröße des Geräts nachgebildet
   const tag = tag0 + await textSeite(p);
+  t.ort = tag;
   const errors = [];
   p.on('pageerror', e => errors.push(e.message));
   await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));
@@ -115,6 +118,7 @@ for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]
   const p = await browser.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: true, colorScheme: scheme, ...hilfen });
   // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): PRUEF_TEXT – Textgröße des Geräts nachgebildet
   const tag = tag0 + await textSeite(p);
+  t.ort = tag;
   const errors = [];
   p.on('pageerror', e => errors.push(e.message));
   await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));
@@ -198,4 +202,5 @@ await browser.close();
 // Gegenprobe (AppDesign/tests/pruefe.mjs): mit PRUEF_GEGENPROBE=1 muss die Prüfung rot werden.
 if (process.env.PRUEF_GEGENPROBE === '1') note('Gegenprobe', 'absichtlich eingefügte Abweichung', 'Gegenprobe');
 console.log(`Browser: ${process.env.PRUEF_BROWSER || 'chromium'} · Darstellung: ${darstellungen.join(', ')}`);
+t.abdeckung();
 process.exit(hig.report());

@@ -5,9 +5,10 @@ Alle Prüfungen des Reiselogbuchs; die allgemeinen Bausteine kommen aus der fest
 
 ## Aufruf
 
-`node tests/alle.mjs` (oder `sh tests/alle.sh`) im Repo-Ordner startet alle Prüfungen **parallel**, die schnellsten zuerst, in
-**Chromium und WebKit**; ab dem dritten roten Lauf bricht es ab, jeder rote Lauf läuft am Ende einmal allein (Zusammenarbeit 0 Nr. 2;
-Rückgabewert 1, Fehlerzeilen werden gezeigt). `--alle` läuft
+`node tests/alle.mjs` (oder `sh tests/alle.sh`) im Repo-Ordner startet alle Prüfungen in **Chromium und WebKit**:
+nach dem Vorlauf (`doku-regeln`, `version-regeln`, rot bricht sofort ab) **parallel**, die längsten zuerst; ab dem dritten roten Lauf
+bricht es ab, jeder rote Lauf läuft am Ende einmal allein (Zusammenarbeit 0 Nr. 2; Rückgabewert 1, Fehlerzeilen werden gezeigt); die
+Ausgabe eines Wacklers bleibt in `tests/out/wackelt-<Name>-<Browser>.txt`. `--alle` läuft
 trotz Fehler weiter, `--browser chromium` prüft nur einen Browser, `--nur hig,tastatur` nur einzelne Tests, `--abdeckung` zeigt
 Test × Ansicht, `--gegenprobe` bzw. `--gegenprobe grundregeln` beweist, dass jeder Test rot werden kann; `--gegenprobe bedienung` (seit 3.33.0) läuft
 `ablauf-bedienung` je eingeschleustem Fehler der Bedienungshilfen einmal (22 Fälle, genau die passende Meldung muss rot werden); `--gegenprobe text` (seit 3.35.0) läuft `text-regeln` je eingeschleustem Fehler der
