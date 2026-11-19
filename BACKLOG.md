@@ -18,6 +18,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-113 | 1 | **Usertest P-113 (Reiselogbuch 3.57.6, AppDesign 4.63.0):** Version prüfen (P-113/0) – App unverändert, Prüflauf und Prüfungen (AppDesign APD-135 Paket 5) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
