@@ -2,9 +2,9 @@
 // (P-21/2); auf dem iPhone schließt das erste Wischen bei offener Suche nur die Tastatur, die Seite bleibt stehen (R-2.1).
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-position.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.66.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.66.0/tests/hig.mjs';
-import { langDruecken, sucheAuf, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.66.0/tests/ablauf.mjs';
+import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.67.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.67.0/tests/hig.mjs';
+import { langDruecken, sucheAuf, checkGleiten, gleitenGegenprobe } from '../../AppDesign/fassung/4.67.0/tests/ablauf.mjs';
 // Seit 3.55.0 (AppDesign APD-127, R-1.12; Testfall-Liste AppDesign arbeit/4.57.0 Testfall-Liste.md APD-127/B-4, B-8): iPad quer und hoch – die Seitenleiste
 // gleitet ein mit der Feder (Antwortzeit 0,35 s), aus ease-in-out 0,25 s, Endlagen wie ohne Bewegung (checkGleiten). Gegenprobe APD-127/B-10:
 // PRUEF_V=heute – APD-127/B-4 rot.
@@ -50,8 +50,9 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
     await G(p, 'APD-127/B-4 Seitenleiste aus und ein'); }
   await p.close();
 }
-// iPhone: Kontextmenü (lange drücken) linksbündig unter der Kachel, ganz sichtbar über der Backup-Kachel (R-8.1) –
-// für die oberste und die unterste sichtbare Kachel; die Liste rückt dafür nötigenfalls nach oben.
+// iPhone: Kontextmenü (lange drücken) linksbündig unter der Kachel, reicht der Platz nicht, darüber – ganz sichtbar über der Backup-Kachel (R-8.1) –
+// für die oberste und die unterste sichtbare Kachel; seit 3.57.10 (AppDesign APD-143/L-9) bleibt die Liste dabei stehen, die Erwartung ‚unter der
+// Kachel‘ ist ‚unter oder über‘.
 {
   const p = await t.seite(b, { viewport: { width: 393, height: 852 }, isMobile: true });   // seit 3.57.6: t.seite (APD-135/Z-17, C-31)
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
@@ -71,8 +72,8 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
       // seit 3.35.0 (AppDesign APD-43 Teil 2): bei großer Schrift ist das Menü so breit wie der Bildschirm minus Rand (B1) – dann zählt das
       // als linksbündig; passen Kachel und Menü zusammen nicht über die Backup-Kachel, darf die Kachel oben hinausrücken
       const breit = m.width >= innerWidth - 2 * r.left - 1, passt = r.height + m.height <= t.top - l.top;
-      return { below: m.top >= r.bottom - 1, left: Math.abs(m.left - r.left) < 2 || breit, aboveTile: m.bottom <= t.top + 1, rowVisible: r.top >= l.top - 1 || !passt, inView: m.top >= 0 && m.bottom <= innerHeight }; }, id);
-    check(g.below, `iPhone: Kontextmenü (${which} Kachel) nicht unter der Kachel`);
+      return { below: m.top >= r.bottom - 1 || m.bottom <= r.top + 1, left: Math.abs(m.left - r.left) < 2 || breit, aboveTile: m.bottom <= t.top + 1, rowVisible: r.top >= l.top - 1 || !passt, inView: m.top >= 0 && m.bottom <= innerHeight }; }, id);
+    check(g.below, `iPhone: Kontextmenü (${which} Kachel) weder unter noch über der Kachel`);
     check(g.left, `iPhone: Kontextmenü (${which} Kachel) nicht linksbündig`);
     check(g.aboveTile && g.inView, `iPhone: Kontextmenü (${which} Kachel) nicht ganz über der Backup-Kachel sichtbar`);
     check(g.rowVisible, `iPhone: Kachel (${which}) nach dem Verschieben nicht mehr sichtbar`);

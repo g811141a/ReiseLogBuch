@@ -4,9 +4,9 @@
 // Gegenprobe der Bedienungshilfen (node tests/alle.mjs --gegenprobe bedienung): je eingeschleustem Fehler wird genau seine Meldung rot.
 // Aufruf im Repo-Ordner: node tests/ablauf-bedienung.mjs
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.66.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.66.0/tests/hig.mjs';
-import { checkFokus, checkFokusZurueck, checkKontrast, checkRuhig, checkFieldErrors, ansage, sucheAuf } from '../../AppDesign/fassung/4.66.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.67.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.67.0/tests/hig.mjs';
+import { checkFokus, checkFokusZurueck, checkKontrast, checkRuhig, checkFieldErrors, ansage, sucheAuf } from '../../AppDesign/fassung/4.67.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-bedienung', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const days = {};
 for (let i = 0; i < 30; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i === 20 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok', place: i % 3 ? 'Hafen' : 'Sydney' }; }
@@ -106,7 +106,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
       { name: 'F-8 Meldung über einen Knopf, App baut neu auf', auf: async () => { await p.focus('#mainMore'); await p.evaluate(() => { inform('Backup', 'Text'); render(); }); }, zu: esc, knopf: '#mainMore' },
       { name: 'F-12 Fenster offen, drehen, dann schließen', auf: tasteAuf('#newTrip'), zu: async () => {
         await p.setViewportSize({ width: vp.height, height: vp.width }); await warte(p, 500); await esc(); }, knopf: '#newTrip' },
-      { name: 'F-6 Knopf gibt es nicht mehr (Reiselogbuch gelöscht)', auf: () => p.evaluate(() => { setOpener('#side .side-row[data-id="b"]'); openTripDialog(db.trips.find(x => x.id === 'b')); }),
+      { name: 'F-6 Knopf gibt es nicht mehr (Reiselogbuch gelöscht)', auf: () => p.evaluate(() => { adSourcehighlight.sourceItem = '#side .side-row[data-id="b"]'; openTripDialog(db.trips.find(x => x.id === 'b')); }),
         zu: async () => { await p.evaluate(() => { db.trips = db.trips.filter(x => x.id !== 'b'); save(); render(); }); await warte(p, 200); await esc(); }, knopf: null },
       { name: 'F-3 ‚Neues Reiselogbuch‘ mit dem Häkchen sichern', auf: async () => { await p.evaluate(() => { db.settings.lastBackup = Date.now(); save(); }); await tasteAuf('#newTrip')(); }, zu: async () => { await p.fill('#fTitle', 'Neu'); await p.fill('#fPeople', 'X'); await p.fill('#fStart', '2027-01-10'); await p.fill('#fEnd', '2027-01-12');
         await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); }, knopf: '#newTrip', tastatur: false },

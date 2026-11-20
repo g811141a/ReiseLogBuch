@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 20.11.2026** · Aktuelle Version: Reiselogbuch 3.57.9 · AppDesign 4.66.0
+**Stand 20.11.2026** · Aktuelle Version: Reiselogbuch 3.57.10 · AppDesign 4.67.0
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.
@@ -18,6 +18,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-117 | 1 | **Usertest P-117** (Reiselogbuch 3.57.10, AppDesign 4.67.0): AppDesign APD-136 Namen (Code englisch, `alert`, `swipeactions`), APD-136 `sourcehighlight` (Hervorgehobene Quelle), APD-143 (Liste bleibt beim Kontextmenü stehen) – Testfälle P-117/0 bis P-117/7 im CHANGELOG 3.57.10 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
