@@ -18,7 +18,6 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-116 | 1 | **Usertest Reiselogbuch 3.57.9 / AppDesign 4.66.0:** Mehr-Knopf des Bean-Katalogs rund (AppDesign P-115/F-1) und Hinweisfenster unverändert (APD-136 b1) – Testfälle P-116/0 bis P-116/3 im CHANGELOG | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -40,6 +39,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-116 | **Usertest P-116** (Reiselogbuch 3.57.9, AppDesign 4.66.0): /0 bis /3 ok (Nutzer 20.11.2026, Sitzung 0144) | AppDesign 4.66.0 / Reiselogbuch 3.57.9 | 20.11.2026 |
 | RLB-127 | **Dateiname am iPad nie umbrechen** (Nutzer 19.11.2026, Sitzung 0134): allgemein – **ersetzt durch AppDesign APD-138** (Prio 2) | – | 19.11.2026 |
 | P-114 | **Usertest P-114** (Reiselogbuch 3.57.7, AppDesign 4.64.0): /0 und /1 ok (Nutzer 19.11.2026, Sitzung 0140) | AppDesign 4.64.0 / Reiselogbuch 3.57.7 | 19.11.2026 |
 | P-113 | **Usertest P-113** (Reiselogbuch 3.57.6, AppDesign 4.63.0): /0 ok (Nutzer 19.11.2026, Sitzung 0136) | AppDesign 4.63.0 / Reiselogbuch 3.57.6 | 19.11.2026 |
