@@ -3,9 +3,9 @@
 // und einen Titel. Nach ‚Abgleichen‘ muss je Tag die neuere Fassung gelten, gelöschte verschwinden, neue dazukommen.
 // Aufruf im Repo-Ordner: node tests/ablauf-abgleich.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.65.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.65.0/tests/hig.mjs';
-import { checkDateiname } from '../../AppDesign/fassung/4.65.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.66.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.66.0/tests/hig.mjs';
+import { checkDateiname } from '../../AppDesign/fassung/4.66.0/tests/ablauf.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('ablauf-abgleich', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
@@ -79,7 +79,7 @@ await iphone.evaluate(() => { window.__printed = 0; window.print = () => { windo
 await iphone.click('#repPdf'); await iphone.waitForTimeout(300);
 check(await iphone.evaluate(() => window.__printed === 1 && !!document.querySelector('#printout .sync-report')), 'PDF: Drucken-Menü nicht geöffnet oder Bericht nicht im Druckbereich');
 // seit 3.55.0 (AppDesign APD-116, R-10.8): der Dateiname steht allein in einer Zeile unter dem Satz (.fname) – Satz und Name getrennt abgefragt
-check(await iphone.evaluate(() => { const t = document.querySelector('#msg[open] .msg-text'), n = t?.querySelector('.fname');
+check(await iphone.evaluate(() => { const t = document.querySelector('#msg[open] .ad-hinweis-text'), n = t?.querySelector('.fname');
   return !!n && t.textContent.startsWith('✅ Drucken-Menü geöffnet für') && /^Abgleichbericht Reiselogbuch \d{4}\.\d\d\.\d\d \d\d\.\d\d\.pdf$/.test(n.textContent); }), 'PDF: Meldung fehlt');
 await iphone.click('#msg [data-x]'); await iphone.waitForTimeout(200);
 // APD-116/B-1 bis B-6: Dateiname des Abgleichberichts – PDF (Drucken-Menü) und HTML (Teilen: geteilt, abgebrochen, Fehler, ohne Teilen-Menü), iPhone hoch
@@ -104,7 +104,7 @@ await iphone.click('#sideMore'); await iphone.waitForTimeout(150);
 const [ch2] = await Promise.all([iphone.waitForEvent('filechooser'), iphone.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
 await ch2.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(fromIpad) }); await iphone.waitForTimeout(300);
 await iphone.locator('.pop button', { hasText: 'Abgleichen' }).click(); await iphone.waitForTimeout(400);
-{ const h = await iphone.locator('#msg .msg-text').innerHTML(); check(!h.includes('Änderungen auf diesem') && /Alles war schon auf dem gleichen Stand|hat sich nichts geändert/.test(h), 'zweiter Abgleich ändert etwas'); }
+{ const h = await iphone.locator('#msg .ad-hinweis-text').innerHTML(); check(!h.includes('Änderungen auf diesem') && /Alles war schon auf dem gleichen Stand|hat sich nichts geändert/.test(h), 'zweiter Abgleich ändert etwas'); }
 check((await iphone.evaluate(() => db.trips.length)) === 3, 'zweiter Abgleich: Anzahl falsch');
 t.ort = 'iPhone hoch'; await G(iphone, 'Ergebnis zweiter Abgleich');
 // iPad gleicht mit dem iPhone ab → beide gleich
