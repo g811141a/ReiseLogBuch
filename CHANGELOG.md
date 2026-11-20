@@ -13,6 +13,64 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.8 – 19.11.2026
+
+Reiselogbuch 3.57.8 · AppDesign 4.65.0 (Designrichtlinie allgemein 4.65.0) · Designrichtlinie Reiselogbuch 3.57.8 · Zusammenarbeit allgemein 3.17.0
+
+**Bean-Katalog** (AppDesign 4.65.0: APD-140; Sitzungen 0139 bis 0142).
+
+- **App:** keine sichtbare Änderung; die App lädt die Fassung 4.65.0 (dort neu das Symbol `hand`).
+- **Prüfungen:** neu `tests/bean-katalog.mjs` – Hülle für AppDesign `tests/katalog.mjs`: der Bean-Katalog (`AppDesign/katalog/index.html`, Arbeitsstand `v4/`)
+  lädt in allen 4 Ansichten fehlerfrei, jede Bean geöffnet, Grundregeln nach jedem Schritt, Versionszeile (APD-140/Z-2 bis Z-4); `doku-regeln` prüft über
+  `checkBeans` die Liste der AD-Beans gegen `katalog/` (APD-140/Z-1, Gegenprobe `PRUEF_GEGENPROBE=beans:katalog`); `alle.mjs` und `tests/README.md` nachgeführt.
+- AD-Bean: keine, weil der Katalog die Beans nur zeigt.
+
+**Prüfseite: Menü, Sprechblase, Fenster** (AppDesign 4.65.0: APD-135 Paket 7, APD-135/B-3.3 Schritt 1; Sitzung 0142).
+
+- **App:** keine Änderung.
+- **Prüfungen:** `bausteine-pruefseite` mit den neuen Teilen `menue`, `sprechblase` und `fenster` (APD-135/Q-1 bis Q-8); Gegenprobe je Teil in
+  `--gegenprobe pruefseite` (APD-135/Q-9); in `ablauf-markierung-menues` fallen `checkMehrKnopf` und `checkWachsen` weg (APD-135/Q-10).
+- AD-Bean: keine (nur Prüfungen).
+
+Testfälle P-115 (Schritt für Schritt, Zusammenarbeit allgemein 3.17.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Link des Katalogs (in Safari): https://g811141a.github.io/AppDesign/katalog/index.html
+
+**P-115/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.8 · erstellt am … · AppDesign 4.65.0‘.
+
+**P-115/1 – Katalog am iPad quer (APD-140)**
+1. iPad quer, hell; in Safari den Link des Katalogs öffnen.
+2. Die Seitenleiste links ansehen.
+3. Erwartet: Titel ‚AD-Beans‘, darunter ‚2 AD-Beans · 3 geplant‘; Abschnitte ‚Aktionen und Menüs‘, ‚Fenster und Meldungen‘, ‚Eingabe‘; ‚Wischaktionen‘ mit dem
+   Hand-Symbol und ‚Hinweisfenster‘ mit dem Info-Symbol; ‚Gedrückte Schaltfläche‘, ‚Eingabefeld (Grundlage)‘ und ‚Betragsfeld‘ grau mit ‚geplant‘, nicht
+   antippbar; rechts die Seite ‚Wischaktionen‘ mit Karte, ‚Ausprobieren‘, ‚Ereignisse‘, ‚Regeln‘, ‚Schnittstelle‘ und ‚Verlauf‘. Automatisch geprüft in
+   `bean-katalog` (APD-140/Z-2).
+
+**P-115/2 – Wischaktionen im Katalog wischen (Wischgefühl)**
+1. iPad quer, hell; im Katalog links ‚Wischaktionen‘ antippen.
+2. Unter ‚Ausprobieren‘ die erste Kachel nach links wischen, dann ‚Löschen‘ antippen.
+3. Erwartet: die Kachel gleitet weich wie in Notizen, rechts ‚Einstellen‘ und ‚Löschen‘; ‚Löschen‘ fragt mit der Sprechblase ‚… löschen? (nur Vorführung –
+   nichts wird gelöscht)‘; unter ‚Ereignisse‘ steht ‚offen · Erster Eintrag: Rom, Florenz, Siena und Lucca‘.
+
+**P-115/3 – Hinweisfenster mit langem Dateinamen**
+1. iPad quer, hell; im Katalog links ‚Hinweisfenster‘ antippen.
+2. ‚Langer Dateiname‘ antippen.
+3. Erwartet: Fenster ‚Backup‘, der Dateiname ‚Ω Backup Reiselogbuch 2026.11.19 20.41.json‘ steht in einer Zeile; nach dem Schließen (x) steht unter
+   ‚Ereignisse‘ ‚zu‘.
+
+**P-115/4 – Katalog am iPhone: Startliste, Bean, zurück**
+1. iPhone hoch, hell; in Safari den Link des Katalogs öffnen.
+2. ‚Hinweisfenster‘ antippen, dann vom linken Rand nach rechts zurückwischen.
+3. Erwartet: zuerst die Startliste ‚AD-Beans‘ ohne blauen Eintrag; nach dem Antippen die Seite ‚Hinweisfenster‘ mit dem Titel oben in der Leiste; nach dem
+   Zurückwischen wieder die Startliste. Automatisch geprüft in `bean-katalog` (APD-140/Z-2).
+
+**P-115/5 – Versionszeile des Katalogs**
+1. iPad quer; im Katalog in der Seitenleiste oben auf ‚…‘ (Mehr) tippen.
+2. Das Menü ansehen.
+3. Erwartet: ‚Darstellung‘ und unten grau ‚Bean-Katalog · AppDesign 4.65.0 (v4, neueste Fassung)‘. Automatisch geprüft in `bean-katalog` (APD-140/Z-4).
+
 ## 3.57.7 – 19.11.2026
 
 Reiselogbuch 3.57.7 · AppDesign 4.64.0 (Designrichtlinie allgemein 4.64.0) · Designrichtlinie Reiselogbuch 3.57.7 · Zusammenarbeit allgemein 3.17.0
@@ -1257,7 +1315,7 @@ Reiselogbuch 3.47.0 · AppDesign 4.49.0 (Designrichtlinie allgemein 4.49.0) · D
 
 **Titel antippen = nach oben** (AppDesign APD-62 / APD-38/T-43, R-2.7) und **Prüfung ohne feste Pausen** (AppDesign APD-85 Teil 3) – dein Ja vom
 01.11.2026, Sitzung 0073; Testfall-Listen AppDesign `arbeit/APD-62 Titel antippen Testfall-Liste und Wortlaut.md` (APD-62/H-1 bis H-10) und
-`arbeit/APD-85 Teil 3 Testfall-Liste.md` (APD-85/Z-1 bis Z-6).
+`arbeit/APD-85 Teil 3 Testfall-Liste.md` (APD-85/Z-1 bis APD-140/Z-6).
 
 - **Titel antippen (R-2.7):** kurz auf den Titel oben tippen rollt sanft ganz nach oben – den Inhalt (Titel der Reise), die Liste der
   Seitenleiste bzw. Startliste (‚Reiselogbücher‘) und den Inhalt eines Fensters (Titel des Fensters, z. B. das Datum). Steht es schon oben,
@@ -1704,7 +1762,7 @@ APD-97/D-1 bis D-11) bestätigt.
   mit großer Schrift liefen.
 - **Korrektur der Prüfung vor der Veröffentlichung** (Sitzung 0062 – `los` in 0061 rot, nur WebKit am iPad hoch): in
   `ablauf-navigation` begann der Zug ‚nach links‘ (AppDesign APD-68/Q-7) auf einem Link in einem Tag; der Mauszug startete Ziehen-und-Ablegen,
-  danach öffnete der Klick auf das Menü nicht (APD-68/Q-8, Q-9 als Folge). Die Prüfung wischt jetzt wie ein Finger (AppDesign `safari.mjs`
+  danach öffnete der Klick auf das Menü nicht (APD-68/Q-8, APD-135/Q-9 als Folge). Die Prüfung wischt jetzt wie ein Finger (AppDesign `safari.mjs`
   `mausWieFinger`); die App ist unverändert. Übersehen, weil die Q-Fälle vor 3.43.0 nur quer liefen (dort liegt kein Link an der Stelle).
 - **`ablauf-markierung-menues` dreht mit offenem Mehr-Menü in beide Richtungen** (AppDesign APD-94, hinfällig durch APD-97): auch quer → hoch,
   danach keine Abdunkelung (R-1.4); bisher nur hoch → quer. Dazu Zusammenarbeit 3.4.0 (AppDesign APD-99) in README und PROMPT.
@@ -1933,7 +1991,7 @@ AppDesign `arbeit/APD-91 Testfall-Liste.md` (APD-91/S-1 bis S-18) und `arbeit/AP
   Spaltenanteile Verlauf 28 · Wie war was? 28 · km 8 · Essen 22 · Quartier 22.
 - **Daten:** Preis und Kilometer werden abgeglichen und gesichert; alte Backups laden ohne Änderung (Spalte aus, Unbrauchbares fällt weg).
 - **Prüfungen:** neu `ablauf-suche-menue` (APD-91/S-1 bis S-18, iPad quer und hoch, iPhone hoch und quer) und `ablauf-preis-km` (APD-92/D-1 bis D-6,
-  RLB-109/Q-1 bis Q-9, RLB-110/L-1 bis L-13, hell und dunkel); die Abläufe mit Suche und Darstellung öffnen sie über das Mehr-Menü. Gegenproben: ‚Suchen‘
+  RLB-109/Q-1 bis APD-135/Q-9, RLB-110/L-1 bis L-13, hell und dunkel); die Abläufe mit Suche und Darstellung öffnen sie über das Mehr-Menü. Gegenproben: ‚Suchen‘
   nicht zuerst, Lupe in der Kapsel, ⌘F aus, x ohne Wirkung (APD-91/S-17) bzw. ‚Darstellung‘ im Menü des Reiselogbuchs (APD-92/D-8) werden rot (einmal in
   dieser Sitzung in Chromium geprüft).
 

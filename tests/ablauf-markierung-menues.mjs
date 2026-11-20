@@ -9,10 +9,13 @@
 // Menü, Untermenü ‚Darstellung‘, Kontextmenü einer Kachel und Sprechblase ‚Reiselogbuch löschen‘ wachsen aus ihrer Schaltfläche und schrumpfen dorthin
 // zurück (iPad quer und hoch, hell und dunkel, Drehen beim Wachsen), iPhone hoch und quer, ‚Bewegung reduzieren‘ nur Überblenden. Dazu APD-38/T-37
 // (R-3.9, APD-62/L-1, L-2, L-4, L-5, L-10): Menü aus Glas, schon beim Wachsen, mit ‚Transparenz reduzieren‘ deckend (nur Chromium bildet es nach).
+// Seit 3.57.8 auf der Prüfseite (AppDesign APD-135/B-3.3, APD-135/Q-10): der Mehr-Knopf (checkMehrKnopf, APD-87/E-1 bis E-6, E-8, E-11) und das
+// Wachsen von Menü, Untermenü, Kontextmenü und Sprechblase (checkWachsen, APD-62/M-1 bis M-8, M-11) prüft bausteine-pruefseite (Teile ‚menue‘ und
+// ‚sprechblase‘); hier bleiben die Anteile der App – Markierung, Inhalt der Menüs, Glas, APD-85/V-1 bis V-3 und Drehen mit offenem Menü (APD-87/E-7, APD-94).
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.64.0/tests/pruefe.mjs';
-import { createCheck, checkGlas } from '../../AppDesign/fassung/4.64.0/tests/hig.mjs';
-import { langDruecken, checkMehrKnopf, checkWachsen } from '../../AppDesign/fassung/4.64.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.65.0/tests/pruefe.mjs';
+import { createCheck, checkGlas } from '../../AppDesign/fassung/4.65.0/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.65.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -30,21 +33,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   await p.reload(); await p.waitForTimeout(300);
   const row = n => p.locator('.side-row', { hasText: n });
   const on = l => l.evaluate(e => e.classList.contains('on'));
-  // APD-87 APD-87/E-1, APD-87/E-2, APD-87/E-5, APD-87/E-6, APD-87/E-11: Mehr der Seitenleiste (seit 3.41.0 mit Untermenü ‚Darstellung‘, RLB-108)
-  // und eines Reiselogbuchs
-  t.liste(await checkMehrKnopf(p, { sel: '#sideMore', untermenue: 'Darstellung', where: 'Mehr der Seitenleiste' }));
-  // seit 3.43.0 (AppDesign APD-97): auch hoch steht die Seitenleiste daneben – das Reiselogbuch ist bedienbar
-  t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));
-  // AppDesign APD-62/M-1 bis M-6, M-8, M-11 (R-4.13): wachsen aus der Schaltfläche – Mehr, Untermenü, Kontextmenü, Sprechblase; Drehen beim Wachsen
-  // AppDesign APD-134 (seit 3.57.1): unter Last ist die Kachel nach dem Drehen noch nicht wieder da – boundingBox() war null und der Lauf brach ohne
-  // Meldung ab (‚Cannot read properties of null‘, WebKit, 4 Läufe gleichzeitig); jetzt erst warten, bis sie zu sehen ist
-  const lang = async n => { let bx = null;   // neu aufgebaut kann sie auch nach ‚visible‘ kurz fehlen – bis 5 s nachfassen
-    for (let t0 = Date.now(); !bx && Date.now() - t0 < 5000; ) { bx = await row(n).boundingBox().catch(() => null); if (!bx) await p.waitForTimeout(50); }
-    if (!bx) throw new Error(`Kachel ${n} nach 5 s nicht zu sehen`); await p.mouse.move(bx.x + 40, bx.y + 20); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up(); };
-  await t.schritt(p, 'Menüs wachsen aus der Schaltfläche', async () => t.liste(await checkWachsen(p, { menue: '#sideMore', untermenue: 'Darstellung', drehen: [h, w],
-    kontext: () => lang('Toskana'),
-    blase: async () => { await lang('Toskana'); await p.locator('.menu.kontext .mi', { hasText: 'Reiselogbuch löschen' }).click(); },
-    where: `Bewegung ${theme === 'dark' ? 'dunkel' : 'hell'}` })));
+  // Mehr-Knopf (APD-87/E-1, E-2, E-5, E-6, E-11) und Wachsen (APD-62/M-1 bis M-6, M-8, M-11): seit 3.57.8 auf der Prüfseite (AppDesign APD-135/B-3.3)
   // AppDesign APD-62/L-1, L-2, L-4, L-5, L-10 (R-3.9): Menü und Kapsel aus Glas, schon beim Wachsen; ‚Transparenz reduzieren‘ deckend (Chromium)
   await t.schritt(p, 'Menü aus Glas', async () => t.liste(await checkGlas(p, { menue: '#sideMore', where: `Glas ${theme === 'dark' ? 'dunkel' : 'hell'}` })));
   await t.schritt(p, 'Mehr-Menü der Seitenleiste', async () => { await p.click('#sideMore'); await p.waitForTimeout(150); });
@@ -90,34 +79,26 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   t.ist('Fazit danach nicht mehr blau', await on(p.locator('#fazit')), false, 'R-3.3');
   await p.close();
 }
-// APD-87 APD-87/E-3 iPhone (Startliste und Seite), APD-87/E-8 ‚Bewegung reduzieren‘, APD-87/E-7 Drehen mit offenem Menü
-for (const [ansicht, ruhig] of [['iPhone hoch', false], ['iPhone quer', false], ['iPad quer', true]]) {
-  const p = await t.seite(b, ansicht, { theme: 'light', ...(ruhig ? { reducedMotion: 'reduce' } : {}) });
-  t.ort = `${t.ort}${ruhig ? ' Bewegung reduzieren' : ''} · Mehr-Knopf`;
+// APD-87/E-7 Drehen mit offenem Menü (iPad quer, ‚Bewegung reduzieren‘); APD-87/E-3, E-8 und APD-62/M-1, M-7 am iPhone und mit ‚Bewegung reduzieren‘
+// seit 3.57.8 auf der Prüfseite (AppDesign APD-135/B-3.3, Teil ‚menue‘)
+{
+  const p = await t.seite(b, 'iPad quer', { theme: 'light', reducedMotion: 'reduce' });
+  t.ort = `${t.ort} Bewegung reduzieren · Mehr-Knopf`;
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(400);
-  const phone = ansicht.startsWith('iPhone');
-  if (phone && await p.locator('#back').count()) { await p.click('#back'); await p.waitForTimeout(400); await navFertig(p); }
-  t.liste(await checkMehrKnopf(p, { sel: '#sideMore', where: phone ? 'Mehr der Startliste' : 'Mehr der Seitenleiste' }));
-  // AppDesign APD-62/M-1 iPhone hoch und quer, APD-62/M-7 ‚Bewegung reduzieren‘ (R-4.13)
-  await t.schritt(p, 'Menü wächst aus der Schaltfläche', async () => t.liste(await checkWachsen(p, { menue: '#sideMore', where: ruhig ? 'Bewegung reduzieren' : 'Bewegung' })));
-  if (phone) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); await navFertig(p); }
-  t.liste(await checkMehrKnopf(p, { sel: '#mainMore', where: 'Mehr des Reiselogbuchs' }));
-  if (!phone) {
-    // in beide Richtungen drehen, das Menü offen (seit 3.43.0, APD-97: die Seitenleiste steht dabei fest daneben). Quer → hoch ist der
-    // Fall aus AppDesign APD-94 (bis 3.42.1 lag hoch die Seitenleiste mit nicht gesperrter Abdunkelung darüber, R-1.4 nach jedem Schritt)
-    const senkrecht = () => p.evaluate(() => { const c = [...document.querySelectorAll('#mainMore > svg circle')]; return c.length === 3 && new Set(c.map(k => k.getAttribute('cx'))).size === 1; });
-    const waagrecht = () => p.evaluate(() => { const c = [...document.querySelectorAll('#mainMore > svg circle')]; return c.length === 3 && new Set(c.map(k => k.getAttribute('cy'))).size === 1; });
-    for (const [von, nach] of [[[820, 1180], [1180, 820]], [[1180, 820], [820, 1180]]]) {
-      const wie = von[0] < von[1] ? 'hoch → quer' : 'quer → hoch';
-      await p.setViewportSize({ width: von[0], height: von[1] }); await p.waitForTimeout(500);
-      await t.schritt(p, `Mehr offen, dann drehen (${wie})`, async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.setViewportSize({ width: nach[0], height: nach[1] }); await p.waitForTimeout(500); });
-      t.ist(`APD-87 APD-87/E-7: nach dem Drehen (${wie}) mit offenem Menü noch senkrecht`, await senkrecht(), true, 'R-4.1');
-      t.ist(`AppDesign APD-94: nach dem Drehen (${wie}) mit offenem Menü keine Abdunkelung`, await p.evaluate(() => !document.querySelector('.side-shade')), true, 'R-1.4');
-      await p.keyboard.press('Escape'); await p.waitForTimeout(150);
-      t.ist(`APD-87 APD-87/E-7: nach dem Schließen (${wie}) wieder waagrecht`, await waagrecht(), true, 'R-4.1');
-    }
+  // in beide Richtungen drehen, das Menü offen (seit 3.43.0, APD-97: die Seitenleiste steht dabei fest daneben). Quer → hoch ist der
+  // Fall aus AppDesign APD-94 (bis 3.42.1 lag hoch die Seitenleiste mit nicht gesperrter Abdunkelung darüber, R-1.4 nach jedem Schritt)
+  const senkrecht = () => p.evaluate(() => { const c = [...document.querySelectorAll('#mainMore > svg circle')]; return c.length === 3 && new Set(c.map(k => k.getAttribute('cx'))).size === 1; });
+  const waagrecht = () => p.evaluate(() => { const c = [...document.querySelectorAll('#mainMore > svg circle')]; return c.length === 3 && new Set(c.map(k => k.getAttribute('cy'))).size === 1; });
+  for (const [von, nach] of [[[820, 1180], [1180, 820]], [[1180, 820], [820, 1180]]]) {
+    const wie = von[0] < von[1] ? 'hoch → quer' : 'quer → hoch';
+    await p.setViewportSize({ width: von[0], height: von[1] }); await p.waitForTimeout(500);
+    await t.schritt(p, `Mehr offen, dann drehen (${wie})`, async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.setViewportSize({ width: nach[0], height: nach[1] }); await p.waitForTimeout(500); });
+    t.ist(`APD-87 APD-87/E-7: nach dem Drehen (${wie}) mit offenem Menü noch senkrecht`, await senkrecht(), true, 'R-4.1');
+    t.ist(`AppDesign APD-94: nach dem Drehen (${wie}) mit offenem Menü keine Abdunkelung`, await p.evaluate(() => !document.querySelector('.side-shade')), true, 'R-1.4');
+    await p.keyboard.press('Escape'); await p.waitForTimeout(150);
+    t.ist(`APD-87 APD-87/E-7: nach dem Schließen (${wie}) wieder waagrecht`, await waagrecht(), true, 'R-4.1');
   }
   await p.close();
 }

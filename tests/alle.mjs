@@ -22,11 +22,13 @@
 // ‚schicht-oben‘, ‚grossanzeige‘; Gegenprobe je eingeschleustem Fehler: --gegenprobe pruefseite. Dafür sind ablauf-messung, ablauf-titel-blase,
 // ablauf-titel-oben, ablauf-schicht-oben und ablauf-grossanzeige weggefallen; neu ablauf-bausteine – je Baustein eine kurze Zusammenspiel-Prüfung
 // an den echten Knöpfen der App und die Teile mit Reiselogik (Datum im Fenstertitel, Reisetitel, nichts gelöscht, leere App).
+// seit 3.57.8 bean-katalog (AppDesign APD-140, R-1.13): der Bean-Katalog von AppDesign lädt fehlerfrei, jede Bean, Grundregeln, Versionszeile.
+// seit 3.57.8 in bausteine-pruefseite die Teile ‚menue‘, ‚sprechblase‘ und ‚fenster‘ (AppDesign APD-135/B-3.3); in ablauf-markierung-menues sind checkMehrKnopf und checkWachsen weggefallen.
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.64.0/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.65.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-leer', 'ablauf-drehen-iphone', 'ablauf-glas', 'ablauf-feld-rollen', 'ablauf-feld-cursor', 'ablauf-fremdtext', 'ablauf-drehen-luecke', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
-  'verlauf-vorschlaege', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln', 'ablauf-bausteine',
+  'verlauf-vorschlaege', 'bean-katalog', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln', 'ablauf-bausteine',
   // Seit 3.33.0 (AppDesign APD-43 P1): die Abläufe mit Bewegung zusätzlich mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (Bewegungswächter)
   // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): dieselben Abläufe zusätzlich mit der größten Textgröße (AX5, 53 px)
   ...['ablauf-navigation', 'ablauf-fenster', 'ablauf-iphone', 'ablauf-suche-liste', 'ablauf-seitenleiste-position'].map(name => ({ name, teile: { '': {}, Bedienungshilfen: { PRUEF_BEDIENUNG: 'beide' }, 'Text 53': { PRUEF_TEXT: '53' } } })),
@@ -47,7 +49,7 @@ const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'abl
   { name: 'ablauf-wischen', teile: { iPad: { PRUEF_GERAET: 'iPad' }, iPhone: { PRUEF_GERAET: 'iPhone' } } },
   // Seit 3.57.7 (AppDesign APD-135/B-3.1, B-3.2): Bausteine auf der Prüfseite, je Teil ein Lauf (PRUEF_TEIL) – die Werte (Gruppe A) und die
   // 5 Abläufe, die bis 3.57.6 eigene Prüfdateien hatten (ablauf-messung, -titel-blase, -titel-oben, -schicht-oben, -grossanzeige)
-  { name: 'bausteine-pruefseite', teile: { grossanzeige: {}, 'titel-oben': {}, 'schicht-oben': {}, messung: {}, 'titel-blase': {}, werte: {} } }];
+  { name: 'bausteine-pruefseite', teile: { grossanzeige: {}, menue: {}, 'titel-oben': {}, fenster: {}, 'schicht-oben': {}, messung: {}, 'titel-blase': {}, sprechblase: {}, werte: {} } }];
 // Seit 3.35.0: Zeitgrenze je Test 600 s statt 300 – ablauf-blatt braucht allein schon 288 s (auch mit AppDesign 4.36.0 gemessen) und lief
 // unter Volllast in WebKit über die Grenze
 const argv = process.argv.slice(2), zeit = argv.includes('--zeit') ? [] : ['--zeit', '600'];
