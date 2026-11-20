@@ -13,6 +13,50 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.9 – 20.11.2026
+
+Reiselogbuch 3.57.9 · AppDesign 4.66.0 (Designrichtlinie allgemein 4.66.0) · Designrichtlinie Reiselogbuch 3.57.9 · Zusammenarbeit allgemein 3.17.0
+
+**Korrektur: Mehr-Knopf des Bean-Katalogs rund** (AppDesign 4.66.0: P-115/F-1 aus P-115/5; Sitzung 0143).
+
+- **App:** keine sichtbare Änderung; der Bean-Katalog von AppDesign zeigt den Mehr-Knopf als runden Knopf statt einer ovalen Kapsel.
+- **Prüfungen:** die Grundregeln (`hig.mjs` der Fassung 4.66.0) melden neu eine Kapsel mit nur einer Icon-Schaltfläche (R-3.1) – in `bean-katalog` und in jeder
+  Prüfung mit Grundregeln; Gegenprobe `einzelkapsel` in `node tests/alle.mjs --gegenprobe masse` (Prüfung `hig`).
+- AD-Bean: keine (nur Katalogseite und Prüfungen in AppDesign).
+
+**AD-Beans: Hinweisfenster, Abgleich, Symbole** (AppDesign 4.66.0: APD-136 b1–b3; Sitzungen 0142 und 0143).
+
+- **App:** keine sichtbare Änderung. Das Hinweisfenster sieht aus wie bisher (CSS in AppDesign jetzt unter `.ad-hinweis`); `createSync` behält `subAt: 'dayAt'`;
+  `index.html` unverändert bis auf die Versionsstellen.
+- **Prüfungen:** `ablauf-abgleich` liest den Text des Hinweisfensters über `.ad-hinweis-text` (vorher `.msg-text`); `doku-regeln` (`checkBeans`, APD-136/V-2) und
+  `bausteine-pruefseite` (`checkWerte`, APD-136/V-3 bis V-5: jeder Name in `ic('…')` der App steht in `ICONS`) über die Fassung 4.66.0.
+- AD-Bean: `hinweis` (CSS unter `.ad-hinweis`, in AppDesign).
+
+Testfälle P-116 (Schritt für Schritt, Zusammenarbeit allgemein 3.17.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Link des Katalogs (in Safari): https://g811141a.github.io/AppDesign/katalog/index.html
+
+**P-116/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.9 · erstellt am … · AppDesign 4.66.0‘. Automatisch geprüft in `version-regeln`.
+
+**P-116/1 – Mehr-Knopf des Katalogs am iPad rund (P-115/F-1)**
+1. iPad quer, hell; in Safari den Link des Katalogs öffnen.
+2. Oben in der Seitenleiste den Knopf ‚…‘ (Mehr) ansehen, dann antippen.
+3. Erwartet: ‚…‘ ist ein Kreis, so groß wie der Knopf ‚Seitenleiste ausblenden‘ daneben – vor und nach dem Antippen; im Menü ‚Darstellung‘ und unten grau
+   ‚Bean-Katalog · AppDesign 4.66.0 (v4, neueste Fassung)‘. Automatisch geprüft in `bean-katalog` (Grundregel R-3.1, APD-140/Z-4).
+
+**P-116/2 – Mehr-Knopf des Katalogs am iPhone rund (P-115/F-1)**
+1. iPhone hoch, hell; in Safari den Link des Katalogs öffnen.
+2. Oben in der Startliste ‚AD-Beans‘ den Knopf ‚…‘ (Mehr) ansehen.
+3. Erwartet: ‚…‘ ist ein Kreis, nicht oval. Automatisch geprüft in `bean-katalog` (Grundregel R-3.1).
+
+**P-116/3 – Hinweisfenster unverändert (APD-136 b1)**
+1. iPad quer, hell; in der App in der Seitenleiste ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+2. ‚Backup erstellen‘ antippen und das Backup sichern (oder abbrechen).
+3. Erwartet: das Hinweisfenster sieht aus wie bisher – Titel oben, rundes x links, Text in der Mitte, der Dateiname fett in einer eigenen Zeile und in einer Zeile.
+   Automatisch geprüft in `backup-regeln` (`checkDateiname`, `checkHinweisBreite`, APD-138/D-1 bis D-14).
+
 ## 3.57.8 – 19.11.2026
 
 Reiselogbuch 3.57.8 · AppDesign 4.65.0 (Designrichtlinie allgemein 4.65.0) · Designrichtlinie Reiselogbuch 3.57.8 · Zusammenarbeit allgemein 3.17.0
