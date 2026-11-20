@@ -1,10 +1,10 @@
 // Allgemeine Prüfung ‚Backup erstellen‘ und ‚Backup laden‘ (AppDesign/tests/backup.mjs, R-9.1, R-9.2) – iPad und iPhone, hell und dunkel.
 // Aufruf im Repo-Ordner: node tests/backup-regeln.mjs. Meldet Fehler mit Rückgabewert (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.66.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.66.0/tests/hig.mjs';
-import { checkBackup } from '../../AppDesign/fassung/4.66.0/tests/backup.mjs';
-import { checkHinweisBreite } from '../../AppDesign/fassung/4.66.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.67.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.67.0/tests/hig.mjs';
+import { checkBackup } from '../../AppDesign/fassung/4.67.0/tests/backup.mjs';
+import { checkHinweisBreite } from '../../AppDesign/fassung/4.67.0/tests/ablauf.mjs';
 const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '2026-08-24', end: '2026-09-05', transport: ['flug'], days: { '2026-08-24': { program: 'Sydney' } } }];
 const hig = createCheck();
 const t = pruefung('backup-regeln', pw, { hig, out: new URL('out/', import.meta.url) });
@@ -23,7 +23,7 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
   // seit 3.57.7 (AppDesign APD-138/D-3 bis D-6, D-9, D-10, R-10.8): Breite nach Dateiname am iPad – kurz, sehr lang, Text 53, schmal, drehen, Gegenprobe
   if (dev === 'iPad quer' && cs === 'light') t.liste(await checkHinweisBreite(p, { where: t.ort }));
   // seit 3.57.7 (AppDesign APD-135/S-9, S-10, R-3.3): Backup aus dem Mehr-Menü – nach dem Teilen baut renderSide die Seitenleiste neu auf, während das
-  // Fenster ‚Backup‘ offen ist; der gehaltene Mehr-Knopf bleibt blau (markHeld) und ist nach dem Schließen nicht mehr blau
+  // Fenster ‚Backup‘ offen ist; der gehaltene Mehr-Knopf bleibt blau (AD-Bean sourcehighlight, refresh) und ist nach dem Schließen nicht mehr blau
   if (dev === 'iPad quer' && cs === 'light') {
     await p.evaluate(() => { localStorage.setItem('reiselogbuch.v1', JSON.stringify({ ...JSON.parse(localStorage.getItem('reiselogbuch.v1')), settings: {} })); });
     await p.reload(); await p.waitForTimeout(400);

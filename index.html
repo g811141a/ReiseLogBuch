@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.66.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.67.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -134,18 +134,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.66.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.67.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.57.9';
-const APP_BUILT = '20.11.2026 um 18:24';
+const APP_VERSION = '3.57.10';
+const APP_BUILT = '20.11.2026 um 22:44';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.66.0';
+const AD_NEEDED = '4.67.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -793,7 +793,7 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
   app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
   app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
   bindSearch(term);
-  markOpener();
+  adSourcehighlight.refresh();
   app.querySelectorAll('tbody tr, #pdays [data-day]').forEach(tr => tr.onclick = () => openDayDialog(trip, tr.dataset.day));
   bindTripEnd(trip);
 
@@ -874,7 +874,7 @@ const leerTage = () => searchTerm.trim() ? leerSuche(searchTerm.trim())
   : leerHtml({ icon: 'calendar', titel: 'Noch keine Tage erfasst', satz: 'Es werden nur erfasste Tage gezeigt.', aktion: { id: 'leerAlle', label: 'Alle Tage zeigen' } });
 function bindTripEnd(trip) {
   const alle = app.querySelector('#leerAlle'); if (alle) alle.onclick = () => { db.settings.hideEmpty = false; save(); render(); };
-  app.querySelector('#fazit').onclick = () => { setOpener('#fazit'); openFazitDialog(trip); };
+  app.querySelector('#fazit').onclick = () => { adSourcehighlight.sourceItem = '#fazit'; openFazitDialog(trip); };
   bindMoney(app.querySelector('#kosten'), () => trip.kosten, v => { trip.kosten = v; save(); });
 }
 // Betragsfeld (R-5.1; Gesamtausgaben, seit 3.41.0 auch der Preis des Quartiers): Tausenderpunkt beim Tippen, Komma für Cent (höchstens
@@ -965,7 +965,7 @@ function renderPhone({ scrollToGap = false } = {}) {
   bindSearch(term);
   bindTripEnd(trip);
   app.querySelectorAll('#pdays [data-day]').forEach(b => b.onclick = () => openDayDialog(trip, b.dataset.day));
-  markOpener();
+  adSourcehighlight.refresh();
   if (scrollToGap) openAt(startTop && app.querySelector(`#pdays [data-day="${startTop}"]`));   // R-7.4, RLB-98: direkt unter der Leiste, sonst ganz oben
   updateBar();
 }
@@ -1042,7 +1042,7 @@ const ansageTreffer = () => { if (!searchTerm.trim()) return; const n = hitMarks
 // Ohne Reiselogbuch: leere Seite mit dem leeren Zustand (seit 3.48.0 AppDesign APD-30, R-7.7, S-1); "Neues Reiselogbuch" öffnet sich einmal von selbst.
 const leerKeinBuch = id => leerHtml({ icon: 'book-open', titel: 'Noch kein Reiselogbuch', satz: 'Ein neues mit ‚plus‘ in der Seitenleiste anlegen.',
   aktion: { id, label: 'Neues Reiselogbuch' } });
-const bindLeerNeu = (wo, id) => { const b = wo.querySelector('#' + id); if (b) b.onclick = () => { setOpener('#' + id); openTripDialog(null); }; };
+const bindLeerNeu = (wo, id) => { const b = wo.querySelector('#' + id); if (b) b.onclick = () => { adSourcehighlight.sourceItem = '#' + id; openTripDialog(null); }; };
 function renderEmpty() {
   fab.hidden = true;
   searchOpen = false;
@@ -1087,7 +1087,7 @@ const sideToggleHtml = () => sideVisible() && isWide() ? ''
 // Seit 3.28.0 (AppDesign APD-61): am iPad hoch gleitet die darübergelegte Seitenleiste herein und hinaus (navSeite);
 // seit 3.29.0 (AppDesign APD-68) auch quer – der Inhalt rückt mit und wird beim Einrasten schmaler.
 function toggleSide() {
-  if (sideOpen) wischen.schliessen();   // seit 3.57.0 (AppDesign APD-30, R-7.8): beim Ausblenden ist keine Kachel offen – das sieht die Bean nicht selbst
+  if (sideOpen) swipe.close();   // seit 3.57.0 (AppDesign APD-30, R-7.8): beim Ausblenden ist keine Kachel offen – das sieht die Bean nicht selbst
   if (sideOver() || sideFest()) return navSeite(!sideOpen);
   keepPlace(() => { sideOpen = !sideOpen; render(); });
 }
@@ -1147,13 +1147,12 @@ function renderSide() {
         <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${term ? `<small class="chg hits">${hitText(hits.get(t.id))}</small>` : sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
       : term ? leerSuche(listTerm.trim(), !isPhone()) : isPhone() ? leerKeinBuch('leerNeuListe') : leerHtml({ icon: 'book-open', titel: 'Noch kein Reiselogbuch', klein: true })}</div>
     ${backupTileHtml(db.settings.lastBackup, !all.length)}`);
-  side.querySelector('#newTrip').onclick = () => { setOpener('#newTrip'); openTripDialog(null); };
+  side.querySelector('#newTrip').onclick = () => { adSourcehighlight.sourceItem = '#newTrip'; openTripDialog(null); };
   bindLeerNeu(side, 'leerNeuListe');
   side.querySelector('#sideMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
   side.querySelector('#sideHide').onclick = toggleSide;
   const hb = side.querySelector('#hintBackup'); if (hb) hb.onclick = () => saveBackup('#hintBackup');   // onclick: setHtml behält das Element (APD-24)
-  markHeld(side);
-  markOpener();
+  adSourcehighlight.refresh();   // seit 4.67.0 (AppDesign APD-136): AD-Bean sourcehighlight statt markHeld und markOpener
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Reiselogbuch einstellen · Reiselogbuch löschen); die Köpfe (.side-sec) tun nichts.
   side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
     () => tripContextMenu(b),
@@ -1239,7 +1238,7 @@ let importAnchor = '#sideMore'; // Schaltfläche, von der ‚Backup laden‘ kom
 const backupMenuItems = sel => [
   ...(db.trips.length ? suchenMenuItems(openListSearch) : []),
   ...backupMenuEntries({ last: db.settings.lastBackup, disabled: !db.trips.length, onSave: () => saveBackup(sel),
-    onLoad: () => { importAnchor = sel; hold(sel); importFile.click(); } }),
+    onLoad: () => { importAnchor = sel; adSourcehighlight.hold(sel); importFile.click(); } }),
   'sep',
   darstellungMenuItem(),
   // Messmodus (seit 3.24.0, AppDesign APD-27): Kopf- und Suchzeile von Inhalt und Liste, erster Tag, Rollstand der Liste – seit 3.38.0
@@ -1262,22 +1261,22 @@ function openMainMenu(anchor, trip) {
     { tick: !db.settings.hideEmpty, icon: 'list-chevrons-up-down', label: 'Alle Tage', act: () => setHide(false) },
     { tick: db.settings.hideEmpty, icon: 'fold-vertical', label: 'Nur erfasste Tage', act: () => setHide(true) },
     'sep',
-    { icon: 'settings', label: 'Reiselogbuch einstellen', act: () => { setOpener('#mainMore'); openTripDialog(trip); } },   // seit 3.44.0 (RLB-113, Abweichung 4)
+    { icon: 'settings', label: 'Reiselogbuch einstellen', act: () => { adSourcehighlight.sourceItem = '#mainMore'; openTripDialog(trip); } },   // seit 3.44.0 (RLB-113, Abweichung 4)
     'sep',
     { icon: 'trash', label: 'Reiselogbuch löschen', red: true, act: () => deleteTrip(trip) },
   ]);
 }
 
 // Aktionen eines Reiselogbuchs in der Seitenleiste – eine Liste für Kontextmenü und Wischaktionen (seit 3.57.0, AppDesign APD-30/D-1, APD-136):
-// kurz = Wort unter der Kapsel, label = Name im Menü und für VoiceOver. Beim Wischen bekommt act den Anker (rote Kapsel), die Sprechblase wächst
-// aus ihr; deleteTrip gibt ein Promise zurück – die Kachel bleibt offen, bis entschieden ist.
-const tripAktionen = row => { const trip = getTrip(row.dataset.id); if (!trip) return []; return [
-  { icon: 'settings', label: 'Reiselogbuch einstellen', kurz: 'Einstellen', act: () => { setOpener(`#side .side-row[data-id="${trip.id}"]`); openTripDialog(trip); } },   // seit 3.44.0 (RLB-113)
+// shortTitle = Wort unter der Kapsel, label = Name im Menü und für VoiceOver. Beim Wischen bekommt act die rote Kapsel als sourceView, die Sprechblase
+// wächst aus ihr; deleteTrip gibt ein Promise zurück – die Kachel bleibt offen, bis entschieden ist. Namen englisch seit 3.57.10 (AppDesign APD-136).
+const tripActions = row => { const trip = getTrip(row.dataset.id); if (!trip) return []; return [
+  { icon: 'settings', label: 'Reiselogbuch einstellen', shortTitle: 'Einstellen', act: () => { adSourcehighlight.sourceItem = `#side .side-row[data-id="${trip.id}"]`; openTripDialog(trip); } },   // seit 3.44.0 (RLB-113)
   'sep',
-  { icon: 'trash', label: 'Reiselogbuch löschen', kurz: 'Löschen', red: true, act: w => { if (!w?.anker) row.classList.add('on'); return deleteTrip(trip, w?.anker || row); } },
+  { icon: 'trash', label: 'Reiselogbuch löschen', shortTitle: 'Löschen', red: true, act: w => { if (!w?.sourceView) adSourcehighlight.hold(row); return deleteTrip(trip, w?.sourceView || row); } },
 ]; };
 // Kontextmenü (wie in Notizen, Mail, Dateien); ohne ‚Öffnen‘, weil Tippen öffnet.
-const tripContextMenu = row => { if (getTrip(row.dataset.id)) openMenu(row, tripAktionen(row), 'beside'); };
+const tripContextMenu = row => { if (getTrip(row.dataset.id)) openMenu(row, tripActions(row), 'beside'); };
 
 async function deleteTrip(trip, anchor = app.querySelector('#mainMore')) {
   const yes = await confirmPop(anchor,
@@ -1295,7 +1294,7 @@ async function deleteTrip(trip, anchor = app.querySelector('#mainMore')) {
 function openShareMenu(anchor, trip) {
   const count = tripDays(trip).filter(iso => isRecorded(trip, iso)).length;
   openMenu(anchor, [
-    { icon: 'eye', label: 'Vorschau', act: () => { setOpener('#shareBtn'); openPreview(trip); } },
+    { icon: 'eye', label: 'Vorschau', act: () => { adSourcehighlight.sourceItem = '#shareBtn'; openPreview(trip); } },
     { icon: 'file-code', label: 'HTML', sub: 'Im Teilen-Menü ‚In Dateien sichern‘ wählen', act: () => exportHtml(trip) },
     // seit 3.55.1 (RLB-124/W-1): iOS 27 übergeht print() in der App vom Home-Bildschirm (Versuch AppDesign/arbeit/RLB-124) – Hinweis, Funktion unverändert
     { icon: 'file-text', label: 'PDF (mit iOS 27 zurzeit nicht möglich)', sub: 'Im Drucken-Menü Teilen, dann ‚In Dateien sichern‘', act: () => exportPdf(trip) },
@@ -1325,7 +1324,7 @@ navAnmelden({
   seite: { moeglich: sideOver, fest: sideFest, offen: () => sideOpen, zeigen: an => { sideOpen = an; renderSide(); }, neu: () => render() },
 });
 // Seit 3.57.0 (AppDesign APD-30, APD-136, R-7.8): Wischaktionen der Kacheln – dieselben Aktionen wie im Kontextmenü, einmal beim Start
-const wischen = createSwipeactions(side, { kacheln: '[data-id]', aktionen: tripAktionen });
+const swipe = createSwipeactions(side, { rows: '[data-id]', actions: tripActions });
 // Seit 3.41.0 (AppDesign APD-91, R-4.7): ⌘F sucht im offenen Reiselogbuch, ohne offenes (iPhone-Startliste) in allen; liegt am iPad hoch
 // die Seitenleiste über dem Reiselogbuch, in der Seitenleiste (nur sie ist bedienbar).
 sucheAnmelden(() => {
@@ -1533,7 +1532,7 @@ function openTripDialog(trip) {
 
 // Einen Tag in 2 bis 6 Schritten erfassen (je nach sichtbaren Spalten); speichert automatisch alle 10 Sekunden.
 function openDayDialog(trip, iso) {
-  setOpener(`#app [data-day="${iso}"]`); // Zeile bzw. Kasten; auch beim Blättern zum nächsten Tag
+  adSourcehighlight.sourceItem = `#app [data-day="${iso}"]`; // Zeile bzw. Kasten; auch beim Blättern zum nächsten Tag
   const days = tripDays(trip);
   const idx = days.indexOf(iso);
   const isFirst = idx <= 0;
@@ -1980,7 +1979,7 @@ async function exportHtml(trip) {
   const file = { name: `${outputName(trip, version)}.html`, type: 'html', content: outputDocument(trip, version, stamp) };
   if (dlg.open) dlg.close();
   const result = await shareFiles([file]);
-  setOpener('#shareBtn');
+  adSourcehighlight.sourceItem = '#shareBtn';
   showOutputResult(`Ausgabe V${pad(version, 3)}`, file.name, result);
 }
 
@@ -1988,7 +1987,7 @@ async function exportHtml(trip) {
 function exportPdf(trip) {
   const { version, stamp } = nextOutput(trip);
   const name = outputName(trip, version);
-  setOpener('#shareBtn');
+  adSourcehighlight.sourceItem = '#shareBtn';
   showOutputResult(`Ausgabe V${pad(version, 3)}`, name + '.pdf', 'print');
   const oldTitle = document.title;
   printout.innerHTML = `<style>${OUTPUT_CSS.replace(/\bbody\b/g, '#printout')}</style>${outputBody(trip, version, stamp)}`;
@@ -2036,7 +2035,7 @@ function bindBackupReminder() {
 // Erstellt das Backup über das Teilen-Menü; der Zeitpunkt zählt nur, wenn das Menü abgeschlossen wurde.
 // anchor: Schaltfläche, von der es kommt – sie bleibt bis zum Schließen der Meldung blau.
 async function saveBackup(anchor) {
-  hold(anchor);
+  adSourcehighlight.hold(anchor);
   const file = backupFile();
   const result = await shareFiles([file]);
   if (result === 'shared' || result === 'downloaded') {
@@ -2046,7 +2045,7 @@ async function saveBackup(anchor) {
   }
   const text = shareResultText(result, file.name);
   if (!dlg.querySelector('#reminder')) await inform('Backup', text);
-  release(anchor);
+  adSourcehighlight.release(anchor);
   // RLB-105: nach dem Backup ist die Kachel weg – der Fokus geht auf ‚Mehr‘ statt ins Leere
   if (anchor && !document.querySelector(anchor)) side.querySelector('#sideMore')?.focus({ preventScroll: true });
   return text;
@@ -2057,17 +2056,17 @@ async function saveBackup(anchor) {
 /* ---------- Backup ---------- */
 
 
-importFile.addEventListener('cancel', () => release(importAnchor));
+importFile.addEventListener('cancel', () => adSourcehighlight.release(importAnchor));
 importFile.onchange = async () => {
   const file = importFile.files[0];
   importFile.value = '';
-  if (!file) return release(importAnchor);
+  if (!file) return adSourcehighlight.release(importAnchor);
   try {
     const { data, savedAt, savedOn } = await readBackup(file, 'trips');
     normalize(data);
     // Abfrage (R-9.2): Zeitpunkt und Gerät des Backups, neuer oder älter – Abgleichen · Ersetzen · Abbrechen.
     const choice = await sync.ask(document.querySelector(importAnchor), db, data, savedAt, savedOn);
-    if (!choice) return release(importAnchor);
+    if (!choice) return adSourcehighlight.release(importAnchor);
     // Das letzte Backup und das zuletzt verwendete Reiselogbuch gelten je Gerät: die Werte aus der Datei werden nicht übernommen.
     // Glas (seit 3.52.0, AppDesign APD-120): gilt je Gerät – der Wert aus der Datei nur, wenn hier noch nicht gewählt (Neuinstallation)
     const { lastBackup, lastTrip, glas } = db.settings;
@@ -2086,10 +2085,10 @@ importFile.onchange = async () => {
     if (choice === 'merge' && getTrip(currentTripId)) render(); else showTrip(pickStartTrip()?.id);
     // R-9.4: Ergebnis mit Tabelle der Änderungen auf diesem Gerät (breites Fenster).
     if (stats) await sync.showResult(stats, savedAt, savedOn);
-    release(importAnchor);
+    adSourcehighlight.release(importAnchor);
   } catch (e) {
     await inform('Backup laden', '⚠️ Die Datei konnte nicht gelesen werden. ' + esc(e.message));
-    release(importAnchor);
+    adSourcehighlight.release(importAnchor);
   }
 };
 
