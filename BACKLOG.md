@@ -18,7 +18,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-115 | 1 | **Usertest Reiselogbuch 3.57.8 / AppDesign 4.65.0:** Bean-Katalog (AppDesign APD-140) und Prüfseite Menü, Sprechblase, Fenster (APD-135 Paket 7) – Testfälle P-115/0 bis P-115/5 im CHANGELOG | prüfen |
+| P-115 | 1 | **Usertest Reiselogbuch 3.57.8 / AppDesign 4.65.0:** Bean-Katalog (AppDesign APD-140) und Prüfseite Menü, Sprechblase, Fenster (APD-135 Paket 7) – Testfälle P-115/0 bis P-115/5 im CHANGELOG – /0 bis /4 ok, /5 nicht ok (Mehr-Knopf des Katalogs oval → AppDesign P-115/F-1, mit 4.66.0; Nutzer 20.11.2026, Sitzung 0143) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
