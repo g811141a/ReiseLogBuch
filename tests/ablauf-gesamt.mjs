@@ -68,7 +68,7 @@ for (const theme of ['light', 'dark']) {
   // Mehr-Menü
   await S(p, 'Mehr-Menü', () => p.click('#mainMore'));
   // seit 3.41.0: ‚Suchen‘ zuerst (AppDesign APD-91), ‚Darstellung‘ nicht mehr hier (RLB-108, APD-92/D-3)
-  t.ist('Mehr-Menü', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Reiselogbuch einstellen', 'Reiselogbuch löschen'], 'R-4.1');
+  t.ist('Mehr-Menü', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Reiselogbuch einstellen', 'Reiselogbuch sperren', 'Reiselogbuch löschen'], 'R-4.1');   // seit 3.58.0 mit ‚Reiselogbuch sperren‘ (RLB-125)
   t.ist('Mehr bleibt blau', await cls(p, '#mainMore', 'on'), true, 'R-3.3');
   await S(p, 'Nur erfasste Tage', () => p.click('.menu .mi:has-text("Nur erfasste Tage")'));
   t.ist('Zeilen nur erfasste Tage', await p.locator('table.days tbody tr').count(), 5);

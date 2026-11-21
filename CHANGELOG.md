@@ -37,6 +37,8 @@ AppDesign `arbeit/0152 RLB-125 Bau-Frage.md`).
   ‚Ersetzen‘ nennt ‚Darunter N gesperrte Reiselogbücher.‘ (RLB-125/J-3).
 - **Prüfungen:** neu `ablauf-sperre` (RLB-125/T-1 bis RLB-125/T-7, RLB-125/T-9, RLB-125/T-11, RLB-125/T-12 je Ansicht mit den Grundregeln; Gegenprobe `PRUEF_GEGENPROBE=sperre`, RLB-125/T-10);
   `abgleich-regeln` mit den Fällen 21–23 und der Gegenprobe `PRUEF_GEGENPROBE=abgleich:23`; `bausteine-pruefseite` (Teil `menue`) mit R-4.14 (RLB-125/T-13).
+  Sollwerte mit ‚Reiselogbuch sperren‘ in `ablauf-gesamt`, `ablauf-einstellen`, `ablauf-preis-km`, `ablauf-seitenleiste-kontextmenue`; `ablauf-texte-ablaeufe` lässt
+  ‚sperren‘ bei R-4.11 aus (öffnet kein Fenster); `ablauf-wischen` mit drei Kapseln (Wischweg 150 px).
 - AD-Bean: keine – in AppDesign (`createSync` mit `protect`).
 
 Testfälle P-120 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der

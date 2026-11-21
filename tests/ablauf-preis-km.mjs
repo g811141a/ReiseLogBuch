@@ -78,7 +78,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   await oeffne(p);
   // D-3: Mehr eines Reiselogbuchs ohne ‚Darstellung‘
   await p.click('#mainMore'); await p.waitForTimeout(150);
-  t.ist('APD-92/D-3 Mehr des Reiselogbuchs', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Reiselogbuch einstellen', 'Reiselogbuch löschen'], 'R-1.2');
+  t.ist('APD-92/D-3 Mehr des Reiselogbuchs', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Reiselogbuch einstellen', 'Reiselogbuch sperren', 'Reiselogbuch löschen'], 'R-1.2');   // seit 3.58.0 (RLB-125)
   await p.keyboard.press('Escape'); await p.waitForTimeout(150);
   // L-2 (iPad) bzw. L-9 (iPhone): Spalte bzw. Zeile ‚🚶🏽‍♂️ 14 km‘
   // seit 3.43.0 (AppDesign APD-97, R-6.6): iPad hoch neben der Seitenleiste Kästen wie am iPhone
