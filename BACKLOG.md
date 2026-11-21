@@ -25,7 +25,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-126 | 3 | **‚Zuletzt gelöscht‘ (aus RLB-125/L-6, Nutzer 18.11.2026, Sitzung 0127):** ein gelöschtes Reiselogbuch bleibt 30 Tage wiederherstellbar (eigener Bereich in der Seitenleiste); berührt Datenmodell, Abgleich und Speicherplatz; So macht es Apple in der Klärung mit Quelle | Reiselogbuch | offen |
+| RLB-126 | 3 | **‚Zuletzt gelöscht‘ (aus RLB-125/L-6, Nutzer 18.11.2026, Sitzung 0127):** ein gelöschtes Reiselogbuch bleibt 30 Tage wiederherstellbar (eigener Bereich in der Seitenleiste); berührt Datenmodell, Abgleich und Speicherplatz; So macht es Apple in der Klärung mit Quelle · **RLB-126/J-1 (Nutzer 21.11.2026, Sitzung 0150, im Fenster):** allgemein, neue AD-Bean `recentlydeleted` (Vorbild *Recently Deleted*); Grundform als Vorschlag: Bereich am Ende der Seitenleiste nur wenn nicht leer, 30 Tage, öffnet als Vorschau nur zum Lesen mit ‚Wiederherstellen‘, ‚Endgültig löschen‘ mit Abfrage (HIG ‚Alerts‘, Freeform – belegt), Wiederherstellen gleicht sich ab, im Backup; ändert die Lösch-Abfrage L-4/L-5 aus RLB-125 – `AppDesign/arbeit/0150 APD-145 APD-142 RLB-126 Klaerung.md`; als Nächstes Muster und Testfall-Liste | allgemein (AD-Bean `recentlydeleted`) | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
