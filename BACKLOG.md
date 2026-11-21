@@ -18,7 +18,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-118 | 1 | **Usertest P-118** (Reiselogbuch 3.57.11, AppDesign 4.67.1): Korrekturen aus P-117 – Mehr-Knopf des Katalogs rund (P-117/F-1), langes Drücken auf Schaltflächen markiert keinen Text (P-117/F-2, Katalog und App) – Testfälle P-118/0 bis P-118/5 im CHANGELOG 3.57.11 | prüfen |
+| P-118 | 1 | **Usertest P-118** (Reiselogbuch 3.57.11, AppDesign 4.67.1): Korrekturen aus P-117 – Mehr-Knopf des Katalogs rund (P-117/F-1), langes Drücken auf Schaltflächen markiert keinen Text (P-117/F-2, Katalog und App) – Testfälle P-118/0 bis P-118/5 im CHANGELOG 3.57.11 – Rückmeldung 21.11.2026 (Sitzung 0147): /0, /2 bis /5 ok; /1 nicht ok (Mehr-Schaltfläche rund, vergrößert sich beim Drücken aber nicht wie andere – P-118/F-1; Begriff ‚Schaltfläche‘ statt ‚Knopf‘ – P-118/F-2), im Backlog von AppDesign | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
