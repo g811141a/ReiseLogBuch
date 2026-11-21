@@ -1,12 +1,12 @@
 // Reiselogbuch-Test: ablauf-suche-menue (seit 3.41.0, AppDesign APD-91, R-2.3, R-4.7) – Suche im Mehr-Menü: ‚Suchen‘ zuerst mit Strich
 // darunter (Seitenleiste bzw. Startliste und Reiselogbuch), keine Lupe in der Kapsel, ‚Suchen‘ öffnet die Suchzeile mit dem Cursor im Feld,
-// x ‚Suche beenden‘ rechts schließt sie, Mehr-Knopf bei offener Suche normal, ⌘F (im Reiselogbuch, ohne offenes in allen, bei offener Suche
+// x ‚Suche beenden‘ rechts schließt sie, Mehr-Schaltfläche bei offener Suche normal, ⌘F (im Reiselogbuch, ohne offenes in allen, bei offener Suche
 // nur der Cursor, bei offenem Menü nichts), Drehen mit offener Suche. Testfall-Liste AppDesign arbeit/APD-91 Testfall-Liste.md (S-1 bis S-18).
 // Aufruf im Repo-Ordner: node tests/ablauf-suche-menue.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.67.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.67.1/tests/hig.mjs';
-import { checkSearchPlace, checkSucheBeenden, checkCmdF, sucheAuf } from '../../AppDesign/fassung/4.67.1/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
+import { checkSearchPlace, checkSucheBeenden, checkCmdF, sucheAuf } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
 const t = pruefung('ablauf-suche-menue', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const mk = (id, start, n, f) => { const days = {}; for (let i = 0; i < n; i++) days[new Date(Date.parse(start) + i * 864e5).toISOString().slice(0, 10)] = f(i);
   return { id, title: id, participants: 'G & A', start, end: Object.keys(days).at(-1), transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }; };

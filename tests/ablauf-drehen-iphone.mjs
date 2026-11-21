@@ -2,7 +2,7 @@
 // die Seite um die Statusleiste verschoben (scrollY und offsetTop 62, ohne Tastatur – Messung AppDesign arbeit/APD-129/messung-2026-11-14-0948.txt,
 // Safari-Modell drehRest). Testfall-Liste AppDesign arbeit/APD-129 Befund und Testfall-Liste.md: M-1 Startliste, M-2 Reiselogbuch offen und
 // gerollt, M-3 Blatt offen, M-4 Tastatur offen (die Verschiebung durch Safari bleibt), M-5 zweimal gedreht, M-6 Drehen ohne Rest; nach jedem
-// Schritt die Grundregeln. Erwartet: scrollY 0, --vv-top 0, Kopfzeile wie vor dem Drehen, Antippen trifft den Knopf, den das Bild zeigt.
+// Schritt die Grundregeln. Erwartet: scrollY 0, --vv-top 0, Kopfzeile wie vor dem Drehen, Antippen trifft die Schaltfläche, den das Bild zeigt.
 // Gegenprobe M-9: gegen AppDesign 4.59.0 rot (die App steht 62 px tiefer, Antippen trifft daneben).
 // Seit 3.56.2 (AppDesign APD-129 Teil 2, Messung arbeit/APD-129/messung-2026-11-14-2137.txt, Testfall-Liste arbeit/APD-129 Teil 2 Befund und
 // Testfall-Liste.md): der obere sichere Rand hinkt nach (Safari-Modell safeOben); jedes Bild ab der Meldung der Fensterhöhe wird aufgenommen –
@@ -10,9 +10,9 @@
 // M-14 = M-4; M-15 quer kein eigener Rand; M-16 Safari (nicht Home-Bildschirm) kein eigener Rand. Gegenprobe M-18: gegen 4.59.1 rot.
 // Aufruf im Repo-Ordner: node tests/ablauf-drehen-iphone.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, rolle } from '../../AppDesign/fassung/4.67.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.67.1/tests/hig.mjs';
-import { safariModell, safariDrehenHoch, DREH_REST, RAND_NACH } from '../../AppDesign/fassung/4.67.1/tests/safari.mjs';
+import { pruefung, navFertig, rolle } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
+import { safariModell, safariDrehenHoch, DREH_REST, RAND_NACH } from '../../AppDesign/fassung/4.67.2/tests/safari.mjs';
 const t = pruefung('ablauf-drehen-iphone', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = (y, m, d) => new Date(Date.UTC(y, m - 1, d)).toISOString().slice(0, 10);
@@ -25,7 +25,7 @@ const lade = async p => {
   await p.reload(); await p.waitForTimeout(500); await navFertig(p);
   await safariModell(p, 'iPhone hoch');
 };
-// Lage nach dem Drehen: Safaris Werte, --vv-top, Oberkante des Kopfs im Bild und was Antippen in der Mitte des Knopfs trifft (Safari-Modell trifft)
+// Lage nach dem Drehen: Safaris Werte, --vv-top, Oberkante des Kopfs im Bild und was Antippen in der Mitte der Schaltfläche trifft (Safari-Modell trifft)
 const lage = (p, kopf, knopf) => p.evaluate(([kopf, knopf]) => {
   const sicht = sel => [...document.querySelectorAll(sel)].find(e => e.getClientRects().length);
   const k = sicht(kopf), b = sicht(knopf), r = b?.getBoundingClientRect();
@@ -66,7 +66,7 @@ try {
   let bilder1;
   await t.schritt(p, 'M-1 Startliste hoch → quer → hoch', async () => { bilder1 = await safariDrehenHoch(p, { bilder: bilderVon('#side .side-head') }); });
   t.ist(`M-10 Startliste: kein Sprung nach dem Drehen (Rand hinkt ${RAND_NACH} ms nach)`, sprung(bilder1, hoehe, vor1.kopf), keinSprung, 'R-8.1');
-  t.ist('M-1 Startliste: keine Verschiebung, Kopf wie vorher, Mehr-Knopf trifft', await lage(p, '#side .side-head', '#sideMore'), ohneRest(vor1), 'R-8.1');
+  t.ist('M-1 Startliste: keine Verschiebung, Kopf wie vorher, Mehr-Schaltfläche trifft', await lage(p, '#side .side-head', '#sideMore'), ohneRest(vor1), 'R-8.1');
   // M-5 gleich noch einmal
   let bilder5;
   await t.schritt(p, 'M-5 Startliste ein zweites Mal hoch → quer → hoch', async () => { bilder5 = await safariDrehenHoch(p, { bilder: bilderVon('#side .side-head') }); });
@@ -93,7 +93,7 @@ try {
   let bilder2;
   await t.schritt(p, 'M-2 Reiselogbuch gerollt, hoch → quer → hoch', async () => { bilder2 = await safariDrehenHoch(p, { bilder: bilderVon('.nb, .pnav', tag2) }); });
   t.ist('M-11 Reiselogbuch: kein Sprung von Kopfzeile und oberstem Tag', sprung(bilder2, hoehe, vor2.kopf, tagOben2), keinSprung, 'R-8.1');
-  t.ist('M-2 Reiselogbuch: keine Verschiebung, Kopfzeile wie vorher, Zurück-Knopf trifft', await lage(p, '.nb, .pnav', '#back'), ohneRest(vor2), 'R-8.1');
+  t.ist('M-2 Reiselogbuch: keine Verschiebung, Kopfzeile wie vorher, Zurück-Schaltfläche trifft', await lage(p, '.nb, .pnav', '#back'), ohneRest(vor2), 'R-8.1');
   t.ist('M-2 oben bleibt derselbe Tag', await obersterTag(p), tag2, 'R-8.1');
 
   // M-3 Blatt offen (Tag bearbeiten), ohne Fokus in einem Feld

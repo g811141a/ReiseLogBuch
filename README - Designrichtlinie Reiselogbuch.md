@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.57.11** · Stand 21.11.2026
+**Version 3.57.12** · Stand 21.11.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.67.1)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.67.2)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -30,6 +30,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.57.12 | 21.11.2026 | Korrektur | AppDesign 4.67.2 (P-118/F-2): ‚Schaltfläche‘ statt ‚Knopf‘ (R-10.9). |
 | 3.57.7 | 19.11.2026 | Korrektur | AppDesign 4.64.0 (APD-135 Paket 6 Schritt 1: Schnittstelle von `ui.js`, R-1.14; APD-138: Dateiname am iPad in einer Zeile, AD-Bean `hinweis`); keine eigene Abweichung |
 | 3.57.5 | 18.11.2026 | Korrektur | AppDesign 4.62.0 (APD-135 Paket 4); APD-135/W-50 – Abweichungen 1–3 nennen nur Werte und die Regelnummer (Wortlaut bestätigt 18.11.2026, Sitzung 0132) |
 | 3.57.4 | 18.11.2026 | Korrektur | AppDesign 4.61.0 (APD-135 Pakete 1 und 3); APD-135/W-51 – ‚seit X.Y.Z‘ in Abweichung 2 gestrichen (Wortlaut bestätigt 17.11.2026, Sitzung 0124) |
@@ -37,7 +38,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 | 3.57.2 | 18.11.2026 | Korrektur | AppDesign 4.60.2 (P-108/F-1 bis P-108/F-4: Wischaktionen wie in Notizen – Kapseln wachsen aus ihrer Mitte ab halber Kapsel, ein Abstand 11 pt, kein Durchwischen, Zurückfedern); keine neue Abweichung |
 | 3.57.1 | 18.11.2026 | Korrektur | AppDesign 4.60.1 (P-107/F-1 bis P-107/F-4: Wischaktionen nacheinander von außen, zurück umgekehrt, ‚Bewegung reduzieren‘ nur Einblenden, Kapseln wachsen mit der Textgröße – R-7.8, 15.4, R-1.13; APD-137; APD-134) – keine Abweichung |
 | 3.57.0 | 17.11.2026 | Neben | AppDesign 4.60.0 (APD-30 Wischaktionen der Kacheln R-7.8 – Tippen daneben in der Liste schließt nur, Schaltflächen außerhalb der Liste wirken sofort; Sprechblase graut ein und sperrt, R-1.4; APD-136 AD-Beans R-1.13, erste Bean `swipeactions`; APD-133 Designrichtlinie 13 ‚Neue Fenstergröße vor `resize`‘) – keine Abweichung |
-| 3.48.1 | 03.11.2026 | Korrektur | AppDesign 4.50.1 (APD-111 leere Zustände: Symbol 36 pt und Titel 17 pt halbfett überall; APD-112 Fokus nach dem Schließen zurück auf den Knopf) – keine eigene Abweichung |
+| 3.48.1 | 03.11.2026 | Korrektur | AppDesign 4.50.1 (APD-111 leere Zustände: Symbol 36 pt und Titel 17 pt halbfett überall; APD-112 Fokus nach dem Schließen zurück auf die Schaltfläche) – keine eigene Abweichung |
 | 3.48.0 | 02.11.2026 | Neben | AppDesign 4.50.0 (APD-30 leere Zustände 15.23 / R-7.7: ‚Noch kein Reiselogbuch‘, ‚Keine Treffer für ‚…‘‘, ‚Noch keine Tage erfasst‘ mit ‚Alle Tage zeigen‘; APD-108 Wischen tippt nie an, Designrichtlinie 13 ‚Klick nach dem Wischen‘) – keine Abweichung |
 | 3.47.1 | 02.11.2026 | Korrektur | AppDesign 4.49.1 (APD-109 Titel antippen am iPad und in der Seitenleiste, Designrichtlinie 13 ‚Klick nur mit Hörer‘) – keine Abweichung |
 | 3.47.0 | 01.11.2026 | Neben | AppDesign 4.49.0 (APD-62 / APD-38/T-43 Titel antippen = nach oben R-2.7, APD-85 Teil 3 `warteBis`) – keine Abweichung |
@@ -48,7 +49,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 | 3.42.1 | 30.10.2026 | Korrektur | AppDesign 4.44.1 (APD-98, R-6.5: Bezeichnung im Kasten mit Feldern normal, mittig zur ersten Zeile des Werts) – keine Abweichung neu |
 | 3.42.0 | 30.10.2026 | Neben | AppDesign 4.44.0 (APD-95, R-5.8: Bezeichnungen und Einheiten normal; schmales Zahlenfeld bündig rechts) – keine Abweichung neu; Feldname ‚Preis der Quartiere erfassen‘ (RLB-111) |
 | 3.41.0 | 30.10.2026 | Neben | AppDesign 4.43.0 (APD-91 ‚Suchen‘ im Mehr-Menü, x ‚Suche beenden‘, ⌘F; APD-92/R-1.2 ‚Darstellung‘ im Mehr-Menü der Seitenleiste – RLB-108; APD-93 schmale Zahlenfelder – Feld ‚Gegangene Kilometer‘, RLB-110); Preis beim Quartier (RLB-109); Abweichung 3 mit ‚Gegangene Kilometer‘ 8, Feldnamen mit Spalte Gegangene Kilometer, Gegangene Kilometer und Preis (Nutzer 30.10.2026, Wortlaut bestätigt) |
-| 3.40.0 | 30.10.2026 | Neben | AppDesign 4.42.0 (APD-87 Mehr-Knopf offen senkrecht, APD-90/R-10.5 Reisemittel: Icon und Name bleiben zusammen, auch in der Ausgabe) |
+| 3.40.0 | 30.10.2026 | Neben | AppDesign 4.42.0 (APD-87 Mehr-Schaltfläche offen senkrecht, APD-90/R-10.5 Reisemittel: Icon und Name bleiben zusammen, auch in der Ausgabe) |
 | 3.39.0 | 30.10.2026 | Neben | AppDesign 4.41.0 (APD-81, R-5.6: das ⓧ auch in den mehrzeiligen Feldern Verlauf, ‚Wie war was?‘, Essen und Trinken, Fazit; Rückgängig nach dem ⓧ in allen Feldern) – keine Abweichung im Reiselogbuch |
 | 3.38.0 | 29.10.2026 | Neben | AppDesign 4.40.0 (APD-86, R-5.4: die Zeile ‚Reisemittel‘ im Kopf ist am iPhone eine Wischzeile mit Verlauf und Pfeilen; APD-77, R-1.6: ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile) |
 | 3.37.0 | 26.10.2026 | Neben | AppDesign 4.39.0 (APD-83, R-4.6: ein offenes Fenster ändert durch Eingaben weder Breite noch Lage; APD-84 Regelwerk) – keine Abweichung neu |
@@ -110,7 +111,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 | 3.6.0 | 11.10.2026 | Neben | Angepasst an allgemein 4.6.0: Kopfzeile am iPad fest, in der Seitenleiste scrollen nur die Kacheln; Regelkatalog R-01 bis R-35 gilt |
 | 3.5.0 | 11.10.2026 | Neben | Vorschau auch am iPad in Seitenbreite; Leiste der iPhone-Startliste steht fest |
 | 3.4.0 | 11.10.2026 | Neben | Titel des Reiselogbuchs in der Leiste statt Überschrift (iPad und iPhone); iPhone mit Bezeichnungen wie am iPad; Anzahl unter ‚Reiselogbücher‘; Backup-Kachel immer sichtbar; Großschreibung nach Vorschlägen |
-| 3.3.0 | 11.10.2026 | Neben | Startliste und Seitenleiste gleich (Kacheln, gelbe Backup-Kachel, Titel links in der Leiste); erster offener Tag ohne blauen Rand; ‚Verlauf‘ halbfett; Mikrofon-Knöpfe entfernt; Großbuchstabe am Zeilenanfang; Zeitraum mit ‚Bis‘ unter ‚Von‘ auf dem iPhone |
+| 3.3.0 | 11.10.2026 | Neben | Startliste und Seitenleiste gleich (Kacheln, gelbe Backup-Kachel, Titel links in der Leiste); erster offener Tag ohne blauen Rand; ‚Verlauf‘ halbfett; Mikrofon-Schaltflächen entfernt; Großbuchstabe am Zeilenanfang; Zeitraum mit ‚Bis‘ unter ‚Von‘ auf dem iPhone |
 | 3.2.0 | 11.10.2026 | Neben | ‚Verlauf‘ statt ‚Programm‘; iPhone: Kapseln und Suche wie am iPad, Titel in der Leiste, Kacheln, Backup-Hinweis fest unten und gelb (auch Seitenleiste), Linien im Tageskasten, Vorschau in Seitenbreite; Backup-Abfrage mit Umbruch |
 | 3.1.0 | 10.10.2026 | Neben | iPhone-Ansicht (Abschnitt 3a, allgemein 15.17); Mehr-Menü ‚Alle Tage‘/‚Nur erfasste Tage‘ mit Icons |
 | 3.0.0 | 09.10.2026 | Haupt | Gemeinsame Bausteine aus AppDesign 4.0.0 (design.css, ui.js); Aussehen unverändert |

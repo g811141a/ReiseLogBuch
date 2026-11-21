@@ -12,9 +12,9 @@
 // Seit 3.56.0 (AppDesign 4.59.0): Testfall-Liste AppDesign arbeit/RLB-121 Testfall-Liste.md – RLB-121/M-1 bis M-14, M-16 teuerste und günstigste
 // Quartiere (M-15 in ablauf-abgleich-faelle, M-17 hig nach jedem Schritt).
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.67.1/tests/pruefe.mjs';
-import { createCheck, bezeichnungen, kastenBezeichnung, kopfVerlauf } from '../../AppDesign/fassung/4.67.1/tests/hig.mjs';
-import { checkAufzaehlung, textGroesseSetzen } from '../../AppDesign/fassung/4.67.1/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
+import { createCheck, bezeichnungen, kastenBezeichnung, kopfVerlauf } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
+import { checkAufzaehlung, textGroesseSetzen } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
 const t = pruefung('ablauf-preis-km', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 // 24.–28.08.: Quartier A 3 Nächte (Preis 300), Quartier B 2 Nächte (Preis 200); 29.08. Quartier C ohne Preis; km an 3 Tagen, ein Tag nur km
 const days = {
@@ -56,7 +56,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.ist('APD-92/D-1 Aufbau des Menüs', await p.evaluate(() => [...document.querySelector('.menu').children].map(e => e.matches('.mi') ? e.textContent.trim() : e.className)
     .filter(x => !['sub', 'note', 'note halten'].includes(x))), ['Suchen', 'line', 'Backup erstellen', 'Backup laden', 'sep', 'DarstellungAutomatisch', 'line'], 'R-1.2');
   await t.schritt(p, 'D-4 Untermenü Darstellung', async () => { await p.locator('.menu .mi', { hasText: 'Darstellung' }).click(); await p.waitForTimeout(200); });
-  // D-6 (iPad): Drehen mit offenem Untermenü – Menü bleibt an seinem Knopf oder schließt, ganz sichtbar. Nur hoch → quer: quer → hoch
+  // D-6 (iPad): Drehen mit offenem Untermenü – Menü bleibt an seiner Schaltfläche oder schließt, ganz sichtbar. Nur hoch → quer: quer → hoch
   // legt die Seitenleiste mit nicht gesperrter Abdunkelung darüber (APD-94, offen im Backlog)
   if (ansicht === 'iPad hoch') {
     const vp = p.viewportSize();

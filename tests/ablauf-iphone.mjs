@@ -3,9 +3,9 @@
 // Blättern, Kontextmenü, Löschen zurück zur Startliste, neues Reiselogbuch, Wechsel iPhone ↔ iPad. Hell und dunkel.
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.67.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.67.1/tests/hig.mjs';
-import { langDruecken, sucheAuf } from '../../AppDesign/fassung/4.67.1/tests/ablauf.mjs';
+import { pruefung, rolle, navFertig } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
+import { langDruecken, sucheAuf } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
 const t = pruefung('ablauf-iphone', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const OUT = new URL('./out/', import.meta.url).pathname;
@@ -70,7 +70,7 @@ check((await p.locator('#dlg h3').textContent()) === 'Di, 25.08.2026', 'Titel ni
 await G('Tag 25.08. offen');
 check(await p.locator('#pdays [data-day="2026-08-25"]').evaluate(e => e.classList.contains('on')), 'Kasten nicht blau');
 await p.locator('#wx button').nth(1).click();
-check(await p.locator('#dlg .mic').count() === 0, 'Mikrofon-Knopf noch da');
+check(await p.locator('#dlg .mic').count() === 0, 'Mikrofon-Schaltfläche noch da');
 // Großschreibung durch die App: erster Buchstabe der Zeile, auch nach einem Smiley
 await p.locator('#moods [data-m]').first().click(); await p.keyboard.type('nett. sehr gut');
 check((await p.locator('#fComment').inputValue()).endsWith('Nett. Sehr gut'), `Großschreibung: ${await p.locator('#fComment').inputValue()}`);
@@ -99,7 +99,7 @@ await p.click('#back'); await p.waitForTimeout(200); await navFertig(p);   // se
 // Startliste = derselbe Baustein wie die Seitenleiste am iPad (R-1.1)
 check((await p.locator('#side.page .side-head h2').textContent()) === 'Reiselogbücher', 'Startliste fehlt (Seitenleiste als ganze Seite)');
 check(await p.locator('#side.page .side-list .side-row').count() === 2, 'Kacheln fehlen');
-check(!(await p.locator('#sideHide').isVisible()), 'Seitenleisten-Knopf auf dem iPhone sichtbar');
+check(!(await p.locator('#sideHide').isVisible()), 'Seitenleisten-Schaltfläche auf dem iPhone sichtbar');
 // Kopf steht fest, die Kacheln laufen unter der Backup-Kachel durch (wie am iPad)
 await p.evaluate(() => { const l = document.querySelector('#side .side-list'); const f = document.createElement('div'); f.id = 'filler'; f.style.height = '2000px'; l.append(f); l.scrollTop = 600; }); await p.waitForTimeout(150);
 check(await p.locator('#side .side-head').evaluate(e => Math.round(e.getBoundingClientRect().top)) === 0, 'Kopf der Startliste bewegt sich beim Wischen');
@@ -161,7 +161,7 @@ const [chooser] = await Promise.all([p.waitForEvent('filechooser'), p.locator('.
 await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(other)) }); await p.waitForTimeout(300);
 const popText = await p.locator('.pop > p').innerHTML();
 check(popText.includes('mit 2 Reiselogbüchern.') && popText.includes('Es ist <b>'), `Text der Abfrage: ${popText}`);
-check((await p.locator('.pop button').allTextContents()).join('|') === 'Abgleichen|Ersetzen|Abbrechen' && await p.locator('.pop .tile').count() === 2, 'Knöpfe bzw. Kacheln der Abfrage');
+check((await p.locator('.pop button').allTextContents()).join('|') === 'Abgleichen|Ersetzen|Abbrechen' && await p.locator('.pop .tile').count() === 2, 'Schaltflächen bzw. Kacheln der Abfrage');
 await G('Abfrage Backup laden');
 await p.locator('.pop button', { hasText: 'Ersetzen' }).click(); await p.waitForTimeout(300);
 check((await db()).settings.lastBackup === new Date('2026-08-20T10:00:00').getTime(), 'Letztes Backup vom anderen Gerät übernommen');

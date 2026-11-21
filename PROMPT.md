@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 21.11.2026, Version 3.57.11)
+# Reiselogbuch – Funktionsbeschreibung (Stand 21.11.2026, Version 3.57.12)
 
-Reiselogbuch 3.57.11 · AppDesign 4.67.1 (Designrichtlinie allgemein 4.67.1) · Designrichtlinie Reiselogbuch 3.57.11 · Zusammenarbeit allgemein 3.18.0
+Reiselogbuch 3.57.12 · AppDesign 4.67.2 (Designrichtlinie allgemein 4.67.2) · Designrichtlinie Reiselogbuch 3.57.12 · Zusammenarbeit allgemein 3.19.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, Abschnitt 17); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -46,9 +46,9 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
 - Options-Kapseln (Tageserfassung): ‚Quartier wie Vortag‘, ‚keinen Google-Maps Link‘; Schalter (Bearbeiten): ‚Quartierliste in der
   Ausgabe‘.
 - Leer (leerer Zustand, AppDesign 15.23 / R-7.7): Inhalt `book-open` ‚Noch kein Reiselogbuch‘, ‚Ein neues mit ‚plus‘ in der
-  Seitenleiste anlegen.‘, Knopf ‚Neues Reiselogbuch‘ (wie ‚plus‘); Seitenleiste daneben nur Symbol und Titel; iPhone-Startliste vollständig mit
-  Knopf. Suche ohne Treffer (Liste und Reiselogbuch) `search` ‚Keine Treffer für ‚Begriff‘‘, ‚Schreibweise prüfen oder nach etwas anderem
-  suchen.‘; ‚Nur erfasste Tage‘ ohne erfassten Tag `calendar` ‚Noch keine Tage erfasst‘, ‚Es werden nur erfasste Tage gezeigt.‘, Knopf ‚Alle Tage
+  Seitenleiste anlegen.‘, Schaltfläche ‚Neues Reiselogbuch‘ (wie ‚plus‘); Seitenleiste daneben nur Symbol und Titel; iPhone-Startliste vollständig mit
+  Schaltfläche. Suche ohne Treffer (Liste und Reiselogbuch) `search` ‚Keine Treffer für ‚Begriff‘‘, ‚Schreibweise prüfen oder nach etwas anderem
+  suchen.‘; ‚Nur erfasste Tage‘ ohne erfassten Tag `calendar` ‚Noch keine Tage erfasst‘, ‚Es werden nur erfasste Tage gezeigt.‘, Schaltfläche ‚Alle Tage
   zeigen‘ (wie Menü ‚Alle Tage‘).
 - **Abfragen** (Sprechblasen an der angetippten Schaltfläche, R-4.3): Reiselogbuch löschen (am ellipsis der Kopfzeile bzw. im
   Kontextmenü) · Backup laden (Abgleichen/Ersetzen, am ellipsis der Seitenleiste) · Smiley entfernen (am Smiley) · Smileys
@@ -254,7 +254,7 @@ wie am iPad (R-1.1):
 
 - **Backup** (R-9.1, R-9.2, AppDesign 15.19): Datei mit allen Reisen, Name ‚Ω Backup Reiselogbuch JJJJ.MM.TT hh.mm.json‘. Kein
   automatisches Backup bei der Ausgabe; danach erscheint die Erinnerung ‚Denk daran, auch ein Backup zu erstellen.‘ mit ‚Letztes Backup
-  erstellt am …‘ und dem blauen Knopf ‚Backup erstellen‘.
+  erstellt am …‘ und der blauen Schaltfläche ‚Backup erstellen‘.
 - **Abgleich zwischen iPad und iPhone** (R-9.2 bis R-9.4, Fall-Tabelle Designrichtlinie allgemein 15.18): ‚Backup laden‘ fragt mit den
   Kacheln Abgleichen und Ersetzen. Einträge = Reiselogbücher, Unterdaten = Tage (Wetter, Verlauf, Wie war was?, Essen, Quartier …),
   Kopfdaten = Titel, Teilnehmer, Zeitraum, Reisemittel, Spalten, Fazit, Gesamtausgaben; Zähler ohne Zeitpunkt = Dateinummer für

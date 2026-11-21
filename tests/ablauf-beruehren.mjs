@@ -1,23 +1,25 @@
 // Reiselogbuch-Test: ablauf-beruehren (seit 3.46.0) – AppDesign APD-105, R-3.6 und R-3.5 ‚Anheben‘ (Testfall-Liste AppDesign
 // arbeit/APD-105 Testfall-Liste.md B-1 bis B-8): beim Berühren wird eine Schaltfläche blass (35 %), eine Listen- oder Tabellenzeile grau –
 // Schaltflächen sofort, in Rollbereichen nach 80 ms; 20 px Wegziehen oder Rollen hebt es auf, ohne auszulösen; Loslassen blendet in
-// 0,15 s aus; gesperrte Schaltflächen zeigen nichts. Je Ansicht (iPad quer, iPhone hoch; hell und dunkel): Knopf der Kopfzeile (Mehr),
+// 0,15 s aus; gesperrte Schaltflächen zeigen nichts. Je Ansicht (iPad quer, iPhone hoch; hell und dunkel): Schaltfläche der Kopfzeile (Mehr),
 // Tageszeile der Tabelle bzw. Tageskasten (iPhone), Zeile der Seitenleiste (iPad), Kapsel ‚Wetter‘ im Fenster eines Tages, gesperrter
-// Knopf ‚Voriger Treffer‘ (Suche ohne Text); Smiley-Leiste: hebt sich ab 0,15 s an, nach 0,6 s die Frage ‚Entfernen‘, Loslassen fügt nichts
+// Schaltfläche ‚Voriger Treffer‘ (Suche ohne Text); Smiley-Leiste: hebt sich ab 0,15 s an, nach 0,6 s die Frage ‚Entfernen‘, Loslassen fügt nichts
 // ein, Wegziehen senkt es wieder (B-5, B-6, B-8); ‚Bewegung reduzieren‘: Anheben nur mit Schatten. Grundregeln nach jedem Schritt.
 // Gegenprobe: gegen 3.45.0 mit PRUEF_APP=../_alt.html rot (B-1, B-3, B-5).
-// Seit 3.46.2 (AppDesign APD-107, Testfall-Liste arbeit/APD-107 Testfall-Liste.md S-1 bis S-13): Leisten-Knöpfe (Mehr der Kopfzeile, Mehr der
+// Seit 3.46.2 (AppDesign APD-107, Testfall-Liste arbeit/APD-107 Testfall-Liste.md S-1 bis S-13): Leisten-Schaltflächen (Mehr der Kopfzeile, Mehr der
 // Seitenleiste, x im Fenster, ‚Nach oben‘) heben sich als helle Fläche mit Schatten 1,3-fach zuoberst über die Kapsel, ‚Bewegung reduzieren‘ ohne
-// Wachsen; Wegziehen, 1 s liegen lassen, loslassen löst nichts aus (Knöpfe, Tageszeile), danach Antippen genau einmal, die Leertaste sofort;
+// Wachsen; Wegziehen, 1 s liegen lassen, loslassen löst nichts aus (Schaltflächen, Tageszeile), danach Antippen genau einmal, die Leertaste sofort;
 // der Kreis des Smileys liegt im modalen Fenster zuoberst, nach dem Schließen bleibt kein Kreis zurück. Rot gegen 3.46.1: S-1, S-2, S-4, S-7, S-10, S-12.
 // Seit 3.48.0 (AppDesign APD-108, Testfall-Liste AppDesign arbeit/APD-108 Testfall-Liste.md W-5, W-7): über den 📍-Link eines Tages 30 px waagrecht
 // wischen und loslassen – der Klick, der wie in Safari 4 ms danach kommt, öffnet den Link nicht und kein Fenster des Tages; gleich danach kurz
 // antippen öffnet ihn genau einmal. Rot gegen 3.47.1 (W-5).
+// Seit 3.57.12 (AppDesign P-118/F-1, R-3.6 Variante B): jede Schaltfläche hebt sich und wird größer, auch außerhalb der Leisten – geprüft am
+// Vorschlag ‚Weiterfahrt nach …‘ im Fenster eines Tages (Textschaltfläche, Faktor aus der Breite). Rot gegen 3.57.11.
 // Aufruf im Repo-Ordner: node tests/ablauf-beruehren.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.67.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.67.1/tests/hig.mjs';
-import { checkBeruehren, checkAnheben, wischKlick } from '../../AppDesign/fassung/4.67.1/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
+import { checkBeruehren, checkAnheben, wischKlick } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
 const t = pruefung('ablauf-beruehren', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
@@ -41,15 +43,15 @@ for (const [ansicht, theme, ruhig] of [['iPad quer', 'light', false], ['iPad que
   try {
     await start(p);
     const phone = await p.evaluate(() => isPhone());
-    // B-1 bis B-4: Knopf der Kopfzeile sofort, Tageszeile im Rollbereich nach 80 ms, Rollen hebt auf
+    // B-1 bis B-4: Schaltfläche der Kopfzeile sofort, Tageszeile im Rollbereich nach 80 ms, Rollen hebt auf
     await t.schritt(p, 'Kopfzeile und Tage', async () => t.liste(await checkBeruehren(p, { knopf: '#mainMore',
       zeile: phone ? '#pdays [data-day]:nth-child(2)' : '#app tbody tr[data-day]:nth-child(2)', rollen: '#app > .rolle', where: 'Kopfzeile und Tage' })));
     // Seitenleiste (iPad quer): Zeile ‚Toskana‘ (die aktuelle bleibt blau)
     if (!phone) await t.schritt(p, 'Seitenleiste', async () => t.liste(await checkBeruehren(p, { knopf: '#sideMore', zeile: '#side .side-row[data-id="b"]', where: 'Seitenleiste' })));
-    // APD-107/S-10: schwebender Knopf ‚Nach oben‘
-    // (nur wo die schwebenden Knöpfe zu sehen sind – iPad quer stehen sie still, wenn der Inhalt passt: .fab.still)
+    // APD-107/S-10: schwebende Schaltfläche ‚Nach oben‘
+    // (nur wo die schwebenden Schaltflächen zu sehen sind – iPad quer stehen sie still, wenn der Inhalt passt: .fab.still)
     if (await p.evaluate(() => !!document.querySelector('#toTop')?.getClientRects().length))
-      await t.schritt(p, 'schwebende Knöpfe', async () => t.liste(await checkBeruehren(p, { knopf: '#toTop', where: 'Nach oben' })));
+      await t.schritt(p, 'schwebende Schaltflächen', async () => t.liste(await checkBeruehren(p, { knopf: '#toTop', where: 'Nach oben' })));
     // APD-108/W-5, W-7: Wischen über den 📍-Link öffnet ihn nicht, kein Fenster des Tages; danach kurz antippen öffnet ihn genau einmal
     await t.schritt(p, 'APD-108 Wischen über einen Link', async () => {
       const link = phone ? '#pdays .ln.q a' : '#app td.quarter a, #app .ln.q a';
@@ -60,13 +62,16 @@ for (const [ansicht, theme, ruhig] of [['iPad quer', 'light', false], ['iPad que
       t.wahr(`APD-108/W-7 gleich danach kurz angetippt: der Link öffnet genau einmal (${k.tipp}-mal)`, k.tipp === 1, 'R-7.5');
       if (await p.evaluate(() => dlg.open)) { await p.evaluate(() => { dlgDirty = () => false; dlg.close(); }); await navFertig(p); }
     });
-    // gesperrter Knopf: Suche ohne Text – ‚Voriger Treffer‘ ist gesperrt
+    // gesperrte Schaltfläche: Suche ohne Text – ‚Voriger Treffer‘ ist gesperrt
     await p.evaluate(() => openTripSearch()); await p.waitForTimeout(400);
-    await t.schritt(p, 'gesperrter Knopf', async () => t.liste(await checkBeruehren(p, { gesperrt: '#sprev', where: 'Suche' })));
+    await t.schritt(p, 'gesperrte Schaltfläche', async () => t.liste(await checkBeruehren(p, { gesperrt: '#sprev', where: 'Suche' })));
     await p.locator('#sclose').click(); await p.waitForTimeout(400); await navFertig(p);
     // Fenster eines Tages: Kapsel ‚Wetter‘ (Rollbereich), Fenster-Kopfzeile (sofort); Smiley-Leiste: Anheben (B-5, B-6, B-8)
     await p.evaluate(d => openDayDialog(db.trips[0], d), iso(2)); await p.waitForTimeout(700); await navFertig(p);
     await t.schritt(p, 'Fenster eines Tages', async () => t.liste(await checkBeruehren(p, { knopf: '#dlgX', kapsel: '#dlg #wx button:nth-child(2)', where: 'Fenster eines Tages' })));
+    // P-118/F-1 (R-3.6 Variante B, seit 3.57.12): eine Schaltfläche außerhalb der Leisten (Vorschlag ‚Weiterfahrt nach …‘) hebt sich und wird größer –
+    // 1,3-fach, höchstens 24 px breiter; gegen 3.57.11 rot (sie wurde blass)
+    await t.schritt(p, 'Schaltfläche außerhalb der Leisten', async () => t.liste(await checkBeruehren(p, { knopf: '#dlg #suggest [data-s="0"]', where: 'Vorschlag im Fenster eines Tages' })));
     await t.schritt(p, 'Smiley anheben', async () => t.liste(await checkAnheben(p, { sel: '#dlg #moods [data-m]:first-child', feld: '#dlg #fComment', entfernen: true, where: 'Smiley-Leiste' })));
     t.wahr('nach den Prüfungen ist das Fenster des Tages noch offen', await p.evaluate(() => dlg.open), 'R-3.6');
     await p.evaluate(() => { dlgDirty = () => false; dlg.close(); }); await p.waitForTimeout(400); await navFertig(p);

@@ -1,15 +1,15 @@
 // Reiselogbuch-Test: ablauf-leer (seit 3.48.0) – AppDesign APD-30 ‚leere Zustände‘, R-7.7, Designrichtlinie 15.23 (Testfall-Liste AppDesign
-// arbeit/APD-30 Testfall-Liste.md L-1 bis L-20, Muster Variante A): S-1 kein Reiselogbuch (Inhalt bzw. iPhone-Startliste mit Knopf ‚Neues
+// arbeit/APD-30 Testfall-Liste.md L-1 bis L-20, Muster Variante A): S-1 kein Reiselogbuch (Inhalt bzw. iPhone-Startliste mit Schaltfläche ‚Neues
 // Reiselogbuch‘), S-2 Seitenleiste neben dem Inhalt nur Symbol und Titel, S-3 Suche in der Liste ohne Treffer, S-4 ‚Nur erfasste Tage‘ ohne
 // erfassten Tag mit ‚Alle Tage zeigen‘, S-5 Suche im Reiselogbuch ohne Treffer (Tabelle und Kästen). Je Ansicht (iPad quer hell und dunkel,
 // iPad hoch, iPhone hoch und quer, Kontrast erhöhen); nach jedem Schritt die Grundregeln mit R-7.7 (hig.mjs). Gegenprobe L-20: gegen 3.47.1
-// mit PRUEF_APP=../_alt.html rot (kein Baustein .leer); mit PRUEF_GEGENPROBE=1 wird der Satz hellgrau (#c7c7cc) und der Knopf 30 px hoch –
+// mit PRUEF_APP=../_alt.html rot (kein Baustein .leer); mit PRUEF_GEGENPROBE=1 wird der Satz hellgrau (#c7c7cc) und die Schaltfläche 30 px hoch –
 // Kontrast (L-13) und Antippfläche (L-12) werden rot. Seit 3.48.1 (AppDesign APD-111): Symbol und Titel überall 36 pt bzw. 17 pt halbfett
 // (P-92/4 Schritt 2, 4, 5; P-92/5) – gegen 3.48.0 rot. Aufruf im Repo-Ordner: node tests/ablauf-leer.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.67.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.67.1/tests/hig.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.67.1/tests/safari.mjs';
+import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.67.2/tests/safari.mjs';
 const t = pruefung('ablauf-leer', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = (y, m, d) => new Date(Date.UTC(y, m - 1, d)).toISOString().slice(0, 10);
@@ -48,22 +48,22 @@ for (const [ansicht, theme, opts] of [['iPad quer', 'light', {}], ['iPad quer', 
     if (phone) {
       const s = await leer(p, '#side');
       t.ist('APD-111 iPhone-Startliste: S-1 Symbol und Titel wie in der Seitenleiste', s.map(x => x.masse), [MASSE], 'R-7.7');
-      t.ist('L-2 iPhone-Startliste: S-1 vollständig mit Knopf', s.map(x => [x.titel, x.satz, x.knopf, x.klein]), [[S1, S1SATZ, 'Neues Reiselogbuch', false]], 'R-7.7');
+      t.ist('L-2 iPhone-Startliste: S-1 vollständig mit Schaltfläche', s.map(x => [x.titel, x.satz, x.knopf, x.klein]), [[S1, S1SATZ, 'Neues Reiselogbuch', false]], 'R-7.7');
     } else {
       t.ist('APD-111 Inhalt: S-1 Symbol und Titel wie in der Seitenleiste', (await leer(p, '#app')).map(x => x.masse), [MASSE], 'R-7.7');
-      t.ist('L-1 Inhalt: S-1 mit Satz und Knopf', (await leer(p, '#app')).map(x => [x.titel, x.satz, x.knopf]), [[S1, S1SATZ, 'Neues Reiselogbuch']], 'R-7.7');
+      t.ist('L-1 Inhalt: S-1 mit Satz und Schaltfläche', (await leer(p, '#app')).map(x => [x.titel, x.satz, x.knopf]), [[S1, S1SATZ, 'Neues Reiselogbuch']], 'R-7.7');
       t.ist('L-1 Seitenleiste: S-2 klein, nur Symbol und Titel', (await leer(p, '#side')).map(x => [x.titel, x.satz, x.knopf, x.klein]), [[S1, null, null, true]], 'R-7.7');
     }
     t.wahr('L-1 kein grauer Hinweis ‚Noch kein Reiselogbuch angelegt.‘ mehr', !/angelegt\./.test(await p.evaluate(() => document.body.innerText)), 'R-7.7');
-    // L-14 VoiceOver-Reihenfolge: Symbol verborgen, Titel als Überschrift, Satz, Knopf
+    // L-14 VoiceOver-Reihenfolge: Symbol verborgen, Titel als Überschrift, Satz, Schaltfläche
     t.ist('L-14 Reihenfolge im leeren Zustand', (await leer(p, phone ? '#side' : '#app'))[0]?.folge, 'svg-verborgen h3 p button', 'R-1.8');
-    // L-3: der Knopf öffnet dasselbe Fenster wie ‚plus‘; nach x liegt der Fokus wieder auf ihm
-    // mit der Tastatur bzw. VoiceOver (Safari gibt einem angetippten Knopf keinen Fokus – pruefe.mjs bildet das nach)
-    await t.schritt(p, 'L-3 Knopf ‚Neues Reiselogbuch‘', async () => { await p.focus('#' + knopfId); await p.keyboard.press('Enter'); await p.waitForTimeout(500); });
-    t.ist('L-3 der Knopf öffnet ‚Neues Reiselogbuch‘', [await p.evaluate(() => dlg.open), await p.textContent('#dlg h3').catch(() => '')], [true, 'Neues Reiselogbuch'], 'R-7.7');
+    // L-3: die Schaltfläche öffnet dasselbe Fenster wie ‚plus‘; nach x liegt der Fokus wieder auf ihr
+    // mit der Tastatur bzw. VoiceOver (Safari gibt einer angetippten Schaltfläche keinen Fokus – pruefe.mjs bildet das nach)
+    await t.schritt(p, 'L-3 Schaltfläche ‚Neues Reiselogbuch‘', async () => { await p.focus('#' + knopfId); await p.keyboard.press('Enter'); await p.waitForTimeout(500); });
+    t.ist('L-3 die Schaltfläche öffnet ‚Neues Reiselogbuch‘', [await p.evaluate(() => dlg.open), await p.textContent('#dlg h3').catch(() => '')], [true, 'Neues Reiselogbuch'], 'R-7.7');
     await dialogZu(p);
-    t.ist('L-3 nach x liegt der Fokus auf dem Knopf', await p.evaluate(() => document.activeElement?.id), knopfId, 'R-1.8');
-    // L-12: Textgröße xS und AX3 (die größte der App) – Titel und Satz brechen um, nichts ragt hinaus; Knopf mindestens 44 hoch (Grundregeln)
+    t.ist('L-3 nach x liegt der Fokus auf der Schaltfläche', await p.evaluate(() => document.activeElement?.id), knopfId, 'R-1.8');
+    // L-12: Textgröße xS und AX3 (die größte der App) – Titel und Satz brechen um, nichts ragt hinaus; Schaltfläche mindestens 44 hoch (Grundregeln)
     for (const ts of ['xs', 'ax3']) {
       await t.schritt(p, `L-12 Textgröße ${ts}`, async () => { await p.evaluate(ts => { document.documentElement.dataset.ts = ts; }, ts); await p.waitForTimeout(200); });
       t.wahr(`L-12 Textgröße ${ts}: nichts ragt über den leeren Zustand hinaus`, !(await leer(p, 'body')).some(x => x.ueber), 'R-1.10');
