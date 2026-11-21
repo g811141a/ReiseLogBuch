@@ -1,6 +1,6 @@
 // Reiselogbuch-Test: ablauf-markierung-menues – blaue Markierung bleibt, solange Menü oder Fenster offen ist, und geht danach weg;
 // Menü der Seitenleiste mit eingerücktem Strich und Zusatzinfos. Hell und dunkel, quer und hoch. Seit 3.40.0 (AppDesign APD-87, R-4.1):
-// Mehr-Knopf offen senkrecht und hervorgehoben (APD-87/E-1 bis APD-87/E-11, iPad, iPhone, ‚Bewegung reduzieren‘, Drehen mit offenem Menü).
+// Mehr-Schaltfläche offen senkrecht und hervorgehoben (APD-87/E-1 bis APD-87/E-11, iPad, iPhone, ‚Bewegung reduzieren‘, Drehen mit offenem Menü).
 // Aufruf im Repo-Ordner: node tests/ablauf-markierung-menues.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 // Seit 3.48.0 (AppDesign APD-85 Teil 4, Testfall-Liste AppDesign arbeit/APD-85 Teil 4 Testfall-Liste.md V-1 bis V-3): R-3.1 erkennt einen Schalter an
 // [switch] bzw. role="switch" – im halb hereingeglittenen Fenster (98 %) kein Fund für #fPriceOn (V-1), ein Kästchen 30 × 30 ohne switch braucht 44
@@ -9,13 +9,13 @@
 // Menü, Untermenü ‚Darstellung‘, Kontextmenü einer Kachel und Sprechblase ‚Reiselogbuch löschen‘ wachsen aus ihrer Schaltfläche und schrumpfen dorthin
 // zurück (iPad quer und hoch, hell und dunkel, Drehen beim Wachsen), iPhone hoch und quer, ‚Bewegung reduzieren‘ nur Überblenden. Dazu APD-38/T-37
 // (R-3.9, APD-62/L-1, L-2, L-4, L-5, L-10): Menü aus Glas, schon beim Wachsen, mit ‚Transparenz reduzieren‘ deckend (nur Chromium bildet es nach).
-// Seit 3.57.8 auf der Prüfseite (AppDesign APD-135/B-3.3, APD-135/Q-10): der Mehr-Knopf (checkMehrKnopf, APD-87/E-1 bis E-6, E-8, E-11) und das
+// Seit 3.57.8 auf der Prüfseite (AppDesign APD-135/B-3.3, APD-135/Q-10): die Mehr-Schaltfläche (checkMehrKnopf, APD-87/E-1 bis E-6, E-8, E-11) und das
 // Wachsen von Menü, Untermenü, Kontextmenü und Sprechblase (checkWachsen, APD-62/M-1 bis M-8, M-11) prüft bausteine-pruefseite (Teile ‚menue‘ und
 // ‚sprechblase‘); hier bleiben die Anteile der App – Markierung, Inhalt der Menüs, Glas, APD-85/V-1 bis V-3 und Drehen mit offenem Menü (APD-87/E-7, APD-94).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.67.1/tests/pruefe.mjs';
-import { createCheck, checkGlas } from '../../AppDesign/fassung/4.67.1/tests/hig.mjs';
-import { langDruecken } from '../../AppDesign/fassung/4.67.1/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
+import { createCheck, checkGlas } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -33,7 +33,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   await p.reload(); await p.waitForTimeout(300);
   const row = n => p.locator('.side-row', { hasText: n });
   const on = l => l.evaluate(e => e.classList.contains('on'));
-  // Mehr-Knopf (APD-87/E-1, E-2, E-5, E-6, E-11) und Wachsen (APD-62/M-1 bis M-6, M-8, M-11): seit 3.57.8 auf der Prüfseite (AppDesign APD-135/B-3.3)
+  // Mehr-Schaltfläche (APD-87/E-1, E-2, E-5, E-6, E-11) und Wachsen (APD-62/M-1 bis M-6, M-8, M-11): seit 3.57.8 auf der Prüfseite (AppDesign APD-135/B-3.3)
   // AppDesign APD-62/L-1, L-2, L-4, L-5, L-10 (R-3.9): Menü und Kapsel aus Glas, schon beim Wachsen; ‚Transparenz reduzieren‘ deckend (Chromium)
   await t.schritt(p, 'Menü aus Glas', async () => t.liste(await checkGlas(p, { menue: '#sideMore', where: `Glas ${theme === 'dark' ? 'dunkel' : 'hell'}` })));
   await t.schritt(p, 'Mehr-Menü der Seitenleiste', async () => { await p.click('#sideMore'); await p.waitForTimeout(150); });
@@ -83,7 +83,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
 // seit 3.57.8 auf der Prüfseite (AppDesign APD-135/B-3.3, Teil ‚menue‘)
 {
   const p = await t.seite(b, 'iPad quer', { theme: 'light', reducedMotion: 'reduce' });
-  t.ort = `${t.ort} Bewegung reduzieren · Mehr-Knopf`;
+  t.ort = `${t.ort} Bewegung reduzieren · Mehr-Schaltfläche`;
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(400);

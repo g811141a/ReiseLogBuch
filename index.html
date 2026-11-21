@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.67.1/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.67.2/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -94,7 +94,7 @@
   html:not(.phone) .meta.trip #reisemittel { white-space: normal; }
   html.phone .fazit-box { width: 100%; }
   /* Wetter auf dem iPhone 40 px breit, damit alle sieben ohne Wischen nebeneinander passen (bewusste Abweichung) – seit 3.35.0
-     (RLB-101, AppDesign APD-43 B6) nur bei Standard; bei größerer Schrift wachsen die Knöpfe, passt es nicht, wischt die Kapsel seitlich */
+     (RLB-101, AppDesign APD-43 B6) nur bei Standard; bei größerer Schrift wachsen die Schaltflächen, passt es nicht, wischt die Kapsel seitlich */
   html.phone #wx button { width: max(40px, calc(48px * var(--f-body) - 8px)); min-width: max(40px, calc(48px * var(--f-body) - 8px)); }
   /* RLB-101 (AppDesign APD-43 U1): bei großer Schrift (html.ts-um) Reisedaten und Statistik untereinander, Wetter unter dem Datum */
   html.ts-um .meta { display: block; }
@@ -134,18 +134,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.67.1/ui.js"></script>
+<script src="../AppDesign/fassung/4.67.2/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.57.11';
-const APP_BUILT = '21.11.2026 um 08:32';
+const APP_VERSION = '3.57.12';
+const APP_BUILT = '21.11.2026 um 19:42';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.67.1';
+const AD_NEEDED = '4.67.2';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -1465,7 +1465,7 @@ function openTripDialog(trip) {
     Object.values(checks).forEach(c => { c.touched = true; });
     validate();
     // RLB-100: Fokus aufs erste fehlerhafte Feld (sein Abschnitt rollt in die Mitte, mit ‚Bewegung reduzieren‘ springt er, R-1.9);
-    // fehlt nur das Reisemittel, auf seinen ersten Knopf
+    // fehlt nur das Reisemittel, auf seine erste Schaltfläche
     if (!ersterFehler(dlg)) {
       const st = dlg.querySelector('.warn:not([hidden])')?.closest('.step');
       st?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
@@ -1616,7 +1616,7 @@ function openDayDialog(trip, iso) {
     on ? weather.add(b.dataset.w) : weather.delete(b.dataset.w);
   });
 
-  // Schritt 2: Vorschläge als neue Zeile nach der letzten Zeile (RLB-123, seit 3.55.0); der Knopf nimmt dem Feld den Fokus nicht (Tastatur bleibt)
+  // Schritt 2: Vorschläge als neue Zeile nach der letzten Zeile (RLB-123, seit 3.55.0); die Schaltfläche nimmt dem Feld den Fokus nicht (Tastatur bleibt)
   dlg.querySelectorAll('#suggest button').forEach(b => {
     b.addEventListener('mousedown', ev => ev.preventDefault());
     b.onclick = () => appendLine(fProgram, PROGRAM_SUGGESTIONS[b.dataset.s].text);

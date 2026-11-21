@@ -5,10 +5,10 @@
 // in allen vier Ansichten, hell und dunkel, leer und mit 60 Unterpunkten mit den Grundregeln) und seit AppDesign APD-135/B-3.2 die Abläufe
 // ‚messung‘ (APD-27), ‚titel-blase‘ (APD-101), ‚titel-oben‘ (APD-62, APD-109, APD-108), ‚schicht-oben‘ (APD-118, mit den 3 Messdateien) und
 // ‚grossanzeige‘ (APD-104) – bis 3.57.6 eigene Prüfdateien der App; das Zusammenspiel mit der App prüft ablauf-bausteine. Seit 3.57.8 (AppDesign
-// APD-135/B-3.3) die Teile ‚menue‘ (Mehr-Knopf, Wachsen, Tastatur – bis 3.57.7 teils in ablauf-markierung-menues), ‚sprechblase‘ (‚Eintrag löschen‘:
+// APD-135/B-3.3) die Teile ‚menue‘ (Mehr-Schaltfläche, Wachsen, Tastatur – bis 3.57.7 teils in ablauf-markierung-menues), ‚sprechblase‘ (‚Eintrag löschen‘:
 // Wachsen, Sperre, Esc, Fokus, ‚Bewegung reduzieren‘) und ‚fenster‘ (Häkchen, Tastatur, Fokus zurück).
 // Gegenprobe: node tests/alle.mjs --gegenprobe pruefseite. Aufruf im Repo-Ordner: [PRUEF_TEIL=titel-oben] node tests/bausteine-pruefseite.mjs
 // (ohne PRUEF_TEIL Teil werte). Meldet Fehler mit Rückgabewert (pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefseite } from '../../AppDesign/fassung/4.67.1/tests/pruefseite.mjs';
+import { pruefseite } from '../../AppDesign/fassung/4.67.2/tests/pruefseite.mjs';
 await pruefseite(pw, { out: new URL('out/', import.meta.url), teil: process.env.PRUEF_TEIL || 'werte' });

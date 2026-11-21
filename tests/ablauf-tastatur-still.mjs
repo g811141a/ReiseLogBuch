@@ -9,11 +9,11 @@
 // sichtbare Fensterinhalt (96 von 84 px), wie Safari dann verschiebt, ist nicht gemessen (Testfälle).
 // Aufruf im Repo-Ordner: node tests/ablauf-tastatur-still.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.67.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.67.1/tests/hig.mjs';
-import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS, sucheAuf } from '../../AppDesign/fassung/4.67.1/tests/ablauf.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.67.1/tests/safari.mjs';
-import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.67.1/tests/abspielen.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
+import { checkTastaturStill, STILL_LEISTEN, STILL_LINKS, sucheAuf } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.67.2/tests/safari.mjs';
+import { lies, ansicht, spieleAb } from '../../AppDesign/fassung/4.67.2/tests/abspielen.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 // seit 3.57.6 (AppDesign APD-135/Z-14, W-54): Grundregeln nach jedem Schritt (hig) – vorher prüfte t.schritt hier keine
 const t = pruefung('ablauf-tastatur-still', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
@@ -91,7 +91,7 @@ const ZIELE = { '2026-10-24 iPhone hoch Blatt Zug am Rand.txt': { '-': [tagSicht
 for (const datei of readdirSync(ORDNER).filter(f => f.endsWith('.txt')).sort()) {
   const m = lies(readFileSync(new URL(encodeURIComponent(datei), ORDNER), 'utf8'));
   // seit 3.47.1 (AppDesign APD-109): die Messung ‚Titel antippen‘ hat keine Tastatur – nachgebaut in bausteine-pruefseite, Teil titel-oben
-  // seit 3.53.0 (AppDesign APD-121/Y-5): die Messungen ‚Mehr-Knopf oben‘ vom 07.11.2026 haben keine Tastatur – nachgespielt in bausteine-pruefseite, Teil schicht-oben
+  // seit 3.53.0 (AppDesign APD-121/Y-5): die Messungen ‚Mehr-Schaltfläche oben‘ vom 07.11.2026 haben keine Tastatur – nachgespielt in bausteine-pruefseite, Teil schicht-oben
   if (!m.app.startsWith('Reiselogbuch') || datei === '2026-11-02 iPad quer Titel antippen Messmodus.txt' || datei.startsWith('2026-11-07 iPhone quer Mehr-Knopf oben')) continue;
   const p = await t.seite(b, ansicht(m));
   t.ort = `APD-36/T-8 ${datei.replace(/\.txt$/, '')}`;

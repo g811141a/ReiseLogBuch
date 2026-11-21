@@ -21,11 +21,11 @@
 // mit neutralen Daten, Mindestseite), mit Teilen – ‚werte‘ und (AppDesign APD-135/B-3.2) die Abläufe ‚messung‘, ‚titel-blase‘, ‚titel-oben‘,
 // ‚schicht-oben‘, ‚grossanzeige‘; Gegenprobe je eingeschleustem Fehler: --gegenprobe pruefseite. Dafür sind ablauf-messung, ablauf-titel-blase,
 // ablauf-titel-oben, ablauf-schicht-oben und ablauf-grossanzeige weggefallen; neu ablauf-bausteine – je Baustein eine kurze Zusammenspiel-Prüfung
-// an den echten Knöpfen der App und die Teile mit Reiselogik (Datum im Fenstertitel, Reisetitel, nichts gelöscht, leere App).
+// an den echten Schaltflächen der App und die Teile mit Reiselogik (Datum im Fenstertitel, Reisetitel, nichts gelöscht, leere App).
 // seit 3.57.8 bean-katalog (AppDesign APD-140, R-1.13): der Bean-Katalog von AppDesign lädt fehlerfrei, jede Bean, Grundregeln, Versionszeile.
 // seit 3.57.8 in bausteine-pruefseite die Teile ‚menue‘, ‚sprechblase‘ und ‚fenster‘ (AppDesign APD-135/B-3.3); in ablauf-markierung-menues sind checkMehrKnopf und checkWachsen weggefallen.
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.67.1/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.67.2/tests/lauf.mjs';
 const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-leer', 'ablauf-drehen-iphone', 'ablauf-glas', 'ablauf-feld-rollen', 'ablauf-feld-cursor', 'ablauf-fremdtext', 'ablauf-drehen-luecke', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
   'verlauf-vorschlaege', 'bean-katalog', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln', 'ablauf-bausteine',

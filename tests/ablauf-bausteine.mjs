@@ -2,7 +2,7 @@
 // APD-135/E-13). Die fünf Abläufe Messmodus (APD-27, R-1.6), gekürzter Titel (APD-101, R-2.5), Titel antippen (APD-62, R-2.7), Sperrschicht am
 // oberen Rand (APD-118, Designrichtlinie 13) und Großanzeige (APD-104, R-2.6) prüft AppDesign vollständig auf der Prüfseite (bausteine-pruefseite,
 // Teile messung, titel-blase, titel-oben, schicht-oben, grossanzeige). Hier nur, was erst im Zusammenspiel mit dem Reiselogbuch sichtbar wird:
-// je Baustein eine kurze Prüfung an den echten Knöpfen und Titeln der App (ein neuer Knopf oder Titel der App wird von selbst Nutzer eines
+// je Baustein eine kurze Prüfung an den echten Schaltflächen und Titeln der App (eine neue Schaltfläche oder Titel der App wird von selbst Nutzer eines
 // Bausteins und muss ihn richtig nutzen) und die Teile mit Reiselogik:
 //   Messmodus     – F10 leere App öffnet ‚Neues Reiselogbuch‘, dort starten und teilen; mit Reisen: Versionszeile lange drücken, Messung, Suche
 //                   ‚Rom‘ in allen Reiselogbüchern, teilen – die Datei nennt die App und enthält nur Längen, keinen Text der Reisen (iPad quer)
@@ -10,14 +10,14 @@
 //                   schließen nur die Blase, Reisetitel unverändert), Fenster eines Tages mit L-3 (Titel ‚Do, 27.08.2026‘)
 //   Titel antippen – iPad quer: Kopfzeile rollt die Reise nach oben (H-1), Titel der Seitenleiste ihre Liste (H-2)
 //   Sperrschicht  – iPhone quer am oberen Rand: Mehr der Reise, Sprechblase ‚Reiselogbuch löschen‘; danach nichts gelöscht (db.trips)
-//   Großanzeige   – iPad quer, Text 28 (AX1): jeder sichtbare Knopf der Kopfzeile, der Seitenleiste und der Fenster-Kopfzeile ‚Reiselogbuch
+//   Großanzeige   – iPad quer, Text 28 (AX1): jede sichtbare Schaltfläche der Kopfzeile, der Seitenleiste und der Fenster-Kopfzeile ‚Reiselogbuch
 //                   einstellen‘ zeigt groß Icon und seinen Namen; Loslassen über ‚Mehr‘ öffnet das Menü der Reise
 // Grundregeln nach jedem Schritt. Gegenprobe: dieselben eingeschleusten Fehler wie --gegenprobe pruefseite müssen auch hier rot werden (CHANGELOG 3.57.7).
 // Aufruf im Repo-Ordner: node tests/ablauf-bausteine.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.67.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.67.1/tests/hig.mjs';
-import { langDruecken, sucheAuf, checkTitelBlase, titelLang, checkTitelOben, checkSchichtOben, finger } from '../../AppDesign/fassung/4.67.1/tests/ablauf.mjs';
+import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
+import { langDruecken, sucheAuf, checkTitelBlase, titelLang, checkTitelOben, checkSchichtOben, finger } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
 const t = pruefung('ablauf-bausteine', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
@@ -128,23 +128,23 @@ await ablauf('iPhone quer', { theme: 'light' }, async p => {
   t.ist('nichts gelöscht', await p.evaluate(() => db.trips.length), trips.length, 'R-4.4');
 });
 
-// Großanzeige (R-2.6): iPad quer, Text 28 (AX1) – jeder sichtbare Knopf der Leisten der App zeigt Icon und Namen; Loslassen über ‚Mehr‘ löst aus
+// Großanzeige (R-2.6): iPad quer, Text 28 (AX1) – jede sichtbare Schaltfläche der Leisten der App zeigt Icon und Namen; Loslassen über ‚Mehr‘ löst aus
 await ablauf('iPad quer', { theme: 'light' }, async p => {
   t.ort = 'iPad quer · Text 28 (AX1)';
   await p.addInitScript(groesse, 28);
   await start(p);
   t.wahr('Text 28 ist AX1 (html.ts-ax)', await p.evaluate(() => document.documentElement.classList.contains('ts-ax')), 'R-2.6');
-  // alle sichtbaren, nicht gesperrten Knöpfe einer Leiste (Selektor wie in ui.js: Kopfzeile, Fenster-Kopfzeile, Seitenleiste, schwebende Knöpfe)
+  // alle sichtbaren, nicht gesperrten Schaltflächen einer Leiste (Selektor wie in ui.js: Kopfzeile, Fenster-Kopfzeile, Seitenleiste, schwebende Schaltflächen)
   const knoepfe = wo => p.evaluate(wo => [...document.querySelectorAll(`:is(${wo}) button`)].filter(k => k.getClientRects().length && !k.disabled && getComputedStyle(k).visibility !== 'hidden'
     && !k.closest('[inert]')).map((k, i) => { k.dataset.pruefGross = String(i); return { i, name: (k.getAttribute('aria-label') || k.textContent || '').trim(), icon: !!k.querySelector('svg') }; }), wo);
   const jeder = async (wo, was) => {
     const liste = await knoepfe(wo);
-    t.wahr(`${was}: Knöpfe gefunden (sonst prüft die Prüfung nichts)`, liste.length >= 2, 'R-2.6');
+    t.wahr(`${was}: Schaltflächen gefunden (sonst prüft die Prüfung nichts)`, liste.length >= 2, 'R-2.6');
     for (const k of liste) {
       // 0,7 s drücken, merken, dann abbrechen (pointercancel) – die Großanzeige schließt ohne Auslösen
       const r = await finger(p, `[data-pruef-gross="${k.i}"]`, [['warte', 700], ['merke', 'g'], ['abbruch']]), g = r.gemerkt?.g?.gross;
       if (!g) t.fehler('R-2.6', `${was}: langes Drücken auf ‚${k.name || '(ohne Namen)'}‘ zeigt keine Großanzeige`);
-      else if (!k.name) t.fehler('R-2.6', `${was}: Knopf ohne Namen (aria-label) – die Großanzeige zeigt keinen Namen`);
+      else if (!k.name) t.fehler('R-2.6', `${was}: Schaltfläche ohne Namen (aria-label) – die Großanzeige zeigt keinen Namen`);
       else if (g.text !== k.name || g.svg !== k.icon) t.fehler('R-2.6', `${was}: Großanzeige von ‚${k.name}‘ zeigt ‚${g.text}‘${g.svg !== k.icon ? ' ohne bzw. mit fremdem Icon' : ''}`);
       if (r.klicks?.length) t.fehler('R-2.6', `${was}: Abbrechen der Großanzeige von ‚${k.name}‘ löst ${r.klicks.join(', ')} aus`);
     }

@@ -13,6 +13,50 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.12 – 21.11.2026
+
+Reiselogbuch 3.57.12 · AppDesign 4.67.2 (Designrichtlinie allgemein 4.67.2) · Designrichtlinie Reiselogbuch 3.57.12 · Zusammenarbeit allgemein 3.19.0
+
+**Korrekturen aus Usertest P-118** (AppDesign 4.67.2: P-118/F-1, P-118/F-2; P-118/1 nicht ok, Nutzer 21.11.2026, Sitzung 0147).
+
+- **App:** jede gedrückte Schaltfläche hebt sich als helle Fläche mit Schatten und wird größer (1,3-fach, höchstens 24 px breiter), nicht mehr nur in den Leisten –
+  vorher wurden z. B. die Vorschläge im Fenster eines Tages und ‚Backup erstellen‘ nur blass. Smileys und Wetter (Auswahl-Kapsel) werden weiter blass (R-3.6).
+- **Texte:** ‚Schaltfläche‘ statt ‚Knopf‘ in Kommentaren von `index.html`, PROMPT, Designrichtlinie Reiselogbuch und Prüfungen (R-10.9).
+- **Prüfungen:** `ablauf-beruehren` drückt den Vorschlag ‚Weiterfahrt nach …‘ im Fenster eines Tages (rot gegen 3.57.11); `doku-regeln` mit `checkBegriffe`.
+- AD-Bean: keine – in AppDesign.
+
+Testfälle P-119 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Link des Katalogs (in Safari): https://g811141a.github.io/AppDesign/katalog/index.html
+
+**P-119/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.12 · erstellt am … · AppDesign 4.67.2‘. Automatisch geprüft in `version-regeln`.
+
+**P-119/1 – Katalog: Mehr-Schaltfläche hebt sich (P-118/F-1)**
+1. iPad quer, hell; in Safari den Link des Katalogs öffnen, ganz neu laden; in der Seitenleiste unter ‚Aktionen und Menüs‘ ‚Hervorgehobene Quelle‘ antippen.
+2. Unter ‚Ausprobieren‘ auf ‚…‘ rechts neben ‚Zweite Schaltfläche‘ den Finger etwa 1 s liegen lassen, dann seitlich mehr als einen Fingerbreit wegziehen und loslassen.
+3. Erwartet: solange der Finger liegt, hebt sich ‚…‘ als helle Fläche mit Schatten und wird größer – wie ‚…‘ oben in der Seitenleiste; sie wird nicht blass. Nach dem
+   Wegziehen senkt sie sich, es öffnet sich kein Menü. Automatisch geprüft in `bean-katalog` (APD-140/Z-7).
+
+**P-119/2 – App: Schaltfläche außerhalb der Leisten hebt sich (P-118/F-1)**
+1. iPad quer, hell; ein Reiselogbuch öffnen und einen Tag antippen (Fenster des Tages).
+2. Unter ‚Verlauf‘ auf den Vorschlag ‚Weiterfahrt nach …‘ den Finger etwa 1 s liegen lassen, seitlich wegziehen und loslassen.
+3. Erwartet: solange der Finger liegt, hebt sich ‚Weiterfahrt nach …‘ als helle Fläche mit Schatten und wird etwas größer; sie wird nicht blass. Nach dem Wegziehen
+   wird nichts eingefügt. Automatisch geprüft in `ablauf-beruehren` (Schritt ‚Schaltfläche außerhalb der Leisten‘).
+
+**P-119/3 – App: Smiley wird blass wie bisher (P-118/F-1, Ausnahme Auswahl-Kapsel)**
+1. iPhone hoch, hell; ein Reiselogbuch öffnen und einen Tag antippen.
+2. In der Smiley-Leiste bei ‚Wie war was?‘ einen Smiley kurz antippen (nicht halten).
+3. Erwartet: der Smiley wird kurz blass, hebt sich nicht und wird nicht größer; er wird in ‚Wie war was?‘ eingefügt. Automatisch geprüft in `ablauf-beruehren`
+   (Kapsel ‚Wetter‘ blass nach 80 ms, Smiley-Leiste R-3.5).
+
+**P-119/4 – Katalog: ‚Schaltfläche‘ statt ‚Knopf‘ (P-118/F-2)**
+1. iPad quer, hell; Katalog wie in P-119/1, Seite ‚Hervorgehobene Quelle‘.
+2. Die Beschriftungen unter ‚Ausprobieren‘ lesen.
+3. Erwartet: ‚Erste Schaltfläche‘ und ‚Zweite Schaltfläche‘, in der Liste darunter ‚Fenster-Quelle: erste Schaltfläche‘ und ‚Fenster-Quelle: zweite Schaltfläche‘;
+   nirgends ‚Knopf‘. Automatisch geprüft in `doku-regeln` (`checkBegriffe`, R-10.9).
+
 ## 3.57.11 – 21.11.2026
 
 Reiselogbuch 3.57.11 · AppDesign 4.67.1 (Designrichtlinie allgemein 4.67.1) · Designrichtlinie Reiselogbuch 3.57.11 · Zusammenarbeit allgemein 3.18.0
