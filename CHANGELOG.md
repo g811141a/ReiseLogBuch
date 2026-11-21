@@ -13,6 +13,54 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.57.11 – 21.11.2026
+
+Reiselogbuch 3.57.11 · AppDesign 4.67.1 (Designrichtlinie allgemein 4.67.1) · Designrichtlinie Reiselogbuch 3.57.11 · Zusammenarbeit allgemein 3.18.0
+
+**Korrekturen aus Usertest P-117** (AppDesign 4.67.1: P-117/F-1, P-117/F-2; P-117/1 und P-117/4 nicht ok, Nutzer 21.11.2026, Sitzung 0147).
+
+- **App:** langes Drücken auf eine Schaltfläche markiert keinen Text mehr und zeigt keine Lupe – vorher waren u. a. ‚Backup erstellen‘, ‚Abgleichen‘, ‚Ersetzen‘,
+  ‚Abbrechen‘, ‚Abgleichbericht anzeigen‘, das Feld ‚Fazit‘ und ‚Reiselogbuch löschen‘ wählbar (AppDesign: `button` in `design.css`, R-3.6). Sonst unverändert.
+- **Katalog (AppDesign):** Mehr-Knopf auf ‚Hervorgehobene Quelle‘ rund; Knöpfe und Kacheln unter ‚Ausprobieren‘ ohne Textauswahl.
+- **Prüfungen:** `hig` (R-3.1 jede Icon-Schaltfläche für sich allein ein Kreis, R-3.6 jede Schaltfläche ohne Textauswahl, in jeder Ansicht), `bean-katalog`
+  (APD-140/Z-6, Safari-Modell) über die Fassung 4.67.1 – beide rot gegen 4.67.0.
+- AD-Bean: keine, weil `button` ein Grundstil von `design.css` ist und sich sonst nur die Katalogseite ändert – in AppDesign.
+
+Testfälle P-118 (Schritt für Schritt, Zusammenarbeit allgemein 3.18.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Link des Katalogs (in Safari): https://g811141a.github.io/AppDesign/katalog/index.html
+
+**P-118/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.57.11 · erstellt am … · AppDesign 4.67.1‘. Automatisch geprüft in `version-regeln`.
+
+**P-118/1 – Katalog: Mehr-Knopf rund (P-117/F-1)**
+1. iPad quer, hell; in Safari den Link des Katalogs öffnen, ganz neu laden; in der Seitenleiste unter ‚Aktionen und Menüs‘ ‚Hervorgehobene Quelle‘ antippen.
+2. Unter ‚Ausprobieren‘ den Knopf ‚…‘ rechts neben ‚Zweiter Knopf‘ ansehen.
+3. Erwartet: ‚…‘ ist ein Kreis (gleich breit wie hoch), nicht oval. Automatisch geprüft in `bean-katalog` (Grundregeln, R-3.1).
+
+**P-118/2 – Katalog: Knöpfe lange drücken markiert keinen Text (P-117/F-2)**
+1. iPad quer, hell; Katalog wie in P-118/1, Seite ‚Hervorgehobene Quelle‘.
+2. ‚Erster Knopf‘ etwa 2 s lange drücken und loslassen, dann ebenso ‚Zweiter Knopf‘.
+3. Erwartet: kein Text wird markiert, keine Lupe, kein Menü ‚Kopieren‘. Automatisch geprüft in `bean-katalog` (APD-140/Z-6) und `hig` (R-3.6).
+
+**P-118/3 – Katalog: Kachel der Wischaktionen lange drücken (P-117/F-2)**
+1. iPad quer, hell; Katalog, in der Seitenleiste unter ‚Aktionen und Menüs‘ ‚Wischaktionen‘ antippen.
+2. Unter ‚Ausprobieren‘ die Kachel ‚Erster Eintrag: Rom, Florenz, Siena und Lucca‘ lange drücken, dann daneben tippen.
+3. Erwartet: das Kontextmenü mit ‚Einstellungen‘ und rot ‚‚Erster Eintrag: Rom, Florenz, Siena und Lucca‘ löschen‘ erscheint; weder die Kachel noch die Seite wird
+   markiert; nach dem Tippen daneben ist das Menü zu. Automatisch geprüft in `bean-katalog` (APD-140/Z-6).
+
+**P-118/4 – App: ‚Backup erstellen‘ lange drücken (P-117/F-2)**
+1. iPad quer, hell; in der App unten in der Seitenleiste die Backup-Kachel mit dem Knopf ‚Backup erstellen‘ (falls sichtbar; sonst iPhone, Startliste unten).
+2. Auf ‚Backup erstellen‘ den Finger etwa 2 s liegen lassen, dann seitlich mehr als einen Fingerbreit wegziehen und loslassen.
+3. Erwartet: kein Text wird markiert, keine Lupe; es wird kein Backup erstellt. Automatisch geprüft in `hig` (R-3.6).
+
+**P-118/5 – App: Knöpfe der Sprechblase lange drücken (P-117/F-2)**
+1. iPad quer, hell; mindestens zwei Reiselogbücher; in der Seitenleiste eine Kachel nach links wischen, die rote Kapsel ‚Löschen‘ antippen.
+2. In der Sprechblase auf ‚Abbrechen‘ den Finger etwa 2 s liegen lassen, seitlich wegziehen und loslassen; danach ‚Abbrechen‘ kurz antippen.
+3. Erwartet: beim Halten wird kein Text markiert, keine Lupe; nach dem Antippen von ‚Abbrechen‘ ist die Sprechblase zu, nichts ist gelöscht. Automatisch geprüft
+   in `hig` (R-3.6, Ansicht ‚Sprechblase Löschen‘).
+
 ## 3.57.10 – 20.11.2026
 
 Reiselogbuch 3.57.10 · AppDesign 4.67.0 (Designrichtlinie allgemein 4.67.0) · Designrichtlinie Reiselogbuch 3.57.10 · Zusammenarbeit allgemein 3.18.0

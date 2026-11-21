@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 20.11.2026** · Aktuelle Version: Reiselogbuch 3.57.10 · AppDesign 4.67.0
+**Stand 21.11.2026** · Aktuelle Version: Reiselogbuch 3.57.11 · AppDesign 4.67.1
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.
@@ -18,7 +18,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-117 | 1 | **Usertest P-117** (Reiselogbuch 3.57.10, AppDesign 4.67.0): AppDesign APD-136 Namen (Code englisch, `alert`, `swipeactions`), APD-136 `sourcehighlight` (Hervorgehobene Quelle), APD-143 (Liste bleibt beim Kontextmenü stehen) – Testfälle P-117/0 bis P-117/7 im CHANGELOG 3.57.10 | prüfen |
+| P-118 | 1 | **Usertest P-118** (Reiselogbuch 3.57.11, AppDesign 4.67.1): Korrekturen aus P-117 – Mehr-Knopf des Katalogs rund (P-117/F-1), langes Drücken auf Schaltflächen markiert keinen Text (P-117/F-2, Katalog und App) – Testfälle P-118/0 bis P-118/5 im CHANGELOG 3.57.11 | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -40,6 +40,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-117 | **Usertest P-117 (Reiselogbuch 3.57.10, AppDesign 4.67.0):** /0, /2, /3, /5, /6, /7 ok; /1 nicht ok (Text der Knöpfe markiert, Mehr-Knopf oval), /4 nicht ok (Katalog: langes Drücken auf eine Kachel markiert die ganze Seite) – P-117/F-1, P-117/F-2 (Nutzer 21.11.2026, Sitzung 0147), korrigiert mit 3.57.11 / AppDesign 4.67.1, erneut im Usertest P-118 | 3.57.11 | 21.11.2026 |
 | P-116 | **Usertest P-116** (Reiselogbuch 3.57.9, AppDesign 4.66.0): /0 bis /3 ok (Nutzer 20.11.2026, Sitzung 0144) | AppDesign 4.66.0 / Reiselogbuch 3.57.9 | 20.11.2026 |
 | RLB-127 | **Dateiname am iPad nie umbrechen** (Nutzer 19.11.2026, Sitzung 0134): allgemein – **ersetzt durch AppDesign APD-138** (Prio 2) | – | 19.11.2026 |
 | P-114 | **Usertest P-114** (Reiselogbuch 3.57.7, AppDesign 4.64.0): /0 und /1 ok (Nutzer 19.11.2026, Sitzung 0140) | AppDesign 4.64.0 / Reiselogbuch 3.57.7 | 19.11.2026 |

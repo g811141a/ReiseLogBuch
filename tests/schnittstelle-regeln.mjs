@@ -3,8 +3,8 @@
 // Aufruf im Repo-Ordner: node tests/schnittstelle-regeln.mjs. Meldet Fehler mit Rückgabewert (pruefe.mjs).
 import * as pw from 'playwright';
 import { fileURLToPath } from 'node:url';
-import { pruefung } from '../../AppDesign/fassung/4.67.0/tests/pruefe.mjs';
-import { checkSchnittstelle } from '../../AppDesign/fassung/4.67.0/tests/schnittstelle.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.67.1/tests/pruefe.mjs';
+import { checkSchnittstelle } from '../../AppDesign/fassung/4.67.1/tests/schnittstelle.mjs';
 const t = pruefung('schnittstelle-regeln', pw, { out: new URL('out/', import.meta.url) });
 t.liste(checkSchnittstelle(fileURLToPath(new URL('..', import.meta.url))));
 await t.ende();
