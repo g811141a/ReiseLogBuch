@@ -19,7 +19,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-119 | 1 | **Usertest P-119** (Reiselogbuch 3.57.12, AppDesign 4.67.2): Korrekturen aus P-118 – jede gedrückte Schaltfläche hebt sich und wird größer, Smileys bleiben blass (P-118/F-1); ‚Schaltfläche‘ statt ‚Knopf‘ (P-118/F-2). Testfälle P-119/0 bis P-119/4 im CHANGELOG 3.57.12 | prüfen |
+| – | | Kein offener Usertest (P-119 ok, Nutzer 21.11.2026, Sitzung 0151). | |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -40,6 +40,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-119 | **Usertest P-119 (Reiselogbuch 3.57.12, AppDesign 4.67.2):** P-119/0 bis P-119/4 ok (Nutzer 21.11.2026, Sitzung 0151) – P-118/F-1 und P-118/F-2 erledigt | Reiselogbuch 3.57.12 | 21.11.2026 |
 | P-118 | **Usertest P-118 (Reiselogbuch 3.57.11, AppDesign 4.67.1):** /0, /2, /3, /4, /5 ok; /1 nicht ok (Mehr-Schaltfläche wird beim Drücken nur blass; Begriff) → P-118/F-1 und P-118/F-2, gebaut in Reiselogbuch 3.57.12 / AppDesign 4.67.2 | Reiselogbuch 3.57.11 | 21.11.2026 |
 | P-117 | **Usertest P-117 (Reiselogbuch 3.57.10, AppDesign 4.67.0):** /0, /2, /3, /5, /6, /7 ok; /1 nicht ok (Text der Knöpfe markiert, Mehr-Knopf oval), /4 nicht ok (Katalog: langes Drücken auf eine Kachel markiert die ganze Seite) – P-117/F-1, P-117/F-2 (Nutzer 21.11.2026, Sitzung 0147), korrigiert mit 3.57.11 / AppDesign 4.67.1, erneut im Usertest P-118 | 3.57.11 | 21.11.2026 |
 | P-116 | **Usertest P-116** (Reiselogbuch 3.57.9, AppDesign 4.66.0): /0 bis /3 ok (Nutzer 20.11.2026, Sitzung 0144) | AppDesign 4.66.0 / Reiselogbuch 3.57.9 | 20.11.2026 |
