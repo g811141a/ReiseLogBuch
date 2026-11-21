@@ -25,10 +25,10 @@
 // seit 3.57.8 bean-katalog (AppDesign APD-140, R-1.13): der Bean-Katalog von AppDesign lädt fehlerfrei, jede Bean, Grundregeln, Versionszeile.
 // seit 3.57.8 in bausteine-pruefseite die Teile ‚menue‘, ‚sprechblase‘ und ‚fenster‘ (AppDesign APD-135/B-3.3); in ablauf-markierung-menues sind checkMehrKnopf und checkWachsen weggefallen.
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.67.2/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.68.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-leer', 'ablauf-drehen-iphone', 'ablauf-glas', 'ablauf-feld-rollen', 'ablauf-feld-cursor', 'ablauf-fremdtext', 'ablauf-drehen-luecke', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
-  'verlauf-vorschlaege', 'bean-katalog', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln', 'ablauf-bausteine',
+  'verlauf-vorschlaege', 'bean-katalog', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln', 'ablauf-bausteine', 'ablauf-sperre',
   // Seit 3.33.0 (AppDesign APD-43 P1): die Abläufe mit Bewegung zusätzlich mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (Bewegungswächter)
   // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): dieselben Abläufe zusätzlich mit der größten Textgröße (AX5, 53 px)
   ...['ablauf-navigation', 'ablauf-fenster', 'ablauf-iphone', 'ablauf-suche-liste', 'ablauf-seitenleiste-position'].map(name => ({ name, teile: { '': {}, Bedienungshilfen: { PRUEF_BEDIENUNG: 'beide' }, 'Text 53': { PRUEF_TEXT: '53' } } })),

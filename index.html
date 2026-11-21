@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.67.2/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.68.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -120,6 +120,25 @@
     #app, #side, .side-shade, dialog, .fab { display: none !important; }
     #printout { display: block; }
   }
+  /* RLB-125 (seit 3.58.0): Reiselogbuch sperren – Schloss vor dem Titel der Kachel, so hoch wie die Großbuchstaben, mittig, in der Farbe des Titels
+     (J-9); gesperrt statt der Tabelle nur die Vorschau als Seite mit Hinweis (J-5 bis J-8). */
+  #side .side-row .lk { display: inline-block; width: .76em; height: .76em; vertical-align: -.05em; margin-right: .3em; }
+  #side .side-row .lk svg { display: block; width: 100%; height: 100%; stroke-width: 2.4; }
+  #app .lockinfo { display: flex; align-items: center; gap: 12px; background: #fff7ea; border: 1px solid #f3d7a6; border-radius: 16px; padding: 12px 14px; margin: 0 0 12px; }
+  :root[data-theme="dark"] #app .lockinfo { background: #2b2112; border-color: #5e4519; }
+  #app .lockinfo .li-ic { color: var(--warn); display: inline-flex; } #app .lockinfo .li-ic svg { width: 26px; height: 26px; }
+  #app .lockinfo .li-t { flex: 1; }
+  #app .lockinfo button { flex: none; }
+  #app .lockcap { color: var(--muted); font-size: var(--t-footnote, 13px); margin: 0 0 8px; }
+  #app .lockpage { background: #fff; color: #000; color-scheme: light; border-radius: 16px; padding: 24px; overflow-x: auto; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
+  #app .lockpage .rt { min-width: 0; }   /* iPad: die Seite passt in den Platz neben der Seitenleiste */
+  html.phone #app .lockpage { padding: 16px; }
+  /* iPhone hoch (Muster 7): der Hinweis bricht um – ‚Entsperren‘ unter dem Text, bündig mit ihm; die Seite ist wie die Vorschau 960 px breit und
+     wird seitlich gewischt, statt dass Wörter zerreißen */
+  html.phone #app .lockinfo { flex-wrap: wrap; align-items: flex-start; }
+  html.phone #app .lockinfo .li-t { flex: 1 1 calc(100% - 38px); }
+  html.phone #app .lockinfo button { margin-left: 38px; }
+  html.phone #app .lockpage .rt { min-width: 960px; }
 </style>
 </head>
 <body>
@@ -134,18 +153,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.67.2/ui.js"></script>
+<script src="../AppDesign/fassung/4.68.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.57.12';
-const APP_BUILT = '21.11.2026 um 19:42';
+const APP_VERSION = '3.58.0';
+const APP_BUILT = '21.11.2026 um 23:54';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.67.2';
+const AD_NEEDED = '4.68.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -203,13 +222,16 @@ function onDialogOpen() { clearInterval(autosaveTimer); }
 // Abgleich zwischen iPad und iPhone (RLB-3, Regeln R-9.2 bis R-9.4): gemeinsamer Baustein createSync aus AppDesign (ui.js).
 // Je Feld Zeitpunkt und Gerät – Kopfdaten (metaAt) und Tage (dayAt); gelöschte Reiselogbücher in db.deleted.
 const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields: ['outputCounter'],
-  nouns: ['Reiselogbuch', 'Reiselogbücher', 'Reiselogbüchern'], app: 'Reiselogbuch',
+  nouns: ['Reiselogbuch', 'Reiselogbücher', 'Reiselogbüchern', 'es'], app: 'Reiselogbuch',
+  // Seit 3.58.0 (RLB-125/J-10, AppDesign 4.68.0): ein gesperrtes Reiselogbuch wird beim Abgleich nie gelöscht (15.18 Fall 23); ‚Ersetzen‘ nennt die
+  // gesperrten (J-3, nouns[3]: ‚1 gesperrtes Reiselogbuch‘).
+  protect: t => t.locked === true,
   // Namen der Felder für die Tabelle der Änderungen nach dem Abgleich (R-9.4) – wie im Fenster (R-10.1).
   labels: { title: 'Reisetitel', participants: 'Reiseteilnehmer', start: 'Beginn', end: 'Ende', transport: 'Reisemittel',
     quarterList: 'Quartierliste', foodColumn: 'Spalte Essen', moodColumn: 'Spalte Wie war was?', quarterColumn: 'Spalte Quartier',
     kmColumn: 'Spalte Gegangene Kilometer', km: 'Gegangene Kilometer', price: 'Preis', priceOn: 'Preis der Quartiere erfassen',
     fazit: 'Fazit', kosten: 'Gesamtausgaben', weather: 'Wetter', program: 'Verlauf', comment: 'Wie war was?', food: 'Essen und Trinken',
-    sameQuarter: 'Quartier wie Vortag', quarter: 'Quartier', place: 'Ort', noMap: 'Google-Maps-Link' },
+    sameQuarter: 'Quartier wie Vortag', quarter: 'Quartier', place: 'Ort', noMap: 'Google-Maps-Link', locked: 'Gesperrt' },
   // Seit 3.11.6: Werte wie in der App – Reisemittel mit Symbol und Namen statt der gespeicherten Kürzel (R-10.1).
   values: { transport: ids => TRANSPORT.filter(x => ids.includes(x.id)).map(x => `${x.icon} ${x.name}`).join(', '),
     price: formatEuro, km: n => `${n} km` } });
@@ -259,6 +281,7 @@ function normalize(data) {
     t.priceOn ??= false;    // seit 3.42.0 (RLB-111): Preis der Quartiere nur auf Wunsch, Voreinstellung aus
     t.outputCounter ||= 0;
     t.dayAt ||= {};
+    if (t.locked !== true) delete t.locked;   // seit 3.58.0 (RLB-125/T-9): nur true sperrt; alte Backups ohne Sperre gelten als nicht gesperrt
     // seit 3.41.0: Preis des Quartiers (RLB-109, Euro, am ersten Tag des Aufenthalts) und gegangene Kilometer (RLB-110; seit 3.42.0,
     // RLB-111, mit einer Nachkommastelle 0,1–99,9) – alte Backups haben beides nicht; Unbrauchbares fällt weg
     for (const e of Object.values(t.days)) {
@@ -686,6 +709,7 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
   if (isPhone()) return renderPhone({ scrollToGap });
   const trip = getTrip(currentTripId);
   if (!trip) return renderEmpty();
+  if (trip.locked) return renderLocked(trip);   // RLB-125/J-7: gesperrt nur die Vorschau
   emptyPrompted = false;
   renderSide();
   const today = todayISO();
@@ -904,6 +928,55 @@ const fazitHtml = trip => `<h2 data-marke="Fazit">Fazit</h2>
       <span>€</span>
     </div>`;
 
+/* ---------- Gesperrt (RLB-125, seit 3.58.0) ---------- */
+
+// Sperren und Entsperren wirken sofort, ohne Abfrage; beides zählt als Änderung (J-11: ‚geändert am …‘, Abgleich je Feld).
+function setLock(trip, on) { if (on) trip.locked = true; else delete trip.locked; save(); render(); }
+// J-7, J-8 (Muster 6 und 7): ein gesperrtes Reiselogbuch zeigt statt der Tabelle bzw. der Kästen nur die Vorschau als Seite – kein Fenster, kein x;
+// sie bleibt nach jeder Ausgabe, nach Backup, Wechsel, Drehen und Neustart. Oben ‚PDF‘ und Teilen wie in der Vorschau, ohne Mehr; darüber der Hinweis
+// mit ‚Entsperren‘ (J-5 oranges Schloss, J-6 hell mit blauer Schrift). Fazit und Gesamtausgaben stehen nur in der Vorschau.
+function renderLocked(trip) {
+  const phone = isPhone();
+  emptyPrompted = false;
+  searchOpen = false; searchTerm = '';
+  if (phone) { side.hidden = true; side.classList.remove('page'); } else renderSide();
+  const version = (trip.outputCounter || 0) + 1;
+  const buttons = `<span class="r"><span class="grp">
+          <button type="button" class="txt" id="pdfBtn">${ic('file-text')}PDF</button>
+          <button type="button" class="fill" id="shareBtn" aria-label="Teilen">${ic('share')}</button>
+        </span></span>`;
+  setHtml(app, `
+    ${phone ? `<div class="pnav" id="bar">
+      <span><button type="button" class="round" id="back" aria-label="Reiselogbücher">${ic('chevron-left')}</button></span>
+      <span class="pnav-title">${esc(trip.title)}</span>
+      ${buttons}
+    </div>` : `<div class="nb" id="bar">
+      <div class="nb1">
+        <span>${sideToggleHtml()}</span>
+        <span class="nb-title">${esc(trip.title)}</span>
+        ${buttons}
+      </div>
+    </div>`}
+    <div class="rolle" id="rolle">
+      <div class="lockinfo" role="status">
+        <span class="li-ic">${ic('lock')}</span>
+        <span class="li-t"><b>Dieses Reiselogbuch ist gesperrt.</b><br>Es lässt sich lesen und ausgeben, aber nicht ändern oder löschen.</span>
+        <button type="button" id="lockUnlock">${ic('lock-open')}Entsperren</button>
+      </div>
+      <p class="lockcap">Vorschau · ${esc(outputName(trip, version))}</p>
+      <div class="lockpage"><style>${OUTPUT_CSS.replace(/\bbody\b/g, '#app .lockpage')}#app .lockpage { margin: 0; }</style>${outputBody(trip, version, nowStamp())}</div>
+    </div>`);
+  app.querySelectorAll('.lockpage a[href]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
+  fab.hidden = false;
+  if (phone) app.querySelector('#back').onclick = navZurueck; else bindSideToggle(app);
+  app.querySelector('#pdfBtn').onclick = () => exportPdf(trip);
+  app.querySelector('#shareBtn').onclick = () => exportHtml(trip);
+  app.querySelector('#lockUnlock').onclick = () => setLock(trip, false);
+  adSourcehighlight.refresh();
+  updateBar();
+  document.documentElement.style.setProperty('--bar-h', app.querySelector('#bar').offsetHeight + 'px');
+}
+
 /* ---------- iPhone ---------- */
 
 // Wie Apple (Notizen, iOS 26): Startliste ‚Reiselogbücher‘ als eigene Seite; ein Reiselogbuch zeigt die Tage als Kästen,
@@ -923,6 +996,7 @@ function renderPhone({ scrollToGap = false } = {}) {
     if (!db.trips.length && !emptyPrompted && !dlg.open) { emptyPrompted = true; openTripDialog(null); }
     return;
   }
+  if (trip.locked) return renderLocked(trip);   // RLB-125/J-7
   side.hidden = true;
   side.classList.remove('page');
   emptyPrompted = false;
@@ -1144,7 +1218,7 @@ function renderSide() {
     </div>
     ${listOpen ? listSearchHtml() : ''}
     <div class="side-list">${trips.length ? trips.map((t, i) => `${jahrKopf(t, i)}<button type="button" class="side-row ${t.id === currentTripId && !(page && startList) ? 'current' : ''}" data-id="${t.id}">
-        <span class="t"><b>${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${term ? `<small class="chg hits">${hitText(hits.get(t.id))}</small>` : sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
+        <span class="t"><b>${t.locked ? `<span class="lk" role="img" aria-label="Gesperrt">${ic('lock')}</span>` : ''}${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${term ? `<small class="chg hits">${hitText(hits.get(t.id))}</small>` : sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
       : term ? leerSuche(listTerm.trim(), !isPhone()) : isPhone() ? leerKeinBuch('leerNeuListe') : leerHtml({ icon: 'book-open', titel: 'Noch kein Reiselogbuch', klein: true })}</div>
     ${backupTileHtml(db.settings.lastBackup, !all.length)}`);
   side.querySelector('#newTrip').onclick = () => { adSourcehighlight.sourceItem = '#newTrip'; openTripDialog(null); };
@@ -1262,6 +1336,7 @@ function openMainMenu(anchor, trip) {
     { tick: db.settings.hideEmpty, icon: 'fold-vertical', label: 'Nur erfasste Tage', act: () => setHide(true) },
     'sep',
     { icon: 'settings', label: 'Reiselogbuch einstellen', act: () => { adSourcehighlight.sourceItem = '#mainMore'; openTripDialog(trip); } },   // seit 3.44.0 (RLB-113, Abweichung 4)
+    { icon: 'lock', label: 'Reiselogbuch sperren', act: () => setLock(trip, true) },   // seit 3.58.0 (RLB-125)
     'sep',
     { icon: 'trash', label: 'Reiselogbuch löschen', red: true, act: () => deleteTrip(trip) },
   ]);
@@ -1270,19 +1345,35 @@ function openMainMenu(anchor, trip) {
 // Aktionen eines Reiselogbuchs in der Seitenleiste – eine Liste für Kontextmenü und Wischaktionen (seit 3.57.0, AppDesign APD-30/D-1, APD-136):
 // shortTitle = Wort unter der Kapsel, label = Name im Menü und für VoiceOver. Beim Wischen bekommt act die rote Kapsel als sourceView, die Sprechblase
 // wächst aus ihr; deleteTrip gibt ein Promise zurück – die Kachel bleibt offen, bis entschieden ist. Namen englisch seit 3.57.10 (AppDesign APD-136).
-const tripActions = row => { const trip = getTrip(row.dataset.id); if (!trip) return []; return [
+// Seit 3.58.0 (RLB-125/J-12, R-4.10, HIG ‚Context menus‘): gesperrt nur ‚Entsperren‘ – Einstellen und Löschen sind ausgeblendet, den Grund zeigt das
+// Schloss vor dem Titel; Wischen ebenso nur ‚Entsperren‘ (L-2).
+const tripActions = row => { const trip = getTrip(row.dataset.id); if (!trip) return [];
+  if (trip.locked) return [{ icon: 'lock-open', label: 'Reiselogbuch entsperren', shortTitle: 'Entsperren', act: () => setLock(trip, false) }];
+  return [
   { icon: 'settings', label: 'Reiselogbuch einstellen', shortTitle: 'Einstellen', act: () => { adSourcehighlight.sourceItem = `#side .side-row[data-id="${trip.id}"]`; openTripDialog(trip); } },   // seit 3.44.0 (RLB-113)
+  { icon: 'lock', label: 'Reiselogbuch sperren', shortTitle: 'Sperren', act: () => setLock(trip, true) },
   'sep',
   { icon: 'trash', label: 'Reiselogbuch löschen', shortTitle: 'Löschen', red: true, act: w => { if (!w?.sourceView) adSourcehighlight.hold(row); return deleteTrip(trip, w?.sourceView || row); } },
 ]; };
 // Kontextmenü (wie in Notizen, Mail, Dateien); ohne ‚Öffnen‘, weil Tippen öffnet.
 const tripContextMenu = row => { if (getTrip(row.dataset.id)) openMenu(row, tripActions(row), 'beside'); };
 
+// Seit 3.58.0 (RLB-125/L-4, L-5, Wortlaut freigegeben 21.11.2026): die Abfrage nennt die Zahl der Einträge (erfasste Tage); ‚Erst Backup erstellen‘
+// steht nur, wenn es Einträge gibt und heute auf diesem Gerät noch kein Backup erstellt wurde – danach kommt dieselbe Abfrage wieder, nach einem
+// gesicherten Backup ohne diese Schaltfläche. Ein gesperrtes Reiselogbuch lässt sich nicht löschen.
 async function deleteTrip(trip, anchor = app.querySelector('#mainMore')) {
-  const yes = await confirmPop(anchor,
-    `‚${esc(trip.title)}‘ mit allen Einträgen löschen? Das kann nicht rückgängig gemacht werden. Tipp: Vorher ein Backup erstellen.`,
-    { label: 'Reiselogbuch löschen', icon: 'trash' });
-  if (!yes) return;
+  if (trip.locked) return;
+  for (;;) {
+    const n = tripDays(trip).filter(iso => isRecorded(trip, iso)).length, t = `‚${esc(trip.title)}‘`;
+    const frage = `${n ? `${t} mit ${n === 1 ? '1 Eintrag' : `allen ${n} Einträgen`}` : `${t} ohne Einträge`} löschen? Das kann nicht rückgängig gemacht werden.`;
+    const mitBackup = n > 0 && !backupToday(db.settings.lastBackup);
+    const wahl = mitBackup
+      ? await choosePop(anchor, frage, [{ label: 'Erst Backup erstellen', cls: 'primary', value: 'backup' }, { label: 'Reiselogbuch löschen', cls: 'danger-text', value: 'delete' }, { label: 'Abbrechen', value: null }])
+      : (await confirmPop(anchor, frage, { label: 'Reiselogbuch löschen', icon: 'trash' })) ? 'delete' : null;
+    if (wahl === 'backup') { await saveBackup(); continue; }
+    if (wahl !== 'delete') return;
+    break;
+  }
   db.trips = db.trips.filter(x => x.id !== trip.id);
   save();
   showTrip(pickStartTrip()?.id);

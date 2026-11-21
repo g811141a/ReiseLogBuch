@@ -1,11 +1,11 @@
 // Allgemeine Prüfung des Abgleichs (AppDesign/tests/abgleich.mjs, Regeln R-9.2 bis R-9.4) für das Reiselogbuch.
 // Aufruf im Repo-Ordner: node tests/abgleich-regeln.mjs. Meldet Fehler mit Rückgabewert (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
-import { checkSync } from '../../AppDesign/fassung/4.67.2/tests/abgleich.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.68.0/tests/pruefe.mjs';
+import { checkSync } from '../../AppDesign/fassung/4.68.0/tests/abgleich.mjs';
 const t = pruefung('abgleich-regeln', pw, { out: new URL('out/', import.meta.url) });
 const b = await t.browser();
 const p = await t.seite(b, 'iPad quer');
 await p.goto(new URL('../index.html', import.meta.url).href);
-t.liste(await checkSync(p));
+t.liste(await checkSync(p, { gegenprobe: process.env.PRUEF_GEGENPROBE || '' }));   // seit 3.58.0: PRUEF_GEGENPROBE=abgleich:23 (RLB-125/T-10)
 await t.ende(b);

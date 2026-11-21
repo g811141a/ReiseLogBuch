@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 21.11.2026** · Aktuelle Version: Reiselogbuch 3.57.12 · AppDesign 4.67.2
+**Stand 21.11.2026** · Aktuelle Version: Reiselogbuch 3.58.0 · AppDesign 4.68.0
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.
@@ -11,15 +11,14 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-125 | 2 | **Reiselogbuch für die Erfassung sperren (Nutzer 18.11.2026, Sitzung 0127):** ein Reiselogbuch lässt sich sperren, damit nicht irrtümlich etwas geändert wird; lesen bleibt möglich. Ein gesperrtes Reiselogbuch lässt sich auch nicht löschen. Sperren und Entsperren über langes Drücken auf die Kachel, im Kontextmenü. Gesperrt zeigt die Kachel rechts unten `lock`, nicht gesperrt kein Symbol; im geöffneten Reiselogbuch `lock` neben dem Titel nur bei Sperre (RLB-125/S-1 bis RLB-125/S-4, Nutzer 18.11.2026). Zu klären: welche Handlungen gesperrt sind (Einträge, Einstellungen, Löschen, Abgleich, Backup laden), Symbol (Lucide `lock`), Wischaktionen bei Sperre, Ansicht der Felder (nur lesen), Verbesserungen beim Löschen RLB-125/L-1 bis RLB-125/L-5 in `AppDesign/arbeit/0127 RLB-125 Reiselogbuch sperren.md` (Nutzer 18.11.2026), allgemein oder App (Teile davon als AD-Bean, R-1.13) · **Sitzung 0148 (21.11.2026, im Fenster):** RLB-125/J-1 die Sperre sperrt alles, was ändert (Tage, Einstellen, Löschen); J-2 Tag antippen öffnet das Tagesfenster nur zum Lesen; J-3 ‚Ersetzen‘ ersetzt alles, die Abfrage nennt die gesperrten; J-4 App, AD-Bean ‚Fenster nur lesen‘ am Muster prüfen – `AppDesign/arbeit/0148 RLB-125 Klaerung.md`; Apple: HIG ‚Menus‘ blass statt ausblenden (belegt), Sperren eines Dokuments nicht belegt (support.apple.com nicht erreichbar); als Nächstes Muster und Testfall-Liste · **Muster 1 (Sitzung 0148)** entsprach nicht der Erwartung des Nutzers; **Wunsch (Nutzer 21.11.2026):** ein gesperrtes Reiselogbuch öffnet als Vorschau mit Hinweis ‚gesperrt‘ und Schaltfläche ‚Entsperren‘; nach dem Entsperren schließt die Vorschau und die normale Seite öffnet; Schloss auf der Kachel augenfällig. **Muster 2** (`AppDesign/arbeit/RLB-125/index.html`, `arbeit/0148 RLB-125 Muster 2.md`): Rückmeldung nicht ok (Einzelheiten offen); entschieden J-5 Schloss orange (`--warn`, R-3.3), J-6 ‚Entsperren‘ hell mit blauer Schrift · **Sitzung 0149 (21.11.2026):** Muster 2 nicht ok (Vorschau als Fenster über der Tabelle, schließt nach der Ausgabe); Muster 3 bis 6 in `AppDesign/arbeit/0149 RLB-125 Muster 3.md` – **Muster 6 ok (Nutzer, im Fenster):** J-7 gesperrt zeigt statt der Tabelle nur die Vorschau als Seite (kein Fenster, kein x), sie bleibt nach jeder Ausgabe, die Tabelle erst nach ‚Entsperren‘; J-8 oben dieselben Schaltflächen wie in der Vorschau – ‚PDF‘ und Teilen (blau gefüllt), ohne Mehr; J-9 Schloss auf der Kachel klein vor dem Titel, so hoch wie die Großbuchstaben und mittig, in der Farbe des Titels (ersetzt ‚rechts unten‘ aus S-2 und J-5); J-6 bleibt; allgemeine Regel: nein, App (Nutzer, im Fenster); Testfall-Liste RLB-125/T-1 bis T-10 in der Datei angepasst (T-1 Schloss vor dem Titel). **Wortlaute freigegeben (Nutzer 21.11.2026, Sitzung 0149, im Fenster – `AppDesign/arbeit/0149 RLB-125 Regel und Loeschabfrage Wortlaut.md`):** allgemeine Regel R-4.14 ‚Nicht verfügbare Menüpunkte‘ (blass, `disabled`, Grund als Unterzeile, nicht weglassen; Prüfung Prüfseite Teil `menue`); Lösch-Abfrage L-4 mit Anzahl der Einträge, L-5 ‚Erst Backup erstellen‘ nur ohne Backup heute. **Sitzung 0150 (21.11.2026, im Fenster – `AppDesign/arbeit/0150 RLB-125 Rest.md`):** Muster 7 (iPhone hoch: Hinweis umgebrochen, ‚Entsperren‘ darunter; Vorschau 960 px wie die normale Vorschau, seitlich wischen) ok; J-10 Abgleich Fall 23 – auf dem iPad gesperrt, auf dem iPhone gelöscht: kommt gesperrt zurück, beide gleich (`createSync` neue Eigenschaft `protect`, Fälle 21–23 in 15.18 und `abgleich.mjs`); J-11 Sperren und Entsperren zählen als Änderung; Fazit und Gesamtausgaben gesperrt nur in der Vorschau (aus J-7); Testfall-Liste RLB-125/T-1 bis T-13. Wortlaut der Zeilen 21–23 (15.18) und `protect` mit der Bau-Frage (0 Nr. 29); eigene Version nach 4.67.2 | Reiselogbuch (R-4.14 und `createSync` allgemein) | 21.11.2026 |
 
-1 Punkt bereit (RLB-125, eigene Version nach 4.67.2).
+Keine Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| – | | Kein offener Usertest (P-119 ok, Nutzer 21.11.2026, Sitzung 0151). | |
+| P-120 | 1 | **Usertest P-120 (Reiselogbuch 3.58.0, AppDesign 4.68.0):** RLB-125 Reiselogbuch sperren – P-120/0 bis P-120/8 (CHANGELOG 3.58.0) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -40,6 +39,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-125 | **Reiselogbuch sperren:** Sperren und Entsperren über Kontextmenü, Wischen und Mehr; Schloss vor dem Titel der Kachel; gesperrt nur die Vorschau als Seite mit Hinweis und ‚Entsperren‘, oben ‚PDF‘ und Teilen; Kontextmenü und Wischen gesperrt nur ‚Entsperren‘ (RLB-125/J-12); Lösch-Abfrage mit Zahl der Einträge und ‚Erst Backup erstellen‘ (RLB-125/L-4, L-5); Abgleich mit `protect` (15.18 Fälle 21–23), ‚Ersetzen‘ nennt die gesperrten. Usertest P-120 | Reiselogbuch 3.58.0 | 21.11.2026 |
 | P-119 | **Usertest P-119 (Reiselogbuch 3.57.12, AppDesign 4.67.2):** P-119/0 bis P-119/4 ok (Nutzer 21.11.2026, Sitzung 0151) – P-118/F-1 und P-118/F-2 erledigt | Reiselogbuch 3.57.12 | 21.11.2026 |
 | P-118 | **Usertest P-118 (Reiselogbuch 3.57.11, AppDesign 4.67.1):** /0, /2, /3, /4, /5 ok; /1 nicht ok (Mehr-Schaltfläche wird beim Drücken nur blass; Begriff) → P-118/F-1 und P-118/F-2, gebaut in Reiselogbuch 3.57.12 / AppDesign 4.67.2 | Reiselogbuch 3.57.11 | 21.11.2026 |
 | P-117 | **Usertest P-117 (Reiselogbuch 3.57.10, AppDesign 4.67.0):** /0, /2, /3, /5, /6, /7 ok; /1 nicht ok (Text der Knöpfe markiert, Mehr-Knopf oval), /4 nicht ok (Katalog: langes Drücken auf eine Kachel markiert die ganze Seite) – P-117/F-1, P-117/F-2 (Nutzer 21.11.2026, Sitzung 0147), korrigiert mit 3.57.11 / AppDesign 4.67.1, erneut im Usertest P-118 | 3.57.11 | 21.11.2026 |

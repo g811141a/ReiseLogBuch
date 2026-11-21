@@ -1,6 +1,6 @@
-# Reiselogbuch – Funktionsbeschreibung (Stand 21.11.2026, Version 3.57.12)
+# Reiselogbuch – Funktionsbeschreibung (Stand 21.11.2026, Version 3.58.0)
 
-Reiselogbuch 3.57.12 · AppDesign 4.67.2 (Designrichtlinie allgemein 4.67.2) · Designrichtlinie Reiselogbuch 3.57.12 · Zusammenarbeit allgemein 3.19.0
+Reiselogbuch 3.58.0 · AppDesign 4.68.0 (Designrichtlinie allgemein 4.68.0) · Designrichtlinie Reiselogbuch 3.58.0 · Zusammenarbeit allgemein 3.19.0
 
 Was das Reiselogbuch tut und wie es aussieht – **nur Reiselogbuch-Eigenes**. Es gelten die Designrichtlinie allgemein und ihr
 Regelkatalog (AppDesign, Abschnitt 17); sie werden hier nur genannt, nie wiederholt. Was das Reiselogbuch bewusst anders macht,
@@ -94,7 +94,14 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
     anderen Reise überschneiden; Reisezeiträume dürfen sich nicht überschneiden, gespeichert wird erst nach der Korrektur) ·
     ‚Bitte mindestens ein Reisemittel wählen.‘ (wenn das letzte gewählte abgewählt wird).
 - Die geöffnete Reise wird über Mehr-Menü → ‚Reiselogbuch einstellen‘ bearbeitet und über Mehr-Menü → ‚Reiselogbuch löschen‘ gelöscht
-  (Sprechblase mit Tipp, vorher ein Backup zu erstellen); danach öffnet die Startreise (iPhone: die Startliste).
+  (Sprechblase ‚‚…‘ mit allen 42 Einträgen löschen? Das kann nicht rückgängig gemacht werden.‘ – ‚mit 1 Eintrag‘, ohne Einträge ‚‚…‘ ohne Einträge
+  löschen? …‘; Schaltflächen ‚Erst Backup erstellen‘ (nur mit Einträgen und ohne Backup heute; danach dieselbe Sprechblase wieder) · ‚Reiselogbuch
+  löschen‘ (rot) · ‚Abbrechen‘, RLB-125/L-4, L-5); danach öffnet die Startreise (iPhone: die Startliste).
+- **Reiselogbuch sperren (RLB-125):** Mehr-Menü bzw. Kontextmenü und Wischen ‚Reiselogbuch sperren‘ (`lock`) sperrt sofort, ‚Entsperren‘ (`lock-open`)
+  entsperrt sofort; beides zählt als Änderung. Gesperrt: auf der Kachel `lock` klein vor dem Titel; geöffnet statt der Tabelle bzw. der Kästen nur die
+  Vorschau als Seite (kein Fenster), oben ‚PDF‘ und Teilen (blau gefüllt), kein Mehr, darüber der Hinweis ‚Dieses Reiselogbuch ist gesperrt. Es lässt sich
+  lesen und ausgeben, aber nicht ändern oder löschen.‘ mit ‚Entsperren‘; sie bleibt nach jeder Ausgabe. Kontextmenü und Wischen zeigen gesperrt nur
+  ‚Entsperren‘. Ein gesperrtes Reiselogbuch wird nicht gelöscht, auch nicht beim Abgleich (AppDesign 15.18 Fälle 21–23); ‚Ersetzen‘ nennt die gesperrten.
 
 ## 4. iPad: Seitenleiste und Hauptansicht
 
@@ -103,8 +110,9 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   der Startreise (3).
   - plus öffnet ‚Neues Reiselogbuch‘. ellipsis: ‚Suchen‘ (nur mit Reiselogbüchern; Suche in allen, 6) · Strich · Backup erstellen ·
     Backup laden · Strich · ‚Darstellung ›‘ · Abstand · Messung starten · Strich · Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
-  - Langes Drücken auf ein Reiselogbuch: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase).
-  - Wischen nach links auf ein Reiselogbuch (R-7.8): daneben die Kapseln ‚Einstellen‘ (settings) und ‚Löschen‘
+  - Langes Drücken auf ein Reiselogbuch: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch sperren‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase); gesperrt nur
+    ‚Reiselogbuch entsperren‘ (R-4.10).
+  - Wischen nach links auf ein Reiselogbuch (R-7.8): daneben die Kapseln ‚Einstellen‘ (settings), ‚Sperren‘ (lock) und ‚Löschen‘ (gesperrt nur ‚Entsperren‘)
     (trash, rot, ganz außen) – dieselben Aktionen wie beim langen Drücken; ‚Löschen‘ fragt mit der Sprechblase
     ‚Reiselogbuch löschen‘, über die Kapseln hinaus wird nichts ausgelöst (wie Notizen). Tippen auf die Kachel oder daneben in der Liste schließt sie, ohne etwas auszulösen; plus, ellipsis und panel-left
     wirken sofort und schließen sie dabei.
@@ -112,7 +120,7 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   - share → Teilen-Menü: Vorschau · HTML · ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ (RLB-124/W-1) (jeweils mit grauem Hinweis zum Speichern), Strich, darunter ‚N erfasste Tage ·
     Dateiname: …‘.
   - ellipsis → Mehr-Menü: ‚Suchen‘ (Suchzeile, 6) · Strich · ‚Alle Tage‘ / ‚Nur erfasste Tage‘ (Filter, G-16) ·
-    ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase mit Tipp zum Backup).
+    ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch sperren‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase mit der Zahl der Einträge).
 - **Darunter** (ohne Überschrift – der Titel steht in der Kopfzeile): Reiseteilnehmer, Reisezeitraum, Reisemittel und die dezente
   Fortschrittsanzeige ‚Tag 42 von 80 · 38 erfasst‘.
 - **Tagestabelle:** eine Zeile je Tag im Zeitraum (‚Mo, 24.08.‘): Tag · Verlauf · sichtbare konfigurierte Spalten; Tabellenkopf
