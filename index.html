@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.69.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.70.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -160,18 +160,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.69.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.70.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.58.2';
-const APP_BUILT = '22.11.2026 um 18:05';
+const APP_VERSION = '3.58.3';
+const APP_BUILT = '22.11.2026 um 21:36';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.69.0';
+const AD_NEEDED = '4.70.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -2114,7 +2114,7 @@ async function exportHtml(trip) {
   if (dlg.open && !over) dlg.close();
   const result = await shareFiles([file]);
   if (result === 'shared' || result === 'downloaded') countOutput(trip, version);
-  adSourcehighlight.sourceItem = over ? '#prvShare' : '#shareBtn';
+  outputSource(over, '#prvShare');
   showOutputResult(`Ausgabe V${pad(version, 3)}`, file.name, result, { over });
 }
 
@@ -2125,7 +2125,7 @@ function exportPdf(trip) {
   // übergeht iOS print() (RLB-124), zählt nichts. Abbrechen im Drucken-Menü lässt sich nicht erkennen und zählt.
   const name = outputName(trip, version);
   const over = fromPreview(), host = over ? document.getElementById('msg') : dlg;   // P-121/F-2 (#msg: Hinweisfenster)
-  adSourcehighlight.sourceItem = over ? '#prvPdf' : '#shareBtn';
+  outputSource(over, '#prvPdf');
   showOutputResult(`Ausgabe V${pad(version, 3)}`, name + '.pdf', 'print', { over });
   const oldTitle = document.title;
   printout.innerHTML = `<style>${OUTPUT_CSS.replace(/\bbody\b/g, '#printout')}</style>${outputBody(trip, version, stamp)}`;
@@ -2142,41 +2142,36 @@ function exportPdf(trip) {
 
 // Seit 3.58.2 (P-121/F-2): over – aus der Vorschau als Hinweisfenster (AD-Bean alert auf #msg) über der offenen Vorschau, die danach bleibt.
 const fromPreview = () => dlg.open && !!dlg.querySelector('#prvShare');
+// Seit 3.58.3 (P-122/F-1): über der Vorschau ist die Schaltfläche der Vorschau eine gehaltene Quelle der Meldung (hold, bis #msg schließt) – die Quelle
+// der Vorschau (Teilen der Kopfzeile) bleibt, und nach dem Schließen sieht die Vorschau aus wie beim Öffnen (R-3.3); sonst ist Teilen die Quelle.
+function outputSource(over, item) {
+  if (!over) { adSourcehighlight.sourceItem = '#shareBtn'; return; }
+  adSourcehighlight.hold(item);
+  document.getElementById('msg').addEventListener('close', () => adSourcehighlight.release(item), { once: true });
+}
 function showOutputResult(title, name, result, { over = false } = {}) {
   const remind = !backedUpToday() && result !== 'aborted' && result !== 'error';
-  if (over) {
-    inform(title, `<div class="step">${shareResultText(result, name)}</div>${remind ? backupReminderHtml() : ''}`);
-    return bindBackupReminder(document.getElementById('msg'));
-  }
-  openDialog(`
+  // Seit 3.58.3 (P-122/F-2, R-3.10): Ergebnis und Erinnerung sind Hinweis-Kästen der AD-Bean notice (AppDesign 4.70.0) – mittig, die App richtet nichts aus
+  const boxes = `<div class="step" id="result"></div>${remind ? '<div class="step" id="reminder"></div>' : ''}`;
+  if (over) inform(title, boxes);
+  else openDialog(`
     <form method="dialog">
       ${dlgHead(esc(title), { check: false })}
-      <div class="dlg-body">
-        <div class="step">${shareResultText(result, name)}</div>
-        ${remind ? backupReminderHtml() : ''}
-      </div>
+      <div class="dlg-body">${boxes}</div>
     </form>`);
-  bindBackupReminder();
+  const root = over ? document.getElementById('msg') : dlg;
+  createNotice(root.querySelector('#result'), { message: shareResultText(result, name) });
+  if (remind) showBackupReminder(root.querySelector('#reminder'));
 }
 
-function backupReminderHtml() {
-  return `<div class="step" id="reminder">
-      <strong>💾 Denk daran, auch ein Backup zu erstellen.</strong>
-      <div class="hint">${lastBackupText()}</div>
-      <div style="display:flex;gap:8px;margin-top:10px">
-        <button type="button" class="primary" id="backupNow">${ic('save')}Backup erstellen</button>
-      </div>
-    </div>`;
-}
-
-function bindBackupReminder(root = dlg) {
-  const btn = root.querySelector('#backupNow');
-  if (!btn) return;
-  btn.onclick = async () => {
+// Backup-Erinnerung im Kasten box (AD-Bean notice): nach dem Backup steht dort das Ergebnis statt der Erinnerung.
+function showBackupReminder(box) {
+  const notice = createNotice(box, { message: '<strong>💾 Denk daran, auch ein Backup zu erstellen.</strong>', detail: lastBackupText(),
+    buttons: [{ id: 'backupNow', label: 'Backup erstellen', icon: 'save', primary: true }] });
+  notice.on('action', async () => {
     const name = await saveBackup();
-    const box = root.querySelector('#reminder');
-    if (box && name) box.innerHTML = name;
-  };
+    if (name && box.isConnected) { notice.detail = ''; notice.buttons = []; notice.message = name; }
+  });
 }
 
 // Erstellt das Backup über das Teilen-Menü; der Zeitpunkt zählt nur, wenn das Menü abgeschlossen wurde.

@@ -13,6 +13,65 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.58.3 – 22.11.2026
+
+Reiselogbuch 3.58.3 · AppDesign 4.70.0 (Designrichtlinie allgemein 4.70.0) · Designrichtlinie Reiselogbuch 3.58.3 · Zusammenarbeit allgemein 3.19.0
+
+**P-122 – Korrekturen aus dem Usertest P-122** (Rückmeldung nicht ok zu /2 und /4, Nutzer 22.11.2026, Sitzung 0157; umgesetzt in Sitzung 0158 – AppDesign
+`arbeit/0158 P-122 Vorschlag.md`).
+
+- **P-122/F-1 Schaltflächen der Vorschau nach der Meldung:** nach Teilen bzw. PDF aus der Vorschau und dem Schließen der Meldung blieb Teilen der Vorschau getönt
+  (`.on`) statt blau gefüllt, und Teilen der Kopfzeile verlor seine Tönung als Quelle der offenen Vorschau. Ursache: `exportHtml`/`exportPdf` setzten die Quelle des
+  Fensters (`adSourcehighlight.sourceItem`) auf die Schaltfläche der Vorschau, niemand gab sie beim Schließen der Meldung frei. Jetzt hält `outputSource` die
+  Schaltfläche nur, solange die Meldung offen ist (`hold`/`release`), die Quelle der Vorschau bleibt (R-3.3). Dieselbe Lücke bei PDF mit behoben.
+- **P-122/F-2 Hinweise mittig (R-3.10, Variante B):** das Ergebnisfenster ‚Ausgabe V…‘ (beide Kästen), die Backup-Erinnerung (im Fenster und im Hinweisfenster über
+  der Vorschau) und die Backup-Kachel der Seitenleiste zeigen Text und Schaltfläche mittig. Ergebnis und Erinnerung baut jetzt die neue AD-Bean `notice` aus
+  AppDesign 4.70.0 (`createNotice`, Nutzer 22.11.2026, Sitzung 0159) statt eigenem HTML (`backupReminderHtml`/`bindBackupReminder` ersetzt durch
+  `showBackupReminder`); die Backup-Kachel ist mittig über AppDesign (`.bhint`). Der Hinweis ‚gesperrt‘ bleibt links (Hinweisleiste, Nutzer 22.11.2026).
+- **Prüfungen:** `ablauf-p120` neuer Teil P-122/F-1 (iPad quer, iPhone hoch; Teilen gesichert, Teilen abgebrochen, PDF; Meldung schließen, Vorschau schließen) – rot
+  gegen 3.58.2 (12 Fehler), jetzt grün in Chromium und WebKit; neuer Teil P-122/F-2 (Ergebnis und Erinnerung als Kästen der AD-Bean `notice` über der Vorschau und im
+  Fenster, ‚Backup erstellen‘ aus der Erinnerung); R-3.10 prüft `hig.mjs` (`masseStile`) nach jedem Schritt aller Prüfungen.
+- AD-Bean: `notice` (neu in AppDesign 4.70.0) für Ergebnis und Erinnerung; Quelle über die bestehende AD-Bean `sourcehighlight`, Hinweisfenster über `alert`.
+
+**Warum die Prüfungen es übersahen:** P-122/F-1 – `ablauf-p120` (P-121/F-2) prüfte nach dem Schließen der Meldung nur, dass die Vorschau wieder da ist, nicht das
+Aussehen ihrer Schaltflächen und die Quelle. P-122/F-2 – es gab keine Regel zur Ausrichtung von Schaltflächen in Hinweisen.
+
+Testfälle P-123 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Für P-123/1 bis P-123/3 das Reiselogbuch ‚Test‘ verwenden; heute **noch kein Backup**
+erstellen, sonst fehlen Kachel und Erinnerung (‚Backup erstellen‘ erst ganz zum Schluss). P-123 ersetzt die offenen Punkte von P-122 (/2 und /4).
+
+**P-123/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.58.3 · erstellt am … · AppDesign 4.70.0‘. Automatisch geprüft in `version-regeln`.
+
+**P-123/1 – Vorschau nach der Meldung wie beim Öffnen (iPad und iPhone)**
+1. iPad quer, hell; ‚Test‘ öffnen, oben Teilen → ‚Vorschau‘. Erwartet: in der Vorschau rechts oben ‚PDF‘ und Teilen blau gefüllt; Teilen der Kopfzeile dahinter
+   blau getönt.
+2. Teilen der Vorschau antippen, im Teilen-Menü ‚In Dateien sichern‘ wählen und sichern.
+3. Erwartet: über der Vorschau die Meldung ‚Ausgabe V…‘. Mit x schließen.
+4. Erwartet: die Vorschau sieht aus wie beim Öffnen – Teilen **blau gefüllt**, ‚PDF‘ neutral.
+5. Dasselbe mit ‚PDF‘ (Drucken-Menü abbrechen, Meldung mit x schließen). Erwartet: wie in Schritt 4.
+6. Dasselbe am iPhone hoch. Erwartet: wie in Schritt 4. Automatisch geprüft in `ablauf-p120` (P-122/F-1).
+
+**P-123/2 – Meldung und Erinnerung mittig (iPad und iPhone)**
+1. iPad quer, hell; ‚Test‘ → Teilen → ‚Vorschau‘ → Teilen → ‚In Dateien sichern‘.
+2. Erwartet: Meldung ‚Ausgabe V…‘ über der Vorschau; im oberen Kasten ‚✅ Teilen-Menü abgeschlossen für‘ und der Dateiname mittig; im unteren Kasten ‚💾 Denk daran,
+   auch ein Backup zu erstellen.‘, ‚Letztes Backup erstellt am …‘ und **‚Backup erstellen‘ mittig** darunter. Mit x schließen, Vorschau mit x schließen.
+3. Oben Teilen (Kopfzeile) → ‚HTML‘ → im Teilen-Menü ‚In Dateien sichern‘.
+4. Erwartet: das Fenster ‚Ausgabe V…‘ – beide Kästen mit Text und ‚Backup erstellen‘ **mittig**.
+5. Dasselbe am iPhone hoch. Erwartet: wie in Schritt 2 und 4. Automatisch geprüft in `hig.mjs` (R-3.10).
+
+**P-123/3 – Backup-Kachel mittig (iPad und iPhone)**
+1. iPad quer, hell; Seitenleiste ‚Reiselogbücher‘ ansehen.
+2. Erwartet: unten die gelbe Kachel – ‚Letztes Backup erstellt am …‘ und darunter die blaue Schaltfläche ‚Backup erstellen‘, beide **mittig**.
+3. iPhone hoch, Startliste. Erwartet: wie in Schritt 2.
+4. Ein gesperrtes Reiselogbuch öffnen (oder ‚Test‘ sperren). Erwartet: der Hinweis ‚Dieses Reiselogbuch ist gesperrt.‘ steht **wie bisher** (links, x rechts).
+   ‚Test‘ wieder entsperren.
+5. Zum Schluss ‚Backup erstellen‘ antippen. Erwartet: die Kachel verschwindet. Automatisch geprüft in `hig.mjs` (R-3.10).
+
+**AppDesign 4.70.0 – R-3.10 Hinweise mittig** (allgemeiner Teil von P-122/F-2, Wortlaut bestätigt 22.11.2026, Sitzung 0158).
+
 ## 3.58.2 – 22.11.2026
 
 Reiselogbuch 3.58.2 · AppDesign 4.69.0 (Designrichtlinie allgemein 4.69.0) · Designrichtlinie Reiselogbuch 3.58.2 · Zusammenarbeit allgemein 3.19.0

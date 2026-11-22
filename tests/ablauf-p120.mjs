@@ -12,10 +12,13 @@
 //   nächsten Öffnen wieder (Muster AppDesign arbeit/P-120/index.html) · iPad quer, iPhone hoch.
 // P-121/F-1 (seit 3.58.2) nach dem Sperren eines Reiselogbuchs mit offenen Tagen weiter unten beginnt die Vorschau oben · iPad quer, iPhone hoch.
 // P-121/F-2 (seit 3.58.2) Teilen und PDF aus der Vorschau: die Vorschau bleibt offen, die Meldung steht darüber · iPad quer, iPhone hoch.
+// P-122/F-1 (seit 3.58.3) nach dem Schließen der Meldung über der Vorschau sehen deren Schaltflächen aus wie beim Öffnen, Teilen bleibt Quelle · iPad quer, iPhone hoch.
+// P-122/F-2 (seit 3.58.3, AppDesign 4.70.0) Ergebnis und Backup-Erinnerung sind Hinweis-Kästen der AD-Bean notice – über der Vorschau und im Fenster;
+//   ‚Backup erstellen‘ in der Erinnerung ersetzt sie durch das Ergebnis (R-3.10 mittig prüft hig.mjs nach jedem Schritt) · iPad quer, iPhone hoch.
 // Grundregeln nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-p120.mjs (PRUEF_TEIL=F-1 … nur ein Teil)
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.69.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.69.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.70.0/tests/hig.mjs';
 const t = pruefung('ablauf-p120', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const TEIL = process.env.PRUEF_TEIL || '';
@@ -282,6 +285,68 @@ if (teil('P-121/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
       t.ist(`P-121/F-2 ${name}: nach dem Schließen der Meldung ist die Vorschau wieder da`, [l.vorschau, l.meldung], [true, false], 'R-4.4');
       await esc(p);
     }
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+// ---------- P-122/F-1 nach dem Hinweisfenster über der Vorschau sehen die Schaltflächen aus wie beim Öffnen (Rückmeldung P-122/2, Nutzer 22.11.2026) ----------
+// Ablauf des Nutzers: Teilen (Kopfzeile) → ‚Vorschau‘ → Teilen bzw. PDF → Meldung ‚Ausgabe V…‘ → x. Vorher blieb #prvShare getönt (Klasse on statt blau
+// gefüllt) und Teilen der Kopfzeile verlor die Tönung als Quelle der Vorschau (R-3.3); dieselbe Lücke bei PDF und nach dem Schließen der Vorschau.
+if (teil('P-122/F-1')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    await lade(p, { trips: TRIPS.map(x => ({ ...x, locked: undefined })), lastTrip: 'b' });
+    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
+    const bild = () => p.evaluate(() => { const k = s => { const e = document.querySelector(s); return e ? [e.className, getComputedStyle(e).backgroundColor, getComputedStyle(e).color].join(' | ') : '–'; };
+      return { share: k('#prvShare'), pdf: k('#prvPdf'), quelle: document.querySelector('#shareBtn')?.classList.contains('on') ?? null }; });
+    const vorschau = async () => { await p.click('#shareBtn'); await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(400);
+      await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); await p.waitForSelector('#dlg[open] #prvShare', { timeout: 4000 }); await p.waitForTimeout(600); };
+    for (const [art, knopf, name] of [['ok', '#prvShare', 'Teilen gesichert'], ['abbrechen', '#prvShare', 'Teilen abgebrochen'], ['', '#prvPdf', 'PDF']]) {
+      await t.schritt(p, `P-122/F-1 Teilen → ‚Vorschau‘ (${name})`, vorschau);
+      const vor = await bild();
+      t.ist(`P-122/F-1 ${name}: beim Öffnen der Vorschau ist Teilen der Kopfzeile als Quelle getönt`, vor.quelle, true, 'R-3.3');
+      await t.schritt(p, `P-122/F-1 ${name} antippen`, async () => { await p.evaluate(a => { window.__teilen = a || 'ok'; }, art); await p.click(knopf); await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); });
+      await t.schritt(p, `P-122/F-1 ${name}: Meldung mit x schließen`, async () => { await p.click('#msg [data-x]'); await p.waitForTimeout(700); });
+      const nach = await bild();
+      t.ist(`P-122/F-1 ${name}: nach dem Schließen der Meldung sehen Teilen und PDF der Vorschau aus wie beim Öffnen`, [nach.share, nach.pdf], [vor.share, vor.pdf], 'R-3.3');
+      t.ist(`P-122/F-1 ${name}: Teilen der Kopfzeile bleibt Quelle der offenen Vorschau`, nach.quelle, true, 'R-3.3');
+      await t.schritt(p, `P-122/F-1 ${name}: Vorschau schließen`, async () => { await p.click('#dlgX'); await p.waitForTimeout(800); });
+      t.ist(`P-122/F-1 ${name}: nach dem Schließen der Vorschau ist nichts mehr getönt`, await p.evaluate(() => [adSourcehighlight.sourceItem, adSourcehighlight.heldItems.length, document.querySelectorAll('.on').length]), [ '', 0, 0], 'R-3.3');
+    }
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+// ---------- P-122/F-2 Ergebnis und Erinnerung über die AD-Bean notice (AppDesign 4.70.0, Nutzer 22.11.2026, Sitzung 0159) ----------
+// Teilen (Kopfzeile) → ‚Vorschau‘ → Teilen gesichert → Hinweisfenster mit zwei Kästen (Ergebnis, Erinnerung); ‚Backup erstellen‘ → in der Erinnerung steht das
+// Ergebnis des Backups, keine Schaltfläche mehr. Dann Teilen (Kopfzeile) → ‚HTML‘ → Fenster ‚Ausgabe V…‘ mit denselben Kästen. Mittig: hig.mjs (R-3.10).
+if (teil('P-122/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    await lade(p, { trips: TRIPS.map(x => ({ ...x, locked: undefined })), lastTrip: 'b' });
+    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
+    const kaesten = sel => p.evaluate(s => [...document.querySelectorAll(`${s} .ad-notice`)].map(k => ({ id: k.id, bean: k.dataset.adBean,
+      text: k.textContent.replace(/\s+/g, ' ').trim(), knoepfe: [...k.querySelectorAll('button')].map(x => x.textContent.trim()) })), sel);
+    await t.schritt(p, 'P-122/F-2 Teilen → ‚Vorschau‘', async () => { await p.click('#shareBtn'); await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(400);
+      await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); await p.waitForSelector('#dlg[open] #prvShare', { timeout: 4000 }); await p.waitForTimeout(600); });
+    await t.schritt(p, 'P-122/F-2 Teilen der Vorschau (gesichert)', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await p.click('#prvShare');
+      await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); });
+    const ueber = await kaesten('#msg');
+    t.ist('P-122/F-2 über der Vorschau: zwei Kästen der AD-Bean notice', ueber.map(k => [k.id, k.bean]), [['result', 'notice'], ['reminder', 'notice']], 'R-1.13');
+    t.ist('P-122/F-2 über der Vorschau: Ergebnis', ueber[0]?.text || '', /^✅ Teilen-Menü abgeschlossen für/, 'R-3.10');
+    t.ist('P-122/F-2 über der Vorschau: Erinnerung mit ‚Backup erstellen‘', [ueber[1]?.text || '', ueber[1]?.knoepfe], [/^💾 Denk daran, auch ein Backup zu erstellen\./, ['Backup erstellen']], 'R-3.10');
+    await t.schritt(p, 'P-122/F-2 ‚Backup erstellen‘ in der Erinnerung', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await p.click('#msg #backupNow'); await p.waitForTimeout(900); });
+    const backup = await p.evaluate(() => [msg.open, document.getElementById('msgTitel')?.textContent || '', document.getElementById('msgText')?.textContent.replace(/\s+/g, ' ').trim() || '']);
+    t.ist('P-122/F-2 über der Vorschau nach dem Backup: Hinweisfenster ‚Backup‘ mit dem Ergebnis (wie bisher)', backup, [true, 'Backup', /^✅ Teilen-Menü abgeschlossen für.*Backup/], 'R-9.1');
+    await esc(p);
+    await t.schritt(p, 'P-122/F-2 Backup zurücksetzen, Teilen → ‚HTML‘ (gesichert)', async () => {
+      await p.evaluate(() => { delete db.settings.lastBackup; save(); window.__teilen = 'ok'; });
+      await p.click('#shareBtn'); await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(400);
+      await p.locator('.menu .mi', { hasText: 'HTML' }).click(); await p.waitForSelector('#dlg[open] .ad-notice', { timeout: 4000 }); await p.waitForTimeout(600); });
+    const fenster = await kaesten('#dlg');
+    t.ist('P-122/F-2 im Fenster ‚Ausgabe V…‘: zwei Kästen der AD-Bean notice', fenster.map(k => [k.id, k.bean, k.knoepfe.length]), [['result', 'notice', 0], ['reminder', 'notice', 1]], 'R-1.13');
+    await t.schritt(p, 'P-122/F-2 ‚Backup erstellen‘ in der Erinnerung im Fenster', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await p.click('#dlg #backupNow'); await p.waitForTimeout(900); });
+    const danach = await kaesten('#dlg');
+    t.ist('P-122/F-2 im Fenster nach dem Backup: Erinnerung zeigt das Ergebnis, keine Schaltfläche', [danach[1]?.text || '', danach[1]?.knoepfe], [/^✅ Teilen-Menü abgeschlossen für.*Backup/, []], 'R-9.1');
+    await esc(p);
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
 }
