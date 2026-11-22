@@ -127,8 +127,8 @@
   /* seit 3.58.1 (P-120/F-4, Muster AppDesign arbeit/P-120): der Hinweis steht beim Rollen unter der Kopfzeile fest (.lockbar, Seitenfarbe darunter,
      die Vorschau läuft darunter durch); x ‚Hinweis ausblenden‘ oben rechts wie beim Tipp in den Apple-Apps (HIG ‚Offering help‘) */
   #app .lockbar { position: sticky; top: 0; z-index: 3; background: var(--bg); padding-bottom: 12px; }
-  #app .lockinfo { position: relative; display: flex; align-items: center; gap: 12px; background: #fff7ea; border: 1px solid #f3d7a6; border-radius: 16px; padding: 12px 52px 12px 14px; margin: 0; }
-  #app .lockinfo .li-x { position: absolute; top: 6px; right: 6px; }
+  #app .lockinfo { position: relative; display: flex; align-items: center; gap: 12px; background: #fff7ea; border: 1px solid #f3d7a6; border-radius: 16px; padding: 12px 14px; margin: 0; }
+  #app .lockinfo .li-x { align-self: center; }   /* P-120/F-4 (Nutzer 22.11.2026): x auf derselben Mitte wie ‚Entsperren‘ */
   .nb-title .lk, .pnav-title .lk { display: inline-block; width: .76em; height: .76em; vertical-align: -.05em; margin-right: .3em; }
   .nb-title .lk svg, .pnav-title .lk svg { display: block; width: 100%; height: 100%; stroke-width: 2.4; }
   :root[data-theme="dark"] #app .lockinfo { background: #2b2112; border-color: #5e4519; }
@@ -144,6 +144,7 @@
   html.phone #app .lockinfo { flex-wrap: wrap; align-items: flex-start; }
   html.phone #app .lockinfo .li-t { flex: 1 1 calc(100% - 38px); }
   html.phone #app .lockinfo button { margin-left: 38px; }
+  html.phone #app .lockinfo .li-x { margin-left: auto; }
   html.phone #app .lockpage .rt { min-width: 960px; }
 </style>
 </head>

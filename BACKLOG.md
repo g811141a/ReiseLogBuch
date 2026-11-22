@@ -16,7 +16,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 | P-120/F-3 | 2 | **Ausgabe-Version zählt bei Abbruch hoch (zu P-120/2, Nutzer 22.11.2026):** wird die Ausgabe nicht gesichert (Teilen-Menü abgebrochen), erscheint der Hinweis ‚nicht gesichert‘, die Nummer ‚Ausgabe V…‘ steigt beim nächsten Mal trotzdem. **Wunsch:** nach Abbruch nicht hochzählen. Befund 0153: `nextOutput` erhöht `outputCounter` vor dem Teilen (`exportHtml`); zu klären: PDF (Drucken) meldet kein Ergebnis | Reiselogbuch | offen |
 | P-120/F-4 | 2 | **Hinweis ‚gesperrt‘ rollt weg (zu P-120/5, Nutzer 22.11.2026):** beim Rollen nach unten bleibt die Kopfzeile stehen, der Hinweis nicht. **Vorschlag des Nutzers:** der Hinweis lässt sich ausblenden, beim nächsten Öffnen erscheint er wieder. Als Nächstes: Apple-Abgleich, Muster (iPhone hoch und iPad quer), Testfall-Liste | Reiselogbuch | offen |
 
-0 Punkte bereit (4 in Klärung aus P-120, Korrekturversion vor allem Neuen – 0 Nr. 8, 22).
+4 Punkte bereit (P-120/F-1 bis F-4 – Entscheidungen 22.11.2026, Sitzung 0154: `AppDesign/arbeit/0154 P-120 Korrekturen.md`; umgesetzt F-2 Sperren, F-3 HTML, F-4; offen F-1 Regel und CSS, F-2 Einstellen/Löschen, F-3 PDF `beforeprint`). Prüfung `tests/ablauf-p120.mjs` (rot gegen 3.58.0).
 
 ## 1. Auf iPad und iPhone prüfen
 
