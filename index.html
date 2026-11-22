@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.68.1/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.69.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -160,18 +160,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.68.1/ui.js"></script>
+<script src="../AppDesign/fassung/4.69.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.58.1';
-const APP_BUILT = '22.11.2026 um 10:49';
+const APP_VERSION = '3.58.2';
+const APP_BUILT = '22.11.2026 um 18:05';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.68.1';
+const AD_NEEDED = '4.69.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -938,16 +938,19 @@ const fazitHtml = trip => `<h2 data-marke="Fazit">Fazit</h2>
 /* ---------- Gesperrt (RLB-125, seit 3.58.0) ---------- */
 
 // Sperren und Entsperren wirken sofort, ohne Abfrage; beides zählt als Änderung (J-11: ‚geändert am …‘, Abgleich je Feld).
-function setLock(trip, on) { if (on) trip.locked = true; else delete trip.locked; lockHintHidden = null; save(); render(); }
+function setLock(trip, on) { if (on) trip.locked = true; else delete trip.locked; lockHintHidden = null; lockedShown = null; save(); render(); }
 // Seit 3.58.1 (P-120/F-4): x ‚Hinweis ausblenden‘ blendet den Hinweis aus, bis das Reiselogbuch wieder geöffnet wird (showTrip, Sperren, Neustart);
 // dann steht das Schloss vor dem Titel in der Kopfzeile wie auf der Kachel.
 let lockHintHidden = null;
+// Seit 3.58.2 (P-121/F-1, Rückmeldung P-121/5): frisch gesperrt bzw. geöffnet beginnt die Vorschau oben – auch wenn das Reiselogbuch vorher bei den offenen
+// Tagen weiter unten stand (R-7.4); beim Neuaufbau (Drehen, Hinweis ausblenden) bleibt sie stehen. lockedShown = das zuletzt oben gezeigte gesperrte.
+let lockedShown = null;
 // Seit 3.58.1 (P-120/F-2): aus der Seitenleiste bzw. Startliste (Kontextmenü, Wischen) gesperrt, entsperrt oder eingestellt wird dieses Reiselogbuch
 // das aktive – am iPad wird es angezeigt, am iPhone bleibt die Startliste stehen; die Liste springt nicht (vorher blieb das alte aktiv, keepSideScroll
 // rollte zu ihm).
 function setLockFromList(trip, on) {
   if (on) trip.locked = true; else delete trip.locked;
-  lockHintHidden = null;
+  lockHintHidden = null; lockedShown = null;
   save();
   activateFromList(trip);
 }
@@ -1006,6 +1009,7 @@ function renderLocked(trip) {
   adSourcehighlight.refresh();
   updateBar();
   document.documentElement.style.setProperty('--bar-h', app.querySelector('#bar').offsetHeight + 'px');
+  if (lockedShown !== trip.id) { lockedShown = trip.id; app.querySelector('#rolle').scrollTop = 0; }   // P-121/F-1
 }
 
 /* ---------- iPhone ---------- */
@@ -1163,6 +1167,7 @@ function renderEmpty() {
 function showTrip(id, term = '') {
   currentTripId = id;
   lockHintHidden = null;   // P-120/F-4: beim Öffnen steht der Hinweis ‚gesperrt‘ wieder
+  lockedShown = null;      // P-121/F-1: die Vorschau beginnt oben
   // RLB-88: zuletzt verwendetes Reiselogbuch merken (je Gerät, wie lastBackup) – beim nächsten Start öffnet es (iPad-Aufbau).
   if (id && db.settings.lastTrip !== id) { db.settings.lastTrip = id; save(); }
   phoneList = false;
@@ -2105,11 +2110,12 @@ function countOutput(trip, version) { if ((trip.outputCounter || 0) < version) {
 async function exportHtml(trip) {
   const { version, stamp } = nextOutput(trip);
   const file = { name: `${outputName(trip, version)}.html`, type: 'html', content: outputDocument(trip, version, stamp) };
-  if (dlg.open) dlg.close();
+  const over = fromPreview();   // seit 3.58.2 (P-121/F-2): aus der Vorschau bleibt sie offen, die Meldung steht darüber
+  if (dlg.open && !over) dlg.close();
   const result = await shareFiles([file]);
   if (result === 'shared' || result === 'downloaded') countOutput(trip, version);
-  adSourcehighlight.sourceItem = '#shareBtn';
-  showOutputResult(`Ausgabe V${pad(version, 3)}`, file.name, result);
+  adSourcehighlight.sourceItem = over ? '#prvShare' : '#shareBtn';
+  showOutputResult(`Ausgabe V${pad(version, 3)}`, file.name, result, { over });
 }
 
 // PDF über das Drucken-Menü; der Seitentitel wird als Dateiname vorgeschlagen.
@@ -2118,23 +2124,30 @@ function exportPdf(trip) {
   // Seit 3.58.1 (P-120/F-3, Entscheidung a): das Drucken-Menü meldet kein Ergebnis – PDF zählt, sobald es wirklich aufgeht (beforeprint);
   // übergeht iOS print() (RLB-124), zählt nichts. Abbrechen im Drucken-Menü lässt sich nicht erkennen und zählt.
   const name = outputName(trip, version);
-  adSourcehighlight.sourceItem = '#shareBtn';
-  showOutputResult(`Ausgabe V${pad(version, 3)}`, name + '.pdf', 'print');
+  const over = fromPreview(), host = over ? document.getElementById('msg') : dlg;   // P-121/F-2 (#msg: Hinweisfenster)
+  adSourcehighlight.sourceItem = over ? '#prvPdf' : '#shareBtn';
+  showOutputResult(`Ausgabe V${pad(version, 3)}`, name + '.pdf', 'print', { over });
   const oldTitle = document.title;
   printout.innerHTML = `<style>${OUTPUT_CSS.replace(/\bbody\b/g, '#printout')}</style>${outputBody(trip, version, stamp)}`;
   document.title = name;
   const restore = () => { document.title = oldTitle; window.removeEventListener('afterprint', restore); };
-  dlg.addEventListener('close', () => { printout.innerHTML = ''; }, { once: true });
+  host.addEventListener('close', () => { printout.innerHTML = ''; }, { once: true });
   window.addEventListener('afterprint', restore);
-  dlg.addEventListener('close', restore, { once: true });
+  host.addEventListener('close', restore, { once: true });
   const count = () => { countOutput(trip, version); window.removeEventListener('beforeprint', count); };
   window.addEventListener('beforeprint', count);
-  dlg.addEventListener('close', () => window.removeEventListener('beforeprint', count), { once: true });
+  host.addEventListener('close', () => window.removeEventListener('beforeprint', count), { once: true });
   setTimeout(() => window.print(), 50);
 }
 
-function showOutputResult(title, name, result) {
+// Seit 3.58.2 (P-121/F-2): over – aus der Vorschau als Hinweisfenster (AD-Bean alert auf #msg) über der offenen Vorschau, die danach bleibt.
+const fromPreview = () => dlg.open && !!dlg.querySelector('#prvShare');
+function showOutputResult(title, name, result, { over = false } = {}) {
   const remind = !backedUpToday() && result !== 'aborted' && result !== 'error';
+  if (over) {
+    inform(title, `<div class="step">${shareResultText(result, name)}</div>${remind ? backupReminderHtml() : ''}`);
+    return bindBackupReminder(document.getElementById('msg'));
+  }
   openDialog(`
     <form method="dialog">
       ${dlgHead(esc(title), { check: false })}
@@ -2156,12 +2169,12 @@ function backupReminderHtml() {
     </div>`;
 }
 
-function bindBackupReminder() {
-  const btn = dlg.querySelector('#backupNow');
+function bindBackupReminder(root = dlg) {
+  const btn = root.querySelector('#backupNow');
   if (!btn) return;
   btn.onclick = async () => {
     const name = await saveBackup();
-    const box = dlg.querySelector('#reminder');
+    const box = root.querySelector('#reminder');
     if (box && name) box.innerHTML = name;
   };
 }

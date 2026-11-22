@@ -10,10 +10,12 @@
 //   wenn das Drucken-Menü aufgeht (beforeprint) · iPad quer.
 // P-120/F-4 Hinweis ‚gesperrt‘ bleibt beim Rollen unter der Kopfzeile stehen, lässt sich ausblenden (x ‚Hinweis ausblenden‘) und erscheint beim
 //   nächsten Öffnen wieder (Muster AppDesign arbeit/P-120/index.html) · iPad quer, iPhone hoch.
+// P-121/F-1 (seit 3.58.2) nach dem Sperren eines Reiselogbuchs mit offenen Tagen weiter unten beginnt die Vorschau oben · iPad quer, iPhone hoch.
+// P-121/F-2 (seit 3.58.2) Teilen und PDF aus der Vorschau: die Vorschau bleibt offen, die Meldung steht darüber · iPad quer, iPhone hoch.
 // Grundregeln nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-p120.mjs (PRUEF_TEIL=F-1 … nur ein Teil)
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.68.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.68.1/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.69.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.69.0/tests/hig.mjs';
 const t = pruefung('ablauf-p120', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const TEIL = process.env.PRUEF_TEIL || '';
@@ -174,8 +176,8 @@ if (teil('F-3')) {
   try {
     await lade(p, { lastTrip: 'a' });
     const zaehler = id => p.evaluate(id => [getTrip(id).outputCounter || 0, JSON.parse(localStorage.getItem('reiselogbuch.v1')).trips.find(x => x.id === id).outputCounter || 0], id);
-    const teilen = async (art, knopf) => { await p.evaluate(a => { window.__teilen = a; }, art); await p.click(knopf); await p.waitForSelector('#dlg[open] .step', { timeout: 4000 }); await p.waitForTimeout(400);
-      const r = await p.evaluate(() => dlg.textContent.replace(/\s+/g, ' ')); await esc(p); return r; };
+    const teilen = async (art, knopf) => { await p.evaluate(a => { window.__teilen = a; }, art); await p.click(knopf); await p.waitForSelector('#dlg[open] .step, #msg[open] .step', { timeout: 4000 }); await p.waitForTimeout(400);
+      const r = await p.evaluate(() => (msg.open ? msg : dlg).textContent.replace(/\s+/g, ' ')); await esc(p); return r; };   // seit 3.58.2 aus der Vorschau in #msg (P-121/F-2)
     let r = await teilen('abbrechen', '#shareBtn');
     t.wahr(`P-120/F-3 gesperrt, Teilen abgebrochen: Meldung ‚Ausgabe V001‘ und ‚abgebrochen‘ (${r.slice(0, 80)})`, /Ausgabe V001/.test(r) && /abgebrochen/.test(r), 'R-10.1');
     t.ist('P-120/F-3 nach dem Abbruch zählt die Ausgabe nicht hoch (App und gespeichert)', await zaehler('a'), [0, 0], 'R-9.3');
@@ -232,6 +234,54 @@ if (teil('F-4')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
     await t.schritt(p, 'P-120/F-4 x, dann Neustart', async () => { await p.click('#app .lockinfo button[aria-label="Hinweis ausblenden"]'); await p.waitForTimeout(300); await p.reload(); await p.waitForTimeout(500); await navFertig(p);
       if (await p.evaluate(() => isPhone())) await oeffne(p, 'a'); });
     t.ist('P-120/F-4 nach dem Neustart ist der Hinweis wieder da', (await hinweis()).da, true, 'R-1.1');
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+// ---------- P-121/F-1 Sperren mit offenen Tagen weiter unten: die Vorschau beginnt oben (Rückmeldung P-121/5, Nutzer 22.11.2026) ----------
+// Ein Reiselogbuch mit offenen Tagen weiter unten öffnet dort (R-7.4); nach dem Sperren (Mehr bzw. Kontextmenü) stand die Vorschau am Ende statt am Anfang.
+const LANG = TRIPS.map((x, i) => i !== 1 ? { ...x, locked: undefined } : { ...x, locked: undefined, end: iso(2026, 4, 26),
+  days: Object.fromEntries([...Array(18).keys()].map(d => [iso(2026, 4, 3 + d), { weather: '☀️', program: `Toskana Tag ${d + 1}\nStadtrundgang\nAbendessen am Hafen`, comment: 'Schöner Tag' }])) });
+if (teil('P-121/F-1')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    await lade(p, { trips: LANG, lastTrip: 'b' });
+    const phone = await p.evaluate(() => isPhone());
+    const y = () => p.evaluate(() => Math.round(document.querySelector('#app #rolle')?.scrollTop ?? -1));
+    if (phone) await t.schritt(p, 'P-121/F-1 ‚Toskana‘ öffnen', () => oeffne(p, 'b'));
+    t.wahr('P-121/F-1 ‚Toskana‘ öffnet bei den offenen Tagen weiter unten (gerollt)', await y() > 50, 'R-7.4');
+    await t.schritt(p, 'P-121/F-1 Mehr → ‚Reiselogbuch sperren‘', async () => { await p.click('#mainMore'); await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(400);
+      await p.locator('.menu .mi', { hasText: 'Reiselogbuch sperren' }).click(); await p.waitForTimeout(700); await navFertig(p); });
+    t.ist('P-121/F-1 nach dem Sperren (Mehr) beginnt die Vorschau oben', [await p.evaluate(() => !!document.querySelector('#app .lockpage')), await y()], [true, 0], 'R-7.4');
+    if (!phone) {
+      await t.schritt(p, 'P-121/F-1 entsperren, ‚Mallorca‘ und wieder ‚Toskana‘ öffnen', async () => { await p.click('#lockUnlock'); await p.waitForTimeout(500); await oeffne(p, UNTEN); await oeffne(p, 'b'); });
+      t.wahr('P-121/F-1 ‚Toskana‘ wieder gerollt', await y() > 50, 'R-7.4');
+      await t.schritt(p, 'P-121/F-1 ‚Toskana‘ lange drücken → ‚Reiselogbuch sperren‘', async () => { await lang(p, 'b'); await menuePunkt(p, 'Reiselogbuch sperren'); });
+      t.ist('P-121/F-1 nach dem Sperren (Kontextmenü) beginnt die Vorschau oben', [await p.evaluate(() => !!document.querySelector('#app .lockpage')), await y()], [true, 0], 'R-7.4');
+      await t.schritt(p, 'P-121/F-1 Vorschau rollen, drehen bzw. Neuaufbau', async () => { await p.evaluate(() => { const r = document.querySelector('#app #rolle'); r.scrollTop = 300; r.dispatchEvent(new Event('scroll')); render(); }); await p.waitForTimeout(300); });
+      t.wahr('P-121/F-1 beim Neuaufbau bleibt die gerollte Vorschau stehen', Math.abs(await y() - 300) <= 2, 'R-8.1');
+    }
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+
+// ---------- P-121/F-2 Teilen und PDF aus der Vorschau: die Vorschau bleibt, die Meldung steht darüber (Rückmeldung P-121/8, Nutzer 22.11.2026) ----------
+if (teil('P-121/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    await lade(p, { trips: TRIPS.map(x => ({ ...x, locked: undefined })), lastTrip: 'b' });
+    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
+    const lage = () => p.evaluate(() => ({ vorschau: dlg.open && !!dlg.querySelector('#prvShare'), meldung: msg.open, text: msg.open ? msg.textContent.replace(/\s+/g, ' ') : '',
+      oben: msg.open && dlg.open ? (() => { const r = msg.querySelector('.dlg-head, h3').getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return !!e && msg.contains(e); })() : false }));
+    const vorschau = async () => { await p.evaluate(() => openPreview(getTrip('b'))); await p.waitForSelector('#dlg[open] #prvShare', { timeout: 4000 }); await p.waitForTimeout(500); };
+    for (const [art, knopf, name] of [['abbrechen', '#prvShare', 'Teilen abgebrochen'], ['ok', '#prvShare', 'Teilen gesichert'], ['', '#prvPdf', 'PDF']]) {
+      await t.schritt(p, `P-121/F-2 Vorschau → ${name}`, async () => { await vorschau(); await p.evaluate(a => { window.__teilen = a || 'ok'; }, art); await p.click(knopf); await p.waitForTimeout(700); });
+      let l = await lage();
+      t.ist(`P-121/F-2 ${name}: die Vorschau bleibt offen, die Meldung ‚Ausgabe V…‘ steht darüber`, [l.vorschau, l.meldung, /Ausgabe V\d{3}/.test(l.text), l.oben], [true, true, true, true], 'R-4.4');
+      await t.schritt(p, `P-121/F-2 ${name}: Meldung schließen`, async () => { await p.click('#msg [data-x]'); await p.waitForTimeout(500); });
+      l = await lage();
+      t.ist(`P-121/F-2 ${name}: nach dem Schließen der Meldung ist die Vorschau wieder da`, [l.vorschau, l.meldung], [true, false], 'R-4.4');
+      await esc(p);
+    }
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
 }

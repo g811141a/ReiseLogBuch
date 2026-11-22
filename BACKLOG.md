@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 22.11.2026** · Aktuelle Version: Reiselogbuch 3.58.1 · AppDesign 4.68.1
+**Stand 22.11.2026** · Aktuelle Version: Reiselogbuch 3.58.2 · AppDesign 4.69.0
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.
@@ -18,7 +18,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-121 | 1 | **Usertest P-121 (Reiselogbuch 3.58.1, AppDesign 4.68.1):** Korrekturen aus P-120 (P-120/F-1 bis P-120/F-4) – P-121/0 bis P-121/11 (CHANGELOG 3.58.1); ersetzt die offenen Punkte von P-120 (alle übrigen Punkte von P-120 ok, Nutzer 22.11.2026) | prüfen |
+| P-122 | 1 | **Usertest P-122 (Reiselogbuch 3.58.2, AppDesign 4.69.0):** Korrekturen aus P-121 (P-121/F-1 Vorschau nach dem Sperren oben, P-121/F-2 Meldung über der Vorschau) und AppDesign APD-135/B-3.3 Schritt 2 (Felder auf der Prüfseite) – P-122/0 bis P-122/5 (CHANGELOG 3.58.2); ersetzt die offenen Punkte von P-121 (/5 und /8) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -39,6 +39,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-121 | **Korrekturen aus dem Usertest P-121:** P-121/F-1 Vorschau nach dem Sperren oben (`lockedShown`) · P-121/F-2 Teilen und PDF aus der Vorschau lassen sie offen, die Meldung steht als Hinweisfenster darüber; feste Prüfung `ablauf-p120` Teile P-121/F-1 und P-121/F-2; Usertest P-121 übrige Punkte ok (Nutzer 22.11.2026) | Reiselogbuch 3.58.2 | 22.11.2026 |
 | P-120 | **Korrekturen aus dem Usertest P-120:** P-120/F-1 Text nur in Eingabefeldern auswählbar (AppDesign R-1.15) · P-120/F-2 Sperren, Entsperren, Einstellen und Löschen weiter oben lassen die Liste stehen (Sperren, Entsperren und Einstellen machen das Reiselogbuch zum aktiven) · P-120/F-3 ‚Ausgabe V…‘ zählt erst nach Übergabe, PDF erst beim Aufgehen des Drucken-Menüs · P-120/F-4 Hinweis ‚gesperrt‘ fest unter der Kopfzeile, ausblendbar; Prüfung `ablauf-p120` | 3.58.1 | 22.11.2026 |
 | RLB-125 | **Reiselogbuch sperren:** Sperren und Entsperren über Kontextmenü, Wischen und Mehr; Schloss vor dem Titel der Kachel; gesperrt nur die Vorschau als Seite mit Hinweis und ‚Entsperren‘, oben ‚PDF‘ und Teilen; Kontextmenü und Wischen gesperrt nur ‚Entsperren‘ (RLB-125/J-12); Lösch-Abfrage mit Zahl der Einträge und ‚Erst Backup erstellen‘ (RLB-125/L-4, L-5); Abgleich mit `protect` (15.18 Fälle 21–23), ‚Ersetzen‘ nennt die gesperrten. Usertest P-120 | Reiselogbuch 3.58.0 | 21.11.2026 |
 | P-119 | **Usertest P-119 (Reiselogbuch 3.57.12, AppDesign 4.67.2):** P-119/0 bis P-119/4 ok (Nutzer 21.11.2026, Sitzung 0151) – P-118/F-1 und P-118/F-2 erledigt | Reiselogbuch 3.57.12 | 21.11.2026 |

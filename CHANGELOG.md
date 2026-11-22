@@ -13,6 +13,76 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.58.2 – 22.11.2026
+
+Reiselogbuch 3.58.2 · AppDesign 4.69.0 (Designrichtlinie allgemein 4.69.0) · Designrichtlinie Reiselogbuch 3.58.2 · Zusammenarbeit allgemein 3.19.0
+
+**P-121 – Korrekturen aus dem Usertest P-121** (Rückmeldung nicht ok zu /5 und /8, Nutzer 22.11.2026, Sitzung 0155; umgesetzt in Sitzung 0155, Bericht AppDesign
+`arbeit/0156 Bericht P-121 Korrekturen.md`). Je genau der Ablauf des Nutzers als feste Prüfung in `ablauf-p120` (rot gegen 3.58.1, Zusammenarbeit 0 Nr. 1).
+
+- **P-121/F-1 Vorschau nach dem Sperren oben:** stand ein Reiselogbuch weiter unten (es öffnet bei den offenen Tagen, R-7.4), übernahm die gesperrte Vorschau diese
+  Rollposition und stand am Ende. Jetzt beginnt die Vorschau oben, wenn ein Reiselogbuch frisch gesperrt bzw. gesperrt geöffnet wird (`lockedShown`); beim Neuaufbau
+  (Drehen, Hinweis ausblenden) bleibt sie stehen.
+- **P-121/F-2 Teilen und PDF aus der Vorschau (Wunsch):** die Vorschau bleibt offen, die Meldung ‚Ausgabe V…‘ steht als Hinweisfenster (AD-Bean `alert`, `inform`)
+  darüber, mit der Backup-Erinnerung; nach dem Schließen der Meldung ist die Vorschau wieder da (`showOutputResult` mit `over`, `bindBackupReminder(root)`). Aus der
+  Kopfzeile wie bisher: die Meldung als Fenster.
+- **Prüfungen:** `ablauf-p120` neue Teile P-121/F-1 (iPad quer, iPhone hoch; Sperren über Mehr und Kontextmenü, Neuaufbau bleibt stehen) und P-121/F-2 (iPad quer,
+  iPhone hoch; HTML und PDF aus der Vorschau, Meldung schließen); in Sitzung 0156 grün in Chromium und WebKit.
+- AD-Bean: keine – App-Code; das Hinweisfenster ist die bestehende AD-Bean `alert`.
+
+**Warum die Prüfungen es übersahen:** P-121/F-1 – `ablauf-sperre` und `ablauf-p120` prüften nach dem Sperren nie die Rollposition der Vorschau; gesperrt wurde nie ein
+Reiselogbuch, das weiter unten geöffnet war. P-121/F-2 ist kein durchgerutschter Fehler, sondern ein neuer Wunsch – bis 3.58.1 schloss `exportHtml` die Vorschau mit Absicht.
+
+**AppDesign 4.69.0 – APD-135/B-3.3 Schritt 2: Felder auf der Prüfseite** (Ausnahme nach Zusammenarbeit 0 Nr. 22, Nutzer 22.11.2026).
+
+- **Prüfungen:** `bausteine-pruefseite` lädt Fassung 4.69.0 und hat den neuen Teil `felder` (ⓧ, Cursor am Ende, Feldfehler, Großschreibung, Leerzeichen, Textfeld
+  wächst mit, Eingabetaste an den Feldern der Vorlage; in `alle.mjs` und `tests/README.md`, Gegenprobe `--gegenprobe pruefseite` 7 Fälle mehr). In der App fällt nichts
+  weg (Nutzer 22.11.2026): die Prüfungen mit eigenen Feldern der App bleiben.
+- AD-Bean: keine, weil nur Prüfungen dazukommen.
+
+Testfälle P-122 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Für P-122/2 bis P-122/5 ein eigenes Reiselogbuch ‚Test‘ mit dem heutigen Datum anlegen
+(es steht dann oben in der Liste), damit deine echten Reiselogbücher unberührt bleiben. P-122 ersetzt die offenen Punkte von P-121 (/5 und /8).
+
+**P-122/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.58.2 · erstellt am … · AppDesign 4.69.0‘. Automatisch geprüft in `version-regeln`.
+
+**P-122/1 – Sperren weiter unten: die Vorschau beginnt oben (iPad und iPhone)**
+1. iPad quer, hell; ein langes Reiselogbuch öffnen und in der Tabelle ganz nach unten rollen.
+2. Oben Mehr → ‚Reiselogbuch sperren‘.
+3. Erwartet: rechts die Vorschau **ganz oben** mit der Überschrift ‚Reiselogbuch – <Titel>‘, darüber der Hinweis ‚Dieses Reiselogbuch ist gesperrt.‘. ‚Entsperren‘
+   antippen, wieder ganz nach unten rollen, dann in der Seitenleiste dasselbe Reiselogbuch lange drücken → ‚Reiselogbuch sperren‘. Erwartet: wieder die Vorschau ganz oben.
+4. Dasselbe am iPhone hoch. Erwartet iPhone: die Vorschau beginnt oben. Zum Schluss ‚Entsperren‘ antippen. Automatisch geprüft in `ablauf-p120` (P-121/F-1).
+
+**P-122/2 – Teilen aus der Vorschau: die Vorschau bleibt, die Meldung steht darüber (iPad und iPhone)**
+1. iPad quer, hell; ‚Test‘ öffnen, oben Teilen → ‚Vorschau‘.
+2. In der Vorschau oben Teilen antippen, im Teilen-Menü ‚In Dateien sichern‘ wählen und sichern.
+3. Erwartet: die Vorschau bleibt offen. Darüber steht das Hinweisfenster ‚Ausgabe V001‘ mit ‚✅ Teilen-Menü abgeschlossen für‘ und darunter dem Dateinamen ‚Reiselogbuch
+   Test … V001.html‘. Nach dem Schließen der Meldung ist die Vorschau wieder da. Dasselbe am iPhone hoch. Automatisch geprüft in `ablauf-p120`
+   (P-121/F-2).
+
+**P-122/3 – PDF aus der Vorschau: die Vorschau bleibt, die Meldung steht darüber (iPad)**
+1. iPad quer, hell; in der Vorschau von ‚Test‘ oben ‚PDF‘ antippen.
+2. Das Drucken-Menü schließen bzw. abwarten (vom Home-Bildschirm geht es mit iOS 27 zurzeit nicht auf, RLB-124).
+3. Erwartet: die Vorschau bleibt offen. Darüber steht das Hinweisfenster ‚Ausgabe V…‘ mit ‚✅ Drucken-Menü geöffnet für‘, dem Dateinamen ‚Reiselogbuch Test … V….pdf‘
+   und ‚Dort über ‚Teilen‘ → ‚In Dateien sichern‘ als PDF ablegen.‘. Nach dem Schließen der Meldung ist die Vorschau wieder da. Automatisch geprüft in `ablauf-p120`
+   (P-121/F-2).
+
+**P-122/4 – Backup-Erinnerung im Hinweisfenster (iPad)**
+1. iPad quer, hell, an einem Tag, an dem noch kein Backup erstellt wurde; in der Vorschau von ‚Test‘ oben Teilen → ‚In Dateien sichern‘.
+2. Im Hinweisfenster über der Vorschau ‚Backup erstellen‘ antippen und das Backup sichern.
+3. Erwartet: im Hinweisfenster steht ‚💾 Denk daran, auch ein Backup zu erstellen.‘ mit ‚Backup erstellen‘; danach steht dort der Dateiname des Backups, die Vorschau
+   bleibt darunter offen. Automatisch geprüft in `ablauf-p120` (P-121/F-2, Meldung über der Vorschau) – das Sichern des Backups nur hier.
+
+**P-122/5 – Ein Feld wie gewohnt: Großbuchstabe und ⓧ (iPad)** (AppDesign APD-135/B-3.3 Schritt 2)
+1. iPad quer, hell; ‚Test‘ öffnen, einen Tag antippen.
+2. Ins Feld ‚Verlauf‘ ‚heute am see‘ tippen; danach rechts im Feld das graue ⓧ antippen.
+3. Erwartet: im Feld steht ‚Heute am see‘ (Großbuchstabe am Anfang); solange etwas drinsteht, steht rechts im Feld das graue ⓧ; nach dem Antippen ist das Feld leer,
+   die Tastatur bleibt offen. Danach das Fenster mit x schließen (fragt die App nach: ‚Änderungen verwerfen‘). Automatisch geprüft in `bausteine-pruefseite`
+   (Teil `felder`) und in `regeln-ablauf`. Zum Schluss ‚Test‘ löschen und die Dateien aus P-122/2 und P-122/3 in der Dateien-App löschen.
+
 ## 3.58.1 – 22.11.2026
 
 Reiselogbuch 3.58.1 · AppDesign 4.68.1 (Designrichtlinie allgemein 4.68.1) · Designrichtlinie Reiselogbuch 3.58.1 · Zusammenarbeit allgemein 3.19.0
