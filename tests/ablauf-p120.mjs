@@ -14,8 +14,8 @@
 // P-121/F-2 (seit 3.58.2) Teilen und PDF aus der Vorschau: die Vorschau bleibt offen, die Meldung steht darüber · iPad quer, iPhone hoch.
 // Grundregeln nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-p120.mjs (PRUEF_TEIL=F-1 … nur ein Teil)
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.68.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.68.1/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.69.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.69.0/tests/hig.mjs';
 const t = pruefung('ablauf-p120', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const TEIL = process.env.PRUEF_TEIL || '';
