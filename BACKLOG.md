@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 22.11.2026** · Aktuelle Version: Reiselogbuch 3.58.2 · AppDesign 4.69.0
+**Stand 22.11.2026** · Aktuelle Version: Reiselogbuch 3.58.3 · AppDesign 4.70.0
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.
@@ -11,15 +11,14 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| P-122/F-1 | 1 | **Schaltflächen der Vorschau nach dem Hinweisfenster (zu P-122/2, Nutzer 22.11.2026):** nach dem Schließen des Hinweisfensters ‚Ausgabe V…‘ sollen die Schaltflächen der Vorschau aussehen wie beim Öffnen – zurzeit ist Teilen danach nicht mehr blau gefüllt. Vermutung (nicht geprüft): die Hervorhebung `adSourcehighlight.sourceItem = '#prvShare'` bleibt nach dem Schließen von `#msg` stehen. Zuerst den Ablauf als feste Prüfung nachbauen (rot gegen 3.58.2, 0 Nr. 1), dann beheben; PDF ebenso prüfen · **Sitzung 0158:** nachgebaut (`ablauf-p120` Teil P-122/F-1, rot gegen 3.58.2), Ursache: Quelle über der Vorschau ersetzt statt gehalten; behoben mit `outputSource` (PDF ebenso) | Reiselogbuch | 22.11.2026 |
-| P-122/F-2 | 1 | **Ausrichtung von Schaltflächen in Hinweisen (zu P-122/4, Nutzer 22.11.2026):** ‚Backup erstellen‘ in der Backup-Erinnerung steht links (App-Code `backupReminderHtml`, eigenes `display:flex`), ‚Abgleichbericht anzeigen‘ nach dem Backup laden mittig (AppDesign `ui.js`). Wunsch: Apple-Standard recherchieren, eine eindeutige allgemeine Regel in AppDesign (Wortlaut nach 0 Nr. 29) und durchgängig umsetzen – allgemeiner Teil im Backlog von AppDesign · **Sitzung 0158:** Variante B (alles mittig, ‚gesperrt‘ bleibt), Wortlaut R-3.10 bestätigt (‚Ja so bauen‘) – App: Ergebnisfenster, Erinnerung und Backup-Kachel mittig über `.ad-notice`/`.ad-buttons` (AppDesign `arbeit/0158 P-122 Vorschlag.md`) | allgemein + App | 22.11.2026 |
 
-2 Punkte bereit (P-122/F-1, P-122/F-2).
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-123 | 1 | **Usertest P-123 (Reiselogbuch 3.58.3, AppDesign 4.70.0):** Korrekturen aus P-122 – P-122/F-1 (Schaltflächen der Vorschau nach der Meldung wie beim Öffnen) und P-122/F-2 (Hinweise mittig, R-3.10) – P-123/0 bis P-123/3 (CHANGELOG 3.58.3); ersetzt die offenen Punkte von P-122 (/2 und /4) | prüfen |
 | P-122 | 1 | **Usertest P-122 (Reiselogbuch 3.58.2, AppDesign 4.69.0):** Korrekturen aus P-121 (P-121/F-1 Vorschau nach dem Sperren oben, P-121/F-2 Meldung über der Vorschau) und AppDesign APD-135/B-3.3 Schritt 2 (Felder auf der Prüfseite) – P-122/0 bis P-122/5 (CHANGELOG 3.58.2); ersetzt die offenen Punkte von P-121 (/5 und /8) · **Rückmeldung (Nutzer 22.11.2026, Sitzung 0157): nicht ok** – P-122/F-1 (zu /2) und P-122/F-2 (zu /4) in ‚0.‘, alle übrigen Punkte ok | nicht ok |
 
 ## 2. Weitere Themen (in Klärung)

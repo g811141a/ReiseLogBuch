@@ -27,7 +27,7 @@
 // seit 3.58.2 in bausteine-pruefseite der Teil ‚felder‘ (AppDesign APD-135/B-3.3 Schritt 2: ⓧ, Cursor am Ende, Feldfehler, Großschreibung, Leerzeichen,
 // Textfeld wächst mit, Eingabetaste an den Feldern der Vorlage); in der App fällt nichts weg (Nutzer 22.11.2026).
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.69.0/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.70.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-leer', 'ablauf-drehen-iphone', 'ablauf-glas', 'ablauf-feld-rollen', 'ablauf-feld-cursor', 'ablauf-fremdtext', 'ablauf-drehen-luecke', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
   'verlauf-vorschlaege', 'bean-katalog', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln', 'ablauf-bausteine', 'ablauf-sperre',

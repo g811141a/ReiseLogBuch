@@ -15,9 +15,9 @@
 // Grundregeln nach jedem Schritt. Gegenprobe: dieselben eingeschleusten Fehler wie --gegenprobe pruefseite müssen auch hier rot werden (CHANGELOG 3.57.7).
 // Aufruf im Repo-Ordner: node tests/ablauf-bausteine.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.69.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.69.0/tests/hig.mjs';
-import { langDruecken, sucheAuf, checkTitelBlase, titelLang, checkTitelOben, checkSchichtOben, finger } from '../../AppDesign/fassung/4.69.0/tests/ablauf.mjs';
+import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.70.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.70.0/tests/hig.mjs';
+import { langDruecken, sucheAuf, checkTitelBlase, titelLang, checkTitelOben, checkSchichtOben, finger } from '../../AppDesign/fassung/4.70.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-bausteine', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);

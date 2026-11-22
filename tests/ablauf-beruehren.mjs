@@ -17,9 +17,9 @@
 // Vorschlag ‚Weiterfahrt nach …‘ im Fenster eines Tages (Textschaltfläche, Faktor aus der Breite). Rot gegen 3.57.11.
 // Aufruf im Repo-Ordner: node tests/ablauf-beruehren.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.69.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.69.0/tests/hig.mjs';
-import { checkBeruehren, checkAnheben, wischKlick } from '../../AppDesign/fassung/4.69.0/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.70.0/tests/hig.mjs';
+import { checkBeruehren, checkAnheben, wischKlick } from '../../AppDesign/fassung/4.70.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-beruehren', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a', 'table.days .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = i => new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10);
