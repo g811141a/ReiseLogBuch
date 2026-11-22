@@ -11,14 +11,16 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| P-121/F-1 | 1 | **Sperren mit offenen Tagen weiter unten (zu P-121/5, Nutzer 22.11.2026):** nach dem Sperren stand die Vorschau am Ende statt am Anfang – das Reiselogbuch öffnet bei den offenen Tagen (R-7.4), die gesperrte Vorschau übernahm die Rollposition. **Behoben im Arbeitszweig `claude/p121-korrekturen`:** frisch gesperrt bzw. geöffnet beginnt die Vorschau oben (`lockedShown`), beim Neuaufbau bleibt sie stehen; `ablauf-p120` Teil P-121/F-1 rot gegen 3.58.1, jetzt grün (Chromium, WebKit) | Reiselogbuch | 22.11.2026 |
+| P-121/F-2 | 1 | **Teilen und PDF aus der Vorschau (zu P-121/8, Nutzer 22.11.2026):** danach war die Vorschau geschlossen und die Meldung stand allein. **Wunsch:** die Vorschau bleibt offen, die Meldung steht darüber. **Behoben im Arbeitszweig:** aus der Vorschau kommt die Meldung (mit Backup-Erinnerung) als Hinweisfenster (AD-Bean `alert`, `inform`) über der Vorschau (`showOutputResult` mit `over`); `ablauf-p120` Teil P-121/F-2 rot gegen 3.58.1, jetzt grün (Chromium, WebKit) | Reiselogbuch | 22.11.2026 |
 
-0 Punkte bereit.
+2 Punkte bereit (P-121/F-1, P-121/F-2 – Korrekturversion 3.58.2, nur App, AppDesign bleibt 4.68.1; Bau-Frage offen).
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-121 | 1 | **Usertest P-121 (Reiselogbuch 3.58.1, AppDesign 4.68.1):** Korrekturen aus P-120 (P-120/F-1 bis P-120/F-4) – P-121/0 bis P-121/11 (CHANGELOG 3.58.1); ersetzt die offenen Punkte von P-120 (alle übrigen Punkte von P-120 ok, Nutzer 22.11.2026) | prüfen |
+| P-121 | 1 | **Usertest P-121 (Reiselogbuch 3.58.1, AppDesign 4.68.1):** Korrekturen aus P-120 (P-120/F-1 bis P-120/F-4) – P-121/0 bis P-121/11 (CHANGELOG 3.58.1); ersetzt die offenen Punkte von P-120 (alle übrigen Punkte von P-120 ok, Nutzer 22.11.2026) · **Rückmeldung (Nutzer 22.11.2026, Sitzung 0155): nicht ok** – P-121/F-1 (zu /5) und P-121/F-2 (zu /8) in ‚0. Nächste Version‘, alle übrigen Punkte ok | nicht ok |
 
 ## 2. Weitere Themen (in Klärung)
 

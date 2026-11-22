@@ -36,7 +36,7 @@ const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'abl
   // Seit 3.56.0 (RLB-121/W-4, R-8.1): oeffnen-position zusätzlich mit Text 23 (XXXL) – am iPad hoch neben der Seitenleiste schaltet ts-um beim
   // Aus- und Einblenden um; im vollen Lauf von 3.56.0 sprang der oberste Tag (hig Text 23, allein 2 von 3 rot), oeffnen-position Text 23 zeigte es sicher
   // Seit 3.58.1 (Usertest P-120 nicht ok, Zusammenarbeit 0 Nr. 1): ablauf-p120 – die Abläufe des Nutzers zu P-120/F-1 bis F-4, je Teil eine Ansicht der Korrektur
-  { name: 'ablauf-p120', teile: Object.fromEntries(['F-1', 'F-2', 'F-3', 'F-4'].map(n => [n, { PRUEF_TEIL: n }])) },
+  { name: 'ablauf-p120', teile: Object.fromEntries(['F-1', 'F-2', 'F-3', 'F-4', 'P-121/F-1', 'P-121/F-2'].map(n => [n, { PRUEF_TEIL: n }])) },
   { name: 'oeffnen-position', teile: { '': {}, 'Text 23': { PRUEF_TEXT: '23' } } },
   { name: 'ablauf-blatt', teile: { iPhone: { PRUEF_BLATT: 'iPhone' }, iPad: { PRUEF_BLATT: 'iPad' } } },
   // Die zwei langen Prüfungen geteilt (APD-5/B-5): hig nach Darstellung (der Gerätevergleich R-1.1 bleibt je Teil vollständig),
