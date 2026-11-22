@@ -11,14 +11,18 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| P-120/F-1 | 1 | **Textauswahl außerhalb von Eingabefeldern (zu P-120/1–3, Nutzer 22.11.2026):** drückt man in der Mitte der Seitenleiste auf den Rand einer Kachel, erscheint fallweise die Lupe und Text der Backup-Kachel wird markiert; auch langes Drücken auf den Text der Backup-Kachel markiert ihn, und der markierte Text lässt sich verschieben. **Wunsch (allgemein):** Text ist in der App nur in Eingabefeldern auswählbar, alle anderen Elemente ohne Auswahl. Befund 0153: es gibt keine allgemeine Regel – nur Designrichtlinie 13 (Emoji-Schaltflächen und Zeilen mit langem Drücken) und R-3.6 (Schaltflächen), in `design.css` `user-select: none` nur für einzelne Elemente (u. a. `.side-row`, Schaltflächen), nicht für die Backup-Kachel `.bhint`. Als Nächstes: Ablauf als feste Prüfung nachbauen (rot gegen 3.58.0), Apple-Abgleich, Wortlaut der neuen Regel (0 Nr. 29) | allgemein (AppDesign, neue Regel) | offen |
+| P-120/F-2 | 1 | **Sperren scrollt ans Ende (Nutzer 22.11.2026):** ist die unterste Kachel aktiv, rollt man nach oben und sperrt dort ein Reiselogbuch, springt die Liste danach ganz nach unten. **Wunsch:** beim Sperren und Entsperren wird dieses Reiselogbuch das aktive und angezeigt. Als Nächstes: als feste Prüfung nachbauen (rot gegen 3.58.0), beheben | Reiselogbuch | offen |
+| P-120/F-3 | 2 | **Ausgabe-Version zählt bei Abbruch hoch (zu P-120/2, Nutzer 22.11.2026):** wird die Ausgabe nicht gesichert (Teilen-Menü abgebrochen), erscheint der Hinweis ‚nicht gesichert‘, die Nummer ‚Ausgabe V…‘ steigt beim nächsten Mal trotzdem. **Wunsch:** nach Abbruch nicht hochzählen. Befund 0153: `nextOutput` erhöht `outputCounter` vor dem Teilen (`exportHtml`); zu klären: PDF (Drucken) meldet kein Ergebnis | Reiselogbuch | offen |
+| P-120/F-4 | 2 | **Hinweis ‚gesperrt‘ rollt weg (zu P-120/5, Nutzer 22.11.2026):** beim Rollen nach unten bleibt die Kopfzeile stehen, der Hinweis nicht. **Vorschlag des Nutzers:** der Hinweis lässt sich ausblenden, beim nächsten Öffnen erscheint er wieder. Als Nächstes: Apple-Abgleich, Muster (iPhone hoch und iPad quer), Testfall-Liste | Reiselogbuch | offen |
 
-Keine Punkte bereit.
+0 Punkte bereit (4 in Klärung aus P-120, Korrekturversion vor allem Neuen – 0 Nr. 8, 22).
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-120 | 1 | **Usertest P-120 (Reiselogbuch 3.58.0, AppDesign 4.68.0):** RLB-125 Reiselogbuch sperren – P-120/0 bis P-120/9 (CHANGELOG 3.58.0) | prüfen |
+| P-120 | 1 | **Usertest P-120 (Reiselogbuch 3.58.0, AppDesign 4.68.0):** RLB-125 Reiselogbuch sperren – P-120/0 bis P-120/9 (CHANGELOG 3.58.0) · **Rückmeldung (Nutzer 22.11.2026, Sitzung 0153): nicht ok** – P-120/F-1 bis P-120/F-4 in ‚0. Nächste Version‘, alle übrigen Punkte ok | nicht ok |
 
 ## 2. Weitere Themen (in Klärung)
 
