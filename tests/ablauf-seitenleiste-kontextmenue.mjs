@@ -2,9 +2,9 @@
 // ‚Reiselogbuch einstellen‘ daraus (seit 3.44.0, RLB-113), Löschen mit Abfrage, Mehr-Menü der Seitenleiste mit Versionszeile.
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-kontextmenue.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
-import { langDruecken } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.68.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.68.0/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.68.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-seitenleiste-kontextmenue', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -24,7 +24,7 @@ for (const theme of ['light', 'dark']) {
   await t.schritt(p, 'Wien antippen', () => row('Wien').click());
   t.ist('kurz tippen öffnet', await p.textContent('.nb-title'), 'Wien Kurztrip');
   await t.schritt(p, 'Toskana lange drücken', () => long('Toskana'));
-  t.ist('Kontextmenü', await p.locator('.menu .mi').allTextContents(), ['Reiselogbuch einstellen', 'Reiselogbuch löschen'], 'R-4.2');
+  t.ist('Kontextmenü', await p.locator('.menu .mi').allTextContents(), ['Reiselogbuch einstellen', 'Reiselogbuch sperren', 'Reiselogbuch löschen'], 'R-4.2');   // seit 3.58.0 mit ‚Reiselogbuch sperren‘ (RLB-125)
   t.ist('langes Drücken öffnet nicht', await p.textContent('.nb-title'), 'Wien Kurztrip', 'R-4.2');
   t.ist('Kachel bleibt blau, solange ihr Menü offen ist', await row('Toskana').evaluate(e => e.classList.contains('on')), true, 'R-3.3');
   await p.screenshot({ path: new URL(`out/R22-1-kontextmenue-${theme}-${t.browserName}.png`, import.meta.url).pathname });

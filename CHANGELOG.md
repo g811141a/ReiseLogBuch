@@ -13,6 +13,107 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.58.0 – 21.11.2026
+
+Reiselogbuch 3.58.0 · AppDesign 4.68.0 (Designrichtlinie allgemein 4.68.0) · Designrichtlinie Reiselogbuch 3.58.0 · Zusammenarbeit allgemein 3.19.0
+
+**RLB-125 – Reiselogbuch sperren** (Nutzer 18.11.2026, Sitzung 0127; geklärt in 0148 bis 0150, Muster 6 und 7 ok; RLB-125/J-12 und Bau bestätigt in Sitzung 0152 –
+AppDesign `arbeit/0152 RLB-125 Bau-Frage.md`).
+
+- **Sperren und Entsperren:** Kontextmenü und Wischen auf der Kachel ‚Reiselogbuch sperren‘ (`lock`) bzw. ‚Reiselogbuch entsperren‘ (`lock-open`), im nicht
+  gesperrten Reiselogbuch auch Mehr → ‚Reiselogbuch sperren‘; wirkt sofort, ohne Abfrage. Sperren und Entsperren zählen als Änderung (‚geändert am …‘, RLB-125/J-11).
+- **Kachel:** gesperrt `lock` klein vor dem Titel – so hoch wie die Großbuchstaben, mittig, in der Farbe des Titels (RLB-125/J-9); nicht gesperrt kein Symbol.
+- **Gesperrt geöffnet:** statt Tabelle bzw. Kästen nur die Vorschau als Seite – kein Fenster, kein x; sie bleibt nach jeder Ausgabe, nach Backup, Wechsel, Drehen und
+  Neustart (RLB-125/J-7). Oben ‚PDF‘ und Teilen (blau gefüllt), kein Mehr (RLB-125/J-8). Darüber der Hinweis mit orangem `lock`: ‚Dieses Reiselogbuch ist gesperrt. Es lässt sich lesen
+  und ausgeben, aber nicht ändern oder löschen.‘ und ‚Entsperren‘ hell mit blauer Schrift (RLB-125/J-5, RLB-125/J-6). Fazit und Gesamtausgaben stehen gesperrt nur in der Vorschau.
+- **iPhone hoch:** der Hinweis geht über die ganze Breite, ‚Entsperren‘ darunter; die Vorschau ist 960 px breit und wird seitlich gewischt (Muster 7).
+- **Kontextmenü und Wischen gesperrt:** nur ‚Reiselogbuch entsperren‘ bzw. ‚Entsperren‘ – ‚Einstellen‘ und ‚Löschen‘ sind ausgeblendet, nicht blass (RLB-125/J-12, R-4.10,
+  HIG ‚Context menus‘). Ein gesperrtes Reiselogbuch lässt sich nicht löschen.
+- **Lösch-Abfrage (RLB-125/L-4, RLB-125/L-5):** ‚‚Toskana‘ mit allen 42 Einträgen löschen? Das kann nicht rückgängig gemacht werden.‘ (‚mit 1 Eintrag‘, ohne Einträge ‚‚…‘ ohne
+  Einträge löschen? …‘). ‚Erst Backup erstellen‘ (blau) steht nur mit Einträgen und ohne Backup heute auf diesem Gerät; danach kommt dieselbe Abfrage wieder, nach einem
+  gesicherten Backup ohne diese Schaltfläche. Darunter ‚Reiselogbuch löschen‘ (rot) und ‚Abbrechen‘ (R-4.3).
+- **Backup und Abgleich:** die Sperre steht im Backup; alte Backups ohne Sperre gelten als nicht gesperrt (`normalize`). Abgleich mit `protect` (AppDesign 4.68.0):
+  ein gesperrtes Reiselogbuch wird nie gelöscht – auf dem Gerät, das es gelöscht hat, kommt es gesperrt zurück (15.18 Fall 23); im Abgleichbericht ‚Gesperrt: ja‘ bzw. ‚–‘.
+  ‚Ersetzen‘ nennt ‚Darunter N gesperrte Reiselogbücher.‘ (RLB-125/J-3).
+- **Prüfungen:** neu `ablauf-sperre` (RLB-125/T-1 bis RLB-125/T-7, RLB-125/T-9, RLB-125/T-11, RLB-125/T-12 je Ansicht mit den Grundregeln; Gegenprobe `PRUEF_GEGENPROBE=sperre`, RLB-125/T-10);
+  `abgleich-regeln` mit den Fällen 21–23 und der Gegenprobe `PRUEF_GEGENPROBE=abgleich:23`; `bausteine-pruefseite` (Teil `menue`) mit R-4.14 (RLB-125/T-13).
+  Sollwerte mit ‚Reiselogbuch sperren‘ in `ablauf-gesamt`, `ablauf-einstellen`, `ablauf-preis-km`, `ablauf-seitenleiste-kontextmenue`; `ablauf-texte-ablaeufe` lässt
+  ‚sperren‘ bei R-4.11 aus (öffnet kein Fenster); `ablauf-wischen` mit drei Kapseln (Wischweg 150 px).
+- **Kontextmenü am iPhone quer (AppDesign 4.68.0, R-4.2):** mit drei Punkten passt das Menü an der obersten und an der letzten Kachel weder darunter noch darüber –
+  es steht dann rechtsbündig auf der Kachel, die Liste bleibt stehen (Wortlaut freigegeben 22.11.2026, Sitzung 0153 – AppDesign
+  `arbeit/0153 RLB-125 Kontextmenue iPhone quer.md`); geprüft in `kontextmenue-regeln`.
+- AD-Bean: keine – in AppDesign (`createSync` mit `protect`).
+
+Testfälle P-120 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Für P-120/7 und P-120/8 ein eigenes Reiselogbuch ‚Test‘ anlegen, damit deine echten
+Reiselogbücher unberührt bleiben.
+
+**P-120/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.58.0 · erstellt am … · AppDesign 4.68.0‘. Automatisch geprüft in `version-regeln`.
+
+**P-120/1 – Sperren über das Kontextmenü (iPad)**
+1. iPad quer, hell; in der Seitenleiste lange auf die Kachel eines Reiselogbuchs drücken.
+2. Im Kontextmenü ‚Reiselogbuch sperren‘ antippen.
+3. Erwartet: auf der Kachel steht ein kleines Schloss vor dem Titel, so hoch wie die Großbuchstaben. Rechts steht nur die Vorschau mit dem orangen Hinweis ‚Dieses
+   Reiselogbuch ist gesperrt. Es lässt sich lesen und ausgeben, aber nicht ändern oder löschen.‘ und der Schaltfläche ‚Entsperren‘; oben ‚PDF‘ und das blaue Teilen,
+   kein ‚…‘. Keine Tabelle, kein Fenster. Automatisch geprüft in `ablauf-sperre` (RLB-125/T-1, RLB-125/T-2, RLB-125/T-4).
+
+**P-120/2 – Ausgabe bei gesperrtem Reiselogbuch (iPad)**
+1. iPad quer, hell; das gesperrte Reiselogbuch aus P-120/1 ist offen.
+2. Oben das blaue Teilen antippen, im Teilen-Menü ‚In Dateien sichern‘ wählen oder abbrechen; dann das Fenster mit x schließen.
+3. Erwartet: das Fenster ‚Ausgabe V…‘ erscheint über der Vorschau; nach x ist wieder nur die Vorschau mit dem Hinweis zu sehen, keine Tabelle. Automatisch geprüft
+   in `ablauf-sperre` (RLB-125/T-3).
+
+**P-120/3 – Kontextmenü und Wischen gesperrt (iPad)**
+1. iPad quer, hell; lange auf die Kachel des gesperrten Reiselogbuchs drücken, danach das Menü schließen.
+2. Auf derselben Kachel nach links wischen.
+3. Erwartet: das Kontextmenü zeigt nur ‚Reiselogbuch entsperren‘ – kein ‚Reiselogbuch einstellen‘, kein ‚Reiselogbuch löschen‘. Beim Wischen erscheint nur die Kapsel
+   ‚Entsperren‘. Automatisch geprüft in `ablauf-sperre` (RLB-125/T-5).
+
+**P-120/4 – Entsperren (iPad)**
+1. iPad quer, hell; das gesperrte Reiselogbuch ist offen.
+2. Im Hinweis ‚Entsperren‘ antippen.
+3. Erwartet: sofort die normale Seite mit der Tabelle und oben ‚…‘; das Schloss auf der Kachel ist weg; auf der Kachel ‚geändert am <heute> … · iPad‘. Danach über
+   ‚…‘ → ‚Reiselogbuch sperren‘ wieder sperren: sofort wieder nur die Vorschau. Automatisch geprüft in `ablauf-sperre` (RLB-125/T-6).
+
+**P-120/5 – iPhone hoch: gesperrt öffnen und seitlich wischen**
+1. iPhone hoch, hell; in der Startliste ein Reiselogbuch lange drücken und ‚Reiselogbuch sperren‘ wählen, dann die Kachel antippen.
+2. In der Vorschau nach links wischen.
+3. Erwartet: oben ‚PDF‘ und das blaue Teilen; der orange Hinweis geht über die ganze Breite, ‚Entsperren‘ steht darunter; die Vorschau rollt seitlich, Wörter sind nicht
+   zerrissen, Kopfzeile und Hinweis bleiben stehen. Automatisch geprüft in `ablauf-sperre` (RLB-125/T-11). Danach ‚Entsperren‘ antippen.
+
+**P-120/6 – Lösch-Abfrage mit Zahl der Einträge (iPad)**
+1. iPad quer, hell; ein nicht gesperrtes Reiselogbuch mit Einträgen öffnen.
+2. Oben ‚…‘ → ‚Reiselogbuch löschen‘ antippen.
+3. Erwartet: ‚‚<Titel>‘ mit allen N Einträgen löschen? Das kann nicht rückgängig gemacht werden.‘ (N = erfasste Tage). Wurde heute auf diesem iPad noch kein Backup
+   erstellt, stehen darunter ‚Erst Backup erstellen‘ (blau), ‚Reiselogbuch löschen‘ (rot) und ‚Abbrechen‘, sonst nur ‚Reiselogbuch löschen‘ und ‚Abbrechen‘.
+   ‚Abbrechen‘ antippen – nichts wird gelöscht. Automatisch geprüft in `ablauf-sperre` (RLB-125/T-12).
+
+**P-120/7 – Abgleich: gesperrt geht vor gelöscht (iPad und iPhone)**
+1. Auf dem iPad ein Reiselogbuch ‚Test‘ anlegen, ‚Backup erstellen‘ → ‚In Dateien sichern‘ (iCloud Drive); auf dem iPhone ‚Backup laden‘ → diese Datei → ‚Abgleichen‘.
+2. Auf dem iPad ‚Test‘ sperren (Kontextmenü), auf dem iPhone danach ‚Test‘ löschen. Auf dem iPhone ‚Backup erstellen‘ → sichern; auf dem iPad ‚Backup laden‘ → diese Datei →
+   ‚Abgleichen‘ → ‚Abgleichbericht anzeigen‘.
+3. Erwartet auf dem iPad: ‚Test‘ bleibt, gesperrt; im Abgleichbericht unter ‚Hinweise‘ ‚Auf dem iPhone gelöscht, auf diesem iPad gesperrt: Test – bleibt erhalten.‘
+4. Auf dem iPad ‚Backup erstellen‘ → sichern; auf dem iPhone ‚Backup laden‘ → diese Datei → ‚Abgleichen‘ → ‚Abgleichbericht anzeigen‘.
+5. Erwartet auf dem iPhone: ‚Test‘ ist wieder da, gesperrt; im Abgleichbericht die Zeile ‚neu angelegt‘ und unter ‚Hinweise‘ ‚Auf dem iPad gesperrt, auf diesem
+   iPhone gelöscht: Test – wiederhergestellt.‘ Automatisch geprüft in `abgleich-regeln` (15.18 Fall 23).
+
+**P-120/8 – ‚Ersetzen‘ nennt die gesperrten (iPad)**
+1. iPad quer, hell; ‚Test‘ ist gesperrt (aus P-120/7).
+2. Seitenleiste ‚…‘ → ‚Backup laden‘ → eine Backup-Datei wählen; die Abfrage lesen, dann ‚Abbrechen‘.
+3. Erwartet: in der Kachel ‚Ersetzen‘ ‚Alle Daten auf diesem iPad werden durch das Backup ersetzt. Darunter 1 gesperrtes Reiselogbuch.‘ (bei mehreren ‚Darunter N
+   gesperrte Reiselogbücher.‘); nach ‚Abbrechen‘ ist nichts geändert. Automatisch geprüft in `abgleich-regeln` (‚Darunter 2 gesperrte Reiselogbücher.‘). Zum
+   Schluss ‚Test‘ auf beiden Geräten entsperren und löschen.
+
+**P-120/9 – Kontextmenü am iPhone quer**
+1. iPhone quer, hell; in der Startliste ganz nach oben rollen und lange auf die oberste Kachel drücken.
+2. Das Menü ansehen, dann daneben tippen; danach ganz nach unten rollen und lange auf die letzte Kachel drücken.
+3. Erwartet: das Kontextmenü mit ‚Reiselogbuch einstellen‘, ‚Reiselogbuch sperren‘ und rot ‚Reiselogbuch löschen‘ steht rechts auf der Kachel (oben bündig mit ihr bzw.
+   über der Backup-Kachel); die Liste rückt nicht, Titel und Datum der Kachel bleiben ganz zu sehen; nach dem Schließen springt nichts. Automatisch geprüft in
+   `kontextmenue-regeln` (iPhone quer, 3 bis 12 Einträge).
+
 ## 3.57.12 – 21.11.2026
 
 Reiselogbuch 3.57.12 · AppDesign 4.67.2 (Designrichtlinie allgemein 4.67.2) · Designrichtlinie Reiselogbuch 3.57.12 · Zusammenarbeit allgemein 3.19.0

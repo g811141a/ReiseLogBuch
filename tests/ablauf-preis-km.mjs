@@ -12,9 +12,9 @@
 // Seit 3.56.0 (AppDesign 4.59.0): Testfall-Liste AppDesign arbeit/RLB-121 Testfall-Liste.md – RLB-121/M-1 bis M-14, M-16 teuerste und günstigste
 // Quartiere (M-15 in ablauf-abgleich-faelle, M-17 hig nach jedem Schritt).
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
-import { createCheck, bezeichnungen, kastenBezeichnung, kopfVerlauf } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
-import { checkAufzaehlung, textGroesseSetzen } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.68.0/tests/pruefe.mjs';
+import { createCheck, bezeichnungen, kastenBezeichnung, kopfVerlauf } from '../../AppDesign/fassung/4.68.0/tests/hig.mjs';
+import { checkAufzaehlung, textGroesseSetzen } from '../../AppDesign/fassung/4.68.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-preis-km', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.ilist .ln.q a'] }), out: new URL('out/', import.meta.url) });
 // 24.–28.08.: Quartier A 3 Nächte (Preis 300), Quartier B 2 Nächte (Preis 200); 29.08. Quartier C ohne Preis; km an 3 Tagen, ein Tag nur km
 const days = {
@@ -78,7 +78,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   await oeffne(p);
   // D-3: Mehr eines Reiselogbuchs ohne ‚Darstellung‘
   await p.click('#mainMore'); await p.waitForTimeout(150);
-  t.ist('APD-92/D-3 Mehr des Reiselogbuchs', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Reiselogbuch einstellen', 'Reiselogbuch löschen'], 'R-1.2');
+  t.ist('APD-92/D-3 Mehr des Reiselogbuchs', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Reiselogbuch einstellen', 'Reiselogbuch sperren', 'Reiselogbuch löschen'], 'R-1.2');   // seit 3.58.0 (RLB-125)
   await p.keyboard.press('Escape'); await p.waitForTimeout(150);
   // L-2 (iPad) bzw. L-9 (iPhone): Spalte bzw. Zeile ‚🚶🏽‍♂️ 14 km‘
   // seit 3.43.0 (AppDesign APD-97, R-6.6): iPad hoch neben der Seitenleiste Kästen wie am iPhone

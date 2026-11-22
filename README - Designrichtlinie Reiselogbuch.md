@@ -1,8 +1,8 @@
 # Designrichtlinie Reiselogbuch
 
-**Version 3.57.12** · Stand 21.11.2026
+**Version 3.58.0** · Stand 21.11.2026
 
-> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.67.2)** – die Komponenten kommen fertig aus der festen
+> **Es gilt die Designrichtlinie allgemein aus AppDesign (Version 4.68.0)** – die Komponenten kommen fertig aus der festen
 > AppDesign-Fassung (`fassung/X.Y.Z/design.css` und `ui.js`). Hier stehen nur die **Abweichungen**: was das Reiselogbuch bewusst
 > anders macht als dort, mit Grund und Datum der Entscheidung (Designrichtlinie allgemein 12). Alles andere Reiselogbuch-Eigene –
 > Begriffe, Texte, Menüs, Leertexte, Ausgestaltung der Komponenten – steht in der Funktionsbeschreibung `PROMPT.md`.
@@ -30,6 +30,7 @@ Kopfdaten abbildet, steht in `PROMPT.md` (Sicherheit). Die Feldnamen stehen hier
 
 | Version | Datum | Art | Inhalt |
 |---|---|---|---|
+| 3.58.0 | 21.11.2026 | Neben | Keine Regeländerung – RLB-125 Reiselogbuch sperren (Verhalten in PROMPT.md); allgemein dazu R-4.14 und R-9.3 mit `protect` (AppDesign 4.68.0). |
 | 3.57.12 | 21.11.2026 | Korrektur | AppDesign 4.67.2 (P-118/F-2): ‚Schaltfläche‘ statt ‚Knopf‘ (R-10.9). |
 | 3.57.7 | 19.11.2026 | Korrektur | AppDesign 4.64.0 (APD-135 Paket 6 Schritt 1: Schnittstelle von `ui.js`, R-1.14; APD-138: Dateiname am iPad in einer Zeile, AD-Bean `hinweis`); keine eigene Abweichung |
 | 3.57.5 | 18.11.2026 | Korrektur | AppDesign 4.62.0 (APD-135 Paket 4); APD-135/W-50 – Abweichungen 1–3 nennen nur Werte und die Regelnummer (Wortlaut bestätigt 18.11.2026, Sitzung 0132) |

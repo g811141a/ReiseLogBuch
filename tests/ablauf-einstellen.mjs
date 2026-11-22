@@ -3,9 +3,9 @@
 // das Fenster ebenso; ‚Neues Reiselogbuch‘ bleibt (Abweichung 4 der App-Richtlinie). RLB-113/E-1 bis RLB-113/E-6; RLB-113/E-7 (Gegenprobe) = gegen 3.43.0
 // mit PRUEF_APP=../_alt.html. Aufruf im Repo-Ordner: node tests/ablauf-einstellen.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
-import { langDruecken } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.68.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.68.0/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.68.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-einstellen', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const NAME = 'Reiselogbuch einstellen';
@@ -45,7 +45,7 @@ for (const [ansicht, px] of faelle) {
   if (phone) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p); }
   // RLB-113/E-1: Mehr-Menü des Reiselogbuchs
   await t.schritt(p, 'RLB-113/E-1 Mehr-Menü', async () => { await p.click('#mainMore'); await p.waitForTimeout(200); });
-  t.ist('RLB-113/E-1 Mehr-Menü', await menue(p), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', NAME, 'Reiselogbuch löschen'], 'R-4.1');
+  t.ist('RLB-113/E-1 Mehr-Menü', await menue(p), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', NAME, 'Reiselogbuch sperren', 'Reiselogbuch löschen'], 'R-4.1');   // seit 3.58.0 mit ‚Reiselogbuch sperren‘ (RLB-125)
   t.ist('RLB-113/E-1 Icon settings', await p.evaluate(n => { const m = [...document.querySelectorAll('.menu .mi')].find(x => x.textContent.trim() === n); const d = document.createElement('div'); d.innerHTML = ic('settings'); return !!m && m.querySelector('svg')?.innerHTML === d.firstElementChild.innerHTML; }, NAME), true, 'R-4.1');
   t.wahr('RLB-113/E-6 Menüpunkte ganz im Menü', await menueFrei(p), 'R-6.3');
   // RLB-113/E-3: daraus das Fenster – Titel, Reisetitel des geöffneten
@@ -57,7 +57,7 @@ for (const [ansicht, px] of faelle) {
   if (phone) { await p.click('#back'); await p.waitForTimeout(400); await navFertig(p); }
   else if (ansicht === 'iPad hoch') { await p.evaluate(() => { if (side.hidden) toggleSide(); }); await p.waitForTimeout(600); await navFertig(p); }
   await t.schritt(p, 'RLB-113/E-2 Toskana lange drücken', () => lang(p, '#side .side-row[data-id="b"]'));
-  t.ist('RLB-113/E-2 Kontextmenü', await menue(p), [NAME, 'Reiselogbuch löschen'], 'R-4.2');
+  t.ist('RLB-113/E-2 Kontextmenü', await menue(p), [NAME, 'Reiselogbuch sperren', 'Reiselogbuch löschen'], 'R-4.2');   // seit 3.58.0 mit ‚Reiselogbuch sperren‘ (RLB-125)
   t.wahr('RLB-113/E-6 Menüpunkte des Kontextmenüs ganz im Menü', await menueFrei(p), 'R-6.3');
   await t.schritt(p, 'RLB-113/E-4 Kontextmenü → Reiselogbuch einstellen', async () => { await p.locator('.menu .mi', { hasText: NAME }).click(); await p.waitForTimeout(400); await navFertig(p); });
   t.ist('RLB-113/E-4 Fenstertitel und Reisetitel des gedrückten, Zeile blau (on)', [await p.textContent('#dlg .dlg-head h3'), await p.inputValue('#fTitle'),

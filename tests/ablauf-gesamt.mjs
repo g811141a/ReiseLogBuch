@@ -3,9 +3,9 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, warteBis } from '../../AppDesign/fassung/4.67.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.67.2/tests/hig.mjs';
-import { sucheAuf, checkDateiname, checkFilterAlle } from '../../AppDesign/fassung/4.67.2/tests/ablauf.mjs';
+import { pruefung, warteBis } from '../../AppDesign/fassung/4.68.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.68.0/tests/hig.mjs';
+import { sucheAuf, checkDateiname, checkFilterAlle } from '../../AppDesign/fassung/4.68.0/tests/ablauf.mjs';
 import { readFileSync, writeFileSync, rmSync } from 'node:fs';
 // seit 3.48.1 (AppDesign APD-85 Teil 5): keine festen Pausen mehr – jede Stelle wartet mit warteBis auf den Zustand danach (Ruhe = keine
 // laufende Bewegung); nur das lange Drücken hält den Finger eine feste Zeit (die Handlung selbst)
@@ -68,7 +68,7 @@ for (const theme of ['light', 'dark']) {
   // Mehr-Menü
   await S(p, 'Mehr-Menü', () => p.click('#mainMore'));
   // seit 3.41.0: ‚Suchen‘ zuerst (AppDesign APD-91), ‚Darstellung‘ nicht mehr hier (RLB-108, APD-92/D-3)
-  t.ist('Mehr-Menü', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Reiselogbuch einstellen', 'Reiselogbuch löschen'], 'R-4.1');
+  t.ist('Mehr-Menü', await p.locator('.menu .mi').allTextContents(), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', 'Reiselogbuch einstellen', 'Reiselogbuch sperren', 'Reiselogbuch löschen'], 'R-4.1');   // seit 3.58.0 mit ‚Reiselogbuch sperren‘ (RLB-125)
   t.ist('Mehr bleibt blau', await cls(p, '#mainMore', 'on'), true, 'R-3.3');
   await S(p, 'Nur erfasste Tage', () => p.click('.menu .mi:has-text("Nur erfasste Tage")'));
   t.ist('Zeilen nur erfasste Tage', await p.locator('table.days tbody tr').count(), 5);
