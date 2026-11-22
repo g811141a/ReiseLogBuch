@@ -25,7 +25,7 @@
 // seit 3.57.8 bean-katalog (AppDesign APD-140, R-1.13): der Bean-Katalog von AppDesign lädt fehlerfrei, jede Bean, Grundregeln, Versionszeile.
 // seit 3.57.8 in bausteine-pruefseite die Teile ‚menue‘, ‚sprechblase‘ und ‚fenster‘ (AppDesign APD-135/B-3.3); in ablauf-markierung-menues sind checkMehrKnopf und checkWachsen weggefallen.
 import * as pw from 'playwright';
-import { lauf } from '../../AppDesign/fassung/4.68.0/tests/lauf.mjs';
+import { lauf } from '../../AppDesign/fassung/4.68.1/tests/lauf.mjs';
 const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-leer', 'ablauf-drehen-iphone', 'ablauf-glas', 'ablauf-feld-rollen', 'ablauf-feld-cursor', 'ablauf-fremdtext', 'ablauf-drehen-luecke', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
   'verlauf-vorschlaege', 'bean-katalog', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln', 'ablauf-bausteine', 'ablauf-sperre',
@@ -35,6 +35,8 @@ const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'abl
   // Seit 3.48.0 (AppDesign APD-85 Teil 5): ablauf-blatt nach Gerät geteilt – mit APD-108/W-9 lief es unter Last in die Zeitgrenze von 10:00
   // Seit 3.56.0 (RLB-121/W-4, R-8.1): oeffnen-position zusätzlich mit Text 23 (XXXL) – am iPad hoch neben der Seitenleiste schaltet ts-um beim
   // Aus- und Einblenden um; im vollen Lauf von 3.56.0 sprang der oberste Tag (hig Text 23, allein 2 von 3 rot), oeffnen-position Text 23 zeigte es sicher
+  // Seit 3.58.1 (Usertest P-120 nicht ok, Zusammenarbeit 0 Nr. 1): ablauf-p120 – die Abläufe des Nutzers zu P-120/F-1 bis F-4, je Teil eine Ansicht der Korrektur
+  { name: 'ablauf-p120', teile: Object.fromEntries(['F-1', 'F-2', 'F-3', 'F-4'].map(n => [n, { PRUEF_TEIL: n }])) },
   { name: 'oeffnen-position', teile: { '': {}, 'Text 23': { PRUEF_TEXT: '23' } } },
   { name: 'ablauf-blatt', teile: { iPhone: { PRUEF_BLATT: 'iPhone' }, iPad: { PRUEF_BLATT: 'iPad' } } },
   // Die zwei langen Prüfungen geteilt (APD-5/B-5): hig nach Darstellung (der Gerätevergleich R-1.1 bleibt je Teil vollständig),
