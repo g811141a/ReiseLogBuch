@@ -2114,7 +2114,7 @@ async function exportHtml(trip) {
   if (dlg.open && !over) dlg.close();
   const result = await shareFiles([file]);
   if (result === 'shared' || result === 'downloaded') countOutput(trip, version);
-  adSourcehighlight.sourceItem = over ? '#prvShare' : '#shareBtn';
+  outputSource(over, '#prvShare');
   showOutputResult(`Ausgabe V${pad(version, 3)}`, file.name, result, { over });
 }
 
@@ -2125,7 +2125,7 @@ function exportPdf(trip) {
   // übergeht iOS print() (RLB-124), zählt nichts. Abbrechen im Drucken-Menü lässt sich nicht erkennen und zählt.
   const name = outputName(trip, version);
   const over = fromPreview(), host = over ? document.getElementById('msg') : dlg;   // P-121/F-2 (#msg: Hinweisfenster)
-  adSourcehighlight.sourceItem = over ? '#prvPdf' : '#shareBtn';
+  outputSource(over, '#prvPdf');
   showOutputResult(`Ausgabe V${pad(version, 3)}`, name + '.pdf', 'print', { over });
   const oldTitle = document.title;
   printout.innerHTML = `<style>${OUTPUT_CSS.replace(/\bbody\b/g, '#printout')}</style>${outputBody(trip, version, stamp)}`;
@@ -2142,6 +2142,13 @@ function exportPdf(trip) {
 
 // Seit 3.58.2 (P-121/F-2): over – aus der Vorschau als Hinweisfenster (AD-Bean alert auf #msg) über der offenen Vorschau, die danach bleibt.
 const fromPreview = () => dlg.open && !!dlg.querySelector('#prvShare');
+// Seit 3.58.3 (P-122/F-1): über der Vorschau ist die Schaltfläche der Vorschau eine gehaltene Quelle der Meldung (hold, bis #msg schließt) – die Quelle
+// der Vorschau (Teilen der Kopfzeile) bleibt, und nach dem Schließen sieht die Vorschau aus wie beim Öffnen (R-3.3); sonst ist Teilen die Quelle.
+function outputSource(over, item) {
+  if (!over) { adSourcehighlight.sourceItem = '#shareBtn'; return; }
+  adSourcehighlight.hold(item);
+  document.getElementById('msg').addEventListener('close', () => adSourcehighlight.release(item), { once: true });
+}
 function showOutputResult(title, name, result, { over = false } = {}) {
   const remind = !backedUpToday() && result !== 'aborted' && result !== 'error';
   if (over) {

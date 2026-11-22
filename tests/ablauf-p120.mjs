@@ -12,6 +12,7 @@
 //   nächsten Öffnen wieder (Muster AppDesign arbeit/P-120/index.html) · iPad quer, iPhone hoch.
 // P-121/F-1 (seit 3.58.2) nach dem Sperren eines Reiselogbuchs mit offenen Tagen weiter unten beginnt die Vorschau oben · iPad quer, iPhone hoch.
 // P-121/F-2 (seit 3.58.2) Teilen und PDF aus der Vorschau: die Vorschau bleibt offen, die Meldung steht darüber · iPad quer, iPhone hoch.
+// P-122/F-1 (seit 3.58.3) nach dem Schließen der Meldung über der Vorschau sehen deren Schaltflächen aus wie beim Öffnen, Teilen bleibt Quelle · iPad quer, iPhone hoch.
 // Grundregeln nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-p120.mjs (PRUEF_TEIL=F-1 … nur ein Teil)
 import * as pw from 'playwright';
 import { pruefung, navFertig } from '../../AppDesign/fassung/4.69.0/tests/pruefe.mjs';
@@ -281,6 +282,33 @@ if (teil('P-121/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
       l = await lage();
       t.ist(`P-121/F-2 ${name}: nach dem Schließen der Meldung ist die Vorschau wieder da`, [l.vorschau, l.meldung], [true, false], 'R-4.4');
       await esc(p);
+    }
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+// ---------- P-122/F-1 nach dem Hinweisfenster über der Vorschau sehen die Schaltflächen aus wie beim Öffnen (Rückmeldung P-122/2, Nutzer 22.11.2026) ----------
+// Ablauf des Nutzers: Teilen (Kopfzeile) → ‚Vorschau‘ → Teilen bzw. PDF → Meldung ‚Ausgabe V…‘ → x. Vorher blieb #prvShare getönt (Klasse on statt blau
+// gefüllt) und Teilen der Kopfzeile verlor die Tönung als Quelle der Vorschau (R-3.3); dieselbe Lücke bei PDF und nach dem Schließen der Vorschau.
+if (teil('P-122/F-1')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    await lade(p, { trips: TRIPS.map(x => ({ ...x, locked: undefined })), lastTrip: 'b' });
+    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
+    const bild = () => p.evaluate(() => { const k = s => { const e = document.querySelector(s); return e ? [e.className, getComputedStyle(e).backgroundColor, getComputedStyle(e).color].join(' | ') : '–'; };
+      return { share: k('#prvShare'), pdf: k('#prvPdf'), quelle: document.querySelector('#shareBtn')?.classList.contains('on') ?? null }; });
+    const vorschau = async () => { await p.click('#shareBtn'); await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(400);
+      await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); await p.waitForSelector('#dlg[open] #prvShare', { timeout: 4000 }); await p.waitForTimeout(600); };
+    for (const [art, knopf, name] of [['ok', '#prvShare', 'Teilen gesichert'], ['abbrechen', '#prvShare', 'Teilen abgebrochen'], ['', '#prvPdf', 'PDF']]) {
+      await t.schritt(p, `P-122/F-1 Teilen → ‚Vorschau‘ (${name})`, vorschau);
+      const vor = await bild();
+      t.ist(`P-122/F-1 ${name}: beim Öffnen der Vorschau ist Teilen der Kopfzeile als Quelle getönt`, vor.quelle, true, 'R-3.3');
+      await t.schritt(p, `P-122/F-1 ${name} antippen`, async () => { await p.evaluate(a => { window.__teilen = a || 'ok'; }, art); await p.click(knopf); await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); });
+      await t.schritt(p, `P-122/F-1 ${name}: Meldung mit x schließen`, async () => { await p.click('#msg [data-x]'); await p.waitForTimeout(700); });
+      const nach = await bild();
+      t.ist(`P-122/F-1 ${name}: nach dem Schließen der Meldung sehen Teilen und PDF der Vorschau aus wie beim Öffnen`, [nach.share, nach.pdf], [vor.share, vor.pdf], 'R-3.3');
+      t.ist(`P-122/F-1 ${name}: Teilen der Kopfzeile bleibt Quelle der offenen Vorschau`, nach.quelle, true, 'R-3.3');
+      await t.schritt(p, `P-122/F-1 ${name}: Vorschau schließen`, async () => { await p.click('#dlgX'); await p.waitForTimeout(800); });
+      t.ist(`P-122/F-1 ${name}: nach dem Schließen der Vorschau ist nichts mehr getönt`, await p.evaluate(() => [adSourcehighlight.sourceItem, adSourcehighlight.heldItems.length, document.querySelectorAll('.on').length]), [ '', 0, 0], 'R-3.3');
     }
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
