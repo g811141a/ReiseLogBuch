@@ -39,6 +39,9 @@ AppDesign `arbeit/0152 RLB-125 Bau-Frage.md`).
   `abgleich-regeln` mit den Fällen 21–23 und der Gegenprobe `PRUEF_GEGENPROBE=abgleich:23`; `bausteine-pruefseite` (Teil `menue`) mit R-4.14 (RLB-125/T-13).
   Sollwerte mit ‚Reiselogbuch sperren‘ in `ablauf-gesamt`, `ablauf-einstellen`, `ablauf-preis-km`, `ablauf-seitenleiste-kontextmenue`; `ablauf-texte-ablaeufe` lässt
   ‚sperren‘ bei R-4.11 aus (öffnet kein Fenster); `ablauf-wischen` mit drei Kapseln (Wischweg 150 px).
+- **Kontextmenü am iPhone quer (AppDesign 4.68.0, R-4.2):** mit drei Punkten passt das Menü an der obersten und an der letzten Kachel weder darunter noch darüber –
+  es steht dann rechtsbündig auf der Kachel, die Liste bleibt stehen (Wortlaut freigegeben 22.11.2026, Sitzung 0153 – AppDesign
+  `arbeit/0153 RLB-125 Kontextmenue iPhone quer.md`); geprüft in `kontextmenue-regeln`.
 - AD-Bean: keine – in AppDesign (`createSync` mit `protect`).
 
 Testfälle P-120 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
@@ -103,6 +106,13 @@ Reiselogbücher unberührt bleiben.
 3. Erwartet: in der Kachel ‚Ersetzen‘ ‚Alle Daten auf diesem iPad werden durch das Backup ersetzt. Darunter 1 gesperrtes Reiselogbuch.‘ (bei mehreren ‚Darunter N
    gesperrte Reiselogbücher.‘); nach ‚Abbrechen‘ ist nichts geändert. Automatisch geprüft in `abgleich-regeln` (‚Darunter 2 gesperrte Reiselogbücher.‘). Zum
    Schluss ‚Test‘ auf beiden Geräten entsperren und löschen.
+
+**P-120/9 – Kontextmenü am iPhone quer**
+1. iPhone quer, hell; in der Startliste ganz nach oben rollen und lange auf die oberste Kachel drücken.
+2. Das Menü ansehen, dann daneben tippen; danach ganz nach unten rollen und lange auf die letzte Kachel drücken.
+3. Erwartet: das Kontextmenü mit ‚Reiselogbuch einstellen‘, ‚Reiselogbuch sperren‘ und rot ‚Reiselogbuch löschen‘ steht rechts auf der Kachel (oben bündig mit ihr bzw.
+   über der Backup-Kachel); die Liste rückt nicht, Titel und Datum der Kachel bleiben ganz zu sehen; nach dem Schließen springt nichts. Automatisch geprüft in
+   `kontextmenue-regeln` (iPhone quer, 3 bis 12 Einträge).
 
 ## 3.57.12 – 21.11.2026
 
