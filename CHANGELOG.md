@@ -13,6 +13,110 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.58.1 – 22.11.2026
+
+Reiselogbuch 3.58.1 · AppDesign 4.68.1 (Designrichtlinie allgemein 4.68.1) · Designrichtlinie Reiselogbuch 3.58.1 · Zusammenarbeit allgemein 3.19.0
+
+**P-120 – Korrekturen aus dem Usertest P-120** (Rückmeldung nicht ok, Nutzer 22.11.2026, Sitzung 0153; Entscheidungen Sitzung 0154 – AppDesign
+`arbeit/0154 P-120 Korrekturen.md`). Je genau der Ablauf des Nutzers als feste Prüfung `ablauf-p120` (rot gegen 3.58.0 in Chromium und WebKit, Zusammenarbeit 0 Nr. 1).
+
+- **P-120/F-1 Text nur in Eingabefeldern auswählbar (AppDesign 4.68.1, neue Regel R-1.15):** langes Drücken, Doppeltippen und Ziehen markieren außerhalb der
+  Eingabefelder nichts mehr und zeigen keine Lupe – auch nicht auf dem Text der Backup-Kachel, auf der Lücke zwischen zwei Kacheln, auf Titeln, Jahresköpfen,
+  dem Hinweis ‚gesperrt‘ und den Beschriftungen in den Fenstern. Wählbar bleiben die Eingabefelder und die Vorschau der Ausgabe (Lesetext zum Kopieren, HIG ‚Labels‘).
+- **P-120/F-2 Liste springt nicht mehr:** Sperren und Entsperren einer Kachel weiter oben (Kontextmenü, Wischen) machen dieses Reiselogbuch zum aktiven – am iPad
+  wird es angezeigt, am iPhone bleibt die Startliste stehen. Dieselbe Lücke ebenso behoben (Zusammenarbeit 0 Nr. 1): ‚Reiselogbuch einstellen‘ aus der Liste wird nach
+  dem Sichern das aktive und angezeigt; ‚Reiselogbuch löschen‘ einer anderen Kachel lässt die Liste stehen, das aktive bleibt. **Auch behoben (gleiche Ursache, nicht
+  gemeldet):** ‚Reiselogbuch einstellen‘ ohne Sichern (x) ließ die Liste ebenfalls ans Ende springen – jetzt bleibt sie stehen.
+- **P-120/F-3 Ausgabe-Nummer:** ‚Ausgabe V…‘ zählt erst hoch, wenn die Datei übergeben ist (Teilen-Menü abgeschlossen bzw. geladen); abgebrochen oder gescheitert zählt
+  nicht. PDF zählt erst, wenn das Drucken-Menü wirklich aufgeht (`beforeprint`) – übergeht iOS das Drucken in der App vom Home-Bildschirm (RLB-124), bleibt die Nummer.
+  Abbrechen im Drucken-Menü lässt sich nicht erkennen und zählt.
+- **P-120/F-4 Hinweis ‚gesperrt‘:** steht beim Rollen fest unter der Kopfzeile, die Vorschau läuft darunter durch. Rechts im Hinweis x ‚Hinweis ausblenden‘ (runde
+  Schaltfläche, auf derselben Mitte wie ‚Entsperren‘); danach steht das Schloss vor dem Titel in der Kopfzeile. Der Hinweis bleibt weg beim Drehen und Neuaufbau und
+  erscheint wieder beim nächsten Öffnen, nach erneutem Sperren und nach dem Neustart (Muster AppDesign `arbeit/P-120/index.html`, HIG ‚Offering help‘, ‚Feedback‘).
+- **Prüfungen:** neu `ablauf-p120` (Teile P-120/F-1 bis P-120/F-4, je mit den Grundregeln; in `alle.mjs` geteilt nach `PRUEF_TEIL`). Die Prüfung R-1.15 in `hig.mjs`
+  (AppDesign 4.68.1) prüft jeden sichtbaren Text jeder Ansicht.
+- AD-Bean: keine – App-Code (P-120/F-2 bis P-120/F-4); P-120/F-1 in AppDesign `design.css` (Grundeinstellung der Seite).
+
+**Warum die Prüfungen es übersahen:** P-120/F-1 – `hig.mjs` prüfte die Textauswahl nur an Schaltflächen (R-3.6), nicht an anderem Text. P-120/F-2 – `ablauf-sperre` sperrte nur die
+aktive bzw. eine sichtbare Kachel; die Liste war nie gerollt. P-120/F-3 – `ablauf-sperre` prüfte nur das gesicherte Teilen, nicht den Abbruch. P-120/F-4 – die Vorschau war in der
+Prüfung nie gerollt.
+
+Testfälle P-121 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Für P-121/5 bis P-121/8 ein eigenes Reiselogbuch ‚Test‘ mit dem heutigen Datum anlegen
+(es steht dann oben in der Liste), damit deine echten Reiselogbücher unberührt bleiben.
+
+**P-121/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.58.1 · erstellt am … · AppDesign 4.68.1‘. Automatisch geprüft in `version-regeln`.
+
+**P-121/1 – Backup-Kachel und Lücken markieren nichts (iPad)**
+1. iPad quer, hell; die Backup-Kachel unten in der Seitenleiste ist zu sehen (‚Letztes Backup erstellt am …‘).
+2. Lange auf den Text der Backup-Kachel drücken; danach mitten in der Seitenleiste lange auf die Lücke zwischen zwei Kacheln drücken und den Finger etwas ziehen.
+3. Erwartet: keine Lupe, nichts wird markiert, nichts lässt sich verschieben. Automatisch geprüft in `ablauf-p120` (P-120/F-1).
+
+**P-121/2 – Titel, Hinweis und Fenster markieren nichts (iPhone)**
+1. iPhone hoch, hell; lange auf den Titel ‚Reiselogbücher‘ und auf einen Jahreskopf drücken.
+2. Ein Reiselogbuch öffnen, einen Tag antippen und im Fenster lange auf eine Beschriftung (z. B. ‚Verlauf‘ über dem Feld) drücken.
+3. Erwartet: keine Lupe, nichts wird markiert. Automatisch geprüft in `ablauf-p120` (P-120/F-1) und in `hig` (R-1.15, jede Ansicht).
+
+**P-121/3 – Eingabefelder bleiben wie gewohnt (iPad und iPhone)**
+1. iPad quer bzw. iPhone hoch, hell; ein Reiselogbuch öffnen, einen Tag antippen.
+2. Im Feld ‚Verlauf‘ lange drücken, ein Wort markieren, ‚Kopieren‘ und an anderer Stelle im Feld ‚Einsetzen‘; danach ein paar Zeichen tippen.
+3. Erwartet: Lupe, Markierung und das Bearbeiten-Menü wie gewohnt; der Text lässt sich markieren, kopieren, einsetzen und tippen. Danach das Fenster mit x ohne
+   Sichern schließen. Automatisch geprüft in `ablauf-p120` (Felder wählbar) – das Verhalten am Gerät nur hier.
+
+**P-121/4 – Vorschau bleibt markierbar (iPad)**
+1. iPad quer, hell; ein Reiselogbuch öffnen, oben Teilen → ‚Vorschau‘.
+2. Lange auf ein Wort im Text der Vorschau drücken.
+3. Erwartet: das Wort wird markiert, ‚Kopieren‘ steht zur Wahl. Automatisch geprüft in `ablauf-p120` (Vorschau ausgenommen).
+
+**P-121/5 – Sperren weiter oben: die Liste springt nicht (iPad und iPhone)**
+1. iPad quer, hell; die Seitenleiste ganz nach unten rollen und das unterste Reiselogbuch antippen (es ist blau).
+2. Die Seitenleiste ganz nach oben rollen, ‚Test‘ lange drücken → ‚Reiselogbuch sperren‘.
+3. Erwartet iPad: die Liste bleibt stehen, ‚Test‘ ist blau, rechts steht die Vorschau mit ‚Dieses Reiselogbuch ist gesperrt.‘. ‚Test‘ lange drücken → ‚Reiselogbuch
+   entsperren‘: die Liste bleibt stehen, rechts ‚Test‘ offen.
+4. Dasselbe am iPhone hoch in der Startliste (vorher das unterste öffnen und zurück). Erwartet iPhone: die Startliste bleibt stehen. Automatisch geprüft in `ablauf-p120`
+   (P-120/F-2, iPad quer, iPad hoch, iPhone hoch).
+
+**P-121/6 – Einstellen weiter oben (iPad)**
+1. iPad quer, hell; das unterste Reiselogbuch antippen, die Seitenleiste ganz nach oben rollen.
+2. ‚Test‘ lange drücken → ‚Reiselogbuch einstellen‘ → x (ohne Änderung). Danach nochmals ‚Test‘ lange drücken → ‚Reiselogbuch einstellen‘, den Titel auf ‚Test 2‘ ändern
+   → Häkchen.
+3. Erwartet: nach x bleibt die Liste stehen, rechts weiter das unterste Reiselogbuch. Nach dem Häkchen bleibt die Liste stehen, ‚Test 2‘ ist blau und rechts geöffnet.
+   Automatisch geprüft in `ablauf-p120` (P-120/F-2).
+
+**P-121/7 – Löschen weiter oben (iPad)**
+1. iPad quer, hell; das unterste Reiselogbuch antippen, die Seitenleiste ganz nach oben rollen.
+2. ‚Test 2‘ lange drücken → ‚Reiselogbuch löschen‘ → ‚Reiselogbuch löschen‘.
+3. Erwartet: ‚Test 2‘ ist weg, die Liste bleibt stehen, rechts weiter das unterste Reiselogbuch (blau, wenn man nach unten rollt). Automatisch geprüft in `ablauf-p120`
+   (P-120/F-2).
+
+**P-121/8 – Teilen abgebrochen zählt nicht (iPad)**
+1. iPad quer, hell; ein Reiselogbuch ‚Test‘ anlegen und öffnen, oben Teilen → ‚HTML‘.
+2. Im Teilen-Menü ‚Abbrechen‘ (bzw. daneben tippen), die Meldung schließen; nochmals Teilen → ‚HTML‘.
+3. Erwartet: beide Male oben ‚Ausgabe V001‘ und ‚⚠️ Teilen-Menü abgebrochen – nicht gespeichert: Reiselogbuch Test … V001‘. Beim zweiten Mal ‚In Dateien sichern‘
+   wählen, danach nochmals Teilen → ‚HTML‘. Erwartet: jetzt ‚Ausgabe V002‘. Automatisch geprüft in `ablauf-p120` (P-120/F-3). Zum Schluss ‚Test‘ löschen und die
+   Datei in der Dateien-App löschen.
+
+**P-121/9 – PDF ohne Drucken-Menü zählt nicht (iPad, App vom Home-Bildschirm)**
+1. iPad quer, hell; ein Reiselogbuch öffnen, oben Teilen → ‚PDF (mit iOS 27 zurzeit nicht möglich)‘; die Nummer in der Meldung ‚Ausgabe V…‘ merken, Meldung schließen.
+2. Oben Teilen → ‚HTML‘, im Teilen-Menü ‚Abbrechen‘.
+3. Erwartet: das Drucken-Menü geht nicht auf; die Meldung bei ‚HTML‘ nennt dieselbe Nummer wie bei ‚PDF‘ (nicht hochgezählt). Automatisch geprüft in `ablauf-p120`
+   (P-120/F-3, PDF ohne und mit Drucken-Menü) – ob iOS dabei kein `beforeprint` schickt, zeigt nur das Gerät.
+
+**P-121/10 – Hinweis ‚gesperrt‘ bleibt beim Rollen stehen (iPad und iPhone)**
+1. iPad quer, hell; ein Reiselogbuch sperren und öffnen.
+2. In der Vorschau nach unten rollen.
+3. Erwartet: der orange Hinweis ‚Dieses Reiselogbuch ist gesperrt.‘ bleibt direkt unter der Kopfzeile stehen, die Vorschau läuft darunter durch. Dasselbe am
+   iPhone hoch. Automatisch geprüft in `ablauf-p120` (P-120/F-4).
+
+**P-121/11 – Hinweis ausblenden (iPad und iPhone)**
+1. iPad quer, hell; das gesperrte Reiselogbuch aus P-121/10 ist offen.
+2. Rechts im Hinweis x ‚Hinweis ausblenden‘ antippen; danach ein anderes Reiselogbuch öffnen und wieder das gesperrte.
+3. Erwartet: nach x ist der Hinweis weg, in der Kopfzeile steht das Schloss vor dem Titel; beim erneuten Öffnen ist der Hinweis wieder da. Am iPhone hoch steht x
+   rechts in der Zeile von ‚Entsperren‘. Automatisch geprüft in `ablauf-p120` (P-120/F-4). Zum Schluss ‚Entsperren‘ antippen.
+
 ## 3.58.0 – 21.11.2026
 
 Reiselogbuch 3.58.0 · AppDesign 4.68.0 (Designrichtlinie allgemein 4.68.0) · Designrichtlinie Reiselogbuch 3.58.0 · Zusammenarbeit allgemein 3.19.0

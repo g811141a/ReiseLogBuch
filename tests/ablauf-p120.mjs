@@ -4,14 +4,16 @@
 //   Kacheln mitten in der Seitenleiste, auf den Jahreskopf und auf den Hinweis ‚gesperrt‘ markiert nichts; kein sichtbarer Text außerhalb von
 //   Eingabefeldern und der Vorschau ist wählbar (Safari markiert sonst samt Lupe – Designrichtlinie 13, safariHalten) · iPad quer, iPhone hoch.
 // P-120/F-2 Sperren und Entsperren einer Kachel weiter oben, während die unterste aktiv ist: die Liste springt nicht, das gesperrte bzw. entsperrte
-//   Reiselogbuch wird das aktive und angezeigt (iPad); am iPhone bleibt die Startliste stehen · iPad quer, iPad hoch, iPhone hoch.
-// P-120/F-3 abgebrochenes oder gescheitertes Teilen zählt ‚Ausgabe V…‘ nicht hoch, gesichertes schon – gesperrte Seite und Vorschau · iPad quer.
+//   Reiselogbuch wird das aktive und angezeigt (iPad); am iPhone bleibt die Startliste stehen; dieselbe Lücke: ‚Reiselogbuch einstellen‘ gesichert
+//   wie Sperren, abgebrochen und ‚Reiselogbuch löschen‘ lassen die Liste stehen (das aktive bleibt) · iPad quer, iPad hoch, iPhone hoch.
+// P-120/F-3 abgebrochenes oder gescheitertes Teilen zählt ‚Ausgabe V…‘ nicht hoch, gesichertes schon – gesperrte Seite und Vorschau; PDF zählt erst,
+//   wenn das Drucken-Menü aufgeht (beforeprint) · iPad quer.
 // P-120/F-4 Hinweis ‚gesperrt‘ bleibt beim Rollen unter der Kopfzeile stehen, lässt sich ausblenden (x ‚Hinweis ausblenden‘) und erscheint beim
-//   nächsten Öffnen wieder (Muster arbeit/0154 P-120 F-4 Muster.html) · iPad quer, iPhone hoch.
+//   nächsten Öffnen wieder (Muster AppDesign arbeit/P-120/index.html) · iPad quer, iPhone hoch.
 // Grundregeln nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-p120.mjs (PRUEF_TEIL=F-1 … nur ein Teil)
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.68.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.68.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.68.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.68.1/tests/hig.mjs';
 const t = pruefung('ablauf-p120', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const TEIL = process.env.PRUEF_TEIL || '';
@@ -126,6 +128,46 @@ if (teil('F-2')) for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']
   await p.close();
 }
 
+// ---------- P-120/F-2 dieselbe Lücke: Einstellen und Löschen weiter oben (Entscheidung 22.11.2026) ----------
+// Einstellen gesichert: dieses Reiselogbuch wird das aktive und angezeigt (wie Sperren); Einstellen abgebrochen und Löschen: die Liste bleibt stehen,
+// das aktive bleibt (vorher rollte keepSideScroll zum untersten).
+if (teil('F-2')) for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    const start = async () => {
+      await lade(p, { trips: TRIPS.map(x => ({ ...x, locked: undefined })) });
+      if (await p.evaluate(() => isPhone())) { await oeffne(p, UNTEN); await zurStartliste(p); }
+      else if (await p.evaluate(() => document.querySelector('#side')?.hidden)) { await p.click('#app [aria-label="Seitenleiste einblenden"]'); await p.waitForTimeout(600); await navFertig(p); }
+      await listeOben(p); await p.waitForTimeout(300);
+    };
+    const lage = id => p.evaluate(id => ({ y: Math.round(document.querySelector(`#side .side-row[data-id="${id}"]`)?.getBoundingClientRect().top ?? -9999),
+      cur: document.querySelector('#side .side-row.current')?.dataset.id || null, liste: !!document.querySelector('#side.page'),
+      titel: document.querySelector('#app .nb-title, #app .pnav-title')?.textContent || '', last: db.settings.lastTrip, n: db.trips.length }), id);
+    await t.schritt(p, 'P-120/F-2 Start: unterstes aktiv, Liste ganz oben', start);
+    const phone = await p.evaluate(() => isPhone());
+    let vor = await lage('d');
+    await t.schritt(p, 'P-120/F-2 ‚Lissabon‘ lange drücken → ‚Reiselogbuch einstellen‘ → x', async () => { await lang(p, 'd'); await menuePunkt(p, 'Reiselogbuch einstellen');
+      await p.waitForSelector('#dlg[open] #fTitle', { timeout: 4000 }); await p.waitForTimeout(400); await p.click('#dlgX'); await p.waitForTimeout(700); await navFertig(p); });
+    let n = await lage('d');
+    t.ist('P-120/F-2 Einstellen ohne Sichern: die Liste springt nicht, das aktive bleibt', [n.y, n.last], [vor.y, UNTEN], 'R-7.1');
+    await t.schritt(p, 'P-120/F-2 ‚Lissabon‘ lange drücken → ‚Reiselogbuch einstellen‘ → Titel ändern → Häkchen', async () => { await lang(p, 'd'); await menuePunkt(p, 'Reiselogbuch einstellen');
+      await p.waitForSelector('#dlg[open] #fTitle', { timeout: 4000 }); await p.waitForTimeout(400); await p.fill('#fTitle', 'Lissabon und Porto'); await p.click('#dlgOk'); await p.waitForTimeout(700); await navFertig(p); });
+    n = await lage('d');
+    t.ist('P-120/F-2 nach dem Einstellen springt die Liste nicht', n.y, y => Math.abs(y - vor.y) <= 1, 'R-7.1');
+    if (phone) t.ist('P-120/F-2 iPhone: die Startliste bleibt, ‚Lissabon und Porto‘ ist das aktive', [n.liste, n.last], [true, 'd'], 'R-7.1');
+    else t.ist('P-120/F-2 ‚Lissabon und Porto‘ ist das aktive und wird angezeigt', [n.cur, n.titel, n.last], ['d', 'Lissabon und Porto', 'd'], 'R-7.1');
+    await t.schritt(p, 'P-120/F-2 neu: unterstes aktiv, Liste ganz oben', start);
+    vor = await lage('b');
+    await t.schritt(p, 'P-120/F-2 ‚Wien‘ lange drücken → ‚Reiselogbuch löschen‘ → ‚Reiselogbuch löschen‘', async () => { await lang(p, 'c'); await menuePunkt(p, 'Reiselogbuch löschen');
+      await p.locator('.pop button', { hasText: 'Reiselogbuch löschen' }).click(); await p.waitForTimeout(700); await navFertig(p); });
+    n = await lage('b');
+    t.ist('P-120/F-2 ‚Wien‘ ist gelöscht', [n.n, await p.evaluate(() => !getTrip('c'))], [TRIPS.length - 1, true], 'R-4.4');
+    t.ist('P-120/F-2 nach dem Löschen springt die Liste nicht (Kachel ‚Toskana‘)', n.y, y => Math.abs(y - vor.y) <= 1, 'R-7.1');
+    t.ist(`P-120/F-2 nach dem Löschen bleibt das aktive (${phone ? 'Startliste' : 'angezeigt'})`, [phone ? n.liste : n.titel, n.last], [phone ? true : TRIPS.at(-1).title, UNTEN], 'R-7.1');
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+
 // ---------- P-120/F-3 Ausgabe-Nummer nach Abbruch ----------
 if (teil('F-3')) {
   const p = await t.seite(b, 'iPad quer', { theme: 'light' });
@@ -150,6 +192,18 @@ if (teil('F-3')) {
     await t.schritt(p, 'P-120/F-3 ‚Toskana‘ öffnen, Vorschau', async () => { await oeffne(p, 'b'); await p.evaluate(() => openPreview(getTrip('b'))); await p.waitForSelector('#dlg[open] #prvShare', { timeout: 4000 }); await p.waitForTimeout(500); });
     r = await teilen('abbrechen', '#prvShare');
     t.ist('P-120/F-3 Vorschau, Teilen abgebrochen: zählt nicht hoch', await zaehler('b'), [0, 0], 'R-9.3');
+    await esc(p);
+    // PDF (Entscheidung a): zählt erst, wenn das Drucken-Menü wirklich aufgeht (beforeprint); übergeht iOS print() (RLB-124), zählt nichts
+    const pdf = async geht => { await p.evaluate(g => { window.print = g ? () => { dispatchEvent(new Event('beforeprint')); dispatchEvent(new Event('afterprint')); } : () => {}; }, geht);
+      await p.evaluate(() => exportPdf(getTrip('b'))); await p.waitForTimeout(400); const r = await p.evaluate(() => dlg.textContent.replace(/\s+/g, ' ')); await esc(p); return r; };
+    r = await pdf(false);
+    t.wahr('P-120/F-3 PDF, Drucken-Menü geht nicht auf: Meldung ‚Ausgabe V001‘', /Ausgabe V001/.test(r), 'R-10.1');
+    t.ist('P-120/F-3 PDF ohne Drucken-Menü zählt nicht hoch', await zaehler('b'), [0, 0], 'R-9.3');
+    r = await pdf(true);
+    t.ist('P-120/F-3 PDF mit Drucken-Menü (beforeprint) zählt hoch', await zaehler('b'), [1, 1], 'R-9.3');
+    r = await pdf(false);
+    t.wahr('P-120/F-3 nächstes PDF heißt V002', /Ausgabe V002/.test(r), 'R-10.1');
+    t.ist('P-120/F-3 danach bleibt es bei 1', await zaehler('b'), [1, 1], 'R-9.3');
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
 }

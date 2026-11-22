@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.68.0/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.68.1/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -160,18 +160,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.68.0/ui.js"></script>
+<script src="../AppDesign/fassung/4.68.1/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.58.0';
-const APP_BUILT = '21.11.2026 um 23:54';
+const APP_VERSION = '3.58.1';
+const APP_BUILT = '22.11.2026 um 10:49';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.68.0';
+const AD_NEEDED = '4.68.1';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -942,12 +942,16 @@ function setLock(trip, on) { if (on) trip.locked = true; else delete trip.locked
 // Seit 3.58.1 (P-120/F-4): x ‚Hinweis ausblenden‘ blendet den Hinweis aus, bis das Reiselogbuch wieder geöffnet wird (showTrip, Sperren, Neustart);
 // dann steht das Schloss vor dem Titel in der Kopfzeile wie auf der Kachel.
 let lockHintHidden = null;
-// Seit 3.58.1 (P-120/F-2): aus der Seitenleiste bzw. Startliste (Kontextmenü, Wischen) gesperrt oder entsperrt wird dieses Reiselogbuch das aktive –
-// am iPad wird es angezeigt, am iPhone bleibt die Startliste stehen; die Liste springt nicht (vorher blieb das alte aktiv, keepSideScroll rollte zu ihm).
+// Seit 3.58.1 (P-120/F-2): aus der Seitenleiste bzw. Startliste (Kontextmenü, Wischen) gesperrt, entsperrt oder eingestellt wird dieses Reiselogbuch
+// das aktive – am iPad wird es angezeigt, am iPhone bleibt die Startliste stehen; die Liste springt nicht (vorher blieb das alte aktiv, keepSideScroll
+// rollte zu ihm).
 function setLockFromList(trip, on) {
   if (on) trip.locked = true; else delete trip.locked;
   lockHintHidden = null;
   save();
+  activateFromList(trip);
+}
+function activateFromList(trip) {
   if (!isPhone()) return showTrip(trip.id, listOpen && listTerm.trim() ? listTerm : '');
   currentTripId = trip.id;
   if (db.settings.lastTrip !== trip.id) { db.settings.lastTrip = trip.id; save(); }
@@ -1314,13 +1318,15 @@ function bindListSearch() {
 
 // Die Liste der Seitenleiste (iPhone: Startliste) behält beim Neuaufbau ihre Position; der gewählte Eintrag
 // bleibt sichtbar – auch wenn er erst durch Wischen sichtbar wurde (nicht unter Kopf oder Backup-Kachel).
-let sideScroll = 0;
+// Seit 3.58.1 (P-120/F-2): sideHold – die Liste bleibt genau stehen, auch wenn der gewählte Eintrag außerhalb liegt (Einstellen abgebrochen,
+// ein anderes Reiselogbuch gelöscht); gilt nur für den Neuaufbau, der es setzt.
+let sideScroll = 0, sideHold = false;
 function keepSideScroll() {
   const list = side.querySelector('.side-list');
   if (!list) return;
   list.scrollTop = sideScroll;
   const cur = list.querySelector('.side-row.current');
-  if (cur) {
+  if (cur && !sideHold) {
     const lr = list.getBoundingClientRect(), r = cur.getBoundingClientRect();
     const tile = side.querySelector('.side-foot .bhint')?.getBoundingClientRect();
     const bottom = Math.min(lr.bottom, tile ? tile.top : lr.bottom);
@@ -1378,7 +1384,7 @@ function openMainMenu(anchor, trip) {
 const tripActions = row => { const trip = getTrip(row.dataset.id); if (!trip) return [];
   if (trip.locked) return [{ icon: 'lock-open', label: 'Reiselogbuch entsperren', shortTitle: 'Entsperren', act: () => setLockFromList(trip, false) }];
   return [
-  { icon: 'settings', label: 'Reiselogbuch einstellen', shortTitle: 'Einstellen', act: () => { adSourcehighlight.sourceItem = `#side .side-row[data-id="${trip.id}"]`; openTripDialog(trip); } },   // seit 3.44.0 (RLB-113)
+  { icon: 'settings', label: 'Reiselogbuch einstellen', shortTitle: 'Einstellen', act: () => { adSourcehighlight.sourceItem = `#side .side-row[data-id="${trip.id}"]`; openTripDialog(trip, { fromList: true }); } },   // seit 3.44.0 (RLB-113), fromList seit 3.58.1 (P-120/F-2)
   { icon: 'lock', label: 'Reiselogbuch sperren', shortTitle: 'Sperren', act: () => setLockFromList(trip, true) },   // seit 3.58.1 (P-120/F-2)
   'sep',
   { icon: 'trash', label: 'Reiselogbuch löschen', shortTitle: 'Löschen', red: true, act: w => { if (!w?.sourceView) adSourcehighlight.hold(row); return deleteTrip(trip, w?.sourceView || row); } },
@@ -1404,6 +1410,8 @@ async function deleteTrip(trip, anchor = app.querySelector('#mainMore')) {
   }
   db.trips = db.trips.filter(x => x.id !== trip.id);
   save();
+  // seit 3.58.1 (P-120/F-2): ein anderes als das aktive gelöscht (Kontextmenü, Wischen) – das aktive bleibt, die Liste steht
+  if (trip.id !== currentTripId && getTrip(currentTripId)) { sideHold = true; try { render(); } finally { sideHold = false; } return; }
   showTrip(pickStartTrip()?.id);
   // iPhone: nach dem Löschen zurück zur Startliste.
   if (isPhone()) { phoneList = true; render(); }
@@ -1493,7 +1501,7 @@ function mountMoodRow(row, ta, onReset, kind = 'mood') {
 }
 
 // Reise anlegen oder bearbeiten; überschneidende Zeiträume werden verhindert.
-function openTripDialog(trip) {
+function openTripDialog(trip, { fromList = false } = {}) {
   const isNew = !trip;
   const t = trip || { title: '', participants: '', start: todayISO(), end: addDays(todayISO(), 14), transport: [], quarterList: false, foodColumn: true, moodColumn: true, kmColumn: false, quarterColumn: true };
   const transport = new Set(t.transport);
@@ -1628,8 +1636,9 @@ function openTripDialog(trip) {
   dlgDirty = () => state() !== initial;
 
   // x schließt; das Häkchen legt ein neues Reiselogbuch an bzw. übernimmt die Änderungen (Fenster ‚Reiselogbuch einstellen‘).
+  // Seit 3.58.1 (P-120/F-2): aus der Liste eingestellt – gesichert wird es das aktive (activateFromList), abgebrochen bleibt die Liste stehen.
   dlg.onclose = () => {
-    if (dlg.returnValue !== 'ok' || !validate()) return render();
+    if (dlg.returnValue !== 'ok' || !validate()) { if (!fromList) return render(); sideHold = true; try { return render(); } finally { sideHold = false; } }
     const target = trip || { id: uid(), days: {}, fazit: '', kosten: null, outputCounter: 0 };
     target.title = fTitle.value.trim();
     target.participants = dlg.querySelector('#fPeople').value.trim();
@@ -1645,6 +1654,7 @@ function openTripDialog(trip) {
     if (isNew) db.trips.push(target);
     save();
     if (isNew) return showTrip(target.id);
+    if (fromList) return activateFromList(target);
     render();
   };
 }
@@ -2105,7 +2115,8 @@ async function exportHtml(trip) {
 // PDF über das Drucken-Menü; der Seitentitel wird als Dateiname vorgeschlagen.
 function exportPdf(trip) {
   const { version, stamp } = nextOutput(trip);
-  countOutput(trip, version);   // P-120/F-3: das Drucken-Menü meldet kein Ergebnis – PDF zählt wie bisher beim Antippen (Rückfrage offen)
+  // Seit 3.58.1 (P-120/F-3, Entscheidung a): das Drucken-Menü meldet kein Ergebnis – PDF zählt, sobald es wirklich aufgeht (beforeprint);
+  // übergeht iOS print() (RLB-124), zählt nichts. Abbrechen im Drucken-Menü lässt sich nicht erkennen und zählt.
   const name = outputName(trip, version);
   adSourcehighlight.sourceItem = '#shareBtn';
   showOutputResult(`Ausgabe V${pad(version, 3)}`, name + '.pdf', 'print');
@@ -2116,6 +2127,9 @@ function exportPdf(trip) {
   dlg.addEventListener('close', () => { printout.innerHTML = ''; }, { once: true });
   window.addEventListener('afterprint', restore);
   dlg.addEventListener('close', restore, { once: true });
+  const count = () => { countOutput(trip, version); window.removeEventListener('beforeprint', count); };
+  window.addEventListener('beforeprint', count);
+  dlg.addEventListener('close', () => window.removeEventListener('beforeprint', count), { once: true });
   setTimeout(() => window.print(), 50);
 }
 
