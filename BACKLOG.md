@@ -18,7 +18,7 @@ Keine Punkte bereit.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-120 | 1 | **Usertest P-120 (Reiselogbuch 3.58.0, AppDesign 4.68.0):** RLB-125 Reiselogbuch sperren – P-120/0 bis P-120/8 (CHANGELOG 3.58.0) | prüfen |
+| P-120 | 1 | **Usertest P-120 (Reiselogbuch 3.58.0, AppDesign 4.68.0):** RLB-125 Reiselogbuch sperren – P-120/0 bis P-120/9 (CHANGELOG 3.58.0) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
