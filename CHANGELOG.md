@@ -25,11 +25,13 @@ Reiselogbuch 3.58.3 · AppDesign 4.70.0 (Designrichtlinie allgemein 4.70.0) · D
   Fensters (`adSourcehighlight.sourceItem`) auf die Schaltfläche der Vorschau, niemand gab sie beim Schließen der Meldung frei. Jetzt hält `outputSource` die
   Schaltfläche nur, solange die Meldung offen ist (`hold`/`release`), die Quelle der Vorschau bleibt (R-3.3). Dieselbe Lücke bei PDF mit behoben.
 - **P-122/F-2 Hinweise mittig (R-3.10, Variante B):** das Ergebnisfenster ‚Ausgabe V…‘ (beide Kästen), die Backup-Erinnerung (im Fenster und im Hinweisfenster über
-  der Vorschau) und die Backup-Kachel der Seitenleiste zeigen Text und Schaltfläche mittig – über die allgemeinen Klassen `.ad-notice` und `.ad-buttons` aus
-  AppDesign statt des eigenen `display:flex`. Der Hinweis ‚gesperrt‘ bleibt links (Hinweisleiste, Nutzer 22.11.2026).
+  der Vorschau) und die Backup-Kachel der Seitenleiste zeigen Text und Schaltfläche mittig. Ergebnis und Erinnerung baut jetzt die neue AD-Bean `notice` aus
+  AppDesign 4.70.0 (`createNotice`, Nutzer 22.11.2026, Sitzung 0159) statt eigenem HTML (`backupReminderHtml`/`bindBackupReminder` ersetzt durch
+  `showBackupReminder`); die Backup-Kachel ist mittig über AppDesign (`.bhint`). Der Hinweis ‚gesperrt‘ bleibt links (Hinweisleiste, Nutzer 22.11.2026).
 - **Prüfungen:** `ablauf-p120` neuer Teil P-122/F-1 (iPad quer, iPhone hoch; Teilen gesichert, Teilen abgebrochen, PDF; Meldung schließen, Vorschau schließen) – rot
-  gegen 3.58.2 (12 Fehler), jetzt grün in Chromium und WebKit; R-3.10 prüft `hig.mjs` (`masseStile`) nach jedem Schritt aller Prüfungen.
-- AD-Bean: keine – App-Code; Quelle über die bestehende AD-Bean `sourcehighlight`, Hinweisfenster über `alert`.
+  gegen 3.58.2 (12 Fehler), jetzt grün in Chromium und WebKit; neuer Teil P-122/F-2 (Ergebnis und Erinnerung als Kästen der AD-Bean `notice` über der Vorschau und im
+  Fenster, ‚Backup erstellen‘ aus der Erinnerung); R-3.10 prüft `hig.mjs` (`masseStile`) nach jedem Schritt aller Prüfungen.
+- AD-Bean: `notice` (neu in AppDesign 4.70.0) für Ergebnis und Erinnerung; Quelle über die bestehende AD-Bean `sourcehighlight`, Hinweisfenster über `alert`.
 
 **Warum die Prüfungen es übersahen:** P-122/F-1 – `ablauf-p120` (P-121/F-2) prüfte nach dem Schließen der Meldung nur, dass die Vorschau wieder da ist, nicht das
 Aussehen ihrer Schaltflächen und die Quelle. P-122/F-2 – es gab keine Regel zur Ausrichtung von Schaltflächen in Hinweisen.

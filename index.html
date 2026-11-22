@@ -2151,39 +2151,27 @@ function outputSource(over, item) {
 }
 function showOutputResult(title, name, result, { over = false } = {}) {
   const remind = !backedUpToday() && result !== 'aborted' && result !== 'error';
-  if (over) {
-    inform(title, `<div class="step ad-notice">${shareResultText(result, name)}</div>${remind ? backupReminderHtml() : ''}`);   // R-3.10 (P-122/F-2)
-    return bindBackupReminder(document.getElementById('msg'));
-  }
-  openDialog(`
+  // Seit 3.58.3 (P-122/F-2, R-3.10): Ergebnis und Erinnerung sind Hinweis-Kästen der AD-Bean notice (AppDesign 4.70.0) – mittig, die App richtet nichts aus
+  const boxes = `<div class="step" id="result"></div>${remind ? '<div class="step" id="reminder"></div>' : ''}`;
+  if (over) inform(title, boxes);
+  else openDialog(`
     <form method="dialog">
       ${dlgHead(esc(title), { check: false })}
-      <div class="dlg-body">
-        <div class="step ad-notice">${shareResultText(result, name)}</div>
-        ${remind ? backupReminderHtml() : ''}
-      </div>
+      <div class="dlg-body">${boxes}</div>
     </form>`);
-  bindBackupReminder();
+  const root = over ? document.getElementById('msg') : dlg;
+  createNotice(root.querySelector('#result'), { message: shareResultText(result, name) });
+  if (remind) showBackupReminder(root.querySelector('#reminder'));
 }
 
-function backupReminderHtml() {
-  return `<div class="step ad-notice" id="reminder">
-      <strong>💾 Denk daran, auch ein Backup zu erstellen.</strong>
-      <div class="hint">${lastBackupText()}</div>
-      <div class="ad-buttons">
-        <button type="button" class="primary" id="backupNow">${ic('save')}Backup erstellen</button>
-      </div>
-    </div>`;
-}
-
-function bindBackupReminder(root = dlg) {
-  const btn = root.querySelector('#backupNow');
-  if (!btn) return;
-  btn.onclick = async () => {
+// Backup-Erinnerung im Kasten box (AD-Bean notice): nach dem Backup steht dort das Ergebnis statt der Erinnerung.
+function showBackupReminder(box) {
+  const notice = createNotice(box, { message: '<strong>💾 Denk daran, auch ein Backup zu erstellen.</strong>', detail: lastBackupText(),
+    buttons: [{ id: 'backupNow', label: 'Backup erstellen', icon: 'save', primary: true }] });
+  notice.on('action', async () => {
     const name = await saveBackup();
-    const box = root.querySelector('#reminder');
-    if (box && name) box.innerHTML = name;
-  };
+    if (name && box.isConnected) { notice.detail = ''; notice.buttons = []; notice.message = name; }
+  });
 }
 
 // Erstellt das Backup über das Teilen-Menü; der Zeitpunkt zählt nur, wenn das Menü abgeschlossen wurde.
