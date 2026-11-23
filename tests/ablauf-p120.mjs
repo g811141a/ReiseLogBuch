@@ -200,7 +200,7 @@ if (teil('F-3')) {
     await esc(p);
     // PDF (Entscheidung a): zählt erst, wenn das Drucken-Menü wirklich aufgeht (beforeprint); übergeht iOS print() (RLB-124), zählt nichts
     const pdf = async geht => { await p.evaluate(g => { window.print = g ? () => { dispatchEvent(new Event('beforeprint')); dispatchEvent(new Event('afterprint')); } : () => {}; }, geht);
-      await p.evaluate(() => exportPdf(getTrip('b'))); await p.waitForTimeout(400); const r = await p.evaluate(() => dlg.textContent.replace(/\s+/g, ' ')); await esc(p); return r; };
+      await p.evaluate(() => exportPdf(getTrip('b'))); await p.waitForTimeout(400); const r = await p.evaluate(() => (msg.open ? msg : dlg).textContent.replace(/\s+/g, ' ')); await esc(p); return r; };   // seit 3.58.4 in #msg (P-123/F-2)
     r = await pdf(false);
     t.wahr('P-120/F-3 PDF, Drucken-Menü geht nicht auf: Meldung ‚Ausgabe V001‘', /Ausgabe V001/.test(r), 'R-10.1');
     t.ist('P-120/F-3 PDF ohne Drucken-Menü zählt nicht hoch', await zaehler('b'), [0, 0], 'R-9.3');
@@ -334,19 +334,101 @@ if (teil('P-122/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
     t.ist('P-122/F-2 über der Vorschau: Ergebnis', ueber[0]?.text || '', /^✅ Teilen-Menü abgeschlossen für/, 'R-3.10');
     t.ist('P-122/F-2 über der Vorschau: Erinnerung mit ‚Backup erstellen‘', [ueber[1]?.text || '', ueber[1]?.knoepfe], [/^💾 Denk daran, auch ein Backup zu erstellen\./, ['Backup erstellen']], 'R-3.10');
     await t.schritt(p, 'P-122/F-2 ‚Backup erstellen‘ in der Erinnerung', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await p.click('#msg #backupNow'); await p.waitForTimeout(900); });
-    const backup = await p.evaluate(() => [msg.open, document.getElementById('msgTitel')?.textContent || '', document.getElementById('msgText')?.textContent.replace(/\s+/g, ' ').trim() || '']);
-    t.ist('P-122/F-2 über der Vorschau nach dem Backup: Hinweisfenster ‚Backup‘ mit dem Ergebnis (wie bisher)', backup, [true, 'Backup', /^✅ Teilen-Menü abgeschlossen für.*Backup/], 'R-9.1');
+    const backup = await kaesten('#msg');   // seit 3.58.4 (P-123/F-3): das Ergebnis steht in der Erinnerung, kein eigenes Hinweisfenster ‚Backup‘ mehr
+    t.ist('P-122/F-2 über der Vorschau nach dem Backup: Erinnerung zeigt das Ergebnis, keine Schaltfläche', [backup[1]?.text || '', backup[1]?.knoepfe, await p.evaluate(() => document.getElementById('msgTitel')?.textContent || '')],
+      [/^✅ Teilen-Menü abgeschlossen für.*Backup/, [], /^Ausgabe V\d{3}$/], 'R-9.1');
     await esc(p);
     await t.schritt(p, 'P-122/F-2 Backup zurücksetzen, Teilen → ‚HTML‘ (gesichert)', async () => {
       await p.evaluate(() => { delete db.settings.lastBackup; save(); window.__teilen = 'ok'; });
       await p.click('#shareBtn'); await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(400);
-      await p.locator('.menu .mi', { hasText: 'HTML' }).click(); await p.waitForSelector('#dlg[open] .ad-notice', { timeout: 4000 }); await p.waitForTimeout(600); });
-    const fenster = await kaesten('#dlg');
-    t.ist('P-122/F-2 im Fenster ‚Ausgabe V…‘: zwei Kästen der AD-Bean notice', fenster.map(k => [k.id, k.bean, k.knoepfe.length]), [['result', 'notice', 0], ['reminder', 'notice', 1]], 'R-1.13');
-    await t.schritt(p, 'P-122/F-2 ‚Backup erstellen‘ in der Erinnerung im Fenster', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await p.click('#dlg #backupNow'); await p.waitForTimeout(900); });
-    const danach = await kaesten('#dlg');
-    t.ist('P-122/F-2 im Fenster nach dem Backup: Erinnerung zeigt das Ergebnis, keine Schaltfläche', [danach[1]?.text || '', danach[1]?.knoepfe], [/^✅ Teilen-Menü abgeschlossen für.*Backup/, []], 'R-9.1');
+      await p.locator('.menu .mi', { hasText: 'HTML' }).click(); await p.waitForSelector('#msg[open] .ad-notice', { timeout: 4000 }); await p.waitForTimeout(600); });
+    const fenster = await kaesten('#msg');   // seit 3.58.4 (P-123/F-2) auch direkt über Teilen im Hinweisfenster
+    t.ist('P-122/F-2 im Hinweisfenster ‚Ausgabe V…‘ (direkt über Teilen): zwei Kästen der AD-Bean notice', fenster.map(k => [k.id, k.bean, k.knoepfe.length]), [['result', 'notice', 0], ['reminder', 'notice', 1]], 'R-1.13');
+    await t.schritt(p, 'P-122/F-2 ‚Backup erstellen‘ in der Erinnerung (direkt über Teilen)', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await p.click('#msg #backupNow'); await p.waitForTimeout(900); });
+    const danach = await kaesten('#msg');
+    t.ist('P-122/F-2 direkt über Teilen nach dem Backup: Erinnerung zeigt das Ergebnis, keine Schaltfläche', [danach[1]?.text || '', danach[1]?.knoepfe], [/^✅ Teilen-Menü abgeschlossen für.*Backup/, []], 'R-9.1');
     await esc(p);
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+// ---------- P-123 Rückmeldung zu Usertest P-123 (Reiselogbuch 3.58.3, Nutzer 22.11.2026, Sitzung 0159) – je genau der Ablauf des Nutzers ----------
+const OFFEN = TRIPS.map(x => ({ ...x, locked: undefined }));
+const teilenMenue = async (p, punkt) => { await p.click('#shareBtn'); await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(400);
+  await p.locator('.menu .mi', { hasText: punkt }).click(); await p.waitForTimeout(700); };
+const zurVorschau = async p => { await teilenMenue(p, 'Vorschau'); await p.waitForSelector('#dlg[open] #prvShare', { timeout: 4000 }); await p.waitForTimeout(500); };
+// Zeilen des Dateinamens (.fname, Wörter .fw) und Breite des Fensters, in dem er steht
+const dateiname = (p, sel) => p.evaluate(s => { const d = document.querySelector(s), n = d?.querySelector('.fname');
+  return { da: !!n, zeilen: n ? new Set([...n.querySelectorAll('.fw')].map(w => Math.round(w.getBoundingClientRect().top))).size : 0, breite: Math.round(d?.getBoundingClientRect().width || 0) }; }, sel);
+// P-123/F-1 (zu /2, iPad): Vorschau → Teilen bzw. PDF → das Hinweisfenster ‚Ausgabe V…‘ ist schmal, der Dateiname bricht um; direkt über Teilen → HTML steht
+// er in einer Zeile (R-10.8). Ursache: alert misst die Breite (fitFileName) beim Öffnen, die AD-Bean notice setzt den Dateinamen erst danach ein.
+if (teil('P-123/F-1')) for (const ansicht of ['iPad quer', 'iPad hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    await lade(p, { trips: OFFEN, lastTrip: 'b' });
+    for (const [art, knopf, name] of [['ok', '#prvShare', 'Teilen gesichert'], ['abbrechen', '#prvShare', 'Teilen abgebrochen'], ['', '#prvPdf', 'PDF']]) {
+      await t.schritt(p, `P-123/F-1 Teilen → ‚Vorschau‘ → ${name}`, async () => { await zurVorschau(p); await p.evaluate(a => { window.__teilen = a || 'ok'; }, art);
+        await p.click(knopf); await p.waitForSelector('#msg[open] .fname', { timeout: 4000 }); await p.waitForTimeout(600); });
+      const vor = await dateiname(p, '#msg');
+      await p.evaluate(() => { adAlert.fitFileName = true; });   // die Bean misst neu (Setter) – so breit hätte das Fenster sein sollen
+      const neu = await dateiname(p, '#msg');
+      t.ist(`P-123/F-1 ${ansicht}, ${name}: im Hinweisfenster über der Vorschau steht der Dateiname in einer Zeile`, vor.zeilen, 1, 'R-10.8');
+      t.ist(`P-123/F-1 ${ansicht}, ${name}: das Hinweisfenster ist schon beim Öffnen so breit wie nach erneutem Messen`, vor.breite, neu.breite, 'R-10.8');
+      await esc(p);
+    }
+    await t.schritt(p, 'P-123/F-1 Teilen → ‚HTML‘ (gesichert)', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await teilenMenue(p, 'HTML');
+      await p.waitForSelector('dialog[open] .fname', { timeout: 4000 }); await p.waitForTimeout(600); });
+    const direkt = await dateiname(p, 'dialog[open]');
+    t.ist(`P-123/F-1 ${ansicht}, direkt über Teilen → HTML: Dateiname in einer Zeile`, direkt.zeilen, 1, 'R-10.8');
+    await esc(p);
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+// P-123/F-2 (zu /2, iPhone): direkt über Teilen → HTML bzw. PDF steht das Ergebnis in voller Bildschirmhöhe, aus der Vorschau nur so hoch wie nötig –
+// einheitlich: dasselbe Fenster, gleich hoch, nicht über die ganze Höhe (gleiche Lage: Backup vor 3 Tagen, Ergebnis und Erinnerung).
+if (teil('P-123/F-2')) for (const ansicht of ['iPhone hoch', 'iPad quer']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    await lade(p, { trips: OFFEN, lastTrip: 'b' });
+    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
+    const ergebnis = () => p.evaluate(() => { const d = [...document.querySelectorAll('dialog[open]')].find(x => x.querySelector('#result'));
+      return { fenster: d?.id || '', hoehe: Math.round(d?.getBoundingClientRect().height || 0), bild: innerHeight }; });
+    const mass = [];
+    for (const [weg, name] of [['HTML', 'Teilen → HTML'], ['PDF', 'Teilen → PDF'], ['#prvShare', 'Vorschau → Teilen'], ['#prvPdf', 'Vorschau → PDF']]) {
+      await t.schritt(p, `P-123/F-2 ${name}`, async () => { await p.evaluate(() => { window.__teilen = 'ok'; });
+        if (weg.startsWith('#')) { await zurVorschau(p); await p.click(weg); } else await teilenMenue(p, weg);
+        await p.waitForSelector('dialog[open] #result.ad-notice', { timeout: 4000 }); await p.waitForTimeout(700); });
+      mass.push(await ergebnis());
+      await esc(p);
+    }
+    const [a, b2, c, d] = mass;
+    t.ist(`P-123/F-2 ${ansicht}: das Ergebnis steht auf allen vier Wegen im selben Fenster`, [a.fenster, b2.fenster, d.fenster], [c.fenster, c.fenster, c.fenster], 'R-10.8');
+    t.wahr(`P-123/F-2 ${ansicht}: direkt über Teilen ist das Ergebnis so hoch wie aus der Vorschau (${a.hoehe}/${b2.hoehe} zu ${c.hoehe}/${d.hoehe} px)`,
+      Math.abs(a.hoehe - c.hoehe) <= 4 && Math.abs(b2.hoehe - d.hoehe) <= 4, 'R-10.8');
+    t.wahr(`P-123/F-2 ${ansicht}: das Ergebnis steht nicht in voller Bildschirmhöhe (${a.hoehe} von ${a.bild} px)`, a.hoehe < a.bild * 0.7, 'R-10.8');
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+// P-123/F-3 (zu /3, iPad): ‚Backup erstellen‘ (Kachel) → Teilen-Menü abbrechen → am iPad kein Hinweis, am iPhone schon. Ablauf des Nutzers: vorher /2 –
+// Teilen → HTML, Fenster ‚Ausgabe V…‘ mit der Backup-Erinnerung, schließen; danach fragt saveBackup das geschlossene Fenster nach #reminder und schweigt.
+if (teil('P-123/F-3')) for (const ansicht of ['iPad quer', 'iPhone hoch']) for (const vorher of [true, false]) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    await lade(p, { trips: OFFEN, lastTrip: 'b' });
+    const phone = await p.evaluate(() => isPhone());
+    const was = vorher ? 'nach Teilen → HTML' : 'ohne Ausgabe vorher';
+    if (vorher) {
+      if (phone) await oeffne(p, 'b');
+      await t.schritt(p, 'P-123/F-3 Teilen → ‚HTML‘ (gesichert), Fenster mit x schließen', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await teilenMenue(p, 'HTML');
+        await p.waitForSelector('dialog[open] #reminder', { timeout: 4000 }); await p.waitForTimeout(500); await esc(p); });
+      await zurStartliste(p);
+    }
+    for (const [art, erwartet] of [['abbrechen', /^⚠️/], ['ok', /^✅ Teilen-Menü abgeschlossen für.*Backup/]]) {
+      await t.schritt(p, `P-123/F-3 ${was}: ‚Backup erstellen‘ (Kachel), Teilen-Menü ${art === 'ok' ? 'gesichert' : 'abgebrochen'}`, async () => {
+        await p.evaluate(a => { window.__teilen = a; }, art); await p.click('#hintBackup'); await p.waitForTimeout(900); });
+      const m = await p.evaluate(() => [msg.open, document.getElementById('msgTitel')?.textContent || '', document.getElementById('msgText')?.textContent.replace(/\s+/g, ' ').trim() || '']);
+      t.ist(`P-123/F-3 ${ansicht}, ${was}: Hinweis ‚Backup‘ nach ${art === 'ok' ? 'gesichertem' : 'abgebrochenem'} Teilen-Menü`, m, [true, 'Backup', erwartet], 'R-9.1');
+      await esc(p);
+    }
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
 }

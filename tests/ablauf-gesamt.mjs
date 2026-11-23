@@ -50,7 +50,7 @@ const AUSGABE_NAME = /^Reiselogbuch Australien 2026\.08\.24-2026\.11\.11 V\d{3}\
 async function ausgabeDateiname(p, lage, gegenprobe = false, name = AUSGABE_NAME) {
   await p.evaluate(() => { window.print = () => {}; });
   const menue = async punkt => { await p.click('#shareBtn'); await bis(p, `!!document.querySelector('.menu') && ${RUHE}`, 'Teilen-Menü offen'); await p.click(`.menu .mi:has-text("${punkt}")`); };
-  const o = { name, text: '#dlg[open] .dlg-body > .step:first-child', schliessen: '#dlg[open] #dlgX' };
+  const o = { name, text: '#msg[open] #msgText > .step:first-child', schliessen: '#msg[open] [data-x]' };   // seit 3.58.4 (P-123/F-2) im Hinweisfenster
   t.liste(await checkDateiname(p, { ...o, ausloesen: () => menue('HTML'), where: `${lage} Ausgabe HTML` }));
   t.liste(await checkDateiname(p, { ...o, faelle: ['print'], ausloesen: () => menue('PDF'), where: `${lage} Ausgabe PDF` }));
   if (!gegenprobe) return;

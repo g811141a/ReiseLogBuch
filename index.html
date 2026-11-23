@@ -2124,7 +2124,7 @@ function exportPdf(trip) {
   // Seit 3.58.1 (P-120/F-3, Entscheidung a): das Drucken-Menü meldet kein Ergebnis – PDF zählt, sobald es wirklich aufgeht (beforeprint);
   // übergeht iOS print() (RLB-124), zählt nichts. Abbrechen im Drucken-Menü lässt sich nicht erkennen und zählt.
   const name = outputName(trip, version);
-  const over = fromPreview(), host = over ? document.getElementById('msg') : dlg;   // P-121/F-2 (#msg: Hinweisfenster)
+  const over = fromPreview(), host = document.getElementById('msg');   // P-121/F-2, seit 3.58.4 (P-123/F-2) immer im Hinweisfenster (#msg)
   outputSource(over, '#prvPdf');
   showOutputResult(`Ausgabe V${pad(version, 3)}`, name + '.pdf', 'print', { over });
   const oldTitle = document.title;
@@ -2152,14 +2152,11 @@ function outputSource(over, item) {
 function showOutputResult(title, name, result, { over = false } = {}) {
   const remind = !backedUpToday() && result !== 'aborted' && result !== 'error';
   // Seit 3.58.3 (P-122/F-2, R-3.10): Ergebnis und Erinnerung sind Hinweis-Kästen der AD-Bean notice (AppDesign 4.70.0) – mittig, die App richtet nichts aus
+  // Seit 3.58.4 (P-123/F-2): das Ergebnis steht auf jedem Weg im Hinweisfenster (AD-Bean alert) – direkt über Teilen wie aus der Vorschau,
+  // so hoch wie nötig (vorher direkt im Fenster dlg, am iPhone als Blatt in voller Höhe)
   const boxes = `<div class="step" id="result"></div>${remind ? '<div class="step" id="reminder"></div>' : ''}`;
-  if (over) inform(title, boxes);
-  else openDialog(`
-    <form method="dialog">
-      ${dlgHead(esc(title), { check: false })}
-      <div class="dlg-body">${boxes}</div>
-    </form>`);
-  const root = over ? document.getElementById('msg') : dlg;
+  inform(title, boxes);
+  const root = document.getElementById('msg');
   createNotice(root.querySelector('#result'), { message: shareResultText(result, name) });
   if (remind) showBackupReminder(root.querySelector('#reminder'));
 }
@@ -2169,14 +2166,15 @@ function showBackupReminder(box) {
   const notice = createNotice(box, { message: '<strong>💾 Denk daran, auch ein Backup zu erstellen.</strong>', detail: lastBackupText(),
     buttons: [{ id: 'backupNow', label: 'Backup erstellen', icon: 'save', primary: true }] });
   notice.on('action', async () => {
-    const name = await saveBackup();
+    const name = await saveBackup(undefined, { inBox: true });
     if (name && box.isConnected) { notice.detail = ''; notice.buttons = []; notice.message = name; }
   });
 }
 
 // Erstellt das Backup über das Teilen-Menü; der Zeitpunkt zählt nur, wenn das Menü abgeschlossen wurde.
-// anchor: Schaltfläche, von der es kommt – sie bleibt bis zum Schließen der Meldung blau.
-async function saveBackup(anchor) {
+// anchor: Schaltfläche, von der es kommt – sie bleibt bis zum Schließen der Meldung blau. inBox (seit 3.58.4, P-123/F-3): das Ergebnis zeigt der Aufrufer
+// selbst (Backup-Erinnerung) – sonst immer das Hinweisfenster ‚Backup‘ (vorher fragte saveBackup das evtl. geschlossene Fenster nach #reminder und schwieg).
+async function saveBackup(anchor, { inBox = false } = {}) {
   adSourcehighlight.hold(anchor);
   const file = backupFile();
   const result = await shareFiles([file]);
@@ -2186,7 +2184,7 @@ async function saveBackup(anchor) {
     if (isPhone()) render(); else renderSide();
   }
   const text = shareResultText(result, file.name);
-  if (!dlg.querySelector('#reminder')) await inform('Backup', text);
+  if (!inBox) await inform('Backup', text);
   adSourcehighlight.release(anchor);
   // RLB-105: nach dem Backup ist die Kachel weg – der Fokus geht auf ‚Mehr‘ statt ins Leere
   if (anchor && !document.querySelector(anchor)) side.querySelector('#sideMore')?.focus({ preventScroll: true });
