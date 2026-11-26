@@ -11,10 +11,10 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| P-124/F-1 | 1 | **Hinweisfenster über der Vorschau nicht so breit wie möglich (zu P-124/1, Nutzer 26.11.2026, Sitzung 0161):** Vorschau → Teilen → sichern: das Hinweisfenster ‚Ausgabe V…‘ nutzt die mögliche Breite nicht, ein langer Dateiname bricht um; am iPad ist es quer offenbar gleich breit wie hoch – die AD-Bean `alert` soll die Breite besser nutzen. Zuerst als feste Prüfung nachbauen (0 Nr. 1); `ablauf-p120` Teil P-123/F-1 war grün – warum, klären | AppDesign (`alert`) / Reiselogbuch | offen |
-| P-124/F-2 | 1 | **Teilen nach der Vorschau noch hellblau (zu P-124/1, Nutzer 26.11.2026, Sitzung 0161):** nach dem Sichern aus der Vorschau und dem Verlassen der Vorschau ist Teilen (Kopfzeile) noch hellblau getönt – zuerst als feste Prüfung nachbauen (0 Nr. 1); berührt P-122/F-1 (`outputSource`, AD-Bean `sourcehighlight`) | Reiselogbuch / AppDesign (`sourcehighlight`) | offen |
+| P-124/F-1 | 1 | **Hinweisfenster über der Vorschau so breit wie möglich (zu P-124/1, Nutzer 26.11.2026, Sitzung 0161):** nachgebaut in `ablauf-p120` Teil P-124/F-1 (rot gegen 3.58.4: 21 Fehler in Chromium und WebKit); Ursache: `alert.fitFileName` höchstens 600 px (breites Hinweisfenster), quer und hoch gleich; P-123/F-1 war grün, weil seine Titel kurz sind. Lösung: höchstens Bildschirmbreite − 32 px, Wortlaut R-10.8 bestätigt (Nutzer 26.11.2026, Sitzung 0162) – `AppDesign/arbeit/0162 P-124 Nachbau und Vorschlag.md` | AppDesign (`alert`) | 26.11.2026 |
+| P-124/F-2 | 1 | **Teilen nach der Ausgabe nicht mehr hellblau (zu P-124/1, Nutzer 26.11.2026, Sitzung 0161):** nachgebaut in `ablauf-p120` Teil P-124/F-2 (rot gegen 3.58.4: 16 Fehler in Chromium und WebKit); Ursachen: direkter Weg und gesperrte Seite setzen `sourceItem` ohne Freigabe beim Schließen des Hinweisfensters (`outputSource`, gesperrt PDF tönt Teilen); nach der Vorschau: Neuaufbau bei offenem Teilen-Menü – `sourcehighlight.release(alt)` gibt das neu aufgebaute Element nicht frei. Lösung: `outputSource` mit `hold`/`release` auf jedem Weg (die angetippte Schaltfläche) und `sourcehighlight` merkt sich den Tausch (Nutzer 26.11.2026, Sitzung 0162) | Reiselogbuch / AppDesign (`sourcehighlight`) | 26.11.2026 |
 
-0 Punkte bereit.
+2 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 

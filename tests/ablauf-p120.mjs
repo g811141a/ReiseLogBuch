@@ -21,6 +21,9 @@
 //   wie nötig (kein Blatt in voller Höhe, Designrichtlinie 10) · iPhone hoch, iPad quer.
 // P-123/F-3 (seit 3.58.4) nach einer Ausgabe (Fenster mit Erinnerung geschlossen) meldet die Backup-Kachel abgebrochen bzw. gesichert wieder einen Hinweis
 //   ‚Backup‘ – ebenso ohne Ausgabe vorher · iPad quer, iPhone hoch.
+// P-124/F-1 (seit 3.58.5, AppDesign 4.70.2) Vorschau → Teilen, Vorschau → PDF, Teilen → HTML mit langem Titel: das Hinweisfenster ist so breit, wie der Dateiname in
+//   einer Zeile braucht, höchstens Bildschirmbreite − 32 px – quer breiter als hoch (R-10.8) · iPad quer, iPad hoch.
+// P-124/F-2 (seit 3.58.5) nach jeder Ausgabe – direkt, aus der Vorschau, gesperrte Seite, Neuaufbau bei offenem Teilen-Menü – ist nichts mehr getönt (R-3.3) · iPad quer, iPhone hoch.
 // Grundregeln nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-p120.mjs (PRUEF_TEIL=F-1 … nur ein Teil)
 import * as pw from 'playwright';
 import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.1/tests/pruefe.mjs';
@@ -433,6 +436,99 @@ if (teil('P-123/F-3')) for (const ansicht of ['iPad quer', 'iPhone hoch']) for (
         await p.evaluate(a => { window.__teilen = a; }, art); await p.click('#hintBackup'); await p.waitForTimeout(900); });
       const m = await p.evaluate(() => [msg.open, document.getElementById('msgTitel')?.textContent || '', document.getElementById('msgText')?.textContent.replace(/\s+/g, ' ').trim() || '']);
       t.ist(`P-123/F-3 ${ansicht}, ${was}: Hinweis ‚Backup‘ nach ${art === 'ok' ? 'gesichertem' : 'abgebrochenem'} Teilen-Menü`, m, [true, 'Backup', erwartet], 'R-9.1');
+      await esc(p);
+    }
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+// ---------- P-124 Rückmeldung zu Usertest P-124 (Reiselogbuch 3.58.4, Nutzer 26.11.2026, Sitzung 0161) – je genau der Ablauf des Nutzers ----------
+// P-124/F-1 (zu /1, iPad): ‚Test‘ (langer Titel) → Teilen → ‚Vorschau‘ → Teilen gesichert bzw. PDF, dazu Teilen → ‚HTML‘ direkt: das Hinweisfenster ‚Ausgabe V…‘
+// nutzt die mögliche Breite nicht, der Dateiname bricht um, quer gleich breit wie hoch. Teil P-123/F-1 war grün, weil seine Titel kurz sind (der Name passt
+// schon in 600 px) und er nur gegen das erneute Messen derselben Bean vergleicht. Soll: so breit wie der Name in einer Zeile, höchstens Bildschirmbreite − 32 px.
+const TITEL_LANG = 'Rundreise Schottland und Hebriden', TITEL_SEHR_LANG = 'Große Rundreise durch Schottland, die Hebriden und Orkney';
+const namensmass = (p, sel) => p.evaluate(s => { const d = document.querySelector(s), n = d?.querySelector('.fname'); if (!n) return null;
+  const probe = n.cloneNode(true); probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;display:inline-block;width:auto;left:0;top:0';
+  n.parentNode.append(probe); const name = probe.getBoundingClientRect().width; probe.remove();
+  const breite = d.getBoundingClientRect().width, rand = breite - n.getBoundingClientRect().width;
+  return { name: Math.round(name), rand: Math.round(rand), breite: Math.round(breite), bild: innerWidth,
+    zeilen: new Set([...n.querySelectorAll('.fw')].map(w => Math.round(w.getBoundingClientRect().top))).size }; }, sel);
+if (teil('P-124/F-1')) for (const ansicht of ['iPad quer', 'iPad hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    for (const titel of [TITEL_LANG, TITEL_SEHR_LANG]) {
+      await lade(p, { trips: OFFEN.map(x => x.id === 'b' ? { ...x, title: titel } : x), lastTrip: 'b' });
+      const was = titel === TITEL_LANG ? 'langer Titel' : 'sehr langer Titel';
+      for (const [weg, art, name] of [['#prvShare', 'ok', 'Vorschau → Teilen gesichert'], ['#prvPdf', '', 'Vorschau → PDF'], ['HTML', 'ok', 'Teilen → HTML']]) {
+        await t.schritt(p, `P-124/F-1 ${was}: ${name}`, async () => { await p.evaluate(a => { window.__teilen = a || 'ok'; }, art);
+          if (weg.startsWith('#')) { await zurVorschau(p); await p.click(weg); } else await teilenMenue(p, weg);
+          await p.waitForSelector('#msg[open] .fname', { timeout: 4000 }); await p.waitForTimeout(600); });
+        const m = await namensmass(p, '#msg');
+        const soll = Math.min(m.name + m.rand + 1, m.bild - 32);
+        if (titel === TITEL_LANG) t.wahr(`P-124/F-1 Testdaten: der Dateiname (${m.name} px) ist länger, als ins breite Hinweisfenster (600 px) passt`, m.name + m.rand > 600, 'R-10.8');
+        else t.wahr(`P-124/F-1 Testdaten: der Dateiname (${m.name} px) passt nur quer in eine Zeile`, m.name + m.rand > 820 - 32 && m.name + m.rand < 1180 - 32, 'R-10.8');
+        if (m.name + m.rand <= m.bild - 32) t.ist(`P-124/F-1 ${ansicht}, ${was}, ${name}: der Dateiname steht in einer Zeile`, m.zeilen, 1, 'R-10.8');
+        t.ist(`P-124/F-1 ${ansicht}, ${was}, ${name}: das Hinweisfenster ist so breit wie möglich (Name in einer Zeile, höchstens Bildschirmbreite − 32 px = ${m.bild - 32} px)`,
+          m.breite, w => Math.abs(w - soll) <= 2, 'R-10.8');
+        await esc(p);
+      }
+    }
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+// P-124/F-2 (zu /1, iPad): nach dem Sichern aus der Vorschau und dem Verlassen der Vorschau ist Teilen (Kopfzeile) noch hellblau. Der Ablauf des Nutzers in der
+// Reihenfolge des Usertests P-124 (/1 Vorschau → Teilen, Vorschau → PDF; /2 Teilen → HTML, Vorschau → Teilen; /3 Backup aus der Erinnerung), dazu die übrigen Wege;
+// nach jedem Weg sind alle Fenster zu und nichts ist mehr getönt (R-3.3).
+if (teil('P-124/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    await lade(p, { trips: OFFEN.map(x => x.id === 'b' ? { ...x, title: TITEL_LANG } : x), lastTrip: 'b' });
+    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
+    const getoent = () => p.evaluate(() => ({ fenster: [...document.querySelectorAll('dialog[open]')].map(d => d.id), teilen: document.querySelector('#shareBtn')?.classList.contains('on') ?? null,
+      quelle: adSourcehighlight.sourceItem, gehalten: adSourcehighlight.heldItems.length, on: [...document.querySelectorAll('.on')].map(e => e.id || e.className.split(' ')[0]) }));
+    const xMeldung = async () => { await p.click('#msg [data-x]'); await p.waitForTimeout(700); };
+    const xVorschau = async () => { await p.click('#dlgX'); await p.waitForTimeout(800); };
+    const wege = [
+      ['Vorschau → Teilen gesichert → x → Vorschau x', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await zurVorschau(p); await p.click('#prvShare'); await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); await xMeldung(); await xVorschau(); }],
+      ['Vorschau → PDF → x → Vorschau x', async () => { await zurVorschau(p); await p.click('#prvPdf'); await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); await xMeldung(); await xVorschau(); }],
+      ['Teilen → HTML gesichert → x', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await teilenMenue(p, 'HTML'); await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); await xMeldung(); }],
+      ['Vorschau → Teilen gesichert → x → Vorschau x (nach Teilen → HTML)', async () => { await p.evaluate(() => { window.__teilen = 'ok'; }); await zurVorschau(p); await p.click('#prvShare'); await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); await xMeldung(); await xVorschau(); }],
+      ['Vorschau → Teilen gesichert → ‚Backup erstellen‘ → x → Vorschau x', async () => { await p.evaluate(() => { delete db.settings.lastBackup; save(); window.__teilen = 'ok'; }); await zurVorschau(p); await p.click('#prvShare');
+        await p.waitForSelector('#msg[open] #backupNow', { timeout: 4000 }); await p.waitForTimeout(600); await p.click('#msg #backupNow'); await p.waitForTimeout(900); await xMeldung(); await xVorschau(); }],
+      ['Teilen → PDF → x', async () => { await teilenMenue(p, 'PDF'); await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); await xMeldung(); }],
+      ['Teilen → HTML abgebrochen → x', async () => { await p.evaluate(() => { window.__teilen = 'abbrechen'; }); await teilenMenue(p, 'HTML'); await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); await xMeldung(); }],
+      // Neuaufbau der Kopfzeile, während das Teilen-Menü offen ist (z. B. Abgleich, Tageswechsel): das Menü hält die alte Schaltfläche, refresh tönt die neue –
+      // release(alt) gibt sie nicht mehr frei (Ursache von P-124/F-2 nach der Vorschau, in der Nachbildung belegt; was den Neuaufbau am Gerät auslöst: Vermutung)
+      ['Teilen (Neuaufbau bei offenem Menü) → Vorschau → Teilen gesichert → x → Vorschau x', async () => { await p.evaluate(() => { window.__teilen = 'ok'; });
+        await p.click('#shareBtn'); await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(400); await p.evaluate(() => render());
+        await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); await p.waitForSelector('#dlg[open] #prvShare', { timeout: 4000 }); await p.waitForTimeout(500);
+        await p.click('#prvShare'); await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); await xMeldung(); await xVorschau(); }],
+      ['Vorschau → Teilen abgebrochen → x → Vorschau x', async () => { await p.evaluate(() => { window.__teilen = 'abbrechen'; }); await zurVorschau(p); await p.click('#prvShare'); await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); await xMeldung(); await xVorschau(); }],
+    ];
+    for (const [name, los] of wege) {
+      await t.schritt(p, `P-124/F-2 ${name}`, los);
+      const g = await getoent();
+      t.ist(`P-124/F-2 ${ansicht}, ${name}: alle Fenster zu, Teilen (Kopfzeile) nicht mehr getönt, keine Quelle`, [g.fenster, g.teilen, g.quelle, g.gehalten, g.on], [[], false, '', 0, []], 'R-3.3');
+      await esc(p);
+    }
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
+  await p.close();
+}
+// P-124/F-2 dieselbe Lücke: gesperrte Seite (oben ‚PDF‘ und Teilen, ohne Vorschau) – während das Hinweisfenster offen ist, ist die angetippte Schaltfläche die
+// Quelle (PDF tönt nicht Teilen), danach ist nichts mehr getönt (R-3.3).
+if (teil('P-124/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  try {
+    await lade(p, { lastTrip: 'a' });
+    await oeffne(p, 'a');
+    const on = () => p.evaluate(() => ({ fenster: [...document.querySelectorAll('dialog[open]')].map(d => d.id), on: [...document.querySelectorAll('#app .on, .nb .on')].map(e => e.id).sort() }));
+    for (const [knopf, art, name] of [['#shareBtn', 'ok', 'Teilen gesichert'], ['#pdfBtn', '', 'PDF'], ['#shareBtn', 'abbrechen', 'Teilen abgebrochen']]) {
+      await t.schritt(p, `P-124/F-2 gesperrt: ${name}`, async () => { await p.evaluate(a => { window.__teilen = a || 'ok'; }, art); await p.click(knopf);
+        await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.waitForTimeout(600); });
+      const offen = await on();
+      t.ist(`P-124/F-2 ${ansicht}, gesperrt, ${name}: im Hinweisfenster ist nur die angetippte Schaltfläche getönt`, offen.on, [knopf.slice(1)], 'R-3.3');
+      await t.schritt(p, `P-124/F-2 gesperrt, ${name}: Hinweisfenster mit x schließen`, async () => { await p.click('#msg [data-x]'); await p.waitForTimeout(700); });
+      const zu = await on();
+      t.ist(`P-124/F-2 ${ansicht}, gesperrt, ${name}: danach alle Fenster zu, nichts getönt`, [zu.fenster, zu.on, await p.evaluate(() => adSourcehighlight.sourceItem)], [[], [], ''], 'R-3.3');
       await esc(p);
     }
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
