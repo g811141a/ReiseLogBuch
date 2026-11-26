@@ -3,9 +3,9 @@
 // Seitenleiste ein/aus, Löschen, neues Reiselogbuch, leerer Start, hoch; dazu Kosten, Statistik, Backup aus dem Menü.
 // Aufruf im Repo-Ordner: node tests/ablauf-gesamt.mjs. Meldet Fehler (seit 3.12.0, pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefung, warteBis } from '../../AppDesign/fassung/4.70.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.70.0/tests/hig.mjs';
-import { sucheAuf, checkDateiname, checkFilterAlle } from '../../AppDesign/fassung/4.70.0/tests/ablauf.mjs';
+import { pruefung, warteBis } from '../../AppDesign/fassung/4.70.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.70.1/tests/hig.mjs';
+import { sucheAuf, checkDateiname, checkFilterAlle } from '../../AppDesign/fassung/4.70.1/tests/ablauf.mjs';
 import { readFileSync, writeFileSync, rmSync } from 'node:fs';
 // seit 3.48.1 (AppDesign APD-85 Teil 5): keine festen Pausen mehr – jede Stelle wartet mit warteBis auf den Zustand danach (Ruhe = keine
 // laufende Bewegung); nur das lange Drücken hält den Finger eine feste Zeit (die Handlung selbst)
@@ -50,14 +50,16 @@ const AUSGABE_NAME = /^Reiselogbuch Australien 2026\.08\.24-2026\.11\.11 V\d{3}\
 async function ausgabeDateiname(p, lage, gegenprobe = false, name = AUSGABE_NAME) {
   await p.evaluate(() => { window.print = () => {}; });
   const menue = async punkt => { await p.click('#shareBtn'); await bis(p, `!!document.querySelector('.menu') && ${RUHE}`, 'Teilen-Menü offen'); await p.click(`.menu .mi:has-text("${punkt}")`); };
-  const o = { name, text: '#dlg[open] .dlg-body > .step:first-child', schliessen: '#dlg[open] #dlgX' };
+  const o = { name, text: '#msg[open] #msgText > .step:first-child', schliessen: '#msg[open] [data-x]' };   // seit 3.58.4 (P-123/F-2) im Hinweisfenster
   t.liste(await checkDateiname(p, { ...o, ausloesen: () => menue('HTML'), where: `${lage} Ausgabe HTML` }));
   t.liste(await checkDateiname(p, { ...o, faelle: ['print'], ausloesen: () => menue('PDF'), where: `${lage} Ausgabe PDF` }));
   if (!gegenprobe) return;
   await p.evaluate(() => { window.__sr = { ...SHARE_RESULT }; SHARE_RESULT.aborted = name => `Teilen-Menü abgebrochen – <b>${esc(name)}</b> wurde nicht gespeichert.`; });
   const gp = await checkDateiname(p, { ...o, faelle: ['aborted'], groessen: ['l', 'ax3'], ausloesen: () => menue('HTML'), where: 'Gegenprobe' });
   await p.evaluate(() => Object.assign(SHARE_RESULT, window.__sr));
-  t.wahr(`APD-116/B-7 Gegenprobe: Name im Satz wird gemeldet (${gp.filter(x => x.includes('B-1')).length}× B-1, ${gp.filter(x => x.includes('B-2')).length}× B-2)`, gp.some(x => x.includes('APD-116/B-1')), 'R-10.8');
+  t.wahr(`APD-116/B-7 Gegenprobe: Name im Satz wird gemeldet (${gp.filter(x => x.includes('B-1')).length}× B-1, ${gp.filter(x => x.includes('B-2')).length}× B-2)`, gp.some(x => /APD-116\/B-[12]\)/.test(x)), 'R-10.8');
+  // seit 3.58.4 (P-123/F-2): im schmalen Hinweisfenster beginnt der Name im Satz je nach Schrift (WebKit) zufällig am Zeilenanfang – dann meldet B-2
+  // den Umbruch im Namen statt B-1; beides heißt: der Name steht nicht allein in einer Zeile (R-10.8)
 }
 const S = (p, name, fn) => t.schritt(p, name, fn);
 

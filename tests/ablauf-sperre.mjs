@@ -8,8 +8,8 @@
 // RLB-125/T-12 Lösch-Abfrage mit Zahl der Einträge, ‚Erst Backup erstellen‘ nur ohne Backup heute und mit Einträgen (L-4, L-5). Grundregeln nach jedem Schritt.
 // Gegenprobe RLB-125/T-10: PRUEF_GEGENPROBE=sperre zeigt gesperrt die Tabelle – RLB-125/T-2 muss rot werden. Aufruf im Repo-Ordner: node tests/ablauf-sperre.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.70.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.70.1/tests/hig.mjs';
 const t = pruefung('ablauf-sperre', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const GP = process.env.PRUEF_GEGENPROBE === 'sperre';
@@ -69,11 +69,11 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad quer', 'dark'], [
     t.ist('RLB-125/T-4 oben ‚PDF‘ und Teilen (blau gefüllt), kein Mehr', await p.evaluate(() => [document.querySelector('#bar #pdfBtn')?.textContent.trim(),
       document.querySelector('#bar #shareBtn')?.classList.contains('fill'), !!document.querySelector('#bar #mainMore')]), ['PDF', true, false], 'R-3.1');
     // RLB-125/T-3 nach HTML und PDF bleibt die Vorschau
-    await t.schritt(p, 'RLB-125/T-3 Teilen (HTML)', async () => { await p.click('#shareBtn'); await p.waitForSelector('#dlg[open]', { timeout: 4000 }).catch(() => {}); await p.waitForTimeout(500); });
-    t.wahr('RLB-125/T-3 Fenster ‚Ausgabe V001‘ nach HTML', await p.evaluate(() => dlg.open && /Ausgabe V001/.test(dlg.textContent)), 'R-10.1');
+    await t.schritt(p, 'RLB-125/T-3 Teilen (HTML)', async () => { await p.click('#shareBtn'); await p.waitForSelector('#msg[open]', { timeout: 4000 }).catch(() => {}); await p.waitForTimeout(500); });
+    t.wahr('RLB-125/T-3 Hinweisfenster ‚Ausgabe V001‘ nach HTML', await p.evaluate(() => msg.open && /Ausgabe V001/.test(msg.textContent)), 'R-10.1');   // seit 3.58.4 (P-123/F-2) in #msg
     await t.schritt(p, 'Meldung schließen', () => esc(p));
     nurVorschau(await zustand(p), 'nach HTML');
-    await t.schritt(p, 'RLB-125/T-3 PDF', async () => { await p.click('#pdfBtn'); await p.waitForSelector('#dlg[open]', { timeout: 4000 }).catch(() => {}); await p.waitForTimeout(500); });
+    await t.schritt(p, 'RLB-125/T-3 PDF', async () => { await p.click('#pdfBtn'); await p.waitForSelector('#msg[open]', { timeout: 4000 }).catch(() => {}); await p.waitForTimeout(500); });
     await t.schritt(p, 'Meldung schließen', () => esc(p));
     nurVorschau(await zustand(p), 'nach PDF');
     // RLB-125/T-11 iPhone hoch (und quer): Hinweis ganz im Bildschirm, ‚Entsperren‘ unter dem Text; Vorschau 960 px, seitlich wischen nur in der Seite

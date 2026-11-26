@@ -3,12 +3,12 @@
 // Nach oben / Ans Ende im Rollbereich (APD-28/F-12) und Drucken der ganzen Liste (APD-28/F-16), seit 3.27.0 R-5.6 ⓧ in Feldern (AppDesign APD-63), seit 3.39.0 auch mehrzeilig (APD-81) – iPad und iPhone quer und hoch, Vorschau hell und dunkel. Aufruf im Repo-Ordner: node tests/regeln-ablauf.mjs
 import * as pw from 'playwright';
 import { readFileSync } from 'node:fs';
-import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.70.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.70.0/tests/hig.mjs';
+import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.70.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.70.1/tests/hig.mjs';
 // Meldet Fehler mit Rückgabewert, Grundregeln nach den Schritten (seit 3.12.0, pruefe.mjs).
 const t = pruefung('regeln-ablauf', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const G = (p, name) => t.schritt(p, name, async () => {});   // Grundregeln im aktuellen Zustand
-import { checkSearch, checkDialogHead, checkFieldErrors, checkCapital, checkSpaces, checkPreview, checkEnterDone, checkSearchTop, checkFab, checkPrint, checkClear, sucheAuf } from '../../AppDesign/fassung/4.70.0/tests/ablauf.mjs';
+import { checkSearch, checkDialogHead, checkFieldErrors, checkCapital, checkSpaces, checkPreview, checkEnterDone, checkSearchTop, checkFab, checkPrint, checkClear, sucheAuf } from '../../AppDesign/fassung/4.70.1/tests/ablauf.mjs';
 const days = {}; for (let i = 0; i < 40; i++) { const d = new Date(Date.UTC(2026, 7, 24 + i)).toISOString().slice(0, 10); days[d] = { weather: '☀️', program: i >= 30 && i < 34 ? 'Fahrt nach Sydney' : 'Programm ' + i, comment: '😉 ok ' + 'sehr schöner Tag mit viel Sonne '.repeat(i % 3 + 1), food: '😋 Restaurant Zum Hafen – Fisch', quarter: 'Hotel Bellevue am Meer', place: 'Hafenviertel' }; }
 const trips = [{ id: 'a', title: 'Australien', participants: 'G & A', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], foodColumn: true, moodColumn: true, quarterColumn: true, days }];
 const b = await t.browser(); const errs = { push: (...m) => m.forEach(x => t.fehler('', x)) };
@@ -51,7 +51,8 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     await G(p, 'nach Suche nach oben');
     errs.push(...await checkFab(p, { where }));
     errs.push(...await checkPrint(p, { where, print: async () => { await p.click('#shareBtn'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'PDF' }).first().click(); } }));
-    await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
+    // seit 3.58.4 (P-123/F-2): das Ergebnis steht im Hinweisfenster (#msg) – mit x schließen
+    await p.click('#msg[open] [data-x]').catch(() => {}); await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
     const settings = async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); };
     errs.push(...await checkDialogHead(p, { where, open: settings, change: () => p.locator('#fTitle').fill('Australien 2') }));
     errs.push(...await checkFieldErrors(p, { where, open: settings, field: '#fTitle' }));
