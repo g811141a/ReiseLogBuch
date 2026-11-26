@@ -11,5 +11,5 @@
 // Gegenprobe: node tests/alle.mjs --gegenprobe pruefseite. Aufruf im Repo-Ordner: [PRUEF_TEIL=titel-oben] node tests/bausteine-pruefseite.mjs
 // (ohne PRUEF_TEIL Teil werte). Meldet Fehler mit Rückgabewert (pruefe.mjs).
 import * as pw from 'playwright';
-import { pruefseite } from '../../AppDesign/fassung/4.70.2/tests/pruefseite.mjs';
+import { pruefseite } from '../../AppDesign/fassung/4.71.0/tests/pruefseite.mjs';
 await pruefseite(pw, { out: new URL('out/', import.meta.url), teil: process.env.PRUEF_TEIL || 'werte' });

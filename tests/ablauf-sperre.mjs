@@ -8,8 +8,8 @@
 // RLB-125/T-12 Lösch-Abfrage mit Zahl der Einträge, ‚Erst Backup erstellen‘ nur ohne Backup heute und mit Einträgen (L-4, L-5). Grundregeln nach jedem Schritt.
 // Gegenprobe RLB-125/T-10: PRUEF_GEGENPROBE=sperre zeigt gesperrt die Tabelle – RLB-125/T-2 muss rot werden. Aufruf im Repo-Ordner: node tests/ablauf-sperre.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.70.2/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.71.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.71.0/tests/hig.mjs';
 const t = pruefung('ablauf-sperre', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const GP = process.env.PRUEF_GEGENPROBE === 'sperre';
