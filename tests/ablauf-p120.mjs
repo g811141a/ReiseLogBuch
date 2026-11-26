@@ -15,10 +15,16 @@
 // P-122/F-1 (seit 3.58.3) nach dem Schließen der Meldung über der Vorschau sehen deren Schaltflächen aus wie beim Öffnen, Teilen bleibt Quelle · iPad quer, iPhone hoch.
 // P-122/F-2 (seit 3.58.3, AppDesign 4.70.0) Ergebnis und Backup-Erinnerung sind Hinweis-Kästen der AD-Bean notice – über der Vorschau und im Fenster;
 //   ‚Backup erstellen‘ in der Erinnerung ersetzt sie durch das Ergebnis (R-3.10 mittig prüft hig.mjs nach jedem Schritt) · iPad quer, iPhone hoch.
+// P-123/F-1 (seit 3.58.4, AppDesign 4.70.1) Vorschau → Teilen gesichert, abgebrochen, PDF und Teilen → HTML direkt: der Dateiname steht im Hinweisfenster
+//   in einer Zeile, das Fenster misst neu, wenn die AD-Bean notice den Inhalt einsetzt (R-10.8) · iPad quer, iPad hoch.
+// P-123/F-2 (seit 3.58.4) Teilen → HTML bzw. PDF direkt und aus der Vorschau: das Ergebnis steht auf jedem Weg im Hinweisfenster, gleich hoch und so hoch
+//   wie nötig (kein Blatt in voller Höhe, Designrichtlinie 10) · iPhone hoch, iPad quer.
+// P-123/F-3 (seit 3.58.4) nach einer Ausgabe (Fenster mit Erinnerung geschlossen) meldet die Backup-Kachel abgebrochen bzw. gesichert wieder einen Hinweis
+//   ‚Backup‘ – ebenso ohne Ausgabe vorher · iPad quer, iPhone hoch.
 // Grundregeln nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-p120.mjs (PRUEF_TEIL=F-1 … nur ein Teil)
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.70.0/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.70.1/tests/hig.mjs';
 const t = pruefung('ablauf-p120', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const TEIL = process.env.PRUEF_TEIL || '';

@@ -13,6 +13,66 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.58.4 – 26.11.2026
+
+Reiselogbuch 3.58.4 · AppDesign 4.70.1 (Designrichtlinie allgemein 4.70.1) · Designrichtlinie Reiselogbuch 3.58.4 · Zusammenarbeit allgemein 3.19.0
+
+**P-123 – Korrekturen aus dem Usertest P-123** (Rückmeldung nicht ok zu /2 und /3, Nutzer 22.11.2026, Sitzung 0159; Nachbau, Ursachen und Vorschlag in Sitzung 0160,
+Vorschlag und Wortlaut bestätigt 23.11.2026 – AppDesign `arbeit/0160 P-123 Vorschlag.md`; gebaut in Sitzung 0161).
+
+- **P-123/F-1 Hinweisfenster über der Vorschau am iPad schmal:** der Dateiname brach in 2–3 Zeilen um, das Fenster blieb 360 px breit. Ursache: `alert` maß die
+  Breite (`fitFileName`) nur beim Öffnen, die AD-Bean `notice` setzt den Dateinamen erst danach ein. Jetzt misst `alert` neu, sobald sich der Inhalt des offenen
+  Fensters ändert (AppDesign 4.70.1, `createAlert`).
+- **P-123/F-2 Ergebnisfenster am iPhone verschieden hoch:** direkt über Teilen stand das Ergebnis im Fenster `dlg` (am iPhone ein Blatt in voller Höhe), aus der
+  Vorschau im Hinweisfenster. Jetzt steht das Ergebnis jeder Ausgabe auf jedem Weg im Hinweisfenster, so hoch wie nötig (`showOutputResult` immer `inform`,
+  `exportPdf` über `#msg`; Designrichtlinie allgemein 10 und 7).
+- **P-123/F-3 Backup ohne Hinweis:** nach einer Ausgabe (Fenster mit Erinnerung, geschlossen) zeigte jedes spätere Backup keinen Hinweis, weil `saveBackup` das
+  geschlossene Fenster nach `#reminder` fragte. Jetzt `saveBackup(anchor, { inBox })`: der Hinweis ‚Backup‘ kommt immer, außer die Erinnerung zeigt das Ergebnis
+  selbst – damit öffnet sich über der Vorschau auch kein zweites Fenster ‚Backup‘. Vom Nutzer als erledigt betrachtet (23.11.2026), die Korrektur bleibt ohne eigenen
+  Testfall.
+- **Prüfungen:** `ablauf-p120` neue Teile P-123/F-1, P-123/F-2, P-123/F-3 – rot gegen 3.58.3 in Chromium und WebKit (12 / 5 / 4 Fehler), mit der Korrektur grün;
+  angepasst `ablauf-p120` (P-122/F-2, P-120/F-3), `ablauf-sperre`, `ablauf-gesamt` (`checkDateiname` für Ausgabe HTML/PDF im Hinweisfenster `#msg`).
+- AD-Bean: `alert` (neue Eigenschaft in AppDesign 4.70.1: misst neu, wenn sich der Inhalt ändert); Ergebnis und Erinnerung weiter über `notice`.
+
+**Warum die Prüfungen es übersahen:** `checkDateiname` prüfte die Breite nur auf dem direkten Weg (Fenster `dlg`), nicht über der Vorschau; die Backup-Prüfungen
+starteten nie nach einer Ausgabe; die Höhe des Ergebnisfensters wurde nicht zwischen den Wegen verglichen.
+
+Testfälle P-124 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Für P-124/1 bis P-124/3 ein nicht gesperrtes Reiselogbuch mit langem Titel verwenden
+(z. B. ‚Test‘); heute **noch kein Backup** erstellen, sonst fehlt die Erinnerung (‚Backup erstellen‘ erst in P-124/3). P-124 ersetzt die offenen Punkte von P-123 (/2 und /3).
+
+**P-124/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.58.4 · erstellt am … · AppDesign 4.70.1‘. Automatisch geprüft in `version-regeln`.
+
+**P-124/1 – Dateiname in einer Zeile über der Vorschau (iPad)**
+1. iPad quer, hell; ‚Test‘ öffnen, oben Teilen → ‚Vorschau‘.
+2. Teilen der Vorschau antippen, im Teilen-Menü ‚In Dateien sichern‘ wählen und sichern.
+3. Erwartet: über der Vorschau das Hinweisfenster ‚Ausgabe V…‘ mit ‚✅ Teilen-Menü abgeschlossen für‘ und darunter der Dateiname **in einer Zeile**; das Fenster
+   ist so breit wie dafür nötig. Mit x schließen.
+4. In der Vorschau ‚PDF‘ antippen, das Drucken-Menü abbrechen.
+5. Erwartet: wie in Schritt 3, der Dateiname endet auf ‚.pdf‘. Mit x schließen, Vorschau mit x schließen.
+6. Dasselbe iPad hoch. Erwartet: wie in Schritt 3 und 5. Automatisch geprüft in `ablauf-p120` (P-123/F-1).
+
+**P-124/2 – Ergebnis auf jedem Weg im Hinweisfenster (iPhone)**
+1. iPhone hoch, hell; ‚Test‘ öffnen, oben Teilen → ‚HTML‘ → im Teilen-Menü ‚In Dateien sichern‘.
+2. Erwartet: das Hinweisfenster ‚Ausgabe V…‘ mittig, nur so hoch wie nötig (kein Blatt in voller Höhe), mit ‚✅ Teilen-Menü abgeschlossen für‘, dem Dateinamen
+   und darunter ‚💾 Denk daran, auch ein Backup zu erstellen.‘. Mit x schließen.
+3. Oben Teilen → ‚Vorschau‘ → Teilen → ‚In Dateien sichern‘.
+4. Erwartet: über der Vorschau dasselbe Hinweisfenster, genauso hoch wie in Schritt 2. Mit x schließen, Vorschau mit x schließen.
+5. Dasselbe am iPad quer. Erwartet: wie in Schritt 2 und 4, das Hinweisfenster mittig. Automatisch geprüft in `ablauf-p120` (P-123/F-2).
+
+**P-124/3 – Backup aus der Erinnerung ohne zweites Fenster (iPad)**
+1. iPad quer, hell; ‚Test‘ → Teilen → ‚Vorschau‘ → Teilen → ‚In Dateien sichern‘.
+2. Erwartet: über der Vorschau das Hinweisfenster ‚Ausgabe V…‘ mit der Erinnerung ‚💾 Denk daran, auch ein Backup zu erstellen.‘ und ‚Backup erstellen‘.
+3. ‚Backup erstellen‘ antippen und im Teilen-Menü sichern.
+4. Erwartet: im selben Hinweisfenster steht statt der Erinnerung ‚✅ Teilen-Menü abgeschlossen für‘ mit dem Namen des Backups; es öffnet sich **kein** zweites
+   Fenster ‚Backup‘. Automatisch geprüft in `ablauf-p120` (P-122/F-2).
+
+**AppDesign 4.70.1 – `alert` misst neu; Ergebnis auf jedem Weg im Hinweisfenster** (allgemeiner Teil von P-123/F-1 und P-123/F-2, Wortlaut Designrichtlinie 10 und 7
+bestätigt 23.11.2026, Sitzung 0160).
+
 ## 3.58.3 – 22.11.2026
 
 Reiselogbuch 3.58.3 · AppDesign 4.70.0 (Designrichtlinie allgemein 4.70.0) · Designrichtlinie Reiselogbuch 3.58.3 · Zusammenarbeit allgemein 3.19.0
