@@ -11,6 +11,8 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| P-124/F-1 | 1 | **Hinweisfenster über der Vorschau nicht so breit wie möglich (zu P-124/1, Nutzer 26.11.2026, Sitzung 0161):** Vorschau → Teilen → sichern: das Hinweisfenster ‚Ausgabe V…‘ nutzt die mögliche Breite nicht, ein langer Dateiname bricht um; am iPad ist es quer offenbar gleich breit wie hoch – die AD-Bean `alert` soll die Breite besser nutzen. Zuerst als feste Prüfung nachbauen (0 Nr. 1); `ablauf-p120` Teil P-123/F-1 war grün – warum, klären | AppDesign (`alert`) / Reiselogbuch | offen |
+| P-124/F-2 | 1 | **Teilen nach der Vorschau noch hellblau (zu P-124/1, Nutzer 26.11.2026, Sitzung 0161):** nach dem Sichern aus der Vorschau und dem Verlassen der Vorschau ist Teilen (Kopfzeile) noch hellblau getönt – zuerst als feste Prüfung nachbauen (0 Nr. 1); berührt P-122/F-1 (`outputSource`, AD-Bean `sourcehighlight`) | Reiselogbuch / AppDesign (`sourcehighlight`) | offen |
 
 0 Punkte bereit.
 
@@ -18,7 +20,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-124 | 1 | **Usertest P-124 (Reiselogbuch 3.58.4, AppDesign 4.70.1):** Korrekturen aus P-123 – P-123/F-1 (Dateiname über der Vorschau in einer Zeile, `alert` misst neu), P-123/F-2 (Ergebnis auf jedem Weg im Hinweisfenster) und P-123/F-3 (Backup-Hinweis nach einer Ausgabe, ohne eigenen Testfall) – P-124/0 bis P-124/3 (CHANGELOG 3.58.4); ersetzt die offenen Punkte von P-123 (/2 und /3) | prüfen |
+| P-124 | 1 | **Usertest P-124 (Reiselogbuch 3.58.4, AppDesign 4.70.1):** Korrekturen aus P-123 – P-123/F-1 (Dateiname über der Vorschau in einer Zeile, `alert` misst neu), P-123/F-2 (Ergebnis auf jedem Weg im Hinweisfenster) und P-123/F-3 (Backup-Hinweis nach einer Ausgabe, ohne eigenen Testfall) – P-124/0 bis P-124/3 (CHANGELOG 3.58.4); ersetzt die offenen Punkte von P-123 (/2 und /3) · **Rückmeldung (Nutzer 26.11.2026, Sitzung 0161): nicht ok** – P-124/F-1 und P-124/F-2 (zu /1) in ‚0.‘, alle übrigen Punkte ok | nicht ok |
 | P-123 | 1 | **Usertest P-123 (Reiselogbuch 3.58.3, AppDesign 4.70.0):** Korrekturen aus P-122 – P-122/F-1 (Schaltflächen der Vorschau nach der Meldung wie beim Öffnen) und P-122/F-2 (Hinweise mittig, R-3.10) – P-123/0 bis P-123/3 (CHANGELOG 3.58.3); ersetzt die offenen Punkte von P-122 (/2 und /4) · **Rückmeldung (Nutzer 22.11.2026, Sitzung 0159): nicht ok** – P-123/F-1, P-123/F-2 (zu /2) und P-123/F-3 (zu /3) in ‚0.‘, alle übrigen Punkte ok | nicht ok |
 | P-122 | 1 | **Usertest P-122 (Reiselogbuch 3.58.2, AppDesign 4.69.0):** Korrekturen aus P-121 (P-121/F-1 Vorschau nach dem Sperren oben, P-121/F-2 Meldung über der Vorschau) und AppDesign APD-135/B-3.3 Schritt 2 (Felder auf der Prüfseite) – P-122/0 bis P-122/5 (CHANGELOG 3.58.2); ersetzt die offenen Punkte von P-121 (/5 und /8) · **Rückmeldung (Nutzer 22.11.2026, Sitzung 0157): nicht ok** – P-122/F-1 (zu /2) und P-122/F-2 (zu /4) in ‚0.‘, alle übrigen Punkte ok | nicht ok |
 
