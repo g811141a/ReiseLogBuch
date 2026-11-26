@@ -51,7 +51,8 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     await G(p, 'nach Suche nach oben');
     errs.push(...await checkFab(p, { where }));
     errs.push(...await checkPrint(p, { where, print: async () => { await p.click('#shareBtn'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'PDF' }).first().click(); } }));
-    await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
+    // seit 3.58.4 (P-123/F-2): das Ergebnis steht im Hinweisfenster (#msg) – mit x schließen
+    await p.click('#msg[open] [data-x]').catch(() => {}); await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
     const settings = async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); };
     errs.push(...await checkDialogHead(p, { where, open: settings, change: () => p.locator('#fTitle').fill('Australien 2') }));
     errs.push(...await checkFieldErrors(p, { where, open: settings, field: '#fTitle' }));

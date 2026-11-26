@@ -31,7 +31,9 @@ Vorschlag und Wortlaut bestätigt 23.11.2026 – AppDesign `arbeit/0160 P-123 Vo
   selbst – damit öffnet sich über der Vorschau auch kein zweites Fenster ‚Backup‘. Vom Nutzer als erledigt betrachtet (23.11.2026), die Korrektur bleibt ohne eigenen
   Testfall.
 - **Prüfungen:** `ablauf-p120` neue Teile P-123/F-1, P-123/F-2, P-123/F-3 – rot gegen 3.58.3 in Chromium und WebKit (12 / 5 / 4 Fehler), mit der Korrektur grün;
-  angepasst `ablauf-p120` (P-122/F-2, P-120/F-3), `ablauf-sperre`, `ablauf-gesamt` (`checkDateiname` für Ausgabe HTML/PDF im Hinweisfenster `#msg`).
+  angepasst `ablauf-p120` (P-122/F-2, P-120/F-3), `ablauf-sperre`, `ablauf-gesamt` (`checkDateiname` für Ausgabe HTML/PDF im Hinweisfenster `#msg`); im ersten Bau rot und nachgezogen: `regeln-ablauf` schließt nach PDF das
+  Hinweisfenster (Lücke aus 0160), die Gegenprobe APD-116/B-7 in `ablauf-gesamt` zählt B-1 oder B-2 (im schmalen Hinweisfenster beginnt der Name im Satz in WebKit
+  zufällig am Zeilenanfang, gemeldet wird dann der Umbruch im Namen).
 - AD-Bean: `alert` (neue Eigenschaft in AppDesign 4.70.1: misst neu, wenn sich der Inhalt ändert); Ergebnis und Erinnerung weiter über `notice`.
 
 **Warum die Prüfungen es übersahen:** `checkDateiname` prüfte die Breite nur auf dem direkten Weg (Fenster `dlg`), nicht über der Vorschau; die Backup-Prüfungen

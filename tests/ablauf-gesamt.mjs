@@ -57,7 +57,9 @@ async function ausgabeDateiname(p, lage, gegenprobe = false, name = AUSGABE_NAME
   await p.evaluate(() => { window.__sr = { ...SHARE_RESULT }; SHARE_RESULT.aborted = name => `Teilen-Menü abgebrochen – <b>${esc(name)}</b> wurde nicht gespeichert.`; });
   const gp = await checkDateiname(p, { ...o, faelle: ['aborted'], groessen: ['l', 'ax3'], ausloesen: () => menue('HTML'), where: 'Gegenprobe' });
   await p.evaluate(() => Object.assign(SHARE_RESULT, window.__sr));
-  t.wahr(`APD-116/B-7 Gegenprobe: Name im Satz wird gemeldet (${gp.filter(x => x.includes('B-1')).length}× B-1, ${gp.filter(x => x.includes('B-2')).length}× B-2)`, gp.some(x => x.includes('APD-116/B-1')), 'R-10.8');
+  t.wahr(`APD-116/B-7 Gegenprobe: Name im Satz wird gemeldet (${gp.filter(x => x.includes('B-1')).length}× B-1, ${gp.filter(x => x.includes('B-2')).length}× B-2)`, gp.some(x => /APD-116\/B-[12]\)/.test(x)), 'R-10.8');
+  // seit 3.58.4 (P-123/F-2): im schmalen Hinweisfenster beginnt der Name im Satz je nach Schrift (WebKit) zufällig am Zeilenanfang – dann meldet B-2
+  // den Umbruch im Namen statt B-1; beides heißt: der Name steht nicht allein in einer Zeile (R-10.8)
 }
 const S = (p, name, fn) => t.schritt(p, name, fn);
 
