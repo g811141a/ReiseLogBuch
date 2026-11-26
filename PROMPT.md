@@ -50,9 +50,9 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   Schaltfläche. Suche ohne Treffer (Liste und Reiselogbuch) `search` ‚Keine Treffer für ‚Begriff‘‘, ‚Schreibweise prüfen oder nach etwas anderem
   suchen.‘; ‚Nur erfasste Tage‘ ohne erfassten Tag `calendar` ‚Noch keine Tage erfasst‘, ‚Es werden nur erfasste Tage gezeigt.‘, Schaltfläche ‚Alle Tage
   zeigen‘ (wie Menü ‚Alle Tage‘).
-- **Abfragen** (Sprechblasen an der angetippten Schaltfläche, R-4.3): Reiselogbuch löschen (am ellipsis der Kopfzeile bzw. im
-  Kontextmenü) · Backup laden (Abgleichen/Ersetzen, am ellipsis der Seitenleiste) · Smiley entfernen (am Smiley) · Smileys
-  zurücksetzen (am rotate-ccw) · Änderungen verwerfen (am x). Rote Schaltflächen: ‚Reiselogbuch löschen‘, ‚Ersetzen‘,
+- **Abfragen** (Sprechblasen an der angetippten Schaltfläche, R-4.3): Endgültig löschen (in ‚Zuletzt gelöscht‘, im Kontextmenü bzw. an der
+  Kapsel) · Backup laden (Abgleichen/Ersetzen, am ellipsis der Seitenleiste) · Smiley entfernen (am Smiley) · Smileys
+  zurücksetzen (am rotate-ccw) · Änderungen verwerfen (am x). Rote Schaltflächen: ‚Endgültig löschen‘, ‚Ersetzen‘,
   ‚Entfernen‘, ‚Zurücksetzen‘, ‚Änderungen verwerfen‘.
 - **Icons** (Lucide, Zuordnung der Designrichtlinie allgemein 5): Ausgabe/Teilen `share`, ‚Reiselogbuch einstellen‘
   `settings`, Filter ‚Alle Tage‘ `list-chevrons-up-down` / ‚Nur erfasste Tage‘ `fold-vertical`, Vortag/Folgetag `chevron-left` /
@@ -93,10 +93,16 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
     überschneidet.‘ (sobald ein Datum geändert oder ein Titel eingegeben wurde – das vorgeschlagene Datum kann sich mit einer
     anderen Reise überschneiden; Reisezeiträume dürfen sich nicht überschneiden, gespeichert wird erst nach der Korrektur) ·
     ‚Bitte mindestens ein Reisemittel wählen.‘ (wenn das letzte gewählte abgewählt wird).
-- Die geöffnete Reise wird über Mehr-Menü → ‚Reiselogbuch einstellen‘ bearbeitet und über Mehr-Menü → ‚Reiselogbuch löschen‘ gelöscht
-  (Sprechblase ‚‚…‘ mit allen 42 Einträgen löschen? Das kann nicht rückgängig gemacht werden.‘ – ‚mit 1 Eintrag‘, ohne Einträge ‚‚…‘ ohne Einträge
-  löschen? …‘; Schaltflächen ‚Erst Backup erstellen‘ (nur mit Einträgen und ohne Backup heute; danach dieselbe Sprechblase wieder) · ‚Reiselogbuch
-  löschen‘ (rot) · ‚Abbrechen‘, RLB-125/L-4, L-5); danach öffnet die Startreise (iPhone: die Startliste).
+- Die geöffnete Reise wird über Mehr-Menü → ‚Reiselogbuch einstellen‘ bearbeitet und über Mehr-Menü → ‚Reiselogbuch löschen‘ ohne Abfrage nach
+  ‚Zuletzt gelöscht‘ verschoben (R-7.10, 30 Tage); danach öffnet die Startreise (iPhone: die Startliste). In ‚Zuletzt gelöscht‘ fragt nur ‚Endgültig
+  löschen‘: Sprechblase ‚‚…‘ mit allen 42 Einträgen endgültig löschen? Das kann nicht rückgängig gemacht werden.‘ – ‚mit 1 Eintrag‘, ohne Einträge
+  ‚‚…‘ ohne Einträge endgültig löschen? …‘; Schaltflächen ‚Endgültig löschen‘ (rot) · ‚Abbrechen‘ (RLB-126).
+- **Zuletzt gelöscht (RLB-126, AD-Bean `recentlydeleted`, R-7.10):** letzte Kachel der Liste mit Papierkorb und Anzahl, nur wenn nicht leer; sie öffnet
+  die Liste ‚Zuletzt gelöscht‘ (Kopf ‹, Anzahl, Hinweis ‚Gelöschte Reiselogbücher bleiben hier 30 Tage. Danach werden sie endgültig gelöscht.‘, zuletzt
+  gelöschte oben, je Kachel Zeitraum und ‚Gelöscht am … · noch N Tage‘). Antippen zeigt die Vorschau nur zum Lesen mit dem Hinweis ‚Dieses
+  Reiselogbuch ist gelöscht. Gelöscht am … – wird in N Tagen endgültig gelöscht.‘ und ‚Wiederherstellen‘ (iPad: das zuletzt gelöschte gleich offen).
+  Langes Drücken und Wischen: ‚Wiederherstellen‘ · ‚Endgültig löschen‘ (Kapseln ‚Wiederherstellen‘ · ‚Löschen‘). Nach 30 Kalendertagen endgültig
+  gelöscht; Abgleich und Backup nehmen ‚Zuletzt gelöscht‘ mit Löschdatum mit.
 - **Reiselogbuch sperren (RLB-125):** Mehr-Menü bzw. Kontextmenü und Wischen ‚Reiselogbuch sperren‘ (`lock`) sperrt sofort, ‚Entsperren‘ (`lock-open`)
   entsperrt sofort; beides zählt als Änderung. Gesperrt: auf der Kachel `lock` klein vor dem Titel; geöffnet statt der Tabelle bzw. der Kästen nur die
   Vorschau als Seite (kein Fenster), oben ‚PDF‘ und Teilen (blau gefüllt), kein Mehr, darüber der Hinweis ‚Dieses Reiselogbuch ist gesperrt. Es lässt sich
@@ -110,17 +116,17 @@ steht in `README - Designrichtlinie Reiselogbuch.md`; Einstieg für Claude: `CLA
   der Startreise (3).
   - plus öffnet ‚Neues Reiselogbuch‘. ellipsis: ‚Suchen‘ (nur mit Reiselogbüchern; Suche in allen, 6) · Strich · Backup erstellen ·
     Backup laden · Strich · ‚Darstellung ›‘ · Abstand · Messung starten · Strich · Versionszeile ‚Reiselogbuch · Version X.Y.Z · erstellt am TT.MM.JJJJ um hh:mm · AppDesign X.Y.Z‘ · Satz zum Speicher.
-  - Langes Drücken auf ein Reiselogbuch: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch sperren‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase); gesperrt nur
+  - Langes Drücken auf ein Reiselogbuch: ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch sperren‘ · ‚Reiselogbuch löschen‘ (rot, ohne Abfrage nach ‚Zuletzt gelöscht‘); gesperrt nur
     ‚Reiselogbuch entsperren‘ (R-4.10).
   - Wischen nach links auf ein Reiselogbuch (R-7.8): daneben die Kapseln ‚Einstellen‘ (settings), ‚Sperren‘ (lock) und ‚Löschen‘ (gesperrt nur ‚Entsperren‘)
-    (trash, rot, ganz außen) – dieselben Aktionen wie beim langen Drücken; ‚Löschen‘ fragt mit der Sprechblase
-    ‚Reiselogbuch löschen‘, über die Kapseln hinaus wird nichts ausgelöst (wie Notizen). Tippen auf die Kachel oder daneben in der Liste schließt sie, ohne etwas auszulösen; plus, ellipsis und panel-left
+    (trash, rot, ganz außen) – dieselben Aktionen wie beim langen Drücken; ‚Löschen‘ verschiebt ohne Abfrage
+    nach ‚Zuletzt gelöscht‘, über die Kapseln hinaus wird nichts ausgelöst (wie Notizen). Tippen auf die Kachel oder daneben in der Liste schließt sie, ohne etwas auszulösen; plus, ellipsis und panel-left
     wirken sofort und schließen sie dabei.
 - **Kopfzeile:** Titel der Reise; Kapsel [share | ellipsis].
   - share → Teilen-Menü: Vorschau · HTML · ‚PDF (mit iOS 27 zurzeit nicht möglich)‘ (RLB-124/W-1) (jeweils mit grauem Hinweis zum Speichern), Strich, darunter ‚N erfasste Tage ·
     Dateiname: …‘.
   - ellipsis → Mehr-Menü: ‚Suchen‘ (Suchzeile, 6) · Strich · ‚Alle Tage‘ / ‚Nur erfasste Tage‘ (Filter, G-16) ·
-    ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch sperren‘ · ‚Reiselogbuch löschen‘ (rot, Sprechblase mit der Zahl der Einträge).
+    ‚Reiselogbuch einstellen‘ · ‚Reiselogbuch sperren‘ · ‚Reiselogbuch löschen‘ (rot, ohne Abfrage nach ‚Zuletzt gelöscht‘).
 - **Darunter** (ohne Überschrift – der Titel steht in der Kopfzeile): Reiseteilnehmer, Reisezeitraum, Reisemittel und die dezente
   Fortschrittsanzeige ‚Tag 42 von 80 · 38 erfasst‘.
 - **Tagestabelle:** eine Zeile je Tag im Zeitraum (‚Mo, 24.08.‘): Tag · Verlauf · sichtbare konfigurierte Spalten; Tabellenkopf
