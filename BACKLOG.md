@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 26.11.2026** · Aktuelle Version: Reiselogbuch 3.58.4 · AppDesign 4.70.1
+**Stand 26.11.2026** · Aktuelle Version: Reiselogbuch 3.58.5 · AppDesign 4.70.2
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.
@@ -11,15 +11,14 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| P-124/F-1 | 1 | **Hinweisfenster über der Vorschau so breit wie möglich (zu P-124/1, Nutzer 26.11.2026, Sitzung 0161):** nachgebaut in `ablauf-p120` Teil P-124/F-1 (rot gegen 3.58.4: 21 Fehler in Chromium und WebKit); Ursache: `alert.fitFileName` höchstens 600 px (breites Hinweisfenster), quer und hoch gleich; P-123/F-1 war grün, weil seine Titel kurz sind. Lösung: höchstens Bildschirmbreite − 32 px, Wortlaut R-10.8 bestätigt (Nutzer 26.11.2026, Sitzung 0162) – `AppDesign/arbeit/0162 P-124 Nachbau und Vorschlag.md` | AppDesign (`alert`) | 26.11.2026 |
-| P-124/F-2 | 1 | **Teilen nach der Ausgabe nicht mehr hellblau (zu P-124/1, Nutzer 26.11.2026, Sitzung 0161):** nachgebaut in `ablauf-p120` Teil P-124/F-2 (rot gegen 3.58.4: 16 Fehler in Chromium und WebKit); Ursachen: direkter Weg und gesperrte Seite setzen `sourceItem` ohne Freigabe beim Schließen des Hinweisfensters (`outputSource`, gesperrt PDF tönt Teilen); nach der Vorschau: Neuaufbau bei offenem Teilen-Menü – `sourcehighlight.release(alt)` gibt das neu aufgebaute Element nicht frei. Lösung: `outputSource` mit `hold`/`release` auf jedem Weg (die angetippte Schaltfläche) und `sourcehighlight` merkt sich den Tausch (Nutzer 26.11.2026, Sitzung 0162) | Reiselogbuch / AppDesign (`sourcehighlight`) | 26.11.2026 |
 
-2 Punkte bereit.
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-125 | 1 | **Usertest P-125 (Reiselogbuch 3.58.5, AppDesign 4.70.2):** Korrekturen aus P-124 – P-124/F-1 (Hinweisfenster so breit wie nötig, höchstens Bildschirmbreite − 32 px; AD-Bean `alert` mit `layout()`, R-10.8) und P-124/F-2 (Teilen bzw. PDF nach der Ausgabe nicht mehr hellblau; `outputSource` mit `hold`/`release`, `sourcehighlight` merkt sich den Tausch) – P-125/0 bis P-125/4 (CHANGELOG 3.58.5); ersetzt den offenen Punkt von P-124 (/1) | prüfen |
 | P-124 | 1 | **Usertest P-124 (Reiselogbuch 3.58.4, AppDesign 4.70.1):** Korrekturen aus P-123 – P-123/F-1 (Dateiname über der Vorschau in einer Zeile, `alert` misst neu), P-123/F-2 (Ergebnis auf jedem Weg im Hinweisfenster) und P-123/F-3 (Backup-Hinweis nach einer Ausgabe, ohne eigenen Testfall) – P-124/0 bis P-124/3 (CHANGELOG 3.58.4); ersetzt die offenen Punkte von P-123 (/2 und /3) · **Rückmeldung (Nutzer 26.11.2026, Sitzung 0161): nicht ok** – P-124/F-1 und P-124/F-2 (zu /1) in ‚0.‘, alle übrigen Punkte ok | nicht ok |
 | P-123 | 1 | **Usertest P-123 (Reiselogbuch 3.58.3, AppDesign 4.70.0):** Korrekturen aus P-122 – P-122/F-1 (Schaltflächen der Vorschau nach der Meldung wie beim Öffnen) und P-122/F-2 (Hinweise mittig, R-3.10) – P-123/0 bis P-123/3 (CHANGELOG 3.58.3); ersetzt die offenen Punkte von P-122 (/2 und /4) · **Rückmeldung (Nutzer 22.11.2026, Sitzung 0159): nicht ok** – P-123/F-1, P-123/F-2 (zu /2) und P-123/F-3 (zu /3) in ‚0.‘, alle übrigen Punkte ok | nicht ok |
 | P-122 | 1 | **Usertest P-122 (Reiselogbuch 3.58.2, AppDesign 4.69.0):** Korrekturen aus P-121 (P-121/F-1 Vorschau nach dem Sperren oben, P-121/F-2 Meldung über der Vorschau) und AppDesign APD-135/B-3.3 Schritt 2 (Felder auf der Prüfseite) – P-122/0 bis P-122/5 (CHANGELOG 3.58.2); ersetzt die offenen Punkte von P-121 (/5 und /8) · **Rückmeldung (Nutzer 22.11.2026, Sitzung 0157): nicht ok** – P-122/F-1 (zu /2) und P-122/F-2 (zu /4) in ‚0.‘, alle übrigen Punkte ok | nicht ok |
