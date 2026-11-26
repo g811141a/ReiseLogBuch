@@ -13,6 +13,71 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.58.5 – 26.11.2026
+
+Reiselogbuch 3.58.5 · AppDesign 4.70.2 (Designrichtlinie allgemein 4.70.2) · Designrichtlinie Reiselogbuch 3.58.5 · Zusammenarbeit allgemein 3.19.0
+
+**P-124 – Korrekturen aus dem Usertest P-124** (Rückmeldung nicht ok zu /1, Nutzer 26.11.2026, Sitzung 0161; Nachbau, Ursachen und Vorschlag in Sitzung 0162, Vorschlag,
+Wortlaut R-10.8 und Neubau der AD-Bean `alert` bestätigt 26.11.2026 – AppDesign `arbeit/0162 P-124 Nachbau und Vorschlag.md`, `arbeit/0162 AD-Bean alert – wie sie
+rechnet.md`; gebaut in Sitzung 0163).
+
+- **P-124/F-1 Hinweisfenster nicht so breit wie möglich (iPad):** quer und hoch war das Fenster ‚Ausgabe V…‘ höchstens 600 px breit, ein langer Dateiname brach um.
+  Ursache: `alert.fitFileName` lieh sich die Höchstbreite vom breiten Hinweisfenster. Jetzt rechnet `alert` mit einer Funktion `layout()`: so breit, wie der Name in
+  einer Zeile braucht, höchstens Bildschirmbreite − 32 px (quer also breiter als hoch; AppDesign 4.70.2, R-10.8). In der App: `showOutputResult` legt die Kästen
+  (AD-Bean `notice`) an, **bevor** das Hinweisfenster aufgeht, und übergibt sie fertig an `inform`.
+- **P-124/F-2 Teilen nach der Ausgabe hellblau:** direkt über Teilen → HTML bzw. PDF und auf der gesperrten Seite setzte `outputSource` `sourceItem = '#shareBtn'`,
+  frei erst beim Schließen des Fensters `dlg` – seit 3.58.4 steht das Ergebnis aber im Hinweisfenster `#msg`; auf der gesperrten Seite war bei PDF Teilen getönt. Jetzt
+  hält `outputSource` auf jedem Weg die angetippte Schaltfläche, bis `#msg` schließt (`hold`/`release`: aus dem Menü Teilen der Kopfzeile, gesperrt Teilen bzw.
+  PDF, über der Vorschau deren Schaltfläche wie seit 3.58.3); `sourceItem` setzt es nicht mehr. Nach der Vorschau blieb Teilen hellblau, wenn die Kopfzeile bei
+  offenem Teilen-Menü neu aufgebaut wurde – das behebt AppDesign 4.70.2 (`sourcehighlight` merkt sich den Tausch). Was am Gerät in diesem Moment neu aufbaut, bleibt
+  eine Vermutung (Abgleich, Tageswechsel).
+- **Prüfungen:** `ablauf-p120` Teile P-124/F-1 (iPad quer und hoch, langer und sehr langer Titel, Vorschau → Teilen, Vorschau → PDF, Teilen → HTML) und P-124/F-2
+  (iPad quer, iPhone hoch; 9 Wege, darunter ‚Neuaufbau bei offenem Teilen-Menü‘; gesperrte Seite) – rot gegen 3.58.4 (21 bzw. 16 Fehler in Chromium und WebKit), mit
+  der Korrektur grün.
+- AD-Bean: keine neue in der App, weil `alert` (Berechnung neu) und `sourcehighlight` (Tausch) in AppDesign 4.70.2 korrigiert sind und `outputSource` nur die
+  vorhandenen `hold`/`release` nutzt.
+
+**Warum die Prüfungen es übersahen:** P-123/F-1 prüfte nur kurze Titel (‚Toskana‘ passt schon in 600 px) und verglich die Breite mit einem erneuten Messen derselben
+Bean mit derselben Grenze; `checkDateiname` nahm die Breite des breiten Hinweisfensters als Höchstbreite. Für die Tönung prüfte P-122/F-1 nur die Wege über die
+Vorschau, nie den direkten Weg und die gesperrte Seite nach 3.58.4, und keine Prüfung baute die Seite bei offenem Menü neu auf.
+
+Testfälle P-125 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Für P-125/1 bis P-125/3 ein nicht gesperrtes Reiselogbuch mit **langem Titel** verwenden,
+für P-125/4 ein gesperrtes. P-125 ersetzt den offenen Punkt von P-124 (/1).
+
+**P-125/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.58.5 · erstellt am … · AppDesign 4.70.2‘. Automatisch geprüft in `version-regeln`.
+
+**P-125/1 – Hinweisfenster so breit wie nötig (iPad)**
+1. iPad quer, hell; das Reiselogbuch mit langem Titel öffnen, oben Teilen → ‚Vorschau‘ → Teilen → ‚In Dateien sichern‘.
+2. Erwartet: über der Vorschau das Hinweisfenster ‚Ausgabe V…‘ mit ‚✅ Teilen-Menü abgeschlossen für‘, darunter der Dateiname **in einer Zeile**; das Fenster ist so
+   breit wie dafür nötig (breiter als bisher). Mit x schließen, Vorschau mit x schließen.
+3. iPad hoch, dasselbe.
+4. Erwartet: das Fenster ist hoch schmaler als quer; der Dateiname steht in einer Zeile, wenn er auf den Bildschirm passt, sonst bricht er nur nach einem Leerzeichen
+   um. Automatisch geprüft in `ablauf-p120` (P-124/F-1).
+
+**P-125/2 – Teilen danach nicht mehr hellblau (iPad)**
+1. iPad quer, hell; oben Teilen → ‚HTML‘ → ‚In Dateien sichern‘.
+2. Erwartet: das Hinweisfenster ‚Ausgabe V…‘; Teilen oben ist hellblau, solange es offen ist. Mit x schließen.
+3. Erwartet: Teilen oben ist **nicht mehr** hellblau.
+4. Oben Teilen → ‚Vorschau‘ → Teilen → ‚In Dateien sichern‘ → x → Vorschau mit x schließen.
+5. Erwartet: Teilen oben ist nicht hellblau. Automatisch geprüft in `ablauf-p120` (P-124/F-2).
+
+**P-125/3 – Teilen danach nicht mehr hellblau (iPhone)**
+1. iPhone hoch, hell; das Reiselogbuch mit langem Titel öffnen, oben Teilen → ‚HTML‘ → ‚In Dateien sichern‘.
+2. Erwartet: das Hinweisfenster ‚Ausgabe V…‘. Mit x schließen.
+3. Erwartet: Teilen oben ist nicht hellblau. Automatisch geprüft in `ablauf-p120` (P-124/F-2).
+
+**P-125/4 – Gesperrte Seite: die richtige Schaltfläche (iPad)**
+1. iPad quer, hell; ein gesperrtes Reiselogbuch öffnen, oben ‚PDF‘ antippen, das Drucken-Menü abbrechen.
+2. Erwartet: solange das Hinweisfenster ‚Ausgabe V…‘ offen ist, ist **PDF** hellblau (nicht Teilen). Mit x schließen.
+3. Erwartet: weder PDF noch Teilen ist hellblau. Automatisch geprüft in `ablauf-p120` (P-124/F-2).
+
+**AppDesign 4.70.2 – `alert` mit `layout()`; `sourcehighlight` merkt sich den Tausch** (allgemeiner Teil von P-124/F-1 und P-124/F-2, Wortlaut R-10.8 bestätigt
+26.11.2026, Sitzung 0162).
+
 ## 3.58.4 – 26.11.2026
 
 Reiselogbuch 3.58.4 · AppDesign 4.70.1 (Designrichtlinie allgemein 4.70.1) · Designrichtlinie Reiselogbuch 3.58.4 · Zusammenarbeit allgemein 3.19.0
