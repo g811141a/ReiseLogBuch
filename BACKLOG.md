@@ -18,7 +18,6 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-126 | 1 | **Usertest Reiselogbuch 3.59.0 / AppDesign 4.71.0 – RLB-126 ‚Zuletzt gelöscht‘:** Testfälle P-126/0 bis P-126/8 im CHANGELOG 3.59.0 (Version, Löschen ohne Abfrage, Liste und Vorschau, Wischgefühl, endgültig löschen, Wiederherstellen am iPhone, Abgleich zweier Geräte über ‚Backup laden‘, Backup in Dateien, VoiceOver) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -38,6 +37,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-126 | **Usertest P-126 (Reiselogbuch 3.59.0, AppDesign 4.71.0) – RLB-126 ‚Zuletzt gelöscht‘:** P-126/0 bis P-126/8 alles ok (Nutzer 27.11.2026, Sitzung 0168, im Fenster) | Reiselogbuch 3.59.0 | 27.11.2026 |
 | RLB-126 | **‚Zuletzt gelöscht‘:** Löschen ohne Abfrage nach ‚Zuletzt gelöscht‘ (30 Tage, RLB-126/J-2), letzte Kachel mit Anzahl, Liste mit Frist und ‚noch N Tage‘, Vorschau nur zum Lesen mit ‚Wiederherstellen‘, Kontextmenü und Wischen ‚Wiederherstellen‘ · ‚Endgültig löschen‘ (nur das fragt, ohne ‚Erst Backup erstellen‘), Abgleich und Backup; AD-Bean `recentlydeleted` (AppDesign 4.71.0, R-7.10); Usertest P-126 | 3.59.0 | 27.11.2026 |
 | P-125, P-124, P-123, P-122 | **Korrekturen aus den Usertests P-122 bis P-124:** P-122/F-1 Schaltflächen der Vorschau nach der Meldung wie beim Öffnen, P-122/F-2 Hinweise mittig (R-3.10, 3.58.3) · P-123/F-1 Dateiname über der Vorschau in einer Zeile, P-123/F-2 Ergebnis auf jedem Weg im Hinweisfenster, P-123/F-3 Backup-Hinweis nach einer Ausgabe (3.58.4) · P-124/F-1 Hinweisfenster so breit wie nötig, höchstens Bildschirmbreite − 32 px (`alert` mit `layout()`, R-10.8), P-124/F-2 Teilen bzw. PDF nach der Ausgabe nicht mehr hellblau (`outputSource` mit `hold`/`release`, 3.58.5); feste Prüfungen `ablauf-p120` · **Usertest P-125 (Reiselogbuch 3.58.5, AppDesign 4.70.2): P-125/0 bis P-125/4 alles ok** (Nutzer 26.11.2026, Sitzung 0164); die übrigen Punkte von P-122 bis P-124 waren schon ok | Reiselogbuch 3.58.5 | 26.11.2026 |
 | P-121 | **Korrekturen aus dem Usertest P-121:** P-121/F-1 Vorschau nach dem Sperren oben (`lockedShown`) · P-121/F-2 Teilen und PDF aus der Vorschau lassen sie offen, die Meldung steht als Hinweisfenster darüber; feste Prüfung `ablauf-p120` Teile P-121/F-1 und P-121/F-2; Usertest P-121 übrige Punkte ok (Nutzer 22.11.2026) | Reiselogbuch 3.58.2 | 22.11.2026 |
