@@ -26,13 +26,14 @@
 // seit 3.57.8 in bausteine-pruefseite die Teile ‚menue‘, ‚sprechblase‘ und ‚fenster‘ (AppDesign APD-135/B-3.3); in ablauf-markierung-menues sind checkMehrKnopf und checkWachsen weggefallen.
 // seit 3.59.0 ablauf-zuletzt-geloescht (RLB-126, R-7.10 ‚Zuletzt gelöscht‘, AppDesign checkRecentlyDeleted); ablauf-wischen mit drittem Teil ‚Zuletzt‘ (Wischen in
 // ‚Zuletzt gelöscht‘).
+// seit 3.59.1 ablauf-seitenleiste-drehen (RLB-128, R-8.1): beim Drehen bleibt die Liste der Seitenleiste stehen (Testfall-Liste RLB-128/T-1 bis T-9).
 // seit 3.58.2 in bausteine-pruefseite der Teil ‚felder‘ (AppDesign APD-135/B-3.3 Schritt 2: ⓧ, Cursor am Ende, Feldfehler, Großschreibung, Leerzeichen,
 // Textfeld wächst mit, Eingabetaste an den Feldern der Vorlage); in der App fällt nichts weg (Nutzer 22.11.2026).
 import * as pw from 'playwright';
 import { lauf } from '../../AppDesign/fassung/4.71.0/tests/lauf.mjs';
 const tests = ['doku-regeln', 'schnittstelle-regeln', 'ablauf-suche-menue', 'ablauf-preis-km', 'ablauf-liste-still', 'version-regeln', 'offline-regeln', 'start-regeln', 'abgleich-regeln', 'ablauf-suche-tabelle', 'ablauf-suche-woerter', 'ablauf-suche-iphone', 'tastatur',
   'ablauf-abgleich', 'ablauf-seitenleiste-kontextmenue', 'ablauf-seitenleiste-hoch', 'ablauf-einstellen', 'ablauf-leer', 'ablauf-drehen-iphone', 'ablauf-glas', 'ablauf-feld-rollen', 'ablauf-feld-cursor', 'ablauf-fremdtext', 'ablauf-drehen-luecke', 'ablauf-beruehren', 'ablauf-jahre', 'ablauf-abgleich-faelle', 'ablauf-gesamt',
-  'verlauf-vorschlaege', 'bean-katalog', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln', 'ablauf-bausteine', 'ablauf-sperre', 'ablauf-zuletzt-geloescht',
+  'verlauf-vorschlaege', 'bean-katalog', 'ablauf-markierung-menues', 'backup-regeln', 'ablauf-abgleich-ui', 'regeln-ablauf', 'ablauf-texte-ablaeufe', 'ablauf-verwerfen-abgleich', 'link-name', 'kapsel-iphone', 'ablauf-feld-tastatur', 'ablauf-abspielen', 'ablauf-tastatur-still', 'ablauf-fenster-breite', 'ablauf-smiley-leiste', 'ablauf-kapsel-pfeile', 'ablauf-reisemittel-zeile', 'ablauf-backup-kachel', 'ablauf-bedienung', 'text-regeln', 'ablauf-bausteine', 'ablauf-sperre', 'ablauf-zuletzt-geloescht', 'ablauf-seitenleiste-drehen',
   // Seit 3.33.0 (AppDesign APD-43 P1): die Abläufe mit Bewegung zusätzlich mit ‚Kontrast erhöhen‘ und ‚Bewegung reduzieren‘ (Bewegungswächter)
   // Seit 3.35.0 (AppDesign APD-43 Teil 2 P1): dieselben Abläufe zusätzlich mit der größten Textgröße (AX5, 53 px)
   ...['ablauf-navigation', 'ablauf-fenster', 'ablauf-iphone', 'ablauf-suche-liste', 'ablauf-seitenleiste-position'].map(name => ({ name, teile: { '': {}, Bedienungshilfen: { PRUEF_BEDIENUNG: 'beide' }, 'Text 53': { PRUEF_TEXT: '53' } } })),
