@@ -126,11 +126,12 @@ await G('Reiselogbuch einstellen Toskana');
 check(await p.evaluate(() => getComputedStyle(document.querySelector('#transport button')).touchAction) === 'manipulation', 'Doppeltippen kann zoomen');
 await p.click('#dlgX'); await p.waitForTimeout(200);
 
-// Reiselogbuch öffnen und löschen → zurück zur Startliste
+// Reiselogbuch öffnen und löschen → zurück zur Startliste (seit 3.59.0, RLB-126: ohne Abfrage nach ‚Zuletzt gelöscht‘)
 await row.click(); await p.waitForTimeout(250); await navFertig(p);
 check((await p.locator('.pnav-title').textContent()) === 'Toskana', 'Öffnen aus der Liste geht nicht');
-await p.click('#mainMore'); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(200);
-await p.locator('.pop button', { hasText: 'Reiselogbuch löschen' }).click(); await p.waitForTimeout(250);
+await p.click('#mainMore'); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(400);
+check(!(await p.locator('.pop').count()), 'Löschen fragt (soll ohne Abfrage nach ‚Zuletzt gelöscht‘, R-4.12)');
+check(!!(await db()).recentlyDeleted?.some(x => x.item.title === 'Toskana'), 'Toskana nicht in ‚Zuletzt gelöscht‘');
 check((await p.locator('#side.page .side-head h2').textContent()) === 'Reiselogbücher', 'Nach dem Löschen nicht in der Startliste');
 check((await db()).trips.length === 1, 'nicht gelöscht');
 await G('Startliste nach dem Löschen');

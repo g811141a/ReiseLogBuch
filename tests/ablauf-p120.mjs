@@ -172,8 +172,9 @@ if (teil('F-2')) for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']
     else t.ist('P-120/F-2 ‚Lissabon und Porto‘ ist das aktive und wird angezeigt', [n.cur, n.titel, n.last], ['d', 'Lissabon und Porto', 'd'], 'R-7.1');
     await t.schritt(p, 'P-120/F-2 neu: unterstes aktiv, Liste ganz oben', start);
     vor = await lage('b');
-    await t.schritt(p, 'P-120/F-2 ‚Wien‘ lange drücken → ‚Reiselogbuch löschen‘ → ‚Reiselogbuch löschen‘', async () => { await lang(p, 'c'); await menuePunkt(p, 'Reiselogbuch löschen');
-      await p.locator('.pop button', { hasText: 'Reiselogbuch löschen' }).click(); await p.waitForTimeout(700); await navFertig(p); });
+    // seit 3.59.0 (RLB-126): ohne Abfrage nach ‚Zuletzt gelöscht‘
+    await t.schritt(p, 'P-120/F-2 ‚Wien‘ lange drücken → ‚Reiselogbuch löschen‘', async () => { await lang(p, 'c'); await menuePunkt(p, 'Reiselogbuch löschen');
+      await p.waitForTimeout(700); await navFertig(p); });
     n = await lage('b');
     t.ist('P-120/F-2 ‚Wien‘ ist gelöscht', [n.n, await p.evaluate(() => !getTrip('c'))], [TRIPS.length - 1, true], 'R-4.4');
     t.ist('P-120/F-2 nach dem Löschen springt die Liste nicht (Kachel ‚Toskana‘)', n.y, y => Math.abs(y - vor.y) <= 1, 'R-7.1');

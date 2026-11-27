@@ -37,6 +37,10 @@ Reiselogbuch 3.59.0 · AppDesign 4.71.0 (Designrichtlinie allgemein 4.71.0) · D
 - **Backup (RLB-126/T-10):** ‚Zuletzt gelöscht‘ kommt mit Löschdatum ins Backup; ‚Abgleichen‘ und ‚Ersetzen‘ übernehmen es; ein älteres Backup ohne das Feld ergibt
   eine leere Liste.
 - `PROMPT.md`: Lösch-Abfrage nach dem freigegebenen Wortlaut (RLB-126/J-10) und der Abschnitt ‚Zuletzt gelöscht‘; Abfragen und Wischen nachgezogen.
+- **Prüfungen:** neu `ablauf-zuletzt-geloescht` (RLB-126/T-1 bis T-15: iPad quer hell und dunkel, iPad hoch, iPhone hoch dunkel und quer); `ablauf-wischen` mit
+  dem Teil `Zuletzt` (Wischen in ‚Zuletzt gelöscht‘); Löschen ohne Abfrage in `ablauf-sperre` (RLB-125/T-12), `ablauf-seitenleiste-kontextmenue`, `ablauf-texte-ablaeufe`,
+  `ablauf-gesamt`, `ablauf-iphone`, `ablauf-jahre`, `ablauf-p120`, `ablauf-leer`, `ablauf-fremdtext`, `ablauf-bausteine`; `hig` misst ‚Zuletzt gelöscht‘ und die
+  Sprechblase ‚Endgültig löschen‘ (iPhone).
 - AD-Bean: `recentlydeleted` (neu); dazu `createSync` mit der Option `recentlyDeleted`.
 
 Testfälle P-126 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der

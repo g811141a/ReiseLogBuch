@@ -2,7 +2,9 @@
 // AppDesign arbeit/APD-30 Wischaktionen Testfall-Liste.md W-1 bis W-79): die allgemeine Prüfung checkWischen (AD-Bean swipeactions, eingegraute und
 // sperrende Sprechblase) in iPad quer und hoch, iPhone hoch und quer, je hell und dunkel, dazu ‚Bewegung reduzieren‘ und größte Textgröße (W-57, W-58);
 // mit den Daten der App W-10, W-15, W-21, W-44 bis W-54. Grundregeln nach den Schritten (pruefe.mjs).
-// Aufruf im Repo-Ordner: node tests/ablauf-wischen.mjs. Teilbar: PRUEF_GERAET=iPad oder iPhone.
+// Seit 3.59.0 (RLB-126, R-7.10, R-4.12 Ausnahme): die rote Kapsel ‚Löschen‘ einer Kachel verschiebt ohne Abfrage nach ‚Zuletzt gelöscht‘ – checkWischen mit
+// frage: false; die Sprechblase aus der roten Kapsel (W-13, W-14, W-20, W-22 bis W-25) prüft checkWischen in der Liste ‚Zuletzt gelöscht‘ (‚Endgültig löschen‘).
+// Aufruf im Repo-Ordner: node tests/ablauf-wischen.mjs. Teilbar: PRUEF_GERAET=iPad, iPhone oder (seit 3.59.0) Zuletzt.
 // Gegenprobe W-68: PRUEF_GEGENPROBE=wischen:W-68 (Schwelle ‚Durchwischen‘ in der Prüfkopie von ui.js auf 20 %) – W-1 wird rot.
 import * as pw from 'playwright';
 import { pruefung, navFertig, warteBis } from '../../AppDesign/fassung/4.71.0/tests/pruefe.mjs';
@@ -36,7 +38,24 @@ for (const [ansicht, theme] of faelle) {
     kopf: '#sideMore', inhalt, nicht: ['#side .side-sec', '#side .side-head .ttl'], neuaufbau: 'renderSide()', seitenleiste: phone ? null : { aus: '#sideHide', ein: '[data-side-toggle]' },
     einstellen: async () => { const f = await p.evaluate(() => [document.querySelector('#dlg h3')?.textContent, document.querySelector('#fTitle')?.value]);
       return JSON.stringify(f) === JSON.stringify(['Reiselogbuch einstellen', 'Südtirol mit Wandergruppe und Freunden']) ? [] : [`Fenster ${JSON.stringify(f)} statt ‚Reiselogbuch einstellen‘ für Südtirol`]; },
-    messe: name => t.schritt(p, name, async () => {}), ende: theme === 'light', where: t.ort }));
+    frage: false, messe: name => t.schritt(p, name, async () => {}), ende: theme === 'light', where: t.ort }));
+  await p.close();
+}
+
+// Seit 3.59.0 (RLB-126): Wischen in der Liste ‚Zuletzt gelöscht‘ – ‚Wiederherstellen‘ · ‚Endgültig löschen‘ (rot, fragt); iPad quer und iPhone hoch, hell.
+// Eigener Teil PRUEF_GERAET=Zuletzt (die Teile iPad und iPhone liefen sonst unter Last nahe an die Zeitgrenze von 10 min)
+for (const ansicht of ['iPad quer', 'iPhone hoch'].filter(() => !geraet || geraet === 'Zuletzt')) {
+  const p = await t.seite(b, ansicht, { theme: 'light' });
+  const phone = ansicht.startsWith('iPhone');
+  try {
+    await start(p, DREI);
+    await p.evaluate(() => { for (const id of ['d', 'c', 'b']) deleteTrip(getTrip(id)); }); await ruhig(p);
+    await t.schritt(p, 'RLB-126 ‚Zuletzt gelöscht‘ öffnen', async () => { await p.click('#side .ad-recentlydeleted-entry'); await ruhig(p); await navFertig(p); });
+    const inhalt = phone ? null : await p.evaluate(() => { const r = document.getElementById('app').getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height * 0.6 }; });
+    t.liste(await checkWischen(p, { bean: 'swipe', aktionen: 'tripActions', liste: '#side', kacheln: '[data-id]', kachel: '#side .side-row[data-id="b"]', kachel2: '#side .side-row[data-id="c"]',
+      kopf: null, inhalt, nicht: ['#side .ad-recentlydeleted-note', '#side .side-head .ttl'], neuaufbau: 'renderSide()', seitenleiste: phone ? null : { aus: '#sideHide', ein: '[data-side-toggle]' },
+      einstellen: false, messe: name => t.schritt(p, name, async () => {}), where: `${t.ort} · Zuletzt gelöscht` }));
+  } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
 }
 
@@ -67,12 +86,13 @@ for (const ansicht of ['iPad quer', 'iPhone hoch'].filter(a => !geraet || a.star
     await p.keyboard.press('Escape'); await ruhig(p);
   }
   await zug(p, `${W}[data-id="c"]`, -150);
-  await t.schritt(p, 'W-15 Löschen antippen', () => kapselRot(p));
-  await t.schritt(p, 'W-15 Reiselogbuch löschen', async () => { await p.click('.pop button:has-text("Reiselogbuch löschen")'); await ruhig(p); await navFertig(p); });
-  t.ist('W-15 gelöscht: Speicher, Liste, Anzahl im Kopf, keine Kachel offen', await p.evaluate(() => [db.trips.map(x => x.id).join(), [...side.querySelectorAll('.side-row')].map(x => x.dataset.id).join(),
-    side.querySelector('.side-head small').textContent, swipe.openRow, document.querySelectorAll('.ad-swipeactions-actions').length]), ['a,b,d', 'a,b,d', '3 Reiselogbücher', null, 0], 'R-7.8');
-  // W-21: checkErstFragen findet die rote Kapsel (Kachel offen)
-  t.liste(await checkErstFragen(p, { zustaende: [{ name: 'Kachel offen', open: () => zug(p, `${W}[data-id="b"]`, -150) }], key: 'reiselogbuch.v1', where: `${t.ort} W-21` }));
+  // seit 3.59.0 (RLB-126): ‚Löschen‘ verschiebt ohne Abfrage nach ‚Zuletzt gelöscht‘
+  await t.schritt(p, 'W-15 Löschen antippen (ohne Abfrage)', async () => { await kapselRot(p); await navFertig(p); });
+  t.ist('W-15 gelöscht ohne Sprechblase: Speicher, Liste, Anzahl im Kopf, keine Kachel offen, in ‚Zuletzt gelöscht‘', await p.evaluate(() => [!!document.querySelector('.pop'), db.trips.map(x => x.id).join(), [...side.querySelectorAll('.side-row[data-id]')].map(x => x.dataset.id).join(),
+    side.querySelector('.side-head small').textContent, swipe.openRow, document.querySelectorAll('.ad-swipeactions-actions').length, recentlyDeleted.items.map(x => x.id).join()]), [false, 'a,b,d', 'a,b,d', '3 Reiselogbücher', null, 0, 'c'], 'R-7.8');
+  // W-21: checkErstFragen findet die rote Kapsel (Kachel offen); seit 3.59.0 mit trash – Löschen nach ‚Zuletzt gelöscht‘ fragt nicht (R-4.12 Ausnahme)
+  t.liste(await checkErstFragen(p, { zustaende: [{ name: 'Kachel offen', open: () => zug(p, `${W}[data-id="b"]`, -150) }], key: 'reiselogbuch.v1', trash: 'recentlyDeleted',
+    geladen: async () => { if (await p.locator('#back').isVisible().catch(() => false)) { await p.click('#back'); await navFertig(p); await ruhig(p); } }, where: `${t.ort} W-21` }));
   await p.keyboard.press('Escape'); await ruhig(p);
   // W-45: Suchbegriff ändern bei offener Kachel – alle zu; W-44: Treffer-Kachel wischen und löschen – ‚N von M Reiselogbüchern‘
   await p.evaluate(() => openListSearch()); await ruhig(p);
@@ -85,8 +105,7 @@ for (const ansicht of ['iPad quer', 'iPhone hoch'].filter(a => !geraet || a.star
   await p.evaluate(() => document.activeElement?.blur()); await ruhig(p);
   const vorher = await p.textContent('#side .side-head small');
   await zug(p, `${W}[data-id="b"]`, -150);
-  await t.schritt(p, 'W-44 Löschen in der Suche', () => kapselRot(p));
-  await t.schritt(p, 'W-44 bestätigen', async () => { await p.click('.pop button:has-text("Reiselogbuch löschen")'); await ruhig(p); await navFertig(p); });
+  await t.schritt(p, 'W-44 Löschen in der Suche (ohne Abfrage)', async () => { await kapselRot(p); await navFertig(p); });
   t.ist('W-44 nach dem Löschen stimmt ‚N von M‘', [vorher, await p.textContent('#side .side-head small')], ([v, n]) => /^\d+ von \d+ Reiselogb/.test(n) && n !== v, 'R-7.8');
   });
   await p.close();
@@ -106,12 +125,13 @@ for (const ansicht of ['iPad quer', 'iPhone hoch'].filter(a => !geraet || a.star
   await p.evaluate(() => { const l = side.querySelector('.side-list'); l.scrollTop = l.scrollHeight; l.dispatchEvent(new Event('scroll')); }); await ruhig(p);
   const unten = await p.evaluate(() => { const l = side.querySelector('.side-list').getBoundingClientRect(); return [...side.querySelectorAll('.side-row')].filter(r => r.getBoundingClientRect().bottom <= l.bottom - 30).at(-1)?.dataset.id; });
   await zug(p, `${W}[data-id="${unten}"]`, -150);
-  await t.schritt(p, 'W-52 unterste Kachel: Löschen', () => kapselRot(p));
-  t.ist('W-52 Sprechblase der untersten Kachel ganz im Bild', await p.evaluate(() => { const r = document.querySelector('.pop').getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight && r.left >= 0 && r.right <= innerWidth; }), true, 'R-4.5');
-  await p.click('.pop button:has-text("Abbrechen")'); await ruhig(p);
+  // seit 3.59.0 (RLB-126): die unterste Kachel löscht ohne Abfrage (die Sprechblase ganz im Bild prüft W-54 in ‚Zuletzt gelöscht‘)
+  await t.schritt(p, 'W-52 unterste Kachel: Löschen (ohne Abfrage)', async () => { await kapselRot(p); await navFertig(p); });
+  t.ist('W-52 unterste Kachel gelöscht ohne Sprechblase, in ‚Zuletzt gelöscht‘', await p.evaluate(u => [!!document.querySelector('.pop'), !!getTrip(u), recentlyDeleted.items.some(x => x.id === u)], unten), [false, false, true], 'R-4.12');
   // W-48: Fenster offen – die Kacheln dahinter wischen nicht
+  const unten2 = await p.evaluate(() => { const l = side.querySelector('.side-list').getBoundingClientRect(); return [...side.querySelectorAll('.side-row[data-id]')].filter(r => r.getBoundingClientRect().bottom <= l.bottom - 30).at(-1)?.dataset.id; });
   await p.evaluate(() => openTripDialog(db.trips[0])); await ruhig(p);
-  await zug(p, `${W}[data-id="${unten}"]`, -150);
+  await zug(p, `${W}[data-id="${unten2}"]`, -150);
   t.ist('W-48 bei offenem Fenster keine Wischaktionen', [await offen(p), await p.locator('.ad-swipeactions-actions').count()], [null, 0], 'R-7.8');
   await p.evaluate(() => dlg.close()); await ruhig(p);
   });
@@ -129,8 +149,7 @@ for (const ansicht of ['iPad quer', 'iPhone hoch'].filter(a => !geraet || a.star
     ganz: [...document.querySelectorAll('.ad-swipeactions-title')].every(w => w.scrollWidth <= w.clientWidth + 1) }; });
   t.ist('W-53 Kachel behält die Höhe, Kapseln mittig, Wörter ganz', [w53.h, w53.mitte, w53.ganz], [h0, [true, true, true], true], 'R-7.8');
   t.ist('W-49 mit Offline-Zeile offen', await offen(p), 'a', 'R-7.8');
-  await t.schritt(p, 'W-47 Löschen', () => kapselRot(p));
-  await t.schritt(p, 'W-47 bestätigen', async () => { await p.click('.pop button:has-text("Reiselogbuch löschen")'); await ruhig(p); await navFertig(p); });
+  await t.schritt(p, 'W-47 Löschen (seit 3.59.0 ohne Abfrage)', async () => { await kapselRot(p); await navFertig(p); });
   t.ist('W-47 leerer Zustand, keine Kapsel (W-50)', [await p.evaluate(() => db.trips.length), await p.locator('#side .leer').count() + await p.locator('#app .leer').count() > 0, await p.locator('.ad-swipeactions-button').count()], [0, true, 0], 'R-7.7');
   });
   await p.close();
@@ -145,7 +164,12 @@ if (!geraet || geraet === 'iPhone') {
   await t.schritt(p, 'W-54 Kachel offen', () => zug(p, `${W}[data-id="b"]`, -150));
   t.ist('W-54 offen, Kapseln im Bild, Kachel teilweise sichtbar', await p.evaluate(() => { const k = side.querySelector('.side-row[data-id="b"]').getBoundingClientRect();
     return [swipe.openRow?.dataset.id, [...document.querySelectorAll('.ad-swipeactions-button')].every(c => { const r = c.getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth; }), k.right > 40]; }), ['b', true, true], 'R-7.8');
-  await t.schritt(p, 'W-54 Löschen', () => kapselRot(p));
+  // seit 3.59.0 (RLB-126): ‚Löschen‘ ohne Abfrage; die Sprechblase kommt in ‚Zuletzt gelöscht‘ aus der roten Kapsel (‚Endgültig löschen‘)
+  await t.schritt(p, 'W-54 Löschen (ohne Abfrage)', async () => { await kapselRot(p); await navFertig(p); });
+  t.ist('W-54 ohne Sprechblase in ‚Zuletzt gelöscht‘', await p.evaluate(() => [!!document.querySelector('.pop'), recentlyDeleted.items.map(x => x.id).join()]), [false, 'b'], 'R-4.12');
+  await t.schritt(p, 'W-54 ‚Zuletzt gelöscht‘ öffnen', async () => { await p.click('#side .ad-recentlydeleted-entry'); await ruhig(p); await navFertig(p); });
+  await t.schritt(p, 'W-54 gelöschte Kachel offen', () => zug(p, `${W}[data-id="b"]`, -150));
+  await t.schritt(p, 'W-54 Endgültig löschen', () => kapselRot(p));
   t.ist('W-54 Sprechblase ganz im Bild', await p.evaluate(() => { const r = document.querySelector('.pop').getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth && r.top >= 0 && r.bottom <= innerHeight; }), true, 'R-4.5');
   await p.click('.pop button:has-text("Abbrechen")'); await ruhig(p);
   });
@@ -177,7 +201,7 @@ for (const ansicht of ['iPad hoch', 'iPhone hoch'].filter(a => !geraet || a.star
   t.ort = `${ansicht} hell · Bewegung reduzieren`;
   await start(p, DREI);
   t.liste(await checkWischen(p, { bean: 'swipe', aktionen: 'tripActions', liste: '#side', kacheln: '[data-id]', kachel: '#side .side-row[data-id="b"]', kachel2: '#side .side-row[data-id="c"]',
-    kopf: '#sideMore', messe: name => t.schritt(p, name, async () => {}), where: t.ort }));
+    kopf: '#sideMore', frage: false, messe: name => t.schritt(p, name, async () => {}), where: t.ort }));
   await zug(p, `${W}[data-id="b"]`, -150);
   t.ist('W-58 nach dem Loslassen keine laufende Bewegung', await p.evaluate(() => document.getAnimations().filter(a => a.id === 'swipeactions').length), 0, 'R-7.8');
   await t.ruhig(p, 'W-58');

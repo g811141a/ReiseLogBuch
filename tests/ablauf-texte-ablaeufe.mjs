@@ -1,6 +1,6 @@
 // Ablauf-Prüfungen der Texte und Abläufe (AppDesign APD-40 Pakete B und C, seit 3.50.0): R-4.11 Menüpunkt und Fenster heißen gleich (APD-40/B-5),
 // R-4.12 erst fragen, dann zerstören (APD-40/C-5, C-6), R-5.10 automatisch speichern (APD-40/C-1 bis C-4) – iPad quer und iPhone hoch, hell. Eigene
-// Prüfung, damit jede Gegenprobe (node tests/alle.mjs --gegenprobe masse) genau hier rot wird.
+// Prüfung, damit jede Gegenprobe (node tests/alle.mjs --gegenprobe masse) genau hier rot wird. Seit 3.59.0 (RLB-126): checkErstFragen mit trash.
 import * as pw from 'playwright';
 import { pruefung, textSeite, navFertig } from '../../AppDesign/fassung/4.71.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/4.71.0/tests/hig.mjs';
@@ -25,7 +25,10 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     const ipad = w >= 700, kontext = async () => { const r = await p.locator('#side .side-row').first().boundingBox();
       const m = await langDruecken(p, { x: r.x + 40, y: r.y + r.height / 2 }, { ms: 700, offen: '.menu' }); if (m) throw new Error(m); };   // seit 3.56.3 (AppDesign APD-85 Teil 6): Warten auf die Endlage statt fester Pause
     t.liste(await checkMenueFenster(p, { where, menues: ['#mainMore', '#shareBtn', ...(ipad ? ['#sideMore'] : [])], ohne: ['HTML', 'PDF', 'Suchen', 'Backup', 'Abgleich', 'sperren'] }));   // seit 3.58.0: ‚Reiselogbuch sperren‘ öffnet kein Fenster, es sperrt sofort (RLB-125)
-    t.liste(await checkErstFragen(p, { where, key: 'reiselogbuch.v1', menues: ['#mainMore', ...(ipad ? [kontext] : [])],
+    // seit 3.59.0 (RLB-126, R-4.12 Ausnahme): ‚Reiselogbuch löschen‘ fragt nicht, es verschiebt nach ‚Zuletzt gelöscht‘ (trash) – danach Speicher zurück,
+    // neu laden und am iPhone Australien wieder öffnen (geladen)
+    const geladen = async () => { if (!ipad || await p.evaluate(() => side.classList.contains('over'))) { await p.locator('.irow, .side-row', { hasText: 'Australien' }).first().click(); await p.waitForTimeout(300); await navFertig(p); } };
+    t.liste(await checkErstFragen(p, { where, key: 'reiselogbuch.v1', trash: 'recentlyDeleted', geladen, menues: ['#mainMore', ...(ipad ? [kontext] : [])],
       zustaende: [{ name: 'Fenster Tag', open: () => p.evaluate(() => openDayDialog(db.trips[0], '2026-08-25')) }] }));
     await t.schritt(p, 'nach Menüpunkten und roten Aktionen', async () => {});
     // R-5.10 automatisch speichern (APD-40/C-1 bis C-4): eigene Seite, weil die Uhr vorgestellt wird – Fenster Tag (auch ein leerer Tag) und Fazit

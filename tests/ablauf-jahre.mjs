@@ -125,8 +125,9 @@ for (const ansicht of ['iPad quer', 'iPhone hoch']) {
     t.ist('RLB-114/Y-8 neuer Kopf 2023', await koepfe(p), ['2027', '2026', '2025', '2024', '2023'], 'R-7.6');
     await t.schritt(p, 'Y-8 Dolomiten nach 2022 verschieben', async () => { await p.evaluate(() => { const d = getTrip('d'); d.start = '2022-09-01'; d.end = '2022-09-12'; save(); render(); }); await ruhig(p); });
     t.ist('RLB-114/Y-8 Dolomiten unter dem neuen Jahr, Kopf 2024 weg', (await folge(p)).slice(-4), ['2023', 'Kreta', '2022', 'Dolomiten'], 'R-7.6');
-    await t.schritt(p, 'Y-8 Toskana (letztes 2027) löschen', async () => { await lang(p, '#side .side-row[data-id="t"]'); await p.click('.menu .mi:has-text("Reiselogbuch löschen")'); await bis(p, `!!document.querySelector('.pop') && ${RUHE}`, 'Sprechblase offen');
-      await p.click('.pop button:has-text("Reiselogbuch löschen")'); await bis(p, `!document.querySelector('.pop') && !getTrip('t') && ${RUHE}`, 'gelöscht'); });
+    // seit 3.59.0 (RLB-126): Löschen ohne Abfrage nach ‚Zuletzt gelöscht‘
+    await t.schritt(p, 'Y-8 Toskana (letztes 2027) löschen', async () => { await lang(p, '#side .side-row[data-id="t"]'); await p.click('.menu .mi:has-text("Reiselogbuch löschen")');
+      await bis(p, `!document.querySelector('.pop') && !getTrip('t') && ${RUHE}`, 'gelöscht'); });
     t.ist('RLB-114/Y-8 Kopf 2027 verschwindet', await koepfe(p), ['2026', '2025', '2023', '2022'], 'R-7.6');
   }
   await p.close();

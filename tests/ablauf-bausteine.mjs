@@ -9,7 +9,8 @@
 //   Titel-Blase   – iPhone hoch, Text 53: Reisetitel in der Kopfzeile, Fenster ‚Reiselogbuch einstellen‘ mit L-8 (Tipps auf x, Häkchen und Feld
 //                   schließen nur die Blase, Reisetitel unverändert), Fenster eines Tages mit L-3 (Titel ‚Do, 27.08.2026‘)
 //   Titel antippen – iPad quer: Kopfzeile rollt die Reise nach oben (H-1), Titel der Seitenleiste ihre Liste (H-2)
-//   Sperrschicht  – iPhone quer am oberen Rand: Mehr der Reise, Sprechblase ‚Reiselogbuch löschen‘; danach nichts gelöscht (db.trips)
+//   Sperrschicht  – iPhone quer am oberen Rand: Mehr der Reise, Sprechblase (seit 3.59.0, RLB-126: ‚Endgültig löschen‘ in ‚Zuletzt gelöscht‘ – ‚Reiselogbuch
+//                   löschen‘ fragt nicht mehr); danach nichts gelöscht (db.trips, ‚Zuletzt gelöscht‘)
 //   Großanzeige   – iPad quer, Text 28 (AX1): jede sichtbare Schaltfläche der Kopfzeile, der Seitenleiste und der Fenster-Kopfzeile ‚Reiselogbuch
 //                   einstellen‘ zeigt groß Icon und seinen Namen; Loslassen über ‚Mehr‘ öffnet das Menü der Reise
 // Grundregeln nach jedem Schritt. Gegenprobe: dieselben eingeschleusten Fehler wie --gegenprobe pruefseite müssen auch hier rot werden (CHANGELOG 3.57.7).
@@ -119,13 +120,20 @@ await ablauf('iPad quer', { theme: 'light' }, async p => {
   await t.schritt(p, 'H-2 Seitenleiste', async () => t.liste(await checkTitelOben(p, { titel: '#side .side-head h2', rolle: '#side .side-list', still: ['#app > .rolle'], where: 'H-2 Seitenleiste' })));
 });
 
-// Sperrschicht (Designrichtlinie 13): iPhone quer am oberen Rand – Mehr der Reise und Sprechblase ‚Reiselogbuch löschen‘; nichts gelöscht
+// Sperrschicht (Designrichtlinie 13): iPhone quer am oberen Rand – Mehr der Reise und eine Sprechblase; nichts gelöscht. Seit 3.59.0 (RLB-126): ‚Reiselogbuch
+// löschen‘ fragt nicht mehr – die Sprechblase ist ‚Endgültig löschen‘ eines vorher gelöschten Reiselogbuchs in ‚Zuletzt gelöscht‘ (der Öffner kommt zuletzt)
 await ablauf('iPhone quer', { theme: 'light' }, async p => {
   await start(p);
-  const loeschenFrage = async p => { await p.evaluate(() => document.querySelector('#mainMore')?.click()); await menuOffen(p);
-    await p.locator('.menu .mi', { hasText: 'Reiselogbuch löschen' }).click(); };
-  await t.schritt(p, 'Sperrschicht schließt beim Loslassen', async () => t.liste(await checkSchichtOben(p, { mehr: '#mainMore', oeffner: [loeschenFrage], oben: true, where: t.ort })));
-  t.ist('nichts gelöscht', await p.evaluate(() => db.trips.length), trips.length, 'R-4.4');
+  await p.evaluate(() => deleteTrip(db.trips.find(x => x.id !== currentTripId))); await navFertig(p);
+  // antippen wie mit dem Finger (am oberen Rand nimmt das Safari-Modell den Klick weg)
+  const tipp = (p, sel, text = null) => p.evaluate(([s, tx]) => { const k = [...document.querySelectorAll(s)].find(e => !tx || e.textContent.includes(tx)); if (!k) return;
+    k.dispatchEvent(new PointerEvent('pointerdown', { pointerId: 4119, pointerType: 'touch', isPrimary: true, bubbles: true, cancelable: true, composed: true })); k.click(); }, [sel, text]);
+  const endgueltigFrage = async p => { await tipp(p, '#back'); await p.waitForTimeout(500); await navFertig(p);
+    await tipp(p, '#side .ad-recentlydeleted-entry'); await p.waitForTimeout(500); await navFertig(p);
+    const m = await langDruecken(p, '#side .side-row[data-id]'); if (m) throw new Error(m);
+    await tipp(p, '.menu .mi', 'Endgültig löschen'); };
+  await t.schritt(p, 'Sperrschicht schließt beim Loslassen', async () => t.liste(await checkSchichtOben(p, { mehr: '#mainMore', oeffner: [endgueltigFrage], oben: true, where: t.ort })));
+  t.ist('nichts gelöscht', await p.evaluate(() => [db.trips.length, recentlyDeleted.items.length]), [trips.length - 1, 1], 'R-4.4');
 });
 
 // Großanzeige (R-2.6): iPad quer, Text 28 (AX1) – jede sichtbare Schaltfläche der Leisten der App zeigt Icon und Namen; Loslassen über ‚Mehr‘ löst aus

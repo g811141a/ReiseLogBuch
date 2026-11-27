@@ -51,11 +51,17 @@ for (const ansicht of ['iPad quer', 'iPhone hoch']) {
       t.ist(`APD-54/T-10 ${name}: kein Element aus den Daten`, await fremd(p), 0);
       await zu(p);
     }
-    // APD-54/T-8: Sprechblase ‚… mit allen Einträgen löschen?‘ mit fremdem Titel
-    await t.schritt(p, 'APD-54/T-8 Reiselogbuch löschen fragt', async () => { await p.evaluate(() => { deleteTrip(db.trips.find(x => x.id === 'a')); }); await p.waitForTimeout(400); });
+    // APD-54/T-8: Sprechblase ‚… mit allen Einträgen endgültig löschen?‘ mit fremdem Titel – seit 3.59.0 (RLB-126) fragt ‚Reiselogbuch löschen‘ nicht mehr,
+    // die Sprechblase kommt in ‚Zuletzt gelöscht‘ bei ‚Endgültig löschen‘; danach wiederhergestellt
+    await t.schritt(p, 'APD-54/T-8 Reiselogbuch löschen, ‚Zuletzt gelöscht‘ öffnen', async () => { await p.evaluate(() => { deleteTrip(db.trips.find(x => x.id === 'a')); }); await p.waitForTimeout(400); await navFertig(p);
+      await p.click('#side .ad-recentlydeleted-entry'); await p.waitForTimeout(500); await navFertig(p); });
+    t.ist('APD-54/T-8 Liste ‚Zuletzt gelöscht‘: kein Element aus den Daten', await fremd(p), 0);
+    await t.schritt(p, 'APD-54/T-8 Endgültig löschen fragt', async () => { const m = await langDruecken(p, '#side .side-row[data-id="a"]'); if (m) throw new Error(m);
+      await p.locator('.menu .mi', { hasText: 'Endgültig löschen' }).click(); await p.waitForTimeout(400); });
     t.ist('APD-54/T-8 Sprechblase: kein Element aus den Daten', await fremd(p), 0);
     t.wahr('APD-54/T-8 Sprechblase zeigt den Titel wörtlich', await p.evaluate(k => !!document.querySelector('.pop')?.textContent.includes(k), KURZ));
     await zu(p);
+    await p.evaluate(() => { recentlyDeleted.restore('a'); closeDeletedView(); showTrip('a'); }); await p.waitForTimeout(400); await navFertig(p);
 
     // APD-54/T-1 bis APD-54/T-3: fremder Schlüssel in der Schnellauswahl, ohne normalize gesetzt
     await p.evaluate(([k, q]) => { db.moodUsage[k] = 3; db.moodUsage[q] = 2; db.moodUsage['🙂'] = 2; }, [KURZ, FREMD]);

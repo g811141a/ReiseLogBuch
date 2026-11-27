@@ -27,7 +27,8 @@ const trips = [
 // Bewusste Abweichung (Reiselogbuch, 09.10.2026): Essen-Links in der Tabelle (iPhone: in den Kästen) bleiben so eng
 // wie der Text – sonst trifft man beim Antippen eines Tages zu leicht einen Link.
 // Links in der Vorschau gehören zum ausgegebenen Dokument (HTML/PDF), nicht zur Bedienung der App.
-const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] });
+// Seit 3.59.0 (RLB-126): ebenso die Links der Vorschau eines gelöschten Reiselogbuchs (#app .lockpage).
+const hig = createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a', '#app .lockpage a'] });
 const { measure, note } = hig;
 
 // Seit 3.57.6 (AppDesign APD-135/Z-7, C-29): hig meldet seine Ansichten für --abdeckung (t.ort je Seite, t.abdeckung() am Ende)
@@ -106,8 +107,12 @@ for (const scheme of darstellungen) for (const [w, h] of [[1180, 820], [820, 118
   await dialog(() => p.locator('#app [data-day="2026-08-24"]').first().click({ position: { x: 12, y: 12 } }), 'Fenster Tag', '#app [data-day="2026-08-24"]');
   await dialog(async () => { await p.locator('#fazit').scrollIntoViewIfNeeded(); await p.click('#fazit'); }, 'Fenster Fazit', '#fazit');
   await dialog(() => p.evaluate(() => openTripDialog(null)), 'Fenster Neues Reiselogbuch');
-  await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);
-  await M('Sprechblase Löschen'); await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
+  // seit 3.59.0 (RLB-126, R-7.10): ‚Reiselogbuch löschen‘ fragt nicht mehr – gemessen wird ‚Zuletzt gelöscht‘ (Liste und Vorschau). Die Sprechblase
+  // ‚Endgültig löschen‘ steht am iPad neben der Kachel (wie bis 3.58 die Lösch-Abfrage aus dem Kontextmenü); die Drehprüfung von measure erwartet sie unter
+  // ihrer Schaltfläche – gemessen wird sie deshalb am iPhone (unten) und ohne Drehen in ablauf-zuletzt-geloescht.
+  await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(400); await navFertig(p);
+  if (!await p.locator('#side .ad-recentlydeleted-entry').isVisible().catch(() => false)) { await p.click('[data-side-toggle]'); await p.waitForTimeout(400); await navFertig(p); }
+  await p.click('#side .ad-recentlydeleted-entry'); await p.waitForTimeout(400); await navFertig(p); await M('Zuletzt gelöscht');
   } catch (e) { note('Ablauf', `bricht ab: ${e.message.split('\n')[0]}`, tag); }
   for (const e of errors) note('Skriptfehler', e, tag);
   await p.close();
@@ -128,6 +133,8 @@ for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]
   const M = s => measure(p, `${s} (${tag})`);
   const away = async () => { if (await p.locator('.layer').count()) { await p.mouse.click(4, h - 4); await p.waitForTimeout(150); } };
   const stays = (sel, s) => hig.stays(p, sel, `${s} (${tag})`);
+  const longPress = async sel => { const r = await p.locator(sel).first().boundingBox(); await p.mouse.move(r.x + 40, r.y + r.height / 2); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up();
+    await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(450); };   // seit 3.59.0 (RLB-126)
   try {
   // Seit 3.15.0 (R-7.2): Start in der Startliste; das laufende Reiselogbuch wird daraus geöffnet.
   await M('Startliste beim Start');
@@ -166,9 +173,18 @@ for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]
   // Seit 3.13.2 (P-37/2): Folgetag – im Kopf ‚Quartier‘ stehen zwei Schaltflächen (‚Quartier wie Vortag‘, ‚keinen Google-Maps Link‘).
   await dialog(() => p.locator('#pdays [data-day="2026-08-27"] .h').click(), 'Fenster Folgetag', '#pdays [data-day="2026-08-27"]');
   await dialog(async () => { await p.locator('#fazit').scrollIntoViewIfNeeded(); await p.click('#fazit'); }, 'Fenster Fazit', '#fazit');
-  await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(250);
-  await M('Sprechblase Löschen'); await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
-  await p.click('#back'); await p.waitForTimeout(250); await M('Startliste');
+  // seit 3.59.0 (RLB-126, R-7.10): ‚Reiselogbuch löschen‘ fragt nicht mehr, danach die Startliste – gemessen werden ‚Zuletzt gelöscht‘ (Liste, Vorschau) und die
+  // Sprechblase ‚Endgültig löschen‘; danach der Speicher wie vorher und neu geladen (Startliste) – Wiederherstellen schriebe ‚geändert am …‘ in die Kachel,
+  // und der Gerätevergleich (R-1.1) mit der iPad-Liste vom Start stimmte nicht mehr
+  const vorher = await p.evaluate(() => localStorage.getItem('reiselogbuch.v1'));
+  await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'löschen' }).click(); await p.waitForTimeout(400); await navFertig(p);
+  await p.click('#side .ad-recentlydeleted-entry'); await p.waitForTimeout(400); await navFertig(p); await M('Zuletzt gelöscht');
+  await p.click('#side .side-row[data-id]'); await p.waitForTimeout(400); await navFertig(p); await M('Zuletzt gelöscht Vorschau');
+  await p.click('#back'); await p.waitForTimeout(400); await navFertig(p);
+  await longPress('#side .side-row[data-id]'); await p.locator('.menu .mi', { hasText: 'Endgültig löschen' }).click(); await p.waitForTimeout(250);
+  await M('Sprechblase Endgültig löschen'); await p.locator('.pop button', { hasText: 'Abbrechen' }).click(); await p.waitForTimeout(150);
+  await p.evaluate(v => localStorage.setItem('reiselogbuch.v1', v), vorher); await p.reload(); await p.waitForTimeout(400); await navFertig(p);
+  await M('Startliste');
   // Abfrage beim Laden eines Backups (RLB-3), auch iPhone quer: muss ganz auf den Bildschirm passen (R-4.5)
   await p.evaluate(() => db.trips.forEach(t => { t.changedAt = Date.now(); t.changedOn = 'iPhone'; }));   // mit Vergleich ‚neuer/älter‘ wie im Alltag
   await p.click('#sideMore'); await p.waitForTimeout(150);

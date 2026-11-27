@@ -89,10 +89,9 @@ for (const [ansicht, theme, opts] of [['iPad quer', 'light', {}], ['iPad quer', 
       await p.click('#newTrip'); await p.waitForTimeout(400); await p.fill('#fTitle', 'Neu'); await p.fill('#fPeople', 'X');
       await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); await p.waitForTimeout(500); await navFertig(p); });
     t.ist('L-4 nach dem Anlegen kein leerer Zustand mehr', (await leer(p, 'body')).length, 0, 'R-7.7');
-    // L-5: letztes Reiselogbuch löschen – S-1 und S-2 erscheinen wieder
+    // L-5: letztes Reiselogbuch löschen – S-1 und S-2 erscheinen wieder (seit 3.59.0, RLB-126: ohne Abfrage nach ‚Zuletzt gelöscht‘)
     await t.schritt(p, 'L-5 letztes Reiselogbuch löschen', async () => {
-      await p.evaluate(() => { deleteTrip(db.trips[0]); }); await p.waitForTimeout(300);
-      await p.locator('.pop button', { hasText: 'Löschen' }).first().click(); await p.waitForTimeout(500); await dialogZu(p); await navFertig(p); });
+      await p.evaluate(() => { deleteTrip(db.trips[0]); }); await p.waitForTimeout(800); await dialogZu(p); await navFertig(p); });
     t.ist('L-5 nach dem Löschen wieder der leere Zustand', (await leer(p, 'body')).map(x => x.titel), phone ? [S1] : [S1, S1], 'R-7.7');
     // L-17: Abgleich bringt Reiselogbücher (wie nach dem Laden von iCloud: Daten ändern sich, die App baut neu auf)
     await t.schritt(p, 'L-17 Abgleich bringt Reiselogbücher', async () => {

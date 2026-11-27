@@ -156,11 +156,10 @@ for (const theme of ['light', 'dark']) {
     [['Suchen', 'Backup erstellen', 'Backup laden', 'DarstellungAutomatisch'], new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · .+ · AppDesign ${AD.replace(/\./g, '\\.')}$`), 'Noch kein Backup erstellt.'], 'R-9.1');
   await S(p, 'daneben tippen', () => p.click('.layer'));
   t.ist('Backup-Kachel da', await p.locator('.bhint').count(), 1, 'R-9.1');
-  // Löschen
-  await S(p, 'Löschen', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch löschen")'); });
-  t.ist('Abfrage Löschen', await p.locator('.pop button').allTextContents(), ['Reiselogbuch löschen', 'Abbrechen'], 'R-4.3');
-  await S(p, 'Löschen bestätigen', () => p.click('.pop button:has-text("Reiselogbuch löschen")'));
-  t.ist('gelöscht, Australien offen', [await p.evaluate(() => db.trips.length), await p.textContent('.nb-title')], [2, 'Australien']);
+  // Löschen – seit 3.59.0 (RLB-126) ohne Abfrage nach ‚Zuletzt gelöscht‘
+  await S(p, 'Löschen', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch löschen")'); await p.waitForTimeout(300); });
+  t.ist('Löschen ohne Abfrage', await p.locator('.pop').count(), 0, 'R-4.12');
+  t.ist('gelöscht, Australien offen, Toskana in ‚Zuletzt gelöscht‘', [await p.evaluate(() => db.trips.length), await p.textContent('.nb-title'), await p.evaluate(() => recentlyDeleted.items.map(x => x.item.title).join())], [2, 'Australien', 'Toskana'], 'R-7.10');
   // Neu
   await S(p, 'Neues Reiselogbuch', () => p.click('#newTrip'));
   t.ist('Fenster Neues Reiselogbuch, plus blau', [await p.textContent('#dlg h3'), await cls(p, '#newTrip', 'on')], ['Neues Reiselogbuch', true], 'R-3.3');
