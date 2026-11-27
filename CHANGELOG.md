@@ -13,6 +13,63 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.59.2 – 27.11.2026
+
+Reiselogbuch 3.59.2 · AppDesign 4.71.0 (Designrichtlinie allgemein 4.71.0) · Designrichtlinie Reiselogbuch 3.59.2 · Zusammenarbeit allgemein 3.19.0
+
+**RLB-129 – Korrektur zu RLB-128: Seitenleiste kehrt nach dem Drehen an ihre Stelle zurück** (Usertest P-127/1 und /2 fehlgeschlagen, Nutzer 27.11.2026,
+Sitzung 0170; Vorschlag und Testfall-Liste RLB-129/T-1 bis T-8 freigegeben – AppDesign `arbeit/RLB-129 Testfall-Liste.md`; Bau-Frage mit Ja beantwortet
+27.11.2026, Sitzung 0171).
+
+- **Vorher (3.59.1):** Passten hoch alle Einträge in die Seitenleiste bzw. hatte die Liste hoch weniger Rollweg, kürzte der Browser beim Drehen die Lage (ganz oben
+  bzw. am Ende), und die App merkte sich diese erzwungene Lage als neue (`sideTopNote` nach dem Drehen). Zurück quer stand oben deshalb ein anderer Eintrag
+  (gemessen mit 3.59.1 in Chromium: quer `scrollTop` 200, hoch 0, zurück quer 0).
+- **Jetzt (R-8.1):** Die App merkt sich nur, wohin du selbst rollst bzw. wohin sie die Liste bewusst rollt (gewählter Eintrag ins Bild). Verschiebt der Browser die Liste
+  beim Drehen, ändert das die gemerkte Lage nicht.
+  - Reicht der Rollweg, steht oben derselbe Eintrag im selben Abstand wie vor dem ersten Drehen.
+  - Reicht er nicht, steht die Liste so weit unten wie möglich (ganz oben, wenn alles passt); der Eintrag, der vorher oben stand, bleibt sichtbar.
+  - Zurück in der alten Lage steht oben wieder genau der Eintrag von vorher – auch nach mehrmaligem Drehen.
+  - Rollst du nach dem Drehen selbst, gilt ab dann deine neue Lage; tippst du hoch auf einen anderen Eintrag, rollt er nach dem Zurückdrehen ins Bild.
+- **Zeitgrenze:** Während des Drehens und bis 600 ms nach dem letzten `resize` eines Drehens (neue Breite oder um mehr als 150 px andere Höhe) gilt ein Rollen der
+  Liste nicht als deines; ebenso, solange das Fenster schon die neue Größe hat, ihr `resize` aber noch nicht da ist (Designrichtlinie 13). Beleg: Am iPhone kamen
+  die `resize` eines Drehens über 326 ms (Messung 14.11.2026, AppDesign `arbeit/APD-129/messung-2026-11-14-2137.txt`); am iPad nicht gemessen.
+- **Wie bisher:** Die Kachel eines offenen Kontextmenüs bzw. einer Sprechblase bleibt sichtbar und blau, das Menü daneben; ändert sich die Auswahl, rollt der gewählte
+  Eintrag ins Bild.
+- **Berichtigt:** 3.59.1 nannte das Verhalten ‚am Ende bleiben wie in UIKit‘ ohne Beleg; diese Aussage gilt nicht mehr.
+- **Prüfungen:** `ablauf-seitenleiste-drehen` vergleicht jetzt immer mit der Lage vor dem ersten Drehen, auch RLB-128/T-1 bis T-9; neu RLB-129/T-1 bis T-8
+  (iPad quer → hoch → quer → hoch → quer, iPhone quer → hoch → quer → hoch → quer, Chromium und WebKit, mit den Grundregeln).
+  - Gegen 3.59.1 rot in Chromium und WebKit: RLB-129/T-2, T-3, T-4, T-5, T-6 (Tippen), T-7 und T-8, dazu RLB-128/T-3, T-4 und T-5 mit dem neuen Vergleich.
+    RLB-129/T-1 war schon richtig.
+  - RLB-129/T-6 ‚hoch selbst rollen‘ mit 14 Reiselogbüchern (Daten wie RLB-129/T-3): Mit den Daten von RLB-129/T-2 passt hoch alles, die Liste lässt sich dort nicht
+    rollen; ‚hoch tippen‘ mit den Daten von RLB-129/T-2.
+- AD-Bean: keine, weil nur App-Code (`index.html`); AppDesign bleibt 4.71.0.
+
+Testfälle P-128 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0; ersetzt P-127). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-128/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.59.2 · erstellt am … · AppDesign 4.71.0‘. Automatisch geprüft in `version-regeln`.
+
+**P-128/1 – Liste der Reiselogbücher mit wenigen Einträgen: quer rollen, hoch, wieder quer (iPad)**
+1. iPad quer, hell; die Seitenleiste ‚Reiselogbücher‘ ist eingeblendet und hat so viele Einträge, dass sie quer rollt (wie bei dir).
+2. Die Liste etwas nach unten rollen; merken, welches Reiselogbuch jetzt ganz oben steht.
+3. Das iPad hochkant drehen. Erwartet: oben steht dasselbe Reiselogbuch, oder – wenn die Liste dafür zu kurz ist – das vorige oberste Reiselogbuch ist sichtbar
+   (passen alle, beginnt die Liste oben).
+4. Das iPad wieder quer drehen. Erwartet: oben steht wieder dasselbe Reiselogbuch wie in Schritt 2.
+5. Schritte 3 und 4 noch einmal. Erwartet: wie in Schritt 3 und 4. Automatisch geprüft in `ablauf-seitenleiste-drehen` (RLB-129/T-1, T-2, T-3).
+
+**P-128/2 – dasselbe in ‚Zuletzt gelöscht‘, mit offenem Kontextmenü (iPad)**
+1. iPad quer, hell; in der Seitenleiste ganz unten die Kachel ‚Zuletzt gelöscht‘ antippen (dort stehen so viele Einträge, dass die Liste quer rollt).
+2. Die Liste etwas nach unten rollen; merken, welcher Eintrag ganz oben steht.
+3. Das iPad hochkant drehen. Erwartet: oben steht derselbe Eintrag, oder – wenn die Liste dafür zu kurz ist – der vorige oberste Eintrag ist sichtbar.
+4. Das iPad wieder quer drehen. Erwartet: oben steht wieder derselbe Eintrag wie in Schritt 2.
+5. Die unterste ganz sichtbare Kachel lange drücken. Erwartet: das Menü ‚Wiederherstellen‘ · Strich · ‚Endgültig löschen‘ (rot) steht daneben, die Kachel ist blau.
+6. Das iPad hochkant drehen, dann wieder quer. Erwartet: Nach jedem Drehen bleibt das Menü offen neben seiner Kachel, die Kachel bleibt blau und ganz sichtbar;
+   zurück quer steht oben wieder derselbe Eintrag wie in Schritt 2.
+7. Neben das Menü tippen. Erwartet: das Menü schließt, nichts wird ausgelöst. Automatisch geprüft in `ablauf-seitenleiste-drehen` (RLB-129/T-4, T-5).
+
 ## 3.59.1 – 27.11.2026
 
 Reiselogbuch 3.59.1 · AppDesign 4.71.0 (Designrichtlinie allgemein 4.71.0) · Designrichtlinie Reiselogbuch 3.59.1 · Zusammenarbeit allgemein 3.19.0
