@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 27.11.2026** · Aktuelle Version: Reiselogbuch 3.59.0 · AppDesign 4.71.0
+**Stand 27.11.2026** · Aktuelle Version: Reiselogbuch 3.59.1 · AppDesign 4.71.0
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.
@@ -11,14 +11,14 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-128 | 1 | **Korrektur: Seitenleiste bleibt beim Drehen stehen – heute springt sie zum gewählten Eintrag (gefunden 27.11.2026, Sitzung 0169, bei der Testfall-Liste APD-154; übernommen Nutzer 27.11.2026, im Fenster, Priorität 1):** `keepSideScroll` rollt nach dem Neuaufbau beim Drehen den gewählten Eintrag ins Bild – ist er weggerollt, springt die Liste (gemessen mit 3.59.0 in Chromium und WebKit: `scrollTop` 400 → 39; in ‚Zuletzt gelöscht‘ 400 → 48, dort ist immer einer gewählt); ein offenes Kontextmenü bleibt dann ohne sichtbare Kachel stehen – gegen R-8.1 (oben bleibt derselbe Eintrag) und Designrichtlinie 15.6; Vorschlag: beim Drehen bzw. einer Größenänderung bleibt die Liste stehen, ins Bild gerollt wird nur bei geänderter Auswahl; Apple-Abgleich: HIG Layout ‚People expect your experience to remain familiar when they rotate their device, resize a window …‘ – zur Rollposition der Seitenleiste nichts Ausdrückliches (Seite ‚Sidebars‘ nicht lesbar, Foren ohne Apple-Antwort); wie Notizen bzw. Mail am iPad es halten, zeigt nur das Gerät (offen); eine reine App-Version ist trotz der Vorgabe aus AppDesign 0004 erlaubt (Nutzer 27.11.2026, Sitzung 0169, im Fenster); die Prüfung dazu steht in AppDesign APD-154 (APD-154/T-6 bis T-8, T-11) – `AppDesign/arbeit/APD-154 Testfall-Liste.md`; Notizen am iPad: Liste bleibt stehen, Kontextmenü bleibt neben seiner Notiz (Nutzer am Gerät 27.11.2026); **Vorschlag und Testfall-Liste RLB-128/T-1 bis T-9 freigegeben** (Nutzer 27.11.2026, Sitzung 0169, im Fenster) – `AppDesign/arbeit/RLB-128 Testfall-Liste.md`; Reiselogbuch 3.59.1 mit AppDesign 4.71.0 · AD-Bean: keine, weil nur App-Code | Reiselogbuch | 27.11.2026 |
 
-1 Punkt bereit.
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-127 | 1 | **Usertest Reiselogbuch 3.59.1 / AppDesign 4.71.0 – RLB-128 Seitenleiste bleibt beim Drehen stehen:** Testfälle P-127/0 bis P-127/2 im CHANGELOG 3.59.1 (Version, Liste der Reiselogbücher rollen und drehen, ‚Zuletzt gelöscht‘ rollen, Kontextmenü öffnen und drehen) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -38,6 +38,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-128 | **Korrektur: Seitenleiste bleibt beim Drehen stehen:** oben derselbe Eintrag, die Kachel eines offenen Menüs bzw. einer Sprechblase bleibt sichtbar (R-8.1); Usertest P-127 | 3.59.1 | 27.11.2026 |
 | P-126 | **Usertest P-126 (Reiselogbuch 3.59.0, AppDesign 4.71.0) – RLB-126 ‚Zuletzt gelöscht‘:** P-126/0 bis P-126/8 alles ok (Nutzer 27.11.2026, Sitzung 0168, im Fenster) | Reiselogbuch 3.59.0 | 27.11.2026 |
 | RLB-126 | **‚Zuletzt gelöscht‘:** Löschen ohne Abfrage nach ‚Zuletzt gelöscht‘ (30 Tage, RLB-126/J-2), letzte Kachel mit Anzahl, Liste mit Frist und ‚noch N Tage‘, Vorschau nur zum Lesen mit ‚Wiederherstellen‘, Kontextmenü und Wischen ‚Wiederherstellen‘ · ‚Endgültig löschen‘ (nur das fragt, ohne ‚Erst Backup erstellen‘), Abgleich und Backup; AD-Bean `recentlydeleted` (AppDesign 4.71.0, R-7.10); Usertest P-126 | 3.59.0 | 27.11.2026 |
 | P-125, P-124, P-123, P-122 | **Korrekturen aus den Usertests P-122 bis P-124:** P-122/F-1 Schaltflächen der Vorschau nach der Meldung wie beim Öffnen, P-122/F-2 Hinweise mittig (R-3.10, 3.58.3) · P-123/F-1 Dateiname über der Vorschau in einer Zeile, P-123/F-2 Ergebnis auf jedem Weg im Hinweisfenster, P-123/F-3 Backup-Hinweis nach einer Ausgabe (3.58.4) · P-124/F-1 Hinweisfenster so breit wie nötig, höchstens Bildschirmbreite − 32 px (`alert` mit `layout()`, R-10.8), P-124/F-2 Teilen bzw. PDF nach der Ausgabe nicht mehr hellblau (`outputSource` mit `hold`/`release`, 3.58.5); feste Prüfungen `ablauf-p120` · **Usertest P-125 (Reiselogbuch 3.58.5, AppDesign 4.70.2): P-125/0 bis P-125/4 alles ok** (Nutzer 26.11.2026, Sitzung 0164); die übrigen Punkte von P-122 bis P-124 waren schon ok | Reiselogbuch 3.58.5 | 26.11.2026 |

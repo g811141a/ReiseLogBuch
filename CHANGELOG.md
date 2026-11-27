@@ -13,6 +13,50 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.59.1 – 27.11.2026
+
+Reiselogbuch 3.59.1 · AppDesign 4.71.0 (Designrichtlinie allgemein 4.71.0) · Designrichtlinie Reiselogbuch 3.59.1 · Zusammenarbeit allgemein 3.19.0
+
+**RLB-128 – Korrektur: Seitenleiste bleibt beim Drehen stehen** (gefunden 27.11.2026, Sitzung 0169, bei der Testfall-Liste AppDesign APD-154; Vorschlag und
+Testfall-Liste RLB-128/T-1 bis T-9 freigegeben – AppDesign `arbeit/RLB-128 Testfall-Liste.md`; Bau-Frage mit Ja beantwortet 27.11.2026, Sitzung 0170).
+
+- **Vorher (gemessen mit 3.59.0 in Chromium und WebKit):** Nach dem Drehen rollte `keepSideScroll` den gewählten Eintrag ins Bild – war er weggerollt, sprang die
+  Liste (`scrollTop` 400 → 39; in ‚Zuletzt gelöscht‘, wo immer einer gewählt ist, 400 → 48). Ein offenes Kontextmenü blieb dann ohne sichtbare Kachel stehen.
+- **Jetzt (R-8.1, wie Notizen am iPad):** Beim Drehen bzw. einer Größenänderung bleibt die Liste der Seitenleiste (iPhone: Startliste) stehen – oben derselbe
+  Eintrag im selben Abstand, auch bei großer Schrift, wenn sich mit der Breite die Höhen der Kacheln ändern. Hat die neue Lage weniger Rollweg, steht die Liste
+  am Ende und bleibt dort, wie in UIKit.
+- **Menü und Sprechblase:** Ist an einer Kachel der Seitenleiste ein Kontextmenü oder die Sprechblase ‚Endgültig löschen‘ offen, bleibt die Kachel sichtbar und blau, das
+  Menü daneben; läge sie in der neuen Lage außerhalb, rückt die Liste nur so weit, dass sie gerade ganz sichtbar ist (das gilt auch, wenn die App beim Drehen die
+  Seitenleiste nicht neu aufbaut – dann behielt der Browser vorher eine gekürzte Position, und die Kachel lag außerhalb).
+- **Wie bisher:** Ändert sich die Auswahl (Antippen, neues Reiselogbuch, Suchtreffer, Wechsel nach ‚Zuletzt gelöscht‘ und zurück), rollt der gewählte Eintrag ins Bild.
+- **Prüfungen:** neu `ablauf-seitenleiste-drehen` (RLB-128/T-1 bis T-9, iPad quer → hoch → quer und hoch → quer → hoch, iPhone hoch ↔ quer, Chromium und WebKit, mit
+  den Grundregeln). Gegen 3.59.0 rot in Chromium und WebKit: RLB-128/T-1, T-2, T-3, T-4, T-5 und T-7; T-6, T-8 und T-9 waren schon richtig.
+- AD-Bean: keine, weil nur App-Code (`index.html`); AppDesign bleibt 4.71.0.
+
+Testfälle P-127 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-127/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.59.1 · erstellt am … · AppDesign 4.71.0‘. Automatisch geprüft in `version-regeln`.
+
+**P-127/1 – Liste der Reiselogbücher rollen und drehen (iPad)**
+1. iPad quer, hell; in der Seitenleiste ein Reiselogbuch ganz oben antippen (es wird blau).
+2. Die Liste nach unten rollen, bis das blaue Reiselogbuch oben aus dem Bild ist; merken, welches Reiselogbuch jetzt ganz oben steht.
+3. Das iPad hochkant drehen, dann wieder quer.
+4. Erwartet: Nach jedem Drehen steht oben dasselbe Reiselogbuch wie vorher; die Liste springt nicht zum blauen Eintrag. Automatisch geprüft in
+   `ablauf-seitenleiste-drehen` (RLB-128/T-1).
+
+**P-127/2 – ‚Zuletzt gelöscht‘ rollen, Kontextmenü öffnen und drehen (iPad)**
+1. iPad quer, hell; in der Seitenleiste ganz unten die Kachel ‚Zuletzt gelöscht‘ antippen (dafür müssen dort mindestens so viele Einträge stehen, dass die Liste rollt;
+   sonst vorher einige Test-Reiselogbücher anlegen und löschen).
+2. Die Liste nach unten rollen; merken, welcher Eintrag ganz oben steht.
+3. Das iPad hochkant drehen, dann wieder quer. Erwartet: Nach jedem Drehen steht oben derselbe Eintrag wie vorher; die Liste springt nicht nach oben.
+4. Die unterste ganz sichtbare Kachel lange drücken. Erwartet: das Menü ‚Wiederherstellen‘ · Strich · ‚Endgültig löschen‘ (rot) steht daneben, die Kachel ist blau.
+5. Das iPad hochkant drehen, dann wieder quer. Erwartet: Nach jedem Drehen bleibt das Menü offen neben seiner Kachel, die Kachel bleibt blau und ganz sichtbar.
+6. Neben das Menü tippen. Erwartet: das Menü schließt, nichts wird ausgelöst. Automatisch geprüft in `ablauf-seitenleiste-drehen` (RLB-128/T-3, T-4).
+
 ## 3.59.0 – 27.11.2026
 
 Reiselogbuch 3.59.0 · AppDesign 4.71.0 (Designrichtlinie allgemein 4.71.0) · Designrichtlinie Reiselogbuch 3.59.0 · Zusammenarbeit allgemein 3.19.0
