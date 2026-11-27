@@ -40,7 +40,7 @@ Reiselogbuch 3.59.0 · AppDesign 4.71.0 (Designrichtlinie allgemein 4.71.0) · D
 - **Prüfungen:** neu `ablauf-zuletzt-geloescht` (RLB-126/T-1 bis T-15: iPad quer hell und dunkel, iPad hoch, iPhone hoch dunkel und quer); `ablauf-wischen` mit
   dem Teil `Zuletzt` (Wischen in ‚Zuletzt gelöscht‘); Löschen ohne Abfrage in `ablauf-sperre` (RLB-125/T-12), `ablauf-seitenleiste-kontextmenue`, `ablauf-texte-ablaeufe`,
   `ablauf-gesamt`, `ablauf-iphone`, `ablauf-jahre`, `ablauf-p120`, `ablauf-leer`, `ablauf-fremdtext`, `ablauf-bausteine`; `hig` misst ‚Zuletzt gelöscht‘ und die
-  Sprechblase ‚Endgültig löschen‘ (iPhone).
+  Sprechblase ‚Endgültig löschen‘ (iPhone; liegt die Kachel hinter der Backup-Kachel, rollt es sie vorher nach oben).
 - AD-Bean: `recentlydeleted` (neu); dazu `createSync` mit der Option `recentlyDeleted`.
 
 Testfälle P-126 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der

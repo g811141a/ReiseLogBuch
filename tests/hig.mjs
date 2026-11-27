@@ -133,7 +133,8 @@ for (const scheme of darstellungen) for (const [w, h] of [[393, 852], [852, 393]
   const M = s => measure(p, `${s} (${tag})`);
   const away = async () => { if (await p.locator('.layer').count()) { await p.mouse.click(4, h - 4); await p.waitForTimeout(150); } };
   const stays = (sel, s) => hig.stays(p, sel, `${s} (${tag})`);
-  const longPress = async sel => { const r = await p.locator(sel).first().boundingBox(); await p.mouse.move(r.x + 40, r.y + r.height / 2); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up();
+  // liegt die Kachel unten hinter der Backup-Kachel, zuerst nach oben rollen (größte Schrift, quer: der Hinweis zur Frist steht in der Liste davor)
+  const longPress = async sel => { await p.locator(sel).first().evaluate(e => { if (e.getBoundingClientRect().top > innerHeight - 200) e.scrollIntoView({ block: 'start' }); }); const r = await p.locator(sel).first().boundingBox(); await p.mouse.move(r.x + 40, r.y + r.height / 2); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up();
     await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(450); };   // seit 3.59.0 (RLB-126)
   try {
   // Seit 3.15.0 (R-7.2): Start in der Startliste; das laufende Reiselogbuch wird daraus geöffnet.
