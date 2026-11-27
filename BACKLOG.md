@@ -11,8 +11,9 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| RLB-128 | 1 | **Korrektur: Seitenleiste bleibt beim Drehen stehen – heute springt sie zum gewählten Eintrag (gefunden 27.11.2026, Sitzung 0169, bei der Testfall-Liste APD-154; übernommen Nutzer 27.11.2026, im Fenster, Priorität 1):** `keepSideScroll` rollt nach dem Neuaufbau beim Drehen den gewählten Eintrag ins Bild – ist er weggerollt, springt die Liste (gemessen mit 3.59.0 in Chromium und WebKit: `scrollTop` 400 → 39; in ‚Zuletzt gelöscht‘ 400 → 48, dort ist immer einer gewählt); ein offenes Kontextmenü bleibt dann ohne sichtbare Kachel stehen – gegen R-8.1 (oben bleibt derselbe Eintrag) und Designrichtlinie 15.6; Vorschlag: beim Drehen bzw. einer Größenänderung bleibt die Liste stehen, ins Bild gerollt wird nur bei geänderter Auswahl; Apple-Abgleich: HIG Layout ‚People expect your experience to remain familiar when they rotate their device, resize a window …‘ – zur Rollposition der Seitenleiste nichts Ausdrückliches (Seite ‚Sidebars‘ nicht lesbar, Foren ohne Apple-Antwort); wie Notizen bzw. Mail am iPad es halten, zeigt nur das Gerät (offen); eine reine App-Version ist trotz der Vorgabe aus AppDesign 0004 erlaubt (Nutzer 27.11.2026, Sitzung 0169, im Fenster); die Prüfung dazu steht in AppDesign APD-154 (APD-154/T-6 bis T-8, T-11) – `AppDesign/arbeit/APD-154 Testfall-Liste.md`; Notizen am iPad: Liste bleibt stehen, Kontextmenü bleibt neben seiner Notiz (Nutzer am Gerät 27.11.2026); **Vorschlag und Testfall-Liste RLB-128/T-1 bis T-9 freigegeben** (Nutzer 27.11.2026, Sitzung 0169, im Fenster) – `AppDesign/arbeit/RLB-128 Testfall-Liste.md`; Reiselogbuch 3.59.1 mit AppDesign 4.71.0 · AD-Bean: keine, weil nur App-Code | Reiselogbuch | 27.11.2026 |
 
-0 Punkte bereit.
+1 Punkt bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
@@ -23,7 +24,6 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-128 | 1 | **Seitenleiste springt beim Drehen zum gewählten Eintrag (gefunden 27.11.2026, Sitzung 0169, bei der Testfall-Liste APD-154; übernommen Nutzer 27.11.2026, im Fenster, Priorität 1):** `keepSideScroll` rollt nach dem Neuaufbau beim Drehen den gewählten Eintrag ins Bild – ist er weggerollt, springt die Liste (gemessen mit 3.59.0 in Chromium und WebKit: `scrollTop` 400 → 39; in ‚Zuletzt gelöscht‘ 400 → 48, dort ist immer einer gewählt); ein offenes Kontextmenü bleibt dann ohne sichtbare Kachel stehen – gegen R-8.1 (oben bleibt derselbe Eintrag) und Designrichtlinie 15.6; Vorschlag: beim Drehen bzw. einer Größenänderung bleibt die Liste stehen, ins Bild gerollt wird nur bei geänderter Auswahl; Apple-Abgleich: HIG Layout ‚People expect your experience to remain familiar when they rotate their device, resize a window …‘ – zur Rollposition der Seitenleiste nichts Ausdrückliches (Seite ‚Sidebars‘ nicht lesbar, Foren ohne Apple-Antwort); wie Notizen bzw. Mail am iPad es halten, zeigt nur das Gerät (offen); eine reine App-Version ist trotz der Vorgabe aus AppDesign 0004 erlaubt (Nutzer 27.11.2026, Sitzung 0169, im Fenster); die Prüfung dazu steht in AppDesign APD-154 (APD-154/T-6 bis T-8, T-11) – `AppDesign/arbeit/APD-154 Testfall-Liste.md` | Reiselogbuch | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
