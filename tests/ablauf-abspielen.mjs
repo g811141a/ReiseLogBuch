@@ -5,11 +5,11 @@
 // Aufruf im Repo-Ordner: node tests/ablauf-abspielen.mjs
 import * as pw from 'playwright';
 import { readFileSync, readdirSync } from 'node:fs';
-import { pruefung } from '../../AppDesign/fassung/4.70.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.70.2/tests/hig.mjs';
-import { safariModell } from '../../AppDesign/fassung/4.70.2/tests/safari.mjs';
-import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.70.2/tests/abspielen.mjs';
-import { sucheAuf } from '../../AppDesign/fassung/4.70.2/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.71.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.71.0/tests/hig.mjs';
+import { safariModell } from '../../AppDesign/fassung/4.71.0/tests/safari.mjs';
+import { lies, ansicht, spieleAb, schritte } from '../../AppDesign/fassung/4.71.0/tests/abspielen.mjs';
+import { sucheAuf } from '../../AppDesign/fassung/4.71.0/tests/ablauf.mjs';
 // seit 3.57.6 (AppDesign APD-135/Z-14, W-54): Grundregeln nach jedem Schritt (hig) – vorher prüfte t.schritt hier keine
 const t = pruefung('ablauf-abspielen', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href, ORDNER = new URL('../../AppDesign/tests/messungen/', import.meta.url);

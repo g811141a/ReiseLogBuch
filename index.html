@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Reiselogbuch</title>
-<link rel="stylesheet" href="../AppDesign/fassung/4.70.2/design.css">
+<link rel="stylesheet" href="../AppDesign/fassung/4.71.0/design.css">
 <style>
   /* Reiselogbuch: nur, was zur App gehört – die gemeinsamen Bausteine kommen aus AppDesign (design.css) */
   .meta { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; margin: 4px 0 6px; }
@@ -160,18 +160,18 @@
 <dialog id="msg"></dialog>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
-<script src="../AppDesign/fassung/4.70.2/ui.js"></script>
+<script src="../AppDesign/fassung/4.71.0/ui.js"></script>
 <script>
 'use strict';
 
 
 // Version und Erstellungszeitpunkt, werden bei jeder neuen Version angepasst.
 // Versionsnummer Hauptversion.Nebenversion.Korrektur (siehe CHANGELOG.md).
-const APP_VERSION = '3.58.5';
-const APP_BUILT = '26.11.2026 um 15:05';
+const APP_VERSION = '3.59.0';
+const APP_BUILT = '27.11.2026 um 00:49';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
-const AD_NEEDED = '4.70.2';
+const AD_NEEDED = '4.71.0';
 const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
@@ -233,6 +233,8 @@ const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields:
   // Seit 3.58.0 (RLB-125/J-10, AppDesign 4.68.0): ein gesperrtes Reiselogbuch wird beim Abgleich nie gelöscht (15.18 Fall 23); ‚Ersetzen‘ nennt die
   // gesperrten (J-3, nouns[3]: ‚1 gesperrtes Reiselogbuch‘).
   protect: t => t.locked === true,
+  // Seit 3.59.0 (RLB-126, R-7.10): ‚Zuletzt gelöscht‘ gleicht sich mit ab – auf beiden Geräten gelöscht, wiederhergestellt bzw. endgültig gelöscht.
+  recentlyDeleted: 'recentlyDeleted',
   // Namen der Felder für die Tabelle der Änderungen nach dem Abgleich (R-9.4) – wie im Fenster (R-10.1).
   labels: { title: 'Reisetitel', participants: 'Reiseteilnehmer', start: 'Beginn', end: 'Ende', transport: 'Reisemittel',
     quarterList: 'Quartierliste', foodColumn: 'Spalte Essen', moodColumn: 'Spalte Wie war was?', quarterColumn: 'Spalte Quartier',
@@ -272,6 +274,10 @@ function normalize(data) {
   }
   for (const k of ['hiddenMoods', 'hiddenFood']) data[k] = (Array.isArray(data[k]) ? data[k] : []).filter(nurEmoji);
   data.deleted ||= [];
+  // Seit 3.59.0 (RLB-126/T-10): ‚Zuletzt gelöscht‘ – je Reiselogbuch { id, item (ganzer Inhalt), at, on }; ältere Daten ohne das Feld: leer.
+  // Abgelaufenes fällt in der AD-Bean recentlydeleted weg (beim Start, um 0:00, beim Lesen).
+  data.recentlyDeleted = (Array.isArray(data.recentlyDeleted) ? data.recentlyDeleted : [])
+    .filter(x => x && typeof x.id === 'string' && x.item && typeof x.item === 'object' && Number.isFinite(x.at));
   // Darstellung: 'auto' folgt dem iPad (Voreinstellung), 'light'/'dark' übersteuern. Das alte Feld 'theme' entfällt.
   data.settings = { appearance: 'auto', hideEmpty: false, ...(data.settings || {}) };
   delete data.settings.theme;
@@ -320,6 +326,24 @@ function save() {
 
 let db = load();
 let lastSnap = snapshot(db);
+// Seit 3.59.0 (RLB-126, AppDesign 4.71.0, R-7.10): AD-Bean recentlydeleted – ‚Reiselogbuch löschen‘ verschiebt ohne Abfrage nach ‚Zuletzt gelöscht‘
+// (30 Tage, RLB-126/J-2); nur ‚Endgültig löschen‘ fragt (RLB-126/J-9: ohne ‚Erst Backup erstellen‘). Wortlaut freigegeben (RLB-126/J-10).
+const recentlyDeleted = createRecentlydeleted(side, { data: () => db, list: 'trips', days: 30, nouns: ['Reiselogbuch', 'Reiselogbücher', 'Dieses Reiselogbuch'],
+  detail: t => `${fullDate(t.start)} - ${fullDate(t.end)}`,
+  question: t => { const n = tripDays(t).filter(iso => isRecorded(t, iso)).length, q = `‚${esc(t.title)}‘`;
+    return `${n ? `${q} mit ${n === 1 ? '1 Eintrag' : `allen ${n} Einträgen`}` : `${q} ohne Einträge`} endgültig löschen? Das kann nicht rückgängig gemacht werden.`; } });
+let deletedView = false;   // Seitenleiste bzw. Startliste zeigt ‚Zuletzt gelöscht‘
+let deletedOpen = null;    // id des gelöschten Reiselogbuchs in der Vorschau
+const deletedEntry = id => id ? recentlyDeleted.items.find(x => x.id === id) : undefined;
+recentlyDeleted.on('change', () => save());
+recentlyDeleted.on('open', () => navVor(openDeletedView));
+recentlyDeleted.on('close', closeDeletedView);
+// Wiederherstellen aus der Vorschau: das Reiselogbuch öffnet; aus Kontextmenü oder Wischen: die Liste bleibt stehen (beim letzten zurück zu ‚Reiselogbücher‘)
+recentlyDeleted.on('restore', ({ id, origin }) => {
+  if (origin === 'notice') { showTrip(id); if (isPhone()) render(); return; }
+  afterDeletedChange(id);
+});
+recentlyDeleted.on('purge', ({ id }) => afterDeletedChange(id));
 let currentTripId = null;
 let searchTerm = '';
 let searchIndex = 0;
@@ -714,6 +738,7 @@ function insertEmoji(ta, emoji) {
 
 function render({ scrollToGap = false, kaesten = false } = {}) {
   if (isPhone()) return renderPhone({ scrollToGap });
+  if (deletedEntry(deletedOpen)) return renderDeleted(deletedEntry(deletedOpen));   // RLB-126/J-3: gelöscht nur die Vorschau
   const trip = getTrip(currentTripId);
   if (!trip) return renderEmpty();
   if (trip.locked) return renderLocked(trip);   // RLB-125/J-7: gesperrt nur die Vorschau
@@ -1012,6 +1037,72 @@ function renderLocked(trip) {
   if (lockedShown !== trip.id) { lockedShown = trip.id; app.querySelector('#rolle').scrollTop = 0; }   // P-121/F-1
 }
 
+// Seit 3.59.0 (RLB-126/J-3): ein gelöschtes Reiselogbuch öffnet als Vorschau nur zum Lesen – wie ein gesperrtes (renderLocked), darüber der Hinweis
+// der AD-Bean recentlydeleted mit Löschdatum, Restzeit und ‚Wiederherstellen‘; keine Felder, keine Ausgabe, kein Mehr.
+function renderDeleted(x) {
+  const phone = isPhone(), trip = x.item;
+  emptyPrompted = false;
+  searchOpen = false; searchTerm = '';
+  if (phone) { side.hidden = true; side.classList.remove('page'); } else renderSide();
+  const version = (trip.outputCounter || 0) + 1;
+  const title = esc(trip.title);
+  setHtml(app, `
+    ${phone ? `<div class="pnav" id="bar">
+      <span><button type="button" class="round" id="back" aria-label="Zuletzt gelöscht">${ic('chevron-left')}</button></span>
+      <span class="pnav-title">${title}</span>
+      <span class="r"></span>
+    </div>` : `<div class="nb" id="bar">
+      <div class="nb1">
+        <span>${sideToggleHtml()}</span>
+        <span class="nb-title">${title}</span>
+        <span class="r"></span>
+      </div>
+    </div>`}
+    <div class="rolle" id="rolle">
+      <div class="lockbar">${recentlyDeleted.noticeHtml(x.id)}</div>
+      <p class="lockcap">Vorschau · ${esc(outputName(trip, version))}</p>
+      <div class="lockpage"><style>${OUTPUT_CSS.replace(/\bbody\b/g, '#app .lockpage')}#app .lockpage { margin: 0; }</style>${outputBody(trip, version, nowStamp())}</div>
+    </div>`);
+  app.querySelectorAll('.lockpage a[href]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
+  fab.hidden = false;
+  if (phone) app.querySelector('#back').onclick = navZurueck; else bindSideToggle(app);
+  adSourcehighlight.refresh();
+  updateBar();
+  document.documentElement.style.setProperty('--bar-h', app.querySelector('#bar').offsetHeight + 'px');
+  app.querySelector('#rolle').scrollTop = 0;
+}
+// Nach Wiederherstellen aus der Liste und nach endgültigem Löschen: die Liste bleibt stehen; die Vorschau zeigt am iPad das nächste gelöschte
+function afterDeletedChange(id) {
+  const rest = recentlyDeleted.items;
+  if (!rest.length) deletedView = false;
+  if (deletedOpen === id || !deletedEntry(deletedOpen)) deletedOpen = !isPhone() && deletedView && rest.length ? rest[0].id : null;
+  sideHold = true; try { render(); } finally { sideHold = false; }
+}
+function openDeletedView() {
+  deletedView = true; listOpen = false; listTerm = ''; sideScroll = 0;
+  deletedOpen = isPhone() ? null : recentlyDeleted.items[0]?.id || null;   // iPad: das zuletzt gelöschte steht gleich in der Vorschau (wie ein Ordner in Notizen)
+  render();
+}
+function closeDeletedView() {
+  deletedView = false; deletedOpen = null; sideScroll = 0;
+  render();
+  fokus([...side.querySelectorAll('.side-list .side-row')].pop());   // die Kachel ‚Zuletzt gelöscht‘ ist die letzte der Liste
+}
+// Seitenleiste bzw. Startliste ‚Zuletzt gelöscht‘ (R-7.10): Kopf, Hinweis zur Frist und Kacheln aus der AD-Bean; Antippen öffnet die Vorschau
+function renderDeletedSide(page) {
+  setHtml(side, `${recentlyDeleted.listHtml({ current: page ? null : deletedOpen,
+    end: '<button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">' + ic('panel-left') + '</button>' })}
+    ${backupTileHtml(db.settings.lastBackup, !db.trips.length)}`);
+  const hb = side.querySelector('#hintBackup'); if (hb) hb.onclick = () => saveBackup('#hintBackup');
+  side.querySelector('#sideHide').onclick = toggleSide;
+  adSourcehighlight.refresh();
+  side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
+    () => tripContextMenu(b),
+    () => navVor(() => { if (!isWide()) sideOpen = false; if (isPhone()) rolle.to(0); deletedOpen = b.dataset.id; phoneList = false; render(); })));
+  document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
+  keepSideScroll();
+}
+
 /* ---------- iPhone ---------- */
 
 // Wie Apple (Notizen, iOS 26): Startliste ‚Reiselogbücher‘ als eigene Seite; ein Reiselogbuch zeigt die Tage als Kästen,
@@ -1020,6 +1111,7 @@ let phoneList = false;   // iPhone: Startliste statt eines Reiselogbuchs
 let startList = false;   // R-7.2: Startliste nach dem Neuladen – noch nichts geöffnet, daher kein Eintrag blau
 
 function renderPhone({ scrollToGap = false } = {}) {
+  if (!phoneList && deletedEntry(deletedOpen)) return renderDeleted(deletedEntry(deletedOpen));   // RLB-126/J-3
   const trip = getTrip(currentTripId);
   // Seit 3.19.0 (AppDesign APD-15, R-3.2): ‚Nach oben / Ans Ende‘ auch auf dem iPhone – im Reiselogbuch, nicht in der Startliste.
   fab.hidden = phoneList || !trip;
@@ -1166,6 +1258,7 @@ function renderEmpty() {
 
 function showTrip(id, term = '') {
   currentTripId = id;
+  deletedView = false; deletedOpen = null;   // RLB-126
   lockHintHidden = null;   // P-120/F-4: beim Öffnen steht der Hinweis ‚gesperrt‘ wieder
   lockedShown = null;      // P-121/F-1: die Vorschau beginnt oben
   // RLB-88: zuletzt verwendetes Reiselogbuch merken (je Gerät, wie lastBackup) – beim nächsten Start öffnet es (iPad-Aufbau).
@@ -1238,6 +1331,7 @@ function renderSide() {
     shade.onclick = () => navSeite(false);
     side.before(shade);
   }
+  if (deletedView && recentlyDeleted.items.length) return renderDeletedSide(page);   // RLB-126
   const today = todayISO();
   const all = [...db.trips].sort((a, b) => b.start.localeCompare(a.start));
   if (!all.length) { listOpen = false; listTerm = ''; }
@@ -1256,7 +1350,7 @@ function renderSide() {
     ${listOpen ? listSearchHtml() : ''}
     <div class="side-list">${trips.length ? trips.map((t, i) => `${jahrKopf(t, i)}<button type="button" class="side-row ${t.id === currentTripId && !(page && startList) ? 'current' : ''}" data-id="${t.id}">
         <span class="t"><b>${t.locked ? `<span class="lk" role="img" aria-label="Gesperrt">${ic('lock')}</span>` : ''}${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${term ? `<small class="chg hits">${hitText(hits.get(t.id))}</small>` : sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
-      : term ? leerSuche(listTerm.trim(), !isPhone()) : isPhone() ? leerKeinBuch('leerNeuListe') : leerHtml({ icon: 'book-open', titel: 'Noch kein Reiselogbuch', klein: true })}</div>
+      : term ? leerSuche(listTerm.trim(), !isPhone()) : isPhone() ? leerKeinBuch('leerNeuListe') : leerHtml({ icon: 'book-open', titel: 'Noch kein Reiselogbuch', klein: true })}${term ? '' : recentlyDeleted.entryHtml()}</div>
     ${backupTileHtml(db.settings.lastBackup, !all.length)}`);
   side.querySelector('#newTrip').onclick = () => { adSourcehighlight.sourceItem = '#newTrip'; openTripDialog(null); };
   bindLeerNeu(side, 'leerNeuListe');
@@ -1386,35 +1480,24 @@ function openMainMenu(anchor, trip) {
 // wächst aus ihr; deleteTrip gibt ein Promise zurück – die Kachel bleibt offen, bis entschieden ist. Namen englisch seit 3.57.10 (AppDesign APD-136).
 // Seit 3.58.0 (RLB-125/J-12, R-4.10, HIG ‚Context menus‘): gesperrt nur ‚Entsperren‘ – Einstellen und Löschen sind ausgeblendet, den Grund zeigt das
 // Schloss vor dem Titel; Wischen ebenso nur ‚Entsperren‘ (L-2).
-const tripActions = row => { const trip = getTrip(row.dataset.id); if (!trip) return [];
+const tripActions = row => { if (deletedEntry(row.dataset.id)) return recentlyDeleted.actions(row);   // RLB-126: Kachel in ‚Zuletzt gelöscht‘
+  const trip = getTrip(row.dataset.id); if (!trip) return [];
   if (trip.locked) return [{ icon: 'lock-open', label: 'Reiselogbuch entsperren', shortTitle: 'Entsperren', act: () => setLockFromList(trip, false) }];
   return [
   { icon: 'settings', label: 'Reiselogbuch einstellen', shortTitle: 'Einstellen', act: () => { adSourcehighlight.sourceItem = `#side .side-row[data-id="${trip.id}"]`; openTripDialog(trip, { fromList: true }); } },   // seit 3.44.0 (RLB-113), fromList seit 3.58.1 (P-120/F-2)
   { icon: 'lock', label: 'Reiselogbuch sperren', shortTitle: 'Sperren', act: () => setLockFromList(trip, true) },   // seit 3.58.1 (P-120/F-2)
   'sep',
-  { icon: 'trash', label: 'Reiselogbuch löschen', shortTitle: 'Löschen', red: true, act: w => { if (!w?.sourceView) adSourcehighlight.hold(row); return deleteTrip(trip, w?.sourceView || row); } },
+  { icon: 'trash', label: 'Reiselogbuch löschen', shortTitle: 'Löschen', red: true, act: () => deleteTrip(trip) },   // RLB-126/J-2: ohne Abfrage
 ]; };
 // Kontextmenü (wie in Notizen, Mail, Dateien); ohne ‚Öffnen‘, weil Tippen öffnet.
-const tripContextMenu = row => { if (getTrip(row.dataset.id)) openMenu(row, tripActions(row), 'beside'); };
+const tripContextMenu = row => { if (getTrip(row.dataset.id) || deletedEntry(row.dataset.id)) openMenu(row, tripActions(row), 'beside'); };
 
-// Seit 3.58.0 (RLB-125/L-4, L-5, Wortlaut freigegeben 21.11.2026): die Abfrage nennt die Zahl der Einträge (erfasste Tage); ‚Erst Backup erstellen‘
-// steht nur, wenn es Einträge gibt und heute auf diesem Gerät noch kein Backup erstellt wurde – danach kommt dieselbe Abfrage wieder, nach einem
-// gesicherten Backup ohne diese Schaltfläche. Ein gesperrtes Reiselogbuch lässt sich nicht löschen.
-async function deleteTrip(trip, anchor = app.querySelector('#mainMore')) {
-  if (trip.locked) return;
-  for (;;) {
-    const n = tripDays(trip).filter(iso => isRecorded(trip, iso)).length, t = `‚${esc(trip.title)}‘`;
-    const frage = `${n ? `${t} mit ${n === 1 ? '1 Eintrag' : `allen ${n} Einträgen`}` : `${t} ohne Einträge`} löschen? Das kann nicht rückgängig gemacht werden.`;
-    const mitBackup = n > 0 && !backupToday(db.settings.lastBackup);
-    const wahl = mitBackup
-      ? await choosePop(anchor, frage, [{ label: 'Erst Backup erstellen', cls: 'primary', value: 'backup' }, { label: 'Reiselogbuch löschen', cls: 'danger-text', value: 'delete' }, { label: 'Abbrechen', value: null }])
-      : (await confirmPop(anchor, frage, { label: 'Reiselogbuch löschen', icon: 'trash' })) ? 'delete' : null;
-    if (wahl === 'backup') { await saveBackup(); continue; }
-    if (wahl !== 'delete') return;
-    break;
-  }
-  db.trips = db.trips.filter(x => x.id !== trip.id);
-  save();
+// Seit 3.59.0 (RLB-126/J-2, R-7.10, R-4.12 Ausnahme): Löschen ohne Abfrage – das Reiselogbuch wandert mit Zeitpunkt und Gerät nach ‚Zuletzt gelöscht‘
+// (AD-Bean recentlydeleted, 30 Tage); die Abfrage aus 3.58.0 (RLB-125/L-4, L-5) gibt es nur noch beim endgültigen Löschen. Ein gesperrtes Reiselogbuch
+// lässt sich nicht löschen (RLB-125/J-12).
+function deleteTrip(trip) {
+  if (!trip || trip.locked) return;
+  recentlyDeleted.remove(trip);   // meldet change → save()
   // seit 3.58.1 (P-120/F-2): ein anderes als das aktive gelöscht (Kontextmenü, Wischen) – das aktive bleibt, die Liste steht
   if (trip.id !== currentTripId && getTrip(currentTripId)) { sideHold = true; try { render(); } finally { sideHold = false; } return; }
   showTrip(pickStartTrip()?.id);
@@ -1446,12 +1529,12 @@ document.getElementById('toEnd').onclick = fabEnd;
 // darunter: die Startliste unter dem Inhalt aufbauen, ohne den Zustand zu ändern (phoneList nur für renderSide).
 navAnmelden({
   zurueck: {
-    offen: () => isPhone() && !phoneList && Boolean(getTrip(currentTripId)),
+    offen: () => isPhone() && !phoneList && (Boolean(getTrip(currentTripId)) || Boolean(deletedEntry(deletedOpen))),
     darunter: an => {
       if (an) { phoneList = true; renderSide(); phoneList = false; }
       else if (!phoneList && isPhone()) { side.hidden = true; side.classList.remove('page'); }
     },
-    los: () => { phoneList = true; searchOpen = false; searchTerm = ''; rolle.to(0); render(); },
+    los: () => { phoneList = true; deletedOpen = null; searchOpen = false; searchTerm = ''; rolle.to(0); render(); },
   },
   seite: { moeglich: sideOver, fest: sideFest, offen: () => sideOpen, zeigen: an => { sideOpen = an; renderSide(); }, neu: () => render() },
 });
@@ -1460,6 +1543,7 @@ const swipe = createSwipeactions(side, { rows: '[data-id]', actions: tripActions
 // Seit 3.41.0 (AppDesign APD-91, R-4.7): ⌘F sucht im offenen Reiselogbuch, ohne offenes (iPhone-Startliste) in allen; liegt am iPad hoch
 // die Seitenleiste über dem Reiselogbuch, in der Seitenleiste (nur sie ist bedienbar).
 sucheAnmelden(() => {
+  if (deletedView || deletedEntry(deletedOpen)) return;   // RLB-126/T-12: ⌘F wirkt in ‚Zuletzt gelöscht‘ nicht
   const trip = getTrip(currentTripId);
   const inListe = !trip || (isPhone() ? phoneList : sideOver() && sideOpen);
   if (!inListe) openTripSearch();

@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 26.11.2026** · Aktuelle Version: Reiselogbuch 3.58.5 · AppDesign 4.70.2
+**Stand 27.11.2026** · Aktuelle Version: Reiselogbuch 3.59.0 · AppDesign 4.71.0
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.
@@ -11,14 +11,14 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-126 | 3 | **‚Zuletzt gelöscht‘ (aus RLB-125/L-6, Nutzer 18.11.2026, Sitzung 0127):** ein gelöschtes Reiselogbuch bleibt 30 Tage wiederherstellbar (eigener Bereich in der Seitenleiste); berührt Datenmodell, Abgleich und Speicherplatz; So macht es Apple in der Klärung mit Quelle · **RLB-126/J-1 (Nutzer 21.11.2026, Sitzung 0150, im Fenster):** allgemein, neue AD-Bean `recentlydeleted` (Vorbild *Recently Deleted*); Grundform als Vorschlag: Bereich am Ende der Seitenleiste nur wenn nicht leer, 30 Tage, öffnet als Vorschau nur zum Lesen mit ‚Wiederherstellen‘, ‚Endgültig löschen‘ mit Abfrage (HIG ‚Alerts‘, Freeform – belegt), Wiederherstellen gleicht sich ab, im Backup; ändert die Lösch-Abfrage L-4/L-5 aus RLB-125 – `AppDesign/arbeit/0150 APD-145 APD-142 RLB-126 Klaerung.md`; als Nächstes Muster und Testfall-Liste · **Eckpunkte (Nutzer 23.11.2026, Sitzung 0160, im Fenster):** 1. 30 Tage wiederherstellbar, danach endgültig gelöscht; 2. ‚Zuletzt gelöscht‘ kommt mit Löschdatum ins Backup; 3. Löschen gilt beim Abgleich auch auf dem anderen Gerät (dort ebenfalls in ‚Zuletzt gelöscht‘); als Nächstes Apple-Abgleich mit Quelle, Muster, Testfall-Liste · **Apple-Abgleich (Sitzung 0164)** in `AppDesign/arbeit/0164 RLB-126 Apple-Abgleich.md` · **Entschieden (Nutzer 26.11.2026, Sitzung 0164, im Fenster):** RLB-126/J-2 beim normalen Löschen keine Abfrage (HIG Alerts; ändert RLB-125/L-4, L-5, Wortlaut mit dem Muster) · RLB-126/J-3 Antippen öffnet die Vorschau nur zum Lesen mit Hinweis und ‚Wiederherstellen‘ · RLB-126/J-4 Restzeit ‚noch N Tage‘ in der Zeile; RLB-126/J-5 Aufteilung AD-Bean `recentlydeleted` und App nach `AppDesign/arbeit/0164 RLB-126 AD-Bean recentlydeleted Aufteilung.md`, Eigenschaft `days` (Standard 30, je App einstellbar) · RLB-126/J-6 ‚Zuletzt gelöscht‘ wird allgemeine Regel, Wortlaut mit dem Muster (0 Nr. 29) · als Nächstes Muster iPad quer hell mit Testfall-Liste; Bau der AD-Bean mit dem Chat ‚AppDesign Framework Steuer-Bean Konzept‘ abstimmen · **Muster und Testfall-Liste RLB-126/T-1 bis T-15 (Sitzung 0165, `AppDesign/arbeit/0165 RLB-126 Muster.md`, `AppDesign/arbeit/RLB-126/index.html`); entschieden (Nutzer 26.11.2026, im Fenster):** RLB-126/J-7 Muster ok · RLB-126/J-8 Wort unter der Kapsel ‚Wiederherstellen‘ · RLB-126/J-9 ‚Erst Backup erstellen‘ entfällt beim endgültigen Löschen · RLB-126/J-10 Wortlaut freigegeben (Lösch-Abfrage, R-4.12 mit Ausnahme, R-7.8, neue R-7.10) · **RLB-126/J-11 (Nutzer 26.11.2026, im Fenster des Chats ‚AppDesign Framework Steuer-Bean Konzept‘):** `recentlydeleted` jetzt in 4.x bauen, Umzug auf `commands`/`presentation` mit `v5/` · als Nächstes Bau-Frage (Sitzung 0166) | allgemein (AD-Bean `recentlydeleted`) | 26.11.2026 |
 
-1 Punkt bereit.
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
+| P-126 | 1 | **Usertest Reiselogbuch 3.59.0 / AppDesign 4.71.0 – RLB-126 ‚Zuletzt gelöscht‘:** Testfälle P-126/0 bis P-126/8 im CHANGELOG 3.59.0 (Version, Löschen ohne Abfrage, Liste und Vorschau, Wischgefühl, endgültig löschen, Wiederherstellen am iPhone, Abgleich zweier Geräte über ‚Backup laden‘, Backup in Dateien, VoiceOver) | prüfen |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -38,6 +38,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-126 | **‚Zuletzt gelöscht‘:** Löschen ohne Abfrage nach ‚Zuletzt gelöscht‘ (30 Tage, RLB-126/J-2), letzte Kachel mit Anzahl, Liste mit Frist und ‚noch N Tage‘, Vorschau nur zum Lesen mit ‚Wiederherstellen‘, Kontextmenü und Wischen ‚Wiederherstellen‘ · ‚Endgültig löschen‘ (nur das fragt, ohne ‚Erst Backup erstellen‘), Abgleich und Backup; AD-Bean `recentlydeleted` (AppDesign 4.71.0, R-7.10); Usertest P-126 | 3.59.0 | 27.11.2026 |
 | P-125, P-124, P-123, P-122 | **Korrekturen aus den Usertests P-122 bis P-124:** P-122/F-1 Schaltflächen der Vorschau nach der Meldung wie beim Öffnen, P-122/F-2 Hinweise mittig (R-3.10, 3.58.3) · P-123/F-1 Dateiname über der Vorschau in einer Zeile, P-123/F-2 Ergebnis auf jedem Weg im Hinweisfenster, P-123/F-3 Backup-Hinweis nach einer Ausgabe (3.58.4) · P-124/F-1 Hinweisfenster so breit wie nötig, höchstens Bildschirmbreite − 32 px (`alert` mit `layout()`, R-10.8), P-124/F-2 Teilen bzw. PDF nach der Ausgabe nicht mehr hellblau (`outputSource` mit `hold`/`release`, 3.58.5); feste Prüfungen `ablauf-p120` · **Usertest P-125 (Reiselogbuch 3.58.5, AppDesign 4.70.2): P-125/0 bis P-125/4 alles ok** (Nutzer 26.11.2026, Sitzung 0164); die übrigen Punkte von P-122 bis P-124 waren schon ok | Reiselogbuch 3.58.5 | 26.11.2026 |
 | P-121 | **Korrekturen aus dem Usertest P-121:** P-121/F-1 Vorschau nach dem Sperren oben (`lockedShown`) · P-121/F-2 Teilen und PDF aus der Vorschau lassen sie offen, die Meldung steht als Hinweisfenster darüber; feste Prüfung `ablauf-p120` Teile P-121/F-1 und P-121/F-2; Usertest P-121 übrige Punkte ok (Nutzer 22.11.2026) | Reiselogbuch 3.58.2 | 22.11.2026 |
 | P-120 | **Korrekturen aus dem Usertest P-120:** P-120/F-1 Text nur in Eingabefeldern auswählbar (AppDesign R-1.15) · P-120/F-2 Sperren, Entsperren, Einstellen und Löschen weiter oben lassen die Liste stehen (Sperren, Entsperren und Einstellen machen das Reiselogbuch zum aktiven) · P-120/F-3 ‚Ausgabe V…‘ zählt erst nach Übergabe, PDF erst beim Aufgehen des Drucken-Menüs · P-120/F-4 Hinweis ‚gesperrt‘ fest unter der Kopfzeile, ausblendbar; Prüfung `ablauf-p120` | 3.58.1 | 22.11.2026 |

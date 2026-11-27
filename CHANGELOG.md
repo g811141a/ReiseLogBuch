@@ -13,6 +13,93 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.59.0 – 27.11.2026
+
+Reiselogbuch 3.59.0 · AppDesign 4.71.0 (Designrichtlinie allgemein 4.71.0) · Designrichtlinie Reiselogbuch 3.59.0 · Zusammenarbeit allgemein 3.19.0
+
+**RLB-126 – ‚Zuletzt gelöscht‘** (Nutzer 18.11.2026, Sitzung 0127; Eckpunkte 23.11.2026; Entscheidungen RLB-126/J-1 bis J-11, Muster ok 26.11.2026 – AppDesign
+`arbeit/0165 RLB-126 Muster.md`; Bau-Frage mit Ja beantwortet 26.11.2026, Sitzung 0166; gebaut in Sitzung 0167).
+
+- **Löschen ohne Abfrage (RLB-126/J-2):** Mehr-Menü, Kontextmenü und die rote Kapsel ‚Löschen‘ verschieben ein Reiselogbuch ohne Sprechblase nach ‚Zuletzt gelöscht‘
+  – mit ganzem Inhalt, Zeitpunkt und Gerät; danach öffnet die Startreise (iPhone: die Startliste), ein anderes als das aktive gelöscht: die Liste bleibt stehen.
+  VoiceOver sagt ‚‚…‘ nach ‚Zuletzt gelöscht‘ verschoben‘. Ein gesperrtes Reiselogbuch lässt sich weiter nicht löschen (RLB-125/J-12).
+- **Kachel und Liste ‚Zuletzt gelöscht‘ (R-7.10):** letzte Kachel der Liste mit Papierkorb und Anzahl, nur wenn nicht leer (nicht bei der Suche in allen). Sie öffnet die
+  Liste: Kopf ‹ ‚Zuletzt gelöscht‘ · ‚N Reiselogbücher‘, Hinweis ‚Gelöschte Reiselogbücher bleiben hier 30 Tage. Danach werden sie endgültig gelöscht.‘, zuletzt
+  gelöschte oben, je Kachel Zeitraum und ‚Gelöscht am … · noch N Tage‘ (RLB-126/J-4; ‚noch 1 Tag‘).
+- **Vorschau nur zum Lesen (RLB-126/J-3):** Antippen zeigt das gelöschte Reiselogbuch wie ein gesperrtes, darüber ‚Dieses Reiselogbuch ist gelöscht. Gelöscht am … –
+  wird in N Tagen endgültig gelöscht.‘ und ‚Wiederherstellen‘; am iPad steht das zuletzt gelöschte gleich offen, am iPhone eine eigene Seite mit ‹.
+- **Wiederherstellen und endgültig löschen:** ‚Wiederherstellen‘ in der Vorschau öffnet das Reiselogbuch an seinem Platz; Kontextmenü und Wischen ‚Wiederherstellen‘ ·
+  ‚Endgültig löschen‘ (Kapseln ‚Wiederherstellen‘ · ‚Löschen‘, RLB-126/J-8) lassen die Liste stehen. Nur ‚Endgültig löschen‘ fragt: ‚‚…‘ mit allen N Einträgen endgültig
+  löschen? Das kann nicht rückgängig gemacht werden.‘ mit ‚Endgültig löschen‘ · ‚Abbrechen‘ – ohne ‚Erst Backup erstellen‘ (RLB-126/J-9).
+- **Frist:** 30 Kalendertage (auch über die Zeitumstellung); Abgelaufenes fällt beim Start, um 0:00 und beim Lesen weg.
+- **Abgleich (RLB-126/T-9):** auf einem Gerät gelöscht → auf dem anderen nach ‚Backup laden‘ → ‚Abgleichen‘ ebenfalls in ‚Zuletzt gelöscht‘; wiederhergestellt → kommt
+  zurück; endgültig gelöscht → auch dort weg; danach dort geändert oder gesperrt → bleibt in der Liste.
+- **Backup (RLB-126/T-10):** ‚Zuletzt gelöscht‘ kommt mit Löschdatum ins Backup; ‚Abgleichen‘ und ‚Ersetzen‘ übernehmen es; ein älteres Backup ohne das Feld ergibt
+  eine leere Liste.
+- `PROMPT.md`: Lösch-Abfrage nach dem freigegebenen Wortlaut (RLB-126/J-10) und der Abschnitt ‚Zuletzt gelöscht‘; Abfragen und Wischen nachgezogen.
+- **Prüfungen:** neu `ablauf-zuletzt-geloescht` (RLB-126/T-1 bis T-15: iPad quer hell und dunkel, iPad hoch, iPhone hoch dunkel und quer); `ablauf-wischen` mit
+  dem Teil `Zuletzt` (Wischen in ‚Zuletzt gelöscht‘); Löschen ohne Abfrage in `ablauf-sperre` (RLB-125/T-12), `ablauf-seitenleiste-kontextmenue`, `ablauf-texte-ablaeufe`,
+  `ablauf-gesamt`, `ablauf-iphone`, `ablauf-jahre`, `ablauf-p120`, `ablauf-leer`, `ablauf-fremdtext`, `ablauf-bausteine`; `hig` misst ‚Zuletzt gelöscht‘ und die
+  Sprechblase ‚Endgültig löschen‘ (iPhone; liegt die Kachel hinter der Backup-Kachel, rollt es sie vorher nach oben).
+- AD-Bean: `recentlydeleted` (neu); dazu `createSync` mit der Option `recentlyDeleted`.
+
+Testfälle P-126 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen. Vor P-126/1 auf beiden Geräten ein **Backup erstellen** (Sicherheit). Zum Probieren ein
+Reiselogbuch ‚Test‘ mit mindestens einem erfassten Tag anlegen; deine echten Reiselogbücher nicht löschen.
+
+**P-126/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.59.0 · erstellt am … · AppDesign 4.71.0‘. Automatisch geprüft in `version-regeln`.
+
+**P-126/1 – Löschen ohne Abfrage (iPad)**
+1. iPad quer, hell; ‚Test‘ öffnen, oben Mehr (ellipsis) → ‚Reiselogbuch löschen‘.
+2. Erwartet: keine Sprechblase; ‚Test‘ ist aus der Liste verschwunden, die Startreise ist offen; unten in der Liste die Kachel ‚Zuletzt gelöscht‘ mit Papierkorb und ‚1‘.
+   Automatisch geprüft in `ablauf-zuletzt-geloescht` (RLB-126/T-1, T-2).
+
+**P-126/2 – Liste und Vorschau (iPad)**
+1. iPad quer, hell; die Kachel ‚Zuletzt gelöscht‘ antippen.
+2. Erwartet: Kopf ‹ ‚Zuletzt gelöscht‘ · ‚1 Reiselogbuch‘; darunter ‚Gelöschte Reiselogbücher bleiben hier 30 Tage. Danach werden sie endgültig gelöscht.‘; ‚Test‘ blau
+   mit ‚Gelöscht am <heute> · noch 30 Tage‘. Rechts die Vorschau mit ‚Dieses Reiselogbuch ist gelöscht. Gelöscht am <heute> – wird in 30 Tagen endgültig gelöscht.‘
+   und ‚Wiederherstellen‘; keine Felder, kein Mehr. Automatisch geprüft in `ablauf-zuletzt-geloescht` (RLB-126/T-3, T-4).
+
+**P-126/3 – Wischgefühl in ‚Zuletzt gelöscht‘ (iPad)**
+1. iPad quer, hell; in ‚Zuletzt gelöscht‘ ‚Test‘ langsam nach links wischen und loslassen.
+2. Erwartet: die Kachel folgt dem Finger, daneben die Kapseln ‚Wiederherstellen‘ und ‚Löschen‘ (rot, ganz außen); das Wort ‚Wiederherstellen‘ ist ganz lesbar; die
+   Kachel bleibt offen bzw. federt zurück wie bei ‚Reiselogbücher‘.
+3. Neben die Kachel in die Liste tippen. Erwartet: die Kachel schließt, nichts wird ausgelöst.
+
+**P-126/4 – Endgültig löschen fragt (iPad)**
+1. iPad quer, hell; in ‚Zuletzt gelöscht‘ ‚Test‘ lange drücken.
+2. Erwartet: Menü ‚Wiederherstellen‘ · Strich · ‚Endgültig löschen‘ (rot).
+3. ‚Endgültig löschen‘ antippen. Erwartet: Sprechblase ‚‚Test‘ mit 1 Eintrag endgültig löschen? Das kann nicht rückgängig gemacht werden.‘ (bzw. ‚mit allen N
+   Einträgen‘) mit ‚Endgültig löschen‘ (rot) und ‚Abbrechen‘ – kein ‚Erst Backup erstellen‘.
+4. ‚Abbrechen‘ antippen. Erwartet: ‚Test‘ bleibt in ‚Zuletzt gelöscht‘. Automatisch geprüft in `ablauf-zuletzt-geloescht` (RLB-126/T-7).
+
+**P-126/5 – Wiederherstellen (iPhone)**
+1. iPhone hoch, hell; in der Startliste unten ‚Zuletzt gelöscht‘ antippen, dann ‚Test‘.
+2. Erwartet: eigene Seite ‚Test‘ mit ‹, darunter der Hinweis ‚Dieses Reiselogbuch ist gelöscht. …‘ mit ‚Wiederherstellen‘ und die Vorschau.
+3. ‚Wiederherstellen‘ antippen. Erwartet: ‚Test‘ öffnet mit seinen Tagen; zurück in der Startliste steht ‚Test‘ wieder unter seinem Jahr, ‚Zuletzt gelöscht‘ ist weg.
+   Automatisch geprüft in `ablauf-zuletzt-geloescht` (RLB-126/T-4, T-5).
+
+**P-126/6 – Abgleich zweier Geräte über ‚Backup laden‘**
+1. iPad: ‚Test‘ löschen (Mehr → ‚Reiselogbuch löschen‘), dann Mehr der Seitenleiste → ‚Backup erstellen‘ und in Dateien (iCloud Drive) sichern.
+2. iPhone: Mehr der Startliste → ‚Backup laden‘, das Backup vom iPad wählen, ‚Abgleichen‘.
+3. Erwartet auf dem iPhone: ‚Test‘ ist aus ‚Reiselogbücher‘ verschwunden und steht unter ‚Zuletzt gelöscht‘ mit ‚Gelöscht am <Tag auf dem iPad> · noch N Tage‘.
+4. iPhone: ‚Test‘ in ‚Zuletzt gelöscht‘ lange drücken → ‚Wiederherstellen‘; Backup erstellen und sichern. iPad: dieses Backup laden, ‚Abgleichen‘.
+5. Erwartet auf dem iPad: ‚Test‘ steht wieder in ‚Reiselogbücher‘, ‚Zuletzt gelöscht‘ ist leer bzw. weg. Automatisch geprüft in `ablauf-zuletzt-geloescht` (RLB-126/T-9).
+
+**P-126/7 – Backup in Dateien sichern und laden**
+1. iPad: ‚Test‘ löschen, Backup erstellen und in Dateien sichern.
+2. iPad: ‚Test‘ in ‚Zuletzt gelöscht‘ wiederherstellen; dann ‚Backup laden‘ mit dem Backup aus Schritt 1, ‚Ersetzen‘.
+3. Erwartet: ‚Test‘ steht wieder unter ‚Zuletzt gelöscht‘ mit dem Löschdatum aus Schritt 1. Automatisch geprüft in `ablauf-zuletzt-geloescht` (RLB-126/T-10).
+
+**P-126/8 – VoiceOver**
+1. iPad, VoiceOver ein (Einstellungen → Bedienungshilfen); ein Reiselogbuch ‚Test‘ über Mehr → ‚Reiselogbuch löschen‘ löschen.
+2. Erwartet: VoiceOver sagt ‚‚Test‘ nach ‚Zuletzt gelöscht‘ verschoben‘.
+3. Zur Kachel ‚Zuletzt gelöscht‘ streichen. Erwartet: ‚Zuletzt gelöscht, 1, Taste‘; doppelt tippen öffnet die Liste, ‹ heißt ‚Reiselogbücher‘.
+4. In der Vorschau ‚Wiederherstellen‘ doppelt tippen. Erwartet: ‚‚Test‘ wiederhergestellt‘.
+
 ## 3.58.5 – 26.11.2026
 
 Reiselogbuch 3.58.5 · AppDesign 4.70.2 (Designrichtlinie allgemein 4.70.2) · Designrichtlinie Reiselogbuch 3.58.5 · Zusammenarbeit allgemein 3.19.0

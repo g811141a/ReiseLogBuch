@@ -5,11 +5,12 @@
 // RLB-125/T-5 Kontextmenü der gesperrten Kachel nur ‚Reiselogbuch entsperren‘ (J-12, R-4.10), Wischen nur ‚Entsperren‘ · RLB-125/T-6 ‚Entsperren‘ → Tabelle bzw. Kästen,
 // Mehr → ‚Reiselogbuch sperren‘ → Vorschau · RLB-125/T-7 Drehen bzw. zurück zur Startliste und wieder öffnen: die Vorschau bleibt · RLB-125/T-9 Backup behält die Sperre,
 // nur true sperrt (normalize) · RLB-125/T-11 iPhone hoch: Hinweis im Bildschirm, ‚Entsperren‘ darunter, Vorschau 960 px, seitlich wischen nur in der Seite ·
-// RLB-125/T-12 Lösch-Abfrage mit Zahl der Einträge, ‚Erst Backup erstellen‘ nur ohne Backup heute und mit Einträgen (L-4, L-5). Grundregeln nach jedem Schritt.
+// RLB-125/T-12 seit 3.59.0 (RLB-126): Löschen ohne Abfrage nach ‚Zuletzt gelöscht‘, dort fragt ‚Endgültig löschen‘ mit der Zahl der Einträge, ohne ‚Erst Backup
+// erstellen‘ (RLB-126/J-9); gesperrt bleibt unlöschbar. Grundregeln nach jedem Schritt.
 // Gegenprobe RLB-125/T-10: PRUEF_GEGENPROBE=sperre zeigt gesperrt die Tabelle – RLB-125/T-2 muss rot werden. Aufruf im Repo-Ordner: node tests/ablauf-sperre.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.70.2/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.71.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.71.0/tests/hig.mjs';
 const t = pruefung('ablauf-sperre', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const GP = process.env.PRUEF_GEGENPROBE === 'sperre';
@@ -123,28 +124,30 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad quer', 'dark'], [
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
 }
-// RLB-125/T-12 Lösch-Abfrage (iPad quer): Zahl der Einträge; ‚Erst Backup erstellen‘ nur mit Einträgen und ohne Backup heute
+// RLB-125/T-12 (iPad quer), seit 3.59.0 (RLB-126): ‚Reiselogbuch löschen‘ fragt nicht mehr, es verschiebt nach ‚Zuletzt gelöscht‘; dort fragt ‚Endgültig
+// löschen‘ mit der Zahl der Einträge – ohne ‚Erst Backup erstellen‘ (RLB-126/J-9), auch ohne Backup heute; gesperrt lässt sich nicht löschen
 {
   const p = await t.seite(b, 'iPad quer', { theme: 'light' });
   try {
     await lade(p, { lastBackup: JETZT.getTime() - 86400000 });
-    const frage = async id => { await lang(p, id); await p.locator('.menu.kontext .mi', { hasText: 'Reiselogbuch löschen' }).click();
+    const loesche = async id => { await lang(p, id); await p.locator('.menu.kontext .mi', { hasText: 'Reiselogbuch löschen' }).click(); await p.waitForTimeout(500); await navFertig(p); };
+    const frage = async id => { await lang(p, id); await p.locator('.menu.kontext .mi', { hasText: 'Endgültig löschen' }).click();
       await p.waitForSelector('.pop', { timeout: 4000 }); await p.waitForTimeout(450);
       const r = await p.evaluate(() => [document.querySelector('.pop p').textContent, [...document.querySelectorAll('.pop button')].map(x => x.textContent.trim())]);
       await esc(p); return r; };
     await t.schritt(p, 'Australien entsperren', async () => { await lang(p, 'a'); await p.locator('.menu.kontext .mi', { hasText: 'Reiselogbuch entsperren' }).click(); await p.waitForTimeout(500); await navFertig(p); });
-    t.ist('RLB-125/T-12 3 Einträge, ohne Backup heute', await frage('a'), ['‚Australien‘ mit allen 3 Einträgen löschen? Das kann nicht rückgängig gemacht werden.', ['Erst Backup erstellen', 'Reiselogbuch löschen', 'Abbrechen']], 'R-4.12');
-    t.ist('RLB-125/T-12 1 Eintrag', (await frage('c'))[0], '‚Wien‘ mit 1 Eintrag löschen? Das kann nicht rückgängig gemacht werden.', 'R-4.12');
-    t.ist('RLB-125/T-12 ohne Einträge: ohne ‚Erst Backup erstellen‘', await frage('b'), ['‚Toskana‘ ohne Einträge löschen? Das kann nicht rückgängig gemacht werden.', ['Reiselogbuch löschen', 'Abbrechen']], 'R-4.12');
-    await t.schritt(p, 'RLB-125/T-12 ‚Erst Backup erstellen‘', async () => { await lang(p, 'a'); await p.locator('.menu.kontext .mi', { hasText: 'Reiselogbuch löschen' }).click();
-      await p.waitForSelector('.pop', { timeout: 4000 }); await p.waitForTimeout(450); await p.locator('.pop button', { hasText: 'Erst Backup erstellen' }).click();
-      await p.waitForSelector('#msg[open]', { timeout: 4000 }); await p.click('#msg [data-x]'); await p.waitForSelector('.pop', { timeout: 4000 }); await p.waitForTimeout(450); });
-    t.ist('RLB-125/T-12 nach dem Backup dieselbe Abfrage ohne ‚Erst Backup erstellen‘', await p.evaluate(() => [...document.querySelectorAll('.pop button')].map(x => x.textContent.trim())), ['Reiselogbuch löschen', 'Abbrechen'], 'R-4.12');
-    await esc(p);
-    t.ist('RLB-125/T-12 Abbrechen löscht nichts', await p.evaluate(() => db.trips.length), 3, 'R-4.12');
+    for (const id of ['b', 'c', 'a']) await t.schritt(p, `RLB-125/T-12 ‚${TRIPS.find(x => x.id === id).title}‘ löschen`, () => loesche(id));
+    t.ist('RLB-125/T-12 Löschen ohne Abfrage – alle drei in ‚Zuletzt gelöscht‘', await p.evaluate(() => [!!document.querySelector('.pop'), db.trips.length, recentlyDeleted.items.map(x => x.id).join()]), [false, 0, 'a,c,b'], 'R-4.12');
+    await t.schritt(p, 'RLB-125/T-12 ‚Zuletzt gelöscht‘ öffnen', async () => { await esc(p); await p.click('#side .ad-recentlydeleted-entry'); await p.waitForTimeout(500); await navFertig(p); });
+    const KN = ['Endgültig löschen', 'Abbrechen'];
+    t.ist('RLB-125/T-12 3 Einträge, ohne Backup heute: ohne ‚Erst Backup erstellen‘', await frage('a'), ['‚Australien‘ mit allen 3 Einträgen endgültig löschen? Das kann nicht rückgängig gemacht werden.', KN], 'R-4.12');
+    t.ist('RLB-125/T-12 1 Eintrag', await frage('c'), ['‚Wien‘ mit 1 Eintrag endgültig löschen? Das kann nicht rückgängig gemacht werden.', KN], 'R-4.12');
+    t.ist('RLB-125/T-12 ohne Einträge', await frage('b'), ['‚Toskana‘ ohne Einträge endgültig löschen? Das kann nicht rückgängig gemacht werden.', KN], 'R-4.12');
+    t.ist('RLB-125/T-12 Abbrechen löscht nichts endgültig', await p.evaluate(() => recentlyDeleted.items.length), 3, 'R-4.12');
     // gesperrt lässt sich nicht löschen – auch nicht über deleteTrip direkt
+    await t.schritt(p, 'Australien wiederherstellen', async () => { await lang(p, 'a'); await p.locator('.menu.kontext .mi', { hasText: 'Wiederherstellen' }).click(); await p.waitForTimeout(500); await navFertig(p); });
     await p.evaluate(() => { const a = getTrip('a'); a.locked = true; save(); return deleteTrip(a); });
-    t.ist('RLB-125 gesperrt: deleteTrip löscht nicht', await p.evaluate(() => [db.trips.length, !!document.querySelector('.pop')]), [3, false], 'R-4.12');
+    t.ist('RLB-125 gesperrt: deleteTrip löscht nicht (nicht nach ‚Zuletzt gelöscht‘)', await p.evaluate(() => [db.trips.map(x => x.id).join(), !!document.querySelector('.pop'), recentlyDeleted.items.some(x => x.id === 'a')]), ['a', false, false], 'R-4.12');
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
 }

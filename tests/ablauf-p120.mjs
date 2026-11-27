@@ -26,8 +26,8 @@
 // P-124/F-2 (seit 3.58.5) nach jeder Ausgabe – direkt, aus der Vorschau, gesperrte Seite, Neuaufbau bei offenem Teilen-Menü – ist nichts mehr getönt (R-3.3) · iPad quer, iPhone hoch.
 // Grundregeln nach jedem Schritt. Aufruf im Repo-Ordner: node tests/ablauf-p120.mjs (PRUEF_TEIL=F-1 … nur ein Teil)
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.70.2/tests/hig.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.71.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.71.0/tests/hig.mjs';
 const t = pruefung('ablauf-p120', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const TEIL = process.env.PRUEF_TEIL || '';
@@ -172,8 +172,9 @@ if (teil('F-2')) for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']
     else t.ist('P-120/F-2 ‚Lissabon und Porto‘ ist das aktive und wird angezeigt', [n.cur, n.titel, n.last], ['d', 'Lissabon und Porto', 'd'], 'R-7.1');
     await t.schritt(p, 'P-120/F-2 neu: unterstes aktiv, Liste ganz oben', start);
     vor = await lage('b');
-    await t.schritt(p, 'P-120/F-2 ‚Wien‘ lange drücken → ‚Reiselogbuch löschen‘ → ‚Reiselogbuch löschen‘', async () => { await lang(p, 'c'); await menuePunkt(p, 'Reiselogbuch löschen');
-      await p.locator('.pop button', { hasText: 'Reiselogbuch löschen' }).click(); await p.waitForTimeout(700); await navFertig(p); });
+    // seit 3.59.0 (RLB-126): ohne Abfrage nach ‚Zuletzt gelöscht‘
+    await t.schritt(p, 'P-120/F-2 ‚Wien‘ lange drücken → ‚Reiselogbuch löschen‘', async () => { await lang(p, 'c'); await menuePunkt(p, 'Reiselogbuch löschen');
+      await p.waitForTimeout(700); await navFertig(p); });
     n = await lage('b');
     t.ist('P-120/F-2 ‚Wien‘ ist gelöscht', [n.n, await p.evaluate(() => !getTrip('c'))], [TRIPS.length - 1, true], 'R-4.4');
     t.ist('P-120/F-2 nach dem Löschen springt die Liste nicht (Kachel ‚Toskana‘)', n.y, y => Math.abs(y - vor.y) <= 1, 'R-7.1');

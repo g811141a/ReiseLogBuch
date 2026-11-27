@@ -6,9 +6,9 @@
 // jeder Ansicht (Liste, Reiselogbuch, Tag, Einstellen, Fazit, Suche, Vorschau). iPad quer und iPhone hoch. Gegenprobe APD-54/T-9: gegen 3.56.2
 // mit PRUEF_APP=../_alt.html werden APD-54/T-1, APD-54/T-2 und APD-54/T-4 rot. Aufruf im Repo-Ordner: node tests/ablauf-fremdtext.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig } from '../../AppDesign/fassung/4.70.2/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.70.2/tests/hig.mjs';
-import { langDruecken } from '../../AppDesign/fassung/4.70.2/tests/ablauf.mjs';
+import { pruefung, navFertig } from '../../AppDesign/fassung/4.71.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.71.0/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.71.0/tests/ablauf.mjs';
 const t = pruefung('ablauf-fremdtext', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const iso = (y, m, d) => new Date(Date.UTC(y, m - 1, d)).toISOString().slice(0, 10);
@@ -51,11 +51,17 @@ for (const ansicht of ['iPad quer', 'iPhone hoch']) {
       t.ist(`APD-54/T-10 ${name}: kein Element aus den Daten`, await fremd(p), 0);
       await zu(p);
     }
-    // APD-54/T-8: Sprechblase ‚… mit allen Einträgen löschen?‘ mit fremdem Titel
-    await t.schritt(p, 'APD-54/T-8 Reiselogbuch löschen fragt', async () => { await p.evaluate(() => { deleteTrip(db.trips.find(x => x.id === 'a')); }); await p.waitForTimeout(400); });
+    // APD-54/T-8: Sprechblase ‚… mit allen Einträgen endgültig löschen?‘ mit fremdem Titel – seit 3.59.0 (RLB-126) fragt ‚Reiselogbuch löschen‘ nicht mehr,
+    // die Sprechblase kommt in ‚Zuletzt gelöscht‘ bei ‚Endgültig löschen‘; danach wiederhergestellt
+    await t.schritt(p, 'APD-54/T-8 Reiselogbuch löschen, ‚Zuletzt gelöscht‘ öffnen', async () => { await p.evaluate(() => { deleteTrip(db.trips.find(x => x.id === 'a')); }); await p.waitForTimeout(400); await navFertig(p);
+      await p.click('#side .ad-recentlydeleted-entry'); await p.waitForTimeout(500); await navFertig(p); });
+    t.ist('APD-54/T-8 Liste ‚Zuletzt gelöscht‘: kein Element aus den Daten', await fremd(p), 0);
+    await t.schritt(p, 'APD-54/T-8 Endgültig löschen fragt', async () => { const m = await langDruecken(p, '#side .side-row[data-id="a"]'); if (m) throw new Error(m);
+      await p.locator('.menu .mi', { hasText: 'Endgültig löschen' }).click(); await p.waitForTimeout(400); });
     t.ist('APD-54/T-8 Sprechblase: kein Element aus den Daten', await fremd(p), 0);
     t.wahr('APD-54/T-8 Sprechblase zeigt den Titel wörtlich', await p.evaluate(k => !!document.querySelector('.pop')?.textContent.includes(k), KURZ));
     await zu(p);
+    await p.evaluate(() => { recentlyDeleted.restore('a'); closeDeletedView(); showTrip('a'); }); await p.waitForTimeout(400); await navFertig(p);
 
     // APD-54/T-1 bis APD-54/T-3: fremder Schlüssel in der Schnellauswahl, ohne normalize gesetzt
     await p.evaluate(([k, q]) => { db.moodUsage[k] = 3; db.moodUsage[q] = 2; db.moodUsage['🙂'] = 2; }, [KURZ, FREMD]);
