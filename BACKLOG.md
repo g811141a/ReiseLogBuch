@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 28.11.2026** · Aktuelle Version: Reiselogbuch 3.59.3 · AppDesign 4.71.1
+**Stand 28.11.2026** · Aktuelle Version: Reiselogbuch 3.60.0 · AppDesign 5.0.0
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.

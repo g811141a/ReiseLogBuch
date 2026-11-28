@@ -13,10 +13,10 @@
 // Designrichtlinie 13). Keine neuen Testfälle: RLB-129/T-2, T-3, T-4 und T-5 sind damit gegen 3.59.2 rot. Gegen 3.59.2 rot: PRUEF_APP=../<Datei mit 3.59.2>.
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-drehen.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.71.1/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.71.1/tests/hig.mjs';
-import { langDruecken, menueZu, sucheAuf, textGroesseSetzen } from '../../AppDesign/fassung/4.71.1/tests/ablauf.mjs';
-import { festNachResize } from '../../AppDesign/fassung/4.71.1/tests/safari.mjs';
+import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/5.0.0/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/5.0.0/tests/hig.mjs';
+import { langDruecken, menueZu, sucheAuf, textGroesseSetzen } from '../../AppDesign/fassung/5.0.0/tests/ablauf.mjs';
+import { festNachResize } from '../../AppDesign/fassung/5.0.0/tests/safari.mjs';
 const t = pruefung('ablauf-seitenleiste-drehen', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const KEY = 'reiselogbuch.v1';
