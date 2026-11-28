@@ -30,6 +30,7 @@ Sitzung 0170; Vorschlag und Testfall-Liste RLB-129/T-1 bis T-8 freigegeben – A
   - Reicht er nicht, steht die Liste so weit unten wie möglich (ganz oben, wenn alles passt); der Eintrag, der vorher oben stand, bleibt sichtbar.
   - Zurück in der alten Lage steht oben wieder genau der Eintrag von vorher – auch nach mehrmaligem Drehen.
   - Rollst du nach dem Drehen selbst, gilt ab dann deine neue Lage; tippst du hoch auf einen anderen Eintrag, rollt er nach dem Zurückdrehen ins Bild.
+  - Wählst du einen Eintrag, ohne vorher gedreht zu haben, bleibt beim Drehen oben derselbe Eintrag, auch wenn der gewählte dann außerhalb liegt (wie bisher, RLB-114/Y-7).
 - **Zeitgrenze:** Während des Drehens und bis 600 ms nach dem letzten `resize` eines Drehens (neue Breite oder um mehr als 150 px andere Höhe) gilt ein Rollen der
   Liste nicht als deines; ebenso, solange das Fenster schon die neue Größe hat, ihr `resize` aber noch nicht da ist (Designrichtlinie 13). Beleg: Am iPhone kamen
   die `resize` eines Drehens über 326 ms (Messung 14.11.2026, AppDesign `arbeit/APD-129/messung-2026-11-14-2137.txt`); am iPad nicht gemessen.
@@ -42,6 +43,9 @@ Sitzung 0170; Vorschlag und Testfall-Liste RLB-129/T-1 bis T-8 freigegeben – A
     RLB-129/T-1 war schon richtig.
   - RLB-129/T-6 ‚hoch selbst rollen‘ mit 14 Reiselogbüchern (Daten wie RLB-129/T-3): Mit den Daten von RLB-129/T-2 passt hoch alles, die Liste lässt sich dort nicht
     rollen; ‚hoch tippen‘ mit den Daten von RLB-129/T-2.
+  - Der erste volle Prüflauf (27.11.2026) war rot: `ablauf-jahre` RLB-114/Y-7 (iPhone: z9 öffnen, zurück, quer drehen – oben stand ‚z5‘ statt ‚z3‘, Chromium und
+    WebKit). Ursache: Das Drehen hielt den gewählten Eintrag auch dann im Bild, wenn er vor jedem Drehen gewählt war. Behoben: nur nach einem Drehen gewählt;
+    danach `ablauf-jahre` und `ablauf-seitenleiste-drehen` grün in Chromium und WebKit. Die Erwartungen sind unverändert.
 - AD-Bean: keine, weil nur App-Code (`index.html`); AppDesign bleibt 4.71.0.
 
 Testfälle P-128 (Schritt für Schritt, Zusammenarbeit allgemein 3.19.0; ersetzt P-127). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der

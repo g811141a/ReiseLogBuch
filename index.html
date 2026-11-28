@@ -1429,7 +1429,8 @@ function bindListSearch() {
 // und der vorige oberste Eintrag bleibt sichtbar. Ein Rollen gilt während des Drehens und bis SIDE_TURN_MS nach dem letzten resize eines Drehens nicht
 // als deines (gemessen am iPhone 14.11.2026, AppDesign arbeit/APD-129/messung-2026-11-14-2137.txt: die resize eines Drehens kamen über 326 ms);
 // ebenso, solange das Fenster schon die neue Größe hat, ihr resize aber noch nicht da ist (Designrichtlinie 13, ‚Neue Fenstergröße vor resize‘).
-// Nach einem Neuaufbau ohne Drehen hält das Drehen den gewählten Eintrag im Bild, bis du rollst (sideFollow, RLB-129/T-6).
+// Wählst du nach einem Drehen einen Eintrag, solange die Liste noch steht, wo das Drehen sie hingestellt hat (sideKept), hält das nächste Drehen
+// ihn im Bild, bis du rollst (sideFollow, RLB-129/T-6); sonst bleibt oben derselbe Eintrag, auch wenn der gewählte dann außerhalb liegt (RLB-114/Y-7).
 let sideScroll = 0, sideHold = false, sideTurn = false, sideAnchor = null, sideTop = null, sideKept = false, sideFollow = null;
 const SIDE_TURN_MS = 600;
 let sideTurnEnd = 0, sideMeldW = innerWidth, sideMeldH = innerHeight;
@@ -1442,7 +1443,7 @@ function keepSideScroll() {
   const before = list.scrollTop;
   const cur = sideHold ? (sideAnchor ? list.querySelector(`[data-id="${CSS.escape(sideAnchor)}"]`) : null) : list.querySelector('.side-row.current');
   if (cur) sideRowInView(list, cur);
-  if (!sideHold) sideFollow = list.querySelector('.side-row.current')?.dataset.id || null;
+  if (!sideHold) sideFollow = sideKept ? list.querySelector('.side-row.current')?.dataset.id || null : null;
   if (sideTurn) sideFollowInView(list);
   sideScroll = list.scrollTop;
   if (sideTurn) sideKept = true;
