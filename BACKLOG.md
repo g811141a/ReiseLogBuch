@@ -19,9 +19,7 @@ Keine Punkte bereit.
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-129 | 1 | **Usertest Reiselogbuch 3.59.3 / AppDesign 4.71.1 – RLB-130 Seitenleiste nach dem Drehen am iPad (ersetzt P-128):** Testfälle P-129/0 bis P-129/2 im CHANGELOG 3.59.3 (Version, Liste der Reiselogbücher mit wenigen Einträgen quer rollen, hoch, wieder quer, dasselbe in ‚Zuletzt gelöscht‘ mit offenem Kontextmenü) | prüfen |
-| P-128 | 1 | **Usertest Reiselogbuch 3.59.2 / AppDesign 4.71.0 – RLB-129 Seitenleiste kehrt nach dem Drehen an ihre Stelle zurück (ersetzt P-127):** Testfälle P-128/0 bis P-128/2 im CHANGELOG 3.59.2 (Version, Liste der Reiselogbücher mit wenigen Einträgen quer rollen, hoch, wieder quer, dasselbe in ‚Zuletzt gelöscht‘ mit offenem Kontextmenü) | fehlgeschlagen (Nutzer 28.11.2026, Sitzung AppDesign 0009): P-128/1 Schritt 4 und P-128/2 Schritt 4 – zurück quer steht das 1. Reiselogbuch oben statt des 3., hoch passten alle; P-128/2 Schritt 6 – dazu hängt das Menü an einem anderen Eintrag → RLB-130 – Korrektur RLB-130 in 3.59.3, ersetzt durch P-129 |
-| P-127 | 1 | **Usertest Reiselogbuch 3.59.1 / AppDesign 4.71.0 – RLB-128 Seitenleiste bleibt beim Drehen stehen:** Testfälle P-127/0 bis P-127/2 im CHANGELOG 3.59.1 (Version, Liste der Reiselogbücher rollen und drehen, ‚Zuletzt gelöscht‘ rollen, Kontextmenü öffnen und drehen) | fehlgeschlagen (P-127/1, /2: nach dem Drehen oben ein anderer Eintrag) – Korrektur RLB-129 in 3.59.2, ersetzt durch P-128 |
+| – | – | – | – |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -41,6 +39,7 @@ Keine Punkte bereit.
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| P-129, P-128, P-127 | Geprüft: P-129 alles in Ordnung (Nutzer 28.11.2026, Sitzung AppDesign 0010, im Fenster) – Seitenleiste nach dem Drehen am iPad (RLB-130); ersetzt die fehlgeschlagenen P-128 (3.59.2) und P-127 (3.59.1) | Reiselogbuch 3.59.3 | 28.11.2026 |
 | RLB-130 | **Korrektur zu RLB-129: Seitenleiste nach dem Drehen am iPad:** Safari meldet `resize`, bevor die Seitenleiste ihre neue Höhe hat; die App stellt die Liste noch einmal zurück, sobald sie sie hat (`ResizeObserver`, R-8.1); Prüfung mit dem Safari-Modell `festNachResize`; Usertest P-129 | 3.59.3 | 28.11.2026 |
 | RLB-129 | **Korrektur zu RLB-128: Seitenleiste kehrt nach dem Drehen an ihre Stelle zurück:** gemerkt wird nur selbst gerolltes; reicht der Rollweg nicht, so weit unten wie möglich mit sichtbarem vorigem obersten Eintrag, zurück wieder derselbe Eintrag (R-8.1); Usertest P-128 | 3.59.2 | 27.11.2026 |
 | RLB-128 | **Korrektur: Seitenleiste bleibt beim Drehen stehen:** oben derselbe Eintrag, die Kachel eines offenen Menüs bzw. einer Sprechblase bleibt sichtbar (R-8.1); Usertest P-127 | 3.59.1 | 27.11.2026 |
