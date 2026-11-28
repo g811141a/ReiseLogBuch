@@ -8,11 +8,15 @@
 // Lage direkt davor – Testfall-Liste AppDesign arbeit/RLB-129 Testfall-Liste.md: RLB-129/T-1 hoch reicht der Rollweg, RLB-129/T-2 hoch passen alle,
 // RLB-129/T-3 hoch weniger Rollweg, RLB-129/T-4 ‚Zuletzt gelöscht‘, RLB-129/T-5 Kontextmenü offen, RLB-129/T-6 hoch selbst rollen bzw. tippen,
 // RLB-129/T-7 große Schrift (AX5), RLB-129/T-8 iPhone; iPad quer → hoch → quer → hoch → quer. Gegen 3.59.1 rot: PRUEF_APP=../<Datei mit 3.59.1>.
+// Seit 3.59.3 (RLB-130, Korrektur zu RLB-129, Usertest P-128 fehlgeschlagen, Messung am iPad 28.11.2026): am iPad wird gedreht wie gemessen – Fenster
+// quer 1194 × 802, hoch 834 × 1162, und die Seitenleiste bekommt ihre neue Höhe erst nach resize (Safari-Modell festNachResize, AppDesign 4.71.1,
+// Designrichtlinie 13). Keine neuen Testfälle: RLB-129/T-2, T-3, T-4 und T-5 sind damit gegen 3.59.2 rot. Gegen 3.59.2 rot: PRUEF_APP=../<Datei mit 3.59.2>.
 // Aufruf im Repo-Ordner: node tests/ablauf-seitenleiste-drehen.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.71.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.71.0/tests/hig.mjs';
-import { langDruecken, menueZu, sucheAuf, textGroesseSetzen } from '../../AppDesign/fassung/4.71.0/tests/ablauf.mjs';
+import { pruefung, navFertig, ruhe } from '../../AppDesign/fassung/4.71.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.71.1/tests/hig.mjs';
+import { langDruecken, menueZu, sucheAuf, textGroesseSetzen } from '../../AppDesign/fassung/4.71.1/tests/ablauf.mjs';
+import { festNachResize } from '../../AppDesign/fassung/4.71.1/tests/safari.mjs';
 const t = pruefung('ablauf-seitenleiste-drehen', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.box.day .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const KEY = 'reiselogbuch.v1';
@@ -51,7 +55,13 @@ const sichtbareIds = p => p.evaluate(() => {
   const unten = Math.min(lr.bottom, k ? k.top : lr.bottom);
   return [...l.querySelectorAll('[data-id]')].filter(r => { const b = r.getBoundingClientRect(); return b.top >= lr.top - 1 && b.bottom <= unten + 1; }).map(r => r.dataset.id);
 });
-const drehe = async p => { const v = p.viewportSize(); await p.setViewportSize({ width: v.height, height: v.width }); await p.waitForTimeout(700); await ruhig(p); };
+// RLB-130 (seit 3.59.3): iPad wie gemessen (Fenstergröße vom Home-Bildschirm, Seitenleiste nach resize – festNachResize); iPhone: Breite und Höhe tauschen
+const IPAD = { quer: { width: 1194, height: 802 }, hoch: { width: 834, height: 1162 } };
+const istIPad = v => [IPAD.quer, IPAD.hoch].some(g => g.width === v.width && g.height === v.height);
+const seite = async ansicht => { const p = await t.seite(b, ansicht); if (ansicht.startsWith('iPad')) await p.setViewportSize(IPAD[ansicht.slice(5)]); return p; };
+const drehe = async p => { const v = p.viewportSize();
+  if (istIPad(v)) await festNachResize(p, v.width > v.height ? IPAD.hoch : IPAD.quer); else await p.setViewportSize({ width: v.height, height: v.width });
+  await p.waitForTimeout(700); await ruhig(p); };
 const name = s => s === 'quer' ? 'quer → hoch → quer' : 'hoch → quer → hoch';
 // RLB-129 (seit 3.59.2): verglichen wird mit der Lage vor dem ersten Drehen (vor0). Oben derselbe Eintrag im selben Abstand ±2 px – bei gleich
 // hohen Kacheln heißt das scrollTop ±2 px; bei großer Schrift ändern sich mit der Breite die Höhen der Kacheln, dann zählt der oberste Eintrag.
@@ -70,7 +80,7 @@ const faelle = [
   { nr: 'RLB-128/T-7', was: 'große Schrift (AX5), Liste gerollt', lade: {}, ts: 'ax5', rolle: 900 },
   { nr: 'RLB-128/T-8', was: 'wenige Einträge (3), Liste rollt nicht', lade: { trips: TRIPS.slice(0, 3), lastTrip: 't2' }, rolle: 0 }];
 for (const f of faelle) for (const start of ['quer', 'hoch']) {
-  const p = await t.seite(b, `iPad ${start}`);
+  const p = await seite(`iPad ${start}`);
   await lade(p, f.lade);
   if (f.ts) await textGroesseSetzen(p, f.ts);
   if (f.zuletzt) { await p.click('#side .ad-recentlydeleted-entry'); await p.waitForTimeout(400); await ruhig(p); }
@@ -89,7 +99,7 @@ for (const f of faelle) for (const start of ['quer', 'hoch']) {
 
 // RLB-128/T-4: ‚Zuletzt gelöscht‘ gerollt, Kontextmenü an der untersten sichtbaren Kachel; RLB-128/T-5: Sprechblase ‚Endgültig löschen‘ an einer Kachel in der Mitte
 for (const nr of ['RLB-128/T-4', 'RLB-128/T-5']) for (const start of ['quer', 'hoch']) {
-  const p = await t.seite(b, `iPad ${start}`);
+  const p = await seite(`iPad ${start}`);
   await lade(p, { deleted: GELOESCHT });
   await p.click('#side .ad-recentlydeleted-entry'); await p.waitForTimeout(400); await ruhig(p);
   await rolleListe(p, 400);
@@ -125,7 +135,7 @@ for (const nr of ['RLB-128/T-4', 'RLB-128/T-5']) for (const start of ['quer', 'h
 
 // RLB-128/T-6: nach dem Drehen einen weggerollten Eintrag über die Suche öffnen – er rollt ins Bild wie bisher (nicht unter Kopf oder Backup-Kachel)
 {
-  const p = await t.seite(b, 'iPad quer');
+  const p = await seite('iPad quer');
   await lade(p);
   await rolleListe(p, 0);
   await t.schritt(p, 'RLB-128/T-6 drehen (hoch)', () => drehe(p));
@@ -140,7 +150,7 @@ for (const nr of ['RLB-128/T-4', 'RLB-128/T-5']) for (const start of ['quer', 'h
 
 // RLB-128/T-9: iPhone hoch ↔ quer, Startliste gerollt – oben derselbe Eintrag
 {
-  const p = await t.seite(b, 'iPhone hoch');
+  const p = await seite('iPhone hoch');
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
   await p.evaluate(([k, trips]) => { localStorage.clear(); localStorage.setItem(k, JSON.stringify({ settings: { lastBackup: Date.now() }, trips })); }, [KEY, TRIPS]);
@@ -186,7 +196,7 @@ const faelle129 = [
   { nr: 'RLB-129/T-4', was: '‚Zuletzt gelöscht‘ quer gerollt, hoch passen alle', lade: { deleted: GELOESCHT_PASST }, zuletzt: true, rolle: 200, hoch: 'passt' },
   { nr: 'RLB-129/T-7', was: 'große Schrift (AX5), quer gerollt, hoch passen alle', lade: { trips: TRIPS.slice(0, 2) }, ts: 'ax5', rolle: 51, hoch: 'passt' }];
 for (const f of faelle129) {
-  const p = await t.seite(b, 'iPad quer');
+  const p = await seite('iPad quer');
   await lade(p, f.lade);
   if (f.ts) await textGroesseSetzen(p, f.ts);
   if (f.zuletzt) { await p.click('#side .ad-recentlydeleted-entry'); await p.waitForTimeout(400); await ruhig(p); }
@@ -204,7 +214,7 @@ for (const f of faelle129) {
 // RLB-129/T-5: wie RLB-129/T-2 (bzw. RLB-129/T-4), Kontextmenü an der untersten sichtbaren Kachel offen – Kachel blau und ganz sichtbar, Menü daneben;
 // quer oben wieder derselbe Eintrag (die Kachel war vor dem ersten Drehen sichtbar, sie bleibt es damit)
 for (const f of [{ was: 'Reiselogbücher', lade: { trips: PASST } }, { was: '‚Zuletzt gelöscht‘', lade: { deleted: GELOESCHT_PASST }, zuletzt: true }]) {
-  const nr = 'RLB-129/T-5', p = await t.seite(b, 'iPad quer');
+  const nr = 'RLB-129/T-5', p = await seite('iPad quer');
   await lade(p, f.lade);
   if (f.zuletzt) { await p.click('#side .ad-recentlydeleted-entry'); await p.waitForTimeout(400); await ruhig(p); }
   await rolleListe(p, 200);
@@ -232,7 +242,7 @@ for (const f of [{ was: 'Reiselogbücher', lade: { trips: PASST } }, { was: '‚
 // RLB-129/T-6: hoch auf einen anderen Eintrag tippen (Daten wie RLB-129/T-2), dann quer – der gewählte Eintrag rollt ins Bild;
 // hoch selbst rollen, dann quer – es gilt die neue Lage (Daten wie RLB-129/T-3: mit den Daten von RLB-129/T-2 lässt sich hoch nicht rollen, alles passt)
 {
-  const p = await t.seite(b, 'iPad quer');
+  const p = await seite('iPad quer');
   await lade(p, { trips: PASST });
   await rolleListe(p, 200);
   t.ist('RLB-129/T-6 tippen: Reise 9 ist vor dem Drehen nicht sichtbar', await sichtbar(p, 't8'), false);
@@ -245,7 +255,7 @@ for (const f of [{ was: 'Reiselogbücher', lade: { trips: PASST } }, { was: '‚
   await p.close();
 }
 {
-  const p = await t.seite(b, 'iPad quer');
+  const p = await seite('iPad quer');
   await lade(p);
   await rolleListe(p, 800);
   await t.schritt(p, 'RLB-129/T-6 selbst rollen: drehen (hoch)', () => drehe(p));
@@ -261,7 +271,7 @@ for (const f of [{ was: 'Reiselogbücher', lade: { trips: PASST } }, { was: '‚
 // RLB-129/T-8: iPhone quer → hoch → quer → hoch → quer, Startliste quer gerollt – hoch passen alle (6) bzw. weniger Rollweg (14)
 for (const f of [{ was: 'iPhone, Startliste quer gerollt, hoch passen alle', trips: TRIPS.slice(0, 6), rolle: 200, hoch: 'passt' },
   { was: 'iPhone, Startliste quer weit unten, hoch weniger Rollweg', trips: TRIPS, rolle: 1200, hoch: 'weniger' }]) {
-  const nr = 'RLB-129/T-8', p = await t.seite(b, 'iPhone quer');
+  const nr = 'RLB-129/T-8', p = await seite('iPhone quer');
   await p.clock.setFixedTime(new Date('2026-06-05T10:00:00'));
   await p.goto(APP);
   await p.evaluate(([k, trips]) => { localStorage.clear(); localStorage.setItem(k, JSON.stringify({ settings: { lastBackup: Date.now() }, trips })); }, [KEY, f.trips]);

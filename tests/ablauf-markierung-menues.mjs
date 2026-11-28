@@ -13,9 +13,9 @@
 // Wachsen von Menü, Untermenü, Kontextmenü und Sprechblase (checkWachsen, APD-62/M-1 bis M-8, M-11) prüft bausteine-pruefseite (Teile ‚menue‘ und
 // ‚sprechblase‘); hier bleiben die Anteile der App – Markierung, Inhalt der Menüs, Glas, APD-85/V-1 bis V-3 und Drehen mit offenem Menü (APD-87/E-7, APD-94).
 import * as pw from 'playwright';
-import { pruefung } from '../../AppDesign/fassung/4.71.0/tests/pruefe.mjs';
-import { createCheck, checkGlas } from '../../AppDesign/fassung/4.71.0/tests/hig.mjs';
-import { langDruecken } from '../../AppDesign/fassung/4.71.0/tests/ablauf.mjs';
+import { pruefung } from '../../AppDesign/fassung/4.71.1/tests/pruefe.mjs';
+import { createCheck, checkGlas } from '../../AppDesign/fassung/4.71.1/tests/hig.mjs';
+import { langDruecken } from '../../AppDesign/fassung/4.71.1/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');

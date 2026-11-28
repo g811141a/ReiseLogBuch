@@ -13,6 +13,56 @@ Steigt eine Stufe, beginnen die Stufen dahinter wieder bei 0.
 Die aktuelle Version steht in der App im Mehr-Menü (ellipsis) der Seitenleiste „Reiselogbücher“
 (iPhone: im Mehr-Menü der Startliste).
 
+## 3.59.3 – 28.11.2026
+
+Reiselogbuch 3.59.3 · AppDesign 4.71.1 (Designrichtlinie allgemein 4.71.1) · Designrichtlinie Reiselogbuch 3.59.3 · Zusammenarbeit allgemein 3.20.0
+
+**RLB-130 – Korrektur zu RLB-129: Seitenleiste nach dem Drehen am iPad** (Usertest P-128 fehlgeschlagen, Nutzer 28.11.2026, Sitzung AppDesign 0009: P-128/1
+Schritt 4 und P-128/2 Schritt 4 – zurück quer stand das 1. Reiselogbuch oben statt des 3.; P-128/2 Schritt 6 – das Menü hing an einem anderen Eintrag. Zwei Messungen
+am iPad Pro 2024 – AppDesign `arbeit/RLB-130/`, Auswertung `arbeit/RLB-130 Auswertung und Testfall-Liste.md`; Möglichkeit A und Bau-Frage mit Ja beantwortet
+28.11.2026, Sitzung AppDesign 0009 – `arbeit/RLB-130 0009 Entscheidungen.md`; gebaut in Sitzung AppDesign 0010).
+
+- **Vorher (3.59.2):** Zurück quer änderte sich der Rollstand der Liste am iPad gar nicht, er blieb auf dem Wert von hochkant (gemessen 231 → 0 → 0, 339 → 0 → 0,
+  303 → 135 → 135). Ursache (Vermutung, das Modell bildet beide Messungen genau nach): Safari meldet beim Drehen `resize`, bevor die Seitenleiste
+  (`position: fixed`) ihre neue Höhe hat. Die App stellte die Liste in diesem `resize` zurück, und Safari kürzte den Rollstand auf den alten Rollweg
+  (Designrichtlinie 13, ‚Feste Elemente bekommen ihre neue Größe erst nach `resize`‘).
+- **Jetzt (R-8.1):** Die App stellt die Liste noch einmal zurück, sobald die Seitenleiste ihre neue Größe hat (`ResizeObserver` an `#side`, nur solange gedreht
+  wird – `sideTurning()`); das Zurückstellen steht in `sideRestore()`. Das Verhalten ist sonst wie in 3.59.2 beschrieben.
+- **Zurückstellen im `resize` bleibt:** Ohne es war `ablauf-seitenleiste-drehen` in Chromium ebenfalls grün. Es bleibt trotzdem, weil es auch bei Größenänderungen ohne
+  Drehen gilt (andere Höhe um höchstens 150 px), bei denen der `ResizeObserver` nicht zurückstellt.
+- **Prüfungen:** `ablauf-seitenleiste-drehen` dreht am iPad wie gemessen – Fenster quer 1194 × 802, hoch 834 × 1162, die Seitenleiste bekommt ihre neue Höhe erst
+  4 ms nach `resize` (Safari-Modell `festNachResize`, AppDesign 4.71.1). Keine neuen Testfälle.
+  - Gegen 3.59.2 rot in Chromium und WebKit: RLB-129/T-2, T-3, T-4 und T-5, dazu RLB-129/T-6 (Tippen), T-7 und RLB-128/T-4 (WebKit auch RLB-128/T-3 und T-5).
+  - Mit der Korrektur grün in Chromium und WebKit; `ablauf-jahre` bleibt grün in Chromium und WebKit.
+- **Warum die Prüfung den Fehler übersah:** Das Drehen am iPad war nie gemessen, und das Safari-Modell kannte die Eigenheit nicht.
+- AD-Bean: keine, weil nur App-Code (`index.html`); AppDesign 4.71.1 bringt nur das Prüfmodell und Richtlinien.
+
+Testfälle P-129 (Schritt für Schritt, Zusammenarbeit allgemein 3.20.0; ersetzt P-128). Link der App: https://g811141a.github.io/ReiseLogBuch/ – bitte in der
+**App vom Home-Bildschirm**, zuerst die App ganz schließen und neu öffnen.
+
+**P-129/0 – Version prüfen**
+1. Auf iPhone und iPad die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und mit Netz neu öffnen.
+2. In der Startliste (iPhone) bzw. Seitenleiste (iPad) ‚Reiselogbücher‘ oben auf ‚…‘ (Mehr) tippen.
+3. Erwartet auf beiden Geräten: unten grau ‚Reiselogbuch · Version 3.59.3 · erstellt am … · AppDesign 4.71.1‘. Automatisch geprüft in `version-regeln`.
+
+**P-129/1 – Liste der Reiselogbücher mit wenigen Einträgen: quer rollen, hoch, wieder quer (iPad)**
+1. iPad quer, hell; die Seitenleiste ‚Reiselogbücher‘ ist eingeblendet und hat so viele Einträge, dass sie quer rollt (wie bei dir).
+2. Die Liste etwas nach unten rollen; merken, welches Reiselogbuch jetzt ganz oben steht.
+3. Das iPad hochkant drehen. Erwartet: oben steht dasselbe Reiselogbuch, oder – wenn die Liste dafür zu kurz ist – das vorige oberste Reiselogbuch ist sichtbar
+   (passen alle, beginnt die Liste oben).
+4. Das iPad wieder quer drehen. Erwartet: oben steht wieder dasselbe Reiselogbuch wie in Schritt 2.
+5. Schritte 3 und 4 noch einmal. Erwartet: wie in Schritt 3 und 4. Automatisch geprüft in `ablauf-seitenleiste-drehen` (RLB-129/T-1, T-2, T-3, mit dem Modell `festNachResize`).
+
+**P-129/2 – dasselbe in ‚Zuletzt gelöscht‘, mit offenem Kontextmenü (iPad)**
+1. iPad quer, hell; in der Seitenleiste ganz unten die Kachel ‚Zuletzt gelöscht‘ antippen (dort stehen so viele Einträge, dass die Liste quer rollt).
+2. Die Liste etwas nach unten rollen; merken, welcher Eintrag ganz oben steht.
+3. Das iPad hochkant drehen. Erwartet: oben steht derselbe Eintrag, oder – wenn die Liste dafür zu kurz ist – der vorige oberste Eintrag ist sichtbar.
+4. Das iPad wieder quer drehen. Erwartet: oben steht wieder derselbe Eintrag wie in Schritt 2.
+5. Die unterste ganz sichtbare Kachel lange drücken. Erwartet: das Menü ‚Wiederherstellen‘ · Strich · ‚Endgültig löschen‘ (rot) steht daneben, die Kachel ist blau.
+6. Das iPad hochkant drehen, dann wieder quer. Erwartet: Nach jedem Drehen bleibt das Menü offen neben seiner Kachel, die Kachel bleibt blau und ganz sichtbar;
+   zurück quer steht oben wieder derselbe Eintrag wie in Schritt 2.
+7. Neben das Menü tippen. Erwartet: das Menü schließt, nichts wird ausgelöst. Automatisch geprüft in `ablauf-seitenleiste-drehen` (RLB-129/T-4, T-5, mit dem Modell `festNachResize`).
+
 ## 3.59.2 – 27.11.2026
 
 Reiselogbuch 3.59.2 · AppDesign 4.71.0 (Designrichtlinie allgemein 4.71.0) · Designrichtlinie Reiselogbuch 3.59.2 · Zusammenarbeit allgemein 3.19.0
