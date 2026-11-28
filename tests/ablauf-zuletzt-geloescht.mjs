@@ -12,10 +12,10 @@
 // RLB-126/T-15 Gegenprobe: PRUEF_GEGENPROBE=zuletzt:frage (Löschen fragt erst) bzw. zuletzt:frist (Frist 31 Tage) – RLB-126/T-1 bzw. RLB-126/T-8 werden rot.
 // Aufruf im Repo-Ordner: node tests/ablauf-zuletzt-geloescht.mjs
 import * as pw from 'playwright';
-import { pruefung, navFertig, ruhe, warteBis } from '../../AppDesign/fassung/4.71.0/tests/pruefe.mjs';
-import { createCheck } from '../../AppDesign/fassung/4.71.0/tests/hig.mjs';
-import { checkRecentlyDeleted, recentlyDeletedGegenprobe, langDruecken, menueZu, ansage, textGroesseSetzen } from '../../AppDesign/fassung/4.71.0/tests/ablauf.mjs';
-import { mausWieFinger, mausKlickSpaet } from '../../AppDesign/fassung/4.71.0/tests/safari.mjs';
+import { pruefung, navFertig, ruhe, warteBis } from '../../AppDesign/fassung/4.71.1/tests/pruefe.mjs';
+import { createCheck } from '../../AppDesign/fassung/4.71.1/tests/hig.mjs';
+import { checkRecentlyDeleted, recentlyDeletedGegenprobe, langDruecken, menueZu, ansage, textGroesseSetzen } from '../../AppDesign/fassung/4.71.1/tests/ablauf.mjs';
+import { mausWieFinger, mausKlickSpaet } from '../../AppDesign/fassung/4.71.1/tests/safari.mjs';
 const t = pruefung('ablauf-zuletzt-geloescht', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const APP = new URL(process.env.PRUEF_APP || '../index.html', import.meta.url).href;
 const KEY = 'reiselogbuch.v1', NOUNS = ['Reiselogbuch', 'Reiselogbücher'];
