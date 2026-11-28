@@ -11,8 +11,9 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
+| RLB-130 | 1 | **Korrektur zu RLB-129 – Seitenleiste nach dem Drehen am iPad (P-128 fehlgeschlagen, Messung am iPad 28.11.2026):** Safari meldet `resize`, bevor die Seitenleiste ihre neue Höhe hat; die App stellt zurück, sobald sie sie hat (Möglichkeit A, `ResizeObserver`); keine neuen Testfälle, `ablauf-seitenleiste-drehen` dreht wie am iPad gemessen (Modell `festNachResize`, AppDesign 4.71.1); Bau-Frage Ja (Reiselogbuch 3.59.3, Prüflauf voll), Wortlaut Designrichtlinie 13 noch freigeben – AppDesign `arbeit/RLB-130 0009 Entscheidungen.md` | App | 28.11.2026 |
 
-0 Punkte bereit.
+1 Punkt bereit (Nächste Version 3.59.3).
 
 ## 1. Auf iPad und iPhone prüfen
 
@@ -25,7 +26,6 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
-| RLB-130 | 1 | **Korrektur zu RLB-129: zurück quer steht oben wieder der Eintrag von vorher (P-128 fehlgeschlagen, Nutzer 28.11.2026, Sitzung AppDesign 0009):** iPad, Liste quer gerollt (3. Eintrag oben), hoch passen alle, zurück quer steht der 1. oben; mit offenem Kontextmenü hängt das Menü danach an einem anderen Eintrag. Im Safari-Modell nicht nachstellbar (7 Arten zu drehen, Chromium und WebKit) – zuerst Messung am iPad (0 Nr. 20), dann feste Prüfung rot gegen 3.59.2 (0 Nr. 1), Korrekturversion vor `v5/` (0 Nr. 8) – AppDesign `arbeit/RLB-130 Rückmeldung P-128.md` | App | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
