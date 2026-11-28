@@ -31,9 +31,9 @@ const day = async (p, iso, fn) => {
 const want = { 8: { iso: '2026-07-03', weather: '☀️', program: 'Golden Circle' }, 9: { iso: '2026-07-02', program: 'Vom iPhone' }, '9a': { iso: '2026-07-04', program: 'Neu iPhone' }, '9b': { iso: '2026-07-02', weather: '🌧', program: 'Alt' }, '9c': { iso: '2026-07-02', program: 'Spät iPad' } };
 for (const fall of [8, 9, '9a', '9b', '9c']) {
   const ipad = await dev(1180, 820), iphone = await dev(393, 852);
-  await at(ipad, '09:00'); await ipad.goto(APP); await ipad.evaluate(t => { if (dlg.open) dlg.close(); db.trips = normalize({ trips: t }).trips; save(); showTrip('x'); }, base);
+  await at(ipad, '09:00'); await ipad.goto(APP); await ipad.evaluate(t => { if (AD.dlg.open) AD.dlg.close(); db.trips = normalize({ trips: t }).trips; save(); showTrip('x'); }, base);
   const start = await backup(ipad);
-  await at(iphone, '09:05'); await iphone.goto(APP); await iphone.evaluate(() => { if (dlg.open) dlg.close(); });
+  await at(iphone, '09:05'); await iphone.goto(APP); await iphone.evaluate(() => { if (AD.dlg.open) AD.dlg.close(); });
   await iphone.evaluate(() => { phoneList = true; render(); });
   await iphone.click('#sideMore'); await iphone.waitForTimeout(150);
   { const [ch] = await Promise.all([iphone.waitForEvent('filechooser'), iphone.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);

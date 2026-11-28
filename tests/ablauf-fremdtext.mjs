@@ -27,7 +27,7 @@ const lade = async p => {
 // Zahl der Elemente .fremd in der Seite und in allen Rahmen (Vorschau)
 const fremd = async p => { let n = 0; for (const f of p.frames()) n += await f.evaluate(() => document.querySelectorAll('.fremd').length).catch(() => 0); return n; };
 const zu = async p => { for (let i = 0; i < 3; i++) { await p.keyboard.press('Escape'); await p.waitForTimeout(150); }
-  await p.evaluate(() => { if (dlg.open) dlg.close(); document.querySelectorAll('dialog[open]').forEach(d => d.close()); }); await p.waitForTimeout(300); await navFertig(p); };
+  await p.evaluate(() => { if (AD.dlg.open) AD.dlg.close(); document.querySelectorAll('dialog[open]').forEach(d => d.close()); }); await p.waitForTimeout(300); await navFertig(p); };
 
 const b = await t.browser();
 for (const ansicht of ['iPad quer', 'iPhone hoch']) {

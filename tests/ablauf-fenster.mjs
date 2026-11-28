@@ -21,9 +21,9 @@ for (const [ansicht, over] of [['iPad quer', false], ['iPad hoch', false]]) for 
   t.ist('Abstand der Seitenleiste zum unteren Rand (px)', await p.evaluate(() => Math.round(innerHeight - side.getBoundingClientRect().bottom)), 4);
   // seit 3.57.7 (AppDesign APD-135/S-7, S-8): ui.js stellt offene Fenster bei jedem resize selbst neu (placeDialogs; bis 3.57.6 der resize-Hörer der App) –
   // das Hinweisfenster absichtlich verschoben, nach resize wieder an seinem Platz
-  await p.evaluate(() => { inform('Hinweis', 'Prüfung'); }); await p.waitForSelector('#msg[open]'); await p.waitForTimeout(300);
-  const platz = await p.evaluate(async () => { const vor = msg.style.top; msg.style.top = '0px'; dispatchEvent(new Event('resize'));
-    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))); return { vor, nach: msg.style.top }; });
+  await p.evaluate(() => { AD.inform('Hinweis', 'Prüfung'); }); await p.waitForSelector('#msg[open]'); await p.waitForTimeout(300);
+  const platz = await p.evaluate(async () => { const vor = AD.msg.style.top; AD.msg.style.top = '0px'; dispatchEvent(new Event('resize'));
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))); return { vor, nach: AD.msg.style.top }; });
   t.wahr(`APD-135/S-8 Hinweisfenster nach resize wieder an seinem Platz: top ${platz.nach} (vorher ${platz.vor})`, !!platz.vor && platz.vor !== '0px' && platz.nach === platz.vor, 'R-8.1');
   await p.click('#msg [data-x]'); await p.waitForTimeout(300);
   await p.screenshot({ path: new URL(`out/S212-${t.ort.replace(/ /g, '-')}-${t.browserName}.png`, import.meta.url).pathname }); await p.close();

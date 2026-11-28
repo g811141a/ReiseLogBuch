@@ -36,12 +36,12 @@ const start = async (p, liste = trips) => {
   await p.goto(APP);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), liste);
   await p.reload(); await bis(p, `document.readyState === 'complete' && ${RUHE}`, 'App aufgebaut'); await navFertig(p);
-  if (liste.length && await p.evaluate(() => isPhone()) && await p.locator('#side.page').isVisible()) {
+  if (liste.length && await p.evaluate(() => AD.isPhone()) && await p.locator('#side.page').isVisible()) {
     await p.locator('#side .side-row[data-id="a"]').click(); await bis(p, `currentTripId === 'a' && !phoneList && ${RUHE}`, 'Reiselogbuch offen'); await navFertig(p);
   }
 };
 const fensterAuf = async p => { await bis(p, `document.getElementById('dlg').open && ${RUHE}`, 'Fenster offen'); await navFertig(p); };
-const zuFenster = async p => { await p.evaluate(() => { dlgDirty = () => false; dlg.close(); }); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); await navFertig(p); };
+const zuFenster = async p => { await p.evaluate(() => { AD.dlgDirty = () => false; AD.dlg.close(); }); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); await navFertig(p); };
 const menuOffen = p => bis(p, `!!document.querySelector('.menu .mi') && ${RUHE}`, 'Menü offen');
 const ablauf = async (ansicht, opts, fn) => {
   const p = await t.seite(t.b, ansicht, opts);
@@ -56,12 +56,12 @@ await ablauf('iPad quer', { theme: 'light', acceptDownloads: true }, async p => 
   t.ort = 'iPad quer · leer';
   await start(p, []);
   await bis(p, `dlg.open && ${RUHE}`, 'Fenster beim Start ohne Reisen').catch(() => {});
-  t.ist('F10 leere App öffnet ‚Neues Reiselogbuch‘', await p.evaluate(() => dlg.open ? document.querySelector('#dlg .dlg-head h3')?.textContent : null), 'Neues Reiselogbuch', 'R-7.7');
+  t.ist('F10 leere App öffnet ‚Neues Reiselogbuch‘', await p.evaluate(() => AD.dlg.open ? document.querySelector('#dlg .dlg-head h3')?.textContent : null), 'Neues Reiselogbuch', 'R-7.7');
   await zuFenster(p);
   await p.click('#sideMore'); await menuOffen(p);
   const v = await p.locator('.menu .note.halten').boundingBox();
   { const m = await langDruecken(p, { x: v.x + v.width / 2, y: v.y + v.height / 2 }, { ms: 900, offen: '.menu' }); if (m) throw new Error(m); }
-  await p.locator('.menu .mi', { hasText: 'Messung starten' }).click(); await bis(p, '!!mess?.an', 'Messung läuft');
+  await p.locator('.menu .mi', { hasText: 'Messung starten' }).click(); await bis(p, '!!AD.measurement?.an', 'Messung läuft');
   await p.click('#sideMore'); await menuOffen(p);
   const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.locator('.menu .mi', { hasText: 'Messung beenden und teilen' }).click()]);
   t.wahr('R-1.6 F10 leere App: ‚Messung beenden und teilen‘ liefert eine Datei', !!dl, 'R-1.6');
@@ -74,10 +74,10 @@ await ablauf('iPad quer', { theme: 'light', acceptDownloads: true }, async p => 
   await p.click('#sideMore'); await menuOffen(p);
   const v = await p.locator('.menu .note.halten').boundingBox();
   { const m = await langDruecken(p, { x: v.x + v.width / 2, y: v.y + v.height / 2 }, { ms: 900, offen: '.menu' }); if (m) throw new Error(m); }
-  await p.locator('.menu .mi', { hasText: 'Messung starten' }).click(); await bis(p, '!!mess?.an', 'Messung läuft');
+  await p.locator('.menu .mi', { hasText: 'Messung starten' }).click(); await bis(p, '!!AD.measurement?.an', 'Messung läuft');
   await sucheAuf(p, '#sideMore'); await bis(p, `!!document.querySelector('#lsearch') && ${RUHE}`, 'Suche offen');
   for (const k of 'Rom') { await p.keyboard.type(k); await p.waitForTimeout(40); }
-  await p.evaluate(() => { window.__mess = []; const orig = shareFiles; shareFiles = files => { window.__mess.push(...files); return orig(files); }; });
+  await p.evaluate(() => { window.__mess = []; const orig = AD.shareFiles; AD.shareFiles = files => { window.__mess.push(...files); return orig(files); }; });
   await p.click('#sideMore'); await menuOffen(p);
   await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.locator('.menu .mi', { hasText: 'Messung beenden und teilen' }).click()]);
   const f = (await p.evaluate(() => window.__mess.map(x => ({ name: x.name, content: x.content }))))[0];
@@ -103,7 +103,7 @@ await ablauf('iPhone hoch', { theme: 'light' }, async p => {
   await blase(`L-2 Kopfzeile ‚${TITEL}‘`, { sel: KOPF, daneben: ['#mainMore', '#shareBtn'], esc: true });
   await p.evaluate(() => openTripDialog(db.trips[0])); await fensterAuf(p);
   await blase('L-1 Fenster ‚Reiselogbuch einstellen‘', { sel: FTITEL, daneben: ['#dlgX', '#dlgOk', '#fTitle'], esc: true });
-  t.ist('L-8 nach den Tipps: Fenster offen, Reisetitel unverändert', [await p.evaluate(() => dlg.open), await p.evaluate(() => db.trips[0].title)], [true, TITEL], 'R-2.5');
+  t.ist('L-8 nach den Tipps: Fenster offen, Reisetitel unverändert', [await p.evaluate(() => AD.dlg.open), await p.evaluate(() => db.trips[0].title)], [true, TITEL], 'R-2.5');
   await zuFenster(p);
   await p.evaluate(d => openDayDialog(db.trips[0], d), iso(3)); await fensterAuf(p);
   t.ist('L-3 Titel des Tages', await p.textContent(FTITEL), 'Do, 27.08.2026', 'R-2.5');
@@ -166,7 +166,7 @@ await ablauf('iPad quer', { theme: 'light' }, async p => {
   });
   await p.evaluate(() => openTripDialog(db.trips[0])); await fensterAuf(p);
   await t.schritt(p, 'Fenster-Kopfzeile ‚Reiselogbuch einstellen‘', () => jeder('#dlg .dlg-head', 'Fenster-Kopfzeile'));
-  t.wahr('nach den Großanzeigen im Fenster ist es noch offen (Abbrechen löst nichts aus)', await p.evaluate(() => dlg.open), 'R-2.6');
+  t.wahr('nach den Großanzeigen im Fenster ist es noch offen (Abbrechen löst nichts aus)', await p.evaluate(() => AD.dlg.open), 'R-2.6');
   await zuFenster(p);
 });
 await t.ende(t.b);

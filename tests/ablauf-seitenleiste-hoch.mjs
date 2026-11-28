@@ -55,15 +55,15 @@ for (const theme of ['light', 'dark']) {
   t.ist('APD-97/L-1 Seitenleiste fest neben dem Inhalt, ohne Abdunkelung', [l.seite, l.fest, l.neben], [true, true, true], 'R-7.5');
   t.ist('APD-97/D-1 Inhalt unter 700 px: Kästen statt Tabelle', [l.inhalt < 700, l.tabelle, l.kaesten > 0, l.statisch], [true, false, true, 0], 'R-6.6');
   await t.schritt(p, 'L-1 Tag antippen', async () => { await p.locator('#app .box.day[data-day="2026-08-12"]').click(); await p.waitForTimeout(400); });
-  t.ist('APD-97/L-1 Inhalt bedienbar: Tag öffnet sein Fenster', await p.evaluate(() => dlg.open), true, 'R-7.5');
-  await p.evaluate(() => dlg.close()); await p.waitForTimeout(250);
+  t.ist('APD-97/L-1 Inhalt bedienbar: Tag öffnet sein Fenster', await p.evaluate(() => AD.dlg.open), true, 'R-7.5');
+  await p.evaluate(() => AD.dlg.close()); await p.waitForTimeout(250);
   // L-2: anderen Eintrag wählen – die Seitenleiste bleibt stehen
   await t.schritt(p, 'L-2 Leer wählen', async () => { await p.locator('#side .side-row[data-id="b"]').click(); await p.waitForTimeout(400); await navFertig(p); });
   l = await lage(p);
   t.ist('APD-97/L-2 nach der Auswahl bleibt die Seitenleiste, Leer offen', [l.fest, await p.textContent('.nb-title')], [true, 'Leer'], 'R-7.5');
   // D-10: viele Tage, langes Programm – Kästen ohne Überlauf (hig R-6.3), letzter Tag erreichbar
   await t.schritt(p, 'D-10 Viele wählen', async () => { await p.locator('#side .side-row[data-id="c"]').click(); await p.waitForTimeout(400); await navFertig(p); });
-  await t.schritt(p, 'D-10 ans Ende', async () => { await p.evaluate(() => rolle.to(1e6)); await p.waitForTimeout(400); });
+  await t.schritt(p, 'D-10 ans Ende', async () => { await p.evaluate(() => AD.scrollView.to(1e6)); await p.waitForTimeout(400); });
   t.ist('APD-97/D-10 letzter Tag erreichbar', await p.evaluate(() => { const e = document.querySelector('#app [data-day="2026-05-30"]'); const r = e?.getBoundingClientRect(); return !!r && r.bottom <= innerHeight + 1 && r.top >= 0; }), true, 'R-6.6');
   await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p);
   // D-4, L-3: panel-left – die Seitenleiste geht, der Inhalt wird breit und zeigt die Tabelle; oben bleibt derselbe Tag; und zurück

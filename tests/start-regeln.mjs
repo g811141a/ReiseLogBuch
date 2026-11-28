@@ -7,7 +7,7 @@
 import * as pw from 'playwright';
 import { pruefung, navFertig } from '../../AppDesign/fassung/5.0.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/5.0.0/tests/hig.mjs';
-import { checkStart, checkRueckkehr } from '../../AppDesign/fassung/5.0.0/tests/start.mjs';
+import { checkStart, checkRueckkehr, checkSpeicherAlt } from '../../AppDesign/fassung/5.0.0/tests/start.mjs';
 const t = pruefung('start-regeln', pw, { hig: createCheck({ skipTargets: ['.box.day .ln:not(.q) a'] }), out: new URL('out/', import.meta.url) });
 const APP = new URL('../index.html', import.meta.url).href;
 const reise = (id, title, start, end, days = {}) => ({ id, title, participants: 'Anna', start, end, transport: ['pkw'], days });
@@ -19,6 +19,11 @@ const SCHMAL = { viewport: { width: 600, height: 900 } };   // iPad im schmalen 
 const START = '.pnav-title, .nb-title';                       // Merkmal eines geöffneten Reiselogbuchs (iPhone bzw. iPad)
 
 const b = await t.browser();
+// seit 3.60.0 (AppDesign 5.0.0, APD-145/T-8): aus demselben Anfangsstand stehen nach dem Start dieselben Schlüssel und Daten im localStorage wie mit
+// Reiselogbuch 3.59.3 (AppDesign 4.71.1; Vorlage tests/alt-3.59.3.json)
+{ const p = await t.seite(b, 'iPad quer'); await p.goto(APP);
+  t.liste(await checkSpeicherAlt(p, { vorlage: new URL('alt-3.59.3.json', import.meta.url), schluessel: 'reiselogbuch.v1', where: 'iPad quer' }));
+  await t.schritt(p, 'Start mit dem Speicher von 3.59.3', async () => {}); await p.close(); }
 const lade = async (p, trips) => {
   await p.clock.setFixedTime(new Date('2026-08-27T14:32:00'));
   await p.goto(APP);
@@ -139,7 +144,7 @@ for (const theme of ['light', 'dark']) {
       await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ settings: { lastTrip: 'c' }, trips: LAUFEND, savedAt: Date.now(), savedOn: 'iPhone' })) });
       await p.waitForTimeout(250);
       await p.locator('.pop button', { hasText: wahl }).click(); await p.waitForTimeout(350);
-      await p.click('#msg [data-x]').catch(() => {}); await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
+      await p.click('#msg [data-x]').catch(() => {}); await p.evaluate(() => AD.dlg.open && AD.dlg.close()); await p.waitForTimeout(200);
       t.ist(`S7/S8 ${wahl}: zuletzt verwendetes dieses Geräts`, await letztes(p), 'b', 'RLB-88');
       t.ist(`S7/S8 ${wahl}: geöffnet`, (await titel(p)).trim(), 'Toskana', 'RLB-88');
       await p.close();

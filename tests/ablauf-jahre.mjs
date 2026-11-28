@@ -109,7 +109,7 @@ for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   t.ist('RLB-114/Y-4 nach dem Leeren wieder alle Köpfe', await koepfe(p), ['2027', '2026', '2025', '2024'], 'R-7.6');
   await t.schritt(p, 'Y-4 Suche beenden', async () => { await p.click('#lsclose'); await bis(p, `!listOpen && ${RUHE}`, 'Suche beendet'); });
   // Y-9: Kopf antippen und lange drücken – nichts geschieht; die Kachel zeigt weiter das Kontextmenü
-  const offen = () => p.evaluate(() => [document.querySelector('.nb-title')?.textContent ?? null, !document.querySelector('#side').hidden, document.querySelectorAll('.menu').length, dlg.open]);
+  const offen = () => p.evaluate(() => [document.querySelector('.nb-title')?.textContent ?? null, !document.querySelector('#side').hidden, document.querySelectorAll('.menu').length, AD.dlg.open]);
   const vorher = await offen();
   await t.schritt(p, 'Y-9 Kopf antippen', async () => { await p.locator('#side .side-sec', { hasText: '2025' }).click(); await p.waitForTimeout(400); });
   t.ist('RLB-114/Y-9 Kopf antippen: nichts geschieht', await offen(), vorher, 'R-7.6');
@@ -178,12 +178,12 @@ for (const [ansicht, quer] of [['iPad quer', 'iPad hoch'], ['iPhone hoch', 'iPho
   await start(B, [reise('k', 'Kreta', '2023-05-01', '2023-05-05')]);
   const abgleich = async (von, nach) => {
     const datei = await von.evaluate(() => backupFile().content);
-    await nach.evaluate(() => { if (isPhone()) { phoneList = true; render(); } }); await ruhig(nach);
+    await nach.evaluate(() => { if (AD.isPhone()) { phoneList = true; render(); } }); await ruhig(nach);
     await nach.click('#sideMore'); await bis(nach, `!!document.querySelector('.menu') && ${RUHE}`, 'Menü offen');
     const [chooser] = await Promise.all([nach.waitForEvent('filechooser'), nach.locator('.menu .mi', { hasText: 'Backup laden' }).click()]);
     await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(datei) }); await bis(nach, `!!document.querySelector('.pop') && ${RUHE}`, 'Frage Abgleichen');
     await nach.locator('.pop button', { hasText: 'Abgleichen' }).click(); await bis(nach, `!document.querySelector('.pop') && (msg.open || dlg.open) && ${RUHE}`, 'abgeglichen');
-    await nach.evaluate(() => { const m = document.querySelector('#msg'); if (m?.open) m.close(); if (isPhone()) { phoneList = true; render(); } }); await bis(nach, `!msg.open && ${RUHE}`, 'Meldung zu');
+    await nach.evaluate(() => { const m = document.querySelector('#msg'); if (m?.open) m.close(); if (AD.isPhone()) { phoneList = true; render(); } }); await bis(nach, `!msg.open && ${RUHE}`, 'Meldung zu');
   };
   await t.schritt(A, 'Y-11 iPad gleicht mit dem Backup des iPhones ab', () => abgleich(B, A));
   t.ist('RLB-114/Y-11 iPad nach dem Abgleich: Köpfe 2026 und 2023', await folge(A), ['2026', 'Australien', '2023', 'Kreta'], 'R-7.6');

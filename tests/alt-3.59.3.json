@@ -1,0 +1,124 @@
+{
+ "_": "Vorlage für AppDesign APD-145/T-8 (seit 3.60.0, AppDesign 5.0.0): mit Reiselogbuch 3.59.3 und AppDesign 4.71.1 erzeugt – seed: Speicher vor dem Start, schluessel und speicher: localStorage nach dem Start, backup: Inhalt von Backup erstellen. Nur erfundene Daten. Prüfung: checkSpeicherAlt (start.mjs), checkBackupAlt (backup.mjs).",
+ "app": "Reiselogbuch 3.59.3",
+ "appdesign": "4.71.1",
+ "seed": {
+  "settings": {},
+  "trips": [
+   {
+    "id": "a",
+    "title": "Australien",
+    "participants": "Anna & Ben",
+    "start": "2026-08-24",
+    "end": "2026-08-28",
+    "transport": [
+     "flug",
+     "auto"
+    ],
+    "foodColumn": true,
+    "priceOn": true,
+    "days": {
+     "2026-08-24": {
+      "program": "Sydney – Oper",
+      "quarter": "Hotel Krone",
+      "price": 120,
+      "mood": "😀",
+      "weather": "☀️",
+      "comment": "Ankunft"
+     },
+     "2026-08-25": {
+      "program": "Blue Mountains",
+      "km": 140
+     }
+    },
+    "fazit": "Schön",
+    "kosten": 1234.5
+   },
+   {
+    "id": "b",
+    "title": "Toskana",
+    "participants": "Anna",
+    "start": "2027-05-01",
+    "end": "2027-05-03",
+    "transport": [
+     "bahn"
+    ],
+    "days": {}
+   }
+  ]
+ },
+ "schluessel": [
+  "reiselogbuch.v1"
+ ],
+ "speicher": {
+  "settings": {
+   "appearance": "auto",
+   "hideEmpty": false,
+   "lastTrip": "a"
+  },
+  "trips": [
+   {
+    "id": "a",
+    "title": "Australien",
+    "participants": "Anna & Ben",
+    "start": "2026-08-24",
+    "end": "2026-08-28",
+    "transport": [
+     "flug",
+     "auto"
+    ],
+    "foodColumn": true,
+    "priceOn": true,
+    "days": {
+     "2026-08-24": {
+      "program": "Sydney – Oper",
+      "quarter": "Hotel Krone",
+      "price": 120,
+      "mood": "😀",
+      "weather": "☀️",
+      "comment": "Ankunft"
+     },
+     "2026-08-25": {
+      "program": "Blue Mountains"
+     }
+    },
+    "fazit": "Schön",
+    "kosten": 1234.5,
+    "quarterList": false,
+    "moodColumn": true,
+    "quarterColumn": true,
+    "kmColumn": false,
+    "outputCounter": 0,
+    "dayAt": {},
+    "metaAt": {}
+   },
+   {
+    "id": "b",
+    "title": "Toskana",
+    "participants": "Anna",
+    "start": "2027-05-01",
+    "end": "2027-05-03",
+    "transport": [
+     "bahn"
+    ],
+    "days": {},
+    "quarterList": false,
+    "foodColumn": false,
+    "moodColumn": true,
+    "quarterColumn": true,
+    "kmColumn": false,
+    "priceOn": false,
+    "outputCounter": 0,
+    "dayAt": {},
+    "metaAt": {}
+   }
+  ],
+  "moodUsage": {},
+  "hiddenMoods": [],
+  "foodUsage": {},
+  "hiddenFood": [],
+  "deleted": [],
+  "recentlyDeleted": []
+ },
+ "backup": "{\n  \"settings\": {\n    \"appearance\": \"auto\",\n    \"hideEmpty\": false,\n    \"lastTrip\": \"a\"\n  },\n  \"trips\": [\n    {\n      \"id\": \"a\",\n      \"title\": \"Australien\",\n      \"participants\": \"Anna & Ben\",\n      \"start\": \"2026-08-24\",\n      \"end\": \"2026-08-28\",\n      \"transport\": [\n        \"flug\",\n        \"auto\"\n      ],\n      \"foodColumn\": true,\n      \"priceOn\": true,\n      \"days\": {\n        \"2026-08-24\": {\n          \"program\": \"Sydney – Oper\",\n          \"quarter\": \"Hotel Krone\",\n          \"price\": 120,\n          \"mood\": \"😀\",\n          \"weather\": \"☀️\",\n          \"comment\": \"Ankunft\"\n        },\n        \"2026-08-25\": {\n          \"program\": \"Blue Mountains\"\n        }\n      },\n      \"fazit\": \"Schön\",\n      \"kosten\": 1234.5,\n      \"quarterList\": false,\n      \"moodColumn\": true,\n      \"quarterColumn\": true,\n      \"kmColumn\": false,\n      \"outputCounter\": 0,\n      \"dayAt\": {},\n      \"metaAt\": {}\n    },\n    {\n      \"id\": \"b\",\n      \"title\": \"Toskana\",\n      \"participants\": \"Anna\",\n      \"start\": \"2027-05-01\",\n      \"end\": \"2027-05-03\",\n      \"transport\": [\n        \"bahn\"\n      ],\n      \"days\": {},\n      \"quarterList\": false,\n      \"foodColumn\": false,\n      \"moodColumn\": true,\n      \"quarterColumn\": true,\n      \"kmColumn\": false,\n      \"priceOn\": false,\n      \"outputCounter\": 0,\n      \"dayAt\": {},\n      \"metaAt\": {}\n    }\n  ],\n  \"moodUsage\": {},\n  \"hiddenMoods\": [],\n  \"foodUsage\": {},\n  \"hiddenFood\": [],\n  \"deleted\": [],\n  \"recentlyDeleted\": [],\n  \"savedAt\": 1795870705879,\n  \"savedOn\": \"iPad\"\n}"
+}

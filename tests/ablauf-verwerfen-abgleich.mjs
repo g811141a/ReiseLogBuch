@@ -28,11 +28,11 @@ async function device(w, h) {
 async function paar() {
   const ipad = await device(1180, 820), iphone = await device(393, 852);
   for (const p of [ipad, iphone]) await p.goto(APP);
-  await ipad.evaluate(tr => { if (dlg.open) dlg.close(); db.trips = normalize({ trips: tr }).trips; db.settings.lastBackup = Date.now(); save(); }, base);
+  await ipad.evaluate(tr => { if (AD.dlg.open) AD.dlg.close(); db.trips = normalize({ trips: tr }).trips; db.settings.lastBackup = Date.now(); save(); }, base);
   const start = await ipad.evaluate(() => backupFile().content);
   for (const p of [ipad, iphone]) {
     await p.evaluate(c => { const d = JSON.parse(c); delete d.savedAt; delete d.savedOn; localStorage.setItem('reiselogbuch.v1', JSON.stringify(d)); }, start);
-    await p.reload(); await p.waitForTimeout(200); await p.evaluate(() => { if (dlg.open) dlg.close(); });
+    await p.reload(); await p.waitForTimeout(200); await p.evaluate(() => { if (AD.dlg.open) AD.dlg.close(); });
   }
   return { ipad, iphone };
 }

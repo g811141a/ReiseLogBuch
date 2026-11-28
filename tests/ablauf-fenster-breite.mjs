@@ -31,7 +31,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'light'], 
   await p.reload(); await p.waitForTimeout(400);
   if (await p.locator('#side.page').isVisible()) { await p.locator('#side .side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(600); await navFertig(p); }
   const offen = async (name, oeffnen) => { await t.schritt(p, name, async () => { await oeffnen(); await p.waitForTimeout(800); }); return rahmen(p); };
-  const zu = async () => { await p.evaluate(() => { dlgDirty = () => false; dlg.close('cancel'); }); await p.waitForTimeout(600); };
+  const zu = async () => { await p.evaluate(() => { AD.dlgDirty = () => false; AD.dlg.close('cancel'); }); await p.waitForTimeout(600); };
 
   // P-76/4 genau wie am Gerät: plus in der Seitenleiste, Reisetitel antippen, ‚Test‘ tippen
   if (!(await p.locator('#newTrip').isVisible())) await p.evaluate(() => toggleSidebar?.(true)).catch(() => {});
@@ -44,7 +44,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'light'], 
 
   // dieselbe Lücke in den anderen Fenstern: Reiselogbuch einstellen (Zeitraum überschneidet sich), Erfassen, Fazit
   soll = await offen('Reiselogbuch einstellen', () => p.evaluate(() => openTripDialog(db.trips[0])));
-  await p.evaluate(() => { const f = dlg.querySelector('#fStart'); f.value = '2027-05-01'; f.dispatchEvent(new Event('input', { bubbles: true })); });
+  await p.evaluate(() => { const f = AD.dlg.querySelector('#fStart'); f.value = '2027-05-01'; f.dispatchEvent(new Event('input', { bubbles: true })); });
   await p.waitForTimeout(200);
   t.ist('Reiselogbuch einstellen: Zeitraum überschneidet sich mit ‚Toskana‘ – Breite und Lage', await rahmen(p), soll, 'R-4.6');
   await tippe(p, 'Reiselogbuch einstellen', '#fTitle', 'x', soll);

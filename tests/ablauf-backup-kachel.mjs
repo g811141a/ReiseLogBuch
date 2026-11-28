@@ -62,14 +62,14 @@ for (const [ansicht, theme, voll] of [['iPad quer', 'light', true], ['iPad quer'
   });
   // B15, B22: offline ohne Kachel – Zeile allein unten, letzter Eintrag darüber, Meldung verdeckt die Zeile nicht
   await t.schritt(p, 'B15 offline ohne Kachel', async () => {
-    await p.evaluate(() => setNet('aus')); await p.waitForTimeout(300);
+    await p.evaluate(() => AD.setNet('aus')); await p.waitForTimeout(300);
     const f = await fuss(p);
     t.wahr('B15 Offline-Zeile fehlt ohne Kachel', f.zeile, 'R-1.5');
     t.wahr('B15 letzter Eintrag endet nicht über der Offline-Zeile', f.ende, 'R-1.5');
     const ueber = await p.evaluate(() => { const a = document.querySelector('.nettoast')?.getBoundingClientRect(), z = document.querySelector('#side .offl')?.getBoundingClientRect();
       return !!a && !!z && a.left < z.right && z.left < a.right && a.top < z.bottom && z.top < a.bottom; });
     t.wahr('B22 Meldung ‚Du bist offline‘ verdeckt die Offline-Zeile', !ueber, 'R-1.5');
-    await p.clock.runFor(5000); await p.evaluate(() => setNet('an')); await p.clock.runFor(5000); await p.waitForTimeout(200);
+    await p.clock.runFor(5000); await p.evaluate(() => AD.setNet('an')); await p.clock.runFor(5000); await p.waitForTimeout(200);
   });
   // B20: Kontextmenü ohne Kachel ganz sichtbar (über dem Rand bzw. der Zeile)
   if (voll) await t.schritt(p, 'B20 Kontextmenü ohne Kachel', async () => t.liste(await checkContextMenus(p, `${t.ort} ohne Kachel`)));
@@ -112,15 +112,15 @@ for (const [ansicht, theme, voll] of [['iPad quer', 'light', true], ['iPad quer'
     });
     // B11, B12: leere Liste – keine Kachel, Offline-Zeile trotzdem unten
     await t.schritt(p, 'B11 leere Liste', async () => {
-      await p.evaluate(() => { db.trips = []; currentTripId = null; save(); render(); if (dlg.open) dlg.close(); }); await p.waitForTimeout(300); await sicht(p);   // leere App öffnet ‚Neues Reiselogbuch‘
+      await p.evaluate(() => { db.trips = []; currentTripId = null; save(); render(); if (AD.dlg.open) AD.dlg.close(); }); await p.waitForTimeout(300); await sicht(p);   // leere App öffnet ‚Neues Reiselogbuch‘
       const f = await fuss(p);
       t.ist('B11 leere Liste: Kachel', [f.zeilen, f.kachel, f.fuss], [0, null, true], 'R-9.1');
       await p.click('#sideMore'); await p.waitForTimeout(150);
       t.wahr('B11 ‚Backup erstellen‘ im Mehr-Menü nicht grau', await p.locator('.menu .mi', { hasText: 'Backup erstellen' }).isDisabled(), 'R-9.1');
       await p.keyboard.press('Escape'); await p.waitForTimeout(150); if (await p.locator('.menu').count()) { await p.mouse.click(5, 5); await p.waitForTimeout(150); }
-      await p.evaluate(() => setNet('aus')); await p.waitForTimeout(300);
+      await p.evaluate(() => AD.setNet('aus')); await p.waitForTimeout(300);
       t.wahr('B12 leere Liste offline: Offline-Zeile fehlt', (await fuss(p)).zeile, 'R-1.5');
-      await p.clock.runFor(5000); await p.evaluate(() => setNet('an')); await p.clock.runFor(5000);
+      await p.clock.runFor(5000); await p.evaluate(() => AD.setNet('an')); await p.clock.runFor(5000);
     });
     // B13: erster Eintrag (heute kein Backup) – Kachel erscheint
     await t.schritt(p, 'B13 erster Eintrag', async () => {

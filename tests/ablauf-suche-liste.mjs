@@ -55,7 +55,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad quer', 'dark'], [
     await p.reload(); await p.waitForTimeout(400);
     t.ist('RLB-92/F-19 Neuladen: Suchzeile zu', await p.locator('#lsearch').count(), 0);
     // RLB-92/F-10, APD-91/S-12: ohne Reiselogbuch kein ‚Suchen‘ im Mehr-Menü der Seitenleiste.
-    await start(p, []); await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
+    await start(p, []); await p.evaluate(() => AD.dlg.open && AD.dlg.close()); await p.waitForTimeout(200);
     await p.click('#sideMore'); await p.waitForTimeout(200);
     t.ist('RLB-92/F-10 ohne Reiselogbuch kein ‚Suchen‘', await p.locator('.menu .mi', { hasText: /^Suchen$/ }).count(), 0);
     await p.keyboard.press('Escape'); await p.waitForTimeout(150);

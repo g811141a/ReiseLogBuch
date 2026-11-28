@@ -172,11 +172,11 @@ const APP_BUILT = '28.11.2026 um 13:21';
 // R-10.3: benötigte AppDesign-Fassung (seit 3.13.0 feste Fassung: Pfad ../AppDesign/fassung/<AD_NEEDED>/ oben und in sw.js). Ist eine andere geladen
 // (z. B. GitHub Pages noch nicht fertig oder alter Zwischenspeicher), erscheint gleich beim Start ein Hinweis.
 const AD_NEEDED = '5.0.0';
-const adLoaded = () => ({ js: typeof AD_VERSION === 'string' ? AD_VERSION : 'älter',
+const adLoaded = () => ({ js: typeof AD === 'object' && typeof AD.AD_VERSION === 'string' ? AD.AD_VERSION : 'älter',
   css: getComputedStyle(document.documentElement).getPropertyValue('--ad-version').trim().replace(/"/g, '') || 'älter' });
 setTimeout(() => {
   const { js, css } = adLoaded();
-  if (js !== AD_NEEDED || css !== AD_NEEDED) inform('Neue Version wird geladen',
+  if (js !== AD_NEEDED || css !== AD_NEEDED) AD.inform('Neue Version wird geladen',
     `⚠️ Reiselogbuch ${APP_VERSION} braucht AppDesign ${AD_NEEDED}, geladen ist ${js === css ? js : `${js} / ${css}`}.<br><br>` +
     'Bitte die App ganz schließen (vom unteren Rand nach oben wischen und wegschieben) und nach ein paar Minuten neu öffnen.');
 });
@@ -228,7 +228,7 @@ function onDialogOpen() { clearInterval(autosaveTimer); }
 
 // Abgleich zwischen iPad und iPhone (RLB-3, Regeln R-9.2 bis R-9.4): gemeinsamer Baustein createSync aus AppDesign (ui.js).
 // Je Feld Zeitpunkt und Gerät – Kopfdaten (metaAt) und Tage (dayAt); gelöschte Reiselogbücher in db.deleted.
-const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields: ['outputCounter'],
+const sync = AD.createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields: ['outputCounter'],
   nouns: ['Reiselogbuch', 'Reiselogbücher', 'Reiselogbüchern', 'es'], app: 'Reiselogbuch',
   // Seit 3.58.0 (RLB-125/J-10, AppDesign 4.68.0): ein gesperrtes Reiselogbuch wird beim Abgleich nie gelöscht (15.18 Fall 23); ‚Ersetzen‘ nennt die
   // gesperrten (J-3, nouns[3]: ‚1 gesperrtes Reiselogbuch‘).
@@ -243,7 +243,7 @@ const sync = createSync({ list: 'trips', sub: 'days', subAt: 'dayAt', maxFields:
     sameQuarter: 'Quartier wie Vortag', quarter: 'Quartier', place: 'Ort', noMap: 'Google-Maps-Link', locked: 'Gesperrt' },
   // Seit 3.11.6: Werte wie in der App – Reisemittel mit Symbol und Namen statt der gespeicherten Kürzel (R-10.1).
   values: { transport: ids => TRANSPORT.filter(x => ids.includes(x.id)).map(x => `${x.icon} ${x.name}`).join(', '),
-    price: formatEuro, km: n => `${n} km` } });
+    price: AD.formatEuro, km: n => `${n} km` } });
 const snapshot = sync.snapshot, latestChange = sync.latest, mergeData = sync.merge;
 function stampChanges() { lastSnap = sync.stamp(db, lastSnap); }
 // Seit 3.50.1 (RLB-118): ‚Änderungen verwerfen‘ nach dem automatischen Sichern stellt auch die Zeitstempel des Abgleichs von vor dem
@@ -319,7 +319,7 @@ function save() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
     return true;
   } catch (e) {
-    inform('Speichern fehlgeschlagen', 'Der Speicher ist voll oder nicht verfügbar. Bitte ein Backup erstellen.');
+    AD.inform('Speichern fehlgeschlagen', 'Der Speicher ist voll oder nicht verfügbar. Bitte ein Backup erstellen.');
     return false;
   }
 }
@@ -328,19 +328,19 @@ let db = load();
 let lastSnap = snapshot(db);
 // Seit 3.59.0 (RLB-126, AppDesign 4.71.0, R-7.10): AD-Bean recentlydeleted – ‚Reiselogbuch löschen‘ verschiebt ohne Abfrage nach ‚Zuletzt gelöscht‘
 // (30 Tage, RLB-126/J-2); nur ‚Endgültig löschen‘ fragt (RLB-126/J-9: ohne ‚Erst Backup erstellen‘). Wortlaut freigegeben (RLB-126/J-10).
-const recentlyDeleted = createRecentlydeleted(side, { data: () => db, list: 'trips', days: 30, nouns: ['Reiselogbuch', 'Reiselogbücher', 'Dieses Reiselogbuch'],
+const recentlyDeleted = AD.createRecentlydeleted(side, { data: () => db, list: 'trips', days: 30, nouns: ['Reiselogbuch', 'Reiselogbücher', 'Dieses Reiselogbuch'],
   detail: t => `${fullDate(t.start)} - ${fullDate(t.end)}`,
-  question: t => { const n = tripDays(t).filter(iso => isRecorded(t, iso)).length, q = `‚${esc(t.title)}‘`;
+  question: t => { const n = tripDays(t).filter(iso => isRecorded(t, iso)).length, q = `‚${AD.esc(t.title)}‘`;
     return `${n ? `${q} mit ${n === 1 ? '1 Eintrag' : `allen ${n} Einträgen`}` : `${q} ohne Einträge`} endgültig löschen? Das kann nicht rückgängig gemacht werden.`; } });
 let deletedView = false;   // Seitenleiste bzw. Startliste zeigt ‚Zuletzt gelöscht‘
 let deletedOpen = null;    // id des gelöschten Reiselogbuchs in der Vorschau
 const deletedEntry = id => id ? recentlyDeleted.items.find(x => x.id === id) : undefined;
 recentlyDeleted.on('change', () => save());
-recentlyDeleted.on('open', () => navVor(openDeletedView));
+recentlyDeleted.on('open', () => AD.navPush(openDeletedView));
 recentlyDeleted.on('close', closeDeletedView);
 // Wiederherstellen aus der Vorschau: das Reiselogbuch öffnet; aus Kontextmenü oder Wischen: die Liste bleibt stehen (beim letzten zurück zu ‚Reiselogbücher‘)
 recentlyDeleted.on('restore', ({ id, origin }) => {
-  if (origin === 'notice') { showTrip(id); if (isPhone()) render(); return; }
+  if (origin === 'notice') { showTrip(id); if (AD.isPhone()) render(); return; }
   afterDeletedChange(id);
 });
 recentlyDeleted.on('purge', ({ id }) => afterDeletedChange(id));
@@ -440,7 +440,7 @@ function transportText(trip) {
 }
 // Seit 3.40.0 (AppDesign APD-90, R-10.5): je Reisemittel Icon und Name zusammen – die Zeile bricht nur nach dem Komma um.
 function transportHtml(trip) {
-  return TRANSPORT.filter(t => trip.transport.includes(t.id)).map(t => iconText(t.icon, t.name)).join(', ');
+  return TRANSPORT.filter(t => trip.transport.includes(t.id)).map(t => AD.iconText(t.icon, t.name)).join(', ');
 }
 
 /* ---------- Tage ---------- */
@@ -498,9 +498,9 @@ function dayText(trip, iso) {
 }
 // RLB-93 / AppDesign APD-21 (seit 3.23.0): mehrere Wörter (und „…“) – ein Reiselogbuch passt, wenn jedes Wort irgendwo darin
 // vorkommt (Entscheidung des Nutzers 18.10.2026: Einheit = Reiselogbuch); gezeigt werden dann die Tage mit mindestens einem Wort.
-const tripFinds = (trip, term) => findsAll(tripDays(trip).map(iso => dayText(trip, iso)).join('\n'), searchWords(term));
+const tripFinds = (trip, term) => AD.findsAll(tripDays(trip).map(iso => dayText(trip, iso)).join('\n'), AD.searchWords(term));
 function matchesSearch(trip, iso, term, whole = tripFinds(trip, term)) {
-  return whole && findsAny(dayText(trip, iso), searchWords(term));
+  return whole && AD.findsAny(dayText(trip, iso), AD.searchWords(term));
 }
 
 // RLB-92: Treffer eines Reiselogbuchs je Fundstelle – gezählt wie ‚1 von N‘ im Reiselogbuch: jede Markierung in denselben
@@ -575,11 +575,11 @@ const linkAttrs = inApp => inApp ? ' target="_blank" rel="noopener" onclick="eve
 // Quartier: 📍 als Zeichen, nur der Hotelname ist der Link; Ort danach ist normaler Text.
 // Gesucht wird mit dem ganzen Eintrag. Mit "Kein Maps-Link" weder 📍 noch Link.
 // Kilometer mit einer Nachkommastelle (seit 3.42.0, RLB-111): 6 → ‚6,0‘, 12.5 → ‚12,5‘
-const fmtKm = n => money(Math.round(n * 10) / 10).slice(0, -1);
+const fmtKm = n => AD.money(Math.round(n * 10) / 10).slice(0, -1);
 // Preis in Klammern hinter dem Quartier (seit 3.42.0, RLB-111) – nur mit ‚Preis der Quartiere erfassen‘ und nur am Tag, an dem er
 // eingetragen ist; die Klammer mit dem Betrag bricht nie um
 const withPrice = (trip, iso, q, html) => trip.priceOn && q.src === iso && q.price != null && html
-  ? html.replace(/<\/span><\/div>$/, ` <span style="white-space:nowrap">(${money(q.price)}\u00a0€)</span></span></div>`) : html;
+  ? html.replace(/<\/span><\/div>$/, ` <span style="white-space:nowrap">(${AD.money(q.price)}\u00a0€)</span></span></div>`) : html;
 function quarterHtml(q, term = '', inApp = false) {
   if (!q.name) return '';
   // Ein eingetragener Ort steht nach einem Komma hinter dem Namen; Teile, die dort schon vorkommen, entfallen.
@@ -627,16 +627,16 @@ function toggleNoLink(ta) {
 
 // Optional werden Suchtreffer im (bereits maskierten) Text gelb markiert – alle Wörter der Suche (AppDesign markWords, R-2.3).
 function highlight(text, term) {
-  const safe = esc(breakable(text)); // zu lange Wörter dürfen im Wort umbrechen (R-6.3)
-  return term ? markWords(safe, searchWords(term)) : safe;
+  const safe = AD.esc(AD.breakable(text)); // zu lange Wörter dürfen im Wort umbrechen (R-6.3)
+  return term ? AD.markWords(safe, AD.searchWords(term)) : safe;
 }
 
 // RLB-119 (seit 3.53.0, AppDesign APD-122, Designrichtlinie 15.2 ‚Smileys (Emoji)‘): die Smileys am Zeilenanfang (eigene Spalte) werden
 // wie Wörter markiert und gezählt – nicht das ▫️ des Verlaufs (Zeichen der App, kein Inhalt).
-const markLead = (m, term) => term ? markWords(esc(m), searchWords(term)) : esc(m);
+const markLead = (m, term) => term ? AD.markWords(AD.esc(m), AD.searchWords(term)) : AD.esc(m);
 function linesHtml(items, term = '') {
   return items.map(({ m, t, deko }) =>
-    `<div class="ln">${m ? `<span class="m">${deko ? esc(m) : markLead(m, term)}</span>` : ''}<span class="t">${highlight(t, term)}</span></div>`).join('');
+    `<div class="ln">${m ? `<span class="m">${deko ? AD.esc(m) : markLead(m, term)}</span>` : ''}<span class="t">${highlight(t, term)}</span></div>`).join('');
 }
 
 /* ---------- Smileys ---------- */
@@ -684,14 +684,14 @@ function appendLine(ta, text) {
   if (neu) ta.value = v + neu;
   ta.focus({ preventScroll: true });
   ta.selectionStart = ta.selectionEnd = ta.value.length;
-  autoGrow(ta);
+  AD.autoGrow(ta);
   const c = ta.closest('.dlg-body'), d = c ? ta.getBoundingClientRect().bottom - (c.getBoundingClientRect().bottom - 16) : 0;
   if (d > 0) c.scrollTop += d;
 }
 
 
 // Datumsfeld so breit wie das Datum, mit kurzem Abstand zum eigenen Kalender-Icon (auf allen Geräten gleich).
-const dateBox = (id, value, label) => `<span class="datebox"><input type="date" id="${id}" value="${value}" aria-label="${label}">${ic('calendar')}</span>`;
+const dateBox = (id, value, label) => `<span class="datebox"><input type="date" id="${id}" value="${value}" aria-label="${label}">${AD.ic('calendar')}</span>`;
 function fitDate(inp) {
   const cs = getComputedStyle(inp);
   const ctx = (fitDate.ctx ||= document.createElement('canvas').getContext('2d'));
@@ -729,7 +729,7 @@ function insertEmoji(ta, emoji) {
   ta.value = before + ins + v.slice(pos);
   ta.focus();
   ta.selectionStart = ta.selectionEnd = before.length + ins.length;
-  autoGrow(ta);
+  AD.autoGrow(ta);
 }
 
 
@@ -737,7 +737,7 @@ function insertEmoji(ta, emoji) {
 /* ---------- Hauptansicht ---------- */
 
 function render({ scrollToGap = false, kaesten = false } = {}) {
-  if (isPhone()) return renderPhone({ scrollToGap });
+  if (AD.isPhone()) return renderPhone({ scrollToGap });
   if (deletedEntry(deletedOpen)) return renderDeleted(deletedEntry(deletedOpen));   // RLB-126/J-3: gelöscht nur die Vorschau
   const trip = getTrip(currentTripId);
   if (!trip) return renderEmpty();
@@ -765,7 +765,7 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
     const tags = (iso === today ? '<span class="tag today">heute</span>' : '')
       + (!rec && iso < today ? '<span class="tag miss">fehlt</span>' : '');
     const wx = e.weather
-      ? `<span class="wx">${esc(e.weather)}</span>`
+      ? `<span class="wx">${AD.esc(e.weather)}</span>`
       : `<span class="wx empty">☀️🌤🌦🌧</span>`;
     const link = withPrice(trip, iso, q, quarterHtml(q, term, true));
     const cls = [i % 2 ? 'alt' : '', iso === gap ? 'gap' : ''].join(' ').trim();
@@ -786,21 +786,21 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
   const transport = transportText(trip);
   const stays = c.quarter ? quarterStays(trip) : [];
 
-  setHtml(app, `
+  AD.setHtml(app, `
     <div class="nb" id="bar">
       <div class="nb1">
         <span>${sideToggleHtml()}</span>
-        <span class="nb-title">${esc(trip.title)}</span>
+        <span class="nb-title">${AD.esc(trip.title)}</span>
         <span class="r"><span class="grp">
-          <button type="button" id="shareBtn" aria-label="Ausgabe">${ic('share')}</button>
-          <button type="button" id="mainMore" aria-label="Mehr">${ic('ellipsis')}</button>
+          <button type="button" id="shareBtn" aria-label="Ausgabe">${AD.ic('share')}</button>
+          <button type="button" id="mainMore" aria-label="Mehr">${AD.ic('ellipsis')}</button>
         </span></span>
       </div>
       ${searchOpen ? searchRowHtml(term) : ''}
     </div>
     <div class="rolle" id="rolle">
     <dl class="meta trip">
-      <dt>Reiseteilnehmer:</dt><dd>${esc(trip.participants)}</dd>
+      <dt>Reiseteilnehmer:</dt><dd>${AD.esc(trip.participants)}</dd>
       <dt>Reisezeitraum:</dt><dd>${fullDate(trip.start)} - ${fullDate(trip.end)}</dd>
       ${transport ? `<dt>Reisemittel:</dt><dd>${transportHtml(trip)}</dd>` : ''}
     </dl>
@@ -825,7 +825,7 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
             <td>${quarterHtml(st.q, '', true)}</td>
             <td class="nw">${shortDate(st.firstNight)} - ${fullDate(addDays(st.lastNight, 1))}</td>
             <td class="num">${st.nights}</td>
-            ${trip.priceOn ? `<td class="num">${st.price == null ? '' : formatEuro(st.price)}</td>` : ''}
+            ${trip.priceOn ? `<td class="num">${st.price == null ? '' : AD.formatEuro(st.price)}</td>` : ''}
           </tr>`).join('')}</tbody>
         </table>
       </div>` : ''}
@@ -836,25 +836,25 @@ function render({ scrollToGap = false, kaesten = false } = {}) {
 
   const tabelle = app.querySelector('table.days:not(.static)');
   // R-6.6 (seit 3.43.0, AppDesign APD-97): schmaler Inhalt (z. B. iPad hoch neben der Seitenleiste) zeigt die Tage als Kästen
-  wasSchmal = inhaltSchmal(app);
+  wasSchmal = AD.compactWidth(app);
   if (!ax && tabelle && wasSchmal) return render({ scrollToGap, kaesten: true });
   if (!ax && tabelle && (tabelle.offsetWidth > tabelle.parentElement.clientWidth + 1 || [...tabelle.querySelectorAll('td')].some(td => td.scrollWidth > td.clientWidth + 1)))
     return render({ scrollToGap, kaesten: true });
   fab.hidden = false;
   const bar = app.querySelector('#bar');
-  updateBar();
+  AD.updateBar();
   document.documentElement.style.setProperty('--bar-h', bar.offsetHeight + 'px');
   bindSideToggle(app);
 
   app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
   app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
   bindSearch(term);
-  adSourcehighlight.refresh();
+  AD.sourcehighlight.refresh();
   app.querySelectorAll('tbody tr, #pdays [data-day]').forEach(tr => tr.onclick = () => openDayDialog(trip, tr.dataset.day));
   bindTripEnd(trip);
 
   // R-7.4 (seit 3.20.0, RLB-89; seit 3.30.0 RLB-98): beim Öffnen steht der Starttag direkt unter dem Tabellenkopf; sonst ganz oben.
-  if (scrollToGap) openAt(startTop && app.querySelector(`tr[data-day="${startTop}"], #pdays [data-day="${startTop}"]`));
+  if (scrollToGap) AD.openAt(startTop && app.querySelector(`tr[data-day="${startTop}"], #pdays [data-day="${startTop}"]`));
 }
 
 function progressText(trip) {
@@ -871,24 +871,24 @@ function progressText(trip) {
 // Suche (iPad und iPhone gleich): Suchzeile unter der Kopfzeile mit Trefferanzeige ‚3 von 57‘, ⓧ und ⌃ ⌄, rechts x ‚Suche beenden‘
 // (seit 3.41.0, AppDesign APD-91); gezeigt werden nur passende Tage, die Treffer sind gelb, der aktuelle hellorange.
 const searchRowHtml = term => `<div class="nb2">
-    <span class="searchbox active">${ic('search')}<input type="search" id="search" placeholder="Suchen" value="${esc(searchTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${term ? `
-      <span class="smeta"><span class="scount" id="scount"></span><button type="button" class="sclear" id="sclear" aria-label="Suche löschen">${FX_SVG}</button></span>` : ''}</span>
-    <span class="navgrp"><button type="button" id="sprev" aria-label="Voriger Treffer" ${term ? '' : 'disabled'}>${ic('chevron-up')}</button><button type="button" id="snext" aria-label="Nächster Treffer" ${term ? '' : 'disabled'}>${ic('chevron-down')}</button></span>
-    ${sucheBeendenHtml('sclose')}
+    <span class="searchbox active">${AD.ic('search')}<input type="search" id="search" placeholder="Suchen" value="${AD.esc(searchTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${term ? `
+      <span class="smeta"><span class="scount" id="scount"></span><button type="button" class="sclear" id="sclear" aria-label="Suche löschen">${AD.FX_SVG}</button></span>` : ''}</span>
+    <span class="navgrp"><button type="button" id="sprev" aria-label="Voriger Treffer" ${term ? '' : 'disabled'}>${AD.ic('chevron-up')}</button><button type="button" id="snext" aria-label="Nächster Treffer" ${term ? '' : 'disabled'}>${AD.ic('chevron-down')}</button></span>
+    ${AD.searchCancelHtml('sclose')}
   </div>`;
 
 // Seit 3.41.0 (AppDesign APD-91, R-2.3): ‚Suchen‘ im Mehr-Menü bzw. ⌘F öffnet die Suche im Reiselogbuch; ist sie offen, kommt nur der
 // Cursor ins Feld. APD-29 (seit 3.25.0): Suche öffnen rollt den Inhalt ganz nach oben.
 function openTripSearch() {
-  if (!searchOpen) { searchOpen = true; render(); rolle.to(0); }
+  if (!searchOpen) { searchOpen = true; render(); AD.scrollView.to(0); }
   app.querySelector('#search')?.focus();
 }
 // x ‚Suche beenden‘: Suchzeile zu, Filter und Markierung weg, der Inhalt steht ganz oben; der Fokus geht auf ‚Mehr‘ (R-4.7).
 function closeTripSearch() {
   clearTimeout(searchJump);
   searchOpen = false; searchTerm = ''; searchIndex = 0;
-  render(); rolle.to(0);
-  fokus(app.querySelector('#mainMore'));
+  render(); AD.scrollView.to(0);
+  AD.focus(app.querySelector('#mainMore'));
 }
 
 function bindSearch(term) {
@@ -916,7 +916,7 @@ function bindSearch(term) {
   }
   if (term) {
     // APD-29: ⓧ leert die Suche und rollt den Inhalt ganz nach oben; der Fokus bleibt im Feld.
-    app.querySelector('#sclear').onclick = () => { clearTimeout(searchJump); searchTerm = ''; searchIndex = 0; if (listOpen) listTerm = ''; render(); rolle.to(0); refocus(); };
+    app.querySelector('#sclear').onclick = () => { clearTimeout(searchJump); searchTerm = ''; searchIndex = 0; if (listOpen) listTerm = ''; render(); AD.scrollView.to(0); refocus(); };
     app.querySelector('#sprev').onclick = () => stepHit(-1);
     app.querySelector('#snext').onclick = () => stepHit(1);
     showHit(false);
@@ -926,11 +926,11 @@ function bindSearch(term) {
 // Fazit und Gesamtausgaben (iPad und iPhone).
 // Seit 3.48.0 (AppDesign APD-30, R-7.7, 15.23): leerer Zustand im Reiselogbuch – Suche ohne Treffer (S-5) bzw. ‚Nur erfasste Tage‘ ohne
 // erfassten Tag (S-4) mit ‚Alle Tage zeigen‘ (wie Menü ‚Alle Tage‘)
-const leerTage = () => searchTerm.trim() ? leerSuche(searchTerm.trim())
-  : leerHtml({ icon: 'calendar', titel: 'Noch keine Tage erfasst', satz: 'Es werden nur erfasste Tage gezeigt.', aktion: { id: 'leerAlle', label: 'Alle Tage zeigen' } });
+const leerTage = () => searchTerm.trim() ? AD.searchUnavailableHtml(searchTerm.trim())
+  : AD.contentUnavailableHtml({ icon: 'calendar', title: 'Noch keine Tage erfasst', description: 'Es werden nur erfasste Tage gezeigt.', actions: { id: 'leerAlle', label: 'Alle Tage zeigen' } });
 function bindTripEnd(trip) {
   const alle = app.querySelector('#leerAlle'); if (alle) alle.onclick = () => { db.settings.hideEmpty = false; save(); render(); };
-  app.querySelector('#fazit').onclick = () => { adSourcehighlight.sourceItem = '#fazit'; openFazitDialog(trip); };
+  app.querySelector('#fazit').onclick = () => { AD.sourcehighlight.sourceItem = '#fazit'; openFazitDialog(trip); };
   bindMoney(app.querySelector('#kosten'), () => trip.kosten, v => { trip.kosten = v; save(); });
 }
 // Betragsfeld (R-5.1; Gesamtausgaben, seit 3.41.0 auch der Preis des Quartiers): Tausenderpunkt beim Tippen, Komma für Cent (höchstens
@@ -943,20 +943,20 @@ function bindMoney(inp, get, set) {
     const dec = rest.join('').slice(0, 2);
     const hasComma = raw.includes(',');
     set(int || dec ? Number(`${int || 0}.${dec || 0}`) : null);
-    inp.value = int || hasComma ? `${int ? thousands(int) : '0'}${hasComma ? ',' + dec : ''}` : '';
+    inp.value = int || hasComma ? `${int ? AD.thousands(int) : '0'}${hasComma ? ',' + dec : ''}` : '';
     fitMoney(inp);
   };
-  inp.onblur = () => { inp.value = get() == null ? '' : money(get()); fitMoney(inp); };
+  inp.onblur = () => { inp.value = get() == null ? '' : AD.money(get()); fitMoney(inp); };
   fitMoney(inp);
 }
 
 const fazitHtml = trip => `<h2 data-marke="Fazit">Fazit</h2>
     <button type="button" class="fazit-box" id="fazit">${trip.fazit
       ? linesHtml(commentItems(trip.fazit))
-      : `<span class="muted" style="display:inline-flex;gap:6px;align-items:center">${ic('pencil')}Antippen, um das Fazit zu schreiben.</span>`}</button>
+      : `<span class="muted" style="display:inline-flex;gap:6px;align-items:center">${AD.ic('pencil')}Antippen, um das Fazit zu schreiben.</span>`}</button>
     <h2>Gesamtausgaben</h2>
     <div class="kosten">
-      <input type="text" id="kosten" inputmode="decimal" placeholder="0,00" aria-label="Gesamtausgaben" value="${trip.kosten == null ? '' : money(trip.kosten)}">
+      <input type="text" id="kosten" inputmode="decimal" placeholder="0,00" aria-label="Gesamtausgaben" value="${trip.kosten == null ? '' : AD.money(trip.kosten)}">
       <span>€</span>
     </div>`;
 
@@ -980,7 +980,7 @@ function setLockFromList(trip, on) {
   activateFromList(trip);
 }
 function activateFromList(trip) {
-  if (!isPhone()) return showTrip(trip.id, listOpen && listTerm.trim() ? listTerm : '');
+  if (!AD.isPhone()) return showTrip(trip.id, listOpen && listTerm.trim() ? listTerm : '');
   currentTripId = trip.id;
   if (db.settings.lastTrip !== trip.id) { db.settings.lastTrip = trip.id; save(); }
   render();
@@ -989,20 +989,20 @@ function activateFromList(trip) {
 // sie bleibt nach jeder Ausgabe, nach Backup, Wechsel, Drehen und Neustart. Oben ‚PDF‘ und Teilen wie in der Vorschau, ohne Mehr; darüber der Hinweis
 // mit ‚Entsperren‘ (J-5 oranges Schloss, J-6 hell mit blauer Schrift). Fazit und Gesamtausgaben stehen nur in der Vorschau.
 function renderLocked(trip) {
-  const phone = isPhone();
+  const phone = AD.isPhone();
   emptyPrompted = false;
   searchOpen = false; searchTerm = '';
   if (phone) { side.hidden = true; side.classList.remove('page'); } else renderSide();
   const version = (trip.outputCounter || 0) + 1;
   const hint = lockHintHidden !== trip.id;
-  const title = `${hint ? '' : `<span class="lk" role="img" aria-label="Gesperrt">${ic('lock')}</span>`}${esc(trip.title)}`;
+  const title = `${hint ? '' : `<span class="lk" role="img" aria-label="Gesperrt">${AD.ic('lock')}</span>`}${AD.esc(trip.title)}`;
   const buttons = `<span class="r"><span class="grp">
-          <button type="button" class="txt" id="pdfBtn">${ic('file-text')}PDF</button>
-          <button type="button" class="fill" id="shareBtn" aria-label="Teilen">${ic('share')}</button>
+          <button type="button" class="txt" id="pdfBtn">${AD.ic('file-text')}PDF</button>
+          <button type="button" class="fill" id="shareBtn" aria-label="Teilen">${AD.ic('share')}</button>
         </span></span>`;
-  setHtml(app, `
+  AD.setHtml(app, `
     ${phone ? `<div class="pnav" id="bar">
-      <span><button type="button" class="round" id="back" aria-label="Reiselogbücher">${ic('chevron-left')}</button></span>
+      <span><button type="button" class="round" id="back" aria-label="Reiselogbücher">${AD.ic('chevron-left')}</button></span>
       <span class="pnav-title">${title}</span>
       ${buttons}
     </div>` : `<div class="nb" id="bar">
@@ -1014,25 +1014,25 @@ function renderLocked(trip) {
     </div>`}
     <div class="rolle" id="rolle">
       ${hint ? `<div class="lockbar"><div class="lockinfo" role="status">
-        <span class="li-ic">${ic('lock')}</span>
+        <span class="li-ic">${AD.ic('lock')}</span>
         <span class="li-t"><b>Dieses Reiselogbuch ist gesperrt.</b><br>Es lässt sich lesen und ausgeben, aber nicht ändern oder löschen.</span>
-        <button type="button" id="lockUnlock">${ic('lock-open')}Entsperren</button>
-        <button type="button" class="round li-x" id="lockHide" aria-label="Hinweis ausblenden">${ic('x')}</button>
+        <button type="button" id="lockUnlock">${AD.ic('lock-open')}Entsperren</button>
+        <button type="button" class="round li-x" id="lockHide" aria-label="Hinweis ausblenden">${AD.ic('x')}</button>
       </div></div>` : ''}
-      <p class="lockcap">Vorschau · ${esc(outputName(trip, version))}</p>
+      <p class="lockcap">Vorschau · ${AD.esc(outputName(trip, version))}</p>
       <div class="lockpage"><style>${OUTPUT_CSS.replace(/\bbody\b/g, '#app .lockpage')}#app .lockpage { margin: 0; }</style>${outputBody(trip, version, nowStamp())}</div>
     </div>`);
   app.querySelectorAll('.lockpage a[href]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
   fab.hidden = false;
-  if (phone) app.querySelector('#back').onclick = navZurueck; else bindSideToggle(app);
+  if (phone) app.querySelector('#back').onclick = AD.navPop; else bindSideToggle(app);
   app.querySelector('#pdfBtn').onclick = () => exportPdf(trip);
   app.querySelector('#shareBtn').onclick = () => exportHtml(trip);
   if (hint) {
     app.querySelector('#lockUnlock').onclick = () => setLock(trip, false);
     app.querySelector('#lockHide').onclick = () => { lockHintHidden = trip.id; render(); };
   }
-  adSourcehighlight.refresh();
-  updateBar();
+  AD.sourcehighlight.refresh();
+  AD.updateBar();
   document.documentElement.style.setProperty('--bar-h', app.querySelector('#bar').offsetHeight + 'px');
   if (lockedShown !== trip.id) { lockedShown = trip.id; app.querySelector('#rolle').scrollTop = 0; }   // P-121/F-1
 }
@@ -1040,15 +1040,15 @@ function renderLocked(trip) {
 // Seit 3.59.0 (RLB-126/J-3): ein gelöschtes Reiselogbuch öffnet als Vorschau nur zum Lesen – wie ein gesperrtes (renderLocked), darüber der Hinweis
 // der AD-Bean recentlydeleted mit Löschdatum, Restzeit und ‚Wiederherstellen‘; keine Felder, keine Ausgabe, kein Mehr.
 function renderDeleted(x) {
-  const phone = isPhone(), trip = x.item;
+  const phone = AD.isPhone(), trip = x.item;
   emptyPrompted = false;
   searchOpen = false; searchTerm = '';
   if (phone) { side.hidden = true; side.classList.remove('page'); } else renderSide();
   const version = (trip.outputCounter || 0) + 1;
-  const title = esc(trip.title);
-  setHtml(app, `
+  const title = AD.esc(trip.title);
+  AD.setHtml(app, `
     ${phone ? `<div class="pnav" id="bar">
-      <span><button type="button" class="round" id="back" aria-label="Zuletzt gelöscht">${ic('chevron-left')}</button></span>
+      <span><button type="button" class="round" id="back" aria-label="Zuletzt gelöscht">${AD.ic('chevron-left')}</button></span>
       <span class="pnav-title">${title}</span>
       <span class="r"></span>
     </div>` : `<div class="nb" id="bar">
@@ -1060,14 +1060,14 @@ function renderDeleted(x) {
     </div>`}
     <div class="rolle" id="rolle">
       <div class="lockbar">${recentlyDeleted.noticeHtml(x.id)}</div>
-      <p class="lockcap">Vorschau · ${esc(outputName(trip, version))}</p>
+      <p class="lockcap">Vorschau · ${AD.esc(outputName(trip, version))}</p>
       <div class="lockpage"><style>${OUTPUT_CSS.replace(/\bbody\b/g, '#app .lockpage')}#app .lockpage { margin: 0; }</style>${outputBody(trip, version, nowStamp())}</div>
     </div>`);
   app.querySelectorAll('.lockpage a[href]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
   fab.hidden = false;
-  if (phone) app.querySelector('#back').onclick = navZurueck; else bindSideToggle(app);
-  adSourcehighlight.refresh();
-  updateBar();
+  if (phone) app.querySelector('#back').onclick = AD.navPop; else bindSideToggle(app);
+  AD.sourcehighlight.refresh();
+  AD.updateBar();
   document.documentElement.style.setProperty('--bar-h', app.querySelector('#bar').offsetHeight + 'px');
   app.querySelector('#rolle').scrollTop = 0;
 }
@@ -1075,30 +1075,30 @@ function renderDeleted(x) {
 function afterDeletedChange(id) {
   const rest = recentlyDeleted.items;
   if (!rest.length) deletedView = false;
-  if (deletedOpen === id || !deletedEntry(deletedOpen)) deletedOpen = !isPhone() && deletedView && rest.length ? rest[0].id : null;
+  if (deletedOpen === id || !deletedEntry(deletedOpen)) deletedOpen = !AD.isPhone() && deletedView && rest.length ? rest[0].id : null;
   sideHold = true; try { render(); } finally { sideHold = false; }
 }
 function openDeletedView() {
   deletedView = true; listOpen = false; listTerm = ''; sideScroll = 0;
-  deletedOpen = isPhone() ? null : recentlyDeleted.items[0]?.id || null;   // iPad: das zuletzt gelöschte steht gleich in der Vorschau (wie ein Ordner in Notizen)
+  deletedOpen = AD.isPhone() ? null : recentlyDeleted.items[0]?.id || null;   // iPad: das zuletzt gelöschte steht gleich in der Vorschau (wie ein Ordner in Notizen)
   render();
 }
 function closeDeletedView() {
   deletedView = false; deletedOpen = null; sideScroll = 0;
   render();
-  fokus([...side.querySelectorAll('.side-list .side-row')].pop());   // die Kachel ‚Zuletzt gelöscht‘ ist die letzte der Liste
+  AD.focus([...side.querySelectorAll('.side-list .side-row')].pop());   // die Kachel ‚Zuletzt gelöscht‘ ist die letzte der Liste
 }
 // Seitenleiste bzw. Startliste ‚Zuletzt gelöscht‘ (R-7.10): Kopf, Hinweis zur Frist und Kacheln aus der AD-Bean; Antippen öffnet die Vorschau
 function renderDeletedSide(page) {
-  setHtml(side, `${recentlyDeleted.listHtml({ current: page ? null : deletedOpen,
-    end: '<button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">' + ic('panel-left') + '</button>' })}
-    ${backupTileHtml(db.settings.lastBackup, !db.trips.length)}`);
+  AD.setHtml(side, `${recentlyDeleted.listHtml({ current: page ? null : deletedOpen,
+    end: '<button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">' + AD.ic('panel-left') + '</button>' })}
+    ${AD.backupTileHtml(db.settings.lastBackup, !db.trips.length)}`);
   const hb = side.querySelector('#hintBackup'); if (hb) hb.onclick = () => saveBackup('#hintBackup');
   side.querySelector('#sideHide').onclick = toggleSide;
-  adSourcehighlight.refresh();
-  side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
+  AD.sourcehighlight.refresh();
+  side.querySelectorAll('[data-id]').forEach(b => AD.onLongPress(b,
     () => tripContextMenu(b),
-    () => navVor(() => { if (!isWide()) sideOpen = false; if (isPhone()) rolle.to(0); deletedOpen = b.dataset.id; phoneList = false; render(); })));
+    () => AD.navPush(() => { if (!isWide()) sideOpen = false; if (AD.isPhone()) AD.scrollView.to(0); deletedOpen = b.dataset.id; phoneList = false; render(); })));
   document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
   keepSideScroll();
 }
@@ -1120,7 +1120,7 @@ function renderPhone({ scrollToGap = false } = {}) {
     searchOpen = false;
     app.innerHTML = '';
     renderSide();
-    if (!db.trips.length && !emptyPrompted && !dlg.open) { emptyPrompted = true; openTripDialog(null); }
+    if (!db.trips.length && !emptyPrompted && !AD.dlg.open) { emptyPrompted = true; openTripDialog(null); }
     return;
   }
   if (trip.locked) return renderLocked(trip);   // RLB-125/J-7
@@ -1136,21 +1136,21 @@ function renderPhone({ scrollToGap = false } = {}) {
   const visible = all.filter(iso => term ? matchesSearch(trip, iso, term, whole) : !db.settings.hideEmpty || isRecorded(trip, iso));
   const transport = transportText(trip);
   const boxes = dayBoxesHtml(trip, visible, { today, gap, term, nr });
-  setHtml(app, `
+  AD.setHtml(app, `
     <div class="pnav" id="bar">
-      <span><button type="button" class="round" id="back" aria-label="Reiselogbücher">${ic('chevron-left')}</button></span>
-      <span class="pnav-title">${esc(trip.title)}</span>
+      <span><button type="button" class="round" id="back" aria-label="Reiselogbücher">${AD.ic('chevron-left')}</button></span>
+      <span class="pnav-title">${AD.esc(trip.title)}</span>
       <span class="r"><span class="grp">
-        <button type="button" id="shareBtn" aria-label="Ausgabe">${ic('share')}</button>
-        <button type="button" id="mainMore" aria-label="Mehr">${ic('ellipsis')}</button>
+        <button type="button" id="shareBtn" aria-label="Ausgabe">${AD.ic('share')}</button>
+        <button type="button" id="mainMore" aria-label="Mehr">${AD.ic('ellipsis')}</button>
       </span></span>
       ${searchOpen ? searchRowHtml(term) : ''}
     </div>
     <div class="rolle" id="rolle">
     <dl class="meta trip">
-      <dt>Reiseteilnehmer:</dt><dd>${esc(trip.participants)}</dd>
+      <dt>Reiseteilnehmer:</dt><dd>${AD.esc(trip.participants)}</dd>
       <dt>Reisezeitraum:</dt><dd>${fullDate(trip.start)} - ${fullDate(trip.end)}</dd>
-      ${transport ? `<dt>Reisemittel:</dt><dd>${wischHtml(esc(transport), 'reisemittel')}</dd>` : ''}
+      ${transport ? `<dt>Reisemittel:</dt><dd>${AD.scrollRowHtml(AD.esc(transport), 'reisemittel')}</dd>` : ''}
     </dl>
     <p class="progress">${progressText(trip)}</p>
     <div id="pdays">${boxes || leerTage()}</div>
@@ -1159,16 +1159,16 @@ function renderPhone({ scrollToGap = false } = {}) {
     <h2 data-marke="Statistik">Statistik</h2>
     <dl class="meta">${tripStats(trip).map(([k, v]) => `<dt>${k}:</dt><dd>${statHtml(v)}</dd>`).join('')}</dl>
     </div>`);
-  mountCap(app);   // seit 3.38.0 (AppDesign APD-86): Verlauf und Pfeile der Zeile Reisemittel
-  app.querySelector('#back').onclick = navZurueck;   // seit 3.28.0 (AppDesign APD-61): der Inhalt schiebt sich hinaus
+  AD.mountCap(app);   // seit 3.38.0 (AppDesign APD-86): Verlauf und Pfeile der Zeile Reisemittel
+  app.querySelector('#back').onclick = AD.navPop;   // seit 3.28.0 (AppDesign APD-61): der Inhalt schiebt sich hinaus
   app.querySelector('#shareBtn').onclick = e => openShareMenu(e.currentTarget, trip);
   app.querySelector('#mainMore').onclick = e => openMainMenu(e.currentTarget, trip);
   bindSearch(term);
   bindTripEnd(trip);
   app.querySelectorAll('#pdays [data-day]').forEach(b => b.onclick = () => openDayDialog(trip, b.dataset.day));
-  adSourcehighlight.refresh();
-  if (scrollToGap) openAt(startTop && app.querySelector(`#pdays [data-day="${startTop}"]`));   // R-7.4, RLB-98: direkt unter der Leiste, sonst ganz oben
-  updateBar();
+  AD.sourcehighlight.refresh();
+  if (scrollToGap) AD.openAt(startTop && app.querySelector(`#pdays [data-day="${startTop}"]`));   // R-7.4, RLB-98: direkt unter der Leiste, sonst ganz oben
+  AD.updateBar();
 }
 
 // Tage als Kästen (AppDesign .box) – auf dem iPhone immer, am iPad ab AX1 (seit 3.35.0, RLB-101, AppDesign APD-43 U3/U4): dieselbe
@@ -1183,7 +1183,7 @@ function dayBoxesHtml(trip, visible, { today, gap, term, nr }) {
     const tags = (iso === today ? '<span class="tag today">heute</span>' : '')
       + (!isRecorded(trip, iso) && iso < today ? '<span class="tag miss">fehlt</span>' : '');
     return `<div class="box day ${iso === gap && !term ? 'gap' : ''}" data-day="${iso}" data-marke="${dayMark(iso, nr)}" role="button" tabindex="0">
-      <div class="h">${dayLabel(iso)}${tags}${e.weather ? `<span class="wx">${esc(e.weather)}</span>` : '<span class="wx empty">☀️🌤🌦🌧</span>'}</div>
+      <div class="h">${dayLabel(iso)}${tags}${e.weather ? `<span class="wx">${AD.esc(e.weather)}</span>` : '<span class="wx empty">☀️🌤🌦🌧</span>'}</div>
       ${line('Verlauf', e.program ? linesHtml(programItems(e.program), term) : '', true)}
       ${c.mood ? line('🙂☹️😉', e.comment ? linesHtml(commentItems(e.comment), term) : '') : ''}
       ${c.km ? line('🚶🏽‍♂️km', e.km ? fmtKm(e.km) : '') : ''}
@@ -1199,7 +1199,7 @@ function isAx() { return document.documentElement.classList.contains('ts-ax'); }
 function phoneStaysHtml(trip) {
   const stays = cols(trip).quarter ? quarterStays(trip) : [];
   return stays.length ? `<h2 data-marke="Quartierliste">Quartierliste</h2><div class="ilist">${stays.map(st => `<div class="irow"><span class="t">${quarterHtml(st.q, '', true)}
-    <small>${shortDate(st.firstNight)} - ${fullDate(addDays(st.lastNight, 1))} · ${st.nights} ${st.nights === 1 ? 'Nacht' : 'Nächte'}${!trip.priceOn || st.price == null ? '' : ` · ${formatEuro(st.price)}`}</small></span></div>`).join('')}</div>` : '';
+    <small>${shortDate(st.firstNight)} - ${fullDate(addDays(st.lastNight, 1))} · ${st.nights} ${st.nights === 1 ? 'Nacht' : 'Nächte'}${!trip.priceOn || st.price == null ? '' : ` · ${AD.formatEuro(st.price)}`}</small></span></div>`).join('')}</div>` : '';
 }
 
 
@@ -1225,8 +1225,8 @@ function showHit(scroll) {
 function scrollUnderBar(el) {
   const row = el.closest('tr, .kv') || el;
   const head = app.querySelector('table.days:not(.static) thead');
-  const box = rolle.el?.getBoundingClientRect().top ?? document.getElementById('bar')?.getBoundingClientRect().bottom ?? 0;
-  rolle.to(rolle.y + row.getBoundingClientRect().top - box - (head?.offsetHeight || 0) - 12);
+  const box = AD.scrollView.el?.getBoundingClientRect().top ?? document.getElementById('bar')?.getBoundingClientRect().bottom ?? 0;
+  AD.scrollView.to(AD.scrollView.y + row.getBoundingClientRect().top - box - (head?.offsetHeight || 0) - 12);
 }
 
 function stepHit(dir) {
@@ -1235,15 +1235,15 @@ function stepHit(dir) {
   if (next < 0 || next >= n) return;
   searchIndex = next;
   showHit(true);
-  ansagen(`Treffer ${searchIndex + 1} von ${n}`);   // RLB-100 (R-1.8, V9)
+  AD.announce(`Treffer ${searchIndex + 1} von ${n}`);   // RLB-100 (R-1.8, V9)
 }
 // RLB-100 (AppDesign R-1.8, V9): nach einer Tipp-Pause von 0,7 s die Zahl der Treffer ansagen (höflich, VoiceOver)
-const ansageTreffer = () => { if (!searchTerm.trim()) return; const n = hitMarks().length; ansagen(n ? `${n} Treffer` : 'Keine Treffer', { warten: 700 }); };
+const ansageTreffer = () => { if (!searchTerm.trim()) return; const n = hitMarks().length; AD.announce(n ? `${n} Treffer` : 'Keine Treffer', { delay: 700 }); };
 
 // Ohne Reiselogbuch: leere Seite mit dem leeren Zustand (seit 3.48.0 AppDesign APD-30, R-7.7, S-1); "Neues Reiselogbuch" öffnet sich einmal von selbst.
-const leerKeinBuch = id => leerHtml({ icon: 'book-open', titel: 'Noch kein Reiselogbuch', satz: 'Ein neues mit ‚plus‘ in der Seitenleiste anlegen.',
-  aktion: { id, label: 'Neues Reiselogbuch' } });
-const bindLeerNeu = (wo, id) => { const b = wo.querySelector('#' + id); if (b) b.onclick = () => { adSourcehighlight.sourceItem = '#' + id; openTripDialog(null); }; };
+const leerKeinBuch = id => AD.contentUnavailableHtml({ icon: 'book-open', title: 'Noch kein Reiselogbuch', description: 'Ein neues mit ‚plus‘ in der Seitenleiste anlegen.',
+  actions: { id, label: 'Neues Reiselogbuch' } });
+const bindLeerNeu = (wo, id) => { const b = wo.querySelector('#' + id); if (b) b.onclick = () => { AD.sourcehighlight.sourceItem = '#' + id; openTripDialog(null); }; };
 function renderEmpty() {
   fab.hidden = true;
   searchOpen = false;
@@ -1253,7 +1253,7 @@ function renderEmpty() {
     <div class="rolle" id="rolle">${leerKeinBuch('leerNeu')}</div>`;
   bindSideToggle(app);
   bindLeerNeu(app, 'leerNeu');
-  if (!emptyPrompted && !dlg.open) { emptyPrompted = true; openTripDialog(null); }
+  if (!emptyPrompted && !AD.dlg.open) { emptyPrompted = true; openTripDialog(null); }
 }
 
 function showTrip(id, term = '') {
@@ -1279,21 +1279,21 @@ function showTrip(id, term = '') {
 
 // Seit 3.43.0 (AppDesign APD-97): am iPad steht die Seitenleiste quer und hoch fest links neben dem Inhalt (Apple ‚tile‘) und lässt sich
 // mit panel-left aus- und einblenden; keine Abdunkelung, die Auswahl lässt sie stehen. Ist der Inhalt daneben schmaler als 700 px,
-// zeigt er die Tage als Kästen (render, inhaltSchmal aus ui.js, R-6.6).
-const isWide = () => !isPhone();
-const sideOver = () => !isPhone() && !isWide() && Boolean(getTrip(currentTripId));   // seit 3.43.0 (APD-97) nie: hoch steht sie fest wie quer
-const sideFest = () => !isPhone() && isWide() && Boolean(getTrip(currentTripId));    // iPad quer: fest links
+// zeigt er die Tage als Kästen (render, AD.compactWidth aus ui.js, R-6.6).
+const isWide = () => !AD.isPhone();
+const sideOver = () => !AD.isPhone() && !isWide() && Boolean(getTrip(currentTripId));   // seit 3.43.0 (APD-97) nie: hoch steht sie fest wie quer
+const sideFest = () => !AD.isPhone() && isWide() && Boolean(getTrip(currentTripId));    // iPad quer: fest links
 const sideVisible = () => sideOpen;
 const sideToggleHtml = () => sideVisible() && isWide() ? ''
-  : `<button type="button" class="round" data-side-toggle aria-label="Seitenleiste einblenden">${ic('panel-left')}</button>`;
+  : `<button type="button" class="round" data-side-toggle aria-label="Seitenleiste einblenden">${AD.ic('panel-left')}</button>`;
 
 // R-8.1 (seit 3.20.0, RLB-90): beim Ein- und Ausblenden bleibt oben derselbe Tag stehen.
-// Seit 3.28.0 (AppDesign APD-61): am iPad hoch gleitet die darübergelegte Seitenleiste herein und hinaus (navSeite);
+// Seit 3.28.0 (AppDesign APD-61): am iPad hoch gleitet die darübergelegte Seitenleiste herein und hinaus (AD.navSidebar);
 // seit 3.29.0 (AppDesign APD-68) auch quer – der Inhalt rückt mit und wird beim Einrasten schmaler.
 function toggleSide() {
   if (sideOpen) swipe.close();   // seit 3.57.0 (AppDesign APD-30, R-7.8): beim Ausblenden ist keine Kachel offen – das sieht die Bean nicht selbst
-  if (sideOver() || sideFest()) return navSeite(!sideOpen);
-  keepPlace(() => { sideOpen = !sideOpen; render(); });
+  if (sideOver() || sideFest()) return AD.navSidebar(!sideOpen);
+  AD.keepPlace(() => { sideOpen = !sideOpen; render(); });
 }
 const bindSideToggle = root => root.querySelectorAll('[data-side-toggle]').forEach(b => b.onclick = toggleSide);
 
@@ -1308,14 +1308,14 @@ function tripState(t, today) {
 }
 
 // Backup: einmal am Tag erstellen; Datum und Uhrzeit des letzten Backups.
-function backedUpToday() { return backupToday(db.settings.lastBackup); }
-function lastBackupText() { return backupLastText(db.settings.lastBackup); }
+function backedUpToday() { return AD.backupToday(db.settings.lastBackup); }
+function lastBackupText() { return AD.backupLastText(db.settings.lastBackup); }
 // RLB-105 (AppDesign APD-74): um 0:00 und bei der Rückkehr am nächsten Tag die Liste neu zeichnen – die Backup-Kachel kommt wieder.
-onNeuerTag(() => { if (isPhone()) render(); else renderSide(); });
+AD.onDayChange(() => { if (AD.isPhone()) render(); else renderSide(); });
 
 function renderSide() {
   // iPhone: die Seitenleiste ist die Startliste und füllt den Bildschirm (.page); im Reiselogbuch ist sie aus.
-  const page = isPhone();
+  const page = AD.isPhone();
   if (page && !(phoneList || !getTrip(currentTripId))) { side.hidden = true; side.classList.remove('page'); return; }
   const show = page || sideVisible();
   const wide = isWide();
@@ -1328,7 +1328,7 @@ function renderSide() {
   if (!wide && !page) {
     const shade = document.createElement('div');
     shade.className = 'side-shade';
-    shade.onclick = () => navSeite(false);
+    shade.onclick = () => AD.navSidebar(false);
     side.before(shade);
   }
   if (deletedView && recentlyDeleted.items.length) return renderDeletedSide(page);   // RLB-126
@@ -1342,26 +1342,26 @@ function renderSide() {
   // RLB-114 (AppDesign APD-100, R-7.6): vor dem ersten Reiselogbuch jedes Jahres das Jahr des Reisebeginns als Kopf, auch ganz oben;
   // bei der Suche nur die Jahre mit Treffern (die Liste enthält dann nur Treffer)
   const jahrKopf = (t, i) => i && trips[i - 1].start.slice(0, 4) === t.start.slice(0, 4) ? '' : `<h3 class="side-sec">${t.start.slice(0, 4)}</h3>`;
-  setHtml(side, `
+  AD.setHtml(side, `
     <div class="side-head"><div class="ttl"><h2>Reiselogbücher</h2><small>${term ? hitTripCount(trips.length, all.length) : tripCount(all.length)}</small></div>
-      <span class="grp"><button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${ic('plus')}</button><button type="button" id="sideMore" aria-label="Mehr">${ic('ellipsis')}</button></span>
-      <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${ic('panel-left')}</button>
+      <span class="grp"><button type="button" id="newTrip" aria-label="Neues Reiselogbuch">${AD.ic('plus')}</button><button type="button" id="sideMore" aria-label="Mehr">${AD.ic('ellipsis')}</button></span>
+      <button type="button" class="round" id="sideHide" aria-label="Seitenleiste ausblenden">${AD.ic('panel-left')}</button>
     </div>
     ${listOpen ? listSearchHtml() : ''}
     <div class="side-list">${trips.length ? trips.map((t, i) => `${jahrKopf(t, i)}<button type="button" class="side-row ${t.id === currentTripId && !(page && startList) ? 'current' : ''}" data-id="${t.id}">
-        <span class="t"><b>${t.locked ? `<span class="lk" role="img" aria-label="Gesperrt">${ic('lock')}</span>` : ''}${esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${term ? `<small class="chg hits">${hitText(hits.get(t.id))}</small>` : sync.changedLine(t)}</span>${ic('chevron-right')}</button>`).join('')
-      : term ? leerSuche(listTerm.trim(), !isPhone()) : isPhone() ? leerKeinBuch('leerNeuListe') : leerHtml({ icon: 'book-open', titel: 'Noch kein Reiselogbuch', klein: true })}${term ? '' : recentlyDeleted.entryHtml()}</div>
-    ${backupTileHtml(db.settings.lastBackup, !all.length)}`);
-  side.querySelector('#newTrip').onclick = () => { adSourcehighlight.sourceItem = '#newTrip'; openTripDialog(null); };
+        <span class="t"><b>${t.locked ? `<span class="lk" role="img" aria-label="Gesperrt">${AD.ic('lock')}</span>` : ''}${AD.esc(t.title)}</b><small>${fullDate(t.start)} - ${fullDate(t.end)} · ${tripState(t, today)}</small>${term ? `<small class="chg hits">${hitText(hits.get(t.id))}</small>` : sync.changedLine(t)}</span>${AD.ic('chevron-right')}</button>`).join('')
+      : term ? AD.searchUnavailableHtml(listTerm.trim(), !AD.isPhone()) : AD.isPhone() ? leerKeinBuch('leerNeuListe') : AD.contentUnavailableHtml({ icon: 'book-open', title: 'Noch kein Reiselogbuch', compact: true })}${term ? '' : recentlyDeleted.entryHtml()}</div>
+    ${AD.backupTileHtml(db.settings.lastBackup, !all.length)}`);
+  side.querySelector('#newTrip').onclick = () => { AD.sourcehighlight.sourceItem = '#newTrip'; openTripDialog(null); };
   bindLeerNeu(side, 'leerNeuListe');
-  side.querySelector('#sideMore').onclick = e => openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
+  side.querySelector('#sideMore').onclick = e => AD.openMenu(e.currentTarget, backupMenuItems('#sideMore'), 'left');
   side.querySelector('#sideHide').onclick = toggleSide;
   const hb = side.querySelector('#hintBackup'); if (hb) hb.onclick = () => saveBackup('#hintBackup');   // onclick: setHtml behält das Element (APD-24)
-  adSourcehighlight.refresh();   // seit 4.67.0 (AppDesign APD-136): AD-Bean sourcehighlight statt markHeld und markOpener
+  AD.sourcehighlight.refresh();   // seit 4.67.0 (AppDesign APD-136): AD-Bean sourcehighlight statt markHeld und markOpener
   // Kurz tippen öffnet; lange drücken zeigt das Kontextmenü (Reiselogbuch einstellen · Reiselogbuch löschen); die Köpfe (.side-sec) tun nichts.
-  side.querySelectorAll('[data-id]').forEach(b => onLongPress(b,
+  side.querySelectorAll('[data-id]').forEach(b => AD.onLongPress(b,
     () => tripContextMenu(b),
-    () => navVor(() => { if (!isWide()) sideOpen = false; if (isPhone()) rolle.to(0); showTrip(b.dataset.id, term ? listTerm : ''); })));
+    () => AD.navPush(() => { if (!isWide()) sideOpen = false; if (AD.isPhone()) AD.scrollView.to(0); showTrip(b.dataset.id, term ? listTerm : ''); })));
   bindListSearch();
   document.documentElement.style.setProperty('--side-w', side.offsetWidth + 'px');
   keepSideScroll();
@@ -1369,9 +1369,9 @@ function renderSide() {
 
 // RLB-92 (AppDesign APD-19): Suchzeile der Liste wie 15.2, ohne Pfeile – die Kacheln zeigen die Treffer; rechts x ‚Suche beenden‘ (APD-91).
 const listSearchHtml = () => `<div class="nb2 side-search">
-    <span class="searchbox active">${ic('search')}<input type="search" id="lsearch" placeholder="In allen suchen" value="${esc(listTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${listTerm ? `
-      <span class="smeta"><button type="button" class="sclear" id="lsclear" aria-label="Suche löschen">${FX_SVG}</button></span>` : ''}</span>
-    ${sucheBeendenHtml('lsclose')}
+    <span class="searchbox active">${AD.ic('search')}<input type="search" id="lsearch" placeholder="In allen suchen" value="${AD.esc(listTerm)}" autocomplete="off" autocapitalize="off" enterkeyhint="search">${listTerm ? `
+      <span class="smeta"><button type="button" class="sclear" id="lsclear" aria-label="Suche löschen">${AD.FX_SVG}</button></span>` : ''}</span>
+    ${AD.searchCancelHtml('lsclose')}
   </div>`;
 
 // Seit 3.41.0 (AppDesign APD-91): ‚Suchen‘ im Mehr-Menü der Seitenleiste bzw. Startliste (oder ⌘F ohne offenes Reiselogbuch) öffnet die
@@ -1383,7 +1383,7 @@ function openListSearch() {
 function closeListSearch() {
   listOpen = false; listTerm = ''; sideScroll = 0;
   renderSide();
-  fokus(side.querySelector('#sideMore'));
+  AD.focus(side.querySelector('#sideMore'));
 }
 
 function bindListSearch() {
@@ -1397,7 +1397,7 @@ function bindListSearch() {
   };
   // Ist im offenen Reiselogbuch die Suche zu, bleibt es, wie es ist (RLB-92, Frage 1); ist sie offen, wird der Begriff
   // 1:1 übernommen (RLB-92, Zusatz 17.10.2026) – Markierung sofort, Sprung zum ersten Treffer nach der Tipp-Pause.
-  const both = () => searchOpen && !isPhone() && getTrip(currentTripId);
+  const both = () => searchOpen && !AD.isPhone() && getTrip(currentTripId);
   const update = () => {
     sideScroll = 0;
     if (both()) {
@@ -1407,7 +1407,7 @@ function bindListSearch() {
     } else renderSide();
     refocus();
     // RLB-100 (R-1.8, V9): ‚2 von 5 Reiselogbüchern‘ bzw. ‚Keine Treffer‘ nach der Tipp-Pause
-    if (listTerm.trim()) ansagen(side.querySelector('.side-row') ? side.querySelector('.side-head small').textContent : 'Keine Treffer', { warten: 700 });
+    if (listTerm.trim()) AD.announce(side.querySelector('.side-row') ? side.querySelector('.side-head small').textContent : 'Keine Treffer', { delay: 700 });
   };
   input.oninput = () => { listTerm = input.value; update(); };
   // Eingabetaste ‚Suchen‘ schließt nur die Tastatur (R-5.5).
@@ -1492,18 +1492,18 @@ const sideMenuRow = () => document.querySelector('.menu, .pop') ? side.querySele
 // AppDesign APD-92), Messmodus und technische Informationen.
 let importAnchor = '#sideMore'; // Schaltfläche, von der ‚Backup laden‘ kommt
 const backupMenuItems = sel => [
-  ...(db.trips.length ? suchenMenuItems(openListSearch) : []),
-  ...backupMenuEntries({ last: db.settings.lastBackup, disabled: !db.trips.length, onSave: () => saveBackup(sel),
-    onLoad: () => { importAnchor = sel; adSourcehighlight.hold(sel); importFile.click(); } }),
+  ...(db.trips.length ? AD.searchMenuItems(openListSearch) : []),
+  ...AD.backupMenuEntries({ last: db.settings.lastBackup, disabled: !db.trips.length, onSave: () => saveBackup(sel),
+    onLoad: () => { importAnchor = sel; AD.sourcehighlight.hold(sel); importFile.click(); } }),
   'sep',
-  darstellungMenuItem(),
+  AD.appearanceMenuItem(),
   // Messmodus (seit 3.24.0, AppDesign APD-27): Kopf- und Suchzeile von Inhalt und Liste, erster Tag, Rollstand der Liste – seit 3.38.0
   // (AppDesign APD-77) versteckt, bis langes Drücken auf die Versionszeile ihn freischaltet.
   'sep',
-  ...messungMenuItems({ app: `Reiselogbuch ${APP_VERSION}`, teile: { kopf: '#bar', such: '#app .nb2', tag: '#app [data-day]', lkopf: '.side-head', lsuch: '.side-search' },
-    rollen: { lroll: '.side-list' } }),
+  ...AD.measureMenuItems({ app: `Reiselogbuch ${APP_VERSION}`, elements: { kopf: '#bar', such: '#app .nb2', tag: '#app [data-day]', lkopf: '.side-head', lsuch: '.side-search' },
+    scrollers: { lroll: '.side-list' } }),
   'line',
-  { note: `Reiselogbuch · Version ${APP_VERSION} · erstellt am ${APP_BUILT} · AppDesign ${adLoaded().js}`, halten: true },   // seit 3.38.0 (AppDesign APD-77): langes Drücken schaltet den Messmodus frei
+  { note: `Reiselogbuch · Version ${APP_VERSION} · erstellt am ${APP_BUILT} · AppDesign ${adLoaded().js}`, longPress: true },   // seit 3.38.0 (AppDesign APD-77): langes Drücken schaltet den Messmodus frei
   { note: storagePersistent ? `Die Daten bleiben in Safari gespeichert, solange das Reiselogbuch auf dem Home-Bildschirm nicht entfernt wird.`
     : 'Safari kann die Daten bei Speichermangel löschen – bitte regelmäßig ein Backup erstellen.' },
 ];
@@ -1512,12 +1512,12 @@ const backupMenuItems = sel => [
 // im Menü der Seitenleiste (RLB-108).
 function openMainMenu(anchor, trip) {
   const setHide = v => { db.settings.hideEmpty = v; save(); render(); };
-  openMenu(anchor, [
-    ...suchenMenuItems(openTripSearch),
+  AD.openMenu(anchor, [
+    ...AD.searchMenuItems(openTripSearch),
     { tick: !db.settings.hideEmpty, icon: 'list-chevrons-up-down', label: 'Alle Tage', act: () => setHide(false) },
     { tick: db.settings.hideEmpty, icon: 'fold-vertical', label: 'Nur erfasste Tage', act: () => setHide(true) },
     'sep',
-    { icon: 'settings', label: 'Reiselogbuch einstellen', act: () => { adSourcehighlight.sourceItem = '#mainMore'; openTripDialog(trip); } },   // seit 3.44.0 (RLB-113, Abweichung 4)
+    { icon: 'settings', label: 'Reiselogbuch einstellen', act: () => { AD.sourcehighlight.sourceItem = '#mainMore'; openTripDialog(trip); } },   // seit 3.44.0 (RLB-113, Abweichung 4)
     { icon: 'lock', label: 'Reiselogbuch sperren', act: () => setLock(trip, true) },   // seit 3.58.0 (RLB-125)
     'sep',
     { icon: 'trash', label: 'Reiselogbuch löschen', red: true, act: () => deleteTrip(trip) },
@@ -1533,13 +1533,13 @@ const tripActions = row => { if (deletedEntry(row.dataset.id)) return recentlyDe
   const trip = getTrip(row.dataset.id); if (!trip) return [];
   if (trip.locked) return [{ icon: 'lock-open', label: 'Reiselogbuch entsperren', shortTitle: 'Entsperren', act: () => setLockFromList(trip, false) }];
   return [
-  { icon: 'settings', label: 'Reiselogbuch einstellen', shortTitle: 'Einstellen', act: () => { adSourcehighlight.sourceItem = `#side .side-row[data-id="${trip.id}"]`; openTripDialog(trip, { fromList: true }); } },   // seit 3.44.0 (RLB-113), fromList seit 3.58.1 (P-120/F-2)
+  { icon: 'settings', label: 'Reiselogbuch einstellen', shortTitle: 'Einstellen', act: () => { AD.sourcehighlight.sourceItem = `#side .side-row[data-id="${trip.id}"]`; openTripDialog(trip, { fromList: true }); } },   // seit 3.44.0 (RLB-113), fromList seit 3.58.1 (P-120/F-2)
   { icon: 'lock', label: 'Reiselogbuch sperren', shortTitle: 'Sperren', act: () => setLockFromList(trip, true) },   // seit 3.58.1 (P-120/F-2)
   'sep',
   { icon: 'trash', label: 'Reiselogbuch löschen', shortTitle: 'Löschen', red: true, act: () => deleteTrip(trip) },   // RLB-126/J-2: ohne Abfrage
 ]; };
 // Kontextmenü (wie in Notizen, Mail, Dateien); ohne ‚Öffnen‘, weil Tippen öffnet.
-const tripContextMenu = row => { if (getTrip(row.dataset.id) || deletedEntry(row.dataset.id)) openMenu(row, tripActions(row), 'beside'); };
+const tripContextMenu = row => { if (getTrip(row.dataset.id) || deletedEntry(row.dataset.id)) AD.openMenu(row, tripActions(row), 'beside'); };
 
 // Seit 3.59.0 (RLB-126/J-2, R-7.10, R-4.12 Ausnahme): Löschen ohne Abfrage – das Reiselogbuch wandert mit Zeitpunkt und Gerät nach ‚Zuletzt gelöscht‘
 // (AD-Bean recentlydeleted, 30 Tage); die Abfrage aus 3.58.0 (RLB-125/L-4, L-5) gibt es nur noch beim endgültigen Löschen. Ein gesperrtes Reiselogbuch
@@ -1551,14 +1551,14 @@ function deleteTrip(trip) {
   if (trip.id !== currentTripId && getTrip(currentTripId)) { sideHold = true; try { render(); } finally { sideHold = false; } return; }
   showTrip(pickStartTrip()?.id);
   // iPhone: nach dem Löschen zurück zur Startliste.
-  if (isPhone()) { phoneList = true; render(); }
+  if (AD.isPhone()) { phoneList = true; render(); }
 }
 
 // Teilen-Menü: Vorschau, HTML, PDF; darunter Zahl der erfassten Tage und Dateiname.
 function openShareMenu(anchor, trip) {
   const count = tripDays(trip).filter(iso => isRecorded(trip, iso)).length;
-  openMenu(anchor, [
-    { icon: 'eye', label: 'Vorschau', act: () => { adSourcehighlight.sourceItem = '#shareBtn'; openPreview(trip); } },
+  AD.openMenu(anchor, [
+    { icon: 'eye', label: 'Vorschau', act: () => { AD.sourcehighlight.sourceItem = '#shareBtn'; openPreview(trip); } },
     { icon: 'file-code', label: 'HTML', sub: 'Im Teilen-Menü ‚In Dateien sichern‘ wählen', act: () => exportHtml(trip) },
     // seit 3.55.1 (RLB-124/W-1): iOS 27 übergeht print() in der App vom Home-Bildschirm (Versuch AppDesign/arbeit/RLB-124) – Hinweis, Funktion unverändert
     { icon: 'file-text', label: 'PDF (mit iOS 27 zurzeit nicht möglich)', sub: 'Im Drucken-Menü Teilen, dann ‚In Dateien sichern‘', act: () => exportPdf(trip) },
@@ -1568,33 +1568,33 @@ function openShareMenu(anchor, trip) {
 }
 
 
-document.getElementById('toTop').innerHTML = ic('arrow-up-to-line');
-document.getElementById('toEnd').innerHTML = ic('arrow-down-to-line');
+document.getElementById('toTop').innerHTML = AD.ic('arrow-up-to-line');
+document.getElementById('toEnd').innerHTML = AD.ic('arrow-down-to-line');
 // Nach oben / Ans Ende rollen den Inhalt (Rollbereich, AppDesign APD-28).
-document.getElementById('toTop').onclick = fabTop;
-document.getElementById('toEnd').onclick = fabEnd;
+document.getElementById('toTop').onclick = AD.fabTop;
+document.getElementById('toEnd').onclick = AD.fabEnd;
 // Seit 3.28.0 (AppDesign APD-61 Teil 1): Seitenwechsel als Schieben, Zurückwischen am iPhone, Seitenleiste am iPad hoch per Wischen;
 // seit 3.29.0 (AppDesign APD-68) die ausgeblendete Seitenleiste auch am iPad quer.
 // darunter: die Startliste unter dem Inhalt aufbauen, ohne den Zustand zu ändern (phoneList nur für renderSide).
-navAnmelden({
-  zurueck: {
-    offen: () => isPhone() && !phoneList && (Boolean(getTrip(currentTripId)) || Boolean(deletedEntry(deletedOpen))),
-    darunter: an => {
+AD.navRegister({
+  back: {
+    shown: () => AD.isPhone() && !phoneList && (Boolean(getTrip(currentTripId)) || Boolean(deletedEntry(deletedOpen))),
+    below: an => {
       if (an) { phoneList = true; renderSide(); phoneList = false; }
-      else if (!phoneList && isPhone()) { side.hidden = true; side.classList.remove('page'); }
+      else if (!phoneList && AD.isPhone()) { side.hidden = true; side.classList.remove('page'); }
     },
-    los: () => { phoneList = true; deletedOpen = null; searchOpen = false; searchTerm = ''; rolle.to(0); render(); },
+    go: () => { phoneList = true; deletedOpen = null; searchOpen = false; searchTerm = ''; AD.scrollView.to(0); render(); },
   },
-  seite: { moeglich: sideOver, fest: sideFest, offen: () => sideOpen, zeigen: an => { sideOpen = an; renderSide(); }, neu: () => render() },
+  sidebar: { possible: sideOver, fixed: sideFest, shown: () => sideOpen, show: an => { sideOpen = an; renderSide(); }, refresh: () => render() },
 });
 // Seit 3.57.0 (AppDesign APD-30, APD-136, R-7.8): Wischaktionen der Kacheln – dieselben Aktionen wie im Kontextmenü, einmal beim Start
-const swipe = createSwipeactions(side, { rows: '[data-id]', actions: tripActions });
+const swipe = AD.createSwipeactions(side, { rows: '[data-id]', actions: tripActions });
 // Seit 3.41.0 (AppDesign APD-91, R-4.7): ⌘F sucht im offenen Reiselogbuch, ohne offenes (iPhone-Startliste) in allen; liegt am iPad hoch
 // die Seitenleiste über dem Reiselogbuch, in der Seitenleiste (nur sie ist bedienbar).
-sucheAnmelden(() => {
+AD.searchRegister(() => {
   if (deletedView || deletedEntry(deletedOpen)) return;   // RLB-126/T-12: ⌘F wirkt in ‚Zuletzt gelöscht‘ nicht
   const trip = getTrip(currentTripId);
-  const inListe = !trip || (isPhone() ? phoneList : sideOver() && sideOpen);
+  const inListe = !trip || (AD.isPhone() ? phoneList : sideOver() && sideOpen);
   if (!inListe) openTripSearch();
   else if (db.trips.length) openListSearch();
 });
@@ -1612,14 +1612,14 @@ function mountMoodRow(row, ta, onReset, kind = 'mood') {
   row.classList.add('strip');
   const draw = () => {
     const keep = row.querySelector('.scroll')?.scrollLeft || 0;
-    row.innerHTML = capHtml(quickMoods(kind).map(m => `<button type="button" data-m="${esc(m)}">${esc(m)}</button>`).join(''))
-      + `<button type="button" class="reset" aria-label="Standard-Smileys wiederherstellen">${ic('rotate-ccw')}</button>`;
+    row.innerHTML = AD.capHtml(quickMoods(kind).map(m => `<button type="button" data-m="${AD.esc(m)}">${AD.esc(m)}</button>`).join(''))
+      + `<button type="button" class="reset" aria-label="Standard-Smileys wiederherstellen">${AD.ic('rotate-ccw')}</button>`;
     const strip = row.querySelector('.scroll');
     strip.scrollLeft = keep;
-    mountCap(row);
-    row.querySelectorAll('[data-m]').forEach(b => onLongPress(b,
+    AD.mountCap(row);
+    row.querySelectorAll('[data-m]').forEach(b => AD.onLongPress(b,
       async () => {
-        if (!await confirmPop(b, `${esc(b.dataset.m)} aus der Schnellauswahl entfernen?`, { label: 'Entfernen', icon: 'trash' })) return;
+        if (!await AD.confirmPop(b, `${AD.esc(b.dataset.m)} aus der Schnellauswahl entfernen?`, { label: 'Entfernen', icon: 'trash' })) return;
         db[set.hidden].push(b.dataset.m);
         delete db[set.usage][b.dataset.m];
         save();
@@ -1627,7 +1627,7 @@ function mountMoodRow(row, ta, onReset, kind = 'mood') {
       },
       () => insertEmoji(ta, b.dataset.m), { entfernen: true }));   // R-3.5 (seit 3.46.1, APD-106): Entfernen erst nach 1 s
     row.querySelector('.reset').onclick = async e => {
-      if (!await confirmPop(e.currentTarget, 'Standard-Smileys wiederherstellen und alle Zähler auf null setzen?', { label: 'Zurücksetzen', icon: 'rotate-ccw' })) return;
+      if (!await AD.confirmPop(e.currentTarget, 'Standard-Smileys wiederherstellen und alle Zähler auf null setzen?', { label: 'Zurücksetzen', icon: 'rotate-ccw' })) return;
       db[set.usage] = {};
       db[set.hidden] = [];
       onReset();
@@ -1643,15 +1643,15 @@ function openTripDialog(trip, { fromList = false } = {}) {
   const isNew = !trip;
   const t = trip || { title: '', participants: '', start: todayISO(), end: addDays(todayISO(), 14), transport: [], quarterList: false, foodColumn: true, moodColumn: true, kmColumn: false, quarterColumn: true };
   const transport = new Set(t.transport);
-  openDialog(`
+  AD.openDialog(`
     <form method="dialog">
-      ${dlgHead(isNew ? 'Neues Reiselogbuch' : 'Reiselogbuch einstellen')}
+      ${AD.dlgHead(isNew ? 'Neues Reiselogbuch' : 'Reiselogbuch einstellen')}
       <div class="dlg-body">
         <div class="step"><label for="fTitle">Reisetitel</label>
-          <input type="text" id="fTitle" autocapitalize="sentences" autocorrect="on" spellcheck="true" value="${esc(t.title)}" placeholder="z. B. Australien">
+          <input type="text" id="fTitle" autocapitalize="sentences" autocorrect="on" spellcheck="true" value="${AD.esc(t.title)}" placeholder="z. B. Australien">
           <div class="warn" id="titleWarn" hidden></div></div>
         <div class="step"><label for="fPeople">Reiseteilnehmer</label>
-          <input type="text" id="fPeople" autocapitalize="sentences" autocorrect="on" spellcheck="true" value="${esc(t.participants)}" placeholder="z. B. Gerhild & Arnold">
+          <input type="text" id="fPeople" autocapitalize="sentences" autocorrect="on" spellcheck="true" value="${AD.esc(t.participants)}" placeholder="z. B. Gerhild & Arnold">
           <div class="warn" id="peopleWarn" hidden></div></div>
         <div class="step"><label>Reisezeitraum</label>
           <div class="dates">
@@ -1662,7 +1662,7 @@ function openTripDialog(trip, { fromList = false } = {}) {
         </div>
         <div class="step"><label>Reisemittel</label>
           <div class="chips">
-            ${capHtml(TRANSPORT.map(x => `<button type="button" data-t="${x.id}" aria-pressed="${transport.has(x.id)}">${x.icon} ${x.name}</button>`).join(''), 'transport')}
+            ${AD.capHtml(TRANSPORT.map(x => `<button type="button" data-t="${x.id}" aria-pressed="${transport.has(x.id)}">${x.icon} ${x.name}</button>`).join(''), 'transport')}
           </div>
           <div class="warn" id="transportWarn" hidden style="margin-top:2px"></div>
         </div>
@@ -1683,11 +1683,11 @@ function openTripDialog(trip, { fromList = false } = {}) {
       </div>
     </form>`);
 
-  const fTitle = dlg.querySelector('#fTitle');
-  const fStart = dlg.querySelector('#fStart');
-  const fEnd = dlg.querySelector('#fEnd');
-  const warn = dlg.querySelector('#tripWarn');
-  const ok = dlg.querySelector('#dlgOk');
+  const fTitle = AD.dlg.querySelector('#fTitle');
+  const fStart = AD.dlg.querySelector('#fStart');
+  const fEnd = AD.dlg.querySelector('#fEnd');
+  const warn = AD.dlg.querySelector('#tripWarn');
+  const ok = AD.dlg.querySelector('#dlgOk');
   fitDate(fStart);
   fitDate(fEnd);
 
@@ -1696,18 +1696,18 @@ function openTripDialog(trip, { fromList = false } = {}) {
   // Titel/Teilnehmer, wenn das Feld leer verlassen oder geleert wurde; Zeitraum, sobald ein Datum geändert oder ein
   // Titel eingegeben wurde; Reisemittel, wenn das letzte abgewählt wurde. Ein Tippen auf das Häkchen zeigt alle
   // fehlenden Angaben und scrollt zur ersten; ohne Änderung schließt das Häkchen einfach.
-  const fPeople = dlg.querySelector('#fPeople');
+  const fPeople = AD.dlg.querySelector('#fPeople');
   const checks = {
-    title: { box: dlg.querySelector('#titleWarn'), fields: [fTitle], touched: false,
+    title: { box: AD.dlg.querySelector('#titleWarn'), fields: [fTitle], touched: false,
       text: () => fTitle.value.trim() ? '' : 'Bitte einen Reisetitel eingeben.' },
-    people: { box: dlg.querySelector('#peopleWarn'), fields: [fPeople], touched: false,
+    people: { box: AD.dlg.querySelector('#peopleWarn'), fields: [fPeople], touched: false,
       text: () => fPeople.value.trim() ? '' : 'Bitte Reiseteilnehmer eingeben.' },
     dates: { box: warn, fields: [fStart, fEnd], touched: false, text: () => {
       if (!fStart.value || !fEnd.value) return 'Bitte Beginn und Ende der Reise wählen.';
       const other = overlappingTrip(fStart.value, fEnd.value, trip?.id);
       return other ? `Wähle einen Zeitraum, der sich nicht mit ‚${other.title}‘ (${fullDate(other.start)} - ${fullDate(other.end)}) überschneidet.` : '';
     } },
-    transport: { box: dlg.querySelector('#transportWarn'), fields: [], touched: false,
+    transport: { box: AD.dlg.querySelector('#transportWarn'), fields: [], touched: false,
       text: () => transport.size ? '' : 'Bitte mindestens ein Reisemittel wählen.' },
   };
   let hadTitle = Boolean(fTitle.value.trim());
@@ -1719,26 +1719,26 @@ function openTripDialog(trip, { fromList = false } = {}) {
       // Sobald ein Titel da ist, wird auch ein Problem beim Zeitraum gezeigt (z. B. Überschneidung durch das vorgeschlagene Datum).
       const on = Boolean(text) && (c.touched || (key === 'dates' && hadTitle));
       // RLB-100 (AppDesign R-5.3, seit 3.33.0): roter Rand, aria-invalid, Meldung mit dem Feld verknüpft und einmal angesagt
-      feldFehler(c.fields, c.box, on ? text : '');
+      AD.setFieldError(c.fields, c.box, on ? text : '');
     }
     return valid;
   };
   ok.addEventListener('click', ev => {
-    if (!dlgDirty()) { ev.preventDefault(); dlg.close('cancel'); return; }
+    if (!AD.dlgDirty()) { ev.preventDefault(); AD.dlg.close('cancel'); return; }
     if (validate()) return;
     ev.preventDefault();
     Object.values(checks).forEach(c => { c.touched = true; });
     validate();
     // RLB-100: Fokus aufs erste fehlerhafte Feld (sein Abschnitt rollt in die Mitte, mit ‚Bewegung reduzieren‘ springt er, R-1.9);
     // fehlt nur das Reisemittel, auf seine erste Schaltfläche
-    if (!ersterFehler(dlg)) {
-      const st = dlg.querySelector('.warn:not([hidden])')?.closest('.step');
+    if (!AD.focusFirstInvalid(AD.dlg)) {
+      const st = AD.dlg.querySelector('.warn:not([hidden])')?.closest('.step');
       st?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
-      fokus(st?.querySelector('button'));
+      AD.focus(st?.querySelector('button'));
     }
   });
 
-  dlg.querySelectorAll('#transport button').forEach(b => b.onclick = () => {
+  AD.dlg.querySelectorAll('#transport button').forEach(b => b.onclick = () => {
     const on = b.getAttribute('aria-pressed') !== 'true';
     b.setAttribute('aria-pressed', on);
     on ? transport.add(b.dataset.t) : transport.delete(b.dataset.t);
@@ -1757,11 +1757,11 @@ function openTripDialog(trip, { fromList = false } = {}) {
   validate();
 
   // Quartierliste nur mit sichtbarer Spalte Quartier.
-  const fQuarterCol = dlg.querySelector('#fQuarterCol');
-  const fQuarterList = dlg.querySelector('#fQuarterList');
+  const fQuarterCol = AD.dlg.querySelector('#fQuarterCol');
+  const fQuarterList = AD.dlg.querySelector('#fQuarterList');
   const syncQuarterList = () => {
     fQuarterList.disabled = !fQuarterCol.checked;
-    dlg.querySelector('#fPriceOn').disabled = !fQuarterCol.checked;   // seit 3.42.0 (RLB-111)
+    AD.dlg.querySelector('#fPriceOn').disabled = !fQuarterCol.checked;   // seit 3.42.0 (RLB-111)
     fQuarterList.closest('.step').classList.toggle('off', !fQuarterCol.checked);
   };
   fQuarterCol.onchange = syncQuarterList;
@@ -1769,25 +1769,25 @@ function openTripDialog(trip, { fromList = false } = {}) {
 
   // Geändert: Vergleich mit dem Stand beim Öffnen.
   const state = () => JSON.stringify([fTitle.value, fPeople.value, fStart.value, fEnd.value, [...transport].sort(),
-    ...['#fMood', '#fKm', '#fFood', '#fQuarterCol', '#fQuarterList', '#fPriceOn'].map(id => dlg.querySelector(id).checked)]);   // seit 3.42.1 mit Preis (RLB-112)
+    ...['#fMood', '#fKm', '#fFood', '#fQuarterCol', '#fQuarterList', '#fPriceOn'].map(id => AD.dlg.querySelector(id).checked)]);   // seit 3.42.1 mit Preis (RLB-112)
   const initial = state();
-  dlgDirty = () => state() !== initial;
+  AD.dlgDirty = () => state() !== initial;
 
   // x schließt; das Häkchen legt ein neues Reiselogbuch an bzw. übernimmt die Änderungen (Fenster ‚Reiselogbuch einstellen‘).
   // Seit 3.58.1 (P-120/F-2): aus der Liste eingestellt – gesichert wird es das aktive (activateFromList), abgebrochen bleibt die Liste stehen.
-  dlg.onclose = () => {
-    if (dlg.returnValue !== 'ok' || !validate()) { if (!fromList) return render(); sideHold = true; try { return render(); } finally { sideHold = false; } }
+  AD.dlg.onclose = () => {
+    if (AD.dlg.returnValue !== 'ok' || !validate()) { if (!fromList) return render(); sideHold = true; try { return render(); } finally { sideHold = false; } }
     const target = trip || { id: uid(), days: {}, fazit: '', kosten: null, outputCounter: 0 };
     target.title = fTitle.value.trim();
-    target.participants = dlg.querySelector('#fPeople').value.trim();
+    target.participants = AD.dlg.querySelector('#fPeople').value.trim();
     target.start = fStart.value;
     target.end = fEnd.value;
     target.transport = TRANSPORT.map(x => x.id).filter(id => transport.has(id));
-    target.quarterList = dlg.querySelector('#fQuarterList').checked;
-    target.foodColumn = dlg.querySelector('#fFood').checked;
-    target.moodColumn = dlg.querySelector('#fMood').checked;
-    target.kmColumn = dlg.querySelector('#fKm').checked;
-    target.priceOn = dlg.querySelector('#fPriceOn').checked;
+    target.quarterList = AD.dlg.querySelector('#fQuarterList').checked;
+    target.foodColumn = AD.dlg.querySelector('#fFood').checked;
+    target.moodColumn = AD.dlg.querySelector('#fMood').checked;
+    target.kmColumn = AD.dlg.querySelector('#fKm').checked;
+    target.priceOn = AD.dlg.querySelector('#fPriceOn').checked;
     target.quarterColumn = fQuarterCol.checked;
     if (isNew) db.trips.push(target);
     save();
@@ -1799,7 +1799,7 @@ function openTripDialog(trip, { fromList = false } = {}) {
 
 // Einen Tag in 2 bis 6 Schritten erfassen (je nach sichtbaren Spalten); speichert automatisch alle 10 Sekunden.
 function openDayDialog(trip, iso) {
-  adSourcehighlight.sourceItem = `#app [data-day="${iso}"]`; // Zeile bzw. Kasten; auch beim Blättern zum nächsten Tag
+  AD.sourcehighlight.sourceItem = `#app [data-day="${iso}"]`; // Zeile bzw. Kasten; auch beim Blättern zum nächsten Tag
   const days = tripDays(trip);
   const idx = days.indexOf(iso);
   const isFirst = idx <= 0;
@@ -1814,29 +1814,29 @@ function openDayDialog(trip, iso) {
   let stepNo = 2;
   const nextNo = () => ++stepNo;
 
-  openDialog(`
+  AD.openDialog(`
     <form method="dialog">
-      ${dlgHead(isPhone() ? `${WEEKDAYS[parseISO(iso).getUTCDay()]}, ${fullDate(iso)}` : longDayLabel(iso), { right: `<span class="grp">
-        <button type="button" data-nav="-1" ${isFirst ? 'disabled' : ''} aria-label="Vortag">${ic('chevron-left')}</button>
-        <button type="button" data-nav="1" ${idx >= days.length - 1 ? 'disabled' : ''} aria-label="Folgetag">${ic('chevron-right')}</button></span>` })}
+      ${AD.dlgHead(AD.isPhone() ? `${WEEKDAYS[parseISO(iso).getUTCDay()]}, ${fullDate(iso)}` : longDayLabel(iso), { right: `<span class="grp">
+        <button type="button" data-nav="-1" ${isFirst ? 'disabled' : ''} aria-label="Vortag">${AD.ic('chevron-left')}</button>
+        <button type="button" data-nav="1" ${idx >= days.length - 1 ? 'disabled' : ''} aria-label="Folgetag">${AD.ic('chevron-right')}</button></span>` })}
       <div class="dlg-body">
         <div class="step">
           <div class="step-head"><label><span class="step-num">1</span>Wetter</label></div>
           <div class="emoji-row strip">
-            ${capHtml(WEATHER.map(w => `<button type="button" aria-pressed="${weather.has(w)}" data-w="${w}">${w}</button>`).join(''), 'wx')}
+            ${AD.capHtml(WEATHER.map(w => `<button type="button" aria-pressed="${weather.has(w)}" data-w="${w}">${w}</button>`).join(''), 'wx')}
           </div>
         </div>
         <div class="step">
           <div class="step-head"><label for="fProgram"><span class="step-num">2</span>Verlauf</label></div>
           <div class="chips" id="suggest">
-            ${PROGRAM_SUGGESTIONS.map((s, i) => `<button type="button" data-s="${i}">${esc(s.label)}</button>`).join('')}
+            ${PROGRAM_SUGGESTIONS.map((s, i) => `<button type="button" data-s="${i}">${AD.esc(s.label)}</button>`).join('')}
           </div>
-          <textarea id="fProgram" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Wie ist der Tag verlaufen? Eine Zeile pro Punkt.">${esc(e.program || '')}</textarea>
+          <textarea id="fProgram" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Wie ist der Tag verlaufen? Eine Zeile pro Punkt.">${AD.esc(e.program || '')}</textarea>
         </div>
         <div class="step" ${c.mood ? '' : 'hidden'}>
           <div class="step-head"><label for="fComment"><span class="step-num">${c.mood ? nextNo() : ''}</span>Wie war was?</label></div>
           <div class="emoji-row" id="moods"></div>
-          <textarea id="fComment" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Smiley antippen, dann ein paar Worte dazu.">${esc(e.comment || '')}</textarea>
+          <textarea id="fComment" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Smiley antippen, dann ein paar Worte dazu.">${AD.esc(e.comment || '')}</textarea>
           <div class="hint">${MOOD_HINT}</div>
         </div>
         ${c.km ? `<div class="step">
@@ -1846,13 +1846,13 @@ function openDayDialog(trip, iso) {
         ${trip.foodColumn ? `<div class="step">
           <div class="step-head"><label for="fFoodText"><span class="step-num">${nextNo()}</span>Essen und Trinken</label><span class="head-checks"><label class="check chip head-check"><input type="checkbox" id="noLink"> keinen Google-Maps Link</label></span></div>
           <div class="emoji-row" id="foodMoods"></div>
-          <textarea id="fFoodText" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Eine Zeile pro Lokal: Smileys, Name – Kommentar">${esc(e.food || '')}</textarea>
+          <textarea id="fFoodText" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Eine Zeile pro Lokal: Smileys, Name – Kommentar">${AD.esc(e.food || '')}</textarea>
           <div class="hint">Format: ‚🕛😋 Hard Rock Café – Steak war super‘. Der Name wird zum Link in Google Maps (mit dem Ort des Quartiers). ‚keinen Google-Maps Link‘ gilt für die Zeile, in der du gerade schreibst (markiert mit ⊘).</div>
         </div>` : ''}
         <div class="step" ${c.quarter ? '' : 'hidden'}>
           <div class="step-head"><label for="fQuarter"><span class="step-num">${c.quarter ? nextNo() : ''}</span>Quartier</label><span class="head-checks">${isFirst ? '' : `<label class="check chip head-check"><input type="checkbox" id="fSame" ${same ? 'checked' : ''}> Quartier wie Vortag</label>`}<label class="check chip head-check"><input type="checkbox" id="fNoMap" ${e.noMap && !same ? 'checked' : ''}> keinen Google-Maps Link</label></span></div>
           <div class="qrow"><input type="text" id="fQuarter" autocapitalize="sentences" autocorrect="on" spellcheck="true" list="quarterList" placeholder="z. B. Oaks Townsville Hotel">
-          <datalist id="quarterList">${knownQuarters.map(q => `<option value="${esc(q)}">`).join('')}</datalist>
+          <datalist id="quarterList">${knownQuarters.map(q => `<option value="${AD.esc(q)}">`).join('')}</datalist>
           <input type="text" id="fPlace" aria-label="Ort für Google Maps" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Ort für Google Maps, z. B. Cairns, Australien"></div>
           <div class="hint" id="qHint"></div>
           <div class="kosten qprice" id="qPrice"><label for="fPrice">Preis</label><input type="text" id="fPrice" inputmode="decimal" placeholder="0,00" autocomplete="off"><span>€</span></div>
@@ -1861,39 +1861,39 @@ function openDayDialog(trip, iso) {
       </div>
     </form>`, true);
 
-  const fProgram = dlg.querySelector('#fProgram');
-  const fComment = dlg.querySelector('#fComment');
-  const fQuarter = dlg.querySelector('#fQuarter');
-  const fPlace = dlg.querySelector('#fPlace');
-  const fSame = dlg.querySelector('#fSame');
-  const qHint = dlg.querySelector('#qHint');
-  const savedInfo = dlg.querySelector('#dlgSub');
+  const fProgram = AD.dlg.querySelector('#fProgram');
+  const fComment = AD.dlg.querySelector('#fComment');
+  const fQuarter = AD.dlg.querySelector('#fQuarter');
+  const fPlace = AD.dlg.querySelector('#fPlace');
+  const fSame = AD.dlg.querySelector('#fSame');
+  const qHint = AD.dlg.querySelector('#qHint');
+  const savedInfo = AD.dlg.querySelector('#dlgSub');
   let own = { name: same ? '' : (e.quarter || ''), place: same ? '' : (e.place || ''), price: same ? null : (e.price ?? null) };
-  const fPrice = dlg.querySelector('#fPrice');
-  const fKmDay = dlg.querySelector('#fKmDay');
-  const fFood = dlg.querySelector('#fFoodText');
+  const fPrice = AD.dlg.querySelector('#fPrice');
+  const fKmDay = AD.dlg.querySelector('#fKmDay');
+  const fFood = AD.dlg.querySelector('#fFoodText');
   let lastComment = e.comment || '';
   let lastFood = e.food || '';
   let lastSnapshot = JSON.stringify(original);
 
   // Schritt 1: Wetter
-  dlg.querySelectorAll('#wx button').forEach(b => b.onclick = () => {
+  AD.dlg.querySelectorAll('#wx button').forEach(b => b.onclick = () => {
     const on = b.getAttribute('aria-pressed') !== 'true';
     b.setAttribute('aria-pressed', on);
     on ? weather.add(b.dataset.w) : weather.delete(b.dataset.w);
   });
 
   // Schritt 2: Vorschläge als neue Zeile nach der letzten Zeile (RLB-123, seit 3.55.0); die Schaltfläche nimmt dem Feld den Fokus nicht (Tastatur bleibt)
-  dlg.querySelectorAll('#suggest button').forEach(b => {
+  AD.dlg.querySelectorAll('#suggest button').forEach(b => {
     b.addEventListener('mousedown', ev => ev.preventDefault());
     b.onclick = () => appendLine(fProgram, PROGRAM_SUGGESTIONS[b.dataset.s].text);
   });
 
   // Schritt 3: Smiley-Schnellauswahl
-  mountMoodRow(dlg.querySelector('#moods'), fComment, () => { lastComment = fComment.value.trim(); });
-  if (fFood) mountMoodRow(dlg.querySelector('#foodMoods'), fFood, () => { lastFood = fFood.value.trim(); }, 'food');
+  mountMoodRow(AD.dlg.querySelector('#moods'), fComment, () => { lastComment = fComment.value.trim(); });
+  if (fFood) mountMoodRow(AD.dlg.querySelector('#foodMoods'), fFood, () => { lastFood = fFood.value.trim(); }, 'food');
   if (fFood) {
-    const noLink = dlg.querySelector('#noLink');
+    const noLink = AD.dlg.querySelector('#noLink');
     const syncNoLink = () => {
       const v = fFood.value;
       const pos = fFood.selectionStart ?? v.length;
@@ -1912,7 +1912,7 @@ function openDayDialog(trip, iso) {
   }
 
   // Schritt Quartier – seit 3.41.0 (RLB-109) mit Preis des Aufenthalts unter ‚Ort‘, nicht bei ‚Quartier wie Vortag‘
-  const fNoMap = dlg.querySelector('#fNoMap');
+  const fNoMap = AD.dlg.querySelector('#fNoMap');
   bindMoney(fPrice, () => own.price, v => { own.price = v; });
   let ownNoMap = fNoMap.checked;
   const updateQuarter = () => {
@@ -1921,8 +1921,8 @@ function openDayDialog(trip, iso) {
     const q = useSame ? prev : { ...own, noMap: ownNoMap };
     fQuarter.value = q.name;
     fPlace.value = q.place;
-    dlg.querySelector('#qPrice').hidden = useSame || !trip.priceOn;   // seit 3.42.0 (RLB-111): nur auf Wunsch
-    if (document.activeElement !== fPrice) { fPrice.value = useSame || own.price == null ? '' : money(own.price); fitMoney(fPrice); }
+    AD.dlg.querySelector('#qPrice').hidden = useSame || !trip.priceOn;   // seit 3.42.0 (RLB-111): nur auf Wunsch
+    if (document.activeElement !== fPrice) { fPrice.value = useSame || own.price == null ? '' : AD.money(own.price); fitMoney(fPrice); }
     fNoMap.checked = Boolean(q.noMap);
     if (useSame && !prev.name) qHint.textContent = 'Am Vortag ist noch kein Quartier eingetragen.';
     else qHint.innerHTML = q.name && !q.noMap ? `<a href="${mapsUrl(q)}" target="_blank" rel="noopener" style="text-decoration:none">📍 In Google Maps prüfen</a>` : '';
@@ -1979,16 +1979,16 @@ function openDayDialog(trip, iso) {
 
   autosaveTimer = setInterval(persist, AUTOSAVE_MS);
   const initialDay = JSON.stringify(collect());
-  dlgDirty = () => JSON.stringify(collect()) !== initialDay;
+  AD.dlgDirty = () => JSON.stringify(collect()) !== initialDay;
 
-  dlg.querySelectorAll('[data-nav]').forEach(b => b.onclick = () => {
+  AD.dlg.querySelectorAll('[data-nav]').forEach(b => b.onclick = () => {
     persist();
     render();
     openDayDialog(trip, days[idx + Number(b.dataset.nav)]);
   });
-  dlg.onclose = () => {
+  AD.dlg.onclose = () => {
     clearInterval(autosaveTimer);
-    if (dlg.returnValue === 'ok') persist(); else restore();
+    if (AD.dlg.returnValue === 'ok') persist(); else restore();
     render();
   };
 }
@@ -1997,25 +1997,25 @@ function openDayDialog(trip, iso) {
 function openFazitDialog(trip) {
   const original = trip.fazit || '';
   const stamps = syncStamps(trip);
-  openDialog(`
+  AD.openDialog(`
     <form method="dialog">
-      ${dlgHead('Fazit')}
+      ${AD.dlgHead('Fazit')}
       <div class="dlg-body">
         <div class="step">
           <div class="step-head"><label for="fFazit">Was bleibt von dieser Reise?</label></div>
           <div class="emoji-row" id="moods"></div>
-          <textarea id="fFazit" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Smiley antippen, dann ein paar Worte dazu.">${esc(original)}</textarea>
+          <textarea id="fFazit" autocapitalize="sentences" autocorrect="on" spellcheck="true" placeholder="Smiley antippen, dann ein paar Worte dazu.">${AD.esc(original)}</textarea>
           <div class="hint">${MOOD_HINT}</div>
         </div>
         ${micHint()}
       </div>
     </form>`);
 
-  const ta = dlg.querySelector('#fFazit');
-  const savedInfo = dlg.querySelector('#dlgSub');
-  dlgDirty = () => ta.value.trim() !== original.trim();
+  const ta = AD.dlg.querySelector('#fFazit');
+  const savedInfo = AD.dlg.querySelector('#dlgSub');
+  AD.dlgDirty = () => ta.value.trim() !== original.trim();
   let lastSaved = original;
-  mountMoodRow(dlg.querySelector('#moods'), ta, () => { lastSaved = ta.value.trim(); });
+  mountMoodRow(AD.dlg.querySelector('#moods'), ta, () => { lastSaved = ta.value.trim(); });
 
   const persist = () => {
     const value = ta.value.trim();
@@ -2032,9 +2032,9 @@ function openFazitDialog(trip) {
   };
 
   autosaveTimer = setInterval(persist, AUTOSAVE_MS);
-  dlg.onclose = () => {
+  AD.dlg.onclose = () => {
     clearInterval(autosaveTimer);
-    if (dlg.returnValue === 'ok') persist(); else restore();
+    if (AD.dlg.returnValue === 'ok') persist(); else restore();
     render();
   };
 }
@@ -2050,7 +2050,7 @@ function outputName(trip, version) {
 
 // Alle Regeln gelten nur innerhalb von .rt, damit sie beim Drucken nicht in die App durchschlagen.
 // Schrift und Tabellen aus der Mustertabelle der Ausgabe in AppDesign (outputCss, R-6.2); hier nur, was dazukommt.
-const OUTPUT_CSS = outputCss('.rt') + `
+const OUTPUT_CSS = AD.outputCss('.rt') + `
   body { font: 11pt/1.4 -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: #000; background: #fff; margin: 24px; }
   .rt .ln { display: flex; gap: .35em; }
   .rt .ln + .ln { margin-top: 2px; }
@@ -2066,12 +2066,12 @@ const OUTPUT_CSS = outputCss('.rt') + `
 
 // Zelle der Statistik (App und Ausgabe): Wert und Ø als zwei Teile, die je in einer Zeile bleiben; passen beide nicht in die Zeile, steht
 // der Ø linksbündig unter dem Wert (seit 3.42.1, RLB-112 – ein Trennpunkt im Text bricht in Safari nach geschützten Leerzeichen nicht um)
-// seit 3.55.0 (RLB-122, AppDesign R-10.5): Wetter und Smileys als Liste der Einträge – Aufzählung aus AppDesign (aufzaehlung): jeder
+// seit 3.55.0 (RLB-122, AppDesign R-10.5): Wetter und Smileys als Liste der Einträge – Aufzählung aus AppDesign (AD.listHtml): jeder
 // Eintrag ‚Anzahl×Zeichen‘ am Stück, umgebrochen wird nur nach dem ‚·‘ (App, Vorschau und Ausgabe)
 function statHtml(v) {
-  if (Array.isArray(v)) return aufzaehlung(v);
+  if (Array.isArray(v)) return AD.listHtml(v);
   const m = v.match(/^(.*?\u00a0{5})(\(Ø.*)$/);
-  return m ? `<span class="avg"><span>${esc(m[1])}</span><span>${esc(m[2])}</span></span>` : esc(v);
+  return m ? `<span class="avg"><span>${AD.esc(m[1])}</span><span>${AD.esc(m[2])}</span></span>` : AD.esc(v);
 }
 
 function tripStats(trip) {
@@ -2108,7 +2108,7 @@ function tripStats(trip) {
     ['Reisetage', `${days.length}, davon erfasst ${rec.length}`],
     ...(kms.length ? [['Gegangene Kilometer', avg(fmtKm(kmSum), fmtKm(kmSum / kms.length), 'km')]] : []),
     ...(c.quarter ? [['Quartiere', String(quarters.size)], ['Nächte', String(stays.reduce((n, st) => n + st.nights, 0))]] : []),
-    ...(priced.length ? [['Quartierkosten', avg(money(cost), money(cost / costNights), '€')]] : []),
+    ...(priced.length ? [['Quartierkosten', avg(AD.money(cost), AD.money(cost / costNights), '€')]] : []),
     ...quarterRankRows(priced),
     ['Wetter', fmt(weather)],
     ['Smileys', fmt(moods)],
@@ -2125,10 +2125,10 @@ function quarterRanks(priced) {
   const desc = [...list].sort((a, b) => b.v - a.v || a.i - b.i), k = Math.ceil(list.length / 2);
   return { teuer: desc.slice(0, Math.min(3, k)), guenstig: desc.slice(k).sort((a, b) => a.v - b.v || a.i - b.i).slice(0, 3) };
 }
-// Zeilen der Statistik: je Eintrag [Name, ‚(Preis je Nacht €)‘] für die Aufzählung (aufzaehlung, AppDesign R-10.5 – der Preis bleibt ganz)
+// Zeilen der Statistik: je Eintrag [Name, ‚(Preis je Nacht €)‘] für die Aufzählung (AD.listHtml, AppDesign R-10.5 – der Preis bleibt ganz)
 function quarterRankRows(priced) {
   const rk = quarterRanks(priced);
-  const liste = rs => rs.map(r => [r.name, `(${money(r.v)}\u00a0€)`]);
+  const liste = rs => rs.map(r => [r.name, `(${AD.money(r.v)}\u00a0€)`]);
   return rk ? [['Teuerste Quartiere', liste(rk.teuer)], ['Günstigste Quartiere', liste(rk.guenstig)]] : [];
 }
 
@@ -2158,7 +2158,7 @@ function outputBody(trip, version, stamp) {
     const e = rawEntry(trip, iso);
     const q = quarterOf(trip, iso);
     return `<tr>
-      <td class="nw">${dayLabel(iso)}${e.weather ? `<br>${esc(e.weather)}` : ''}</td>
+      <td class="nw">${dayLabel(iso)}${e.weather ? `<br>${AD.esc(e.weather)}` : ''}</td>
       <td>${linesHtml(programItems(e.program))}</td>
       ${c.mood ? `<td>${linesHtml(commentItems(e.comment))}</td>` : ''}
       ${c.km ? `<td class="num">${e.km != null ? fmtKm(e.km) : ''}</td>` : ''}
@@ -2169,9 +2169,9 @@ function outputBody(trip, version, stamp) {
   const transport = transportText(trip);
   const stays = trip.quarterList && c.quarter ? quarterStays(trip) : [];
   return `<div class="rt">
-    <h1>Reiselogbuch – ${esc(trip.title)}</h1>
+    <h1>Reiselogbuch – ${AD.esc(trip.title)}</h1>
     <table class="meta">
-      <tr><td><b>Reiseteilnehmer:</b></td><td>${esc(trip.participants)}</td></tr>
+      <tr><td><b>Reiseteilnehmer:</b></td><td>${AD.esc(trip.participants)}</td></tr>
       <tr><td><b>Reisezeitraum:</b></td><td>${fullDate(trip.start)} - ${fullDate(trip.end)}</td></tr>
       ${transport ? `<tr><td><b>Reisemittel:</b></td><td>${transportHtml(trip)}</td></tr>` : ''}
     </table>
@@ -2183,7 +2183,7 @@ function outputBody(trip, version, stamp) {
     <h2>Fazit</h2>
     <div>${linesHtml(commentItems(trip.fazit))}</div>
     <h2>Gesamtausgaben</h2>
-    <p>${formatEuro(trip.kosten)}</p>
+    <p>${AD.formatEuro(trip.kosten)}</p>
     ${stays.length ? `
       <h2>Quartierliste</h2>
       <table class="grid fit">
@@ -2192,7 +2192,7 @@ function outputBody(trip, version, stamp) {
           <td>${quarterHtml(s.q)}</td>
           <td class="nw">${shortDate(s.firstNight)} - ${fullDate(addDays(s.lastNight, 1))}</td>
           <td class="num">${s.nights}</td>
-          ${trip.priceOn ? `<td class="num">${s.price == null ? '' : formatEuro(s.price)}</td>` : ''}
+          ${trip.priceOn ? `<td class="num">${s.price == null ? '' : AD.formatEuro(s.price)}</td>` : ''}
         </tr>`).join('')}</tbody>
       </table>` : ''}
     <h2>Statistik</h2>
@@ -2210,28 +2210,28 @@ function outputDocument(trip, version, stamp) {
   return `<!doctype html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(outputName(trip, version))}</title>
+<title>${AD.esc(outputName(trip, version))}</title>
 <style>${OUTPUT_CSS}</style></head>
 <body>${outputBody(trip, version, stamp)}</body></html>`;
 }
 
-function backupFile() { return backupFileOf('Reiselogbuch', db); }
+function backupFile() { return AD.backupFileOf('Reiselogbuch', db); }
 
 // Vorschau der Ausgabe in der App, immer hell; zeigt die Nummer der nächsten Datei, ohne den Zähler zu erhöhen.
 function openPreview(trip) {
   const version = (trip.outputCounter || 0) + 1;
-  openDialog(`
+  AD.openDialog(`
     <form method="dialog">
-      ${dlgHead('Vorschau', { sub: esc(outputName(trip, version)), check: false,
-        right: `<span class="grp"><button type="button" class="txt" id="prvPdf">${ic('file-text')}PDF</button><button type="button" class="fill" id="prvShare" aria-label="Teilen">${ic('share')}</button></span>` })}
+      ${AD.dlgHead('Vorschau', { sub: AD.esc(outputName(trip, version)), check: false,
+        right: `<span class="grp"><button type="button" class="txt" id="prvPdf">${AD.ic('file-text')}PDF</button><button type="button" class="fill" id="prvShare" aria-label="Teilen">${AD.ic('share')}</button></span>` })}
       <div class="dlg-body preview">
         <style>${OUTPUT_CSS.replace(/\bbody\b/g, '.dlg-body.preview')}.dlg-body.preview { margin: 0; padding: 24px; }</style>
         ${outputBody(trip, version, nowStamp())}
       </div>
     </form>`, true);
-  dlg.querySelectorAll('.preview a[href]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
-  dlg.querySelector('#prvShare').onclick = () => exportHtml(trip);
-  dlg.querySelector('#prvPdf').onclick = () => exportPdf(trip);
+  AD.dlg.querySelectorAll('.preview a[href]').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
+  AD.dlg.querySelector('#prvShare').onclick = () => exportHtml(trip);
+  AD.dlg.querySelector('#prvPdf').onclick = () => exportPdf(trip);
 }
 
 // Seit 3.58.1 (P-120/F-3): nextOutput nennt nur die Nummer der nächsten Ausgabe; gezählt wird erst, wenn sie übergeben ist (countOutput) –
@@ -2244,8 +2244,8 @@ async function exportHtml(trip) {
   const { version, stamp } = nextOutput(trip);
   const file = { name: `${outputName(trip, version)}.html`, type: 'html', content: outputDocument(trip, version, stamp) };
   const over = fromPreview();   // seit 3.58.2 (P-121/F-2): aus der Vorschau bleibt sie offen, die Meldung steht darüber
-  if (dlg.open && !over) dlg.close();
-  const result = await shareFiles([file]);
+  if (AD.dlg.open && !over) AD.dlg.close();
+  const result = await AD.shareFiles([file]);
   if (result === 'shared' || result === 'downloaded') countOutput(trip, version);
   outputSource(over, '#prvShare');
   showOutputResult(`Ausgabe V${pad(version, 3)}`, file.name, result, { over });
@@ -2274,7 +2274,7 @@ function exportPdf(trip) {
 }
 
 // Seit 3.58.2 (P-121/F-2): over – aus der Vorschau als Hinweisfenster (AD-Bean alert auf #msg) über der offenen Vorschau, die danach bleibt.
-const fromPreview = () => dlg.open && !!dlg.querySelector('#prvShare');
+const fromPreview = () => AD.dlg.open && !!AD.dlg.querySelector('#prvShare');
 // Seit 3.58.3 (P-122/F-1): über der Vorschau ist die Schaltfläche der Vorschau eine gehaltene Quelle der Meldung (hold, bis #msg schließt) – die Quelle
 // der Vorschau (Teilen der Kopfzeile) bleibt, und nach dem Schließen sieht die Vorschau aus wie beim Öffnen (R-3.3).
 // Seit 3.58.5 (P-124/F-2): ebenso auf jedem anderen Weg – gehalten wird die angetippte Schaltfläche, bis #msg schließt: aus dem Menü Teilen der Kopfzeile,
@@ -2282,8 +2282,8 @@ const fromPreview = () => dlg.open && !!dlg.querySelector('#prvShare');
 // aber in #msg, und Teilen blieb hellblau; auf der gesperrten Seite war bei PDF Teilen getönt.
 function outputSource(over, item) {
   const btn = over ? item : item === '#prvPdf' && app.querySelector('#pdfBtn') ? '#pdfBtn' : '#shareBtn';
-  adSourcehighlight.hold(btn);
-  document.getElementById('msg').addEventListener('close', () => adSourcehighlight.release(btn), { once: true });
+  AD.sourcehighlight.hold(btn);
+  document.getElementById('msg').addEventListener('close', () => AD.sourcehighlight.release(btn), { once: true });
 }
 function showOutputResult(title, name, result, { over = false } = {}) {
   const remind = !backedUpToday() && result !== 'aborted' && result !== 'error';
@@ -2293,14 +2293,14 @@ function showOutputResult(title, name, result, { over = false } = {}) {
   // Seit 3.58.5 (P-124/F-1, AppDesign 4.70.2): die Kästen sind fertig, bevor das Hinweisfenster aufgeht – alert rechnet Breite und Lage beim Öffnen
   const boxes = document.createDocumentFragment();
   const box = id => { const b = document.createElement('div'); b.className = 'step'; b.id = id; boxes.append(b); return b; };
-  createNotice(box('result'), { message: shareResultText(result, name) });
+  AD.createNotice(box('result'), { message: AD.shareResultText(result, name) });
   if (remind) showBackupReminder(box('reminder'));
-  inform(title, boxes);
+  AD.inform(title, boxes);
 }
 
 // Backup-Erinnerung im Kasten box (AD-Bean notice): nach dem Backup steht dort das Ergebnis statt der Erinnerung.
 function showBackupReminder(box) {
-  const notice = createNotice(box, { message: '<strong>💾 Denk daran, auch ein Backup zu erstellen.</strong>', detail: lastBackupText(),
+  const notice = AD.createNotice(box, { message: '<strong>💾 Denk daran, auch ein Backup zu erstellen.</strong>', detail: lastBackupText(),
     buttons: [{ id: 'backupNow', label: 'Backup erstellen', icon: 'save', primary: true }] });
   notice.on('action', async () => {
     const name = await saveBackup(undefined, { inBox: true });
@@ -2312,17 +2312,17 @@ function showBackupReminder(box) {
 // anchor: Schaltfläche, von der es kommt – sie bleibt bis zum Schließen der Meldung blau. inBox (seit 3.58.4, P-123/F-3): das Ergebnis zeigt der Aufrufer
 // selbst (Backup-Erinnerung) – sonst immer das Hinweisfenster ‚Backup‘ (vorher fragte saveBackup das evtl. geschlossene Fenster nach #reminder und schwieg).
 async function saveBackup(anchor, { inBox = false } = {}) {
-  adSourcehighlight.hold(anchor);
+  AD.sourcehighlight.hold(anchor);
   const file = backupFile();
-  const result = await shareFiles([file]);
+  const result = await AD.shareFiles([file]);
   if (result === 'shared' || result === 'downloaded') {
     db.settings.lastBackup = Date.now();
     save();
-    if (isPhone()) render(); else renderSide();
+    if (AD.isPhone()) render(); else renderSide();
   }
-  const text = shareResultText(result, file.name);
-  if (!inBox) await inform('Backup', text);
-  adSourcehighlight.release(anchor);
+  const text = AD.shareResultText(result, file.name);
+  if (!inBox) await AD.inform('Backup', text);
+  AD.sourcehighlight.release(anchor);
   // RLB-105: nach dem Backup ist die Kachel weg – der Fokus geht auf ‚Mehr‘ statt ins Leere
   if (anchor && !document.querySelector(anchor)) side.querySelector('#sideMore')?.focus({ preventScroll: true });
   return text;
@@ -2333,17 +2333,17 @@ async function saveBackup(anchor, { inBox = false } = {}) {
 /* ---------- Backup ---------- */
 
 
-importFile.addEventListener('cancel', () => adSourcehighlight.release(importAnchor));
+importFile.addEventListener('cancel', () => AD.sourcehighlight.release(importAnchor));
 importFile.onchange = async () => {
   const file = importFile.files[0];
   importFile.value = '';
-  if (!file) return adSourcehighlight.release(importAnchor);
+  if (!file) return AD.sourcehighlight.release(importAnchor);
   try {
-    const { data, savedAt, savedOn } = await readBackup(file, 'trips');
+    const { data, savedAt, savedOn } = await AD.readBackup(file, 'trips');
     normalize(data);
     // Abfrage (R-9.2): Zeitpunkt und Gerät des Backups, neuer oder älter – Abgleichen · Ersetzen · Abbrechen.
     const choice = await sync.ask(document.querySelector(importAnchor), db, data, savedAt, savedOn);
-    if (!choice) return adSourcehighlight.release(importAnchor);
+    if (!choice) return AD.sourcehighlight.release(importAnchor);
     // Das letzte Backup und das zuletzt verwendete Reiselogbuch gelten je Gerät: die Werte aus der Datei werden nicht übernommen.
     // Glas (seit 3.52.0, AppDesign APD-120): gilt je Gerät – der Wert aus der Datei nur, wenn hier noch nicht gewählt (Neuinstallation)
     const { lastBackup, lastTrip, glas } = db.settings;
@@ -2353,25 +2353,25 @@ importFile.onchange = async () => {
     db = normalize(db);
     db.settings.lastBackup = lastBackup;
     if (lastTrip) db.settings.lastTrip = lastTrip; else delete db.settings.lastTrip;
-    glasAusBackup(glas);
+    AD.glassFromBackup(glas);
     lastSnap = snapshot(db);   // übernommene Änderungen behalten Zeitpunkt und Gerät von drüben
     save();
-    applyTheme();
-    if (dlg.open) dlg.close();
+    AD.applyTheme();
+    if (AD.dlg.open) AD.dlg.close();
     // Abgleichen bleibt in der aktuellen Ansicht; Ersetzen beginnt wie beim Start.
     if (choice === 'merge' && getTrip(currentTripId)) render(); else showTrip(pickStartTrip()?.id);
     // R-9.4: Ergebnis mit Tabelle der Änderungen auf diesem Gerät (breites Fenster).
     if (stats) await sync.showResult(stats, savedAt, savedOn);
-    adSourcehighlight.release(importAnchor);
+    AD.sourcehighlight.release(importAnchor);
   } catch (e) {
-    await inform('Backup laden', '⚠️ Die Datei konnte nicht gelesen werden. ' + esc(e.message));
-    adSourcehighlight.release(importAnchor);
+    await AD.inform('Backup laden', '⚠️ Die Datei konnte nicht gelesen werden. ' + AD.esc(e.message));
+    AD.sourcehighlight.release(importAnchor);
   }
 };
 
 /* ---------- Start ---------- */
 
-applyTheme();
+AD.applyTheme();
 // Beim Start immer am Anfang beginnen (der Sprung zum ersten offenen Tag kommt von der App, nicht von Safari).
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 // Dauerhaften Speicher anfordern (einmalig, ohne Rückfrage); das Ergebnis steht im Menü der Seitenleiste.
@@ -2387,10 +2387,10 @@ sideOpen = true;
 // ohne blauen Eintrag; der iPad-Aufbau öffnet wie bisher die laufende (sonst zuletzt beendete, sonst nächste) Reise.
 // Die Startreise bleibt gewählt, damit ein breiteres Fenster sie mit der Seitenleiste zeigt.
 showTrip(pickStartTrip()?.id);
-if (isPhone()) { phoneList = true; startList = true; rolle.to(0); render(); }
+if (AD.isPhone()) { phoneList = true; startList = true; AD.scrollView.to(0); render(); }
 // Wechsel quer/hoch: Seitenleiste fest oder darübergelegt; sonst nur Höhen und Breiten nachführen.
 let wasWide = isWide();
-let wasPhone = isPhone(), wasAx = isAx();
+let wasPhone = AD.isPhone(), wasAx = isAx();
 window.addEventListener('resize', () => {
   // seit 3.59.2 (RLB-129): Drehen = neue Breite oder um mehr als 150 px andere Höhe (wie ui.js); bis SIDE_TURN_MS danach merkt sich die Liste nichts
   if (innerWidth !== sideMeldW || Math.abs(innerHeight - sideMeldH) > 150) sideTurnEnd = performance.now() + SIDE_TURN_MS;
@@ -2400,8 +2400,8 @@ window.addEventListener('resize', () => {
   // Wechsel fest ↔ darübergelegt bzw. iPad- ↔ iPhone-Aufbau: neu aufbauen; der Zustand sideOpen bleibt (R-8.1).
   // seit 3.35.0 (RLB-101, AppDesign APD-43 W1): ebenso beim Wechsel der Textgröße über AX1 (Tabelle ↔ Kästen, oberster Tag bleibt – ui.js)
   // seit 3.43.0 (AppDesign APD-97, R-6.6): ebenso, wenn der Inhalt die Grenze 700 px überschreitet (Tabelle ↔ Kästen)
-  if (isPhone() !== wasPhone || isWide() !== wasWide || isAx() !== wasAx || (!isPhone() && inhaltSchmal(app) !== wasSchmal)) {
-    wasPhone = isPhone(); wasWide = isWide(); wasAx = isAx();
+  if (AD.isPhone() !== wasPhone || isWide() !== wasWide || isAx() !== wasAx || (!AD.isPhone() && AD.compactWidth(app) !== wasSchmal)) {
+    wasPhone = AD.isPhone(); wasWide = isWide(); wasAx = isAx();
     // seit 3.59.1 (RLB-128): die Liste der Seitenleiste bleibt stehen; nur die Kachel eines offenen Menüs bzw. einer Sprechblase bleibt im Bild
     sideAnchor = sideMenuRow()?.dataset.id || null;
     sideHold = sideTurn = true; try { render(); } finally { sideHold = sideTurn = false; sideAnchor = null; }

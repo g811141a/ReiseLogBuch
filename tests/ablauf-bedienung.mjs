@@ -38,13 +38,13 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     await G(p, 'Menü daneben geschlossen', async () => { await p.evaluate(() => document.querySelector('.layer')?.click()); await warte(p, 200); });
     // V2, V8: Fenster mit Titel, modal
     await G(p, 'Fenster Reiselogbuch einstellen', settings(p));
-    await p.evaluate(() => dlg.close()); await warte(p);
+    await p.evaluate(() => AD.dlg.close()); await warte(p);
     // V11: ‚Automatisch gespeichert‘ steht im Fensterkopf, wird nicht angesagt
     await G(p, 'Tag erfassen, automatisch gespeichert', async () => {
       await p.evaluate(() => openDayDialog(db.trips.find(x => x.id === 'a'), '2026-08-25')); await warte(p, 300);
       await p.locator('#dlg textarea').first().focus(); await p.keyboard.type(' mehr'); await p.locator('#dlg textarea').first().blur(); await warte(p, 10500); });   // automatisch gespeichert nach 10 s
     t.wahr('‚Automatisch gespeichert‘ steht im Fensterkopf', /gespeichert um/.test(await p.textContent('#dlgSub')), 'R-1.8');
-    await p.evaluate(() => dlg.close()); await warte(p);
+    await p.evaluate(() => AD.dlg.close()); await warte(p);
     // K1–K6, K9, V5, V6
     errs(await checkFokus(p, { menue: '#sideMore', untermenue: 'Darstellung', felder: [],
       fenster: { open: settings(p), change: () => p.locator('#fTitle').fill('Australien 2'), feld: '#fTitle' } }));
@@ -52,7 +52,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     await settings(p)(); await warte(p, 300);
     errs(await checkFokus(p, { felder: ['#fTitle', '#fPeople'], tab: false, where: 'Fenster' }));
     await G(p, 'Feld im Fenster angetippt', () => p.locator('#fPeople').tap());
-    await p.evaluate(() => dlg.close()); await warte(p);
+    await p.evaluate(() => AD.dlg.close()); await warte(p);
     // V10: Fehlermeldung hörbar, Häkchen → Fokus aufs Feld
     errs(await checkFieldErrors(p, { open: settings(p), field: '#fTitle' }));
     // V9: Ansagen der Suche
@@ -76,14 +76,14 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
     if (a4 !== '1 von 2 Reiselogbüchern') t.fehler('R-1.8', `Seitenleiste: Ansage ‚${a4}‘ statt ‚1 von 2 Reiselogbüchern‘`);
     await p.click('#lsclose'); await warte(p, 200);
     // V13: offline und wieder online – angesagt, auch bei offenem Fenster (dort im Fenster)
-    await p.evaluate(() => setNet('aus'));
+    await p.evaluate(() => AD.setNet('aus'));
     const a5 = await ansage(p, 200);
     if (!/offline/.test(a5 || '')) t.fehler('R-1.8', `Offline: Ansage ‚${a5}‘ statt ‚Du bist offline …‘`);
     await settings(p)(); await warte(p, 300);
-    await p.evaluate(() => setNet('an'));
+    await p.evaluate(() => AD.setNet('an'));
     const a6 = await ansage(p, 200);
     if (a6 !== 'Wieder online') t.fehler('R-1.8', `Wieder online bei offenem Fenster: Ansage ‚${a6}‘ im Fenster statt ‚Wieder online‘`);
-    await p.evaluate(() => dlg.close()); await warte(p);
+    await p.evaluate(() => AD.dlg.close()); await warte(p);
     // H1–H5: zweite Farbtabelle, Ausgabe hell, Umschalten ohne Neuaufbau
     errs(await checkKontrast(p, {
       vorschau: async () => { await p.click('#shareBtn'); await warte(p, 150); await p.locator('.menu .mi', { hasText: 'Vorschau' }).click(); },
@@ -103,10 +103,10 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']) {
       { name: 'F-4 Mehr → Reiselogbuch einstellen, Esc', auf: settings(p), zu: esc, knopf: '#mainMore' },
       { name: 'F-5/F-11 Tag weiter unten, Esc', auf: async () => { await p.evaluate(s => document.querySelector(s).scrollIntoView({ block: 'center' }), TAG); await warte(p, 200);
         await p.locator(TAG + ' td').first().click(); }, zu: esc, knopf: TAG, rolle: '#rolle' },
-      { name: 'F-8 Meldung über eine Schaltfläche, App baut neu auf', auf: async () => { await p.focus('#mainMore'); await p.evaluate(() => { inform('Backup', 'Text'); render(); }); }, zu: esc, knopf: '#mainMore' },
+      { name: 'F-8 Meldung über eine Schaltfläche, App baut neu auf', auf: async () => { await p.focus('#mainMore'); await p.evaluate(() => { AD.inform('Backup', 'Text'); render(); }); }, zu: esc, knopf: '#mainMore' },
       { name: 'F-12 Fenster offen, drehen, dann schließen', auf: tasteAuf('#newTrip'), zu: async () => {
         await p.setViewportSize({ width: vp.height, height: vp.width }); await warte(p, 500); await esc(); }, knopf: '#newTrip' },
-      { name: 'F-6 Schaltfläche gibt es nicht mehr (Reiselogbuch gelöscht)', auf: () => p.evaluate(() => { adSourcehighlight.sourceItem = '#side .side-row[data-id="b"]'; openTripDialog(db.trips.find(x => x.id === 'b')); }),
+      { name: 'F-6 Schaltfläche gibt es nicht mehr (Reiselogbuch gelöscht)', auf: () => p.evaluate(() => { AD.sourcehighlight.sourceItem = '#side .side-row[data-id="b"]'; openTripDialog(db.trips.find(x => x.id === 'b')); }),
         zu: async () => { await p.evaluate(() => { db.trips = db.trips.filter(x => x.id !== 'b'); save(); render(); }); await warte(p, 200); await esc(); }, knopf: null },
       { name: 'F-3 ‚Neues Reiselogbuch‘ mit dem Häkchen sichern', auf: async () => { await p.evaluate(() => { db.settings.lastBackup = Date.now(); save(); }); await tasteAuf('#newTrip')(); }, zu: async () => { await p.fill('#fTitle', 'Neu'); await p.fill('#fPeople', 'X'); await p.fill('#fStart', '2027-01-10'); await p.fill('#fEnd', '2027-01-12');
         await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); }, knopf: '#newTrip', tastatur: false },

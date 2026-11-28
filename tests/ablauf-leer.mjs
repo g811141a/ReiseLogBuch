@@ -33,7 +33,7 @@ const leer = (p, wo) => p.evaluate(wo => [...document.querySelectorAll(`${wo} .l
 // seit 3.48.1 (AppDesign APD-111, Usertest P-92/4 und P-92/5 nicht ok): Symbol 36 pt und Titel 17 pt halbfett überall – wie die Suche in der Seitenleiste
 const MASSE = [36, 17, 600];
 const S1 = 'Noch kein Reiselogbuch', S1SATZ = 'Ein neues mit ‚plus‘ in der Seitenleiste anlegen.', SUCHSATZ = 'Schreibweise prüfen oder nach etwas anderem suchen.';
-const dialogZu = async p => { if (await p.evaluate(() => dlg.open)) { await p.click('#dlgX'); await p.waitForTimeout(400); await navFertig(p); } };
+const dialogZu = async p => { if (await p.evaluate(() => AD.dlg.open)) { await p.click('#dlgX'); await p.waitForTimeout(400); await navFertig(p); } };
 
 const b = await t.browser();
 for (const [ansicht, theme, opts] of [['iPad quer', 'light', {}], ['iPad quer', 'dark', {}], ['iPad hoch', 'light', {}], ['iPhone hoch', 'light', {}], ['iPhone quer', 'light', {}], ['iPad quer', 'light', { contrast: 'more' }], ['iPhone hoch', 'dark', { contrast: 'more' }]]) {
@@ -43,7 +43,7 @@ for (const [ansicht, theme, opts] of [['iPad quer', 'light', {}], ['iPad quer', 
     // L-1, L-2: ohne Daten starten, ‚Neues Reiselogbuch‘ öffnet sich einmal von selbst; mit x schließen
     await lade(p, null);
     await t.schritt(p, 'L-1 Start ohne Reiselogbuch, Fenster mit x schließen', () => dialogZu(p));
-    const phone = await p.evaluate(() => isPhone());
+    const phone = await p.evaluate(() => AD.isPhone());
     const knopfId = phone ? 'leerNeuListe' : 'leerNeu';
     if (phone) {
       const s = await leer(p, '#side');
@@ -60,7 +60,7 @@ for (const [ansicht, theme, opts] of [['iPad quer', 'light', {}], ['iPad quer', 
     // L-3: die Schaltfläche öffnet dasselbe Fenster wie ‚plus‘; nach x liegt der Fokus wieder auf ihr
     // mit der Tastatur bzw. VoiceOver (Safari gibt einer angetippten Schaltfläche keinen Fokus – pruefe.mjs bildet das nach)
     await t.schritt(p, 'L-3 Schaltfläche ‚Neues Reiselogbuch‘', async () => { await p.focus('#' + knopfId); await p.keyboard.press('Enter'); await p.waitForTimeout(500); });
-    t.ist('L-3 die Schaltfläche öffnet ‚Neues Reiselogbuch‘', [await p.evaluate(() => dlg.open), await p.textContent('#dlg h3').catch(() => '')], [true, 'Neues Reiselogbuch'], 'R-7.7');
+    t.ist('L-3 die Schaltfläche öffnet ‚Neues Reiselogbuch‘', [await p.evaluate(() => AD.dlg.open), await p.textContent('#dlg h3').catch(() => '')], [true, 'Neues Reiselogbuch'], 'R-7.7');
     await dialogZu(p);
     t.ist('L-3 nach x liegt der Fokus auf der Schaltfläche', await p.evaluate(() => document.activeElement?.id), knopfId, 'R-1.8');
     // L-12: Textgröße xS und AX3 (die größte der App) – Titel und Satz brechen um, nichts ragt hinaus; Schaltfläche mindestens 44 hoch (Grundregeln)
@@ -70,10 +70,10 @@ for (const [ansicht, theme, opts] of [['iPad quer', 'light', {}], ['iPad quer', 
     }
     await p.evaluate(() => { delete document.documentElement.dataset.ts; });
     // L-18: Offline-Zeile bei leerer Liste – bleibt unten, überdeckt den leeren Zustand nicht
-    await t.schritt(p, 'L-18 offline', async () => { await p.evaluate(() => { netState = 'aus'; renderSide(); }); await p.waitForTimeout(200); });
+    await t.schritt(p, 'L-18 offline', async () => { await p.evaluate(() => { AD.netState = 'aus'; renderSide(); }); await p.waitForTimeout(200); });
     t.wahr('L-18 Offline-Zeile unter dem leeren Zustand, ohne Überdeckung', await p.evaluate(() => { const o = document.querySelector('#side .offl:not([hidden])'), l = [...document.querySelectorAll('#side .leer')].find(e => e.getClientRects().length);
       return !!o && !!l && o.getBoundingClientRect().top >= l.querySelector('h3').getBoundingClientRect().bottom; }), 'R-7.7');
-    await p.evaluate(() => { netState = 'an'; renderSide(); });
+    await p.evaluate(() => { AD.netState = 'an'; renderSide(); });
     // L-15: Drehen (iPad) – Zustand bleibt; Grundregeln danach
     if (!phone) {
       const vp = p.viewportSize();

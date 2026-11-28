@@ -99,7 +99,7 @@ try {
   // M-3 Blatt offen (Tag bearbeiten), ohne Fokus in einem Feld
   await p.click('#app [data-day]'); await p.waitForTimeout(600); await navFertig(p);
   await p.evaluate(() => document.activeElement?.blur?.());
-  const blatt = () => p.evaluate(() => Math.round(dlg.getBoundingClientRect().top));
+  const blatt = () => p.evaluate(() => Math.round(AD.dlg.getBoundingClientRect().top));
   const vor3 = await lage(p, '#dlg .dlg-head, dialog[open] header', '#dlgX'), blatt3 = await blatt();
   let bilder3;
   await t.schritt(p, 'M-3 Blatt offen, hoch → quer → hoch', async () => { bilder3 = await safariDrehenHoch(p, { bilder: bilderVon('#dlg .dlg-head, dialog[open] header') }); });

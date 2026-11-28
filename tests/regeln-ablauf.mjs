@@ -17,11 +17,10 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
   const p = await b.newPage({ viewport: { width: w, height: h }, hasTouch: true, isMobile: w < 700, colorScheme: scheme });
   p.on('pageerror', e => errs.push(`${dev}: Skriptfehler ${e.message}`));
   await textSeite(p);   // seit 3.50.0: Gegenproben (AppDesign APD-40/B-5, C-5, C-6)
-  // seit 3.55.0: PRUEF_V=alt – Gegenprobe APD-124/B-11 mit ui.js der Fassung 4.56.0 (als 4.57.0 gemeldet, dazu aufzaehlung aus 4.57.0, die die App
-  // braucht): checkClear muss rot werden
+  // seit 3.55.0: PRUEF_V=alt – Gegenprobe APD-124/B-11 mit ui.js der Fassung 4.56.0 (als 4.57.0 gemeldet): checkClear muss rot werden. Die Route trifft
+  // nur eine App, die fassung/4.57.0 lädt; seit 3.60.0 (AppDesign 5.0.0, Namensraum AD, APD-145) ohne den Nachbau der Aufzählung aus 4.57.0.
   if (process.env.PRUEF_V === 'alt') await p.route(/fassung\/4\.57\.0\/ui\.js$/, r => r.fulfill({ contentType: 'text/javascript',
-    body: readFileSync(new URL('../../AppDesign/fassung/4.56.0/ui.js', import.meta.url), 'utf8').replace(/AD_VERSION = '4\.56\.0'/, "AD_VERSION = '4.57.0'")
-      + "\nfunction aufzaehlung(liste) { return liste.map(x => `<span class=\"ict az\">${esc(x)}</span>`).join('\\u00a0\\u00b7 '); }\n" }));
+    body: readFileSync(new URL('../../AppDesign/fassung/4.56.0/ui.js', import.meta.url), 'utf8').replace(/AD_VERSION = '4\.56\.0'/, "AD_VERSION = '4.57.0'") }));
   await p.goto(new URL('../index.html', import.meta.url).href);
   await p.evaluate(t => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now() }, trips: t })), trips);
   await p.reload(); await p.waitForTimeout(300);
@@ -35,13 +34,13 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
   if (txt.length === 4 && txt.some((x, i) => Math.abs(x / sum * 100 - want[i]) > 1.5)) errs.push(`${where}: P-32/4 Spalten der Vorschau nicht 28 : 28 : 22 : 22 (${txt.map(x => Math.round(x / sum * 100)).join(' : ')})`);
   if (await p.evaluate(() => /Gesamtkosten/.test(document.getElementById('dlg').textContent))) errs.push(`${where}: Vorschau nennt noch ‚Gesamtkosten‘ statt ‚Gesamtausgaben‘`);
   await G(p, 'Vorschau offen');
-  await p.evaluate(() => dlg.close()); await p.waitForTimeout(200);
+  await p.evaluate(() => AD.dlg.close()); await p.waitForTimeout(200);
   if (await p.evaluate(() => /Gesamtkosten/.test(document.getElementById('app').textContent) || !/Gesamtausgaben/.test(document.getElementById('app').textContent))) errs.push(`${where}: App nennt nicht ‚Gesamtausgaben‘`);
   if (scheme === 'dark' || /iPad hoch|iPhone quer/.test(dev)) {
     // AppDesign APD-81/C10–C12 (seit 3.39.0): ⓧ im mehrzeiligen Feld auch dunkel, iPad hoch und iPhone quer (Sprechblase ganz zu sehen)
     errs.push(...await checkClear(p, { where, open: () => p.evaluate(() => openDayDialog(db.trips[0], '2026-08-26')), fields: [{ sel: '#fProgram' }] }));
     await G(p, 'nach dem ⓧ im Verlauf');
-    await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
+    await p.evaluate(() => AD.dlg.open && AD.dlg.close()); await p.waitForTimeout(200);
   }
   if (scheme === 'light' && !/iPad hoch|iPhone quer/.test(dev)) {   // iPad hoch und iPhone quer: nur Vorschau und Spalten
     errs.push(...await checkSearch(p, { where, term: 'Sydney', item: w < 700 ? '#pdays [data-day]' : 'table.days tbody [data-day]' }));
@@ -52,7 +51,7 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     errs.push(...await checkFab(p, { where }));
     errs.push(...await checkPrint(p, { where, print: async () => { await p.click('#shareBtn'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'PDF' }).first().click(); } }));
     // seit 3.58.4 (P-123/F-2): das Ergebnis steht im Hinweisfenster (#msg) – mit x schließen
-    await p.click('#msg[open] [data-x]').catch(() => {}); await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
+    await p.click('#msg[open] [data-x]').catch(() => {}); await p.evaluate(() => AD.dlg.open && AD.dlg.close()); await p.waitForTimeout(200);
     const settings = async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); };
     errs.push(...await checkDialogHead(p, { where, open: settings, change: () => p.locator('#fTitle').fill('Australien 2') }));
     errs.push(...await checkFieldErrors(p, { where, open: settings, field: '#fTitle' }));
@@ -61,13 +60,13 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     // R-5.6 (seit 3.27.0, AppDesign APD-63 C3): ⓧ in einzeiligen Feldern – Titel (Pflichtfeld) und Teilnehmer
     errs.push(...await checkClear(p, { where, open: settings, fields: [{ sel: '#fTitle', warn: true }, { sel: '#fPeople' }], ohne: ['#fStart', '#fEnd'] }));   // APD-81/C14: Datum ohne ⓧ
     await G(p, 'nach dem ⓧ im Fenster Reiselogbuch einstellen');
-    await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(200);
+    await p.evaluate(() => AD.dlg.open && AD.dlg.close()); await p.waitForTimeout(200);
     // R-10.1 (RLB-83): gleiche Sache, gleiche Bezeichnung – die Feldnamen im Abgleichbericht heißen wie im Fenster ‚Reiselogbuch einstellen‘.
     await settings(); await p.waitForTimeout(300);
-    for (const [k, l] of await p.evaluate(() => { const shown = [...dlg.querySelectorAll('.step > label')].map(x => x.textContent.trim());
+    for (const [k, l] of await p.evaluate(() => { const shown = [...AD.dlg.querySelectorAll('.step > label')].map(x => x.textContent.trim());
       return ['title', 'participants', 'transport'].map(k => [k, sync.config.labels[k]]).filter(([, l]) => !shown.includes(l)); }))
       errs.push(`${where}: R-10.1 Abgleichbericht nennt das Feld ${k} ‚${l}‘ – im Fenster heißt es anders`);
-    await p.evaluate(() => dlg.close()); await p.waitForTimeout(200);
+    await p.evaluate(() => AD.dlg.close()); await p.waitForTimeout(200);
     // P-32/1 (seit 3.11.6): Werte im Abgleichbericht wie in der App – Reisemittel mit Namen, nicht als Kürzel (R-10.1).
     await p.locator(w < 700 ? '#back' : '#sideMore').first().click(); await p.waitForTimeout(250); await navFertig(p);
     if (w < 700) { await p.click('#sideMore'); await p.waitForTimeout(150); }
@@ -80,7 +79,7 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     await G(p, 'Abgleichbericht');
     if (!row) errs.push(`${where}: P-32/1 Abgleichbericht ohne Zeile ‚Reisemittel‘`);
     else if (!row.some(c => c.includes('✈️ Flugzeug')) || row.some(c => /\bflug\b|\bpkw\b/.test(c))) errs.push(`${where}: R-10.1 Abgleichbericht zeigt Reisemittel nicht wie in der App: ${row.join(' · ')}`);
-    await p.evaluate(() => dlg.close()); await p.waitForTimeout(200);
+    await p.evaluate(() => AD.dlg.close()); await p.waitForTimeout(200);
     if (w < 700 && await p.locator('.irow', { hasText: 'Australien' }).count()) { await p.locator('.irow', { hasText: 'Australien' }).click(); await p.waitForTimeout(300); await navFertig(p); }
     if (w >= 700) { await p.locator('.side-row', { hasText: 'Australien' }).click(); await p.waitForTimeout(300); await navFertig(p); }
     errs.push(...await checkCapital(p, { where, open: () => p.evaluate(() => openDayDialog(db.trips[0], '2026-08-25')), field: '#fProgram' }));
@@ -93,13 +92,13 @@ for (const [w, h, scheme, dev] of [[1180, 820, 'light', 'iPad quer'], [393, 852,
     errs.push(...await checkClear(p, { where, open: () => p.evaluate(() => openDayDialog(db.trips[0], '2026-08-25')), fields: [{ sel: '#fQuarter' }, { sel: '#fPlace' }] }));
     await G(p, 'nach dem ⓧ im Fenster Tag');
     // R-5.6 (seit 3.39.0, AppDesign APD-81/C16): ⓧ auch in den mehrzeiligen Feldern – Verlauf (Programm), ‚Wie war was?‘, Essen und Trinken, Fazit
-    errs.push(...await checkClear(p, { where, open: () => p.evaluate(() => { dlg.open && dlg.close(); openDayDialog(db.trips[0], '2026-08-26'); }),
+    errs.push(...await checkClear(p, { where, open: () => p.evaluate(() => { AD.dlg.open && AD.dlg.close(); openDayDialog(db.trips[0], '2026-08-26'); }),
       fields: [{ sel: '#fProgram' }, { sel: '#fComment' }, { sel: '#fFoodText' }] }));
     await G(p, 'nach dem ⓧ in den mehrzeiligen Feldern');
-    errs.push(...await checkClear(p, { where, open: () => p.evaluate(() => { dlg.open && dlg.close(); openFazitDialog(db.trips[0]); }), fields: [{ sel: '#fFazit' }] }));
+    errs.push(...await checkClear(p, { where, open: () => p.evaluate(() => { AD.dlg.open && AD.dlg.close(); openFazitDialog(db.trips[0]); }), fields: [{ sel: '#fFazit' }] }));
     await G(p, 'nach dem ⓧ im Fazit');
     // E1: Gesamtausgaben – Eingabetaste schließt die Tastatur, Betrag wird formatiert und gespeichert.
-    if (await p.evaluate(() => dlg.open)) { await p.evaluate(() => dlg.close()); await p.waitForTimeout(200); }
+    if (await p.evaluate(() => AD.dlg.open)) { await p.evaluate(() => AD.dlg.close()); await p.waitForTimeout(200); }
     if (w < 700 && await p.evaluate(() => phoneList)) { await p.locator('.irow, .side-row', { hasText: 'Australien' }).first().click(); await p.waitForTimeout(300); await navFertig(p); }
     await p.locator('#kosten').scrollIntoViewIfNeeded(); await p.locator('#kosten').fill('');
     errs.push(...await checkEnterDone(p, { where, fields: [{ sel: '#kosten', text: '4850' }] }));

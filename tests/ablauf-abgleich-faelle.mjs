@@ -32,10 +32,10 @@ const mergeWith = (p, backup) => p.evaluate(c => { const d = JSON.parse(c); cons
 async function fall(nr, name, onIpad, onIphone, expect, { legacy = false } = {}) {
   const ipad = await device(1180, 820), iphone = await device(393, 852);
   for (const p of [ipad, iphone]) { await at(p, '09:00'); await p.goto(APP); }
-  await ipad.evaluate(t => { if (dlg.open) dlg.close(); db.trips = normalize({ trips: t }).trips; save(); }, base);
+  await ipad.evaluate(t => { if (AD.dlg.open) AD.dlg.close(); db.trips = normalize({ trips: t }).trips; save(); }, base);
   const start = await ipad.evaluate(() => backupFile().content);
   await iphone.evaluate(c => { const d = JSON.parse(c); delete d.savedAt; delete d.savedOn; localStorage.setItem('reiselogbuch.v1', JSON.stringify(d)); }, start);
-  await iphone.reload(); await iphone.waitForTimeout(150); await iphone.evaluate(() => { if (dlg.open) dlg.close(); });
+  await iphone.reload(); await iphone.waitForTimeout(150); await iphone.evaluate(() => { if (AD.dlg.open) AD.dlg.close(); });
   if (legacy) for (const p of [ipad, iphone]) await p.evaluate(() => { db.trips.forEach(t => { delete t.metaAt; delete t.dayAt; delete t.changedAt; delete t.changedOn; }); db.deleted = []; localStorage.setItem('reiselogbuch.v1', JSON.stringify(db)); lastSnap = snapshot(normalize(db)); });
   for (const [p, ops] of [[ipad, onIpad], [iphone, onIphone]]) for (const [time, fn] of ops) { await at(p, time); await p.evaluate(fn); }
   const fromIpad = await ipad.evaluate(() => backupFile().content), fromIphone = await iphone.evaluate(() => backupFile().content);

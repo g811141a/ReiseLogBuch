@@ -52,12 +52,12 @@ const lade = async (p, { lastTrip = UNTEN, trips = TRIPS } = {}) => {
     Object.defineProperty(navigator, 'share', { configurable: true, writable: true, value: () => window.__teilen === 'ok' ? Promise.resolve()
       : Promise.reject(Object.assign(new Error('x'), { name: window.__teilen === 'abbrechen' ? 'AbortError' : 'NotAllowedError' })) }); });
 };
-const esc = async p => { for (let n = 0; n < 4 && await p.evaluate(() => !!document.querySelector('.menu, .pop') || msg.open || dlg.open); n++) { await p.keyboard.press('Escape'); await p.waitForTimeout(500); } };
+const esc = async p => { for (let n = 0; n < 4 && await p.evaluate(() => !!document.querySelector('.menu, .pop') || AD.msg.open || AD.dlg.open); n++) { await p.keyboard.press('Escape'); await p.waitForTimeout(500); } };
 const lang = async (p, id) => { const bx = await p.locator(`#side .side-row[data-id="${id}"]`).boundingBox();
   await p.mouse.move(bx.x + 40, bx.y + bx.height / 2); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up();
   await p.waitForSelector('.menu.kontext .mi', { timeout: 4000 }); await p.waitForTimeout(450); };
 const menuePunkt = async (p, text) => { await p.locator('.menu.kontext .mi', { hasText: text }).click(); await p.waitForTimeout(600); await navFertig(p); };
-const zurStartliste = async p => { if (await p.evaluate(() => isPhone() && !phoneList)) { await p.click('#back'); await p.waitForTimeout(600); await navFertig(p); } };
+const zurStartliste = async p => { if (await p.evaluate(() => AD.isPhone() && !phoneList)) { await p.click('#back'); await p.waitForTimeout(600); await navFertig(p); } };
 const oeffne = async (p, id) => { await zurStartliste(p); await p.click(`#side .side-row[data-id="${id}"]`); await p.waitForTimeout(600); await navFertig(p); };
 const listeOben = p => p.evaluate(() => { const l = document.querySelector('#side .side-list'); l.scrollTop = 0; l.dispatchEvent(new Event('scroll')); });
 const auswahl = p => p.evaluate(() => getSelection().toString().trim());
@@ -101,7 +101,7 @@ if (teil('F-1')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
     t.ist('P-120/F-1 offenes Reiselogbuch: kein Text außerhalb von Eingabefeldern wählbar', await waehlbar(p), [], 'R-1.15');
     await t.schritt(p, 'P-120/F-1 Tag öffnen', async () => { await p.click('#app [data-day] >> nth=0'); await p.waitForSelector('#dlg[open]', { timeout: 4000 }); await p.waitForTimeout(600); });
     t.ist('P-120/F-1 Fenster ‚Tag‘: kein Text außerhalb von Eingabefeldern wählbar', await waehlbar(p), [], 'R-1.15');
-    t.wahr('P-120/F-1 Eingabefelder bleiben wählbar (user-select text bzw. auto)', await p.evaluate(() => [...dlg.querySelectorAll('textarea, input[type=text]')].every(e => (getComputedStyle(e).webkitUserSelect || getComputedStyle(e).userSelect) !== 'none')), 'R-1.15');
+    t.wahr('P-120/F-1 Eingabefelder bleiben wählbar (user-select text bzw. auto)', await p.evaluate(() => [...AD.dlg.querySelectorAll('textarea, input[type=text]')].every(e => (getComputedStyle(e).webkitUserSelect || getComputedStyle(e).userSelect) !== 'none')), 'R-1.15');
     await esc(p);
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
@@ -112,7 +112,7 @@ if (teil('F-2')) for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']
   const p = await t.seite(b, ansicht, { theme: 'light' });
   try {
     await lade(p, { trips: TRIPS.map(x => ({ ...x, locked: undefined })) });
-    const phone = await p.evaluate(() => isPhone());
+    const phone = await p.evaluate(() => AD.isPhone());
     if (phone) { await t.schritt(p, 'P-120/F-2 unterstes Reiselogbuch öffnen und zurück', async () => { await oeffne(p, UNTEN); await zurStartliste(p); }); }
     else if (await p.evaluate(() => document.querySelector('#side')?.hidden)) await t.schritt(p, 'Seitenleiste einblenden', async () => { await p.click('#app [aria-label="Seitenleiste einblenden"]'); await p.waitForTimeout(600); await navFertig(p); });
     const lage = id => p.evaluate(id => ({ y: Math.round(document.querySelector(`#side .side-row[data-id="${id}"]`).getBoundingClientRect().top),
@@ -150,7 +150,7 @@ if (teil('F-2')) for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']
   try {
     const start = async () => {
       await lade(p, { trips: TRIPS.map(x => ({ ...x, locked: undefined })) });
-      if (await p.evaluate(() => isPhone())) { await oeffne(p, UNTEN); await zurStartliste(p); }
+      if (await p.evaluate(() => AD.isPhone())) { await oeffne(p, UNTEN); await zurStartliste(p); }
       else if (await p.evaluate(() => document.querySelector('#side')?.hidden)) { await p.click('#app [aria-label="Seitenleiste einblenden"]'); await p.waitForTimeout(600); await navFertig(p); }
       await listeOben(p); await p.waitForTimeout(300);
     };
@@ -158,7 +158,7 @@ if (teil('F-2')) for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch']
       cur: document.querySelector('#side .side-row.current')?.dataset.id || null, liste: !!document.querySelector('#side.page'),
       titel: document.querySelector('#app .nb-title, #app .pnav-title')?.textContent || '', last: db.settings.lastTrip, n: db.trips.length }), id);
     await t.schritt(p, 'P-120/F-2 Start: unterstes aktiv, Liste ganz oben', start);
-    const phone = await p.evaluate(() => isPhone());
+    const phone = await p.evaluate(() => AD.isPhone());
     let vor = await lage('d');
     await t.schritt(p, 'P-120/F-2 ‚Lissabon‘ lange drücken → ‚Reiselogbuch einstellen‘ → x', async () => { await lang(p, 'd'); await menuePunkt(p, 'Reiselogbuch einstellen');
       await p.waitForSelector('#dlg[open] #fTitle', { timeout: 4000 }); await p.waitForTimeout(400); await p.click('#dlgX'); await p.waitForTimeout(700); await navFertig(p); });
@@ -190,7 +190,7 @@ if (teil('F-3')) {
     await lade(p, { lastTrip: 'a' });
     const zaehler = id => p.evaluate(id => [getTrip(id).outputCounter || 0, JSON.parse(localStorage.getItem('reiselogbuch.v1')).trips.find(x => x.id === id).outputCounter || 0], id);
     const teilen = async (art, knopf) => { await p.evaluate(a => { window.__teilen = a; }, art); await p.click(knopf); await p.waitForSelector('#dlg[open] .step, #msg[open] .step', { timeout: 4000 }); await p.waitForTimeout(400);
-      const r = await p.evaluate(() => (msg.open ? msg : dlg).textContent.replace(/\s+/g, ' ')); await esc(p); return r; };   // seit 3.58.2 aus der Vorschau in #msg (P-121/F-2)
+      const r = await p.evaluate(() => (AD.msg.open ? AD.msg : AD.dlg).textContent.replace(/\s+/g, ' ')); await esc(p); return r; };   // seit 3.58.2 aus der Vorschau in #msg (P-121/F-2)
     let r = await teilen('abbrechen', '#shareBtn');
     t.wahr(`P-120/F-3 gesperrt, Teilen abgebrochen: Meldung ‚Ausgabe V001‘ und ‚abgebrochen‘ (${r.slice(0, 80)})`, /Ausgabe V001/.test(r) && /abgebrochen/.test(r), 'R-10.1');
     t.ist('P-120/F-3 nach dem Abbruch zählt die Ausgabe nicht hoch (App und gespeichert)', await zaehler('a'), [0, 0], 'R-9.3');
@@ -210,7 +210,7 @@ if (teil('F-3')) {
     await esc(p);
     // PDF (Entscheidung a): zählt erst, wenn das Drucken-Menü wirklich aufgeht (beforeprint); übergeht iOS print() (RLB-124), zählt nichts
     const pdf = async geht => { await p.evaluate(g => { window.print = g ? () => { dispatchEvent(new Event('beforeprint')); dispatchEvent(new Event('afterprint')); } : () => {}; }, geht);
-      await p.evaluate(() => exportPdf(getTrip('b'))); await p.waitForTimeout(400); const r = await p.evaluate(() => (msg.open ? msg : dlg).textContent.replace(/\s+/g, ' ')); await esc(p); return r; };   // seit 3.58.4 in #msg (P-123/F-2)
+      await p.evaluate(() => exportPdf(getTrip('b'))); await p.waitForTimeout(400); const r = await p.evaluate(() => (AD.msg.open ? AD.msg : AD.dlg).textContent.replace(/\s+/g, ' ')); await esc(p); return r; };   // seit 3.58.4 in #msg (P-123/F-2)
     r = await pdf(false);
     t.wahr('P-120/F-3 PDF, Drucken-Menü geht nicht auf: Meldung ‚Ausgabe V001‘', /Ausgabe V001/.test(r), 'R-10.1');
     t.ist('P-120/F-3 PDF ohne Drucken-Menü zählt nicht hoch', await zaehler('b'), [0, 0], 'R-9.3');
@@ -228,7 +228,7 @@ if (teil('F-4')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   const p = await t.seite(b, ansicht, { theme: 'light' });
   try {
     await lade(p, { lastTrip: 'a' });
-    if (await p.evaluate(() => isPhone())) await t.schritt(p, 'P-120/F-4 ‚Australien‘ öffnen', () => oeffne(p, 'a'));
+    if (await p.evaluate(() => AD.isPhone())) await t.schritt(p, 'P-120/F-4 ‚Australien‘ öffnen', () => oeffne(p, 'a'));
     const hinweis = () => p.evaluate(() => { const i = document.querySelector('#app .lockinfo'), bar = document.querySelector('#app #bar').getBoundingClientRect(), ro = document.querySelector('#app #rolle');
       if (!i) return { da: false }; const r = i.getBoundingClientRect(), o = ro.getBoundingClientRect();
       return { da: true, sichtbar: r.top >= bar.bottom - 1 && r.bottom <= Math.min(innerHeight, o.bottom) + 1 && r.height > 0, gerollt: ro.scrollTop,
@@ -245,7 +245,7 @@ if (teil('F-4')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
     await t.schritt(p, 'P-120/F-4 ‚Toskana‘ öffnen und wieder ‚Australien‘', async () => { await oeffne(p, 'b'); await oeffne(p, 'a'); });
     t.ist('P-120/F-4 beim nächsten Öffnen ist der Hinweis wieder da', (await hinweis()).da, true, 'R-1.1');
     await t.schritt(p, 'P-120/F-4 x, dann Neustart', async () => { await p.click('#app .lockinfo button[aria-label="Hinweis ausblenden"]'); await p.waitForTimeout(300); await p.reload(); await p.waitForTimeout(500); await navFertig(p);
-      if (await p.evaluate(() => isPhone())) await oeffne(p, 'a'); });
+      if (await p.evaluate(() => AD.isPhone())) await oeffne(p, 'a'); });
     t.ist('P-120/F-4 nach dem Neustart ist der Hinweis wieder da', (await hinweis()).da, true, 'R-1.1');
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
@@ -258,7 +258,7 @@ if (teil('P-121/F-1')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   const p = await t.seite(b, ansicht, { theme: 'light' });
   try {
     await lade(p, { trips: LANG, lastTrip: 'b' });
-    const phone = await p.evaluate(() => isPhone());
+    const phone = await p.evaluate(() => AD.isPhone());
     const y = () => p.evaluate(() => Math.round(document.querySelector('#app #rolle')?.scrollTop ?? -1));
     if (phone) await t.schritt(p, 'P-121/F-1 ‚Toskana‘ öffnen', () => oeffne(p, 'b'));
     t.wahr('P-121/F-1 ‚Toskana‘ öffnet bei den offenen Tagen weiter unten (gerollt)', await y() > 50, 'R-7.4');
@@ -282,9 +282,9 @@ if (teil('P-121/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   const p = await t.seite(b, ansicht, { theme: 'light' });
   try {
     await lade(p, { trips: TRIPS.map(x => ({ ...x, locked: undefined })), lastTrip: 'b' });
-    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
-    const lage = () => p.evaluate(() => ({ vorschau: dlg.open && !!dlg.querySelector('#prvShare'), meldung: msg.open, text: msg.open ? msg.textContent.replace(/\s+/g, ' ') : '',
-      oben: msg.open && dlg.open ? (() => { const r = msg.querySelector('.dlg-head, h3').getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return !!e && msg.contains(e); })() : false }));
+    if (await p.evaluate(() => AD.isPhone())) await oeffne(p, 'b');
+    const lage = () => p.evaluate(() => ({ vorschau: AD.dlg.open && !!AD.dlg.querySelector('#prvShare'), meldung: AD.msg.open, text: AD.msg.open ? AD.msg.textContent.replace(/\s+/g, ' ') : '',
+      oben: AD.msg.open && AD.dlg.open ? (() => { const r = AD.msg.querySelector('.dlg-head, h3').getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return !!e && AD.msg.contains(e); })() : false }));
     const vorschau = async () => { await p.evaluate(() => openPreview(getTrip('b'))); await p.waitForSelector('#dlg[open] #prvShare', { timeout: 4000 }); await p.waitForTimeout(500); };
     for (const [art, knopf, name] of [['abbrechen', '#prvShare', 'Teilen abgebrochen'], ['ok', '#prvShare', 'Teilen gesichert'], ['', '#prvPdf', 'PDF']]) {
       await t.schritt(p, `P-121/F-2 Vorschau → ${name}`, async () => { await vorschau(); await p.evaluate(a => { window.__teilen = a || 'ok'; }, art); await p.click(knopf); await p.waitForTimeout(700); });
@@ -305,7 +305,7 @@ if (teil('P-122/F-1')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   const p = await t.seite(b, ansicht, { theme: 'light' });
   try {
     await lade(p, { trips: TRIPS.map(x => ({ ...x, locked: undefined })), lastTrip: 'b' });
-    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
+    if (await p.evaluate(() => AD.isPhone())) await oeffne(p, 'b');
     const bild = () => p.evaluate(() => { const k = s => { const e = document.querySelector(s); return e ? [e.className, getComputedStyle(e).backgroundColor, getComputedStyle(e).color].join(' | ') : '–'; };
       return { share: k('#prvShare'), pdf: k('#prvPdf'), quelle: document.querySelector('#shareBtn')?.classList.contains('on') ?? null }; });
     const vorschau = async () => { await p.click('#shareBtn'); await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(400);
@@ -320,7 +320,7 @@ if (teil('P-122/F-1')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
       t.ist(`P-122/F-1 ${name}: nach dem Schließen der Meldung sehen Teilen und PDF der Vorschau aus wie beim Öffnen`, [nach.share, nach.pdf], [vor.share, vor.pdf], 'R-3.3');
       t.ist(`P-122/F-1 ${name}: Teilen der Kopfzeile bleibt Quelle der offenen Vorschau`, nach.quelle, true, 'R-3.3');
       await t.schritt(p, `P-122/F-1 ${name}: Vorschau schließen`, async () => { await p.click('#dlgX'); await p.waitForTimeout(800); });
-      t.ist(`P-122/F-1 ${name}: nach dem Schließen der Vorschau ist nichts mehr getönt`, await p.evaluate(() => [adSourcehighlight.sourceItem, adSourcehighlight.heldItems.length, document.querySelectorAll('.on').length]), [ '', 0, 0], 'R-3.3');
+      t.ist(`P-122/F-1 ${name}: nach dem Schließen der Vorschau ist nichts mehr getönt`, await p.evaluate(() => [AD.sourcehighlight.sourceItem, AD.sourcehighlight.heldItems.length, document.querySelectorAll('.on').length]), [ '', 0, 0], 'R-3.3');
     }
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
@@ -332,7 +332,7 @@ if (teil('P-122/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   const p = await t.seite(b, ansicht, { theme: 'light' });
   try {
     await lade(p, { trips: TRIPS.map(x => ({ ...x, locked: undefined })), lastTrip: 'b' });
-    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
+    if (await p.evaluate(() => AD.isPhone())) await oeffne(p, 'b');
     const kaesten = sel => p.evaluate(s => [...document.querySelectorAll(`${s} .ad-notice`)].map(k => ({ id: k.id, bean: k.dataset.adBean,
       text: k.textContent.replace(/\s+/g, ' ').trim(), knoepfe: [...k.querySelectorAll('button')].map(x => x.textContent.trim()) })), sel);
     await t.schritt(p, 'P-122/F-2 Teilen → ‚Vorschau‘', async () => { await p.click('#shareBtn'); await p.waitForSelector('.menu .mi', { timeout: 4000 }); await p.waitForTimeout(400);
@@ -379,7 +379,7 @@ if (teil('P-123/F-1')) for (const ansicht of ['iPad quer', 'iPad hoch']) {
       await t.schritt(p, `P-123/F-1 Teilen → ‚Vorschau‘ → ${name}`, async () => { await zurVorschau(p); await p.evaluate(a => { window.__teilen = a || 'ok'; }, art);
         await p.click(knopf); await p.waitForSelector('#msg[open] .fname', { timeout: 4000 }); await p.waitForTimeout(600); });
       const vor = await dateiname(p, '#msg');
-      await p.evaluate(() => { adAlert.fitFileName = true; });   // die Bean misst neu (Setter) – so breit hätte das Fenster sein sollen
+      await p.evaluate(() => { AD.alert.fitFileName = true; });   // die Bean misst neu (Setter) – so breit hätte das Fenster sein sollen
       const neu = await dateiname(p, '#msg');
       t.ist(`P-123/F-1 ${ansicht}, ${name}: im Hinweisfenster über der Vorschau steht der Dateiname in einer Zeile`, vor.zeilen, 1, 'R-10.8');
       t.ist(`P-123/F-1 ${ansicht}, ${name}: das Hinweisfenster ist schon beim Öffnen so breit wie nach erneutem Messen`, vor.breite, neu.breite, 'R-10.8');
@@ -399,7 +399,7 @@ if (teil('P-123/F-2')) for (const ansicht of ['iPhone hoch', 'iPad quer']) {
   const p = await t.seite(b, ansicht, { theme: 'light' });
   try {
     await lade(p, { trips: OFFEN, lastTrip: 'b' });
-    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
+    if (await p.evaluate(() => AD.isPhone())) await oeffne(p, 'b');
     const ergebnis = () => p.evaluate(() => { const d = [...document.querySelectorAll('dialog[open]')].find(x => x.querySelector('#result'));
       return { fenster: d?.id || '', hoehe: Math.round(d?.getBoundingClientRect().height || 0), bild: innerHeight }; });
     const mass = [];
@@ -424,7 +424,7 @@ if (teil('P-123/F-3')) for (const ansicht of ['iPad quer', 'iPhone hoch']) for (
   const p = await t.seite(b, ansicht, { theme: 'light' });
   try {
     await lade(p, { trips: OFFEN, lastTrip: 'b' });
-    const phone = await p.evaluate(() => isPhone());
+    const phone = await p.evaluate(() => AD.isPhone());
     const was = vorher ? 'nach Teilen → HTML' : 'ohne Ausgabe vorher';
     if (vorher) {
       if (phone) await oeffne(p, 'b');
@@ -435,7 +435,7 @@ if (teil('P-123/F-3')) for (const ansicht of ['iPad quer', 'iPhone hoch']) for (
     for (const [art, erwartet] of [['abbrechen', /^⚠️/], ['ok', /^✅ Teilen-Menü abgeschlossen für.*Backup/]]) {
       await t.schritt(p, `P-123/F-3 ${was}: ‚Backup erstellen‘ (Kachel), Teilen-Menü ${art === 'ok' ? 'gesichert' : 'abgebrochen'}`, async () => {
         await p.evaluate(a => { window.__teilen = a; }, art); await p.click('#hintBackup'); await p.waitForTimeout(900); });
-      const m = await p.evaluate(() => [msg.open, document.getElementById('msgTitel')?.textContent || '', document.getElementById('msgText')?.textContent.replace(/\s+/g, ' ').trim() || '']);
+      const m = await p.evaluate(() => [AD.msg.open, document.getElementById('msgTitel')?.textContent || '', document.getElementById('msgText')?.textContent.replace(/\s+/g, ' ').trim() || '']);
       t.ist(`P-123/F-3 ${ansicht}, ${was}: Hinweis ‚Backup‘ nach ${art === 'ok' ? 'gesichertem' : 'abgebrochenem'} Teilen-Menü`, m, [true, 'Backup', erwartet], 'R-9.1');
       await esc(p);
     }
@@ -483,9 +483,9 @@ if (teil('P-124/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
   const p = await t.seite(b, ansicht, { theme: 'light' });
   try {
     await lade(p, { trips: OFFEN.map(x => x.id === 'b' ? { ...x, title: TITEL_LANG } : x), lastTrip: 'b' });
-    if (await p.evaluate(() => isPhone())) await oeffne(p, 'b');
+    if (await p.evaluate(() => AD.isPhone())) await oeffne(p, 'b');
     const getoent = () => p.evaluate(() => ({ fenster: [...document.querySelectorAll('dialog[open]')].map(d => d.id), teilen: document.querySelector('#shareBtn')?.classList.contains('on') ?? null,
-      quelle: adSourcehighlight.sourceItem, gehalten: adSourcehighlight.heldItems.length, on: [...document.querySelectorAll('.on')].map(e => e.id || e.className.split(' ')[0]) }));
+      quelle: AD.sourcehighlight.sourceItem, gehalten: AD.sourcehighlight.heldItems.length, on: [...document.querySelectorAll('.on')].map(e => e.id || e.className.split(' ')[0]) }));
     const xMeldung = async () => { await p.click('#msg [data-x]'); await p.waitForTimeout(700); };
     const xVorschau = async () => { await p.click('#dlgX'); await p.waitForTimeout(800); };
     const wege = [
@@ -529,7 +529,7 @@ if (teil('P-124/F-2')) for (const ansicht of ['iPad quer', 'iPhone hoch']) {
       t.ist(`P-124/F-2 ${ansicht}, gesperrt, ${name}: im Hinweisfenster ist nur die angetippte Schaltfläche getönt`, offen.on, [knopf.slice(1)], 'R-3.3');
       await t.schritt(p, `P-124/F-2 gesperrt, ${name}: Hinweisfenster mit x schließen`, async () => { await p.click('#msg [data-x]'); await p.waitForTimeout(700); });
       const zu = await on();
-      t.ist(`P-124/F-2 ${ansicht}, gesperrt, ${name}: danach alle Fenster zu, nichts getönt`, [zu.fenster, zu.on, await p.evaluate(() => adSourcehighlight.sourceItem)], [[], [], ''], 'R-3.3');
+      t.ist(`P-124/F-2 ${ansicht}, gesperrt, ${name}: danach alle Fenster zu, nichts getönt`, [zu.fenster, zu.on, await p.evaluate(() => AD.sourcehighlight.sourceItem)], [[], [], ''], 'R-3.3');
       await esc(p);
     }
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }

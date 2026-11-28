@@ -3,7 +3,7 @@
 import * as pw from 'playwright';
 import { pruefung } from '../../AppDesign/fassung/5.0.0/tests/pruefe.mjs';
 import { createCheck } from '../../AppDesign/fassung/5.0.0/tests/hig.mjs';
-import { checkBackup } from '../../AppDesign/fassung/5.0.0/tests/backup.mjs';
+import { checkBackup, checkBackupAlt } from '../../AppDesign/fassung/5.0.0/tests/backup.mjs';
 import { checkHinweisBreite } from '../../AppDesign/fassung/5.0.0/tests/ablauf.mjs';
 const trips = [{ id: 'a', title: 'Australien', participants: 'Anna', start: '2026-08-24', end: '2026-09-05', transport: ['flug'], days: { '2026-08-24': { program: 'Sydney' } } }];
 const hig = createCheck();
@@ -31,11 +31,13 @@ for (const [w, h, dev] of [[1180, 820, 'iPad quer'], [820, 1180, 'iPad hoch'], [
       Object.defineProperty(n, 'share', { value: () => Promise.resolve(), configurable: true, writable: true }); document.querySelector('#sideMore').__alt = true; });
     await p.click('#sideMore'); await p.locator('.menu .mi', { hasText: 'Backup erstellen' }).click();
     await p.waitForSelector('#msg[open]', { timeout: 4000 }).catch(() => {});
-    const r = await p.evaluate(() => { const m = document.querySelector('#sideMore'); return { offen: msg.open, neu: !!m && !m.__alt, blau: !!m?.classList.contains('on') }; });
+    const r = await p.evaluate(() => { const m = document.querySelector('#sideMore'); return { offen: AD.msg.open, neu: !!m && !m.__alt, blau: !!m?.classList.contains('on') }; });
     t.wahr(`APD-135/S-9 Backup aus dem Mehr-Menü: Fenster offen ${r.offen}, Seitenleiste neu aufgebaut ${r.neu}, Mehr-Schaltfläche blau ${r.blau}`, r.offen && r.neu && r.blau, 'R-3.3');
     if (r.offen) { await p.click('#msg [data-x]'); await p.waitForTimeout(400); }
     t.wahr('APD-135/S-9 nach dem Schließen ist die Mehr-Schaltfläche nicht mehr blau', !await p.evaluate(() => document.querySelector('#sideMore')?.classList.contains('on')), 'R-3.3');
   }
+  // seit 3.60.0 (AppDesign 5.0.0, APD-145/T-8): ein Backup aus Reiselogbuch 3.59.3 (AppDesign 4.71.1) lädt mit ‚Ersetzen‘ mit denselben Daten
+  if (dev === 'iPad quer' && cs === 'light') t.liste(await checkBackupAlt(p, { list: 'trips', schluessel: 'reiselogbuch.v1', vorlage: new URL('alt-3.59.3.json', import.meta.url), where: t.ort }));
   await t.schritt(p, 'nach Backup erstellen und laden', async () => {});   // Grundregeln im Endzustand
   await ctx.close();
 }

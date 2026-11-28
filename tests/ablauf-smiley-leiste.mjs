@@ -40,7 +40,7 @@ for (const ansicht of ['iPhone hoch', 'iPhone quer', 'iPad quer']) {
       t.wahr(`${where}: L5 Antippen fügt ${m} nicht ein (‚${vorher}‘ → ‚${nachher}‘)`, nachher.length > vorher.length && nachher.includes(m), 'R-3.5');
       t.ist(`${where}: L5 Antippen fragt nicht`, await p.locator('.pop').count(), 0, 'R-3.5');
     });
-    await p.evaluate(() => { dlgDirty = () => false; document.getElementById('dlg').close(); }); await p.waitForTimeout(500);
+    await p.evaluate(() => { AD.dlgDirty = () => false; document.getElementById('dlg').close(); }); await p.waitForTimeout(500);
   }
   await p.close();
 }

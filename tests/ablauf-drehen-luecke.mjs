@@ -24,7 +24,7 @@ const lage = p => p.evaluate(() => {
   const a = document.querySelector('#app'), edge = document.querySelector('#bar')?.getBoundingClientRect().bottom ?? 0;
   const kante = x => { const th = x.closest('table')?.tHead?.querySelector('th'); return th && getComputedStyle(th).position === 'sticky' ? Math.max(edge, th.getBoundingClientRect().bottom) : edge; };
   const oben = [...a.querySelectorAll('[data-day]')].find(x => x.getClientRects().length && x.getBoundingClientRect().bottom > kante(x) + 2)?.dataset.day ?? null;
-  return { tabelle: !!a.querySelector('table.days:not(.static)'), oben, y: Math.round(rolle.y), rest: Math.round(rolle.rest), fenster: [innerWidth, innerHeight] };
+  return { tabelle: !!a.querySelector('table.days:not(.static)'), oben, y: Math.round(AD.scrollView.y), rest: Math.round(AD.scrollView.remaining), fenster: [innerWidth, innerHeight] };
 });
 const rolleZu = (p, iso) => p.evaluate(iso => { const e = document.querySelector(`#app [data-day="${iso}"]`); const r = document.querySelector('#app > .rolle');
   r.scrollTop += e.getBoundingClientRect().top - document.querySelector('#bar').getBoundingClientRect().bottom - 2; }, iso);
@@ -38,7 +38,7 @@ const dreheMitLuecke = async (p, ziel) => {
   await p.waitForFunction(w => innerWidth === w, ziel.width);
   await p.waitForTimeout(150);
   const l = await lage(p), gehalten = await p.evaluate(() => window.__gehalten);
-  await p.evaluate(() => restoreTop());   // wie der Zeitgeber von ui.js (zwei Bilder bzw. 350 ms nach dem resize der Zwischengröße)
+  await p.evaluate(() => AD.restoreTop());   // wie der Zeitgeber von ui.js (zwei Bilder bzw. 350 ms nach dem resize der Zwischengröße)
   await p.waitForTimeout(100);
   await p.evaluate(() => { window.__halt = false; dispatchEvent(new Event('resize')); });
   await p.waitForTimeout(800);
@@ -71,7 +71,7 @@ const b = await t.browser();
 { // B-3: am Ende des Inhalts – Ende bleibt Ende
   const p = await t.seite(b, 'iPad hoch', { theme: 'light' }); t.ort = 'iPad hoch hell, am Ende';
   await start(p);
-  await p.evaluate(() => rolle.to(1e6)); await p.waitForTimeout(400);
+  await p.evaluate(() => AD.scrollView.to(1e6)); await p.waitForTimeout(400);
   let luecke; await t.schritt(p, 'B-3 am Ende drehen mit Lücke nach quer', async () => { luecke = await dreheMitLuecke(p, QUER); });
   let l = await lage(p);
   t.ist('APD-133/B-3 quer: Lücke bestand, Ende bleibt Ende', [luecke, l.rest <= 2, l.y > 0], [true, true, true], 'R-8.1');
@@ -83,7 +83,7 @@ const b = await t.browser();
 { // B-4: ganz oben – bleibt ganz oben
   const p = await t.seite(b, 'iPad hoch', { theme: 'light' }); t.ort = 'iPad hoch hell, ganz oben';
   await start(p);
-  await p.evaluate(() => rolle.to(0)); await p.waitForTimeout(400);
+  await p.evaluate(() => AD.scrollView.to(0)); await p.waitForTimeout(400);
   let luecke; await t.schritt(p, 'B-4 ganz oben drehen mit Lücke nach quer', async () => { luecke = await dreheMitLuecke(p, QUER); });
   let l = await lage(p);
   t.ist('APD-133/B-4 quer: Lücke bestand, bleibt ganz oben', [luecke, l.y], [true, 0], 'R-8.1');

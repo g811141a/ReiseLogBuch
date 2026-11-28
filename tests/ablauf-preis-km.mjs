@@ -44,7 +44,7 @@ const umbruch = el => { const r = document.createRange(), pos = [], txt = [];
   return { umgebrochen: o.t > a.t + 2, linksbuendig: Math.abs(o.l - a.l) <= 1, ozeile: rest.every(b => Math.abs(b.t - o.t) <= 2) }; };
 const stats = p => p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#app .rolle > dl.meta:not(.trip) dt')].map(d => [d.textContent.replace(/:$/, ''), d.nextElementSibling.textContent])));
 const tag = async (p, iso) => { await p.evaluate(iso => openDayDialog(db.trips.find(x => x.id === 'a'), iso), iso); await p.waitForTimeout(400); await navFertig(p); };
-const zu = async p => { await p.evaluate(() => dlg.open && dlg.close()); await p.waitForTimeout(250); };
+const zu = async p => { await p.evaluate(() => AD.dlg.open && AD.dlg.close()); await p.waitForTimeout(250); };
 const b = await t.browser();
 for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], ['iPhone hoch', 'light'], ['iPhone quer', 'dark']]) {
   const p = await t.seite(b, ansicht, { theme });
@@ -154,7 +154,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.ist('RLB-110/L-10 Tag nur mit km nicht erfasst', await p.evaluate(() => isRecorded(db.trips.find(x => x.id === 'a'), '2026-08-31')), false);
   // L-3: Schritt ‚Gegangene Kilometer‘ nach ‚Wie war was?‘, Nummern +1, Feld mit ‚km‘ rechts daneben
   await t.schritt(p, 'L-3 Tag mit km', () => tag(p, '2026-08-24'));
-  t.ist('RLB-110/L-3 Schritte', await p.evaluate(() => [...dlg.querySelectorAll('.step:not([hidden]) .step-head > label:first-child')].map(l => l.textContent.trim())),
+  t.ist('RLB-110/L-3 Schritte', await p.evaluate(() => [...AD.dlg.querySelectorAll('.step:not([hidden]) .step-head > label:first-child')].map(l => l.textContent.trim())),
     ['1Wetter', '2Verlauf', '3Wie war was?', '4Gegangene Kilometer', '5Essen und Trinken', '6Quartier']);
   const km = await p.evaluate(() => { const f = document.getElementById('fKmDay'), e = f.nextElementSibling, r = f.getBoundingClientRect(), er = e.getBoundingClientRect();
     return { wert: f.value, mode: f.inputMode, einheit: e.textContent, daneben: er.left >= r.right && er.left - r.right < 20 && Math.abs((er.top + er.bottom) / 2 - (r.top + r.bottom) / 2) < 4, align: getComputedStyle(f).textAlign, breite: Math.round(r.width) }; });
@@ -224,10 +224,10 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
   t.wahr('RLB-110/L-11 Kopf ‚🚶🏽‍♂️km‘ in einer Zeile (th.num)', out.includes('<th class="num">🚶🏽‍♂️km</th>'), 'R-6.2');
   // L-1, L-7, Q-5: Reiselogbuch einstellen – Schalter nach ‚Wie war was?‘; Spalten aus – Schritt, Spalte, Statistikzeilen weg, Werte bleiben
   await t.schritt(p, 'L-1 Reiselogbuch einstellen', async () => { await p.click('#mainMore'); await p.waitForTimeout(150); await p.locator('.menu .mi', { hasText: 'Reiselogbuch einstellen' }).click(); await p.waitForTimeout(400); await navFertig(p); });
-  t.ist('RLB-110/L-1 Schalter', await p.evaluate(() => [...dlg.querySelectorAll('.swlist .check')].map(l => l.textContent.trim()).slice(0, 4)),
+  t.ist('RLB-110/L-1 Schalter', await p.evaluate(() => [...AD.dlg.querySelectorAll('.swlist .check')].map(l => l.textContent.trim()).slice(0, 4)),
     ['Spalte 🙂☹️😉 ‚Wie war was?‘', 'Spalte 🚶🏽‍♂️km ‚Gegangene Kilometer‘', 'Spalte 🍽️🍷☕️ ‚Essen und Trinken‘', 'Spalte 😴💤 ‚Quartier‘']);
   // H-1, H-3: Schalter ‚Preis der Quartiere erfassen‘ nach ‚Quartierliste in der Ausgabe‘, gesperrt ohne Spalte Quartier
-  t.ist('RLB-111/H-1 Schalter Preis', await p.evaluate(() => [...dlg.querySelectorAll('.swlist .check')].map(l => l.textContent.trim()).slice(4)), ['Quartierliste in der Ausgabe', 'Preis der Quartiere erfassen']);
+  t.ist('RLB-111/H-1 Schalter Preis', await p.evaluate(() => [...AD.dlg.querySelectorAll('.swlist .check')].map(l => l.textContent.trim()).slice(4)), ['Quartierliste in der Ausgabe', 'Preis der Quartiere erfassen']);
   await p.locator('#fKm').evaluate(e => e.click()); await p.locator('#fQuarterCol').evaluate(e => e.click());
   t.ist('RLB-111/H-3 ohne Spalte Quartier gesperrt', await p.locator('#fPriceOn').isDisabled(), true);
   await p.click('#dlgOk'); await p.waitForTimeout(400);
@@ -268,11 +268,11 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad hoch', 'dark'], [
         d.innerHTML = `<style>${OUTPUT_CSS}</style>${outputBody(db.trips[0], 1, nowStamp())}`; document.body.append(d); });
       t.liste(await checkAufzaehlung(p, { sel: '#gpAus .stats td:has(.ict)', groessen: ['l'], texte: soll, umbruch: true, where: `${t.ort} Ausgabe` }));
       // B-6 Gegenprobe: der bisherige Text (fmt bis 3.54.0) bricht zwischen Anzahl und Zeichen bzw. vor dem ‚·‘ um
-      await p.evaluate(() => { document.getElementById('gpAus').remove(); window.__az = aufzaehlung; window.aufzaehlung = l => esc(l.join(' · ')); render(); });
+      await p.evaluate(() => { document.getElementById('gpAus').remove(); window.__az = AD.listHtml; AD.listHtml = l => AD.esc(l.join(' · ')); render(); });
       await p.waitForTimeout(300);
       const gp = await checkAufzaehlung(p, { sel: '#app .rolle > dl.meta:not(.trip) dd:nth-last-of-type(-n+2)', groessen: ['l', 'xxxl'], where: 'Gegenprobe' });
       t.wahr(`RLB-122/B-6 Gegenprobe: bisheriger Text wird gemeldet (${gp.length} Meldungen)`, gp.some(x => /RLB-122\/B-[12]/.test(x)), 'R-10.5');
-      await p.evaluate(() => { window.aufzaehlung = window.__az; render(); });
+      await p.evaluate(() => { AD.listHtml = window.__az; render(); });
     }
     await p.close();
   }

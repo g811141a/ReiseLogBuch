@@ -133,7 +133,7 @@ for (const ansicht of ['iPad quer', 'iPhone hoch'].filter(a => !geraet || a.star
   await p.evaluate(() => openTripDialog(db.trips[0])); await ruhig(p);
   await zug(p, `${W}[data-id="${unten2}"]`, -150);
   t.ist('W-48 bei offenem Fenster keine Wischaktionen', [await offen(p), await p.locator('.ad-swipeactions-actions').count()], [null, 0], 'R-7.8');
-  await p.evaluate(() => dlg.close()); await ruhig(p);
+  await p.evaluate(() => AD.dlg.close()); await ruhig(p);
   });
   await p.close();
 
@@ -142,7 +142,7 @@ for (const ansicht of ['iPad quer', 'iPhone hoch'].filter(a => !geraet || a.star
   await abschnitt(t.ort, async () => {
   const lang = 'Rundreise durch Südostasien mit Stationen in Bangkok, Hanoi, Luang Prabang und Siem Reap 2026';
   await start(p, [reise('a', lang.slice(0, 80), 2026, { changedAt: Date.now(), changedOn: 'iPad' })], { lastBackup: 0 });
-  await p.evaluate(() => setNet('aus')); await ruhig(p);
+  await p.evaluate(() => AD.setNet('aus')); await ruhig(p);
   const h0 = await p.evaluate(() => side.querySelector('.side-row').offsetHeight);
   await t.schritt(p, 'W-53 langer Titel wischen', () => zug(p, `${W}[data-id="a"]`, -150));
   const w53 = await p.evaluate(() => { const k = side.querySelector('.side-row'), kr = k.getBoundingClientRect(); return { h: k.offsetHeight, mitte: [...document.querySelectorAll('.ad-swipeactions-button')].map(c => { const r = c.getBoundingClientRect(); return Math.abs((r.top + r.bottom) / 2 - (kr.top + kr.bottom) / 2) < 12; }),

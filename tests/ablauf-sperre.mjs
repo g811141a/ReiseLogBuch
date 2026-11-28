@@ -34,7 +34,7 @@ const lade = async (p, { lastBackup = JETZT.getTime() } = {}) => {
   }, GP);
 };
 const zustand = p => p.evaluate(() => ({ vorschau: !!document.querySelector('#app .lockpage .rt'), tabelle: !!document.querySelector('#app table.days, #app #pdays'),
-  fenster: dlg.open, mehr: !!document.querySelector('#app #mainMore'), hinweis: document.querySelector('#app .lockinfo .li-t')?.textContent || '' }));
+  fenster: AD.dlg.open, mehr: !!document.querySelector('#app #mainMore'), hinweis: document.querySelector('#app .lockinfo .li-t')?.textContent || '' }));
 const nurVorschau = (z, was) => {
   t.ist(`RLB-125/T-2 ${was}: nur die Vorschau-Seite (keine Tabelle, keine Kästen, kein Fenster)`, [z.vorschau, z.tabelle, z.fenster], [true, false, false], 'R-1.1');
   t.ist(`RLB-125/T-2 ${was}: Hinweis`, z.hinweis, 'Dieses Reiselogbuch ist gesperrt.Es lässt sich lesen und ausgeben, aber nicht ändern oder löschen.', 'R-10.1');
@@ -43,7 +43,7 @@ const lang = async (p, id) => { const bx = await p.locator(`#side .side-row[data
   await p.mouse.move(bx.x + 40, bx.y + 20); await p.mouse.down(); await p.waitForTimeout(750); await p.mouse.up();
   await p.waitForSelector('.menu.kontext .mi', { timeout: 4000 }); await p.waitForTimeout(450); };
 const menueTexte = p => p.evaluate(() => [...document.querySelectorAll('.menu:not(.submenu) .mi')].map(m => ({ text: m.textContent.trim(), aus: m.disabled })));
-const esc = async p => { for (let n = 0; n < 4 && await p.evaluate(() => !!document.querySelector('.menu, .pop') || msg.open || dlg.open); n++) { await p.keyboard.press('Escape'); await p.waitForTimeout(500); } };
+const esc = async p => { for (let n = 0; n < 4 && await p.evaluate(() => !!document.querySelector('.menu, .pop') || AD.msg.open || AD.dlg.open); n++) { await p.keyboard.press('Escape'); await p.waitForTimeout(500); } };
 const oeffne = async (p, id, phone) => { if (phone && !(await p.evaluate(() => phoneList))) { await p.click('#back'); await p.waitForTimeout(600); await navFertig(p); }
   await p.click(`#side .side-row[data-id="${id}"]`); await p.waitForTimeout(600); await navFertig(p); };
 
@@ -52,7 +52,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad quer', 'dark'], [
   const p = await t.seite(b, ansicht, { theme });
   try {
     await lade(p);
-    const phone = await p.evaluate(() => isPhone());
+    const phone = await p.evaluate(() => AD.isPhone());
     // RLB-125/T-1 Kachel (iPad Seitenleiste, iPhone Startliste)
     const k = await p.evaluate(() => [...document.querySelectorAll('#side .side-row')].map(r => { const l = r.querySelector('.lk svg'), bb = r.querySelector('b');
       if (!l) return { id: r.dataset.id, lk: false };
@@ -71,7 +71,7 @@ for (const [ansicht, theme] of [['iPad quer', 'light'], ['iPad quer', 'dark'], [
       document.querySelector('#bar #shareBtn')?.classList.contains('fill'), !!document.querySelector('#bar #mainMore')]), ['PDF', true, false], 'R-3.1');
     // RLB-125/T-3 nach HTML und PDF bleibt die Vorschau
     await t.schritt(p, 'RLB-125/T-3 Teilen (HTML)', async () => { await p.click('#shareBtn'); await p.waitForSelector('#msg[open]', { timeout: 4000 }).catch(() => {}); await p.waitForTimeout(500); });
-    t.wahr('RLB-125/T-3 Hinweisfenster ‚Ausgabe V001‘ nach HTML', await p.evaluate(() => msg.open && /Ausgabe V001/.test(msg.textContent)), 'R-10.1');   // seit 3.58.4 (P-123/F-2) in #msg
+    t.wahr('RLB-125/T-3 Hinweisfenster ‚Ausgabe V001‘ nach HTML', await p.evaluate(() => AD.msg.open && /Ausgabe V001/.test(AD.msg.textContent)), 'R-10.1');   // seit 3.58.4 (P-123/F-2) in #msg
     await t.schritt(p, 'Meldung schließen', () => esc(p));
     nurVorschau(await zustand(p), 'nach HTML');
     await t.schritt(p, 'RLB-125/T-3 PDF', async () => { await p.click('#pdfBtn'); await p.waitForSelector('#msg[open]', { timeout: 4000 }).catch(() => {}); await p.waitForTimeout(500); });

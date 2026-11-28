@@ -41,12 +41,12 @@ for (const [ansicht, px] of faelle) {
   if (px) { t.ort = `${ansicht} · Text ${px}`; await p.addInitScript(px => { const s = () => { const e = document.createElement('style'); e.textContent = `html { font-size: ${px}px !important; }`; document.documentElement.prepend(e); };
     if (document.documentElement) s(); else new MutationObserver((m, o) => { if (document.documentElement) { o.disconnect(); s(); } }).observe(document, { childList: true }); }, px); }
   await start(p);
-  const phone = await p.evaluate(() => isPhone());
+  const phone = await p.evaluate(() => AD.isPhone());
   if (phone) { await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p); }
   // RLB-113/E-1: Mehr-Menü des Reiselogbuchs
   await t.schritt(p, 'RLB-113/E-1 Mehr-Menü', async () => { await p.click('#mainMore'); await p.waitForTimeout(200); });
   t.ist('RLB-113/E-1 Mehr-Menü', await menue(p), ['Suchen', 'Alle Tage', 'Nur erfasste Tage', NAME, 'Reiselogbuch sperren', 'Reiselogbuch löschen'], 'R-4.1');   // seit 3.58.0 mit ‚Reiselogbuch sperren‘ (RLB-125)
-  t.ist('RLB-113/E-1 Icon settings', await p.evaluate(n => { const m = [...document.querySelectorAll('.menu .mi')].find(x => x.textContent.trim() === n); const d = document.createElement('div'); d.innerHTML = ic('settings'); return !!m && m.querySelector('svg')?.innerHTML === d.firstElementChild.innerHTML; }, NAME), true, 'R-4.1');
+  t.ist('RLB-113/E-1 Icon settings', await p.evaluate(n => { const m = [...document.querySelectorAll('.menu .mi')].find(x => x.textContent.trim() === n); const d = document.createElement('div'); d.innerHTML = AD.ic('settings'); return !!m && m.querySelector('svg')?.innerHTML === d.firstElementChild.innerHTML; }, NAME), true, 'R-4.1');
   t.wahr('RLB-113/E-6 Menüpunkte ganz im Menü', await menueFrei(p), 'R-6.3');
   // RLB-113/E-3: daraus das Fenster – Titel, Reisetitel des geöffneten
   await t.schritt(p, 'RLB-113/E-3 Mehr-Menü → Reiselogbuch einstellen', async () => { await p.locator('.menu .mi', { hasText: NAME }).click(); await p.waitForTimeout(400); await navFertig(p); });

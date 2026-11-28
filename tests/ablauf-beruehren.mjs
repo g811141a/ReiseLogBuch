@@ -31,7 +31,7 @@ const start = async p => {
   await p.goto(APP);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'a' }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(400); await navFertig(p);
-  if (await p.evaluate(() => isPhone()) && await p.locator('#side.page').isVisible()) {
+  if (await p.evaluate(() => AD.isPhone()) && await p.locator('#side.page').isVisible()) {
     await p.locator('#side .side-row[data-id="a"]').click(); await p.waitForTimeout(400); await navFertig(p);
   }
 };
@@ -42,7 +42,7 @@ for (const [ansicht, theme, ruhig] of [['iPad quer', 'light', false], ['iPad que
   if (ruhig) t.ort = `${t.ort} · ruhig`;
   try {
     await start(p);
-    const phone = await p.evaluate(() => isPhone());
+    const phone = await p.evaluate(() => AD.isPhone());
     // B-1 bis B-4: Schaltfläche der Kopfzeile sofort, Tageszeile im Rollbereich nach 80 ms, Rollen hebt auf
     await t.schritt(p, 'Kopfzeile und Tage', async () => t.liste(await checkBeruehren(p, { knopf: '#mainMore',
       zeile: phone ? '#pdays [data-day]:nth-child(2)' : '#app tbody tr[data-day]:nth-child(2)', rollen: '#app > .rolle', where: 'Kopfzeile und Tage' })));
@@ -60,7 +60,7 @@ for (const [ansicht, theme, ruhig] of [['iPad quer', 'light', false], ['iPad que
       t.wahr(`APD-108/W-5 ${k.fehlt ? `Vorbereitung: ${k.fehlt} fehlt` : 'über den 📍-Link gewischt: der Link öffnet nicht'}`, !k.fehlt && k.wisch === 0, 'R-7.5');
       t.wahr('APD-108/W-5 über den 📍-Link gewischt: kein Fenster des Tages', !k.fenster, 'R-7.5');
       t.wahr(`APD-108/W-7 gleich danach kurz angetippt: der Link öffnet genau einmal (${k.tipp}-mal)`, k.tipp === 1, 'R-7.5');
-      if (await p.evaluate(() => dlg.open)) { await p.evaluate(() => { dlgDirty = () => false; dlg.close(); }); await navFertig(p); }
+      if (await p.evaluate(() => AD.dlg.open)) { await p.evaluate(() => { AD.dlgDirty = () => false; AD.dlg.close(); }); await navFertig(p); }
     });
     // gesperrte Schaltfläche: Suche ohne Text – ‚Voriger Treffer‘ ist gesperrt
     await p.evaluate(() => openTripSearch()); await p.waitForTimeout(400);
@@ -73,8 +73,8 @@ for (const [ansicht, theme, ruhig] of [['iPad quer', 'light', false], ['iPad que
     // 1,3-fach, höchstens 24 px breiter; gegen 3.57.11 rot (sie wurde blass)
     await t.schritt(p, 'Schaltfläche außerhalb der Leisten', async () => t.liste(await checkBeruehren(p, { knopf: '#dlg #suggest [data-s="0"]', where: 'Vorschlag im Fenster eines Tages' })));
     await t.schritt(p, 'Smiley anheben', async () => t.liste(await checkAnheben(p, { sel: '#dlg #moods [data-m]:first-child', feld: '#dlg #fComment', entfernen: true, where: 'Smiley-Leiste' })));
-    t.wahr('nach den Prüfungen ist das Fenster des Tages noch offen', await p.evaluate(() => dlg.open), 'R-3.6');
-    await p.evaluate(() => { dlgDirty = () => false; dlg.close(); }); await p.waitForTimeout(400); await navFertig(p);
+    t.wahr('nach den Prüfungen ist das Fenster des Tages noch offen', await p.evaluate(() => AD.dlg.open), 'R-3.6');
+    await p.evaluate(() => { AD.dlgDirty = () => false; AD.dlg.close(); }); await p.waitForTimeout(400); await navFertig(p);
     t.wahr('APD-107/S-8 nach dem Schließen des Fensters bleibt kein Kreis des Smileys zurück', await p.evaluate(() => !document.querySelector('.schwebt')), 'R-3.5');
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();

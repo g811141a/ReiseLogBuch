@@ -29,10 +29,10 @@ async function neu(ansicht, theme = 'light', text = 0, modell = true) {
   if (text) process.env.PRUEF_TEXT = String(text);
   const p = await t.seite(b, ansicht, { theme });
   if (text) delete process.env.PRUEF_TEXT;
-  // Gegenprobe: ui.js 4.56.0, als 4.57.0 gemeldet (sonst meldet die App ‚AppDesign zu alt‘), dazu aufzaehlung aus 4.57.0 (braucht die App, RLB-122)
+  // Gegenprobe (seit 3.55.0, gegen Reiselogbuch 3.55.0): ui.js 4.56.0, als 4.57.0 gemeldet (sonst meldet die App ‚AppDesign zu alt‘). Die Route trifft nur
+  // eine App, die fassung/4.57.0 lädt; seit 3.60.0 (AppDesign 5.0.0, Namensraum AD, APD-145) ohne den Nachbau der Aufzählung aus 4.57.0.
   if (alt) await p.route(/fassung\/4\.57\.0\/ui\.js$/, r => r.fulfill({ body: readFileSync(new URL('../../AppDesign/fassung/4.56.0/ui.js', import.meta.url), 'utf8')
-    .replace(/AD_VERSION = '4\.56\.0'/, "AD_VERSION = '4.57.0'") + "\nfunction aufzaehlung(liste) { return liste.map(x => `<span class=\"ict az\">${esc(x)}</span>`).join('\\u00a0\\u00b7 '); }\n",
-    contentType: 'text/javascript' }));
+    .replace(/AD_VERSION = '4\.56\.0'/, "AD_VERSION = '4.57.0'"), contentType: 'text/javascript' }));
   await p.goto(APP);
   await p.evaluate(x => localStorage.setItem('reiselogbuch.v1', JSON.stringify({ settings: { lastBackup: Date.now(), lastTrip: 'muster' }, trips: x })), trips);
   await p.reload(); await p.waitForTimeout(500);
@@ -40,7 +40,7 @@ async function neu(ansicht, theme = 'light', text = 0, modell = true) {
   if (modell) await safariModell(p, ansicht, { auto: true, leisten: STILL_LEISTEN, links: STILL_LINKS });
   return p;
 }
-const zu = async p => { await p.evaluate(() => { document.activeElement?.blur?.(); dlg.open && dlg.close(); }); await p.waitForTimeout(400); };
+const zu = async p => { await p.evaluate(() => { document.activeElement?.blur?.(); AD.dlg.open && AD.dlg.close(); }); await p.waitForTimeout(400); };
 
 for (const ansicht of ['iPad quer', 'iPhone hoch', 'iPad hoch', 'iPhone quer'].filter(a => !process.env.PRUEF_ANSICHT || a === process.env.PRUEF_ANSICHT)) {
   const zusatz = alt ? ' (Gegenprobe 4.56.0)' : '';

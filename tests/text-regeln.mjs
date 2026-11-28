@@ -35,7 +35,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
     if (await p.locator('.side-shade').isVisible().catch(() => false)) await G(p, 'Seitenleiste schließen', async () => { await p.locator('.side-shade').click({ position: { x: 700, y: 600 } }); await warte(p, 500); });
     // W1: gerollt – derselbe Tag bleibt oben (iPad: Tabelle → Kästen), offenes Fenster bleibt offen
     if (!ansicht.endsWith('quer') || !phone) {
-      await p.evaluate(() => { const e = document.querySelector('[data-day="2026-09-05"]'); rolle.by(e.getBoundingClientRect().top - document.querySelector('#bar').getBoundingClientRect().bottom); });
+      await p.evaluate(() => { const e = document.querySelector('[data-day="2026-09-05"]'); AD.scrollView.by(e.getBoundingClientRect().top - document.querySelector('#bar').getBoundingClientRect().bottom); });
       await warte(p, 300);
       const oben = () => p.evaluate(() => { const edge = document.querySelector('#bar').getBoundingClientRect().bottom;
         // seit 3.46.1 (RLB-115): ein Tag unter dem haftenden Tabellenkopf ist nicht zu sehen – die Kante ist die Unterkante des Kopfs
@@ -48,21 +48,21 @@ for (const ansicht of ['iPad quer', 'iPad hoch', 'iPhone hoch', 'iPhone quer']) 
       await G(p, 'Textgröße zurück', () => groesse(p, 0));
       t.ist('W1 oberster Tag nach dem Zurückstellen', await oben(), vorher, 'R-8.1');
       // seit 3.43.0 (AppDesign APD-97, R-6.6): Tabelle nur, wenn der Inhalt mindestens 700 px breit ist (iPad hoch neben der Seitenleiste: Kästen)
-      if (!phone) t.ist('U4 Tage am iPad bei Standard als Tabelle bzw. im schmalen Inhalt als Kästen', await p.evaluate(() => !!document.querySelector('table.days:not(.static)') === !inhaltSchmal(app)), true, 'R-1.10');
-      await p.evaluate(() => rolle.to(0)); await warte(p);
+      if (!phone) t.ist('U4 Tage am iPad bei Standard als Tabelle bzw. im schmalen Inhalt als Kästen', await p.evaluate(() => !!document.querySelector('table.days:not(.static)') === !AD.compactWidth(app)), true, 'R-1.10');
+      await p.evaluate(() => AD.scrollView.to(0)); await warte(p);
     }
     await G(p, 'Tag-Fenster', async () => { await p.evaluate(() => openDayDialog(db.trips.find(x => x.id === 'a'), '2026-08-25')); await warte(p, 400); });
     await hig.checkText(p, `${t.ort} · Tag-Fenster`);
     await G(p, 'Fenster bei AX5 offen', () => groesse(p, 53));
-    t.ist('W1 Fenster bleibt beim Wechsel offen', await p.evaluate(() => dlg.open), true, 'R-8.1');
+    t.ist('W1 Fenster bleibt beim Wechsel offen', await p.evaluate(() => AD.dlg.open), true, 'R-8.1');
     await groesse(p, 0);
-    await p.evaluate(() => dlg.close()); await warte(p);
+    await p.evaluate(() => AD.dlg.close()); await warte(p);
     await G(p, 'Mehr-Menü', async () => { await p.click('#mainMore'); await warte(p, 250); });
     await hig.checkText(p, `${t.ort} · Mehr-Menü`);
     await p.evaluate(() => document.querySelector('.layer')?.click()); await warte(p);
     await G(p, 'Vorschau der Ausgabe', async () => { await p.evaluate(() => openPreview(db.trips.find(x => x.id === 'a'))); await warte(p, 500); });
     await hig.checkText(p, `${t.ort} · Vorschau`);
-    await p.evaluate(() => dlg.close()); await warte(p);
+    await p.evaluate(() => AD.dlg.close()); await warte(p);
   } catch (e) { t.fehler('', `Ablauf bricht ab: ${e.message.split('\n')[0]}`); }
   await p.close();
 }

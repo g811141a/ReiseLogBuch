@@ -64,7 +64,7 @@ for (const [ansicht, theme, ruhig, drehen, schmaler] of [['iPhone hoch', 'light'
         });
       }
     }
-    await p.evaluate(() => { dlgDirty = () => false; document.getElementById('dlg').close(); }); await p.waitForTimeout(500);
+    await p.evaluate(() => { AD.dlgDirty = () => false; document.getElementById('dlg').close(); }); await p.waitForTimeout(500);
   }
   await p.close();
 }

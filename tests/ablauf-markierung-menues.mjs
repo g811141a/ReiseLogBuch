@@ -19,7 +19,7 @@ import { langDruecken } from '../../AppDesign/fassung/5.0.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-markierung-menues', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const APP_VERSION = html.match(/APP_VERSION = '([\d.]+)'/)[1], AD = html.match(/AD_NEEDED = '([\d.]+)'/)[1];
+const APP_VERSION = html.match(/APP_VERSION = '([\d.]+)'/)[1], AD_NEEDED = html.match(/AD_NEEDED = '([\d.]+)'/)[1];
 const trips = [{ id: 'a', title: 'Australien', participants: 'G', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], days: {}, fazit: 'Schön' },
   { id: 'b', title: 'Toskana', participants: 'G', start: '2027-05-03', end: '2027-05-17', transport: ['pkw'], days: {} },
   { id: 'c', title: 'Wien Kurztrip', participants: 'G', start: '2026-03-12', end: '2026-03-15', transport: ['zug'], days: {} }];
@@ -42,7 +42,7 @@ for (const ansicht of ['iPad quer', 'iPad hoch']) for (const theme of ['light', 
   // Suchen · Strich · Backup · Strich · Darstellung · Strich · graue Zeilen
   t.ist('Menü: Striche nach Suchen, Backup und Darstellung (Messung versteckt)', [await p.locator('.menu .line').count(), await p.locator('.menu .sep').count()], [2, 1], 'R-4.1');
   t.ist('Menü: graue Zusatzinfos unten', await p.locator('.menu .note').allTextContents(), [
-    new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · erstellt am .+ · AppDesign ${AD.replace(/\./g, '\\.')}$`),
+    new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · erstellt am .+ · AppDesign ${AD_NEEDED.replace(/\./g, '\\.')}$`),
     'Safari kann die Daten bei Speichermangel löschen – bitte regelmäßig ein Backup erstellen.'], 'R-4.1');
   await p.screenshot({ path: new URL(`out/R221-menue-${tag}.png`, import.meta.url).pathname });
   await p.mouse.click(w - 20, h - 20); await p.waitForTimeout(150);

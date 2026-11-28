@@ -15,7 +15,7 @@ const zustand = p => p.evaluate(() => `Fenster ${document.getElementById('dlg')?
 const bis = async (p, bedingung, was) => { const m = await warteBis(p, bedingung, { was, max: 10000 }); if (m) throw new Error(`${m} (${await zustand(p)})`); };
 const t = pruefung('ablauf-gesamt', pw, { hig: createCheck({ skipTargets: ['table.days .ln:not(.q) a', '.dlg-body.preview a'] }), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const APP_VERSION = html.match(/APP_VERSION = '([\d.]+)'/)[1], AD = html.match(/AD_NEEDED = '([\d.]+)'/)[1];
+const APP_VERSION = html.match(/APP_VERSION = '([\d.]+)'/)[1], AD_NEEDED = html.match(/AD_NEEDED = '([\d.]+)'/)[1];
 const days = { '2026-08-24': { weather: '☀️', program: 'Anreise nach Wien\nRundgang durch die Altstadt', comment: '😉 Nett', food: '😋 Schnitzel', quarter: 'Prize by Radisson', place: 'Wien' },
   '2026-08-25': { weather: '🌤', program: 'Weiterfahrt nach Sydney', comment: '😊 Oper', food: '👍 Fisch', quarter: 'Cambridge Hotel', place: 'Sydney, Australien' },
   '2026-08-26': { weather: '🌦', program: 'Freetour Sydney\nBesichtigung Opera House', comment: '👍 Guide', sameQuarter: true } };
@@ -54,9 +54,9 @@ async function ausgabeDateiname(p, lage, gegenprobe = false, name = AUSGABE_NAME
   t.liste(await checkDateiname(p, { ...o, ausloesen: () => menue('HTML'), where: `${lage} Ausgabe HTML` }));
   t.liste(await checkDateiname(p, { ...o, faelle: ['print'], ausloesen: () => menue('PDF'), where: `${lage} Ausgabe PDF` }));
   if (!gegenprobe) return;
-  await p.evaluate(() => { window.__sr = { ...SHARE_RESULT }; SHARE_RESULT.aborted = name => `Teilen-Menü abgebrochen – <b>${esc(name)}</b> wurde nicht gespeichert.`; });
+  await p.evaluate(() => { window.__sr = { ...AD.SHARE_RESULT }; AD.SHARE_RESULT.aborted = name => `Teilen-Menü abgebrochen – <b>${AD.esc(name)}</b> wurde nicht gespeichert.`; });
   const gp = await checkDateiname(p, { ...o, faelle: ['aborted'], groessen: ['l', 'ax3'], ausloesen: () => menue('HTML'), where: 'Gegenprobe' });
-  await p.evaluate(() => Object.assign(SHARE_RESULT, window.__sr));
+  await p.evaluate(() => Object.assign(AD.SHARE_RESULT, window.__sr));
   t.wahr(`APD-116/B-7 Gegenprobe: Name im Satz wird gemeldet (${gp.filter(x => x.includes('B-1')).length}× B-1, ${gp.filter(x => x.includes('B-2')).length}× B-2)`, gp.some(x => /APD-116\/B-[12]\)/.test(x)), 'R-10.8');
   // seit 3.58.4 (P-123/F-2): im schmalen Hinweisfenster beginnt der Name im Satz je nach Schrift (WebKit) zufällig am Zeilenanfang – dann meldet B-2
   // den Umbruch im Namen statt B-1; beides heißt: der Name steht nicht allein in einer Zeile (R-10.8)
@@ -97,22 +97,22 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'x mit Änderung', () => p.click('#dlgX'));
   t.ist('Abfrage beim x', await p.locator('#dlg .pop button').allTextContents(), ['Änderungen verwerfen', 'Weiter bearbeiten'], 'R-4.4');
   await S(p, 'Weiter bearbeiten', () => p.click('#dlg .pop button:has-text("Weiter bearbeiten")'));
-  t.ist('Fenster bleibt offen mit der Eingabe', [await p.evaluate(() => dlg.open), await p.inputValue('#fPeople')], [true, 'Gerhild, Arnold & Lisa'], 'R-4.4');
+  t.ist('Fenster bleibt offen mit der Eingabe', [await p.evaluate(() => AD.dlg.open), await p.inputValue('#fPeople')], [true, 'Gerhild, Arnold & Lisa'], 'R-4.4');
   await S(p, 'Änderungen verwerfen', async () => { await p.click('#dlgX'); await p.click('#dlg .pop button:has-text("Änderungen verwerfen")'); });
-  t.ist('verworfen', [await p.evaluate(() => !dlg.open), await p.evaluate(() => db.trips[0].participants)], [true, 'Gerhild & Arnold'], 'R-4.4');
+  t.ist('verworfen', [await p.evaluate(() => !AD.dlg.open), await p.evaluate(() => db.trips[0].participants)], [true, 'Gerhild & Arnold'], 'R-4.4');
   // seit 3.51.0: vor dem ersten Klick ins Blatt warten, bis es ruht – unter Last klickte Playwright das Häkchen, während das Blatt noch
   // hereinglitt, und traf daneben (WebKit, Sitzung 0085)
   await S(p, 'Reiselogbuch einstellen speichern', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); await bis(p, `dlg.open && ${RUHE}`, 'Fenster offen und ruhig'); await p.fill('#fPeople', 'G & A'); await p.click('#dlgOk'); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); });
-  t.ist('gespeichert und zu', [await p.evaluate(() => db.trips[0].participants), await p.evaluate(() => !dlg.open)], ['G & A', true]);
+  t.ist('gespeichert und zu', [await p.evaluate(() => db.trips[0].participants), await p.evaluate(() => !AD.dlg.open)], ['G & A', true]);
   await S(p, 'Häkchen ohne Änderung', async () => { await p.click('#mainMore'); await p.click('.menu .mi:has-text("Reiselogbuch einstellen")'); await bis(p, `dlg.open && ${RUHE}`, 'Fenster offen und ruhig'); await p.click('#dlgOk'); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); });
-  t.ist('Häkchen ohne Änderung schließt', await p.evaluate(() => !dlg.open), true, 'R-4.4');
+  t.ist('Häkchen ohne Änderung schließt', await p.evaluate(() => !AD.dlg.open), true, 'R-4.4');
   // Tag
   await S(p, 'Tag 25.08. öffnen', async () => { await p.click('tr[data-day="2026-08-25"]'); await bis(p, `dlg.open && ${RUHE}`, 'Fenster Tag offen'); });
-  t.ist('Fenster Tag, Häkchen grau', [await p.textContent('#dlg h3'), await p.evaluate(() => dlg.querySelector('#dlgOk').classList.contains('primary'))], ['Dienstag, 25.08.2026', false], 'R-4.4');
+  t.ist('Fenster Tag, Häkchen grau', [await p.textContent('#dlg h3'), await p.evaluate(() => AD.dlg.querySelector('#dlgOk').classList.contains('primary'))], ['Dienstag, 25.08.2026', false], 'R-4.4');
   const h0 = await p.evaluate(() => fProgram.offsetHeight);
   await S(p, 'Programm 12 Zeilen', () => p.evaluate(() => { fProgram.value = Array.from({ length: 12 }, (_, i) => 'Zeile ' + i).join('\n'); fProgram.dispatchEvent(new Event('input', { bubbles: true })); }));
   t.ist('Textfeld wächst mit (ohne Scrollen darin)', await p.evaluate(() => [fProgram.offsetHeight, fProgram.scrollHeight]), ([o, s]) => o > h0 * 2 && s <= o, 'R-5.2');
-  t.ist('Häkchen blau', await p.evaluate(() => dlg.querySelector('#dlgOk').classList.contains('primary')), true, 'R-4.4');
+  t.ist('Häkchen blau', await p.evaluate(() => AD.dlg.querySelector('#dlgOk').classList.contains('primary')), true, 'R-4.4');
   await S(p, 'nächster Tag', async () => { await p.click('[data-nav="1"]'); await bis(p, `dlg.querySelector('h3')?.textContent !== 'Dienstag, 25.08.2026' && ${RUHE}`, 'nächster Tag'); });
   t.ist('Blättern speichert', [await p.textContent('#dlg h3'), await p.evaluate(() => db.trips[0].days['2026-08-25'].program.split('\n').length)], ['Mittwoch, 26.08.2026', 12]);
   await S(p, 'Smiley lange drücken', async () => { const box = await p.locator('#moods [data-m]').nth(1).boundingBox(); await p.mouse.move(box.x + 10, box.y + 10); await p.mouse.down(); await p.waitForTimeout(1200); await p.mouse.up(); });   // seit 3.46.1: Entfernen nach 1 s (APD-106)
@@ -124,7 +124,7 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'daneben tippen ändert nichts', () => p.click('#dlg .layer'));
   t.ist('Sprechblase bleibt nach dem Tipp daneben', await p.locator('#dlg .pop').count(), 1, 'R-1.4');
   await S(p, 'Abbrechen, Tag schließen', async () => { await p.click('#dlg .pop button:has-text("Abbrechen")'); await p.click('#dlgX'); });
-  t.ist('Tag ohne Änderung zu', await p.evaluate(() => !dlg.open), true, 'R-4.4');
+  t.ist('Tag ohne Änderung zu', await p.evaluate(() => !AD.dlg.open), true, 'R-4.4');
   // Fazit, Teilen, Vorschau
   await S(p, 'Fazit', () => p.click('#fazit'));
   t.ist('Fazit ohne Untertitel', await p.textContent('#dlgSub'), '');
@@ -153,7 +153,7 @@ for (const theme of ['light', 'dark']) {
   t.ist('Toskana offen', await p.textContent('.nb-title'), 'Toskana');
   await S(p, 'Menü der Seitenleiste', () => p.click('#sideMore'));
   t.ist('Menü der Seitenleiste', [await p.locator('.menu .mi').allTextContents(), await p.locator('.menu .note').first().textContent(), await p.locator('.menu .sub').first().textContent()],
-    [['Suchen', 'Backup erstellen', 'Backup laden', 'DarstellungAutomatisch'], new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · .+ · AppDesign ${AD.replace(/\./g, '\\.')}$`), 'Noch kein Backup erstellt.'], 'R-9.1');
+    [['Suchen', 'Backup erstellen', 'Backup laden', 'DarstellungAutomatisch'], new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · .+ · AppDesign ${AD_NEEDED.replace(/\./g, '\\.')}$`), 'Noch kein Backup erstellt.'], 'R-9.1');
   await S(p, 'daneben tippen', () => p.click('.layer'));
   t.ist('Backup-Kachel da', await p.locator('.bhint').count(), 1, 'R-9.1');
   // Löschen – seit 3.59.0 (RLB-126) ohne Abfrage nach ‚Zuletzt gelöscht‘
@@ -164,15 +164,15 @@ for (const theme of ['light', 'dark']) {
   await S(p, 'Neues Reiselogbuch', () => p.click('#newTrip'));
   t.ist('Fenster Neues Reiselogbuch, plus blau', [await p.textContent('#dlg h3'), await cls(p, '#newTrip', 'on')], ['Neues Reiselogbuch', true], 'R-3.3');
   await S(p, 'Häkchen ohne Eingabe', () => p.click('#dlgOk'));
-  t.ist('Häkchen ohne Änderung schließt', await p.evaluate(() => !dlg.open), true, 'R-4.4');
+  t.ist('Häkchen ohne Änderung schließt', await p.evaluate(() => !AD.dlg.open), true, 'R-4.4');
   await p.close();
 
   // Leerer Start
   p = await page('iPad quer', { theme, empty: true });
-  t.ist('leer: Fenster Neues Reiselogbuch öffnet sich', [await p.evaluate(() => dlg.open), await p.textContent('#dlg h3')], [true, 'Neues Reiselogbuch']);
+  t.ist('leer: Fenster Neues Reiselogbuch öffnet sich', [await p.evaluate(() => AD.dlg.open), await p.textContent('#dlg h3')], [true, 'Neues Reiselogbuch']);
   await S(p, 'x', () => p.click('#dlgX'));
   // seit 3.48.0 (AppDesign APD-30, R-7.7): der leere Zustand S-1 statt des grauen Hinweises
-  t.ist('leere Hauptansicht', [await p.textContent('#app .leer'), await p.evaluate(() => !dlg.open)], ['Noch kein ReiselogbuchEin neues mit ‚plus‘ in der Seitenleiste anlegen.Neues Reiselogbuch', true], 'R-7.7');
+  t.ist('leere Hauptansicht', [await p.textContent('#app .leer'), await p.evaluate(() => !AD.dlg.open)], ['Noch kein ReiselogbuchEin neues mit ‚plus‘ in der Seitenleiste anlegen.Neues Reiselogbuch', true], 'R-7.7');
   await S(p, 'anlegen', async () => { await p.click('#newTrip'); await bis(p, `dlg.open && ${RUHE}`, 'Fenster offen und ruhig'); await p.fill('#fTitle', 'Neu'); await p.fill('#fPeople', 'X'); await p.click('#transport button >> nth=0'); await p.click('#dlgOk'); await bis(p, `!dlg.open && ${RUHE}`, 'Fenster zu'); });
   t.ist('angelegt', await p.textContent('.nb-title'), 'Neu');
   await p.close();
@@ -199,14 +199,14 @@ for (const theme of ['light', 'dark']) {
   t.ist('danach', await k.inputValue(), '1.234,50', 'R-5.1');
   // seit 3.55.0 (RLB-122): Wetter und Smileys als Liste der Einträge (Aufzählung in statHtml)
   t.ist('Statistik', await p.evaluate(() => tripStats(db.trips[0]).map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(' · ') : v}`).join(' | ')), 'Reisetage: 80, davon erfasst 3 | Quartiere: 2 | Nächte: 3 | Wetter: 1×☀️ · 1×🌤 · 1×🌦 | Smileys: 2×😊 · 1×😉 · 1×👍');
-  t.ist('Betrag in der Ausgabe', await p.evaluate(() => formatEuro(db.trips[0].kosten)), '1.234,50 €', 'R-5.1');
+  t.ist('Betrag in der Ausgabe', await p.evaluate(() => AD.formatEuro(db.trips[0].kosten)), '1.234,50 €', 'R-5.1');
   t.ist('Tabellenkopf 17 px halbfett', await p.evaluate(() => { const s = getComputedStyle(document.querySelector('table.days th')); return s.fontSize + ' ' + s.fontWeight; }), '17px 600');
   t.ist('Seitenleiste schwebt', await p.evaluate(() => { const s = getComputedStyle(side); return [s.borderRadius, s.left, s.top, s.boxShadow.slice(0, 30)]; }), ['22px', '10px', '10px', /^rgba\(0, 0, 0, 0\.\d+\) 0px 3px 28/], 'R-3.2');
   t.ist('Backup-Kachel', (await p.textContent('.bhint')).replace(/\s+/g, ' ').trim(), 'Noch kein Backup erstellt. Backup erstellen', 'R-9.1');
   await S(p, 'Menü der Seitenleiste', () => p.click('#sideMore'));
   t.ist('Menü', [await p.locator('.menu .mi').allTextContents(), await p.locator('.menu .sub').first().textContent()], [['Suchen', 'Backup erstellen', 'Backup laden', 'DarstellungAutomatisch'], 'Noch kein Backup erstellt.'], 'R-9.1');   // seit 3.38.0 ‚Messung starten‘ erst nach langem Drücken auf die Versionszeile (AppDesign APD-77, R-1.6)
   await S(p, 'Backup erstellen', async () => { await p.click('.menu .mi:has-text("Backup erstellen")'); await bis(p, `msg.open && ${RUHE}`, 'Meldung offen'); });
-  t.ist('Meldung offen, Mehr bleibt blau', [await p.evaluate(() => msg.open), await cls(p, '#sideMore', 'on')], [true, true], 'R-3.3');
+  t.ist('Meldung offen, Mehr bleibt blau', [await p.evaluate(() => AD.msg.open), await cls(p, '#sideMore', 'on')], [true, true], 'R-3.3');
   await S(p, 'Meldung schließen', async () => { await p.click('#msg [data-x]'); await bis(p, `!msg.open && ${RUHE}`, 'Meldung zu'); });
   // seit 3.32.0 (RLB-105, AppDesign APD-74): nach dem Backup ist die Kachel weg, ‚Letztes Backup …‘ steht im Mehr-Menü
   t.ist('Mehr nicht mehr blau, Backup-Kachel weg', [await cls(p, '#sideMore', 'on'), await p.locator('.bhint').count()], [false, 0], 'R-9.1');

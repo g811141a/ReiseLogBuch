@@ -9,7 +9,7 @@ import { langDruecken } from '../../AppDesign/fassung/5.0.0/tests/ablauf.mjs';
 import { readFileSync } from 'node:fs';
 const t = pruefung('ablauf-seitenleiste-kontextmenue', pw, { hig: createCheck(), out: new URL('out/', import.meta.url) });
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const APP_VERSION = html.match(/APP_VERSION = '([\d.]+)'/)[1], AD = html.match(/AD_NEEDED = '([\d.]+)'/)[1];
+const APP_VERSION = html.match(/APP_VERSION = '([\d.]+)'/)[1], AD_NEEDED = html.match(/AD_NEEDED = '([\d.]+)'/)[1];
 const trips = [{ id: 'a', title: 'Australien', participants: 'G', start: '2026-08-24', end: '2026-11-11', transport: ['flug'], days: {} },
   { id: 'b', title: 'Toskana', participants: 'G', start: '2027-05-03', end: '2027-05-17', transport: ['pkw'], days: {} },
   { id: 'c', title: 'Wien Kurztrip', participants: 'G', start: '2026-03-12', end: '2026-03-15', transport: ['zug'], days: {} }];
@@ -32,7 +32,7 @@ for (const theme of ['light', 'dark']) {
   await t.schritt(p, 'Reiselogbuch einstellen aus dem Kontextmenü', () => p.click('.menu .mi:has-text("Reiselogbuch einstellen")'));
   t.ist('Fenster Reiselogbuch einstellen der gedrückten Reise', [await p.textContent('#dlg h3'), await p.inputValue('#fTitle')], ['Reiselogbuch einstellen', 'Toskana']);
   await t.schritt(p, 'Fenster schließen', async () => { await p.click('#dlgX'); await p.waitForTimeout(200); });
-  t.ist('nach x: Fenster zu, Seitenleiste da, 3 Kacheln, keine Abfrage', await p.evaluate(() => [dlg.open, side.hidden, side.querySelectorAll('.side-row').length, document.querySelectorAll('.pop').length]), [false, false, 3, 0]);
+  t.ist('nach x: Fenster zu, Seitenleiste da, 3 Kacheln, keine Abfrage', await p.evaluate(() => [AD.dlg.open, side.hidden, side.querySelectorAll('.side-row').length, document.querySelectorAll('.pop').length]), [false, false, 3, 0]);
   await t.schritt(p, 'Toskana lange drücken', () => long('Toskana'));
   t.ist('kein ‚Öffnen‘ im Kontextmenü', await p.locator('.menu .mi:has-text("Öffnen")').count(), 0, 'R-4.2');
   await p.mouse.click(1170, 810); await p.waitForTimeout(150);
@@ -55,7 +55,7 @@ for (const theme of ['light', 'dark']) {
   await t.schritt(p, 'zurück zu ‚Reiselogbücher‘', async () => { await p.click('.ad-recentlydeleted-back'); await p.waitForTimeout(300); });
   await t.schritt(p, 'Mehr-Menü der Seitenleiste', () => p.click('#sideMore'));
   t.ist('Zusatzinfos im Menü', await p.locator('.menu .note').allTextContents(), [
-    new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · erstellt am \\d\\d\\.\\d\\d\\.\\d{4} um \\d\\d:\\d\\d · AppDesign ${AD.replace(/\./g, '\\.')}$`),
+    new RegExp(`^Reiselogbuch · Version ${APP_VERSION.replace(/\./g, '\\.')} · erstellt am \\d\\d\\.\\d\\d\\.\\d{4} um \\d\\d:\\d\\d · AppDesign ${AD_NEEDED.replace(/\./g, '\\.')}$`),
     'Safari kann die Daten bei Speichermangel löschen – bitte regelmäßig ein Backup erstellen.'], 'R-4.1');
   await p.screenshot({ path: new URL(`out/R22-3-seitenleiste-menue-${theme}-${t.browserName}.png`, import.meta.url).pathname });
   await p.close();

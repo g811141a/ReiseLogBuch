@@ -37,7 +37,7 @@ const lade = async (p, trips = TRIPS, settings = {}) => {
 const daten = p => p.evaluate(k => JSON.parse(localStorage.getItem(k)), KEY);
 const papierkorb = async p => ((await daten(p)).recentlyDeleted || []).map(x => x.id);
 const popDa = p => p.evaluate(() => !!document.querySelector('.pop:not(.zu-geist)'));
-const zu = async p => { for (let n = 0; n < 4 && await p.evaluate(() => !!document.querySelector('.menu, .pop') || msg.open || dlg.open); n++) { await p.keyboard.press('Escape'); await p.waitForTimeout(350); } await menueZu(p); await ruhig(p); };
+const zu = async p => { for (let n = 0; n < 4 && await p.evaluate(() => !!document.querySelector('.menu, .pop') || AD.msg.open || AD.dlg.open); n++) { await p.keyboard.press('Escape'); await p.waitForTimeout(350); } await menueZu(p); await ruhig(p); };
 const lang = async (p, sel) => { const m = await langDruecken(p, sel); if (m) throw new Error(m); };
 const menuePunkt = async (p, text) => { await p.locator('.menu:not(.zu-geist) .mi', { hasText: text }).first().click(); await p.waitForTimeout(400); await ruhig(p); };
 const menueTexte = p => p.evaluate(() => [...document.querySelectorAll('.menu:not(.zu-geist):not(.submenu) .mi')].map(m => m.textContent.trim()));
@@ -209,7 +209,7 @@ const b = await t.browser();
       await chooser.setFiles({ name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(inhalt) });
       await p.waitForSelector('.pop', { timeout: 4000 }); await p.waitForTimeout(400);
       await p.locator('.pop button', { hasText: wahl }).click(); await p.waitForTimeout(500);
-      if (await p.evaluate(() => msg.open || dlg.open)) await zu(p);
+      if (await p.evaluate(() => AD.msg.open || AD.dlg.open)) await zu(p);
       await ruhig(p);
     };
     await t.schritt(p, 'RLB-126/T-10 Backup laden → Abgleichen', () => datei('Abgleichen', 'Neuseeland'));
@@ -292,7 +292,7 @@ for (const ansicht of ['iPad hoch', 'iPhone quer']) {
   const p = await t.seite(b, ansicht, { theme: 'light' });
   try {
     await lade(p);
-    const phone = await p.evaluate(() => isPhone());
+    const phone = await p.evaluate(() => AD.isPhone());
     if (!phone && await p.evaluate(() => side.hidden || !side.getClientRects().length)) { await p.click('[data-side-toggle]'); await p.waitForTimeout(500); await ruhig(p); }
     await t.schritt(p, 'RLB-126/T-1 Wien lange drücken → ‚Reiselogbuch löschen‘', () => loeschenKontext(p, 'c'));
     await geloescht(p, 'c', 'aus dem Kontextmenü');

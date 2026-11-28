@@ -31,7 +31,7 @@ const base = [
 const ipad = await device(1180, 820);
 await at(ipad, '2026-10-12T10:00:00');
 await ipad.goto(APP);
-await ipad.evaluate(t => { if (dlg.open) dlg.close(); db.trips = t; save(); showTrip('x'); }, base);
+await ipad.evaluate(t => { if (AD.dlg.open) AD.dlg.close(); db.trips = t; save(); showTrip('x'); }, base);
 const start = await ipad.evaluate(() => JSON.parse(backupFile().content));
 check(start.savedOn === 'iPad' && start.trips.every(t => t.changedAt && t.changedOn === 'iPad'), 'Zeitpunkt/Gerät fehlen nach dem Speichern');
 // iPhone bekommt den Ausgangsstand (wie ‚Ersetzen‘)
