@@ -18,13 +18,14 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-128 | 1 | **Usertest Reiselogbuch 3.59.2 / AppDesign 4.71.0 – RLB-129 Seitenleiste kehrt nach dem Drehen an ihre Stelle zurück (ersetzt P-127):** Testfälle P-128/0 bis P-128/2 im CHANGELOG 3.59.2 (Version, Liste der Reiselogbücher mit wenigen Einträgen quer rollen, hoch, wieder quer, dasselbe in ‚Zuletzt gelöscht‘ mit offenem Kontextmenü) | prüfen |
+| P-128 | 1 | **Usertest Reiselogbuch 3.59.2 / AppDesign 4.71.0 – RLB-129 Seitenleiste kehrt nach dem Drehen an ihre Stelle zurück (ersetzt P-127):** Testfälle P-128/0 bis P-128/2 im CHANGELOG 3.59.2 (Version, Liste der Reiselogbücher mit wenigen Einträgen quer rollen, hoch, wieder quer, dasselbe in ‚Zuletzt gelöscht‘ mit offenem Kontextmenü) | fehlgeschlagen (Nutzer 28.11.2026, Sitzung AppDesign 0009): P-128/1 Schritt 4 und P-128/2 Schritt 4 – zurück quer steht das 1. Reiselogbuch oben statt des 3., hoch passten alle; P-128/2 Schritt 6 – dazu hängt das Menü an einem anderen Eintrag → RLB-130 |
 | P-127 | 1 | **Usertest Reiselogbuch 3.59.1 / AppDesign 4.71.0 – RLB-128 Seitenleiste bleibt beim Drehen stehen:** Testfälle P-127/0 bis P-127/2 im CHANGELOG 3.59.1 (Version, Liste der Reiselogbücher rollen und drehen, ‚Zuletzt gelöscht‘ rollen, Kontextmenü öffnen und drehen) | fehlgeschlagen (P-127/1, /2: nach dem Drehen oben ein anderer Eintrag) – Korrektur RLB-129 in 3.59.2, ersetzt durch P-128 |
 
 ## 2. Weitere Themen (in Klärung)
 
 | Nr. | Prio | Thema | Gilt | Status |
 |---|---|---|---|---|
+| RLB-130 | 1 | **Korrektur zu RLB-129: zurück quer steht oben wieder der Eintrag von vorher (P-128 fehlgeschlagen, Nutzer 28.11.2026, Sitzung AppDesign 0009):** iPad, Liste quer gerollt (3. Eintrag oben), hoch passen alle, zurück quer steht der 1. oben; mit offenem Kontextmenü hängt das Menü danach an einem anderen Eintrag. Im Safari-Modell nicht nachstellbar (7 Arten zu drehen, Chromium und WebKit) – zuerst Messung am iPad (0 Nr. 20), dann feste Prüfung rot gegen 3.59.2 (0 Nr. 1), Korrekturversion vor `v5/` (0 Nr. 8) – AppDesign `arbeit/RLB-130 Rückmeldung P-128.md` | App | offen |
 | RLB-6 | 3 | Ausschreibungstexte (Reiseveranstalter) in Reiselogbücher umwandeln – für erledigte **und** geplante Reisen: Titel, Zeitraum, Reisemittel; je Tag das Programm („1. Tag“ → echtes Datum, Text wie in der Ausschreibung); Quartiere mit Ort, falls genannt; übrige Felder bleiben leer | Reiselogbuch | offen |
 
 ## 3. Später
