@@ -1,6 +1,6 @@
 # Backlog – offene Themen
 
-**Stand 27.11.2026** · Aktuelle Version: Reiselogbuch 3.59.1 · AppDesign 4.71.0
+**Stand 28.11.2026** · Aktuelle Version: Reiselogbuch 3.59.2 · AppDesign 4.71.0
 
 Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesign. Aufbau und Regeln wie in
 `README - Zusammenarbeit allgemein.md` (AppDesign), 0 Nr. 24 und 2.4.
@@ -11,15 +11,15 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Prio | Thema | Gilt | bereit seit |
 |---|---|---|---|---|
-| RLB-129 | 1 | **Korrektur zu RLB-128: Seitenleiste kehrt nach dem Drehen an ihre Stelle zurück** (Usertest P-127/1 und /2 fehlgeschlagen, Nutzer 27.11.2026, Sitzung 0170: quer gerollt, hoch passten alle Reiselogbücher – oben stand ein anderes): 3.59.1 merkt sich die vom Browser erzwungene Lage (Liste hoch ganz oben bzw. am Ende) als neue Lage (`sideTopNote` nach dem Drehen), zurück quer steht die Liste deshalb nicht mehr an der alten Stelle; künftig merkt sich die App nur selbst gerolltes, nach dem Drehen oben derselbe Eintrag bzw. – reicht der Rollweg nicht – so weit unten wie möglich mit sichtbarem vorigem obersten Eintrag, zurück wieder derselbe; Prüfungen vergleichen mit der Lage vor dem ersten Drehen (auch RLB-128/T-1 bis T-9); Vorschlag und Testfall-Liste RLB-129/T-1 bis T-8 freigegeben (Nutzer 27.11.2026, Sitzung 0170, im Fenster) – AppDesign `arbeit/RLB-129 Testfall-Liste.md`; Usertest P-128 ersetzt P-127 · AD-Bean: keine, weil nur App-Code | 3.59.2 | 27.11.2026 |
 
-1 Punkt bereit.
+0 Punkte bereit.
 
 ## 1. Auf iPad und iPhone prüfen
 
 | Nr. | Prio | Thema | Status |
 |---|---|---|---|
-| P-127 | 1 | **Usertest Reiselogbuch 3.59.1 / AppDesign 4.71.0 – RLB-128 Seitenleiste bleibt beim Drehen stehen:** Testfälle P-127/0 bis P-127/2 im CHANGELOG 3.59.1 (Version, Liste der Reiselogbücher rollen und drehen, ‚Zuletzt gelöscht‘ rollen, Kontextmenü öffnen und drehen) | fehlgeschlagen (P-127/1, /2: nach dem Drehen oben ein anderer Eintrag) – Korrektur RLB-129, wird durch P-128 ersetzt |
+| P-128 | 1 | **Usertest Reiselogbuch 3.59.2 / AppDesign 4.71.0 – RLB-129 Seitenleiste kehrt nach dem Drehen an ihre Stelle zurück (ersetzt P-127):** Testfälle P-128/0 bis P-128/2 im CHANGELOG 3.59.2 (Version, Liste der Reiselogbücher mit wenigen Einträgen quer rollen, hoch, wieder quer, dasselbe in ‚Zuletzt gelöscht‘ mit offenem Kontextmenü) | prüfen |
+| P-127 | 1 | **Usertest Reiselogbuch 3.59.1 / AppDesign 4.71.0 – RLB-128 Seitenleiste bleibt beim Drehen stehen:** Testfälle P-127/0 bis P-127/2 im CHANGELOG 3.59.1 (Version, Liste der Reiselogbücher rollen und drehen, ‚Zuletzt gelöscht‘ rollen, Kontextmenü öffnen und drehen) | fehlgeschlagen (P-127/1, /2: nach dem Drehen oben ein anderer Eintrag) – Korrektur RLB-129 in 3.59.2, ersetzt durch P-128 |
 
 ## 2. Weitere Themen (in Klärung)
 
@@ -39,6 +39,7 @@ Offene Themen des Reiselogbuchs; allgemeine Themen stehen im Backlog von AppDesi
 
 | Nr. | Thema | Version | Datum |
 |---|---|---|---|
+| RLB-129 | **Korrektur zu RLB-128: Seitenleiste kehrt nach dem Drehen an ihre Stelle zurück:** gemerkt wird nur selbst gerolltes; reicht der Rollweg nicht, so weit unten wie möglich mit sichtbarem vorigem obersten Eintrag, zurück wieder derselbe Eintrag (R-8.1); Usertest P-128 | 3.59.2 | 27.11.2026 |
 | RLB-128 | **Korrektur: Seitenleiste bleibt beim Drehen stehen:** oben derselbe Eintrag, die Kachel eines offenen Menüs bzw. einer Sprechblase bleibt sichtbar (R-8.1); Usertest P-127 | 3.59.1 | 27.11.2026 |
 | P-126 | **Usertest P-126 (Reiselogbuch 3.59.0, AppDesign 4.71.0) – RLB-126 ‚Zuletzt gelöscht‘:** P-126/0 bis P-126/8 alles ok (Nutzer 27.11.2026, Sitzung 0168, im Fenster) | Reiselogbuch 3.59.0 | 27.11.2026 |
 | RLB-126 | **‚Zuletzt gelöscht‘:** Löschen ohne Abfrage nach ‚Zuletzt gelöscht‘ (30 Tage, RLB-126/J-2), letzte Kachel mit Anzahl, Liste mit Frist und ‚noch N Tage‘, Vorschau nur zum Lesen mit ‚Wiederherstellen‘, Kontextmenü und Wischen ‚Wiederherstellen‘ · ‚Endgültig löschen‘ (nur das fragt, ohne ‚Erst Backup erstellen‘), Abgleich und Backup; AD-Bean `recentlydeleted` (AppDesign 4.71.0, R-7.10); Usertest P-126 | 3.59.0 | 27.11.2026 |
